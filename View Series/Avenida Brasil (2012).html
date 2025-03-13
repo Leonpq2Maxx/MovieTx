@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<style type="text/css">
+*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+body{background:#000;}
+.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video video{width:100%;border-radius:5px;}
+.container .main-video .title{
+color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+.container .video-list{
+background:#151515;border-radius:5px;height:550px;overflow-y:scroll;}
+.container .video-list::-webkit-scrollbar{
+width:7px;}
+.container .video-list::-webkit-scrollbar-track{
+background:#000;border-radius:50px;}
+.container .video-list::-webkit-scrollbar-thumb{
+background:#00a7ad;border-radius:50px;}
+.container .video-list .vid video{
+width:100px;border-radius:5px;}
+.container .video-list .vid{
+background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+.container .video-list .vid:hover{
+background:#000;}
+.container .video-list .vid.active{
+background:#00a7ad;}
+.container .video-list .vid.active .title{
+color:#fff;}
+.container .video-list .vid .title{
+color:#fff;font-size:17px;}
+@media (max-width: 999px){
+.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
+@media (max-width: 768px){
+.container{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/5ssgDp28z1Nif6hR8OFrNQUspd4.jpg" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<h3 class="title">Avenida Brasil (2012)</h3></div></div>
+
+<div class="video-list">
+<div class="vid active">
+<video src="https://pomf2.lain.la/f/y0wqm9d.mp4" muted poster="https://telefe-static.akamaized.net/media/18215339/brasil-19-7.png?width=196&height=110&mode=crop"></video>
+<h3 class="title">Capitulo 1: Doble mascara detras de la verdad</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/i9jmmjtt.mp4" muted poster="https://telefe-static.akamaized.net/media/18215317/brasil-20-6.png?width=196&height=110&mode=crop"></video>
+<h3 class="title">Capitulo 2: Robo del dinero</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/f83cc251db7939647da7df24e4f0efeb/1440000/1440986/1440986_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/focal-758x379/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP003_TLMD_800x450_2006138435846_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 3: El Engaño de Carlitos</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/7c78c7864b9f49b09c6fe39ace0673ea/1440000/1440996/1440996_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP004_TLMD_800x450_2006981699813_0.jpg"></video>
+<h3 class="title">Capitulo 4: Propuesta de matrimonio</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/e11032470f71a417dc133fdf11f9a834/1440000/1440998/1440998_720p.mp4" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJWix3m250xxjvcsSEvXYnPF5cckZna_tQAw&s"></video>
+<h3 class="title">Capitulo 5: Accidente del autobus</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/56bbe3361557c92d9cb6fe86eb2f8917/1445000/1445322/1445322_720p.mp4" muted poster="https://static.misionesonline.news/wp-content/uploads/2020/05/17201309/patata-y-rita_301913_2_5ebf0b633f5fd.jpg"></video>
+<h3 class="title">Capitulo 6: Perdidas...</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/2080b5e7a7d3342937305a423e3c4501/1445000/1445334/1445334_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/nbcnews-fp-1024-512/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP007_TLMD_800x450_2006140995919_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 7: ¿Futura Esposa?</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/885a8f2317061f5b50bf349bebefb82f/1445000/1445336/1445336_720p.mp4" muted poster="https://imagenes.noticiasrcn.com/ImgNoticias/styles/530xauto/s3/noticias/2avenidabrasiled008musica.jpg?w=480"></video>
+<h3 class="title">Capitulo 8: Fiesta de Aniversario Arruinado</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/003db1aca671b416433442e756783116/1446000/1446384/1446384_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/focal-758x379/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP008_TLMD_800x450_2006115907815_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 9: De Regreso a Brasil</h3></div>
+
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/d53025e8497991bfb6601b32732b3ff2/1446000/1446395/1446395_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP010_TLMD_800x450_2006139459540_0.jpg"></video>
+<h3 class="title">Capitulo 10: La nueva cocinera</h3></div>
+
+<div class="vid active">
+<video src="https://www.febspot.com/get_file/20/bcba2a21b25147db555112f3f83e66a7/1463000/1463964/1463964_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP011_TLMD_800x450_2006209603503.jpg"></video>    
+<h3 class="title">Capitulo 11: El Chantaje</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/ab29db4222f23ceb47ee45ec93eeefa6/1463000/1463979/1463979_720p.mp4" muted poster="https://img66.tokyvideo.com/videos/525/525565/previews/previews_0000.jpg"></video>
+<h3 class="title">Capitulo 12: Nina Descubre la verdad</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/ebf52d3489ba85e57e947918ae483fff/1464000/1464017/1464017_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/social_share_1024x768_scale/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP013_TLMD_800x450_2006193219960_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 13: ¿El hijo adoptivo?</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/873db77348c2b0401e590d85ff873eeb/1464000/1464067/1464067_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/nbcnews-fp-1024-512/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP014_TLMD_800x450_2006208067859_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 14: Nilo descubre el secreto de lucinda</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/930932e4d2bb9220057e9fc5f6759db2/1464000/1464188/1464188_720p.mp4" muted poster="https://s02.video.glbimg.com/x216/1899649.jpg"></video>
+<h3 class="title">Capitulo 15: Sonambulismo</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/f632f755f1db4cac51608170183d50bd/1467000/1467443/1467443_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/nbcnews-fp-1200-630/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP016_TLMD_800x450_2007000131835_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 16: Heroe detenido</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/d22c09c53d787588d38be5b5fceb6524/1467000/1467470/1467470_720p.mp4" muted poster="https://www.telemundo.com/sites/nbcutelemundo/files/styles/nbcnews-fp-1200-630/public/images/mpx/2022/03/18/AVENIDABRASIL_S01_EP017_TLMD_800x450_2006596163664_0.jpg?ramen_itok=iqwQftIcTf"></video>
+<h3 class="title">Capitulo 17: ¿Nina es Rita?</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/4acbbce12b0c4bade24a0c554394fd3a/1467000/1467504/1467504_720p.mp4" muted poster="https://fotografias-nova.atresmedia.com/clipping/cmsimages01/2019/01/30/2243AC9D-5D1F-4F74-A78F-B8CE4FDFC58E/default.jpg"></video>
+<h3 class="title">Capitulo 18: La verdad</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/86e570910a166f2d459479317e8c53ab/1467000/1467822/1467822_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/942ebae0bea06d4aa29a7a9d9c843e1aa955d366511a6a8dcef327076fa86eee._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 19: El Pasado...</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/243e2ab656d438d9e1f6f61e613a5ed1/1467000/1467856/1467856_720p.mp4" muted poster="https://fotografias-nova.atresmedia.com/clipping/cmsimages01/2019/01/31/8A4EF702-5B30-430C-930A-71517D46EE3E/98.jpg?crop=1920,1080,x0,y0&width=1900&height=1069&optimize=low&format=webply"></video>
+<h3 class="title">Capitulo 20: Desviacion de dinero</h3></div>
+
+<div class="vid active">
+<video src="https://www.febspot.com/get_file/20/18344d6d07e4cbfbd212d5715b901d25/1474000/1474700/1474700_720p.mp4" muted poster="https://s01.video.glbimg.com/x216/1913640.jpg"></video>
+<h3 class="title">Capitulo 21: Las cartas de jorgito</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/12b6ff37b5c3423e6b4eb607a08829d8/1474000/1474725/1474725_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/883680eedc24dbcf193c81572d7c1ad73e7c4dd1db4f7bb771a2761ab42c1976._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 22: Carmina visita a Rita</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/b1e17d4bdeef9fb930c512e748070436/1474000/1474743/1474743_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/e7f1854dbf6c7bba9fcb86e8aa4a88f2059705148039993bb185ca512fb9a604._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 23: Falsa historia</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/5ec0a387d3a24e16d9cb31f49bb22f0a/1474000/1474849/1474849_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/08a9ef0e4d1fe0dc70148f7fc6a5dbe829e9044763d0537610a3319514ae5f94._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 24: No hay matrimonio</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/f5312a00d7b2c45d389c111692a5f9d5/1474000/1474869/1474869_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/e28efce5f57e3cf69f2d065b9ae69531dda1db32233785c8ea55eeee60aea4d0._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 25: Plan Del Secuestro Prosigue</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/773b0a6c1dd616ba3aa3e29a1cd47d47/1474000/1474881/1474881_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/0b670459f8f8cc485af605b06a71bc48a17efe73de85f7f9de92024cf0ec3dfb._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 26: El Secuestro en curso</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/fc8b49023bb795e6b403abcc628b9a4c/1478000/1478197/1478197_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/4029cb1f8106bfcbad5e051f07985aafef811b22e08d1844da08709a3296780e._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 27: El Secreto de Nina</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/804f3368980c4404e516a32e58706aeb/1478000/1478219/1478219_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/5d0ff0f44cb03f6c42a38783133c59f119980a9d79afecc54ff517e653c6e568._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 28: Ubicacion del paradero de carmina</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/eb20f270599d2f8e79d45090e3f376b2/1478000/1478251/1478251_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/4e5657991ec21b26e8cc6be63350ecf546e7f0c0b3b9acc7e755f14d1bdae1df._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 29: Rescate, Lamento y Felicidad</h3></div>
+    
+<div class="vid">
+<video src="https://www.febspot.com/get_file/20/7bc927aca6f0601d59d11de0bbb8d0a9/1478000/1478265/1478265_720p.mp4" muted poster="https://m.media-amazon.com/images/S/pv-target-images/f6d32e5b510918310d0f0c4fae72f89d58aa7b8abccc4d2cf37586fdd7ad408d._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 30: Jorgito le pide un tiempo a Débora</h3></div>
+    
+<div class="vid active">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709044&cv=bfaac7f0340043bfb8108b0f3a115f81&lr=0&cv2=9cc295c930e5a8536eaf29d7d8be7473&file=%2Fvideos%2F1487000%2F1487612%2F1487612_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=13f14e7d399c72147c7c1348711c416c" muted poster="https://m.media-amazon.com/images/S/pv-target-images/7f1b1f8ba50af77b228c2d4cdd3f43c60e624ada06f1804325d7372009193f10._BR-6_AC_SX720_FMjpg_.jpg"></video>    
+<h3 class="title">Capitulo 31: Jorgito le pide a Nina que renuncie</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709154&cv=0ed15016825dfa03dceca82e8ade176e&lr=0&cv2=57272037a879991d4fdd635e6e1a346e&file=%2Fvideos%2F1487000%2F1487636%2F1487636_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=0d547083eb4d513847f96db1dff8fbcd" muted poster="https://m.media-amazon.com/images/S/pv-target-images/8fe5d2cace014a8317663abfd9d6fd3bb51bf6a92776640c3d627945524d5cbe._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 32: La Mentira de Silas</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709365&cv=198aa56beb8c0ae2ac84694f4ee5c1ad&lr=0&cv2=05be5ea75b631a97db7cdbb98bb1ae36&file=%2Fvideos%2F1487000%2F1487650%2F1487650_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=c5b3302ed714146515db6df05a605b6f" muted poster="https://m.media-amazon.com/images/S/pv-target-images/445216839fc7bfacee6e2a8d56c49d9e9d508fd165c955e746bcae4bb3a4e77f._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 33: Débora descubre el noviazgo entre Jorgito y Nina.</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709593&cv=37e2c1f8330014633a8feb3eb97b0f71&lr=0&cv2=ce43eea7a35ab237a4d41c440852070c&file=%2Fvideos%2F1488000%2F1488732%2F1488732_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=e9852e9c4bbee8d17bd6a63874d62114" muted poster="https://m.media-amazon.com/images/S/pv-target-images/e395ca03c8e099c8207d7dccd82bfe2471a763e766ed14c2b0158dd7f876554e._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 34: Le Roban a tifon</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709718&cv=e8ab0f1190ab5244f52159b1a064f192&lr=0&cv2=a6050bd70d7556f458c0bddcbbb8c865&file=%2Fvideos%2F1488000%2F1488797%2F1488797_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=2df0f6b3f8511493cee8ee9cddad7c3b" muted poster="https://m.media-amazon.com/images/S/pv-target-images/2ff89ad3c186ef876029fad4c55e3711609905ab74636a627a63d9e35cb81512._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 35: Nina le pide a Débora que vuelva con Jorgito</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733709874&cv=c8b7797ef20726d38e91a1e83577b831&lr=0&cv2=a9e0ed307cc6547505499473d7b00299&file=%2Fvideos%2F1491000%2F1491366%2F1491366_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=1b2795cd29b4bb86b9ddc53ea1bc4242" muted poster="https://m.media-amazon.com/images/S/pv-target-images/fb75cc0e498b84e370197416857d8aa7a029ee66c53523e73684cf8f5de2d0ed._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 36: el romance de infancia entre Rita y Jorgito</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733710022&cv=9180efa897e8a842910009490287ac03&lr=0&cv2=f0d9a9e50844e96ab5ad5bf763275562&file=%2Fvideos%2F1491000%2F1491371%2F1491371_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=4d98b98e15012638a23d2a73cd97462e" muted poster="https://m.media-amazon.com/images/S/pv-target-images/ce08355a735931f964fefdadb25878e13b6a12e0ab94d2ab6bc5de09b3404e67._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 37: Carmina piensa que Betania es Rita y la agrede.</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733710118&cv=e5cfd357a4efcc20940c2cb590fbe061&lr=0&cv2=afdc173fc3a889cbc9ac4b596054f23f&file=%2Fvideos%2F1491000%2F1491427%2F1491427_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=fb67a2207334a70239d26bd073fb7df0" muted poster="https://m.media-amazon.com/images/S/pv-target-images/bb8461db747ad05b2781e2dee02f543f9d92c7e9e23c21fd03c35221a7125704._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 38: Tomás confronta a su papá</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733710328&cv=2efd0b3d172264d7aff15550f5d005b7&lr=0&cv2=11ae9ee5437e526cc6fad62d6561f905&file=%2Fvideos%2F1491000%2F1491438%2F1491438_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=8f73d9c564d9877471b5700b37dfafd1" muted poster="https://m.media-amazon.com/images/S/pv-target-images/138b2f32fec33a068a98ce1c2fc3fedf8c2ab9c10b921cf49b6d55c0229e23bb._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 39: ¿Betania se hace pasar por rita?</h3></div>
+        
+<div class="vid">
+<video src="https://st16.febspot.com/remote_control.php?time=1733710385&cv=075848c754d7409f41b416cc0ce3bb2a&lr=0&cv2=a0b4629a3f3d5eaff3d28d0d7f42c078&file=%2Fvideos%2F1491000%2F1491453%2F1491453_720p.mp4&cv3=6f466072b403ded75718b0fb3f2d192f&cv4=a3982add71bffd235c6d4e1b6847ed56" muted poster="https://m.media-amazon.com/images/S/pv-target-images/c6eb582cfec21140b2edd4abc571b34577261f0e88493874ca9670922c7585bc._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 40: El robo del reloj</h3></div>
+
+<div class="vid active">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/7881959f2e8a6d5a89126869bb0b55b4c27d489aa7c9b1bbf94cfffae44189ed._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Capitulo 41: Olenka decide contarle a Monalisa</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/d8066e450cbbbc5337ca29ae9953459a9444f8b539e471137c86ed6df6555140._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 42</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/e4375f58aef740bb6f9e0c1c5d5a7687c0d84d88f792ad8fc199c61af66a68b0._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 43</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/876e9a446838526ad75021f0e09af5cd78ecdead038e4020f0851c33ab5c1a73._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 44</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/5282da11c3fe09cdffbdf04200fa9e6b72308a68510f3e8c076a8855926e7d07._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 45</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/794116f0b1c4b7e81275bfd523dfae4e33f5f9db8f7316913ee83a726f3e8249._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 46</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/16412a35a16689d31dd0e99414af03f43fe3c69e10dfc82dd741be88c9b3612d._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 47</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/e39f328b4ce7d35502a90f2d3944956498aed4f8ba8667f3536d552a3ce61e8e._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 48</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/d79490a723df63873f52a9d1e4a0d9299da5828918e1798db5495859af7d8402._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 49</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://m.media-amazon.com/images/S/pv-target-images/54d2b1c9e2728deef788f2763b86e587579a42f22119914d76e0e426a60a8c9a._BR-6_AC_SX720_FMjpg_.jpg"></video>
+<h3 class="title">Avenida Brasil: Capitulo 50</h3></div>
+
+<div class="vid active">
+<video src="" muted poster=""></video>    
+<h3 class="title">Avenida Brasil: Capitulo 51</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 52</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 53</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 54</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 55</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 56</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 57</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 58</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 59</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 60</h3></div>
+
+<div class="vid active">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 61</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 62</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 63</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 64</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 65</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 66</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 67</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 68</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 69</h3></div>
+    
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 70</h3></div>
+    
+<div class="vid active">
+<video src="" muted poster=""></video>    
+<h3 class="title">Avenida Brasil: Capitulo 71</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 72</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 73</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 74</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 75</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 76</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 77</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 78</h3></div>
+        
+<div class="vid">
+<video src="" muted poster=""></video>
+<h3 class="title">Avenida Brasil: Capitulo 79</h3></div>
+        
+<div class="vid">
+<video src="https://pomf2.lain.la/f/n0vwst0e.mp4" muted poster="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0c934f27-2274-4fd1-84a6-c44658103dbb/dbblo1m-34062332-0f25-4127-97e6-06725368a463.jpg/v1/fill/w_1024,h_738,q_75,strp/los_siete_pecados_capitales__nanatsu_no_taizai__by_criszeldris1_dbblo1m-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzM4IiwicGF0aCI6IlwvZlwvMGM5MzRmMjctMjI3NC00ZmQxLTg0YTYtYzQ0NjU4MTAzZGJiXC9kYmJsbzFtLTM0MDYyMzMyLTBmMjUtNDEyNy05N2U2LTA2NzI1MzY4YTQ2My5qcGciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.fn4h7WJfX0u1zczM6Q9XRLYhKsoGWRI3Uf84O8gQ5lA"></video>
+<h3 class="title">Avenida Brasil: Capitulo 80</h3></div>
+
+
+</div></div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
