@@ -28,7 +28,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('cobra\ kai\ fondo.jpg') no-repeat center center;
+    background: url('https://image.tmdb.org/t/p/original/jB98SrdXAYSbiprjIwc7WfVCuCV.jpg') no-repeat center center;
     background-size: cover;
     opacity: 0.5;
     z-index: -1;
@@ -109,7 +109,9 @@ video {
     color: #cccccc;
     margin: 10px;
     padding: 0 10px;
+    text-align: left;
 }
+
 
 /* Diseño responsive */
 @media (max-width: 600px) {
