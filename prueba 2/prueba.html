@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Series</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Reproductor de Video con Fondo -->
+        <div class="video-container">
+            <div class="video-overlay"></div>
+            <video id="videoPlayer" controls>
+                <source id="videoSource" src="capitulo1.mp4" type="video/mp4">
+                Tu navegador no soporta videos.
+            </video>
+        </div>
+
+        <!-- Iconos debajo del reproductor -->
+        <div class="icons-container">
+            <i class="fas fa-calendar">📅 2022</i>
+            <i class="fas fa-thumbs-up">❤️ 80%</i>
+        </div>
+
+        <!-- Sinopsis de la serie -->
+        <p class="series-description">
+            Mysteriously transformed into mini versions of themselves, Goku and his friends travel to the Demon Realm to uncover the truth and find a cure. The world English dub premiere of Dragon Ball DAIMA, the newest series in the Dragon Ball universe, featuring the first three episodes of the series. Before the film, there will be a special introduction from the Japanese voice of Goku, Masako Nozawa.
+        </p>
+
+        <!-- Título de la serie -->
+        <h2 class="series-title">Titulo Serie</h2>
+
+        <!-- Lista de capítulos -->
+        <div class="episodes">
+            <div class="episode" onclick="changeVideo('https://pomf2.lain.la/f/durwx8id.mp4')">
+                <img src="https://hdfullcdn.cc/tthumb/312x176/ethumb_tt29485149_1_2.jpg" alt="Capítulo 1">
+                <p>Capítulo 1</p>
+            </div>
+            <div class="episode" onclick="changeVideo('https://pomf2.lain.la/f/8oxq5gde.mkv')">
+                <img src="capitulo2.jpg" alt="Capitulo 2">
+                <p>Capítulo 2</p>
+            </div>
+            <div class="episode" onclick="changeVideo('capitulo3.mp4')">
+                <img src="capitulo3.jpg" alt="Capítulo 3">
+                <p>Capítulo 3</p>
+            </div>
+            <div class="episode" onclick="changeVideo('capitulo4.mp4')">
+                <img src="capitulo4.jpg" alt="Capítulo 4">
+                <p>Capítulo 4</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
