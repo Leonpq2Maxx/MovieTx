@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de Series</title>
+    <title>MovieTx</title>
     <style>
     
         /* Iconos debajo del reproductor */
@@ -33,7 +33,7 @@
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 50%;
+            border-radius: 100%;
             cursor: pointer;
             font-size: 18px;
         }
@@ -164,7 +164,7 @@
     <a href="../index.html"><button class="back-button" onclick="history.back()">&#8592;</button></a>
     <br>
     <br>
-    <div class="title">The Walking Dead The Two ones live</div>
+    <div class="title">The Walking Dead </div>
     <div class="player-container">
         <div class="video-bg" id="videoBg"></div>
         <video id="videoPlayer" controls>
@@ -183,13 +183,13 @@
     </div>
     <br>
     <div class="icons-container">
-        <i class="fas fa-calendar">📅 2022</i>
+        <i class="fas fa-calendar">📅 2010</i>
         <i class="fas fa-thumbs-up">❤️ 80%</i>
     </div>
     
     <div class="synopsis">
-        <p id="synopsisText">Esta es la sinopsis de la serie. Se mostrará un resumen breve...</p>
-        <span class="show-more" onclick="toggleSynopsis()">Mostrar más</span>
+        <p id="synopsisText">Sinopsis</p>
+        <span class="show-more" onclick="toggleSynopsis()">Mostrar Sinopsis</span>
     </div>
     
     <div class="recomendaciones">
@@ -225,10 +225,10 @@
 
         function toggleSynopsis() {
             if (expanded) {
-                synopsisText.innerHTML = "Esta es la sinopsis de la serie. Se mostrará un resumen breve...";
+                synopsisText.innerHTML = "Está ambientada en un futuro apocalíptico con la Tierra devastada por el efecto de un cataclismo, que ha provocado la mutación en zombies de la mayor parte de los habitantes del planeta. La serie, explora las dificultades de los protagonistas para sobrevivir en un mundo poblado por el horror, así como las relaciones personales que se establecen entre ellos, en ocasiones también una amenaza para su supervivencia.";
                 document.querySelector(".show-more").innerText = "Mostrar más";
             } else {
-                synopsisText.innerHTML = "Aquí va la sinopsis completa de la serie. Esta información proporciona un resumen más detallado sobre la historia, personajes y trama principal.";
+                synopsisText.innerHTML = "Está ambientada en un futuro apocalíptico con la Tierra devastada por el efecto de un cataclismo, que ha provocado la mutación en zombies de la mayor parte de los habitantes del planeta.";
                 document.querySelector(".show-more").innerText = "Mostrar menos";
             }
             expanded = !expanded;
