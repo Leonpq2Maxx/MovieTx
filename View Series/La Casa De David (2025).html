@@ -16,7 +16,7 @@ body{background:#000;}
 .container .main-video .title{
 color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
 .container .video-list{
-background:#151515;border-radius:5px;height:550px;overflow-y:scroll;}
+background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
 .container .video-list::-webkit-scrollbar{
 width:7px;}
 .container .video-list::-webkit-scrollbar-track{
@@ -49,31 +49,90 @@ color:#fff;font-size:17px;}
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<h3 class="title">La Casa De David (2025)</h3></div></div>
+<h3 class="title">La Casa De David</h3>
+<div class="icons-container">
+    <i class="fas fa-calendar"> <H2 class="title">📅 2025</H2></i>
+    <i class="fas fa-thumbs-up"><H2 class="title">❤️ 79%</H2></i>
+</div>
+</div></div>
 
 <div class="video-list">
-<div class="vid active">
-<video src="https://pomf2.lain.la/f/j3gtwpj7.mkv" muted poster="https://image.tmdb.org/t/p/w185/wK6eZdcsZHkmvXrntkkmCXmkTrW.jpg"></video>
-<h3 class="title"> Episodio 1</h3></div>
+  <div class="vid active">
+  <video src="https://pomf2.lain.la/f/j3gtwpj7.mkv" muted poster="https://image.tmdb.org/t/p/w185/wK6eZdcsZHkmvXrntkkmCXmkTrW.jpg"></video>
+  <h3 class="title"> Episodio 1</h3></div>
+  
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/cxcuxmyl.mkv" muted poster="https://image.tmdb.org/t/p/w185/tmfTsIvDIKdQ1YQzFLcohPFvMbM.jpg"></video>
+  <h3 class="title"> Episodio 2</h3></div>
+  
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/gh8bqsi4.mkv" muted poster="https://image.tmdb.org/t/p/w185/8GVoGJzPB77qt5jOxotXQYNEmyt.jpg"></video>
+  <h3 class="title"> Episodio 3</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://image.tmdb.org/t/p/w185/f0baVYJNmcdwLi7Tl0Fdo2xSgP7.jpg"></video>
+  <h3 class="title"> Episodio 4</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://image.tmdb.org/t/p/w185/A5dxgA5odSiS1ad2JwIW29NqKPw.jpg"></video>
+  <h3 class="title"> Episodio 5</h3></div>
+  
+  
+  </div></div>
 
-<div class="vid">
-<video src="https://pomf2.lain.la/f/cxcuxmyl.mkv" muted poster="https://image.tmdb.org/t/p/w185/tmfTsIvDIKdQ1YQzFLcohPFvMbM.jpg"></video>
-<h3 class="title"> Episodio 2</h3></div>
+<br>
+<br>
+<div class="recomendaciones">
+  <h3 style="color: white;">Podría Interesarte la siguiente serie</h3>
+  <br>
+    <div class="series-grid">
+        <a href="Moises Y Los Diez Mandamientos.html" class="serie"><img src="../img poster/Serie/Moises Y Los Diiez Mandamientos.jpg" alt="Serie 1"><p>Moises Y Los Diez Mandamientos</p></a>
+        <a href="Josue Y La Tierra Prometida (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/ciY0RaYIzKwt2nEQfVAXJyoxv3c.jpg" alt="Serie 2"><p>Josue Y La Tierra Prometida</p></a>
+        <a href="Jesus.html" class="serie"><img src="../img poster/Serie/Jesus.jpg" alt="Serie 3"><p>Jesus</p></a>
+        <a href="Rey David.html" class="serie"><img src="https://image.tmdb.org/t/p/original/5sWqEJSGfLq6ssXFexDAB5PdopR.jpg" alt="Serie 4"><p>Rey David</p></a>
+        <a href="Genesis (2021).HTML" class="serie"><img src="../img poster/Serie/genesis.jpg" alt="Serie 5"><p>Genesis</p></a>
+        <a href="Sanson Y Dalila.html" class="serie"><img src="../img poster/Serie/Sanson y dalila.jpg" alt="Serie 6"><p>Sanson Y Dalila</p></a>
+    </div>
+</div>
+  <style>
+    /*RETROCEDER*/
 
-<div class="vid">
-<video src="https://pomf2.lain.la/f/gh8bqsi4.mkv" muted poster="https://image.tmdb.org/t/p/w185/8GVoGJzPB77qt5jOxotXQYNEmyt.jpg"></video>
-<h3 class="title"> Episodio 3</h3></div>
+    .series-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
 
-<div class="vid">
-<video src="" muted poster="https://image.tmdb.org/t/p/w185/f0baVYJNmcdwLi7Tl0Fdo2xSgP7.jpg"></video>
-<h3 class="title"> Episodio 4</h3></div>
+        .serie {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
 
-<div class="vid">
-<video src="" muted poster="https://image.tmdb.org/t/p/w185/A5dxgA5odSiS1ad2JwIW29NqKPw.jpg"></video>
-<h3 class="title"> Episodio 5</h3></div>
+        .serie img {
+            width: 120px;
+            max-width: 150px;
+            border-radius: 10px;
+        }
+        /* Iconos debajo del reproductor */
+        .icons-container {
+            display: flex;
+            gap: 15px;
+            margin: 1px 0;
+        }
 
+        .icons-container i {
+            font-size: 24px;
+            cursor: pointer;
+        }
 
-</div></div>
+        .icons-container i:hover {
+            color: yellow;
+        }
+  </style>
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script type="text/javascript">
