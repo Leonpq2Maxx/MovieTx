@@ -10,6 +10,24 @@
 <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
 <link href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' rel='stylesheet' />
+<style>
+    .load-more {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 15px;
+    border: 1px solid red;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.load-more:hover {
+    background-color: red;
+    color: white;
+}
+</style>
 </head>
 <body class='oneGrd MN-2 mobS hdMn bD onIndx onHm' id='mainCont'>
 <script>/*<![CDATA[*/ (localStorage.getItem('mode')) === 'darkmode' ? document.querySelector('#mainCont').classList.add('drK') : document.querySelector('#mainCont').classList.remove('drK') /*]]>*/</script>
@@ -224,7 +242,7 @@ MovieTx
 <br></br>
 
 <div class="poster">
-<a href=""><h4 class="alignleft">Trailers Estreno</h4><h4 class="alignright">ver todo</h4></a></div>
+<a href=""><h4 class="alignleft">Trailers Estreno</h4><div class="load-more" id="load-more-2" >Ver Mas</div></a></div>
 <div class="scrollmenu">
 <a href="Trailers/Trailer Minecraft (2025).html"><div class="xplus">
 <img class="xaviec" src="https://image.tmdb.org/t/p/original/bpGgV1GH2XYqZn02WW1C94sMBkQ.jpg"></div>
