@@ -54,23 +54,58 @@ info,a{color:fff;font-size:18px;margin-top:0px;}
 </p></div>
 <br></br>
 <div class="xec">
-<h4 class="alignleft">Películas Similares</h4>
+<h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
 </div><br>
-<div class="grid column">
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/4Ks6qarg9epBlOJTzhNNnYv2QvS.jpg" width="220"></a>
-<a class="relative" href="go:Nahir">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/oOkvQ1anSMvdYbUGGf7NAnfwHUt.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/qz7BADRc32DYQCmgooJwI8UWRRC.jpg" width="220"></a>
+<div class="recomendaciones">
+    <br>
+    <div class="series-grid">
+        <a href="Boruto: Naruto Next Generations (2017).html" class="serie"><img src="https://image.tmdb.org/t/p/original/Nb77kwxuPVy8N5Tq9qgtQ2P47u.jpg" alt="Serie 3"><p>Boruto: Naruto Next Generations</p></a>
+        <a href="Naruto Uzumaki.html" class="serie"><img src="https://es.web.img3.acsta.net/c_310_420/pictures/13/12/13/08/50/378271.jpg" alt="Serie 2"><p>Naruto Uzumaki</p></a>
+        <a href="Naruto Shippuden.html" class="serie"><img src="https://image.tmdb.org/t/p/original/nZ2qXHJTtNAfa6cP1iw9onhA2H7.jpg" alt="Serie 1"><p>Naruto Shippuden</p></a>
+        <a href="Baki Hanma (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/x145FSI9xJ6UbkxfabUsY2SFbu3.jpg" alt="Serie 4"><p>Baki Hanma</p></a>
+        <a href="go:Hajimeno" class="serie"><img src="https://image.tmdb.org/t/p/original/qC4taY6yB9BWJ8IxcbnXR8yUS4o.jpg" alt="Serie 5"><p>Hajime No Ippo</p></a>
+        <a href="go:DragonBZ" class="serie"><img src="https://image.tmdb.org/t/p/original/3a9eeqrmdjQMeF9oLoBbpP53NCD.jpg" alt="Serie 6"><p>Dragon Ball Z</p></a>
+    </div>
 </div>
-
+<style>
+    /*RETROCEDER*/
+  
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      text-align: center;
+    }
+  
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+  
+    .serie img {
+      width: 120px;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    /* Iconos debajo del reproductor */
+    .icons-container {
+      display: flex;
+      gap: 15px;
+      margin: 1px 0;
+    }
+  
+    .icons-container i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  
+    .icons-container i:hover {
+      color: yellow;
+    }
+</style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
 <script>

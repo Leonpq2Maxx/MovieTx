@@ -54,24 +54,58 @@ info,a{color:fff;font-size:18px;margin-top:0px;}
 </p></div>
 <br></br>
 <div class="xec">
-<h4 class="alignleft">Películas Similares</h4>
+<h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
 </div><br>
-<div class="grid column">
-<a class="relative" href="go:Annabelle2">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" width="220"></a>
-<a class="relative" href="go:Annabelle3">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/eYWH6pGsX102DUIjWpeybkDZfqA.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg" width="220"></a>
-<a class="relative" href="#">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/7fxjwtEvqI1BYkXEbGqJ3dQBgXD.jpg" width="220"></a>
-<a class="relative" href="#">
-
+<div class="recomendaciones">
+    <br>
+    <div class="series-grid">
+        <a href="Annabelle 2 la creacion 2 (2017).html" class="serie"><img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Serie 3"><p>Annabelle 2: La creacion</p></a>
+        <a href="Annabelle 3 viene a casa (2019).html" class="serie"><img src="https://image.tmdb.org/t/p/original/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg" alt="Serie 2"><p>Annabelle 3: Vuelve a casa</p></a>
+        <a href="El Conjuro (2013).html" class="serie"><img src="https://image.tmdb.org/t/p/original/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg" alt="Serie 1"><p>El Conjuro</p></a>
+        <a href="Baki Hanma (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/eYWH6pGsX102DUIjWpeybkDZfqA.jpg" alt="Serie 4"><p>El Conjuro 2: El caso Enfield</p></a>
+        <a href="go:Hajimeno" class="serie"><img src="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg" alt="Serie 5"><p>El Conjuro 3: El Diablo Me Obligo</p></a>
+        <a href="La Monja (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7fxjwtEvqI1BYkXEbGqJ3dQBgXD.jpg" alt="Serie 6"><p>La Monja</p></a>
+    </div>
 </div>
+<style>
+    /*RETROCEDER*/
+  
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      text-align: center;
+    }
+  
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+  
+    .serie img {
+      width: 120px;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    /* Iconos debajo del reproductor */
+    .icons-container {
+      display: flex;
+      gap: 15px;
+      margin: 1px 0;
+    }
+  
+    .icons-container i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  
+    .icons-container i:hover {
+      color: yellow;
+    }
+</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
