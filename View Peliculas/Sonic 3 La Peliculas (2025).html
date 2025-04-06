@@ -11,10 +11,11 @@
 <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
 <style>
 *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
-body{margin:0;background-color:#151515;}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+body{margin:0;background-color:#000000;}
 :root{
---plyr-color-main:#222;
---plyr-video-control-color:#007654/*#ff0030*/;}
+--plyr-color-main:#ff0000;
+--plyr-video-control-color:#0022ff/*#ff0030*/;}
 .plyr--video{background:#000;height:100%;overflow: hidden;}
 .column{grid-template-columns: repeat(3,minmax(0,1fr));}
 .grid{display:grid;gap:0.25rem;padding:0.25rem;}
@@ -55,22 +56,60 @@ info,a{color:fff;font-size:18px;margin-top:0px;}
 </p></div>
 <br></br>
 <div class="xec">
-<h4 class="alignleft">Películas Similares</h4>
+<h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
 </div><br>
-<div class="grid column">
-<a class="relative" href="Sonic 1 La Pelicula (2020).html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/zwS0XnNi1Vb6sQecG5GNNlKx7cv.jpg" width="220"></a>
-<a class="relative" href="Sonic 2 La Pelicula (2022).html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/l0iTNJutdtP5cMjEuurPOiSonNl.jpg" width="220"></a>
-<a class="relative" href="Mi Villano Favorito 4 (2024).html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg" width="220"></a>
-<a class="relative" href="moana 2 (2024).html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg" width="220"></a>
-<a class="relative" href="Mufasa El rey león (2024).html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/yOivfBs1vLrPRVw2Ci4AlGkl1G3.jpg" width="220"></a>
-<a class="relative" href="Intensamente 2.html">
-<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg" width="220"></a>
+<div class="recomendaciones">
+    <br>
+    <div class="series-grid">
+        <a href="Sonic 1 La Pelicula (2020).html" class="serie"><img src="https://image.tmdb.org/t/p/original/zwS0XnNi1Vb6sQecG5GNNlKx7cv.jpg" alt="Serie 3"><p>Sonic La Pelicula</p></a>
+        <a href="Sonic 2 La Pelicula (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/l0iTNJutdtP5cMjEuurPOiSonNl.jpg" alt="Serie 2"><p>Sonic 2: La Pelicula</p></a>
+        <a href="Mi Villano Favorito 4 (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg" alt="Serie 1"><p>Mi villano favorito 4</p></a>
+        <a href="Moana 2 (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg" alt="Serie 4"><p>Moana</p></a>
+        <a href="go:Hajimeno" class="serie"><img src="https://image.tmdb.org/t/p/original/yOivfBs1vLrPRVw2Ci4AlGkl1G3.jpg" alt="Serie 5"><p>Mufasa: El rey leon</p></a>
+        <a href="Intensamente (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg" alt="Serie 6"><p>Intensamente</p></a>
+    </div>
 </div>
+<br>
+<style>
+    /*RETROCEDER*/
+
+  
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      text-align: center;
+    }
+  
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+  
+    .serie img {
+      width: 120px;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    /* Iconos debajo del reproductor */
+    .icons-container {
+      display: flex;
+      gap: 15px;
+      margin: 1px 0;
+    }
+  
+    .icons-container i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  
+    .icons-container i:hover {
+      color: yellow;
+    }
+</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
