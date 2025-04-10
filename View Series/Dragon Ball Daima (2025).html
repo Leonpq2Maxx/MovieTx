@@ -5,13 +5,14 @@
 <title>Video Playlist MOD Xavier Suarez</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
-<link rel="stylesheet" href="Css/Script.css"/>
+<link rel="stylesheet" href="View Series/Css/Script.css"/>
+<script src="View Series/Js/Script.js"></script>
 <style type="text/css">
 *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
 body{background:#000;}
 .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
 .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
-.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video{background:#000000;border-radius:5px;padding:10px;}
 .container .main-video video{width:100%;border-radius:5px;}
 .container .main-video .title{
 color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
@@ -39,10 +40,12 @@ color:#fff;font-size:17px;}
 .container{grid-template-columns:1.5fr 1fr;padding:10px;}}
 @media (max-width: 768px){
 .container{grid-template-columns:1fr;}}
-
-
+h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
 
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -52,13 +55,22 @@ color:#fff;font-size:17px;}
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<info>
+  <i></i>
+  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2025</h9></i>
+  <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 33Min</h9></i>
+  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 77%</h9></i>
+  <i></i>
+</info>
 <h3 class="title">Dragon Ball Daima</h3>
+    <h4>
+        Genero: Animación, Acción y Aventura, Comedia, Ciencia Ficción y Fantasía
+    </h4>
 <h4 class="Sinopsis">
-  Sinopsis: Misteriosamente transformados en mini versiones de sí mismos, Goku y sus amigos viajan al Reino de los Demonios para descubrir la verdad y encontrar una cura.
+  Misteriosamente transformados en mini versiones de sí mismos, Goku y sus amigos viajan al Reino de los Demonios para descubrir la verdad y encontrar una cura.
 </h4>
 <div class="icons-container">
-  <i class="fas fa-calendar"> <H2 class="title">📅 2025</H2></i>
-  <i class="fas fa-thumbs-up"><H2 class="title">❤️ 81%</H2></i>
+  
 </div>
 </div></div>
 
@@ -161,9 +173,13 @@ color:#fff;font-size:17px;}
 </div>
 <br>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
   /*RETROCEDER*/
+
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+
+  info,a{color:fff;font-size:20px;margin-top:0px;}
+  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
 
   .series-grid {
     display: grid;
@@ -171,6 +187,10 @@ color:#fff;font-size:17px;}
     gap: 15px;
     text-align: center;
   }
+
+  .Serie,a {
+    color:fff;font-size:15px;margin-top:0px;
+    }
 
   .serie {
     display: flex;
@@ -202,7 +222,7 @@ color:#fff;font-size:17px;}
   }
 
   .container .main-video .Sinopsis{
-    color:#fff;font-size:17px;padding-top:15px;padding-bottom:15px;
+    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
   }
 
   .alignleft {
@@ -236,3 +256,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
+
+
+
+
