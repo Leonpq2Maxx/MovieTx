@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<style type="text/css">
+*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+body{background:#000;}
+.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video video{width:100%;border-radius:5px;}
+.container .main-video .title{
+color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+.container .video-list{
+background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+.container .video-list::-webkit-scrollbar{
+width:7px;}
+.container .video-list::-webkit-scrollbar-track{
+background:#000;border-radius:50px;}
+.container .video-list::-webkit-scrollbar-thumb{
+background:#00a7ad;border-radius:50px;}
+.container .video-list .vid video{
+width:100px;border-radius:5px;}
+.container .video-list .vid{
+background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+.container .video-list .vid:hover{
+background:#000;}
+.container .video-list .vid.active{
+background:#00a7ad;}
+.container .video-list .vid.active .title{
+color:#fff;}
+.container .video-list .vid .title{
+color:#fff;font-size:17px;}
+@media (max-width: 999px){
+.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
+@media (max-width: 768px){
+.container{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<h3 class="title">PLUTO TV</h3></div></div>
+
+<div class="video-list">
+<div class="vid active">
+<video src="https://unlimited1-us.dps.live/nettv/nettv.smil/playlist.m3u8" muted poster="https://images.pluto.tv/channels/5dcb62e63d4d8f0009f36881/featuredImage.jpg"></video>
+<h3 class="title">CINE ACCION</h3></div>
+
+<div class="vid">
+<video src="https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5e972a21ad709d00074195ba/master.m3u8?advertisingId=&appName=web&appVersion=5.12.0-a87d76d6acd214757f3f9ce727615cd3be3397a8&app_name=web&clientDeviceType=0&clientID=ec36a0cc-6171-407a-b481-12a3677eb61f&clientModelNumber=na&deviceDNT=true&deviceId=ec36a0cc-6171-407a-b481-12a3677eb61f&deviceLat=19.2474&deviceLon=-99.5884&deviceMake=Android%2BBrowser&deviceModel=web&deviceType=web&deviceVersion=4.0&marketingRegion=VE&serverSideAds=true&sessionID=f830ea3d-4e23-11eb-b866-0242ac110002&sid=f830ea3d-4e23-11eb-b866-0242ac110002&userId=" muted poster="https://images.pluto.tv/channels/5e972a21ad709d00074195ba/featuredImage.jpg"></video>
+<h3 class="title">ESTRELLAS DE ACCION</h3></div>
+
+<div class="vid">
+<video src="https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5ddc4e8bcbb9010009b4e84f/master.m3u8?advertisingId=&appName=web&appVersion=5.12.0-a87d76d6acd214757f3f9ce727615cd3be3397a8&app_name=web&clientDeviceType=0&clientID=ec36a0cc-6171-407a-b481-12a3677eb61f&clientModelNumber=na&deviceDNT=true&deviceId=ec36a0cc-6171-407a-b481-12a3677eb61f&deviceLat=19.2474&deviceLon=-99.5884&deviceMake=Android%2BBrowser&deviceModel=web&deviceType=web&deviceVersion=4.0&marketingRegion=VE&serverSideAds=true&sessionID=c26550e9-4e24-11eb-a8d7-0242ac110002&sid=c26550e9-4e24-11eb-a8d7-0242ac110002&userId=" muted poster="https://images.pluto.tv/channels/5ddc4e8bcbb9010009b4e84f/featuredImage.jpg"></video>
+<h3 class="title">CINE SUSPENSO</h3></div>
+
+<div class="vid">
+<video src="https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5dcddf1ed95e740009fef7ab/master.m3u8?advertisingId=&appName=web&appVersion=5.12.0-a87d76d6acd214757f3f9ce727615cd3be3397a8&app_name=web&clientDeviceType=0&clientID=ec36a0cc-6171-407a-b481-12a3677eb61f&clientModelNumber=na&deviceDNT=true&deviceId=ec36a0cc-6171-407a-b481-12a3677eb61f&deviceLat=19.2474&deviceLon=-99.5884&deviceMake=Android%2BBrowser&deviceModel=web&deviceType=web&deviceVersion=4.0&marketingRegion=VE&serverSideAds=true&sessionID=1ebf807b-4e25-11eb-b973-0242ac110002&sid=1ebf807b-4e25-11eb-b973-0242ac110002&userId=" muted poster="https://images.pluto.tv/channels/5dcddf1ed95e740009fef7ab/featuredImage.jpg"></video>
+<h3 class="title">CINE TERROR</h3></div>
+
+
+<div class="vid">
+<video src="http://200.115.193.177/live/26hd-720/.m3u8" muted poster="https://brandemia.org/contenido/subidas/2022/04/brandemia-cartoon-network-esteban-zamora-rediseno-2022-1-1200x670.jpg"></video>
+<h3 class="title">Cartoon NetworkTV</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://images.pluto.tv/channels/5dcde437229eff00091b6c30/featuredImage.jpg"></video>
+<h3 class="title">CINE ESTELAR</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8F8OaJqb1blTUVwKAiCfv0f6n0-oExdNlFokhBrotkTKQovopF9CkHg&s=10"></video>
+<h3 class="title">Narcos</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://images.pluto.tv/channels/5f4d3696d938c900072679fd/featuredImage.jpg"></video>
+<h3 class="title">Historias De Ultratumba</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://images.pluto.tv/channels/5de91b7ea86ee60009d89e75/featuredImage.jpg"></video>
+<h3 class="title">MTV Clasisc</h3></div>
+
+<div class="vid">
+<video src="https://live-01-02-eltrece.vodgc.net/eltrecetv/index.m3u8" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9G17x18v0murUsFxatkgdWaVOeL2NaEXzSw&s"></video>
+<h3 class="title">Canal Trece Cordoba</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/beinsportsextran/index.m3u8" muted poster="https://cdn.jwplayer.com/v2/media/xobmIJwO/poster.jpg?width=320"></video>
+<h3 class="title">Bein Sports Extra Ñ</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/clarosports/index.m3u8" muted poster="https://images.pluto.tv/channels/6320d80a66666000086712d7/featuredImage.jpg"></video>
+<h3 class="title">Claro Sports</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/dazn1/index.m3u8" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToo1l8fpUl3AijHeqvMuwL6mEnOlPZcgBrfw&s"></video>
+<h3 class="title">BAZN 1</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/dazn2/index.m3u8" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYAPfFgUZjG7tAI6J6lLTjkELuyyg1iFx9jA&s"></video>
+<h3 class="title">BAZN 2</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/daznf1/index.m3u8" muted poster="https://image.discovery.indazn.com/ca/v2/ca/image?id=y44drrjcqtxa18g3arxjz58ge_image-header_pEs_1723117975000&quality=70"></video>
+<h3 class="title">BAZN F1</h3></div>
+
+<div class="vid">
+<video src="http://tv.teleclub.xyz/club/server_1/deportes/daznlaliga/index.m3u8" muted poster="https://image.discovery.indazn.com/ca/v2/ca/image?id=jejfa7zjwwah17fk7z2md5t6e_image-header_pEs_1723118324000&quality=70"></video>
+<h3 class="title">BANZ La Liga</h3></div>
+
+<div class="vid">
+<video src="https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/5dcb62e63d4d8f0009f36881/640930/playlist.m3u8?terminate=false&sid=e58cefde-92a3-11ef-86dd-ceba282d1e57&deviceDNT=0&deviceLat=-31.360000610351562&deviceLon=-64.3499984741211&deviceModel=web&deviceVersion=129.0.6668&includeExtendedEvents=true&appName=web&deviceId=13654d9c-4eb0-4cd2-8671-998f28325fcf&appVersion=9.5.0-74992cec19532978f36754a29fbf3068a09f0b19&deviceType=web&deviceMake=chromium-webview&jwt=eyJhbGciOiJIUzI1NiIsImtpZCI6Ijc4YzJhZmYxLTcxZWEtNDc0NS1iYmJmLWIyZWExYzllYzQwMSIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSUQiOiJlNThjZWZkZS05MmEzLTExZWYtODZkZC1jZWJhMjgyZDFlNTciLCJjbGllbnRJUCI6IjE4MS4xNjcuMTQ5LjEyNiIsImNpdHkiOiJMYSBDYWxlcmEiLCJwb3N0YWxDb2RlIjoieDUxNTEgYXdhIiwiY291bnRyeSI6IkFSIiwiZG1hIjowLCJhY3RpdmVSZWdpb24iOiJWRSIsImRldmljZUxhdCI6LTMxLjM2MDAwMDYxMDM1MTU2MiwiZGV2aWNlTG9uIjotNjQuMzQ5OTk4NDc0MTIxMSwicHJlZmVycmVkTGFuZ3VhZ2UiOiJlcyIsImRldmljZVR5cGUiOiJ3ZWIiLCJkZXZpY2VWZXJzaW9uIjoiMTI5LjAuNjY2OCIsImRldmljZU1ha2UiOiJjaHJvbWl1bS13ZWJ2aWV3IiwiZGV2aWNlTW9kZWwiOiJ3ZWIiLCJhcHBOYW1lIjoid2ViIiwiYXBwVmVyc2lvbiI6IjkuNS4wLTc0OTkyY2VjMTk1MzI5NzhmMzY3NTRhMjlmYmYzMDY4YTA5ZjBiMTkiLCJjbGllbnRJRCI6IjEzNjU0ZDljLTRlYjAtNGNkMi04NjcxLTk5OGYyODMyNWZjZiIsImNtQXVkaWVuY2VJRCI6IiIsImlzQ2xpZW50RE5UIjpmYWxzZSwidXNlcklEIjoiIiwibG9nTGV2ZWwiOiJERUZBVUxUIiwidGltZVpvbmUiOiJBbWVyaWNhL0FyZ2VudGluYS9Db3Jkb2JhIiwic2VydmVyU2lkZUFkcyI6ZmFsc2UsImUyZUJlYWNvbnMiOmZhbHNlLCJmZWF0dXJlcyI6eyJtdWx0aVBvZEFkcyI6eyJlbmFibGVkIjp0cnVlfX0sImZtc1BhcmFtcyI6eyJmd1ZjSUQyIjoiMTM2NTRkOWMtNGViMC00Y2QyLTg2NzEtOTk4ZjI4MzI1ZmNmIiwiZndWY0lEMkNvcHBhIjoiMTM2NTRkOWMtNGViMC00Y2QyLTg2NzEtOTk4ZjI4MzI1ZmNmIiwiY3VzdG9tUGFyYW1zIjp7ImZtc19saXZlcmFtcF9pZGwiOiIiLCJmbXNfZW1haWxoYXNoIjoiIiwiZm1zX3N1YnNjcmliZXJpZCI6IiIsImZtc19pZmEiOiIiLCJmbXNfaWRmdiI6IiIsImZtc191c2VyaWQiOiIxMzY1NGQ5Yy00ZWIwLTRjZDItODY3MS05OThmMjgzMjVmY2YiLCJmbXNfdmNpZDJ0eXBlIjoidXNlcmlkIiwiZm1zX3JhbXBfaWQiOiIiLCJmbXNfaGhfcmFtcF9pZCI6IiIsImZtc19iaWRpZHR5cGUiOiIiLCJfZndfM1BfVUlEIjoiIiwiZm1zX3J1bGVpZCI6IjEwMDAwLDEwMDA5LDEwMDAzIn19LCJpc3MiOiJib290LnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6VkU6TVRNMk5UUmtPV010TkdWaU1DMDBZMlF5TFRnMk56RXRPVGs0WmpJNE16STFabU5tIiwiYXVkIjoiKi5wbHV0by50diIsImV4cCI6MTcyOTkyODIxMCwiaWF0IjoxNzI5ODQxODEwLCJqdGkiOiI1YmQ5MDAyNi0yZmMwLTQ2NDYtOWMyNC1mYzhmZDVlYzU2MzkifQ._osJ4xS3FrLi2LligSNMF6ARfUJR8Fymxq4xPNxDrvU&paln=AQzzBGQEbpZZKNdjWP0tP1zr6eQ3PdOIOTmfGoCyZf244NLA8XX0PFz9uKn5r25ctqyEWeOgctAXGCp5i0IxQOiGRPCBs7q4wGXTRBkFw5_A0CXwQuGsY6qzUpq057DEgEQTuCa1rncIZambwkpd6ibBd9Lt6wELp8nm521KvTJl7F5Yd1dbs_kXnNIjn3PWgs8GqefjILo2o-IlnKIOBEIZ9FR54kdUY1svoaFmiOVEXT0pgeigOwyiF4zuHXaQ31qrEj4OpSJ5xhB552RIEQKDS3tOv-kShMoSrckkjklRJShRfL1V4EvLEVLjizaJEa-vpPl60XiXEbgy6rvU82N_klF6CiuzCUrjUAyfsFDFZoxMPQbF8gBJGgPzAm9BhQedGbrVjztjtmoRgTb19V75jtxf9SUEau8l2i_aCpfwVzB9kNOk6veDaaUUYIUOt_WZKr5ghyjGepsvb3sBjTythLfc33wuKaur6UHDqOyEbRameddET-RTeSrR2CAtc7c7LKiXsCNnFTCspu5El9m4WzGubszllsdWRLBocE1ykjIz_uX6YJ40cXIoZKZ1shgi7jTWA0anCmgDJUVBBOIRCrMbggvzGyUNRO89KHoM2r3ROcbRl8HWYuAdC9E8XbQRtNbih4EzLJwNTQE6wENCJvyboMkamsm_qUylLo0ibqnLvrk9CBCMVqmjYBQDq0eTV9IRoa8iyYaq4YR5TohG8DR3YDbNDn9onXBHnmguPDu5OSz2ZoDyYLu1POdCXNBTqtO9INb4_lJaka8RWBBGRClqJHRpLc3n_oXLrYzG8iYhdbz0jUf8NrhfLB-oueK8eeyqLeqCTjEVbWRe9cLk_gyzwnX8hUKqDjekSTrlPxVwVuyIAI36Ztq6aWhiPYj0nDETx3ASwZdIrZZDWWN7HP7V8-33ueS3OM7vn8fBfsmt-vTNLEP01xUXpJZJ9HFeonquep8BYvkdibpfxnLmtBkWlzCrxXPbE4jVXhK8OGBQpKhttCQSeQAY1SZ4hcbHOGN7f-ntLRSHVIhVXXjVvqeCEdSFtwsqABs4XSe_KPBYDgekCyVeF1whqAa5p5jC34VO9fzlrptkzJuZznY1aMC0BxmEgV5FzpXG_AAwhzs6-ycO7IcNbWdzE2iZddZ77RSfdRa7cy1fI92ZnFCO0E0uPgX0jmRLNp0PFMFLHQqPPg_w9gyvkUdfX-73B_5dqqO_bPFdIAkRTjJdilnG1XW9Np4y80k0NzkLepoL_VcyiR_Ki4W-oNLlpCTw_58dIWEYJ487RuSFVPTtCJUSS7MwjCHyStW4q3-JgIfcUJ3sEduUL2EFs27HHnzhDA..&CMCD=mtp%3D800%2Cot%3Dm%2Csf%3Dh%2Csid%3D%220ca44054-936b-42a0-9596-5df3a29b8796%22" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHciH9BCfBX6Nljmy_Hvbq6qmzCaZCtqPfsQ&s"></video>
+<h3 class="title">Cartoon Network</h3></div>
+
+<div class="vid">
+<video src="https://live-01-02-eltrece.vodgc.net/eltrecetv/index.m3u8" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHciH9BCfBX6Nljmy_Hvbq6qmzCaZCtqPfsQ&s"></video>
+<h3 class="title">Trece</h3></div>
+
+
+</div></div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
