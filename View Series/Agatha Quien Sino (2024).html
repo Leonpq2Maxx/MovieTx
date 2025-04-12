@@ -5,18 +5,17 @@
 <title>Video Playlist MOD Xavier Suarez</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
-<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<link rel="stylesheet" href="Css/Script.css"/>
+<script src="Js/Script.js"></script>
 <style type="text/css">
 *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
 body{background:#000;}
 .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
 .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
-.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video{background:#000000;border-radius:5px;padding:10px;}
 .container .main-video video{width:100%;border-radius:5px;}
 .container .main-video .title{
 color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-.container .main-video .Sinopsis{
-  color:#fff;font-size:17px;padding-top:15px;padding-bottom:15px;}
 .container .video-list{
 background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
 .container .video-list::-webkit-scrollbar{
@@ -34,14 +33,19 @@ background:#000;}
 .container .video-list .vid.active{
 background:#00a7ad;}
 .container .video-list .vid.active .title{
-color:#fff;}
+color:#ff0000;}
 .container .video-list .vid .title{
 color:#fff;font-size:17px;}
 @media (max-width: 999px){
 .container{grid-template-columns:1.5fr 1fr;padding:10px;}}
 @media (max-width: 768px){
 .container{grid-template-columns:1fr;}}
+h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+
 </style>
+<link rel="stylesheet" href="" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -51,14 +55,21 @@ color:#fff;font-size:17px;}
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<info>
+  <i></i>
+  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2024</h9></i>
+  <i class="fal fa-clock"><h9 style="font-size:14;"> ---</h9></i>
+  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 77%</h9></i>
+  <i></i>
+</info>
 <h3 class="title">Agatha ¿Quien Si No?</h3>
+    <h4>
+        Genero: Ciencia Ficción, Fantasía, Misterio, Marvel
+    </h4>
 <h4 class="Sinopsis">
   Agatha Harkness reúne un aquelarre de brujas y parte hacia la Senda de las Brujas.
 </h4>
-<div class="icons-container">
-  <i class="fas fa-calendar"> <H2 class="title">📅 2024</H2></i>
-  <i class="fas fa-thumbs-up"><H2 class="title">❤️ 77%</H2></i>
-</div>
+
 </div></div>
 
 <div class="video-list">
@@ -102,26 +113,40 @@ color:#fff;font-size:17px;}
 
 <br>
 <div class="recomendaciones">
-  <h3 style="color: white;">Podría Interesarte las siguientes</h3>
-<br>
-  <div class="series-grid">
-    <a href="WandaVision (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg" alt="Serie 1"><p>Bruja Escarlata y Visión</p></a>
-    <a href="Loki (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/53aonG0QS3ynbYuuwhPtyoOwTDD.jpg" alt="Serie 2"><p>Loki</p></a>
-    <a href="Falcon y el Soldado de Invierno (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/kW3vNNeeIDkZ2xoRyWmNkeOK6f1.jpg" alt="Serie 3"><p>Falcon y el Soldado de Invierno</p></a>
-    <a href="Invasión secreta (2023).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7SAIwUnkDsRjLNGQcsxyVqQny7D.jpg" alt="Serie 4"><p>Invasión secreta</p></a>
-    <a href="Ms. Marvel (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/3KzoEdclGwXQH2t2oYZZlw46TvW.jpg" alt="Serie 5"><p>Ms. Marvel</p></a>
-    <a href="She Hulk (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/4ie82rXFa1rAJ9qTWoCvlljglLJ.jpg" alt="Serie 6"><p>She-Hulk: abogada Hulka</p></a>
+  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+  <br>
+  <br>
+  <div class="recomendaciones">
+    <br>
+    <div class="series-grid">
+      <a href="WandaVision (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg" alt="Serie 1"><p>Bruja Escarlata y Visión</p></a>
+      <a href="Loki (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/53aonG0QS3ynbYuuwhPtyoOwTDD.jpg" alt="Serie 2"><p>Loki</p></a>
+      <a href="Falcon y el Soldado de Invierno (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/kW3vNNeeIDkZ2xoRyWmNkeOK6f1.jpg" alt="Serie 3"><p>Falcon y el Soldado de Invierno</p></a>
+      <a href="Invasión secreta (2023).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7SAIwUnkDsRjLNGQcsxyVqQny7D.jpg" alt="Serie 4"><p>Invasión secreta</p></a>
+      <a href="Ms. Marvel (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/3KzoEdclGwXQH2t2oYZZlw46TvW.jpg" alt="Serie 5"><p>Ms. Marvel</p></a>
+      <a href="She Hulk (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/4ie82rXFa1rAJ9qTWoCvlljglLJ.jpg" alt="Serie 6"><p>She-Hulk: abogada Hulka</p></a>
+    </div>
   </div>
 </div>
 <br>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
   /*RETROCEDER*/
+
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+
+  info,a{color:fff;font-size:20px;margin-top:0px;}
+  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
 
   .series-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     text-align: center;
+  }
+
+  .Serie,a {
+    color:fff;font-size:15px;margin-top:0px;
   }
 
   .serie {
@@ -154,14 +179,13 @@ color:#fff;font-size:17px;}
   }
 
   .container .main-video .Sinopsis{
-    color:#fff;font-size:17px;padding-top:15px;padding-bottom:15px;
+    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
   }
 
   .alignleft {
     float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
   } 
 
-  
 </style>
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
@@ -189,3 +213,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
+
+
+
+
