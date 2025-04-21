@@ -1,0 +1,52 @@
+D
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg",365 Dias mas 3 (2022) go:365Di3
+http://vod.tuxchannel.mx/peliculas/720/kolejne%20365%20dni%202022.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jBpqADo9XAKaecvI3f0J4hRAEyO.jpg",365 Dias 2 Aquel día (2022) go:365Di2
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2FVer%20365%20dni-%20Ten%20dzie%C5%84%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",365 Dias 1 (2020) go:365Dias1
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelisarregladas%2Fparte2%2FVer%20pel%C3%ADcula%20365%20d%C3%ADas%20online%20gratis%20en%20HD%20%E2%80%A2%20Gnula.mp4
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/6FsGeIp7heHm5eh4tIxTzHIRxmt.jpg",365 dias mas
+http://notabasica.com/612132/365.Days.Part.III.2022.lati.mp4
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.imgur.com/M5G1Y5c.jpeg",Una Navidad escandalosa (2023) romance comedia
+http://208.88.245.85/nuevo/una.navidad.excandalosa.dual2023.mkv
+
+
+
+
+E
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg", El Es Asi 2021 go:El Es Asi
+
+
+
+R
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg", Romper el circulo (2024) | MegaMaxx go:RCirculo
+https://dl.dropboxusercontent.com/scl/fi/5m6kj4eef1rperc8a7ik2/Romper-El-Circulo-1080p.mp4?rlkey=hptq1lwm9vjcyr78etans7sbl&st=
+
+
+
+
+
+U
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg",Un ladrón romántico (2024) go:ULadronR
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Un%20ladr%C3%B3n%20rom%C3%A1ntico%20online%20HD%20-%20Cuevana%202.mp
+https://dl.dropbox.com/scl/fi/aphuvjcjsrv89xpi4hhh1/Un-Ladron-Romantico.mp4?rlkey=x0jevqd7txpig5sdgmbf2avm7&st=
+
+S
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ycpxvpNyrkzsydwvLTUNixRWrdQ.jpg",Silver y el libro de los sueños
+http://208.88.245.81/nuevo/silver.y.el.libro.dlos.suenos.dual2023.mkv
+

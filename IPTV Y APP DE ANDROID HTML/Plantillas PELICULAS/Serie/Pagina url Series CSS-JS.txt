@@ -1,0 +1,2 @@
+https://cdn.plyr.io/3.6.12/plyr.css
+https://cdn.plyr.io/3.6.12/plyr.js

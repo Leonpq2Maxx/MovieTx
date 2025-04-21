@@ -1,0 +1,342 @@
+A
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg",Aladdin go:Aladdin
+http://fina.dyndns.tv/Peliculas/Aladdin.mkv
+
+subido
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg",Al rescate de Fondo de Bikini (2024) go:AlRescate
+http://208.88.245.81/nuevo/ar.rescate.dfondo.dbikini.2024.dual.mkv
+
+#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" group-title="Pelis 1" type="movie" ,Spiderman a través del spiderverso
+http://208.88.245.85:80/nuevo/spiderm.atravesdelspiderverso.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//exNtEY8QUuQh9e23wSQjkPxKIU3.jpg",Chicken Run: Amanecer de los nuggets (2023) animacion comedia
+http://208.88.245.85/nuevo/chickenrun.origen.nugets.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//18IsRVfs5MkkTcqTGlUAnka6sCh.jpg",South Park (1997) comedia animacion
+http://208.88.245.81/nuevo/southpark.entrando.al.panderverso.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//lxoPJR6eR5nd6nHSKIkEIV4FQWe.jpg",Trolls 3
+http://208.88.245.81/nuevo/trolls3.todos.juntos.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//rDzig50dj7VpLwJ7SThbamETK1G.jpg",Lego Avengers código rojo
+http://208.88.245.85/nuevo/lego.avengers.codigo.rojo.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//5Gz3k1TqeAxL5M47XZzjltxQrMb.jpg",Mickey y sus Amigos: Truco o trato (2023) animacion
+http://208.88.245.85/nuevo/mickey.y.sus.amigos.dulce.o.truco.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/aM0ViG6LVkN1PQGe9Bon1gQXpc7.jpg",El conejo de terciopelo (2023) go:ECDTerc animacion
+http://208.88.245.85/nuevo/el.conejo.de.peluche.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//atBDD05PbVDI2lm2OUy1KFQpzen.jpg",Los tipos malos: Una navidad muy mala (2023) go:LosTMalos animacion comedia
+http://208.88.245.85/nuevo/los.tipos.malos.una.navidad.muymala.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//AnfXxsoLBS6JDpu65vHsEvEcWSA.jpg",La magia de la navidad
+http://208.88.245.85/nuevo/la.magia.dla.navidad.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6uSw2N6jLff3QL5necHxZFd0Aez.jpg",Migración. Un viaje patas arriba (2023) go:Patos2023 ANIMACION familiar
+http://208.88.245.85/nuevo/patos.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//zR6C66EDklgTPLHRSmmMt5878MR.jpg",LJ Crisis tierras infinitas p1 g:LjcriTi
+http://208.88.245.81/nuevo/LJ.crisis.tierras.infinitas.p1.2024.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//hSBIk1EQrt2DJHQHjYqQCHQeHRt.jpg",Urkel salva la navidad (2023) go:UrkelSN
+http://208.88.245.85/nuevo/urkel.salva.la.navidad.movie.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//2J70guF8wcErbYbRgZUBcvShgI1.jpg",La navidad del pequeño batman
+http://208.88.245.81/nuevo/la.navidad.del.pequeno.batman.2023.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//jDQPkgzerGophKRRn7MKm071vCU.jpg",El niño y la garza (2023) go:ENLLGar
+http://208.88.245.81/nuevo/el.nino.y.la.garza.2024.dual.mkv animacion aventura fantasia drama
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//9v50EMxMXZ0aT6vlaZDX2vITma4.jpg",Diario de Greg navidad sin salida
+http://208.88.245.85/nuevo/diariodegreg.navidadsinsalida.dual.2024.mkv
+
+
+B
+
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/zpH836PKQya87jpLQYAVj4UVUKS.jpg",BOB ESPONJA LA MANERA DESCONOCIDA (2016) go:BobLMD
+http://208.88.245.85/nuevo/bob.esponja.la.marea.desconocida.dual2023.mkv
+
+
+C
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",Cars 2 go:Cars2
+http://fina.dyndns.tv/Peliculas/Cars%202.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",Cars 
+http://fina.dyndns.tv/Peliculas/Cars.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",Coco  go:Coco
+http://fina.dyndns.tv/Peliculas/Coco.mkv
+
+
+D
+
+#EXTINF:-1,DC Liga de Supermascotas (2022)
+http://vod.tuxchannel.mx/peliculas/720/dc%20league%20of%20super%20pets%202022.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kmn2seapbZSjknEA78Q43aah3pV.jpg",DIARIO DE GREG NAVIDAD SIN SALIDA (2023) go:Greg24Na
+http://208.88.245.85/nuevo/diariodegreg.navidadsinsalida.dual.2024.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4x9FmvdJ464Fg7A9XcbYSmxfVw3.jpg",Dumbo go:Dumbo
+http://fina.dyndns.tv/Peliculas/Dumbo.mkv
+
+E
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iW6ixzkrvdrcxk0umiLZMtlSl9L.jpg",El diario de Greg (2021)
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelisdici%E2%96%B7%20Ver%20El%20Diario%20de%20Greg%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20Latino.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/d0ezQ1Jz0lpNsX1skEmIvqRL7mN.jpg",Encanto (2021) Html
+https://dl.dropboxusercontent.com/scl/fi/r9fjyel691mtibdxl4qux/Encanto-Espa-ol-Latino-2021.mp4?rlkey=554uu7mwjn9l9zk5ze2yy03mo&st
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg",ELEMENTAL go:Elemental
+http://208.88.245.85/nuevo/elemental.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8riWcADI1ekEiBguVB9vkilhiQm.jpg",Elemental  go:Elemental
+http://208.88.245.81/nuevo/elemental.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg",EL REY MONO go:Reymono
+http://208.88.245.85/nuevo/el.reymono.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg",El Rey Leon go:ReyLeonA
+http://fina.dyndns.tv/Peliculas/El%20Rey%20Leon.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fRaBjht3S1HU6lJrz2SoFwwOZQM.jpg",El Arca de Noé (2024) go:ElArca24
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Arca%20de%20No%C3%A9%20online%20HD%20-%20Cuevana%202.mp4
+
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/gaINMBMGIow4kd8Dq06aytoomtS.jpg",El Pájaro Loco se va de Campamento (2024) go:ElPajaro24
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fabr24%2FVer%20El%20P%C3%A1jaro%20Loco% 20se%20va%20de%20campamento%20online%20HD%20-%20Cuevana%202.mp4
+
+
+
+F
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/Qotf3QgDqUZEW6pfQl2BPxZCRn.jpg",Frozen go:Frozen1
+http://fina.dyndns.tv/Peliculas/Frozen.mkv
+
+
+G
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg",GATO CON BOTAS 2 go:Gatocon2
+http://208.88.245.85/nuevo/gatoconbotas.el.ultimodeseo.dual.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg",Garfield fuera de casa (2024) go:Garfield24
+
+
+H
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dK9rNoC97tgX3xXg5zdxFisdfcp.jpg",Hercules  go:Hercules
+http://fina.dyndns.tv/Peliculas/Hercules.mkv
+
+#EXTINF:-1,Hotel Transilvania 4: Transformania (2022)
+http://vod.tuxchannel.mx/peliculas/720/hotel%20transylvania%204%20transformania%202022.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/gjAFM4xhA5vyLxxKMz38ujlUfDL.jpg",Hotel Transylvania 3 go:Hotelt3
+http://fina.dyndns.tv/Peliculas/Hotel%20Transylvania%203.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ndYVcm1k3h81MRDhzZCI4SxDzGp.jpg",Hotel Transylvania 2 go:Hotelt2
+http://fina.dyndns.tv/Peliculas/Hotel%20Transylvania%202%20.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Hotel Transylvania 1 
+http://fina.dyndns.tv/Peliculas/Hotel%20Transylvania%201.mkv
+
+
+
+I
+Subido no funciona
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg",Intensa Mente 2 (2024)  go:Intensa2
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20IntensaMente%202%20online%20HD%20-%20Cuevana%202.ts
+
+
+L
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dXbpNrPDZDMEbujFoOxmMNQVMHa.jpg",Pinguinos de madagascar go:Pinguinos1
+http://fina.dyndns.tv/Peliculas/Pinguinos%20de%20Madagascar.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg",Las Aventuras de Mr Peabody and Sherman go:ShermanYP
+http://fina.dyndns.tv/Peliculas/Mr%20Peabody%20and%20Sherman.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ym1dxyOk4jFcSl4Q2zmRrA5BEEN.jpg",La sirenita (2023) 
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fmayooo%2FVer%20La%20sirenita%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2w7EVsWEWfk45OZBxRTVxlyp00.jpg",La sirenita (Mejor Calidad) go:LS2023
+http://208.88.245.85/nuevo/la.sirenita.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dWyxPokAp4eiJXWriYbNvU2v1V.jpg",LA PRINCESA CISNE go:LPcisne
+http://208.88.245.85/nuevo/princesa.cisne.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pHdSS5G3wDwJp6jWgMpbSjNiTbr.jpg",LA LIGA DE LA JUSTICIA MUNDO BéLICO
+http://208.88.245.85/nuevo/ligadlajusticia.mundo.belico.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/a3q8NkM8uTh9E23VsbUOdDSbBeN.jpg",Liga de la Justicia 3 (2024) 
+http://208.88.245.81/nuevo/Liga.de.la.Justicia.Crisis.en.Tierras.Infinitas.3.2024.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2w7EVsWEWfk45OZBxRTVxlyp00.jpg",La Sirenita (2023) go:LaSirenita
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fmayooo%2FVer%20La%20sirenita%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg",Leo go:Leo23
+http://208.88.245.85/nuevo/leo.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nqt0jrqBG2zEScNkTuuRAd11Unc.jpg",LAS MOMIAS Y EL ANILLO PERDIDO go:LaMomias23
+http://208.88.245.85/nuevo/momiasy.el.anillo.perdido.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rDzig50dj7VpLwJ7SThbamETK1G.jpg",LEGO AVENGERS CóDIGO ROJO
+http://208.88.245.85/nuevo/lego.avengers.codigo.rojo.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8M6bA5t2q5u1nWDTEIXuGDwvboW.jpg",LEGIóN DE SUPER HEROES
+http://208.88.245.85/nuevo/legion.dsuperheroes.latino2023.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7uintpyNlSF32hj5Bua85VuAp2R.jpg",Los Increibles 2 go:LosIncrei2
+http://fina.dyndns.tv/Peliculas/Los%20Increibles%202.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/al1jusd4T7JPatZlj4BuYkDDOzr.jpg",Los Increibles go:LosIncrei1
+http://fina.dyndns.tv/Peliculas/Los%20Increibles.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/wCQBzTOigP5eCyBAjQGlWYNo5DR.jpg",Los Minions 
+http://fina.dyndns.tv/Peliculas/Los%20Minions.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Los Minions M 
+http://fina.dyndns.tv/Peliculas/Los%20Minions%20M.mkv
+
+Subido
+#EXTINF:-1,Luck (2022)
+http://vod.tuxchannel.mx/peliculas/720/luck%202022.mkv
+
+
+Sin Sonido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/p7lJkqHlK01nr0zNacunUFI5Qxy.jpg",Los Croods go:Loscroods
+http://fina.dyndns.tv/Peliculas/Los%20Croods.mkv
+
+
+M
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",Mufasa: El rey león (2024) go:Mufasa24
+https://dl.dropbox.com/scl/fi/ho5b640nqivpweapw5byq/294028-24b36b4d-42d1-461c-87c0-706be80100ad-odsj-2584694-streamwish.mp4?rlkey=aliq10yeworwounyswjazq7xv&st=
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg",Mi villano favorito 4  (2024)  go:M.VGru4
+http://208.88.245.81/nuevo/mi.villano.fav4.2024.dual.mkv
+
+minions 
+http://notabasica.com/612132/Minions.NaceUnVillano.SrRegio.Net.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/294wOKPmc2XIpciVqZPp9qb9aaz.jpg",Megamente (2010) go:Megamente
+http://fina.dyndns.tv/Peliculas/Megamente.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg",Moana go:Moana
+http://fina.dyndns.tv/Peliculas/Moana.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",MARIO BROS go:Mariobros
+http://208.88.245.85/nuevo/supermariobros.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",Super Mario Bros: La película (2023)
+https://od.lk/s/NV8xODUzNTIxNDZf/Super%20Mario%20Bros.%20La%20pel%C3%ADcula%20online%202023%20HD.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jf0VOTuKY2UUqK8NtXrxhtY9CVP.jpg",Megamente 2 contra el sindicato del mal (2024) go:MegaMen2
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Megamente%20contra%20el%20sindicato%20de%20Doom%20online%20HD%20-%20Cuevana%202.mp4
+
+
+N
+
+
+P
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg",Peter Pan y Wendy (2023) go:PeterPan23
+http://208.88.245.85/nuevo/peterpanywendy.2023dual.mkv
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vc87upO8vcAGj9OmgH3AIz6ikKB.jpg",Power Rangers: Ayer, hoy y siempre (2023)
+http://208.88.245.85/nuevo/powerangers.ayerhoysiempre.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ldfCF9RhR40mppkzmftxapaHeTo.jpg",¡Patos! Un viaje patas arriba (2023) go:Patos2023
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fene24%2FVer%20%C2%A1Patos!%20online%20HD%20-%20Cuevana%202.mp4
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ajvpd9jEuQtknq92guThYE1GSGP.jpg",Phineas y Ferb Star Wars 
+http://fina.dyndns.tv/Peliculas/Phineas%20y%20Ferb%20Star%20Wars.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg",Pinocho de Guillermo del Toro (2022)
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fdici%2FVer%20Pinocho%20de%20Guillermo%20del%20Toro%20(2022)%20Online%20Gratis%20en%20HD%20-%20InkaPelis.mp4
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg",Pinocho de Guillermo del Toro (2022) go:PinochoT
+http://208.88.245.85/nuevo/pinocchio.deltoro.dual.2022.mkv
+
+R
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Rey Leon 2019 
+http://fina.dyndns.tv/Peliculas/Rey%20Leon%202019.mp4
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg",El Rey Leon 
+http://fina.dyndns.tv/Peliculas/El%20Rey%20Leon.mkv
+
+
+
+S
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lWEUafLv3z00YB70ZInXLNnWRik.jpg",El Hombre Araña un nuevo universo (2018) go:Spider18
+http://vod.tuxchannel.mx/peliculas/720/spiderman%20un%20nuevo%20universo.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uRm4DQIJeAfD4q5euULWFpHPG2D.jpg",Spiderman a través del spiderverso 2023 go:Spider23
+http://208.88.245.85:80/nuevo/spiderm.atravesdelspiderverso.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",SPIDERMAN A TRAVéS DEL SPIDERVERSO
+http://208.88.245.85:80/nuevo/spiderm.atravesdelspiderverso.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ntMOnvlYYnio7Fx3xqBu9B1Sz7f.jpg",Scooby crypto al rescate (2023) go:Scooby23
+http://208.88.245.81/nuevo/scooby.ykrypto.alrescate.dual2023.mkv
+
+
+T
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mgBXgA8jHext4KRWg84Cux5Y94L.jpg",Ninja Turtles: Caos mutante (2023) go:TeenNi23
+http://208.88.245.85/hd/Teenage.Mutant.Ninja.Turtles.Mutant.Mayhem.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1Gk8iihu4Q4BGh2n1IwNLB3zM8E.jpg",Tarzan go:
+http://fina.dyndns.tv/Peliculas/Tarzan.mkv
+
+
+U
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kv2Qk9MKFFQo4WQPaYta599HkJP.jpg",Un jefe en pañales 2 (2021) go:UnJefe2
+https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/pelicujulio%2FVer%20El%20bebe%20jefazo-%20Negocios%20de%20familia%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
+
+
+v
+
+
+
+w
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rCCrG4swkxgFZflup56sx6ymk5i.jpg",Wish: El Poder De Los Deseos  2023  go:WishP23
+http://208.88.245.85/nuevo/wish.2023.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/AcoVfiv1rrWOmAdpnAMnM56ki19.jpg",WISH
+http://208.88.245.85/nuevo/wish.2023.dual.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rCCrG4swkxgFZflup56sx6ymk5i.jpg",Wish: El Poder De Los Deseos  2023
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fene24%2FVer%20Wish-%20El%20poder%20de%20los%20deseos%20online%20HD%20-%20Cuevana%202.mp4
+
+
+
+x
+
+
+y
+
+
+
+
+z
