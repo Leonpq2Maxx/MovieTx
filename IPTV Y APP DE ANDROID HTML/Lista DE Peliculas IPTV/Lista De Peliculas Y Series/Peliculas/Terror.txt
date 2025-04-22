@@ -326,6 +326,9 @@ http://vod.tuxchannel.mx/peliculas/720/saw%20I.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vjAMj81oYBryzGBhJk4gcK0M636.jpg",Sombras de un crimen
 http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
 
+#EXTINF:-1,Sonrie (2022)
+http://vod.tuxchannel.mx/peliculas/720/smile%202022.mkv
+
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg",Sonríe (2022) go:Sonrie1
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fnoviembr%2FVer%20Smile%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
