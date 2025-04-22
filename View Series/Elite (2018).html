@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<style type="text/css">
+*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+body{background:#000;}
+.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video video{width:100%;border-radius:5px;}
+.container .main-video .title{
+color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+.container .video-list{
+background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+.container .video-list::-webkit-scrollbar{
+width:7px;}
+.container .video-list::-webkit-scrollbar-track{
+background:#000;border-radius:50px;}
+.container .video-list::-webkit-scrollbar-thumb{
+background:#00a7ad;border-radius:50px;}
+.container .video-list .vid video{
+width:100px;border-radius:5px;}
+.container .video-list .vid{
+background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+.container .video-list .vid:hover{
+background:#000;}
+.container .video-list .vid.active{
+background:#00a7ad;}
+.container .video-list .vid.active .title{
+color:#fff;}
+.container .video-list .vid .title{
+color:#fff;font-size:17px;}
+@media (max-width: 999px){
+.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
+@media (max-width: 768px){
+.container{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/1joatrwAnvdjifn49F4I3wDKbvf.jpg" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<h3 class="title">Elite</h3>
+<div class="icons-container">
+    <i class="fas fa-calendar"> <H2 class="title">📅 2018</H2></i>
+    <i class="fas fa-thumbs-up"><H2 class="title">❤️ 80%</H2></i>
+</div>
+</div></div>
+
+<div class="video-list">
+  <div class="vid active">
+  <video src="https://pomf2.lain.la/f/iapql0t6.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZZHjCg_shYfL98tbxSg6htog4C9Y_WwW9Ry4dE5inL2wZvul79zzEtkETuvwRBMuzvrmWM2dEvYD5G7QIqjFUlg7VQMZD7j2knKmJGGd_1Fnfzq86A9Tm8R.jpg?r=f9b"></video>
+  <h3 class="title"> T1 E1 - Bienvenidos</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWOy2fMdMTLW1vkm0vV_l5YkPnmKImJPixYGsZMx7ygQuhiej47t9EgeUfhdsAUqREbUvfKiIXs7ltNl11h9VJCVgZuJlI5TAXdJRicCGn8pEiQKvz404YHz.jpg?r=638"></video>
+  <h3 class="title"> T1 E2 - Deseo</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABTiEIjjYBC7Biyn2LayaXBPlfGJsosF72J4vyZQinQkxvAi6wM7pi_NqHZyO6lo5vItSF1Tg_8TLS0nOGvfW9X4zfBINFB42faldqSzlz1_uQ5LKM7ji26CJ.jpg?r=201"></video>
+  <h3 class="title"> T1 E3 - Sábado noche</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABR6S5SFrRb0cN-LuVvrUeFPdjq9VsPK2Uy27VV75177UYiMbhhY_kCjuF_vsNzWqTUpacMIASBWidWCLAK_fbCclYwiM_0Rt6fL_g90v7koJW-QSXVoRVbn5.jpg?r=a80"></video>
+  <h3 class="title"> T1 E4 - El amor es una droga</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABb8id48Ff2BZseZCEdQpeNa5ZNNCx-0VT035uo6iCyoZDcfAH73XgE_pBM8IvZBVKQ35OSfSe-CCswLPBQYysgQFM_2e9l53IzSaMVTwbnAYdqOCaYDDXJN6.jpg?r=911"></video>
+  <h3 class="title"> T1 E5 - Todos mienten</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABU-FNg2TnqMds9fIGbXK9oYwxXY-ipobjv5B64KrhK5RP0aPGBEXrLwZj3x_RsRpraQhxqic_s1rrVOuI8MseQrtClccsABQvN_aDqEPp7LbeJRpIgfimrOz.jpg?r=2af"></video>
+  <h3 class="title"> T1 E6 - Todo va a salir bien</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABcXNmtOIs814bNjRC3vZExrwtcJdzJie6S8ATIytE5hklAx0n6HOIu_G0hzQktEVXg2nrthAmr9Bwb9YrhomlGLaZtD9CZpQOPe3ccb-qgrCbkA1rb_PhiPc.jpg?r=8e9"></video>
+  <h3 class="title"> T1 E7 - Todo estalla</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABdwpT_hc-c9Cpi2Xu-rXi5n4iyyHd6t_RptMvmlenhgpM2TYwttqYtC_IBeK81Sgb6VpLOwscs20NaSvbs6xrNTpWYLaKg1yIB0lrzjkIYI4A4zrd-S-znD7.jpg?r=c69"></video>
+  <h3 class="title"> T1 E8 - Assilah</h3></div>
+      
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABW-eTuoLGv5QhqiGDaiK2Kd6vVABYZ9pUFZrSjTFHHMk2C2GNBAnTTatqtO4JdvZi6e54TmlqCiVALfB7yXbouYYL4ZHcf3qK7gjT-aMD__mF4ZVyGWYMnWi.jpg?r=9ce"></video>
+  <h3 class="title">T2 E1 - 20 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABSVP1Hjl1jVHGQIjagEk3jdeAItxxag9FKskjHtgNkdhy2jflAbxFy3uxBXm1BFrf0nfyfCSVI9OY9bLw0hCSmslOwxgJr1dIZnInR0QtF7BhePXNU7zHu74.jpg?r=a00"></video>
+  <h3 class="title">T2 E2 - 34 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABeTgTpp8hbJ364mjRglkQEhPyNf_eI6DYIPaOr9Exv5oWMBQt8EyikaqKXgsPQiHkEC5YgCHE3TVfFfMvq98gv0TlTrJv4nY2oHQe6apzUyYlJiYpUsMkMma.jpg?r=b2c"></video>
+  <h3 class="title">T2 E3 - 36 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZs8M1qQZl9DxzvyLuwZ1kPSH25jJvD2qiieaKncwQtg2tPzgD3MwB066erOz4UIEK9XAoaipBdlWZjMMNg3pivPX-Bg2XbmytznTz2kRiWqUZxPQw0PT8uW.jpg?r=e7f"></video>
+  <h3 class="title">T2 E4 - 59 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABS-vuqBBEuCuu4L0TusNtaFbseiFYg15cppHoREZkzoCg7G1W_9W11R2Rhxg5w-k-oDvvox0rRJBP_HnBPK4KnqfcCywiSqoaA51kNH3OQLz_w06mCa8MUXf.jpg?r=79b"></video>
+  <h3 class="title">T2 E5 - 63 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABUtm5KQu_mfsf-Rvdn2QhOCJDxCTqfC6Ap5dcBuNAvRITv6fvJhtfSsmg1t1K3XLFE_mwL2LZ9_zMnlTsn6QjmzDQuj37YN-VQk5HhRPH906mT7BTe23oXMs.jpg?r=f07"></video>
+  <h3 class="title">T2 E6 - 66 horas desaparecido</h3></div>
+  
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXs-7TT8CLI3qjWBaCzQxtcSvApSXhi53wxkpnIJkaKpQegCaJUhpsge7ojY0hyBoNvUVQ2oU80-_Yy18bLJooO9h1jTDrg3vWDz6VP-XSKG2KbOuW0C9Eg6.jpg?r=173"></video>
+  <h3 class="title">T2 E7 - 84 horas desaparecido</h3></div>
+
+  <div class="vid">
+  <video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABSqA18K1tdeRLI9ctf_Q8JWSJ8FXEhMHedRK98aUXxg65drelBhnqzKHp0iApROXs1lwjn3J53NXMOOlykj6SgMWw1QD1AjGqjvV_xjgP9r5niuZ4e2YW7t5.jpg?r=d77"></video>
+  <h3 class="title">T2 E9 - 0 horas desaparecido</h3></div>
+  
+</div></div>
+
+<br>
+<div class="recomendaciones">
+  <h3 style="color: white;">Podría Interesarte las siguientes</h3>
+  <br>
+    <div class="series-grid">
+        <a href="Apariencias (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/hdN3IrcjRoMtQ3v7TA1VpoA8Fwo.jpg" alt="Serie 1"><p>Apariencias</p></a>
+        <a href="Mil Golpes (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/ciC9rTPekPqzDyXwnITDU9xk46A.jpg" alt="Serie 2"><p>Mil Golpes</p></a>
+        <a href="Luces, Camara, ¿Amor! (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/gsVKc8qFQGzwjQMKu4EGRl2zxSL.jpg" alt="Serie 3"><p>Luces, Camara, ¿Amor!</p></a>
+        <a href="Ciudad Toxica (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/fCHmcC6MC7hXy7OO2KRjmJxskAg.jpg" alt="Serie 4"><p>Ciudad Toxica</p></a>
+        <a href="Ladrones de drogas (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/xcKXSh3FyJiCteNxJacZ5fp1ULe.jpg" alt="Serie 5"><p>Ladrones de drogas</p></a>
+        <a href="Traicion Y Redencion (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/nZR53Tr5jqYDMJYe5mV3jnbIIqi.jpg" alt="Serie 6"><p>Traicion Y Redencion</p></a>
+    </div>
+</div>
+<br>
+<style>
+  /*RETROCEDER*/
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+  }
+
+  .serie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+
+  .serie img {
+    width: 120px;
+    max-width: 150px;
+    border-radius: 10px;
+  }
+  /* Iconos debajo del reproductor */
+  .icons-container {
+    display: flex;
+    gap: 15px;
+    margin: 1px 0;
+  }
+
+  .icons-container i {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .icons-container i:hover {
+    color: yellow;
+  }
+</style>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
