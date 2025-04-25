@@ -4,7 +4,7 @@ A
 http://208.88.245.85/nuevo/antman.quantumania.dual2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/7lTnXOy0iNtBAdRP3TZvaKJ77F6.jpg",AQUAMAN EL REINO PERDIDO
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/a0QwtpUNIKjOlNoOVmk7d2LFnQW.jpg",AQUAMAN EL REINO PERDIDO go:Aquaman23
 http://208.88.245.85/nuevo/aquaman.y.el.reyno.perdido.dual2023.mkv
 
 Subido
@@ -34,10 +34,10 @@ http://fina.dyndns.tv/Peliculas/Ant%20Man%202.mkv
 B
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",BLACK PANTHER WAKANDA FOREVER go:B.Panther2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",BLACK PANTHER WAKANDA FOREVER go:B.Panther2
 http://208.88.245.85/nuevo/wakandaforever.dual.2022.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="película" tvg-logo="https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",Pantera Negra: Wakanda por siempre (2022)
+#EXTINF:-1 group-title="Pelis 1" type="película" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",Pantera Negra: Wakanda por siempre (2022)
 http://51.81.208.167/pelis2022/Black.Panther.Wakanda.Forever.2022.lati.mp4
 
 
@@ -57,7 +57,7 @@ http://208.88.245.85/nuevo/bluebeetle.dual2023.mkv
 
 D
 
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"  group-title="Pelis 1" type="movie" ,Deadpool and Wolverine subido
+#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"  group-title="Pelis 1" type="movie" ,Deadpool and Wolverine (2024) go:Deadpool4 subido
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
 
 Subido
@@ -163,7 +163,8 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",Spider-Man: Sin camino a casa (2021) go:SSinCasa3
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fspidrman%20nueva.mp4
 
-
+#EXTINF:-1,Spider-man: Sin camino a casa (2021)
+http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv
 
 T
 Subido

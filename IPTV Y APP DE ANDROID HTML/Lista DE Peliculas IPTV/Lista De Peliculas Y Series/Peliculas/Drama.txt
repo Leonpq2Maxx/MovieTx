@@ -87,8 +87,10 @@ Subido
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20La%20Joven%20y%20El%20Mar%20online%20HD%20-%20Cuevana%202.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/tcaAh795RnACKjOaoI3hoPXSk4e.jpg",LA MADRE go:LaMadre
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg",La Madre go:LaMadre
 http://208.88.245.85/nuevo/la.madre.dual.2023.mkv
+
+
 
 
 N
@@ -108,5 +110,5 @@ http://208.88.245.85/nuevo/nadakver.latino2023.mkv
 
 S
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/e85UDGmD9HmKcS0BOgoha029bkK.jpg",Su único hijo 2023
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/e85UDGmD9HmKcS0BOgoha029bkK.jpg",Su único hijo 2023 go:SuUnicoHij
 http://208.88.245.85/nuevo/su.unico.hijo.dual2023.mkv

@@ -98,8 +98,7 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 
 
 L
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vnRthEZz16Q9VWcP5homkHxyHoy.jpg",La madre (2023)
-http://208.88.245.85/nuevo/la.madre.dual.2023.mkv
+
 #EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg"group-title="Pelis 1" type="movie" ,Lift el robo de primera clase
 http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv
 

@@ -20942,8 +20942,7 @@ http://vod.tuxchannel.mx/peliculas/720/single%20all%20the%20way%202021.mkv
 http://vod.tuxchannel.mx/peliculas/720/space%20jam%20a%20new%20legacy%202021.mkv
 #EXTINF:-1,Spencer (2021)
 http://vod.tuxchannel.mx/peliculas/720/spencer%202021.mkv
-#EXTINF:-1,Spider-man: Sin camino a casa (2021)
-http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv
+
 #EXTINF:-1,Spin (2021)
 http://vod.tuxchannel.mx/peliculas/720/spin%202021.mkv
 #EXTINF:-1,Spirit: Indomable (2021)

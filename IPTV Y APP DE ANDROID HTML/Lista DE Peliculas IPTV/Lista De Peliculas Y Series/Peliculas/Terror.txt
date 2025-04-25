@@ -35,7 +35,7 @@ C
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Cementerio de Animales 2019 
 http://fina.dyndns.tv/Peliculas/Cementerio%20de%20Animales%202019.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sbzfFLgExjl7ekLeNFEZ9EwOA9V.jpg",Cementerio de animales: Los orígenes 2 (2023) go:CementM2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sbzfFLgExjl7ekLeNFEZ9EwOA9V.jpg",Cementerio de animales 2: Los orígenes  (2023) go:CementM2
 http://208.88.245.85/nuevo/cementerio.mascotas.elorigen.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/7ibI5KJmdEYQnCcuDMk0clCrz1C.jpg",El pacto go:Elpacto
@@ -78,8 +78,8 @@ http://vod.tuxchannel.mx/peliculas/720/the%20seventh%20day%202021.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aNoNB5jWIzqcBqHEYzW232B2ktx.jpg",EL EXORCISTA CREYENTES ExoCreye go:ExorCreyen
 http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qVKirUdmoex8SdfUk8WDDWwrcCh.jpg",El exorcista creyentes
+ 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qVKirUdmoex8SdfUk8WDDWwrcCh.jpg",El exorcista creyentes go:ExorCreyen
 http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg",El exorcista del papa (2023) go:ExorDPa
@@ -91,16 +91,16 @@ http://vod.tuxchannel.mx/peliculas/720/my%20best%20friends%20exorcism%202022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",El bosque de los suicidios (2016) go:EBosqueS Terror, Suspense, Misterio
 http://vod.tuxchannel.mx/peliculas/720/el%20bosque%20de%20los%20suicidios.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",EL Exorcista DE Georgetown  Elexorpa (2024) go:ExorGeog
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",EL Exorcista DE Georgetown (2024) go:ExorGeog
 http://208.88.245.85/nuevo/el.exorcistadelpapa.dual2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/cAZk4y7JZswALX6nTf5KXNjPMUE.jpg",Ouija: El origen del mal (2016) go:Ouija16
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qELKmWDNahBIHlHHLf3eLCq6j97.jpg",Ouija: El origen del mal (2016) go:Ouija16
 http://vod.tuxchannel.mx/peliculas/720/ouija%20%20origin%20of%20evil.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/fPtUgMcLIboqlTlPrq0bQpKK8eq.jpg",El menú (2022) go:Menu22
 https://d1yei2z3i6k35z.cloudfront.net/2104853/63b6f9421344e_16EMNumero4k_T.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg",EVIL DEAD EL DESPERTAR 2023 go:EvilDead
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg",Evil dead:El despertar 2023 go:EvilDead
 http://208.88.245.85/nuevo/evildead.eldespertar.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2H445u87FDUOl3EijrvUJqZekoY.jpg",El exorcismo de Emily Rose (2005) go:ExorDERO
@@ -155,7 +155,7 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dabXVfrAFfhDte8XVemom3mTJog.jpg",IT 2 (2019) go:It(Eso)2
 http://vod.tuxchannel.mx/peliculas/720/it%20chapter%20two%202019.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//d07phJqCx6z5wILDYqkyraorDPi.jpg",INSIDIUOS PUERTA ROJA
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg",Insidiuos: puerta roja (2023) go:InsiduRo
 http://208.88.245.85/nuevo/insidiuos.puertaroja.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/s3SNMGwZ7TiiZJDQEOJ1Z4e5WeX.jpg",Imaginario: Juguete diabólico (2024) go:IJugueD
@@ -171,12 +171,13 @@ La Primera Profecia go:PriProfec
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/cdFZoQDxLRRWXLB3kxCnc674dBF.jpg",los Extraños (2024) go:LECUno
 http://208.88.245.81/nuevo/los.extranos.cap1.2024.dual.mkv
+
 #EXTINF:-1,La Monja
 http://archive.org/download/PaqueteClinico34/The.Nun.2018.HDRipf.Latino94984984984894894984.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/2bDojliSLzGFwxlqQZodJAXHy7H.jpg",La Monja (2018)
-https://od.lk/s/MjNfMjA1MzE0Mjlf/Ver%20La%20Monja%20%282018%29%20Online%20Gratis%20en%20HD%20-%20InkaPelis.mp4
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg",La Monja (2018)
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qKq8dflkSBxoBapvfOAFP3LE03q.jpg",La Monja 2 go:LaMonja2
@@ -189,8 +190,24 @@ http://208.88.245.85:80/nuevo/la.nina.dela.comunion.2023cast.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",LA MAESTRA SE COMIó A MI AMIGO
 http://208.88.245.85/nuevo/m.maestra.c.comio.amigo.2023.mkv
 
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cQD1qEnPOKUPHAui0okOLZSgitu.jpg",La Sustancia (2024)
+https://dl.dropbox.com/scl/fi/ud01iujbtqa567aaaez3z/La-sustancia-2024.mp4?rlkey=tiebm920jvspjkv35dd2kmtq0&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7EqXQpRpDLJA09ufah6Vsr487WW.jpg",La mujer de las sombras (2024)
+https://dl.dropbox.com/scl/fi/n50o2ellbw6pbmjs5ditt/La-mujer-de-las-sombras-2025.mp4?rlkey=oe569efcqd7pndyr6ybspo6nj&st=
+
+
+
 #EXTINF:-1,La invitación (2022)
 http://vod.tuxchannel.mx/peliculas/720/the%20invitation%202022.mkv
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",La acompañante (2025)
+https://dl.dropbox.com/scl/fi/cr7sh0m3sk3rxhwlom1g4/La-acompa-ante.mp4?rlkey=1r7cijva1zd6cs9ovxeiy0in0&st=
 
 M
 
