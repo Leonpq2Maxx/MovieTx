@@ -54,6 +54,14 @@ Subido
 http://208.88.245.85/nuevo/bluebeetle.dual2023.mkv
 
 
+C
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg", Capitán América: Un nuevo mundo (2025)
+https://dl.dropbox.com/scl/fi/e5x75pq9aciu61908fdll/Capitan.America.Un.Nuevo.Mundo.2025.1080P-Dual-Lat.mkv?rlkey=7i2hthiznmol3xfyrysv037dj&st=
+
+
+
 
 D
 

@@ -151,12 +151,12 @@ I
 
 subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg",Intensa Mente 2 (2024)  go:Intensa2
-https://dl.dropbox.com/scl/fi/haqt7h3kf3t8909ejmktg/Intensamente-2.mp4?rlkey=0p1yludtkm4ero8qrhropy38c&st=
+https://dl.dropbox.com/scl/fi/5metxgpf1xey6puy7qqfa/Intensamente.2.2024.1080P-Dual-Lat.mkv?rlkey=ff5j8rt25yo7autd4p2sw9w46&st=
 
 k
 subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg",Kung fu panda 4 (2024)
-https://www.dropbox.com/scl/fi/a7u9k7bjfnjfjv6k8mdkw/Kung-fu-panda-4.mp4?rlkey=ojks1s2mng16c5zdop0sz20em&st=
+https://dl.dropbox.com/scl/fi/xu02xc78tpp4n1950ptz2/Kung.Fu.Panda.4.2024.1080P-Dual-Lat.mp4?rlkey=ktsfbpax3rem6rmlhhbxlfqmm&st=
 
 
 L
@@ -240,11 +240,11 @@ Subido
 http://fina.dyndns.tv/Peliculas/Megamente.mkv
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg",Moana go:Moana
-http://fina.dyndns.tv/Peliculas/Moana.mkv
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg",Moana 2 (2024)
-https://dl.dropboxusercontent.com/scl/fi/4lwx2jqxesboj0hzkvz7j/Moana-2-espa-ol-latin.mp4?rlkey=xhtbr6wilm1v7cm8cwwbjuhna&st=
+https://dl.dropbox.com/scl/fi/ej548y6fqwu5y93wzgjvg/Moana.2.2024.1080P-Dual-Lat.mkv?rlkey=egjrop2zd3y0ivtnpuxnsweo5&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",MARIO BROS go:Mariobros
