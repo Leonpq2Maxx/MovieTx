@@ -70,7 +70,7 @@ https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7MhXiTmTl16LwXNPbWCmqxj7UxH.jpg",Juego de roles
 http://208.88.245.85/nuevo/juego.droles.dual.2024.mkv accion comedia romance
 
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//d9CTnTHip1RbVi2OQbA2LJJQAGI.jpg",El sindicato (2024) go:ElSin24
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/1UHp2QEBPnTrcx0i6aYw6jWtDbI.jpg",El sindicato (2024) go:ElSin24
 http://208.88.245.81/nuevo/el.sindicato.2024.dual.mkv comedia accion
 
 #EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//dEsuQOZwdaFAVL26RjgjwGl9j7m.jpg",Harold y su crayón mágico (2024)

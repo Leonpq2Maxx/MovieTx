@@ -60,6 +60,10 @@ subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/zpH836PKQya87jpLQYAVj4UVUKS.jpg",BOB ESPONJA LA MANERA DESCONOCIDA (2016) go:BobLMD
 http://208.88.245.85/nuevo/bob.esponja.la.marea.desconocida.dual2023.mkv
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sXybjRq6BsCkWcDBfNphSH9biqn.jpg",Baki hanma v kengan ashura (2024)
+https://pomf2.lain.la/f/1eag4nu9.mp4
+
 
 C
 

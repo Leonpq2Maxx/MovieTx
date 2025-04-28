@@ -54,9 +54,9 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/x4jUJ0fF60SSOeUUTkaRtmnDvwG.jpg",El conjuro 2: El caso enfield (2016)
 https://dl.dropbox.com/scl/fi/6gvzq42a2a2nfc3ca0h90/The.conjuring.2.2016.1080P-Dual-Lat.mp4?rlkey=374ee3fe8poyos64nybo5dz87&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg",El conjuro 3: El diablo me obligo hacerlo (2021)
-
+https://dl.dropbox.com/scl/fi/iuf0861zknazyjvqjrjlu/The.Conjuring.The.Devil.Made.Me.Do.It.2021.1080P-Dual-Lat.mp4?rlkey=c3pjsl6y9xcfzwv9izf9j75sm&st=
 
 La monja img
 https://image.tmdb.org/t/p/original/ce6f0GNhtHdIvtCoXfp3amE0fWz.jpg
@@ -233,7 +233,7 @@ https://dl.dropbox.com/scl/fi/k5kwtfnqh8yka4wj1p429/Compa-era.Perfecta.2025.1080
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7EqXQpRpDLJA09ufah6Vsr487WW.jpg",La mujer de las sombras (2024)
-https://dl.dropbox.com/scl/fi/j5af6afwqnnwvf9jnesax/La.Mujer.De.Las.Sombras.2025.1080P-Dual-Lat.mkv?rlkey=zzqhksccpghh3j15vwxhkm9a2&st=
+
 
 
 #EXTINF:-1,La invitación (2022)

@@ -193,8 +193,7 @@ http://notabasica.com/612132/FiveNightsAtFreddys.mp4
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://m.media-amazon.com/images/I/71n18AvUy8L._AC_UF894,1000_QL80_.jpg", Winnie The Poo Blood and Honey 
 http://notabasica.com/612132/Winnie.the.Pooh.Blood.and.Honey.2023.lati.mp4
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",Deadpool and Wolverine
-http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
+
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="http://cvr.iks.cc/cvr/vod/cinecam/s28eYemGh3mKXp.jpg",DEADPOOL and WOLVERINE
 http://cdnvod-1.iks.cc:4013/vodsd/wNn3CppS90BxvdY/cinecam/s28eYemGh3mKXp.mp4
@@ -4691,8 +4690,7 @@ http://fina.dyndns.tv/Peliculas//Bella%20y%20la%20Bestia.mkv
 http://fina.dyndns.tv/Peliculas//Batman%20Mala%20Sangre.mkv
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/wV9e2y4myJ4KMFsyFfWYcUOawyK.jpg",Bambi 
 http://fina.dyndns.tv/Peliculas//Bambi.mkv
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/x1ygBecKHfXX4M2kRhmFKWfWbJc.jpg",Bad Boys 
-http://fina.dyndns.tv/Peliculas//Bad%20Boys.mp4
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/53QtZhtuw0aKu14DukYTtVtcrES.jpg",A vigilante 
 http://fina.dyndns.tv/Peliculas//A%20vigilante.mp4
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg",Aves de presa 
@@ -5243,8 +5241,7 @@ http://fina.dyndns.tv/Peliculas/Bella%20y%20la%20Bestia.mkv
 http://fina.dyndns.tv/Peliculas/Batman%20Mala%20Sangre.mkv
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/wV9e2y4myJ4KMFsyFfWYcUOawyK.jpg",Bambi 
 http://fina.dyndns.tv/Peliculas/Bambi.mkv
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/x1ygBecKHfXX4M2kRhmFKWfWbJc.jpg",Bad Boys 
-http://fina.dyndns.tv/Peliculas/Bad%20Boys.mp4
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/53QtZhtuw0aKu14DukYTtVtcrES.jpg",A vigilante 
 http://fina.dyndns.tv/Peliculas/A%20vigilante.mp4
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg",Aves de presa 

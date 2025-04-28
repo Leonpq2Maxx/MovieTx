@@ -6,6 +6,10 @@ http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9YEGawvjaRgnyW6QVcUhFJPFDco.jpg",The Black clover la espada del rey
 http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",Boruto la pelicula
+https://pomf2.lain.la/f/ujnar7ej.mp4
+
 
 D
 Subido
@@ -13,12 +17,54 @@ Subido
 https://dn720303.ca.archive.org/0/items/dragon-ball-z-la-batalla-de-los-dioses/Dragon%20Ball%20Z%20la%20Batalla%20de%20los%20Dioses.ia.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.redd.it/eh6fgm7tlrab1.jpg",Dragon Ball Super Broly (2018) | MegaMaxx
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg",Dragon Ball Super Broly (2018) | MegaMaxx
 https://ia801905.us.archive.org/22/items/dragon-ball-super-broly/Dragon%20Ball%20Super%3A%20Broly.mp4
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.pinimg.com/originals/d2/4c/0c/d24c0cac91e6c5f7f020b886dd45be31.jpg",Dragon Ball Super: Super Hero (2022) | MegaMaxx
-https://dl.dropboxusercontent.com/scl/fi/jy535c6e18x0ydikzhniw/Dragon.Ball.Super.Super.Hero.2022.1080P-Dual-Lat.mp4?rlkey=c2634uyll6a1rimri72e2akf9&st=a2h7whvm&dl
+https://dl.dropboxusercontent.com/scl/fi/jy535c6e18x0ydikzhniw/Dragon.Ball.Super.Super.Hero.2022.1080P-Dual-Lat.mp4?rlkey=c2634uyll6a1rimri72e2akf9&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8SpYfrxp1kXpBLWnmmoXgc4tI9R3Wr2RFWA&s",Dragon Ball Z: Devuélvanme a mi Gohan
+https://pomf2.lain.la/f/oh69iwud.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8SpYfrxp1kXpBLWnmmoXgc4tI9R3Wr2RFWA&s",Dragon Ball Gt: Despues de 100 años
+https://pomf2.lain.la/f/zhgzxnic.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg", Dragon Ball Z: Episodio de Bardock
+https://pomf2.lain.la/f/9nzstm94.mp4
+
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",Dragon Ball Z: Los tres grandes Super Saiyans
+https://pomf2.lain.la/f/cztm9ml9.mp4
+
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jamUcpRFj8ZHjQrPHieweUKbRBh.jpg", Dragon Ball Z: La Pelea de Bardock vs Freezer
+https://pomf2.lain.la/f/4frslouo.mp4
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
 
 E
 subido
