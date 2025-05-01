@@ -1,5 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+<style>
+*{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+body{margin:0;background-color:#151515;}
+:root{
+--plyr-color-main:#222;
+--plyr-video-control-color:#007654/*#ff0030*/;}
+.plyr--video{background:#000;height:100%;overflow: hidden;}
+.column{grid-template-columns: repeat(3,minmax(0,1fr));}
+.grid{display:grid;gap:0.25rem;padding:0.25rem;}
+.relative{position:relative;}
+img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+.w-full{display:block;width:100%;}
+@media (orientation:landscape){
+.column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+</style>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+<div class="player">
+<video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/iQcCAm8hKWZyUntqrvzyEGtXyJl.jpg" preload="none">
+<source src="http://208.88.245.85/nuevo/the.creator.resistencia.dual.2023.mkv" size="480"></source>
+</video></div>
+<style type="text/css">
+.alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:16px;} 
+h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+.xec{position:relative;overflow:hidden;} 
+.titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+.sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
+info,a{color:fff;font-size:18px;margin-top:0px;}
+</style>
+<info>
+<i></i>
+<i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2023</h9></i>
+<i class="fal fa-clock"><h9 style="font-size:14;"> 2H 13min</h9></i>
+<i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 71%</h9></i>
+<i></i>
+</info>
+<div class="titulo">
+<p></p>
+</div>
+<div class="sinopsis">
+<p>
+    En medio de una guerra futura entre la raza humana y las fuerzas de la inteligencia artificial, Joshua, un duro ex-agente de las fuerzas especiales que llora la desaparición de su esposa, es reclutado para cazar y matar al Creador, el escurridizo arquitecto de la IA avanzada que ha desarrollado una misteriosa arma con el poder de acabar con la guerra... y con la propia humanidad.
+</p></div>
+<br></br>
+<div class="xec">
+<h4 class="alignleft">Películas Similares</h4>
+</div><br>
+<div class="grid column">
+<a class="relative" href="go:MisionRe2">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg" width="220"></a>
+<a class="relative" href="go:DuroEntr23">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg" width="220"></a>
+<a class="relative" href="go:Detonante">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg" width="220"></a>
+<a class="relative" href="go:SantaM23">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500/qD63nfBOHBesy6EOu5GT2AB0rCj.jpg" width="220"></a>
+<a class="relative" href="go:DejarAt">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500/29rhl1xopxA7JlGVVsf1UHfYPvN.jpg" width="220"></a>
+<a class="relative" href="go:EneDolor">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500/m0gM9jE1KmCkXZRqkeNYEQZdVsZ.jpg" width="220"></a>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+<script>
+const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+const player = new Plyr('.vid1',{controls});
+</script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="es">
   <head>
     <meta charset="UTF-8">
     <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
@@ -28,9 +112,9 @@
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div class="player">
-        <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/1CbExVP0bgrTshP7DvnDdwqryYL.jpg" preload="none">
-            <source src="http://208.88.245.85/nuevo/monsterhigh.dual.2023.mkv" size="480"></source>
-        </video>
+      <video class="vid1 js-player" controls="" poster="" preload="none">
+        <source src="" size="480"></source>
+      </video>
     </div>
     <style type="text/css">
       .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
@@ -44,18 +128,18 @@
     <info>
       <i></i>
       <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2023</h9></i>
-      <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 34min</h9></i>
-      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 69%</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 33Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 77%</h9></i>
       <i></i>
     </info>
     
     <div class="titulo">
       <h3>
-        Monster High 2
+        The Creator
       </h3>
       <br>
       <h4>
-        Genero: Fantasía, Ciencia ficción, Acción, Aventura
+        Genero: 
       </h4>
       <br>
       <h4>
@@ -64,7 +148,7 @@
     </div>
     <div class="sinopsis">
       <h4>
-        Al ingresar al segundo año en Monster High, Clawdeen Wolf, Draculaura y Frankie Stein se enfrentan a nuevos estudiantes, nuevos poderes y una amenaza aún mayor que no sólo podría romper su amistad sino que podría cambiar el mundo para siempre.
+            
       </h4>
     </div>
     <br>
@@ -74,25 +158,13 @@
     <div class="recomendaciones">
       <br>
       <div class="series-grid">
-        <a href="go:Patos2023" class="serie"><img src="https://image.tmdb.org/t/p/original/6uSw2N6jLff3QL5necHxZFd0Aez.jpg" alt="Serie 3"><p>¡Patos! Un viaje patas arriba</p></a>
-        <a href="go:PinochoT" class="serie"><img src="https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg" alt="Serie 2"><p>Pinocho de guillermo del toro</p></a>
-        <a href="go:ENLLGar" class="serie"><img src="https://image.tmdb.org/t/p/w500//jDQPkgzerGophKRRn7MKm071vCU.jpg" alt="Serie 1"><p>El niño y la garza</p></a>
-        <a href="https://leonpq2maxx.github.io/MovieTx/View%20Peliculas/Baki%20Hanma%20vs.%20Kengan%20Ashura%20(2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/sXybjRq6BsCkWcDBfNphSH9biqn.jpg" alt="Serie 4"><p>Baki hanma v kengan ashura</p></a>
+        <a href="" class="serie"><img src="" alt="Serie 3"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 2"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 1"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 4"><p></p></a>
         <a href="" class="serie"><img src="" alt="Serie 5"><p></p></a>
         <a href="" class="serie"><img src="" alt="Serie 6"><p></p></a>
       </div>
-      <a class="relative" href="">
-        <img class="w-full" height="330" src="" width="220"></a>
-        <a class="relative" href="">
-        <img class="w-full" height="330" src="" width="220"></a>
-        <a class="relative" href="">
-        <img class="w-full" height="330" src="" width="220"></a>
-        <a class="relative" href="go:DuroEntr23">
-        <img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg" width="220"></a>
-        <a class="relative" href="go:UrkelSN">
-        <img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500//hSBIk1EQrt2DJHQHjYqQCHQeHRt.jpg" width="220"></a>
-        <a class="relative" href="go:ECDTerc">
-        <img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500/aM0ViG6LVkN1PQGe9Bon1gQXpc7.jpg" width="220"></a>
     </div>
     <br>
     <style>
