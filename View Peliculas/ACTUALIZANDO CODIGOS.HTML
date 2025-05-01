@@ -1,136 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-    <style> 
-    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    body{margin:0;background-color:#000000;}
-    :root{
-    --plyr-color-main:#ff0000;
-    --plyr-video-control-color:#0022ff/*#ff0030*/;}
-    .plyr--video{background:#000;height:100%;overflow: hidden;}
-    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
-    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
-    .relative{position:relative;}
-    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
-    .w-full{display:block;width:100%;}
-    @media (orientation:landscape){
-    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
-    </style>
-  </head>
-  <body ondragstart="return false;" ondrop="return false;">
-    <div class="player">
-        <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/htAwfLn5kmrWeedoNregdIB9BKX.jpg" preload="none">
-            <source src="http://vod.tuxchannel.mx/peliculas/720/thor%20love%20and%20thunder%202022.mkv" size="480"></source>
-        </video>
-    </div>
-    <style type="text/css">
-      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
-      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-      .xec{position:relative;overflow:hidden;} 
-      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
-      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
-      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
-      info,a{color:fff;font-size:20px;margin-top:0px;}
-    </style>
-    <info>
-      <i></i>
-      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2022</h9></i>
-      <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 59Min</h9></i>
-      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 64%</h9></i>
-      <i></i>
-    </info>
-    
-    <div class="titulo">
-      <h3>
-        Thor: Amor Y Trueno
-      </h3>
-      <br>
-      <h4>
-        Genero: Fantasía, Acción, Comedia, Marvel
-      </h4>
-      <br>
-      <h4>
-        Idioma: Español Latino 🇲🇽
-      </h4>
-    </div>
-    <div class="sinopsis">
-      <h4>
-        El Dios del Trueno emprende un viaje que no se parece en nada a lo que se ha enfrentado hasta ahora: una búsqueda de la paz interior. Pero el retiro de Thor se ve interrumpido por un asesino galáctico conocido como Gorr el Carnicero de Dioses. Para hacer frente a la amenaza, Thor solicita la ayuda de Valkiria, de Korg y de su ex novia Jane Foster que, para sorpresa de Thor, empuña su martillo mágico, Mjolnir, como la Poderosa Thor. Juntos, se embarcan en una aventura cósmica en la que tendrán que descubrir el misterio de la venganza del Carnicero de Dioses y detenerlo antes de que sea demasiado tarde.
-      </h4>
-    </div>
-    <br>
-    <div class="xec">
-      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
-    </div>
-    <div class="recomendaciones">
-      <br>
-      <div class="series-grid">
-        <a href="" class="serie"><img src="https://image.tmdb.org/t/p/original/liSKTEK5B9ARmfsho6teomLLBA4.jpg" alt="Serie 3"><p>Thor</p></a>
-        <a href="" class="serie"><img src="https://image.tmdb.org/t/p/original/iY2E6b5huleYrM0NYKrb7a7lSGZ.jpg" alt="Serie 2"><p>Thor: el mundo oscuro</p></a>
-        <a href="" class="serie"><img src="https://image.tmdb.org/t/p/original/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg" alt="Serie 1"><p>Thor: Ragnarok</p></a>
-        <a href="" class="serie"><img src="https://image.tmdb.org/t/p/original/wWTxMbNpAILRYQXw7orNMpmJmui.jpg" alt="Serie 4"><p>Venom 3: El ultimo baile</p></a>
-        <a href="" class="serie"><img src="https://image.tmdb.org/t/p/original/71wSx6MQm8EbMNDi3vVaD8nD9SL.jpg" alt="Serie 5"><p>Los vengadores: La era de ultron</p></a>
-        <a href="go:ViudaNegra" class="serie"><img src="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg" alt="Serie 6"><p>Viuda negra</p></a>
-      </div>
-    </div>
-    <br>
-    <style>
-      /*RETROCEDER*/
-      .Serie,a {
-        color:fff;font-size:15px;margin-top:0px;
-      }
-      .series-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .serie {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-      }
-      
-      .serie img {
-        width: 120px;
-        max-width: 150px;
-        border-radius: 10px;
-      }
-      /* Iconos debajo del reproductor */
-      .icons-container {
-        display: flex;
-        gap: 15px;
-        margin: 1px 0;
-      }
-      
-      .icons-container i {
-        font-size: 24px;
-        cursor: pointer;
-      }
-      
-      .icons-container i:hover {
-        color: yellow;
-      }
-    </style>
+<head>
+<meta charset="UTF-8">
+<title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+<style>
+*{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+body{margin:0;background-color:#151515;}
+:root{
+--plyr-color-main:#222;
+--plyr-video-control-color:#007654/*#ff0030*/;}
+.plyr--video{background:#000;height:100%;overflow: hidden;}
+.column{grid-template-columns: repeat(3,minmax(0,1fr));}
+.grid{display:grid;gap:0.25rem;padding:0.25rem;}
+.relative{position:relative;}
+img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+.w-full{display:block;width:100%;}
+@media (orientation:landscape){
+.column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+</style>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+<div class="player">
+<video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/58D6ZAvOKxlHjyX9S8qNKSBE9Y.jpg" preload="none">
+<source src="http://208.88.245.81/nuevo/twisters.tornados.2024.dual.mkv" size="480"></source>
+</video></div>
+<style type="text/css">
+.alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:16px;} 
+h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+.xec{position:relative;overflow:hidden;} 
+.titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+.sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
+info,a{color:fff;font-size:18px;margin-top:0px;}
+</style>
+<info>
+<i></i>
+<
+<i></i>
+</info>
+<div class="titulo">
+<p>twisters</p>
+</div>
+<div class="sinopsis">
+<p>
+Kate Carter, una ex cazadora de tormentas perseguida por un devastador encuentro con un tornado, es llamada por su amigo Javi de regreso a las llanuras para probar un nuevo e innovador sistema de seguimiento. Allí, se cruza con el encantador e imprudente ídolo de las redes sociales Tyler Owens y su estridente equipo. A medida que la temporada de tormentas se intensifica, se desatan fenómenos terroríficos nunca vistos, y Kate, Tyler y sus equipos competidores se encuentran directamente en el camino de múltiples sistemas de tormentas que convergen sobre Oklahoma en lo que será una lucha por sobrevivir.
+</p></div>
+<br></br>
+<div class="xec">
+<h4 class="alignleft">Películas Similares</h4>
+</div><br>
+<div class="grid column">
+<a class="relative" href="go:Crater">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/w500/n8ZpMwYT02XjpQHpSxn1eJw5Zpz.jpg" width="220"></a>
+<a class="relative" href="go:Detonante">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg" width="220"></a>
+<a class="relative" href="go:Astraou24">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg" width="220"></a>
+<a class="relative" href="go:frenteTor">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg" width="220"></a>
+<a class="relative" href="go:L:VInfinit">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg" width="220"></a>
+<a class="relative" href="go:Protec24">
+<img class="w-full" height="330" src="https://image.tmdb.org/t/p/original/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg" width="220"></a>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
-    <script>
-      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
-      const player = new Plyr('.vid1',{controls});
-    </script>
-  </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+<script>
+const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+const player = new Plyr('.vid1',{controls});
+</script>
+</body>
 </html>
 
 
@@ -165,9 +111,9 @@
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div class="player">
-        <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/1GIxDDgnfKmQJFNvc993323cPAn.jpg" preload="none">
-            <source src="http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv" size="480"></source>
-        </video>
+      <video class="vid1 js-player" controls="" poster="" preload="none">
+        <source src="" size="480"></source>
+      </video>
     </div>
     <style type="text/css">
       .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
@@ -180,19 +126,19 @@
     </style>
     <info>
       <i></i>
-      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2021</h9></i>
-      <i class="fal fa-clock"><h9 style="font-size:14;"> 2H 28Min</h9></i>
-      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 89%</h9></i>
+      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2024</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 2H 03Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 70%</5h9></i>
       <i></i>
     </info>
     
     <div class="titulo">
       <h3>
-        Spider-Man: Sin camino a casa
+
       </h3>
       <br>
       <h4>
-        Genero: Acción, Aventura, Ciencia ficción, Marvel
+        Genero: 
       </h4>
       <br>
       <h4>
@@ -201,7 +147,7 @@
     </div>
     <div class="sinopsis">
       <h4>
-        Peter Parker es desenmascarado y por tanto no es capaz de separar su vida normal de los enormes riesgos que conlleva ser un súper héroe. Cuando pide ayuda a Doctor Strange, los riesgos pasan a ser aún más peligrosos, obligándole a descubrir lo que realmente significa ser Spider-Man. 
+            
       </h4>
     </div>
     <br>
@@ -211,12 +157,12 @@
     <div class="recomendaciones">
       <br>
       <div class="series-grid">
-        <a href="go:SRegreso1" class="serie"><img src="https://image.tmdb.org/t/p/original/81qIJbnS2L0rUAAB55G8CZODpS5.jpg" alt="Serie 3"><p>Spider-Man: De regreso a casa</p></a>
-        <a href="go:SLejos2" class="serie"><img src="https://image.tmdb.org/t/p/original/5G3TZqMRqWrcIiDy2OvITmQzU11.jpg" alt="Serie 2"><p>Spider-Man 2: Lejos de casa </p></a>
-        <a href="https://leonpq2maxx.github.io/MovieTx/View%20Peliculas/Los%20vengadores%20Infiniti%20war%20(2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg" alt="Serie 1"><p>Los vengadores: Infinity War</p></a>
-        <a href="https://leonpq2maxx.github.io/MovieTx/View%20Peliculas/Venom%203%20ultimo%20baile%20(2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/bHB8Fv28cOk5sNxRwWaLoT6Pnrv.jpg" alt="Serie 4"><p>Venom 3: El último baile</p></a>
-        <a href="https://leonpq2maxx.github.io/MovieTx/View%20Peliculas/Capit%C3%A1n%20Am%C3%A9rica%20Civil%20War%20(2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg" alt="Serie 5"><p>Capitán América: Civil War</p></a>
-        <a href="https://leonpq2maxx.github.io/MovieTx/View%20Peliculas/Los%20vengadores%20endgame.html" class="serie"><img src="https://image.tmdb.org/t/p/original/1ELa9bm6zxIADz8u71VZtvNzx3k.jpg" alt="Serie 6"><p>Los Vengadores: Endgame</p></a>
+        <a href="" class="serie"><img src="" alt="Serie 3"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 2"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 1"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 4"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 5"><p></p></a>
+        <a href="" class="serie"><img src="" alt="Serie 6"><p></p></a>
       </div>
     </div>
     <br>
@@ -269,6 +215,7 @@
     </script>
   </body>
 </html>
+
 
 
 
