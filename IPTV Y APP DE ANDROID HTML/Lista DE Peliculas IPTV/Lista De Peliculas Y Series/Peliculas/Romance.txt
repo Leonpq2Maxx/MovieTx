@@ -1,3 +1,4 @@
+
 D
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg",365 Dias mas 3 (2022) go:365Di3
@@ -26,6 +27,11 @@ E
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg", El Es Asi 2021 go:El Es Asi
+https://archive.org/download/el-es-asi-2021/El%20Es%20Asi%20%282021%29.mp4
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg", ¿Estoy bien? (2023)
+
 
 
 
@@ -42,7 +48,7 @@ https://dl.dropboxusercontent.com/scl/fi/5m6kj4eef1rperc8a7ik2/Romper-El-Circulo
 U
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg",Un ladrón romántico (2024) go:ULadronR
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg",Un ladrón romántico (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Un%20ladr%C3%B3n%20rom%C3%A1ntico%20online%20HD%20-%20Cuevana%202.mp
 https://dl.dropbox.com/scl/fi/aphuvjcjsrv89xpi4hhh1/Un-Ladron-Romantico.mp4?rlkey=x0jevqd7txpig5sdgmbf2avm7&st=
 

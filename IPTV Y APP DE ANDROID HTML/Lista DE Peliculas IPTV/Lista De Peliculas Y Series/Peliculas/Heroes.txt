@@ -8,7 +8,7 @@ http://208.88.245.85/nuevo/antman.quantumania.dual2023.mkv
 http://208.88.245.85/nuevo/aquaman.y.el.reyno.perdido.dual2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg",Avenger: Infinity War 2018 Español Latino | MegaMaxx L:VInfinit
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg",Los vengadores: Infinity war 2018 Español Latino | MegaMaxx L:VInfinit
 https://dl.dropbox.com/scl/fi/sqmr5y1rfwcnbfq0wl9k7/Avengers-Infinity-War-2018-1080p-Latino.mkv?rlkey=zl5w5m6t7jsmix6asdum87qae&st=
 
 
@@ -42,7 +42,7 @@ http://51.81.208.167/pelis2022/Black.Panther.Wakanda.Forever.2022.lati.mp4
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",Black Widow 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",Black Widow go:ViudaNegra
 http://fina.dyndns.tv/Peliculas/Black%20Widow.mp4
 
 Subido
@@ -65,8 +65,15 @@ https://dl.dropbox.com/scl/fi/e5x75pq9aciu61908fdll/Capitan.America.Un.Nuevo.Mun
 
 D
 
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"  group-title="Pelis 1" type="movie" ,Deadpool and Wolverine (2024) go:Deadpool4 subido
+Subido
+#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg" group-title="Pelis 1" type="movie" ,Deadpool and Wolverine (2024) go:Deadpool4 subido
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
+
+#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/original/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg" group-title="Pelis 1" type="movie" ,Deadpool 2 (2018)
+
+
+#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg" group-title="Pelis 1" type="movie" ,Deadpool (2016)
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dAh03zjNzjhiQPrq4Dcr7qKDPlR.jpg",Doctor Extraño Strange go:DStrange1
@@ -93,7 +100,7 @@ G
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",Guardianes de la galaxia 
 http://fina.dyndns.tv/Peliculas/Guardianes%20de%20la%20galaxia.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",GUARDIANES DE LA GALAXIA VOLUMEN 3
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",GUARDIANES DE LA GALAXIA VOLUMEN 3 go:GuardiG3
 http://208.88.245.85/nuevo/gdelagalaxia3.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8dqXyslZ2hv49Oiob9UjlGSHSTR.jpg",GUARDIANES DE LA GALAXIA ESPECIAL FIESTAS
@@ -105,7 +112,7 @@ H
 
 
 I
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",Iron Man 3 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",Iron Man 3 go:IronMan3
 http://fina.dyndns.tv/Peliculas/Iron%20Man%203.mkv
 
 
@@ -170,9 +177,10 @@ http://vod.tuxchannel.mx/peliculas/720/spider-man%20far%20from%20home%202019.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",Spider-Man: Sin camino a casa (2021) go:SSinCasa3
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fspidrman%20nueva.mp4
+http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv RECOMENDABLE
 
-#EXTINF:-1,Spider-man: Sin camino a casa (2021)
-http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv
+
+
 
 T
 Subido
@@ -194,9 +202,21 @@ http://208.88.245.81/nuevo/the.flash.2023dual.mkv
 
 
 V
+
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1MJNcPZy46hIy2CmSqOeru0yr5C.jpg",Venom let There be carnage 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bHB8Fv28cOk5sNxRwWaLoT6Pnrv.jpg",Venom 3: El ultimo baile (2024)
+https://dl.dropbox.com/scl/fi/jxmi1vi26s67442p5qbh8/Venom.El.-ltimo.baile.2024.1080p-Dual-Lat.mkv?rlkey=70jktptopc447xx0ud7j5k9ux&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg",Venom 2 carnage liberado (2021)
 http://fina.dyndns.tv/Peliculas/Venom%20let%20There%20be%20carnage.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bURIWlkMbzT8RdpemzCmQECo2Uh.jpg",Venom (2018)
+https://dl.dropbox.com/scl/fi/4pr09g8wo9czjjjo7fqvf/Venom.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=k4b2w3givd51ay3gc5mqeouob&st=
+
+
+
 
 
 

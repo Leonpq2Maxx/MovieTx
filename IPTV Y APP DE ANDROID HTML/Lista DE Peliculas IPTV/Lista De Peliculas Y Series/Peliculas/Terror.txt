@@ -12,12 +12,12 @@ subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg",Annabelle 3: viene a casa (2019)
 https://dl.dropbox.com/scl/fi/phy3ip3ioojlg7vcgd5gy/Annabelle.comes.home.2019.1080P-Dual-Lat.mp4?rlkey=geo7jbrydvuek4x8cyr2m5st4&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",El bufón go:ElBufon
 http://208.88.245.85/nuevo/el.bufon.dual.2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://th.bing.com/th/id/OIP.TAyt2SGYGXZtVsPtfAf9pQAAAA?rs=1&pid=ImgDetMain",Abigail (2024) go:Abigail
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://th.bing.com/th/id/OIP.TAyt2SGYGXZtVsPtfAf9pQAAAA?rs=1&pid=ImgDetMain",Abigail (2024)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmay24%2FVer%20Abigail%20online%20HD%20-%20Cuevana%202.mp4
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",Los juegos del hambre 5 terror go:LjueHa
@@ -117,7 +117,7 @@ http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
 http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg",El exorcista del papa (2023) go:ExorDPa
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg",El exorcista del papa (2023) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fabril%2FVer%20El%20exorcista%20del%20papa%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 #EXTINF:-1,El exorcismo de mi mejor amiga (2022)
@@ -126,7 +126,7 @@ http://vod.tuxchannel.mx/peliculas/720/my%20best%20friends%20exorcism%202022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",El bosque de los suicidios (2016) go:EBosqueS Terror, Suspense, Misterio
 http://vod.tuxchannel.mx/peliculas/720/el%20bosque%20de%20los%20suicidios.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",EL Exorcista DE Georgetown (2024) go:ExorGeog
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",El exorcista de Georgetown (2024) go:ExorGeog
 http://208.88.245.85/nuevo/el.exorcistadelpapa.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qELKmWDNahBIHlHHLf3eLCq6j97.jpg",Ouija: El origen del mal (2016) go:Ouija16
@@ -144,19 +144,15 @@ http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20emily%20ross.mkv
 
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pMyOSRURkxF6YId9vOTGsBH1jRb.jpg", El exorcismo de Carmen Farías (2021) go:ExorDCF
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pMyOSRURkxF6YId9vOTGsBH1jRb.jpg", El exorcismo de Carmen Farías (2021) go:CarmenFari
 http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20carmen%20farias%202021.mkv
 
 
 
-Sin Soonido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg", El Conjuro: El Diablo Me Obligo Hacerlo 2021  go:Conjuro3D
-https://archive.org/download/manguera1_202106/Th3%20C0njur1n5.mkv
-
 
 
 f
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7BpNtNfxuocYEVREzVMO75hso1l.jpg",FIVE NIGHT AT FREDDYS (2023) go:fiveFree
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7BpNtNfxuocYEVREzVMO75hso1l.jpg",Five night at Freddys (2023) go:fiveFree
 http://208.88.245.85/nuevo/fivenight.at.freddys.dual2023.mkv
 
 
@@ -167,6 +163,7 @@ GuerraMZ
 
 
 H
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg",Háblame (2023) go:Hablame
 http://208.88.245.81/nuevo/hablame.dual.2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8n8D2lmlCHRtex8rMkREc79ldW7.jpg",HáBLAME
@@ -176,13 +173,14 @@ http://208.88.245.85/nuevo/hablame.dual.2023.mkv
 I
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It  go:It(Eso)
 http://fina.dyndns.tv/Peliculas/It.mkv
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It go:It(eso)
 https://archive.org/download/f84f5472510aa938/f84f5472510aa938.mp4
 
+subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It2 go:It(Eso)2
 http://fina.dyndns.tv/Peliculas/It2.mp4
 
@@ -208,12 +206,21 @@ Subido
 http://208.88.245.81/nuevo/los.extranos.cap1.2024.dual.mkv
 
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg",La Monja (2018)
+https://pomf2.lain.la/f/67durh2n.mp4
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg",La Primera profecia (2024)
+https://dl.dropbox.com/scl/fi/4ey8de0ywxxk4eulc3j8g/La.Primera.Profecia.2024.1080P-Dual-Lat.mkv?rlkey=sddvmfvlj86zsmoara062urq6&st=
 
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qKq8dflkSBxoBapvfOAFP3LE03q.jpg",La Monja 2 go:LaMonja2
 http://208.88.245.81/nuevo/la.monja2.dual2023.mkv
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yVsINl4Aa9vvQ9lE2LF77qNj7AP.jpg",La Llorona
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/oV3R0E1GOXVrybojkEDvool22Bi.jpg",LA NIñA DE LA COMUNIóN go:NiñaComu
@@ -231,10 +238,6 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",La acompañante (2025)
 https://dl.dropbox.com/scl/fi/k5kwtfnqh8yka4wj1p429/Compa-era.Perfecta.2025.1080P-Dual-Lat.mkv?rlkey=ao8zyfo2bvkruckj8iv0wfhi2&st=
 
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7EqXQpRpDLJA09ufah6Vsr487WW.jpg",La mujer de las sombras (2024)
-
-
 
 #EXTINF:-1,La invitación (2022)
 http://vod.tuxchannel.mx/peliculas/720/the%20invitation%202022.mkv
@@ -247,7 +250,8 @@ M
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oCVDRqnh6xtaexTKQ8OkXD89rkL.jpg",Maligno (2021) go:Maligno
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2Fmaligno.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lVRoLtpn4zq97YjTrCGsb5BlrW.jpg",Mal de Ojo (2022) go:Malojo22
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lVRoLtpn4zq97YjTrCGsb5BlrW.jpg",Mal de Ojo (2022) 
 https://d1yei2z3i6k35z.cloudfront.net/2104853/63b59d73c6cd0_19MDONumero4k_T.mp4
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg",M3GAN (2022)
@@ -269,11 +273,11 @@ https://ih1.redbubble.net/image.5546335089.4511/flat,750x,075,f-pad,750x1000,f8f
 
 N
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/o0kJOePRfC59exAb7e3wrCTSMbK.jpg",No respires 2 (2021) go:Norespi2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/o0kJOePRfC59exAb7e3wrCTSMbK.jpg",No respires 2 (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2F%E2%96%B7%20Ver%20No%20Respires%202%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20Espa%C3%B1ol%20Latino.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/moBrEYoOxLRc1LsFl8IXeilYwtq.jpg",No estarás sola (2022) go:Noestsola
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/moBrEYoOxLRc1LsFl8IXeilYwtq.jpg",No estarás sola (2022) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Foctubr%2Fno%20estaras%20sola.mp4
 
 
@@ -328,7 +332,7 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5XsVGgo8I12v3KlPcD0r1CNHMC6.jpg",REC 1 (2007)
 http://vod.tuxchannel.mx/peliculas/720/rec%201.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/llHklmHQEDwTgbwGrPvQ5ouSy2k.jpg",Ruega por nosotros (2021) español go:RuegaN21
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/llHklmHQEDwTgbwGrPvQ5ouSy2k.jpg",Ruega por nosotros (2021) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismay%2FVer%20Ruega%20por%20nosotros%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
 
 #EXTINF:-1,Ruega por nosotros (2021)
@@ -356,7 +360,7 @@ http://vod.tuxchannel.mx/peliculas/720/jigsaw.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vC9T3hjrV9jEBIQ5Ce9eZzN1xxJ.jpg",Saw 7 (2010)
 http://vod.tuxchannel.mx/peliculas/720/saw%20VII.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9fFI57FuE9X4pUCIiKZZZCB7caK.jpg",Saw 6 (2009)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9fFI57FuE9X4pUCIiKZZZCB7caK.jpg",Saw 6 (2009) go:Saw6
 http://vod.tuxchannel.mx/peliculas/720/saw%20VI.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dpiS8OcDaTkBdQZkkrdQPPXdJgK.jpg",Saw 5 (2008)
 http://vod.tuxchannel.mx/peliculas/720/saw%20V.mkv
@@ -377,11 +381,11 @@ http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
 http://vod.tuxchannel.mx/peliculas/720/smile%202022.mkv
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg",Sonríe (2022) go:Sonrie1
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg",Sonríe (2022) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fnoviembr%2FVer%20Smile%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
 
 subido 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aQtWauWpy5KQEHsBURDnoTD6svd.jpg",Sonríe 2 (2024) go:Sonrie2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aQtWauWpy5KQEHsBURDnoTD6svd.jpg",Sonríe 2 (2024) 
 https://pomf2.lain.la/f/6lkpkl7w.mp4
 
 
@@ -403,6 +407,10 @@ http://208.88.245.81/nuevo/un.lugar.en.silencio.dia1.2024.dual.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6uRb5axnwAd17h4ak4ENHcJqHVr.jpg",Un lugar en silencio 2 (2021) go:Tranqui2
 http://vod.tuxchannel.mx/peliculas/720/a%20quiet%20place%20part%20II%202021.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg",Un lugar en silencio (2018)
+https://dl.dropbox.com/scl/fi/3xt7djd74cqgiqneot0gz/A.quiet.place.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=b98an85allzaeitbzoqb71p30&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/yMeKoe3ui4Pad8FUOJwCby3SOWe.jpg",Uno para morir 2023
 http://208.88.245.85/nuevo/unoparamorir.latino.2023.mkv
@@ -426,9 +434,10 @@ http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%203.mkv
 
 W
 subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/2sADrLwMQof6yYmrJRSa04tFZuS.jpg",Winnie the Pooh: Sangre y miel 2 (2024)  go:Winnie2 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/17UmQl8TuDmHWGlcKeFIjnR8bJF.jpg",Winnie the Pooh: Sangre y miel 2 (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjun24%2FWatch%20Winnie%20the%20Pooh%20Blood%20and%20Honey%202024%20WEBDLSCR1080L4T%20mp4.mp4
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lfetuG7lq3MVRt6jb1kfX7Va2H.jpg",Winnie the Pooh: Sangre y miel 1 (2023) go:Winnie1
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Foctubre%2FWatch%20Winnie%20the%20Pooh%20Miel%20Y%20Sangre%20mp4.mp4
 

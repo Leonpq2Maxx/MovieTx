@@ -1,11 +1,11 @@
 A
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",Argylle: Agente secreto (2024)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",Argylle: Agente secreto (2024) go:AgenteS4
 http://vod.tuxchannel.mx/peliculas/720/argylle%202024.mkv
 
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gjk8YdXpItoC1in53FCrZMFIuBx.jpg",La otra cara de la Luna (2024)
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gjk8YdXpItoC1in53FCrZMFIuBx.jpg",La otra cara de la Luna (2024) go:LOCara24
 http://208.88.245.81/nuevo/flyme.to.the.moon.2024.dual.mkv comedia y romance
 
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pIz9csYn1yjrzQi0BuBZNJrTMi0.jpg",Incitadores (2024)
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pIz9csYn1yjrzQi0BuBZNJrTMi0.jpg",Incitadores (2024) go:Incita24
 http://208.88.245.85/nuevo/incitadores.2024.dual.mkv comedia,accion crimen
 
 
@@ -52,7 +52,7 @@ http://208.88.245.81/nuevo/la.tipica.navidad.2023.dual.mkv comedia, drama romanc
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//zswSOwzHmP90XXsbdcAIKhchOKL.jpg",¿Tus navidades o las mías? 2 (2023)
 http://208.88.245.85/nuevo/tu.navidad.ola.mia2.dual.2024.mkv romance comedia
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//4PIEcP9saKXUtK09iIQEKEXNORk.jpg",Los que se quedan
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//4PIEcP9saKXUtK09iIQEKEXNORk.jpg",Los que se quedan 
 http://208.88.245.85/nuevo/los.que.se.quedan.2024.dual.mkv comedia drama
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase
@@ -67,7 +67,7 @@ http://208.88.245.85/nuevo/no.voy.apedirle.anadie.kmcrea.latino.2024.mkv comedia
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5dliMQ2ODbGNoq0hlefdnuXQxMw.jpg",Unos suegros de armas tomar (2023) comedia, accion romance
 https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjulio%2FVer%20Unos%20suegros%20de%20armas%20tomar%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7MhXiTmTl16LwXNPbWCmqxj7UxH.jpg",Juego de roles
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7MhXiTmTl16LwXNPbWCmqxj7UxH.jpg",Juego de roles go:JuegoDRo
 http://208.88.245.85/nuevo/juego.droles.dual.2024.mkv accion comedia romance
 
 #EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/1UHp2QEBPnTrcx0i6aYw6jWtDbI.jpg",El sindicato (2024) go:ElSin24
@@ -179,13 +179,13 @@ http://vod.tuxchannel.mx/peliculas/720/the%20hangover%20part%20II.mkv
 
 R
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",Ricky Stanicky: El impostor (2024) go:EImpostor2
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",Ricky Stanicky: El impostor (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Ricky%20Stanicky-%20El%20impostor%20online%20HD%20-%20Cuevana%202.mp4
 
 
 S
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//2PlHYTHLfZbhjmWOEMQm9ZqyK70.jpg",Señora influencer
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//2PlHYTHLfZbhjmWOEMQm9ZqyK70.jpg",Señora influencer go:SeñoraInf
 http://208.88.245.81/nuevo/senora.influencer.2024.latino.mkv
 
 

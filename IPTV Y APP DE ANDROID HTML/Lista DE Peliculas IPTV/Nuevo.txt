@@ -2969,8 +2969,7 @@ https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/lPsD10PP4rgUGiGR4CCXA6iY0QQ.jpg",Raya y el último dragón (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismarz%2Fraya%20dragon.mp4
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",Godzilla vs. Kong (2021)
-https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismarz%2FMixDrop%20-%20Watch%20Godzilla.vs.Kong.2021.1080P.Latino.mp4
+
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/nWBPLkqNApY5pgrJFMiI9joSI30.jpg",Un príncipe en Nueva York 2 (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismarz%2F%E2%96%B7%20Ver%20Un%20Pr%C3%ADncipe%20en%20Nueva%20York%202%20Online%20en%20Espa%C3%B1ol%20Latino%20y%20Subtitulado.mp4
@@ -3730,8 +3729,7 @@ http://vod.tuxchannel.mx/peliculas/720/la%20leyenda%20del%20jinete%20sin%20cabez
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/nzbwTwSo8aKuvAytaPG6s0xGVE8.jpg",La casa de las flores: la película (2021)
 http://vod.tuxchannel.mx/peliculas/720/la%20casa%20de%20las%20flores%20la%20pelicula%202021.mkv
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2517Vz9EhDhj88qwbDVj8DCRZN.jpg",Kong: la Isla Calavera (2017)
-http://vod.tuxchannel.mx/peliculas/720/kong%20skull%20island.mkv
+
 #EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/xn6t1nYJaUMmudnHHiK390AORNu.jpg",Kill Command (2016)
 http://vod.tuxchannel.mx/peliculas/720/kill%20command.mkv
@@ -6085,8 +6083,7 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fagosto%2FVer%20Tortugas%20Ninja-%20Caos%20mutante%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol%20CAM.mp4
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kD35dB3KOHrLo1Y3RU5xXJ1hI7.jpg",Zom 100 (2023)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fagosto%2FVer%20Zom%20100-%20Cien%20cosas%20que%20quiero%20hacer%20antes%20de%20convertirme%20en%20zombi%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/51tqzRtKMMZEYUpSYkrUE7v9ehm.jpg",Gran Turismo (2023)
-https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fagosto%2FVer%20Gran%20Turismo-%20De%20jugador%20a%20corredor%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",Spider-Man: A Través del Spider-Verso (2023)
 https://nsfw-dl.glitch.me/1001953408171/7452
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w154/21sRRZZ5lAYe1aLl9O0oz2qtXe0.jpg", Barbie (2023) 
