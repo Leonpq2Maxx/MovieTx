@@ -335,7 +335,7 @@ http://vod.tuxchannel.mx/peliculas/720/rec%201.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/llHklmHQEDwTgbwGrPvQ5ouSy2k.jpg",Ruega por nosotros (2021) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismay%2FVer%20Ruega%20por%20nosotros%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
 
-#EXTINF:-1,Ruega por nosotros (2021)
+#EXTINF:-1,Ruega por nosotros (2021) 
 http://vod.tuxchannel.mx/peliculas/720/the%20unholy%202021.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aVb6g1cHXEmf3BNQCcIV8dovHTP.jpg",Reza por el diablo 2021 go:RezaDiab
@@ -386,6 +386,7 @@ https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201
 
 subido 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aQtWauWpy5KQEHsBURDnoTD6svd.jpg",Sonríe 2 (2024) 
+https://dl.dropbox.com/scl/fi/u5uw6fg4m9t1gfy5i1enm/Sonr-e.2.2024.1080p-Dual-Lat.mkv?rlkey=c8rosff7ig5g878aptuuymyys&st=
 https://pomf2.lain.la/f/6lkpkl7w.mp4
 
 

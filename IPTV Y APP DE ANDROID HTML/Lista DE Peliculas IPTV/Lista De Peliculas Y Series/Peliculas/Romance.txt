@@ -17,7 +17,7 @@ https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/6FsGeIp7heHm5eh4tIxTzHIRxmt.jpg",365 dias mas
 http://notabasica.com/612132/365.Days.Part.III.2022.lati.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.imgur.com/M5G1Y5c.jpeg",Una Navidad escandalosa (2023) romance comedia
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zJ9jPTFVfhXxt4mPawjRuNAHzlB.jpg",Una Navidad escandalosa (2023) go:UnavidEs romance comedia
 http://208.88.245.85/nuevo/una.navidad.excandalosa.dual2023.mkv
 
 
@@ -26,11 +26,16 @@ http://208.88.245.85/nuevo/una.navidad.excandalosa.dual2023.mkv
 E
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg", El Es Asi 2021 go:El Es Asi
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg", El Es Asi 2021 
 https://archive.org/download/el-es-asi-2021/El%20Es%20Asi%20%282021%29.mp4
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg", ¿Estoy bien? (2023)
+
+
+M
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qz7BADRc32DYQCmgooJwI8UWRRC.jpg", Miller's Girl (2024)
 
 
 
@@ -53,6 +58,6 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 https://dl.dropbox.com/scl/fi/aphuvjcjsrv89xpi4hhh1/Un-Ladron-Romantico.mp4?rlkey=x0jevqd7txpig5sdgmbf2avm7&st=
 
 S
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ycpxvpNyrkzsydwvLTUNixRWrdQ.jpg",Silver y el libro de los sueños
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yD6A6BFYl8crNfZ3vs6LzxD8c1g.jpg",Silver y el libro de los sueños go:SilLibS
 http://208.88.245.81/nuevo/silver.y.el.libro.dlos.suenos.dual2023.mkv
 

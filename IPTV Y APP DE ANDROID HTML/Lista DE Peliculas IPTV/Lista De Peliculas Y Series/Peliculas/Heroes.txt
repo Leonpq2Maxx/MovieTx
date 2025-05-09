@@ -12,7 +12,7 @@ Subido
 https://dl.dropbox.com/scl/fi/sqmr5y1rfwcnbfq0wl9k7/Avengers-Infinity-War-2018-1080p-Latino.mkv?rlkey=zl5w5m6t7jsmix6asdum87qae&st=
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/br6krBFpaYmCSglLBWRuhui7tPc.jpg",Avenger: End Game 2019 Español Latino | MegaMaxx go:L.VEndga
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/br6krBFpaYmCSglLBWRuhui7tPc.jpg",Los vengadores: Endgame 2019 Español Latino | MegaMaxx go:L.VEndga
 https://dl.dropbox.com/scl/fi/sqmr5y1rfwcnbfq0wl9k7/Avengers-Infinity-War-2018-1080p-Latino.mkv?rlkey=zl5w5m6t7jsmix6asdum87qae&st=
 
 Los Vengadores Endgame: https://pomf2.lain.la/f/9l7bgili.mp4
@@ -34,7 +34,7 @@ http://fina.dyndns.tv/Peliculas/Ant%20Man%202.mkv
 B
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",BLACK PANTHER WAKANDA FOREVER go:B.Panther2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",Pantera Negra: Wakanda por siempre go:B.Panther2
 http://208.88.245.85/nuevo/wakandaforever.dual.2022.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="película" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",Pantera Negra: Wakanda por siempre (2022)
@@ -42,7 +42,7 @@ http://51.81.208.167/pelis2022/Black.Panther.Wakanda.Forever.2022.lati.mp4
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",Black Widow go:ViudaNegra
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",Viuda negra go:ViudaNegra
 http://fina.dyndns.tv/Peliculas/Black%20Widow.mp4
 
 Subido
@@ -59,6 +59,18 @@ C
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg", Capitán América: Un nuevo mundo (2025)
 https://dl.dropbox.com/scl/fi/e5x75pq9aciu61908fdll/Capitan.America.Un.Nuevo.Mundo.2025.1080P-Dual-Lat.mkv?rlkey=7i2hthiznmol3xfyrysv037dj&st=
+
+Subidoo
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg", Capitán América: Civil war (2016)
+https://dl.dropbox.com/scl/fi/ibggidfciyx46ewzmjq1v/Captain.america.civil.war.2016.1080P-Dual-Lat.mp4?rlkey=yi5qkprhtque5befp5amea8xi&st=
+
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg", Capitán América: El soldado de invierno (2014)
+https://dl.dropbox.com/scl/fi/zezkut1tqjhaayz6f77zh/Captain.america.the.winter.soldier.2014.1080P-Dual-Lat.mp4?rlkey=n741zfgm8h3un08zp3xp113jw&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg", Capitán América: El primer vengador (2011)
+https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.avenger.2011.1080P-Dual-Lat.mp4?rlkey=s1qalyvhze89mwmh6f3pf9z0i&st=
 
 
 
@@ -100,7 +112,7 @@ G
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",Guardianes de la galaxia 
 http://fina.dyndns.tv/Peliculas/Guardianes%20de%20la%20galaxia.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",GUARDIANES DE LA GALAXIA VOLUMEN 3 go:GuardiG3
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",Guardianes de la galaxia Vol.3 go:GuardiG3
 http://208.88.245.85/nuevo/gdelagalaxia3.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8dqXyslZ2hv49Oiob9UjlGSHSTR.jpg",GUARDIANES DE LA GALAXIA ESPECIAL FIESTAS
@@ -175,7 +187,7 @@ Subido
 http://vod.tuxchannel.mx/peliculas/720/spider-man%20far%20from%20home%202019.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",Spider-Man: Sin camino a casa (2021) go:SSinCasa3
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg",Spider-Man: Sin camino a casa (2021) go:SSinCasa3
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fspidrman%20nueva.mp4
 http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv RECOMENDABLE
 
@@ -184,7 +196,7 @@ http://vod.tuxchannel.mx/peliculas/720/spider-man%20no%20way%20home%202021.mkv R
 
 T
 Subido
-#EXTINF:-1,Thor: Amor y trueno (2022)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qTdnMVkjoP3b1ocwYyW0qrsEabc.jpg",Thor: Amor y trueno (2022) go:Thor4Amor
 http://vod.tuxchannel.mx/peliculas/720/thor%20love%20and%20thunder%202022.mkv
 
 #EXTINF:-1,Thor: Amor y trueno (2022)
@@ -199,6 +211,18 @@ http://208.88.245.85/nuevo/the.marvels.dual2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",The flash
 http://208.88.245.81/nuevo/the.flash.2023dual.mkv
 
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fx68UQgQvAOJZoRtMVigRkOozcQ.jpg",Thor 3: Ragnarok (2017)
+https://dl.dropbox.com/scl/fi/7l78trirdlhlek867qhbk/Thor.ragnarok.2017.1080P-Dual-Lat.mp4?rlkey=umab1me76zbm666ge0mvxr1iq&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/iY2E6b5huleYrM0NYKrb7a7lSGZ.jpg",Thor 2: El mundo oscuro (2013)
+https://dl.dropbox.com/scl/fi/v2w7vfkmojd891j1rttow/Thor.the.dark.world.2013.1080P-Dual-Lat.mp4?rlkey=060xi8oagx2z8rl7107ugyf9w&st=
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/liSKTEK5B9ARmfsho6teomLLBA4.jpg",Thor (2011)
+https://dl.dropbox.com/scl/fi/efinzeuww5q4t0kxu10me/Thor.2011.1080P-Dual-Lat.mp4?rlkey=k0ifmv0jblh0bfii0xvb1ineo&st=
 
 
 V
