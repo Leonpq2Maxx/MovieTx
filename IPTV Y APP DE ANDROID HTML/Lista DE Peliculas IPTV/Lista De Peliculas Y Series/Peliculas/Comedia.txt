@@ -5,7 +5,7 @@ http://vod.tuxchannel.mx/peliculas/720/argylle%202024.mkv
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gjk8YdXpItoC1in53FCrZMFIuBx.jpg",La otra cara de la Luna (2024) go:LOCara24
 http://208.88.245.81/nuevo/flyme.to.the.moon.2024.dual.mkv comedia y romance
 
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pIz9csYn1yjrzQi0BuBZNJrTMi0.jpg",Incitadores (2024) go:Incita24
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/zDWHsjfdsvZZkMWo1u1Ep7Y77FQ.jpg",Los instigadores (2024) go:Incita24
 http://208.88.245.85/nuevo/incitadores.2024.dual.mkv comedia,accion crimen
 
 
@@ -15,7 +15,7 @@ http://208.88.245.85/nuevo/elia.y.el.elfo.dual2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ApRW9CPK83fF4KCXPR00KCzXOjL.jpg",El panadero go:ElPanad12
 http://208.88.245.81/nuevo/el.panadero.dual.2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/krA2iXd1PK1vhg4jeWfbSD4fSJi.jpg",Papás a la antigua (2023) comedia
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tEQSmMmtgsD4ssNaIWmPgQJsSwJ.jpg",Papás a la antigua (2023) comedia go:PapaAn23
 http://208.88.245.85/nuevo/papas.ala.antigua.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//9sA8HGHvbm9CqIJZfFmFZxgsOH6.jpg",Welcome al Norte (2023) comedia
@@ -76,7 +76,7 @@ http://208.88.245.81/nuevo/el.sindicato.2024.dual.mkv comedia accion
 #EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//dEsuQOZwdaFAVL26RjgjwGl9j7m.jpg",Harold y su crayón mágico (2024)
 http://208.88.245.85/nuevo/harold.y.su.crayon.magico.2024.dual.mkv
 
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//k2ySukuAiAarLns0yttKS3jg85Y.jpg",Inexpertos (2024)
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/ukpk3ZFeDOmznIBFbSpdXb6o1pt.jpg",Inexpertos (2024) go:Inexpe24
 http://208.88.245.85/nuevo/inexpertos.2024.dual.mkv
 
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//8mmpltkcG9areafsQHXaURedno3.jpg",Tipos de gentileza (2024) drama comedia
@@ -87,7 +87,7 @@ B
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",Barbie (2023) go:Barbie
 http://208.88.245.81/nuevo/barbie.dual.2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5xupm2thQic5GzYi6nim6URMZOY.jpg",Bendita suegra (2023)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5xupm2thQic5GzYi6nim6URMZOY.jpg",Bendita suegra (2023) go:BendiS23
 http://208.88.245.81/nuevo/benditasuegra.latino.2023.mkv
 
 
@@ -179,6 +179,7 @@ http://vod.tuxchannel.mx/peliculas/720/the%20hangover%20part%20II.mkv
 
 R
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",Ricky Stanicky: El impostor (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Ricky%20Stanicky-%20El%20impostor%20online%20HD%20-%20Cuevana%202.mp4
 

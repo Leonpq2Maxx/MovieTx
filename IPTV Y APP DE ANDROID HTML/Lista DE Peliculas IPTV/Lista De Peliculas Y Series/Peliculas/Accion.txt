@@ -103,20 +103,21 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kkFn3KM47Qq4Wjhd8GuFfe3LX27.jpg",El planeta de los simios: Un nuevo reino (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20El%20planeta%20de%20los%20simios-%20Nuevo%20reino%20online%20HD%20-%20Cuevana%202.mp4
 
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",El planeta de los simios: La guerra (2017) 
+https://dl.dropbox.com/scl/fi/frq9iu4id74n1l28rnytp/War.for.the.planet.of.the.apes.2017.1080p-dual-lat.mp4?rlkey=oclamavp01zvvh98kqkyo9ssl&st=
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="",El planeta de los simios: La guerra (2017) 
-
-
-
+subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",El planeta de los simios: Confrontacion (2014) 
+https://dl.dropbox.com/scl/fi/73jw0bwu0qkzj1iqyiup5/Dawn.of.the.planet.of.the.apes.2014.1080p-dual-lat.mp4?rlkey=d5ryregqrjsguowlu2az28lmi&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",El planeta de los simios: [R] Evolucion (2011) 
-
+https://dl.dropbox.com/scl/fi/s7wdlhn2o2vr4r8t8rwge/Rise.of.the.planet.of.the.apes.2011.1080p-dual-lat.mp4?rlkey=1cudv5381fhlyhwulzc955bts&st=
 
 k
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",Godzilla vs. Kong (2021)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",Godzilla vs Kong (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismarz%2FMixDrop%20-%20Watch%20Godzilla.vs.Kong.2021.1080P.Latino.mp4
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg",Kong: la Isla Calavera (2017) go:LongLIS7

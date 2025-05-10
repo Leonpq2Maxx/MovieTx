@@ -21,7 +21,7 @@ http://208.88.245.85/nuevo/barbie.dual.2023.mkv
 C
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//Af6hIxZhKzUNr02TZwethdrk5rP.jpg",¿Cómo matar a mamá? (2023) comedia drama
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//Af6hIxZhKzUNr02TZwethdrk5rP.jpg",¿Cómo matar a mamá? (2023) go:ComoMA23 comedia drama
 http://208.88.245.85/nuevo/como.matar.a.mama.latino2023.mkv
 
 
@@ -67,7 +67,7 @@ http://208.88.245.85/nuevo/hablamedeti.latino.2023.mkv
 
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kN5H9EhUqDWBAsbnbt2XNhS7BFe.jpg",South parck no apto para menores
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kN5H9EhUqDWBAsbnbt2XNhS7BFe.jpg",South parck no apto para menores go:Southpa23
 http://208.88.245.81/nuevo/sp.no.apto.para.menores.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eSatbygYZp8ooprBHZdb6GFZxGB.jpg",Radical go:Radical
@@ -93,9 +93,7 @@ http://208.88.245.85/nuevo/la.sociedad.dla.nieve.latino.2024.mkv
 
 
 E
-Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/bXZ3j3kQgCRZj7KD4Q5F9m5ABaQ.jpg",Eva 2021 go:Eva
-http://fina.dyndns.tv/Peliculas/Eva.mkv
+
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg",El astronauta (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20El%20astronauta%20online%20HD%20-%20Cuevana%202.mp4
@@ -132,6 +130,7 @@ https://dl.dropbox.com/scl/fi/y13vgq3beu33jpwt9wi74/Nahir-Galarza-2024.mp4?rlkey
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zoo5k1Rsx4Bel0ng9G8yRwku2ND.jpg",Napoleon (2023) go:Napoleon
 http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//jE5o7y9K6pZtWNNMEw3IdpHuncR.jpg",Napoleón 
 http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
 
@@ -139,4 +138,17 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg",Nada qué ver Drama/Romance go:NQV23
 http://208.88.245.85/nuevo/nadakver.latino2023.mkv
 
+
+
 S
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",Salve maria (2024)
+
+
+
+
+
+
+
+
+
