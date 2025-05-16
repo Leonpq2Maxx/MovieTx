@@ -10,18 +10,19 @@ https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o
 
 
 L
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg",La resurrección de Cristo (2016)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/3Ei59AR64x6dMZfWobPCkZjbqTL.jpg",Los diez mandamientos (1956)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/3Ei59AR64x6dMZfWobPCkZjbqTL.jpg",Moises: Los diez mandamientos (1956)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Los%20Diez%20Mandamientos%20(1956)%20Online%20Latino%20HD%20-%20Cuevana%20HD.mp4
 
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg",La pasión de Cristo (2004) go:PasionCr
 http://vod.tuxchannel.mx/peliculas/720/the%20passion%20of%20the%20christ.mkv
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/6hGh4z503k8wA8mLlmvwhTSGja.jpg",La resurrección de Cristo (2016)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 
@@ -29,7 +30,7 @@ https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o
 
 M
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",María Magdalena (2018)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Mar%C3%ADa%20Magdalena%20Online%20Gratis%20(%E2%9A%9C%EF%B8%8F%202018)%20-%20CUEVANA3.mp4
 
@@ -40,7 +41,7 @@ https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o
 P
 
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",Pablo, el apóstol de Cristo (2018)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Pablo%20Apostol%20De%20Cristo%20(2018)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 

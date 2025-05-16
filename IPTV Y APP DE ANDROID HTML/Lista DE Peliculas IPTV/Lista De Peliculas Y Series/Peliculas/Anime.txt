@@ -1,11 +1,11 @@
 B
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sXybjRq6BsCkWcDBfNphSH9biqn.jpg",Baki hanma v kengan ashura (2024)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sXybjRq6BsCkWcDBfNphSH9biqn.jpg",Baki Hanma vs Kengan Ashura (2024)
 https://dl.dropbox.com/scl/fi/w5px54xbc2bxtxo7cucgp/Baki.Hanma.Vs.Kengan.Ashura.2024.1080P-Dual-Lat.mkv?rlkey=eo0ywaniexq9tc4mihunqqumt&st=
 https://pomf2.lain.la/f/1eag4nu9.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9YEGawvjaRgnyW6QVcUhFJPFDco.jpg",The Black clover la espada del rey go:TheBlack
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jm2BckEhy1upr4iPpOZ6WTx1tWw.jpg",Black Clover: La espada del rey mago (2023) go:TheBlack
 http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9YEGawvjaRgnyW6QVcUhFJPFDco.jpg",The Black clover la espada del rey
@@ -16,7 +16,7 @@ subido
 https://pomf2.lain.la/f/ujnar7ej.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",Naruto shippuden the last (2014)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/phPfQ4jWhwmZrmPhAtVYUJfqfwG.jpg",Naruto shippuden the last (2014)
 https://pomf2.lain.la/f/bq0q7wap.mp4
 
 
@@ -107,11 +107,27 @@ https://pomf2.lain.la/f/4frslouo.mp4
 
 E
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",El rencor de edimburgo parte 2 | MegaMaxx
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",The Seven Deadly Sins: El rencor de Edimburgo - Parte 2 go:El rencor2 | MegaMaxx
 http://208.88.245.81/nuevo/el.rencor.de.edimburgo.part2.dual2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",EL RENCOR DE EDIMBURGO PARTE 2
 http://208.88.245.85/nuevo/el.rencor.de.edimburgo.part2.dual2023.mkv
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",El rencor de edimburgo parte 1
+https://dl.dropbox.com/scl/fi/jsnn27uxsbfngwblye9j3/Los-siete-pecados-capitales-el-rencor-parte-1.mp4?rlkey=77peq4p2ey2blu8bkvpi0rbzs&st=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

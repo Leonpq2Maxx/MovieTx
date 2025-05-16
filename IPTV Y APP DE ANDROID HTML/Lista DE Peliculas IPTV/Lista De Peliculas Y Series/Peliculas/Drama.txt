@@ -94,7 +94,7 @@ http://208.88.245.85/nuevo/la.sociedad.dla.nieve.latino.2024.mkv
 
 E
 
-
+subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg",El astronauta (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20El%20astronauta%20online%20HD%20-%20Cuevana%202.mp4
 
@@ -128,13 +128,6 @@ Subido
 https://dl.dropbox.com/scl/fi/y13vgq3beu33jpwt9wi74/Nahir-Galarza-2024.mp4?rlkey=huz66z2uxlfz344p3c0c84lcr&st=rki2lyxv&dl
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zoo5k1Rsx4Bel0ng9G8yRwku2ND.jpg",Napoleon (2023) go:Napoleon
-http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//jE5o7y9K6pZtWNNMEw3IdpHuncR.jpg",Napoleón 
-http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
-
-Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg",Nada qué ver Drama/Romance go:NQV23
 http://208.88.245.85/nuevo/nadakver.latino2023.mkv
 
@@ -142,8 +135,9 @@ http://208.88.245.85/nuevo/nadakver.latino2023.mkv
 
 S
 
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",Salve maria (2024)
-
+https://dl.dropbox.com/scl/fi/u8l90jrxc4yxa19we08by/Salve-maria-2024.mp4?rlkey=q2m0ws3yzy0kwi8onev6uk6z2&st=
 
 
 

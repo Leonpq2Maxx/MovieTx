@@ -40,6 +40,9 @@ http://208.88.245.85/nuevo/wakandaforever.dual.2022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="película" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",Pantera Negra: Wakanda por siempre (2022)
 http://51.81.208.167/pelis2022/Black.Panther.Wakanda.Forever.2022.lati.mp4
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="película" tvg-logo="https://image.tmdb.org/t/p/original/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg",Pantera Negra
+https://dl.dropbox.com/scl/fi/x764ntrpgx7kl1huycgur/Black.panther.2018.1080P-Dual-Lat.mp4?rlkey=71kq9tyjsnyda05tzpvo8caju&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",Viuda negra go:ViudaNegra
@@ -50,7 +53,7 @@ Subido
 http://208.88.245.85/nuevo/bluebeetle.dual2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/lZ2sOCMCcGaPppaXj0Wiv0S7A08.jpg",Blue beetle
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/lZ2sOCMCcGaPppaXj0Wiv0S7A08.jpg",Blue beetle go:BBeetle23
 http://208.88.245.85/nuevo/bluebeetle.dual2023.mkv
 
 
@@ -78,17 +81,19 @@ https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.av
 D
 
 Subido
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w500//8cdWjvZQUExUUTzyp4t6EDMubfO.jpg" group-title="Pelis 1" type="movie" ,Deadpool and Wolverine (2024) go:Deadpool4 subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4 subido
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
 
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/original/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg" group-title="Pelis 1" type="movie" ,Deadpool 2 (2018)
-
-
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg" group-title="Pelis 1" type="movie" ,Deadpool (2016)
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg",Deadpool 2 (2018)
+https://dl.dropbox.com/scl/fi/zncte4hm0depgczukmc6d/Deadpool.2.2018.1080p.unrated-dual-lat-cinecalidad.to.mp4?rlkey=ibcvq1tdl0kanagzrnxrh7he1&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dAh03zjNzjhiQPrq4Dcr7qKDPlR.jpg",Doctor Extraño Strange go:DStrange1
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg",Deadpool (2016)
+https://dl.dropbox.com/scl/fi/pf7aaukbvu760p88hm7f7/Deadpool.2016.1080p-dual-lat.mp4?rlkey=qdszat19stbqzhnv1f32hqex3&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dAh03zjNzjhiQPrq4Dcr7qKDPlR.jpg",Doctor Strange go:DStrange1
 http://vod.tuxchannel.mx/peliculas4k/doctor%20strange.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",Doctor Strange en el Multiverso de la Locura (2022)
@@ -124,7 +129,14 @@ H
 
 
 I
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",Iron Man 3 go:IronMan3
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bFj7XRg5avQDvuvWaag3IttjEAw.jpg",Iron Man (2008)
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ayyJVOV5I4MGjti7nIHC3mVCagR.jpg",Iron Man 2 (2010)
+https://dl.dropbox.com/scl/fi/k35aqcaji7hcsd5czkzs2/Iron.man.2.2010.1080P-Dual-Lat.mp4?rlkey=bekd8y72w9e0mfb7fmb6xw8qf&st=
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",Iron Man 3 (2015) go:IronMan3
 http://fina.dyndns.tv/Peliculas/Iron%20Man%203.mkv
 
 
@@ -133,7 +145,7 @@ L
 #EXTINF:-1,Avengers: Infinity Wars SE VE MUY MALA CALIDAD
 http://archive.org/download/mio3_yopmail_1/1.mp4
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/xNi8daRmN4XY8rXHd4rwLbJf1cU.jpg",Lobezno inmortal go:LobezInm
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1xeClr2YmO9fMKwvyUFb4qtI9yT.jpg",Lobezno inmortal go:LobezInm
 http://fina.dyndns.tv/Peliculas/Lobezno%20inmortal.mkv
 
 
@@ -179,11 +191,15 @@ http://vod.tuxchannel.mx/peliculas/720/spiderman%203.mkv
 http://vod.tuxchannel.mx/peliculas/720/the%20amazing%20spiderman.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Spider-Man: Regreso a casa (2017) go:SRegreso1
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6swE941NH3PQIpD7it6K5LUKIDM.jpg",El sorprendente hombre araña 2: : El poder de Electro (2014)
+https://dl.dropbox.com/scl/fi/ndaxtlx0wqlfodlipur10/The.amazing.spider-man.2.2014.1080p-dual-lat.mp4?rlkey=syfk92sm5bn0r6umr24ia7d3n&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/81qIJbnS2L0rUAAB55G8CZODpS5.jpg",Spider-Man: Regreso a casa (2017) go:SRegreso1
 http://vod.tuxchannel.mx/peliculas/720/spider%20man%20homecoming.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Spider-Man: Lejos de casa (2019) go:SLejos2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5G3TZqMRqWrcIiDy2OvITmQzU11.jpg",Spider-Man: Lejos de casa (2019) go:SLejos2
 http://vod.tuxchannel.mx/peliculas/720/spider-man%20far%20from%20home%202019.mkv
 
 Subido

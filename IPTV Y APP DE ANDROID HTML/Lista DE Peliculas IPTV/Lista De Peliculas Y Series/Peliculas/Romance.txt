@@ -18,7 +18,7 @@ https://dl.dropbox.com/scl/fi/pvf8rt6u4k9a16wz4bnd6/After.Ever.Happy.2022.1080P-
 
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg", Anora (2024)
-https://dl.dropbox.com/scl/fi/7x3n0jel63n8wlsulg8w9/Anora.2024.1080P-Dual-Lat.mkv?rlkey=417udskxspi0w8quusxv5v1aw&st=
+https://dl.dropbox.com/scl/fi/yitxkxrgh7e3q4v81q9gn/Anora-2024.mp4?rlkey=l6ihh94ritdypkhzdtz9s7w2e&st=
 
 
 D
@@ -54,8 +54,9 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg", Culpa Mia: Londres (2025)
 https://dl.dropbox.com/scl/fi/afq4jimn5oall33gtp7yt/Culpa.M-a.Londres.2025.1080P-Dual-Lat.mkv?rlkey=4bmhkao6rvrn3jwsgqkm8ab7s&st=
 
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg",Cincuenta sombras de Grey (2015)
-
+https://dl.dropbox.com/scl/fi/h5ihjkfrfn0u4wiaywykv/Fifty.shades.of.grey.2015.r-hd-dual-lat.mp4?rlkey=cawwdlddgus5y8pxvsthsdf5d&st=
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jvBAQOg2ObZKYXZGxYSz3Fkr7Qt.jpg",Cincuenta sombras más oscuras 2 (2017)
@@ -92,13 +93,13 @@ Subido
 http://fina.dyndns.tv/Peliculas/Eva.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg", ¿Estoy bien? (2023)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mKdRfCpWkcH0wEEg6yO4a8ES4TX.jpg", ¿Todo bien? (2024)
 
 
 M
-
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qz7BADRc32DYQCmgooJwI8UWRRC.jpg", Miller's Girl (2024)
-
+https://dl.dropbox.com/scl/fi/6mmlrt7ojmqzpi9wf2aei/Miller-s.Girl.2024.1080P-Dual-Lat.mkv?rlkey=ehkpbcav964gnna87mfkscvyw&st=
 
 
 
