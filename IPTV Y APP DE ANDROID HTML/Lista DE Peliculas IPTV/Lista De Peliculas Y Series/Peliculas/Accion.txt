@@ -117,9 +117,9 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",El planeta de los simios: [R] Evolucion (2011) 
 https://dl.dropbox.com/scl/fi/s7wdlhn2o2vr4r8t8rwge/Rise.of.the.planet.of.the.apes.2011.1080p-dual-lat.mp4?rlkey=1cudv5381fhlyhwulzc955bts&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",Extraterritorial (2025)	
-
+https://dl.dropbox.com/scl/fi/lug9morotse42ufiu3lpn/Extraterritorial.2025.1080P-Dual-Lat.mkv?rlkey=c773238pqf20crpe7k4alk1g8&st=
 
 
 

@@ -82,25 +82,40 @@ http://208.88.245.81/nuevo/el.pacto.2023dual.mkv
 
 
 D
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1mXhlQMnlfvJ2frxTjZSQNnA9Vp.jpg",Destino final 1 (2000)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg",Destino final: Lazos de sangre (2025)
+https://dl.dropbox.com/scl/fi/q8pkqqheapici9poxqv5b/Destino-final-lazos-de-sangre-2025.mp4?rlkey=m9lca3vrx7qhtyvn2op8es627&st=
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6F3MEcGHeMAMxledi7vQfqkZRkc.jpg",Destino final 1 (2000) go:DestinoF1
 http://vod.tuxchannel.mx/peliculas/720/destino%20final.mkv
-#EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/w1dJluO5aKK7Puz7qNXoQeUh4Cb.jpg",Destino final 2 (2003) go:DestinoF2
+http://vod.tuxchannel.mx/peliculas/720/destino%20final%202.mkv
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/p7ARuNKUGPGvkBiDtIDvAzYzonX.jpg",Destino final 3 (2006) go:DestinoF3
+http://vod.tuxchannel.mx/peliculas/720/destino%20final%203.mkv
+
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/Akx1Po4ZLetOWfYJhQf75tbhTtK.jpg",Destino final 5 (2011)
 http://vod.tuxchannel.mx/peliculas/720/destino%20final%205.mkv
-#EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
+
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5vxXrr1MqGsT4NNeRITpfDnl4Rq.jpg",Destino final 4 (2009)
 http://vod.tuxchannel.mx/peliculas/720/destino%20final%204.mkv
-#EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/p7ARuNKUGPGvkBiDtIDvAzYzonX.jpg",Destino final 3 (2006)
-http://vod.tuxchannel.mx/peliculas/720/destino%20final%203.mkv
-#EXTVLCOPT:http-user-agent=BrzLRzQgfTrvXYGnfIVrkwb9402QA44LkyZf98xmMznUT
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sDsdhVmGzh4L56QvtLLinvXjDs3.jpg",Destino final 2 (2003)
-http://vod.tuxchannel.mx/peliculas/720/destino%20final%202.mkv
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/nrtbv6Cew7qC7k9GsYSf5uSmuKh.jpg",Dracula mar de sangre (2023)
 http://208.88.245.85/nuevo/dracula.mar.de.sangre.dual2023.mkv
 
+
+
+
 E
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg",En las profundidades del Sena (2024) go:ELPFDSena
@@ -184,11 +199,11 @@ Subido
 https://archive.org/download/f84f5472510aa938/f84f5472510aa938.mp4
 
 subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It2 go:It(Eso)2
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9oERKIVyTWpHNum3STVsAGD4ojz.jpg",It2 go:It(Eso)2
 http://fina.dyndns.tv/Peliculas/It2.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dabXVfrAFfhDte8XVemom3mTJog.jpg",IT 2 (2019) go:It(Eso)2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9oERKIVyTWpHNum3STVsAGD4ojz.jpg",IT 2 (2019) go:It(Eso)2
 http://vod.tuxchannel.mx/peliculas/720/it%20chapter%20two%202019.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg",Insidiuos: puerta roja (2023) go:InsiduRo
