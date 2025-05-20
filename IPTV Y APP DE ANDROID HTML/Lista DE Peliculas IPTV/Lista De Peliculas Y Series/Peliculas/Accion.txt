@@ -17,7 +17,7 @@ Subido
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fjunn%2FVer%20Tyler%20Rake%202%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
 
 Subido
-#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/original/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg"group-title="Pelis 1" type="movie" ,Misión de rescate 2 (2023) accion go:MisionRe2
+#EXTINF:-1 group-title="Pelis 1" type="movie"  tvg-logo="https://image.tmdb.org/t/p/original/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg",Misión de rescate 2 go:MisionRe2 (2023) accion
 http://208.88.245.85/nuevo/extraction.dual.2023.mkv
 
 Subido
@@ -58,8 +58,15 @@ Subido
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20Bad%20Boys-%20Hasta%20la%20muerte%20online%20HD%20-%20Cuevana%202.mp4
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",La bala perdida 3 (2025)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4F2lHozzpR6kzsKJluUidDsNfbY.jpg",La bala perdida (2020)
 
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/p6HNFpXiXIdyMRJTrfkgaPkFCK.jpg",La bala perdida 2 (2022)
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",La bala perdida 3 (2025)
+https://dl.dropbox.com/scl/fi/793ycdi4e0chi81y62qgq/Bala.Perdida.3.2025.1080P-Dual-Lat.mkv?rlkey=m2z7rw7wh6xcmyj60hrzxbypf&st=
 
 C
 
@@ -181,11 +188,11 @@ http://208.88.245.81/nuevo/twisters.tornados.2024.dual.mkv
 
 U
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://i.pinimg.com/736x/67/d4/dd/67d4dd6018a616f134c2965e6cad1e9c.jpg",Uncharted: Fuera Del Mapa (2021) go:Uncharted
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://i.pinimg.com/736x/67/d4/dd/67d4dd6018a616f134c2965e6cad1e9c.jpg",Uncharted: Fuera Del Mapa (2021)
 https://archive.org/download/uncharted-fuera-del-mapa-espanol-latino/Uncharted%20Fuera%20Del%20Mapa%20-%20Espa%C3%B1ol%20Latino%20-%202022.ia.mp4
 
 subido
-#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/w500/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg" type="movie" group-title="Pelis 1" type="movie" ,Uncharted (2022)
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg",Uncharted (2022)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2F%E2%96%B7%20Ver%20Uncharted-%20Fuera%20del%20Mapa%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20en%20Espa%C3%B1ol%20Latino.mp4
 
 
