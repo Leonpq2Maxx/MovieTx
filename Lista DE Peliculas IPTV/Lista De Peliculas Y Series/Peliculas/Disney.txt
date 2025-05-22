@@ -1,0 +1,248 @@
+
+
+A
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fv9c5fsdxqUzkullgMB4cZja29y.jpg",Aladdin (2019)
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg",Aladdin go:Aladdin
+http://fina.dyndns.tv/Peliculas/Aladdin.mkv
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tC54XTUu4NVsMeWdSofja2uye9c.jpg",Aladdin 2 El retorno de Jafar (1994)
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/abWvjyJz4kcp1xDn28RwyXjoIds.jpg",Aladdin 3 Aladdin y el rey de los ladrones (1996)
+
+
+B
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg",Blancanieves (2025)
+https://dl.dropbox.com/scl/fi/6w613p7xuy1tzoselmgmb/Blanca.Nieves.2025.1080P-Dual-Lat.mkv?rlkey=1oh5xme8exwj880rmntzgtace&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg",Blancanieves y los siete enanitos (1938)
+https://dl.dropbox.com/scl/fi/ezygdi3hjxbemwckfm6b8/Blanca.Nieves.Y.Los.Siete.Enanos.1937.1080P-Dual-Lat.mkv?rlkey=7u2u9l0k4xpjbu2mito5ziwav&st=
+
+
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg", Bambi: Una aventura en el bosque (2025)
+
+
+
+C
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",Coco (2017)
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",Cars go:Cars1 (2006)
+http://fina.dyndns.tv/Peliculas/Cars.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",Cars 2 go:Cars2 (2011)
+http://fina.dyndns.tv/Peliculas/Cars%202.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg",Cars 3 (2017)
+https://dl.dropbox.com/scl/fi/rfttgbbnb9l02i2o4lwe4/Cars.3.2017.1080P-Dual-Lat.mp4?rlkey=4hieb2sawy7wokplmahkmc1ik&st=
+
+http://208.88.245.85/nuevo/sobreviviendo.misxv.latino2023.mkv
+
+
+D
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4x9FmvdJ464Fg7A9XcbYSmxfVw3.jpg",Dumbo go:Dumbo
+http://fina.dyndns.tv/Peliculas/Dumbo.mkv
+
+
+
+E
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lH8CLypeehddHZt172TzUGWutH8.jpg",Encanto (2021) Html
+https://dl.dropboxusercontent.com/scl/fi/r9fjyel691mtibdxl4qux/Encanto-Espa-ol-Latino-2021.mp4?rlkey=554uu7mwjn9l9zk5ze2yy03mo&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg",ELEMENTAL go:Elemental
+http://208.88.245.85/nuevo/elemental.dual2023.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8riWcADI1ekEiBguVB9vkilhiQm.jpg",Elemental (2023) go:Elemental
+http://208.88.245.81/nuevo/elemental.dual2023.mkv
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg",El Rey Leon (1994) go:ReyLeonA
+http://fina.dyndns.tv/Peliculas/El%20Rey%20Leon.mkv
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zdD5VcvTD43p048ueswYdgLJZh.jpg",El rey león 2: El tesoro de Simba (1998)
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/x2SAEOXURbKDgKfdHdZ49VhPGrB.jpg",El rey león 3: Hakuna Matata (2004)
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yysmQpv26DdP79XtR3zsL3nVFbN.jpg",El Rey Leon go:ReyL2019
+https://dl.dropbox.com/scl/fi/gv76z0opad048f2lz29r6/The.lion.king.2019.1080P-Dual-Lat.mp4?rlkey=lkxy6x02y53qcnnyp9mep2kiv&st=
+
+
+
+F
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/Qotf3QgDqUZEW6pfQl2BPxZCRn.jpg",Frozen go:Frozen1
+http://fina.dyndns.tv/Peliculas/Frozen.mkv
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qXsndsv3WOoxszmdlvTWeY688eK.jpg",Frozen 2
+
+
+
+h
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dK9rNoC97tgX3xXg5zdxFisdfcp.jpg",Hercules
+http://fina.dyndns.tv/Peliculas/Hercules.mkv no es animacion
+
+
+
+
+i
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cTXHRoiKnuNdLRy4qn7JhQXHZO0.jpg",Intensamente (2015)
+https://dl.dropbox.com/scl/fi/nsxuun1nwqbfdj0xwcgf4/Inside.Out.2015.1080P-Dual-Lat.mkv?rlkey=fltrr22tpdcyhfb6yl3aor88j&st=
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg",Intensamente 2 (2024)  
+https://dl.dropbox.com/scl/fi/5metxgpf1xey6puy7qqfa/Intensamente.2.2024.1080P-Dual-Lat.mkv?rlkey=ff5j8rt25yo7autd4p2sw9w46&st=
+
+
+
+
+L
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg",Lilo y Stitch (2025)
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg",Lilo y Stitch (2002)
+https://dl.dropbox.com/scl/fi/80twax9vcl6l4dc8ti0o1/Lilo-y-stitch-2002.mp4?rlkey=uhjjk9rs131ic9e9gx6ogxtjo&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg",Lilo & Stitch 2: El efecto del defecto (2005)
+https://dl.dropbox.com/scl/fi/9imbovtqqp35999c5u0q2/Lilo-y-stitch-2-2005.mp4?rlkey=bk140eq1tnsi0zvcll9jwpmrz&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sfRiRRkCNywtS0t9y9BL1cTh3TJ.jpg",Leroy y Stitch (2006)
+https://dl.dropbox.com/scl/fi/6qdznntegdfx4ekll7s7p/Leroy-y-stitch-2006.mp4?rlkey=hxo4k4cewcn4a5tbc2uuzukef&st=
+
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mdszPVnIY7cWgbgJ8zbwu1PiU5V.jpg",La sirenita (2023) 
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fmayooo%2FVer%20La%20sirenita%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mdszPVnIY7cWgbgJ8zbwu1PiU5V.jpg",La sirenita go:LS2023
+http://208.88.245.85/nuevo/la.sirenita.2023dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/Vc0KvO7z2OzEbRs6nyZs9xD81s.jpg",La sirenita (1989)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1m6JsSmBa4X1Kp35YW3QPbMpByF.jpg",La sirenita 2: Regreso al mar (2000)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yFWP8BSOVC8tQ3NI34gfvEhUqZl.jpg",La sirenita 3: Los comienzos de ariel (2008)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dWyxPokAp4eiJXWriYbNvU2v1V.jpg",LA PRINCESA CISNE go:LPcisne
+http://208.88.245.85/nuevo/princesa.cisne.2023dual.mkv
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7uintpyNlSF32hj5Bua85VuAp2R.jpg",Los Increibles 2 go:LosIncrei2
+http://fina.dyndns.tv/Peliculas/Los%20Increibles%202.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/al1jusd4T7JPatZlj4BuYkDDOzr.jpg",Los Increibles go:LosIncrei1
+http://fina.dyndns.tv/Peliculas/Los%20Increibles.mkv
+
+
+m
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",Mufasa: El rey león (2024) 
+https://dl.dropbox.com/scl/fi/ho5b640nqivpweapw5byq/294028-24b36b4d-42d1-461c-87c0-706be80100ad-odsj-2584694-streamwish.mp4?rlkey=aliq10yeworwounyswjazq7xv&st=
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg",Moana (2016)
+https://dl.dropbox.com/scl/fi/s30qf1hyi27386un4oekd/Moana.2016.1080p-dual-lat.mp4?rlkey=x95hdcwm1fujjc6j2u4m9mp4t&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg",Moana 2 (2024)
+https://dl.dropbox.com/scl/fi/ej548y6fqwu5y93wzgjvg/Moana.2.2024.1080P-Dual-Lat.mkv?rlkey=egjrop2zd3y0ivtnpuxnsweo5&st=
+
+
+
+
+
+
+P
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg",Peter Pan y Wendy (2023) go:PeterPan23 disney
+http://208.88.245.85/nuevo/peterpanywendy.2023dual.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg",Peter Pan (1953) disney
+https://dl.dropbox.com/scl/fi/d82g33omcm3j280mghigk/Peter-pan-1950.mp4?rlkey=5ok6r238pkfqa5kseififns88&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kkFeLiMeih9jgXatztoloOyGSbc.jpg",Peter Pan en Regreso al País de Nunca Jamás 2 (2002)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg",Peter Pan: La gran aventura (2003)
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sAluF7lNc4Mv3qxx1mmOgsfbr0C.jpg",Pinocho (1940)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg",Pinocho de Guillermo del Toro (2022)
+https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fdici%2FVer%20Pinocho%20de%20Guillermo%20del%20Toro%20(2022)%20Online%20Gratis%20en%20HD%20-%20InkaPelis.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mJLFkiATSjU9sbtblR1yFWhHs4h.jpg",Pinocho de Guillermo del Toro go:PinochoT (2022)
+http://208.88.245.85/nuevo/pinocchio.deltoro.dual.2022.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/iKZioEcxgDGsJkRkd9n2R5q2ctx.jpg",Pocahontas (1995)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg",Pocahontas 2: Viaje a un nuevo mundo (1998)
+
+
+t
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1Gk8iihu4Q4BGh2n1IwNLB3zM8E.jpg",Tarzan 
+https://dl.dropbox.com/scl/fi/kd1vm3xvgoaeadfox3jou/Tarzan-1999.mp4?rlkey=wgt3fb4ld462a3ajec54q2h2m&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5KRnGepv2b1daJ2WM8ZGnPS64nl.jpg",Tarzán 2 (2005)
+https://dl.dropbox.com/scl/fi/nnz8cpr8w0oqxo1flslka/Tarz-n-2.mp4?rlkey=llywabb8eifa0gt8snkqe3fkb&st=
+
+
+W
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rCCrG4swkxgFZflup56sx6ymk5i.jpg",Wish: El Poder De Los Deseos go:WishP23 (2023)
+http://208.88.245.85/nuevo/wish.2023.dual.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/AcoVfiv1rrWOmAdpnAMnM56ki19.jpg",WISH
+http://208.88.245.85/nuevo/wish.2023.dual.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rCCrG4swkxgFZflup56sx6ymk5i.jpg",Wish: El Poder De Los Deseos  2023
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fene24%2FVer%20Wish-%20El%20poder%20de%20los%20deseos%20online%20HD%20-%20Cuevana%202.mp4
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+6
+subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg",60 Minutos
+https://pomf2.lain.la/f/lxcouxj.mp4
+
+
+
+C
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//cvsXj3I9Q2iyyIo95AecSd1tad7.jpg",CREED 3 (2023) go:creed3
+http://208.88.245.85/nuevo/creed3.dual.2023.mkv
+
+
+I
+8
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7pheng7VQANWXePPBQuLgHuKTns.jpg", Invicto 1 (2002)
+
+ 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vclQBkYCUmXRGaVUbFO0EseiESn.jpg",Invicto 2 (2006)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5IRmWsLeDv2P6qDRiJeSPUTj8va.jpg",Invicto 3 Redención (2010)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7pheng7VQANWXePPBQuLgHuKTns.jpg",Invicto 4 (2016)
+https://dl.dropbox.com/scl/fi/h1h31o3609jda1gc58vzn/Invicto-IV-2016.mp4?rlkey=1az82cutntetw29lduinsyt2p&st=
+
+
+
+
+K
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qU6SAj6arAaEgnrtn4WgIL2l3LS.jpg",Karate Kid Legends (2025)
+https://dl.dropbox.com/scl/fi/n8z2izt4vpgmc13sopt7h/Karate-kid-legends.mp4?rlkey=o7vfmzpppa2ur0n26ifnrtm9b&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mQTbj8yPzEPIira7wjieii0jpfv.jpg",Karate Kid (2010)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1vpDcoILmWHuqd2HNFMncSEuIyV.jpg",Karate Kid 3 (1989)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fOfjKdFdzDbbArgxk1sOLpQ211g.jpg",Karate Kid 2 (1986)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/z7DDynJPd4YdYnBXHINLGIoBKm9.jpg",Karate Kid (1984)
+
+
+
+
+R
+sUBIDO
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nas9XShlxUZrNZCyBdf4AAXpRiq.jpg",Rendirse Jamas 2008 
+https://archive.org/download/rompiendo-reglas-1invi/161857--021d64c8-2d1a-41b5-a1e1-aafc95411f69--BK--jpck--1134308-doodstream.mp4
