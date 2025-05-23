@@ -1,4 +1,8 @@
+
 A
+
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg",Azrael (2024)
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://xl.movieposterdb.com/21_07/2014/3322940/xl_3322940_29a35439.jpg",Annabelle 1 (2014)
@@ -116,6 +120,9 @@ http://208.88.245.85/nuevo/dracula.mar.de.sangre.dual2023.mkv
 
 E
 
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg",El mono (2025)
+https://dl.dropbox.com/scl/fi/zmxx4i4o9g0wullrcyjzt/El-mono-2025.mp4?rlkey=1h28dios3l8rxvc3gfs09tp18&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg",En las profundidades del Sena (2024) go:ELPFDSena
@@ -132,7 +139,7 @@ http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
 http://208.88.245.85/nuevo/el.exorcista.creyentes.dual2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg",El exorcista del papa (2023) go:ExorPapa
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg",El exorcista del papa (2023) go:ElexPapa
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fabril%2FVer%20El%20exorcista%20del%20papa%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 http://208.88.245.85/nuevo/el.exorcistadelpapa.dual2023.mkv
 
@@ -142,7 +149,7 @@ http://vod.tuxchannel.mx/peliculas/720/my%20best%20friends%20exorcism%202022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",El bosque de los suicidios (2016) go:EBosqueS Terror, Suspense, Misterio
 http://vod.tuxchannel.mx/peliculas/720/el%20bosque%20de%20los%20suicidios.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",El exorcista de Georgetown (2024) go:ExorGeog
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",El exorcista de Georgetown (2024) 
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qELKmWDNahBIHlHHLf3eLCq6j97.jpg",Ouija: El origen del mal (2016) go:Ouija16
@@ -190,9 +197,9 @@ http://208.88.245.85/nuevo/hablame.dual.2023.mkv
 
 I
 
-Subido
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It  go:It(Eso)
-http://fina.dyndns.tv/Peliculas/It.mkv
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ha6UC0JVrVuu4KDZobgpedPyxkL.jpg",It go:It(eso)
@@ -216,8 +223,9 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 
 L
 
-La Primera Profecia go:PriProfec
-
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg",Presencia (2025)
+https://dl.dropbox.com/scl/fi/3wejw520iu2ib1vwtzmo0/Presencia.2025.1080P-Dual-Lat.mkv?rlkey=1jlcnt1wuelkm0qog4sph6sd6&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/za4jDcPQ5IV4p27UGcC5uEgsNGG.jpg",Los Extraños: Capitulo 1 (2024) go:LECUno
@@ -282,8 +290,6 @@ http://208.88.245.85/nuevo/megan.dual.2022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ajZUEsDpo3EgiHZ8HX9yQJIRnFf.jpg",MEGAN
 http://208.88.245.85/nuevo/megan.dual.2022.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg",El mono (2025)
-
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/v31MsWhF9WFh7Qooq6xSBbmJxoG.jpg",EL MENú
 http://208.88.245.85/nuevo/el.menu.dual.2022.mkv
@@ -310,11 +316,11 @@ https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201
 
 O
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg",Ofrenda al demonio (2022)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg",Ofrenda al demonio (2022) go:OfrenDE
 http://208.88.245.85/nuevo/ofrenda.aldemonio.dual.2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg",Juicio al diablo go:OfrenDE      (go:JuiDiab)
-http://208.88.245.85/nuevo/ofrenda.aldemonio.dual.2023.mkv
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg",Juicio al diablo (go:JuiDiab)
+http://208.88.245.85/nuevo/juicio.al.diablo.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg",Juicio al diablo (2023)  terror Documental, Drama, Crimen
 http://208.88.245.85/nuevo/juicio.al.diablo.dual.2023.mkv
@@ -424,7 +430,7 @@ https://dl.dropbox.com/scl/fi/k9fjg190fgvusg93si8tm/Tarot.De.La.Muerte.2024.1080
 
 U
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg",Un lugar en Silencio: Día uno (2024) go:Tranqui3
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg",Un lugar en Silencio: Día uno go:Tranqui3 (2024)
 http://208.88.245.81/nuevo/un.lugar.en.silencio.dia1.2024.dual.mkv
 
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//hU42CRk14JuPEdqZG3AWmagiPAP.jpg",Un lugar en Silencio: Día uno (2024)

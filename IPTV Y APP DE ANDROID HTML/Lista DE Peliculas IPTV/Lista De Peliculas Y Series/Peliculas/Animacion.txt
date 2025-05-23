@@ -92,6 +92,10 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 
 
 G
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1VmrC82zY4U33l9UHlZTWDB1asN.jpg",El gato con botas (2011)
+
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg",Gato con botas: El ultimo deseo 2 go:Gatocon2
 http://208.88.245.85/nuevo/gatoconbotas.el.ultimodeseo.dual.mkv
 
@@ -184,7 +188,7 @@ Subido
 
 
 Subido            
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cQDqNCtq7j5xaCXGeLsLZK90RuR.jpg",Luck: Suerte (2022) go:LuckSuerte
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cQDqNCtq7j5xaCXGeLsLZK90RuR.jpg",Luck: Suerte go:LuckSuerte (2022)
 http://vod.tuxchannel.mx/peliculas/720/luck%202022.mkv
 
 subido
@@ -261,7 +265,7 @@ http://fina.dyndns.tv/Peliculas/Megamente.mkv
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",Super Mario Bros: La película (2023) go:Mariobros
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",Super Mario Bros: La Película go:Mariobros (2023)
 http://208.88.245.85/nuevo/supermariobros.dual.2023.mkv
 
 Subido
@@ -273,7 +277,8 @@ Subido
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Megamente%20contra%20el%20sindicato%20de%20Doom%20online%20HD%20-%20Cuevana%202.mp4
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg",Minecraft (2025) CAM
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg",Minecraft (2025)
+https://dl.dropbox.com/scl/fi/6909s4hi0zmr48fn23xhe/Una.Pel-cula.De.Minecraft.2025.1080P-Dual-Lat.mkv?rlkey=dretqxyom7e469dazz7ojkf69&st=
 https://pomf2.lain.la/f/5dxy53lv.mp4
 
 Subido
@@ -318,7 +323,7 @@ https://dl.dropbox.com/scl/fi/1fgbxe64haibskvnlgdk7/Robot.Salvaje.2024.1080P-Dua
 S
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lWEUafLv3z00YB70ZInXLNnWRik.jpg",Spider-Man: un nuevo universo (2018) go:Spider18
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lWEUafLv3z00YB70ZInXLNnWRik.jpg",Spider-Man: un nuevo universo go:Spider18 (2018)
 http://vod.tuxchannel.mx/peliculas/720/spiderman%20un%20nuevo%20universo.mkv
 
 Subido
@@ -382,20 +387,16 @@ Subido
 https://dl.dropbox.com/scl/fi/j1x9vzlxwvlxjfogf5ixb/Ninja-tortugas-caos-mutantr-2023.mp4?rlkey=6gs82cq7e6fiic2lz39031mba&st=
 
 
-
-
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zzsryqYKz60Hn73AiZqbJGgAbMk.jpg",La leyenda de Tarzán (2016)
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/grCBNLzAGbRrGMzF4eTM9EXwP78.jpg",Trolls (2016)
-
-
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg",Trolls 2: Gira mundial (2020)
-
+https://dl.dropbox.com/scl/fi/xqtfta9uqi0c7g6cqn7tp/Trolls.2016.1080P-Dual-Lat.mp4?rlkey=i2vtql5pep75nmch5t73pvb4q&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/saGpA6u71TPA8DyTYoAqSBGVZW.jpg",Trolls 3: Todos juntos (2023) go:Trolls3
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg",Trolls 2: Gira mundial (2020)
+https://dl.dropbox.com/scl/fi/m0ev6cef6afz7e3q2kfr6/Trolls-2-2020.mp4?rlkey=b732jzzjucj9kps4hjfzra6zk&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/saGpA6u71TPA8DyTYoAqSBGVZW.jpg",Trolls 3: Todos juntos go:Trolls3 (2023)
 http://208.88.245.81/nuevo/trolls3.todos.juntos.dual.2023.mkv
 
 
@@ -403,6 +404,8 @@ http://208.88.245.81/nuevo/trolls3.todos.juntos.dual.2023.mkv
 
 
 U
+
+
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/85J1DwZowIlKFOF7jllgCD3iHhx.jpg",Un jefe en pañales 2 (2021) 
 https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/pelicujulio%2FVer%20El%20bebe%20jefazo-%20Negocios%20de%20familia%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
@@ -414,6 +417,8 @@ https://dl.dropbox.com/scl/fi/b1czcia7ews3wvynxmiso/The.boss.baby.2017.1080p-dua
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/76quYBayIWrSYsHyVSEPrbOhhSr.jpg",Urkel salva la navidad (2023) go:UrkelSN
 http://208.88.245.85/nuevo/urkel.salva.la.navidad.movie.dual2023.mkv
+
+
 
 v
 
