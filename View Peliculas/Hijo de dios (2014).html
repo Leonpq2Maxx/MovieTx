@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <style> 
+    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    body{margin:0;background-color:#000000;}
+    :root{
+    --plyr-color-main:#ff0000;
+    --plyr-video-control-color:#0022ff/*#ff0030*/;}
+    .plyr--video{background:#000;height:100%;overflow: hidden;}
+    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
+    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
+    .relative{position:relative;}
+    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+    .w-full{display:block;width:100%;}
+    @media (orientation:landscape){
+    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div class="player">
+      <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/iPtLFd2Sv1iq2UCe6THol1W6TSe.jpg" preload="none">
+        <source src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Hijo%20de%20Dios%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4" size="480"></source>
+      </video>
+    </div>
+    <style type="text/css">
+      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
+      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+      .xec{position:relative;overflow:hidden;} 
+      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;  padding: 5px 10px;border-radius: 10px;border: 1px solid rgba(16, 235, 255, 0.461);color: rgba(255, 255, 255, 0.976);cursor: pointer; }
+      info,a{color:fff;font-size:20px;margin-top:0px;}
+    </style>
+    <info>
+      <i></i>
+      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2014</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 2H 18Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 69%</h9></i>
+      <i></i>
+    </info>
+    
+    <div class="titulo">
+      <h3>
+        Hijo De Dios
+      </h3>
+      <br>
+      <h4>
+        Genero: Biblico, Drama
+      </h4>
+      <br>
+      <h4>
+        Idioma: Español Latino 🇲🇽
+      </h4>
+    </div>
+    <div class="sinopsis">
+      <h4>
+        El actor portugués Diogo Morgalo, que ya protagonizó la adaptación televisiva “La Biblia” para History Channel, vuelve a encarnar a Jesucristo en esta biografía que cuenta la historia de Jesús de Nazaret desde su nacimiento hasta su resurrección.
+      </h4>
+    </div>
+    <br>
+    <div class="xec">
+      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+    </div>
+    <div class="recomendaciones">
+      <br>
+      <div class="series-grid">
+        <a href="La resurrección de Cristo (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg" alt="Serie 3"><p>La resurrección de Cristo</p></a>
+        <a href="go:PasionCr" class="serie"><img src="https://image.tmdb.org/t/p/original/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg" alt="Serie 2"><p>La pasión de Cristo</p></a>
+        <a href="María Magdalena (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg" alt="Serie 1"><p>María Magdalena</p></a>
+        <a href="go:SuUnicoHij" class="serie"><img src="https://image.tmdb.org/t/p/original/1MvQXCBJtC34yI16QS276ZjWKY1.jpg" alt="Serie 4"><p>Su unico hijo</p></a>
+        <a href="Pablo, el apóstol de Cristo (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg" alt="Serie 5"><p>Pablo, el apóstol de Cristo</p></a>
+        <a href="../View Series/Moises Y Los Diez Mandamientos.html" class="serie"><img src="https://image.tmdb.org/t/p/original/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg" alt="Serie 6"><p>Moises y los diez mandamientos</p></a>
+      </div>
+    </div>
+    <br>
+    <style>
+      /*RETROCEDER*/
+      .Serie,a {
+        color:fff;font-size:15px;margin-top:0px;
+      }
+      .series-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .serie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+      }
+      
+      .serie img {
+        width: 120px;
+        max-width: 150px;
+        border-radius: 10px;
+      }
+      /* Iconos debajo del reproductor */
+      .icons-container {
+        display: flex;
+        gap: 15px;
+        margin: 1px 0;
+      }
+      
+      .icons-container i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .icons-container i:hover {
+        color: yellow;
+      }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+    <script>
+      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+      const player = new Plyr('.vid1',{controls});
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
