@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Series</title>
+    <style>
+
+        /* Iconos debajo del reproductor */
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 1px 0;
+        }
+
+        .icons-container i {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .icons-container i:hover {
+            color: yellow;
+        }
+
+        /* Sinopsis */
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .player-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+        }
+        .video-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('fondo-serie.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
+        }
+        .video-bg.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+        .episodes-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
+        .episode {
+            background: #222;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+        }
+
+        .episode:hover {
+            background: #ff4d00;
+            transform: scale(1.1);
+        }
+
+        .synopsis {
+            width: 80%;
+            max-width: 800px;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .show-more {
+            color: cyan;
+            cursor: pointer;
+        }
+        .suggestions {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+        .suggestions-title {
+            text-align: left;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .suggestion-grid img {
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .serie {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .serie img {
+            width: 120px;
+            max-width: 150px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Titulo de la Serie</div>
+    <div class="player-container">
+        <div class="video-bg" id="videoBg"></div>
+        <video id="videoPlayer" controls>
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+    
+    <div class="episodes-container">
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+        <div class="episode" onclick="playEpisode('video1.mp4')">1</div>
+        <div class="episode" onclick="playEpisode('video2.mp4')">2</div>
+        <div class="episode" onclick="playEpisode('video3.mp4')">3</div>
+        <div class="episode" onclick="playEpisode('video4.mp4')">4</div>
+        <div class="episode" onclick="playEpisode('video5.mp4')">5</div>
+    </div>
+    <br>
+    <div class="icons-container">
+        <i class="fas fa-calendar">📅 2022</i>
+        <i class="fas fa-thumbs-up">❤️ 80%</i>
+    </div>
+    
+    <div class="synopsis">
+        <p id="synopsisText">Esta es la sinopsis de la serie. Se mostrará un resumen breve...</p>
+        <span class="show-more" onclick="toggleSynopsis()">Mostrar más</span>
+    </div>
+    
+    <div class="recomendaciones">
+        <h3>Podría Interesarte la siguiente serie</h3>
+        <div class="series-grid">
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 1"><p>Nombre de película</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 2"><p>Nombre de película</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 3"><p>Nombre de película</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 4"><p>Nombre de película</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 5"><p>Nombre de película</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 6"><p>Nombre de película</p></a>
+        </div>
+    </div>
+    
+    <script>
+        const video = document.getElementById("videoPlayer");
+        const bgImage = document.getElementById("videoBg");
+        const synopsisText = document.getElementById("synopsisText");
+        let expanded = false;
+
+        video.addEventListener("play", () => {
+            bgImage.classList.add("hidden");
+        });
+        
+        video.addEventListener("ended", () => {
+            bgImage.classList.remove("hidden");
+        });
+
+        function playEpisode(videoSrc) {
+            video.src = videoSrc;
+            video.play();
+        }
+
+        function toggleSynopsis() {
+            if (expanded) {
+                synopsisText.innerHTML = "Esta es la sinopsis de la serie. Se mostrará un resumen breve...";
+                document.querySelector(".show-more").innerText = "Mostrar más";
+            } else {
+                synopsisText.innerHTML = "Aquí va la sinopsis completa de la serie. Esta información proporciona un resumen más detallado sobre la historia, personajes y trama principal.";
+                document.querySelector(".show-more").innerText = "Mostrar menos";
+            }
+            expanded = !expanded;
+        }
+    </script>
+</body>
+</html>
