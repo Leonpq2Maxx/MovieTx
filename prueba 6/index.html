@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas y Series</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Separador con iconos de Home, Movie, Series y Search -->
+    <div class="navbar">
+        <span class="nav-icon home" onclick="()">🏠</span>
+        <span class="nav-icon movie" onclick="goMovies()">🎬</span>
+        <a href=""><span class="nav-icon series">📺</span></a>
+        <a href="../Buscar/Buscador.html"><span class="nav-icon search">🔍</span></a>
+    </div>
+
+    <!-- Carrusel de imágenes deslizable automático -->
+    <div class="image-carousel">
+        <div class="carousel-item">
+            <img src="https://image.tmdb.org/t/p/original/ywe9S1cOyIhR5yWzK7511NuQ2YX.jpg" alt="Imagen 2">
+        </div>
+        <div class="carousel-item">
+            <a href="Viwe Series/Cobra Kai.html"><img src="cobra kai fondo.jpg" alt="Imagen 1"></a>
+        </div>
+        <div class="carousel-item">
+            <a href="View Series/Dragon Ball Daima (2025).html"><img src="https://images.alphacoders.com/139/1392855.jpg" alt="Imagen 5"></a>
+        </div>
+        <div class="carousel-item">
+            <img src="https://image.tmdb.org/t/p/original/1w8kutrRucTd3wlYyu5QlUDMiG1.jpg" alt="Imagen 3">
+        </div>
+        <div class="carousel-item">
+            <img src="https://image.tmdb.org/t/p/original/uEDY5c1VrmwMxL7OlXXTTwYygUX.jpg" alt="Imagen 4">
+        </div>
+    </div>
+
+    <!-- Título de género de película y carrusel horizontal de géneros -->
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Trailers</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/tjVuh3ZauNacBGG5cvjKVIxXbdJ.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/yOivfBs1vLrPRVw2Ci4AlGkl1G3.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Serie/cobra kai.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/j1O319PWd4OdrpqPY4uzFNh2JC.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/t6q9xzdt3XGnEvbvMtD9GxpQaW4.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Estreno Peliculas 2025</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/tjVuh3ZauNacBGG5cvjKVIxXbdJ.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/yOivfBs1vLrPRVw2Ci4AlGkl1G3.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/j1O319PWd4OdrpqPY4uzFNh2JC.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/fbcs5AxrdXwyj1b8bGGMgC9kXrM.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/k6VBhNc66CdGTEdw7sR7GBt7AFY.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/b0obWWCLRVRqRzlSK1LSGtADkLM.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Estreno Series 2025</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/m2o9vamnvtseVG7HgcFeSEoJ8HR.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Serie/dragon ball daima.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Serie/cobra kai.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/t6q9xzdt3XGnEvbvMtD9GxpQaW4.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/hbtjhK04aZt6ZvtsucVxLjrEO65.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Serie/Elite.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Estreno Peliculas 2024</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Peliculas Mas Vistas</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Accion</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Artes-Marciales</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Animacion</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+    <div class="movie-genres">
+        <div class="genre-title">
+            <h2>Anime Serie</h2>
+            <a href="../Buscar/Buscador.html"><button class="show-more-btn" >Mostrar más</button></a>
+        </div>
+        <div class="genres-carousel">
+            <div class="genre-item">
+                <img src="https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg" alt="Acción">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/TWISTERS.jpg" alt="Aventura">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/Al rescate de fondo de bikini.jpg" alt="Comedia">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/deadpool wolverine 2.jpg" alt="Drama">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/El diario de mi vagina.jpg" alt="Fantasía">
+            </div>
+            <div class="genre-item">
+                <img src="Peliculas/el arca de noe.jpg" alt="Suspenso">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
