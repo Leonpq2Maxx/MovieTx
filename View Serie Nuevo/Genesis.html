@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieTx</title>
+    <style>
+    
+        /* Iconos debajo del reproductor */
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+
+        .icons-container i {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .icons-container i:hover {
+            color: yellow;
+        }
+
+        /*RETROCEDER*/
+
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 100%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .back-button:hover {
+            background-color: #ff4000;
+        }
+
+        /*fin*/
+
+        /* Sinopsis */
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .player-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+        }
+        .video-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://telefe-static.akamaized.net/media/18238798/datos-curiosos-genesis-telefe.png?width=888&height=500&mode=crop') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
+        }
+        .video-bg.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+        .episodes-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
+        .episode {
+            background: #222;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+        }
+
+        .episode:hover {
+            background: #ff4d00;
+            transform: scale(1.1);
+        }
+
+        .synopsis {
+            width: 80%;
+            max-width: 800px;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .show-more {
+            color: cyan;
+            cursor: pointer;
+        }
+        .suggestions {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+        .suggestions-title {
+            text-align: left;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .suggestion-grid img {
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .serie {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .serie img {
+            width: 120px;
+            max-width: 150px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html"><button class="back-button" onclick="history.back()">&#8592;</button></a>
+    <br>
+    <br>
+    <div class="title">Genesis</div>
+    <div class="player-container">
+        <div class="video-bg" id="videoBg"></div>
+        <video id="videoPlayer" controls>
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+    
+    <div class="episodes-container">
+        <div class="episode" onclick="playEpisode('')">C1</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7gbvvqqe.mp4')">C2</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/cl6ya9v9.mp4')">C3</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/tq24rx1f.mp4')">C4</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/83repaum.mp4')">C5</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/4ilu55et.mp4')">C6</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/zrbqjpi2.mp4')">C7</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/78492o8u.mp4')">C8</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/4vpk3d0x.mp4')">C9</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/hqr9n9o2.mp4')">C10</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/t7dss91e.mp4')">C11</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/hggwp6zd.mp4')">C12</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7r51knx6.mp4')">C13</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/ol4wutvn.mp4')">C14</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/frunayk.mp4')">C15</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/mol9on4k.mp4')">C16</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/vud28l0u.mp4')">C17</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/i2kmrfee.mp4')">C18</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/3hig8ij.mp4')">C19</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/mj9o1bd8.mp4')">C20</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/0gc48txr.mp4')">C21</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/xd5tqno5.mp4')">C22</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/jj65z6u4.mp4')">C23</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/02rxsk3a.mp4')">C24</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7tmnov.mp4')">C25</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7ku5vx5p.mp4')">C26</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/os0av2j6.mp4')">C27</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/ls436u56.mp4')">C28</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/j69l6867.mp4')">C29</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/po5r5359.mp4')">C30</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/ijyoypc3.mp4')">C31</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/vt9xsnp.mp4')">C32</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/lauy2wmg.mp4')">C33</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/tb398h.mp4')">C34</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/t48wtax.mp4')">C35</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/a5cjcrrm.mp4')">C36</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7u1x4itt.mp4')">C37</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/efdzn72f.mp4')">C38</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/h3ee0c0m.mp4')">C39</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/dhw49xmw.mp4')">C40</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/7253pldu.mp4')">C41</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/9q3e459b.mp4')">C42</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/c77ubum.mp4')">C43</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/mknvmf50.mp4')">C44</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/19yya1d.mp4')">C45</div>
+        <div class="episode" onclick="playEpisode('https://pomf2.lain.la/f/9awbdz89.mp4')">C46</div>
+    </div>
+    <br>
+    <div class="icons-container">
+        <i class="fas fa-calendar">📅 2021</i>
+        <i class="fas fa-thumbs-up">❤️ 90%</i>
+    </div>
+    
+    <div class="synopsis">
+        <p id="synopsisText">Siempre pensando en vos, Unife nos trae una super producción cargada de historia, reflexión y enseñanzas. Una serie aclamada y solicitada por nuestros telespectadores que seguro disfrutaremos en familia.</p>
+        <span class="show-more" onclick="toggleSynopsis()">Mostrar Sinopsis</span>
+    </div>
+    
+    <div class="recomendaciones">
+        <h3>Podría Interesarte la siguiente serie</h3>
+        <div class="series-grid">
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/yft2a3vnCblf6wmF6gTqgdKZUMi.jpg" alt="Serie 5"><p>The Walking Dead: The Ones Who Live</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/j00juJOffNdhkpkIaayQjcgvK2n.jpg" alt="Serie 1"><p>Fear the walking dead</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/AibQlHhXSO3yOPIE9wYZk7n2CqK.jpg" alt="Serie 2"><p>Fear the Walking Dead: Muertos en el agua</p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/1e6y2MiGL7KCTJfpqa3cNHLDpF3.jpg" alt="Serie 3"><p>The Walking Dead: Daryl Dixon </p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/gCZ8ZJtcgSwFIjvA81UtbCObuZj.jpg" alt="Serie 4"><p>The Walking Dead: World Beyond </p></a>
+            <a href="#" class="serie"><img src="https://image.tmdb.org/t/p/original/kIJasGleGYOsM9X3nGYviLEMm2t.jpg" alt="Serie 6"><p>The Walking Dead: Dead City</p></a>
+        </div>
+    </div>
+    
+    <script>
+        const video = document.getElementById("videoPlayer");
+        const bgImage = document.getElementById("videoBg");
+        const synopsisText = document.getElementById("synopsisText");
+        let expanded = false;
+
+        video.addEventListener("play", () => {
+            bgImage.classList.add("hidden");
+        });
+        
+        video.addEventListener("ended", () => {
+            bgImage.classList.remove("hidden");
+        });
+
+        function playEpisode(videoSrc) {
+            video.src = videoSrc;
+            video.play();
+        }
+
+        function toggleSynopsis() {
+            if (expanded) {
+                synopsisText.innerHTML = "Siempre pensando en vos, Unife nos trae una super producción cargada de historia, reflexión y enseñanzas. Una serie aclamada y solicitada por nuestros telespectadores que seguro disfrutaremos en familia.";
+                document.querySelector(".show-more").innerText = "Mostrar más";
+            } else {
+                synopsisText.innerHTML = "Siempre pensando en vos, Unife nos trae una super producción cargada de historia, reflexión y enseñanzas. Una serie aclamada y solicitada por nuestros telespectadores que seguro disfrutaremos en familia. Basada en el libro del Génesis en la Biblia cuenta la historia de la creación del mundo, el primer hombre, Adán, y la primera mujer, Eva: el gran diluvio; la Torre de Babel, el viaje de Abraham, llegando hasta el período de esclavitud del pueblo Hebreo en Egipto.";
+                document.querySelector(".show-more").innerText = "Mostrar menos";
+            }
+            expanded = !expanded;
+        }
+    </script>
+</body>
+</html>
