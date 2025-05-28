@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Compartir en WhatsApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000000;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 40px 20px;
+      font-size: 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1ebe5b;
+    }
+
+    .btn-whatsapp svg {
+      width: 60px;
+      height: 70px;
+      fill: white;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn-whatsapp" onclick="compartirEnWhatsApp()">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 .396c-8.837 0-16 7.163-16 16 0 2.822.735 5.555 2.135 7.957l-2.219 8.043 8.268-2.165c2.314 1.24 4.931 1.903 7.816 1.903 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.886c-2.43 0-4.739-.653-6.78-1.893l-.486-.288-4.901 1.282 1.312-4.773-.314-.495c-1.293-2.037-1.976-4.391-1.976-6.823 0-7.18 5.839-13.019 13.019-13.019s13.019 5.839 13.019 13.019-5.839 13.019-13.019 13.019zM23.603 19.551c-.353-.176-2.084-1.028-2.408-1.143-.323-.118-.559-.176-.794.177-.235.353-.91 1.143-1.116 1.377-.206.235-.412.265-.765.088-.353-.177-1.491-.55-2.84-1.753-1.05-.94-1.758-2.099-1.963-2.452-.206-.353-.022-.544.153-.72.157-.156.353-.412.529-.618.176-.206.235-.353.353-.588.118-.235.059-.441-.029-.618-.088-.177-.794-1.915-1.088-2.618-.285-.684-.578-.588-.794-.599-.206-.012-.441-.015-.676-.015s-.618.088-.941.441c-.323.353-1.235 1.206-1.235 2.941s1.265 3.411 1.441 3.647c.177.235 2.489 3.806 6.033 5.336.841.362 1.496.578 2.005.735.841.265 1.607.235 2.215.147.676-.103 2.084-.853 2.377-1.676.294-.823.294-1.529.206-1.676-.088-.147-.323-.235-.676-.412z"/>
+    </svg>
+    Compartir Aplicacion "𝐌𝐨𝐯𝐢𝐞𝐓𝐱" por WhatsApp
+  </button>
+
+  <script>
+    function compartirEnWhatsApp() {
+      const mensaje = encodeURIComponent("¡Descarga esta increíble app aquí! 👉 https://www.mediafire.com/file/fmqpx5z4twlrs3p/MovieTx.apk/file");
+      const url = `https://wa.me/?text=${mensaje}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
