@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<style type="text/css">
+*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+body{background:#000;}
+.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video video{width:100%;border-radius:5px;}
+.container .main-video .title{
+color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+.container .video-list{
+background:#151515;border-radius:5px;height:550px;overflow-y:scroll;}
+.container .video-list::-webkit-scrollbar{
+width:7px;}
+.container .video-list::-webkit-scrollbar-track{
+background:#000;border-radius:50px;}
+.container .video-list::-webkit-scrollbar-thumb{
+background:#00a7ad;border-radius:50px;}
+.container .video-list .vid video{
+width:100px;border-radius:5px;}
+.container .video-list .vid{
+background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+.container .video-list .vid:hover{
+background:#000;}
+.container .video-list .vid.active{
+background:#00a7ad;}
+.container .video-list .vid.active .title{
+color:#fff;}
+.container .video-list .vid .title{
+color:#fff;font-size:17px;}
+@media (max-width: 999px){
+.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
+@media (max-width: 768px){
+.container{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/uvoZWNDDScxcygQ09EQOhhVWvQz.jpg" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<h3 class="title">The Walking Dead (2010)</h3></div></div>
+
+<div class="video-list">
+<div class="vid active">
+<video src="https://pomf2.lain.la/f/ms1jmsqt.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F9ySQwesIgS804Au9vbWk9tUOp9p.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 1 - Los viejos tiempos</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/e8su13cf.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F9wGCjzZMAd7wS4LrxJadQPUelnn.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 2 - Agallas</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/kj42vw8n.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fid5zyIRWig8wSE1cdj2TUil3xF0.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 3 - Díselo a las ranas</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/39fe9kfi.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtLqHPgxyNvj02kB1qsvU6KnNzzv.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 4 - Muchachos</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/o2jdw1a.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiuyqfagPbhEmF6yaPWmEMgKsQkd.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 5 - Código Wildfire</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/h1vrbjt1.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FqOsfqcIURwZlP6umsosjE4nxhrj.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 1 Cap 6 - TS-19</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/wqwi487.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4cJ4owOZSEkYTlKZZAbSym0KYI5.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 2 Cap 1 - Lo que nos espera</h3></div>
+
+<div class="vid">
+<video src="https://pomf2.lain.la/f/vp79pv5.mkv" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2dUZ2Oh4lH4DImV10dP35LPJOOu.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 2 Cap 2 - Sangría</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FpT09tJky9PypueBdGaUqtZe4vCc.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 2 Cap 3 - Guarda la última</h3></div>
+    
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FrDQXB2GQvGufXfVvlj4gFSGWPIG.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 4 - La rosa cheroqui</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtJKg7l4r0MhRWOzbBA28qrqH4Cv.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 5 - El chupacabras</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FjaFnWd6Ge0ymmzVqE5X9BuvwZRx.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 6 - Secretos</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FfBr0hwygAJb3UY95pVWdvkDkluf.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 7 - Prácticamente muertos</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F5gXXvhQyu0dJhtjCafy8NSiRJkP.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 8 - Nebraska</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2sgqMeVKRuyEQdKVSa2v8FOlfgG.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 9 - Dedo en gatillo</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4N2vrvnCt6dy7D8Y9qeFJYVHuAJ.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 10 - A 30 kilómetros</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FyU9aoAwCEXWDjgzXt5oSLyTplgf.jpg&w=256&q=75"></video>
+<h3 class="title"> Tp 2 Cap 11 - Juez, jurado y verdugo</h3></div>
+      
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F21ES174AHVnZ42iOsC8opxg3dL8.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 12 - Los mejores ángeles</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FAfX5ZoVYicVHqFirgMctnrcFxId.jpg&w=256&q=75"></video>
+<h3 class="title">Tp 2 Cap 13 - Junto al fuego que se extingue</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABawwdq1QMsa1tec8n3b4d4xw9Vad19lM94FswQRO3CU2Tz-nfJQI7bHDRxiC_AMHmsJuL6Is4XKgLTceIBqh6yELa3VO9sZ7g1PZ2zXeQCwSajdOUYwIkeEC.jpg?r=124"></video>
+<h3 class="title">Tp 3 Cap 1 - Semilla</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZl_1b_e3xWXThsKi4ZYJiQ5GqfLKfVjQTlHTI_A_jUCl5ndD84ChyWg7PQNMFeIqIg5A1jBl3FzQtXx3KDDZZbMcA9yg13DmCfTiWA3HJe3cfrx7Myk_G1Q.jpg?r=d2a"></video>
+<h3 class="title">Tp 3 Cap 2 - Enfermo</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZ56V4Gk66iKRY2XqqDXQklerVnJqg9gxeL-jDGgQ3DM4qSBUUg2GxeM6NeFN58262Cg3EJGOa-qXYif44Qz9nScjI0xZn5SFoT4mpJXZQ0x8AMJgem_O-1M.jpg?r=78e"></video>
+<h3 class="title">Tp 3 Cap 3 - Camina conmigo</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABVsV2SYxeOLIOYBMtf-uHjmJvilTm_18QLD9pJYY4jo3rHUpwTdJomq3GEFQSJAhGGEAtGsn-ivcn_oPW9XWgHgbSEgRBtRfji6t5z-x_CDRUA87YjW_1DtQ.jpg?r=644"></video>
+<h3 class="title">Tp 3 Cap 4 - Asesino interior</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABQvsI0w1uQev-WKSts2pPAqSKsoIvfvCclB20chIEgo8I6k1E3AL7lQogzITfcxFR55rIey6ptjyBUM6t9zyrRJIp3zNMq2CydaUNOGU5ate8GfE6v6EaeD3.jpg?r=f80"></video>
+<h3 class="title">Tp 3 Cap 5 - Da la orden</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfzt3_rsOddr2L1iVQG_azodxr1qYKApvT8qbrHqVIVxp9KWiB09e5lyPquZIaK_lFFyAo3LJcd1Fg8HvNeaWr-bpK0Wwr-s0G6P-X9xRw-2Fl_OO0JgObYX.jpg?r=e8b"></video>
+<h3 class="title">Tp 3 Cap 6 - Perseguido</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABf53EMFw8JmanZJ95pwG2wBu0EUXGzc9oOpnhOQU3qIEKJmTzeq_NMtSHV52mtWOPRZ6_SosN3tX4ROR8qzDOl9nMZcgYcOy-5RbPDvVbeBVIyhOXysaxXN4.jpg?r=75d"></video>
+<h3 class="title">Tp 3 Cap 7 - Cuando los muertos vienen tocando</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZePSnMRRRwqrXeEpoIX3TfsEbXvqMbLeMJOTKazGZ3APscGjFFpg5Zn_oJ8eTah7QMUqfDtSacRxHDKHsq1CtORdFJoUHDgasYy44B8zDHb_PGnsU2EH5jw.jpg?r=ec4"></video>
+<h3 class="title">Tp 3 Cap 8 - Creados para sufrir</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABYr-KMjtBMrXE7WxF8CA3xMwtAvDeQ2dMGAyy_M2Nw2JaKheaMczFyo2rmwaQSLPNJ86WadLra9ANqVcqy8foALVrkxXXBBeXfsh8zHPcWYN8unYu8-Jgq9_.jpg?r=36a"></video>
+<h3 class="title">Tp 3 Cap 9 - El rey suicida</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfa0_xKjHxWl6PC3tkwiYAuMBOp-tpGicy9ER0g0aKuYVLwuXZ55Uts7oSokalcG_RAlMMgRBwSZ8mUU59CETclkcubFwCCKC-fq44Zk8gut7x0rCaktOKjV.jpg?r=a32"></video>
+<h3 class="title">Tp 3 Cap 10 - Hogar</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABdwGnpS8X59oOCRA8YYIRBUNvnayJPz067HLzARvn4GhwauspHSlW3lILlytNhyhd5tc0RcNq9y8Ori1KJcXor8txt5sEuk16ivF2iba0o4OLYH6ZxCCU6iC.jpg?r=893"></video>
+<h3 class="title">Tp 3 Cap 11 - No soy Judas</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZH8VAOz8Xxo8oStcaG4llr1ud1SA9Zo1yGjeoa0F0ftycVrffz8fi0IUv04DN5teMV7lwQT9uYs4TBxPdiF7JS-Y0P8QFXBm3Uq47u2FD3RgaLqpBqm1yjF.jpg?r=cf5"></video>
+<h3 class="title">Tp 3 Cap 12 - Limpio</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABQHcSjPvls7h39VuLUwuEet3-OnMhzl6d_l8ee4abVv20YPGnGZmd1Bs2QrQUEdipMuM4uSrIAZ7IolxV581p02sGUydi7EgGD6fschjCwwxPn-WA50EcIRD.jpg?r=788"></video>
+<h3 class="title">Tp 3 Cap 13 - La flecha en el marco de la puerta</h3></div>
+    
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABTGWZag3AzM2uByjA_RjC2AqqyS3amLaRjMvN8t2VaUhSqQC1xa9xoK8jYL8kBy8Xq1Xcm9sTYT3HC7Sm1K6JrNrM9ClmknNNEs01gRcyIJ_71tAIsKGXgQT.jpg?r=7a1"></video>
+<h3 class="title">Tp 3 Cap 14 - Presa</h3></div>
+        
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABd4RpkaeRlt8_wboR3wK89q5lUMPIVMPySHY4kubSUsFFuV7dBdtYHoilTh1Us4ee33pcvylXznTOlrQdLip6tWQVJUQEgbA5HN9OYMycyhLM4fs1erAbHbn.jpg?r=5b2"></video>
+<h3 class="title">Tp 3 Cap 15 - Esta triste vida</h3></div>
+    
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABQ5YMedNJOr-mi5sdyVSJkZQlHVeS1eiH_VMBC4UyxsnLAHDjSHsjXspBs5VWiljyNeQNhPEb8Op26nvH5kU7_6W1UFpf3KS_ltq95HZgrWJahotDQPUsZhg.jpg?r=605"></video>
+<h3 class="title">Tp 3 Cap 16 - Bienvenidos a las tumbas</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABTdzzR80SP2uBg4bRoaxqXRmS7UkN9EAbhjJkNCxrYUm1AyPwt8cpVdoerfwm68q2hA_JvA-mqGFjFVjC2Ta6_YyAteY6ethl-T4D4p0JtzqKRhKjyS6UvF4.jpg?r=f75"></video>
+<h3 class="title">Tp 4 Cap 1 - 30 días sin accidentes</h3></div>
+    
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABeBsZeVdYKQvjMYE1vYoVltJEOAjLqIcOgLsyvg5UqE_RDL888h3ULtG5YSUYIdxVKP-64H0uN65C2If7sLoMxcvDfR0byyFo3co_jIQowNOyZDqZCELC0A7.jpg?r=3c5"></video>
+<h3 class="title">Tp 4 Cap 2 - Infectados</h3></div>
+  
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfaOZ7IeqwATiKNMpjQu8tu5d-UKg_abtlIr45jIAbChaTlKdLC-LmSzD_vXzPTIy67-WTnPoK8cEyDsK3yHykCMIte1OEPnM8XI0AjOXJ93NJUqJqUPJDtM.jpg?r=61e"></video>
+<h3 class="title">Tp 4 Cap 3 - Aislamiento</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXV5bWxoxeMSMfyWQiSguWy_SQSJy6NGifxcR1CU5w8Gp5JhuU_ARMHm9xOD1fLmwS1NlXXpWuNtoI6rrBml_SVTV4d-ha4I0RClhSVROM5jv1VvxCVnbHg4.jpg?r=55b"></video>
+<h3 class="title">Tp 4 Cap 4 - Indiferencia</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABW2kg-t47GzkGp9LMri3rtp_iTzUCkjKXYDvBuj6RC_CwnN5Ni4wbYTvNT15mqN_Wq_XE9qvqWvXle0viIsN3FpGojxiphv_fJlv2sCULAebBLYtmzv6QrK1.jpg?r=e94"></video>
+<h3 class="title">Tp 4 Cap 5 - Reclusión</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXfIeOzWHtRE6PMCr8jKVRwur_rfhFIam8hdgZnKxSyM_rKqEo5OqpbiZ6KfQN3L_XY7zLUbGLRS5m-shm217rvNiRylbdrzoN3TI0Alr-pIDP1hYTtd03vx.jpg?r=7b4"></video>
+<h3 class="title">Tp 4 Cap 6 - Cebo vivo</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABSbUvBWGUKDs0c3jZhIY1eCxJIzJhRDSL1cCxJyXy0R2EnzhKYyHQ27rDi9915W0DY-u_LO_s8jhvtUuaqGlVGl6f5IdDJ7uNeMNcNZq-8kCz4_fzxoYLfNQ.jpg?r=632"></video>
+<h3 class="title">Tp 4 Cap 7 - Peso muerto</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABef97a7ksQMNqw8uC8fNrwjOd51ldaUYLxs4-a1D7q2nFFGkxAW9WshlPrBz2UinQS0kOL6S_DDzrQIwUvt5wCImYB_JAziCTcm1RbnN2tKxTZaYB0RcAtrx.jpg?r=552"></video>
+<h3 class="title">Tp 4 Cap 8 - En las últimas</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABUDkOJeYZLuVW0CTSB7mTYNT5nEuEKaAujK7U7iOXgxLDE1_T8A4xBKVsGprHtiSO7OnvLY95ap1HIFilv0_g0joU6zPBmhcOZDr1NKiOj5lgEgWBN_YSBfU.jpg?r=640"></video>
+<h3 class="title">Tp 4 Cap 9 - Después</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABdtNsYP0mGSvYtvl8l_-Iq9HPlBBvd0t0EI64R-0KU6EOwEGQiHUAKMODggoOYg3x6EsZ2YCCoAX4sahoEzhkDdRmnhgPE4Sk7dPQEXwGcEnq52TB1ITXLWb.jpg?r=cf3"></video>
+<h3 class="title">Tp 4 Cap 10 - Reclusos</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABRfOrLGWaEZa2YH2Nk7JsXHC4nv1ZsGbSEBieEJyANg19GrINmfZJIg5CqMuJUfL4JV5dlahntyBaPa9CKsRaKEzlxxxNa7KQlDEuflPKX6viLaJKAcxOKJC.jpg?r=b5e"></video>
+<h3 class="title">Tp 4 Cap 11- Reclamado</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABebtC9XDnDazgCEqlBIuL1hmW1WDOeYBwEMe8DK01VNOz-OYphcrp1klyLtkO9nFjuqwqoYT3Go92ZaExEXcgEX7JeNrMD7D13qUr9G-vbVrZqcgIBeR-rS_.jpg?r=51d"></video>
+<h3 class="title">Tp 4 Cap 12 - Aún</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABdDxH7CrHMvQrRvPFkYD1CqWxA4ZPadvPemQ_-_kZPY7MKFkNIxyEKR6WS3jnkwPVywoN6R9P_OXgUPQPgYQpky0n6nCzlfsY0GJLGmTpd2u4YtQHgjT_xrs.jpg?r=41b"></video>
+<h3 class="title">Tp 4 Cap 13 - Solo</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZmrQ4OmZtUo0WMg9k-R2Y4KGTdWwpxSoh67li2pBmLiAgRhDkyuxos-weyUAm8R3RY47pqdYGDAIC8-Ftzwj1-Sx3wU7l5z_auq5oxXg8Y5VnA47Bu0WuMi.jpg?r=68a"></video>
+<h3 class="title">Tp 4 Cap 14 - La arboleda</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABS6RmZTMcIi0dyauUn1TCOOxocazlnk1x8Dv2rBW9PFLvXjGwjDfA1224sVXOzsgZmlp-3_eVURPT3tTV5Ry_e8xUmGgWvG0S3m4_GFkjkbfkU6_q1Sfj9w0.jpg?r=44b"></video>
+<h3 class="title">Tp 4 Cap 15 - Nosotros</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABULUTMRt-cdKpRNVVyh09dNVfc_9ZPKzGruthBoLLOEyvf-GtX3_siWQQksvluCuMBKBx9tGBoszzPRR6SToArRi4rSsVF_jcU9-q1EBjUQnFoijycr9r5_s.jpg?r=c08"></video>
+<h3 class="title">Tp 4 Cap 16 - La caida de Terminus</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABULnyBTN4eUF2uKmwnhLVmCnSj8Fdav0y0XRmLW4UevRn1fUH50cKBIKXxnDJvpqn-WmksY1pKXKapvO_7gT6DR9AtF5QlXYJHzwVSSZLsLc7l4j-9w8pGad.jpg?r=c84"></video>
+<h3 class="title">Tp 5 Cap 1 - No existe santuario</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABda_R11TFze9fKBsONeYt6baik77VLYMRYpf3VFlHsU5sILW_-pzjxV6XRA5v6OexIzVF-W9UEr5RlWVBrR9A40VekS83QMA92H5MS2fMsbVkCncdL4B029o.jpg?r=180"></video>
+<h3 class="title">Tp 5 Cap 2 - Extraños</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZP7G-fnjfK6iqPQ9hUXQMkC0QKRsXoD_Ghch4XHDqjdn8Ln9gURbOOAuxAn1I9Xm5PTUH_HeUDHGQfu0jLsdLDvtrrNFCMv4xSYxKY-0olAT9qOyOcJWjqv.jpg?r=eba"></video>
+<h3 class="title">Tp 5 Cap 3 - Cuatro paredes y un techo</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABYzgdDfKqlKJBf0HP1DBwzTtyHXvVXC_gV5kQ8qwlr--POighhF6jH8lbw5PPJS9AdIHQzkvRPVgFGSQUTyWii0G9KyUAEUXHUwdEIMjdCUpylv8bdVpLN1l.jpg?r=201"></video>
+<h3 class="title">Tp 5 Cap 4 - Slabtown</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWGzg3v0tUF_OQj6w3tFY2NrXq8YhMF2o5WexnDVIrNxr3VVYupwJgWv2fwQXzLNcNSouUWog68rGuLJWWRTP_x6E20tlflZzHN3_0BHEfjIxb-zwh4b165A.jpg?r=eff"></video>
+<h3 class="title">Tp 5 Cap 5 - Autoayuda</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXSprHnDf4LMtU6JKVetZbPp4WGiiuPZ2KGcPjuLaFYG8fOGvTM4yclhBLO85qic8kMhd7JrwvE7OkIvlhhgaMMamW29zurOdJwa9eIRuXKyymsmqy2NBIBq.jpg?r=24c"></video>
+<h3 class="title">Tp 5 Cap 6 - Consumido</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZcX2esqk_o0Kb8PDPp3rQ2jxr7XgX5AZkrlcDnBG90oD01UA0pRuRzBkRZsigkV_lW07EfvO2aTYSWgvxHMKPyMC9QBQXwj1SBH1jfHSWHfTlct5ga3JnfQ.jpg?r=4d0"></video>
+<h3 class="title">Tp 5 Cap 7 - Cruzado</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABSbxLiiVN91aMETcom3Pxe_hu-dkfsn9ScYsoKhGpsC3wQPscSk-X-aBOXbIhfHG7nrvCzWoPQgUe3PO_r8lTq8QDKk5dgeaAAt-3_ft8TTBVINc0dChewwT.jpg?r=ee6"></video>
+<h3 class="title">Tp 5 Cap 8 - Coda</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABS4xpp_UAFW87vtIadQudFOfh4e5BYluxFIcgCvg4VwFawqnfg9x18MPFm6F41UmnKQv0bfNwdGI3XNOq0ajArHu8vy2uR6fTkzGdaX4M03z_bOzyrMBgKsl.jpg?r=386"></video>
+<h3 class="title">Tp 5 Cap 9 - Lo que pasó y lo que está pasando</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABeCgl9qv8ezKIifsAJmbKyp733igN0HeQxdl6t_gittylMhchoIBSiyN3l4cDU2KJ34T6a4KuxayGtn1g86FVhOG0H9JjYjnZkVBuK1pdjMhojz2f7Mgrr6k.jpg?r=f79"></video>
+<h3 class="title">Tp 5 Cap 10 - Ellos</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABeoNqSvSTbaxvu9OvANz3mcSqIqINDa6t-t5EGxLbfINm_uCn3v8I-IDSvFbjUhYK_oMq2Z2NJjzvELkz2uEWHeBZ1gvPpypzjeget6-Usd4r0EGY-d7Gohq.jpg?r=250"></video>
+<h3 class="title">Tp 5 Cap 11 - La distancia</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABX0eoBS7r_olilmyWaGIQwORq44-Y1B6jadp2TRkORvVRW3UGuqtxNWd1mqTVFvZH9TjDFA_qdwZPzlPo_GqzDwPQeo8bPl6DoXNkE4yW-7fWt6Rrk8DlQdP.jpg?r=1af"></video>
+<h3 class="title">Tp 5 Cap 12 - Recuerda</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABUm2lxQb6NHCBDR2hTOF7GbG4k8KdhsatWAtMPTnLl2abmvzWSpzb2vJ1U68p-CYomIUdPOxH2kBIHoUft2VeR2h-tacMcRBjVuuMMJhKAouJcfuNB7EcmU6.jpg?r=c63"></video>
+<h3 class="title">Tp 5 Cap 13 - Olvida</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABUF23z9hgVUvtx4nkAvxaQFttwdCpgkFFyHLBJyo7NE8yV-Pq6g7oVMwW3vnUi2wgSgdZv4-R8kyRGeRx0vpA_QMfQAB59t8tWuZ7Usr6QYe42X2l9hpuXr-.jpg?r=359"></video>
+<h3 class="title">Tp 5 Cap 14 - Gastar</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABdAwv7Puv4PjGzBkc2LyrZEMXQnVn2Ex3blwVIyEgWhGnmbspMj2fPZBbABFByfkkCJfqcR7YDXA23E3s8mUtng9ESPDxJq26iQBHyfDDw0DpI_HVFO_4fU0.jpg?r=487"></video>
+<h3 class="title">Tp 5 Cap 15 - Intentar</h3></div>
+
+<div class="vid">
+<video src="" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXJvPLi_NQZ-FfJpIXHESCmqq7PgkZ2hjO3WB0GxIKnK8RV3MBlBIHT7WZP6U0CeGCgsHXoTUP-gLYWC0VWeKWSp3ItTtQzUTja6v-BUZD7x9_AsuEeTMo9v.jpg?r=ffb"></video>
+<h3 class="title">Tp 5 Cap 16 - Conquista</h3></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
