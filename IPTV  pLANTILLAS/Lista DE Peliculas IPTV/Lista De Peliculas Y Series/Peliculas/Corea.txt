@@ -1,0 +1,12 @@
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA6
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5cedd5e411_1x6LCDPCNumero4k_A.mp4
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA5
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5ced8af7cc_1x5LCDPCNumero4k_A.mp4
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA4
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5ced44738f_1x4LCDPCNumero4k_A.mp4
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA3
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5cecf8fb2b_1x3LCDPCNumero4k_A.mp4
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA2
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5ceca410c6_1x2LCDPCNumero4k_A.mp4
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",COREA1
+https://d1yei2z3i6k35z.cloudfront.net/2102480/62b5cec55e50a_1x1LCDPCNumero4k_A.mp4

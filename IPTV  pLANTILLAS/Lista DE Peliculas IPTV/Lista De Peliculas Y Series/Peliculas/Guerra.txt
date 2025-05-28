@@ -1,0 +1,37 @@
+
+
+E
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/siO8SNMEuyo25jHO2dqQxY4gWxZ.jpg",El pacto go:Elpacto
+http://208.88.245.81/nuevo/el.pacto.2023dual.mkv
+
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/tRD18JW9iKqmwkQKvzPYDQetRoI.jpg",Heroico accion go:Heroico
+http://208.88.245.85/nuevo/heroico.latino.2023.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg",Corazones de acero
+https://dl.dropbox.com/scl/fi/s5nyzg18d9qhwadnruv4l/Fury.2014.hd-latino-e-ingles-subt.mp4?rlkey=dz6egrkdrh0es46i4d6oi8vs9&st=
+
+
+
+N
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zoo5k1Rsx4Bel0ng9G8yRwku2ND.jpg",Napoleon (2023) go:Napoleon
+http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//jE5o7y9K6pZtWNNMEw3IdpHuncR.jpg",Napoleón 
+http://208.88.245.85/nuevo/napoleon.dual.2024.mkv
+
+
+
+
+T
+
+Subiido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fkVpNJugieKeTu7Se8uQRqRag2M.jpg",Warfare. Tiempo de guerra (2025)
+https://dl.dropbox.com/scl/fi/il163gsshrprpw6qc9tv2/Tiempo.De.Guerra.2025.1080P-Dual-Lat.mkv?rlkey=mnjerpcyz7a5d4blkp8c9sy32&st=

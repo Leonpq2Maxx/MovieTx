@@ -1,0 +1,148 @@
+A
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iKcnbqhKvlwfF4CnMVlRrYlOvM5.jpg",Air: La historia detrás del logo (2023) go:Air23
+http://208.88.245.85/nuevo/air.2023.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",A ganar (2018) 
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//57MFWGHarg9jid7yfDTka4RmcMU.jpg",American fiction
+http://208.88.245.81/nuevo/american.fiction.2023.dual.mkv comedia drama
+
+
+
+B
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",Barbie go:Barbie23
+http://208.88.245.85/nuevo/barbie.dual.2023.mkv
+
+
+
+
+
+C
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//Af6hIxZhKzUNr02TZwethdrk5rP.jpg",¿Cómo matar a mamá? (2023) go:ComoMA23 comedia drama
+http://208.88.245.85/nuevo/como.matar.a.mama.latino2023.mkv
+
+
+
+
+
+D
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3sPMGyUvwNdlCgceuBvb50jC7mN.jpg",Dejar el mundo atrás (2023) go:DejarAt drama misterio suspenso
+http://208.88.245.85/nuevo/dejar.el.mundo.atras.dual.2023.mkv
+
+
+
+
+
+E
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/32QnVNvl1XlORBW3CvWsM3byCOH.jpg",El negocio del dolor (2023) go:EneDolor drama
+http://208.88.245.85/nuevo/el.negocio.deldolor.dual20223.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//AjAElsEROAhnRLFzob8eqTfvlN7.jpg",Elena sabe (2023) go:ElenaSa drama
+http://208.88.245.85/nuevo/elena.sabe.latino2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eh1IjDZfDRjgv5NzMBkjN1GzKgy.jpg",Nyad (2023) go:Nyad23 drama historia
+http://208.88.245.81/nuevo/nyad.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qD63nfBOHBesy6EOu5GT2AB0rCj.jpg",Santa, mi amor (2023) go:SantaM23 drama, romance comedia
+http://208.88.245.85/nuevo/santa.mi.amor.latino2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg",Temporada de huracanes (2023) go:TempoDH drama suspenso crimen
+http://208.88.245.85/nuevo/temporada.de.huracanes.lat.2023.mkv
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rhNmY4Djv4273A1TktDCEaOwHIz.jpg",My Scary Girl (2006) Drama, Comedia, Crimen, Romance
+http://208.88.245.85/nuevo/scarygirl.dual.2023.mkv
+
+#EXTINF:-1,Abandonada (2022)Drama, Misterio, Suspense
+http://vod.tuxchannel.mx/peliculas/720/abandoned%202022.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1BNLHd8oKsy76FzvR9s3E5v8KO9.jpg",Háblame de ti (2022) go:Hablati drama comedia
+http://208.88.245.85/nuevo/hablamedeti.latino.2023.mkv
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kN5H9EhUqDWBAsbnbt2XNhS7BFe.jpg",South parck no apto para menores go:Southpa23
+http://208.88.245.81/nuevo/sp.no.apto.para.menores.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eSatbygYZp8ooprBHZdb6GFZxGB.jpg",Radical go:Radical
+http://208.88.245.81/nuevo/radical.latino.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//w5hACqUlPbpHiGLYbtoQHF0SNWe.jpg",Manodromo go:Manodro
+http://208.88.245.81/nuevo/manodromo.2020.dual.mkv misterio,drama suspenso
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kxj7rMco6RNYsVcNwuGAIlfWu64.jpg",Maestro go:Maestro
+http://208.88.245.85/nuevo/maestro.dual.2024.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2by4DHPmfaTqJ9YJZJK5tPxHpuk.jpg",Remando como un solo hombre (2023) go:RemanCSH
+http://208.88.245.85/nuevo/remando.como.un.solo.hombre.dual.2024.mkv drama historia
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xL6EhUuS8TlcizP8KKtzbBOLs9q.jpg",El color púrpura (2023) go:ElColorP
+http://208.88.245.85/nuevo/el.color.purpura.2023dual.mkv ddrama
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//k7rEpZfNPB35FFHB00ZhXHKTL7X.jpg",La sociedad de la nieve (2023) drama historia
+http://208.88.245.85/nuevo/la.sociedad.dla.nieve.latino.2024.mkv
+
+
+E
+
+subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg",El astronauta (2024) 
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20El%20astronauta%20online%20HD%20-%20Cuevana%202.mp4
+
+
+G
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cYRizCfDYc8D1yr01BFQDVYEejx.jpg",Gran Turismo 
+https://bank.bemtv.cn/vod01/Movies/vod16286wxNEtb/vod16286wxNEtb_720.mp4/index.m3u8
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/51tqzRtKMMZEYUpSYkrUE7v9ehm.jpg",Gran Turismo (2023)
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fagosto%2FVer%20Gran%20Turismo-%20De%20jugador%20a%20corredor%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
+
+
+
+L
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/n3KE8fbiOCr6qktIpE52wWErBMi.jpg",La Joven y El Mar (2024) go:JovenMar
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20La%20Joven%20y%20El%20Mar%20online%20HD%20-%20Cuevana%202.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg",La Madre go:LaMadre
+http://208.88.245.85/nuevo/la.madre.dual.2023.mkv
+
+
+
+
+N
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg",Nahir (2024) | MegaMaxx go:Nahir
+https://dl.dropbox.com/scl/fi/y13vgq3beu33jpwt9wi74/Nahir-Galarza-2024.mp4?rlkey=huz66z2uxlfz344p3c0c84lcr&st=rki2lyxv&dl
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg",Nada qué ver Drama/Romance go:NQV23
+http://208.88.245.85/nuevo/nadakver.latino2023.mkv
+
+
+
+S
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",Salve maria (2024)
+https://dl.dropbox.com/scl/fi/u8l90jrxc4yxa19we08by/Salve-maria-2024.mp4?rlkey=q2m0ws3yzy0kwi8onev6uk6z2&st=
+
+
+
+
+
+
+
+

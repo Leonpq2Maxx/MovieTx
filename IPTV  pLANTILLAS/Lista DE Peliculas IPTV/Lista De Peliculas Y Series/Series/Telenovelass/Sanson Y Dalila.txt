@@ -1,0 +1,59 @@
+Capitulo 1
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_0j4615df/format/applehttp/protocol/https/flavorIds/1_grw37a88,1_18dilov4,1_qqcdcmcp,1_1rhok5uv,1_u43j9f2i,1_b0ctmask,1_ejj2rth5,1_lm9cc1tp/preferredBitrate/1500/maxBitrate/10000/clipTo/3038000/a.m3u8
+
+Capitulo 2
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_i61og8kg/format/applehttp/protocol/https/flavorIds/1_0kdhagbh,1_mesvsl3g,1_vudrjbpi,1_t5sqp4gq,1_0omen9bc,1_nr11v1jt,1_uuk5hxir,1_0lm1be2d/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 3
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_0hh046py/format/applehttp/protocol/https/flavorIds/1_uy8z1wod,1_dk45cqx7,1_1jzk4hrv,1_tbswfni6,1_nxaqglx0,1_6h2g9sn7,1_p892gvj5,1_blwsfaqz/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 4
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_peeec3s3/format/applehttp/protocol/https/flavorIds/1_6wrr5mll,1_0k8g2bhg,1_ayywbnvv,1_tt9ctcx0,1_xoznokx7,1_2fweqsb8,1_chujtv4u,1_uyfqnaio/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 5
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_cohzwfhu/format/applehttp/protocol/https/flavorIds/1_2a70eo3q,1_goemaeo9,1_tcadv7jy,1_rei8ngdq,1_1ivk11de,1_3t75al56,1_jxmnwsp6,1_pxr7hwro/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 6
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_o0j9is24/format/applehttp/protocol/https/flavorIds/1_8p05m0m2,1_331h7uk0,1_wiewpv4q,1_0txqdw2a,1_3wwxb32f,1_bx4seads,1_3ewgb063,1_nlo3tzre/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 7
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_9amaqy5k/format/applehttp/protocol/https/flavorIds/1_t8s0xg5m,1_n7wgez5c,1_3xrdxkq8,1_5or2k3d6,1_z2dp2xql,1_9wen9mjw,1_2h42nt7x,1_4luwoz69/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 8
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_r8miyt5d/format/applehttp/protocol/https/flavorIds/1_kzfc1gi8,1_p35ectbg,1_63ww4rjw,1_3y22u0gs,1_gk3ha6wy,1_gdw4f8un,1_t31m1x7a,1_1etvcmai/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 9
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_c3dxwhtf/format/applehttp/protocol/https/flavorIds/1_z74mac5r,1_6rmigw9o,1_ytnownsi,1_6diry76o,1_77lxpige,1_yis03a3d,1_yk2screj,1_1y9ps83g/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 10
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_pomol7bh/format/applehttp/protocol/https/flavorIds/1_vr7k76mn,1_2sllqu35,1_z3fo2gut,1_mg0lllw9,1_ypeap1w6,1_qtof4g62,1_qqqba2uv,1_wkqkza6b/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 11
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_igtfo5ek/format/applehttp/protocol/https/flavorIds/1_5ojca388,1_rru9dfrc,1_j90lvdtv,1_o24kp1wf,1_5zp11a6t,1_zs99pojd,1_msmtmowv,1_2mi2wh79/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 12
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_jz75dysu/format/applehttp/protocol/https/flavorIds/1_repaangm,1_9vv5krny,1_fs2blw0t,1_b6yxocjr,1_pgdxu8mw,1_5w9t6fla,1_9nt8u5wo,1_g8x9y37q/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 13
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_8b7ditvi/format/applehttp/protocol/https/flavorIds/1_i7qz7r9d,1_3ldswmjn,1_azsmstvy,1_q9mb28el,1_he5d65pl,1_roqzq3cj,1_aypffo94,1_j5rfucqn/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+
+Capitulo 14 
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_hezhbtiu/format/applehttp/protocol/https/flavorIds/1_6t12t2lo,1_besuhuf4,1_dzlbbhbz,1_wb07itlf,1_4sfrwsti,1_vgpht9ob,1_ex3lfyyo,1_yb39ajsy/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 15
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_2b6pfh5t/format/applehttp/protocol/https/flavorIds/1_9egd82g8,1_uu7fzvfz,1_pgaj0ozu,1_cmygcdn0,1_mdf81p7k,1_tx6ldie8,1_yklgmgai,1_iyc2cjhi/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 16
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_ijsvibyr/format/applehttp/protocol/https/flavorIds/1_5ei1uaci,1_vflvg1zd,1_4cs8xz7y,1_u0674i1j,1_rwdhajs0,1_mnfooca7,1_ku31wqth,1_5qgi663o/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 17
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_k0b3x23n/format/applehttp/protocol/https/flavorIds/1_tl6ob7tu,1_g6x3vxil,1_x9xyob80,1_o5abhkmm,1_wu1rwfn3,1_ozboja4v,1_wa10tnzw,1_2h3nliy3/preferredBitrate/1500/maxBitrate/10000/a.m3u8
+
+Capitulo 18
+https://cdnapisec.kaltura.com/p/2657331/sp/265733100/playManifest/entryId/1_1ddk7a11/format/applehttp/protocol/https/flavorIds/1_nubf1wuv,1_h0ostjnr,1_x1fxaws6,1_a5y6ljzj,1_6cwx0zox,1_k34gij20,1_k165prgs,1_flag126d/preferredBitrate/1500/maxBitrate/10000/a.m3u8

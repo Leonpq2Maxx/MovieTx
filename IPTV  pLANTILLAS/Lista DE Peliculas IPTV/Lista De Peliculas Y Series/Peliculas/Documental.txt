@@ -1,0 +1,45 @@
+Documental
+
+A
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg",Anna Nicole Smith: Tú No Me Conoces 2023 go:Annanico
+http://208.88.245.85/nuevo/annanicolle.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",ANNA NICOLLE
+http://208.88.245.85/nuevo/annanicolle.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/3vGi4VC6UmizxO75WpSunkUPlD9.jpg",La Trampa (2024) go:Trampa2
+http://208.88.245.85/nuevo/la.trampa.2024.dual.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eLbDSu14EZ2VldIgDDGrt5pJkoL.jpg",Elijo creer go:EliCreer
+http://208.88.245.85/nuevo/elijo.creer.latino2024.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//1utWajLPvv1R9ZwkD98s2ZEngS.jpg",Sly (2023) documental go:Sly23
+http://208.88.245.81/nuevo/sly.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//htJb5GxG56UfvqBTNGo84DVcb33.jpg",María: La Diva Eterna go:MariaEte (2023) documental
+http://208.88.245.85/nuevo/maria.la.diva.eterna.lat2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/okNxsEpMbCQgQBqSw2U5hIq4Fd5.jpg",Materia gris (2019) documental
+http://208.88.245.85/nuevo/materiagris.dual.2023.mkv
+
+
+C
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rfI5sTEgJ1ozPMnA3BhZDvxnmAD.jpg",Cuiden a maya (2023) go:CuidenMaya
+http://208.88.245.81/nuevo/cuiden.a.maya.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//oXrlGiQ6ghjN25rMPmlKeGe0gNm.jpg",Higuita: El camino del Escorpión (2023) documental
+http://208.88.245.81/nuevo/higuita.el.camino.del.escorpion.latino2023.mkv
+
+
+F
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qfPjPZF2AqB2XnXPFcHlYtlQRS3.jpg",Frida (2024) go:frida24
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FWatch%20Frida%202024%201080L4T%20mp4.mp4
+
+
+I
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/7KK4s4QOYemq1fC9stcdZbhIiVm.jpg",Isabel el caso nardoni
+http://208.88.245.85/nuevo/isabella.el.caso.nardoni.dual.2023.mkv
