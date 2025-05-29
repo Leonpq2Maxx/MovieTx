@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <style> 
+    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    body{margin:0;background-color:#000000;}
+    :root{
+    --plyr-color-main:#ff0000;
+    --plyr-video-control-color:#0022ff/*#ff0030*/;}
+    .plyr--video{background:#000;height:100%;overflow: hidden;}
+    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
+    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
+    .relative{position:relative;}
+    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+    .w-full{display:block;width:100%;}
+    @media (orientation:landscape){
+    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div class="player">
+        <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/ywe9S1cOyIhR5yWzK7511NuQ2YX.jpg" preload="none">
+            <source src="https://pomf2.lain.la/f/x1xggana.mp4" size="480"></source>
+        </video>
+    </div>
+    <style type="text/css">
+      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
+      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+      .xec{position:relative;overflow:hidden;} 
+      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
+      info,a{color:fff;font-size:20px;margin-top:0px;}
+    </style>
+    <info>
+      <i></i>
+      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2025</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 59Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 61%</h9></i>
+      <i></i>
+    </info>
+    
+    <div class="titulo">
+      <h3>
+        (Trailer) Capitan America: El Nuevo Mundo
+      </h3>
+      <br>
+      <h4>
+        Genero: Acción, Suspense, Ciencia ficción, Marvel
+      </h4>
+      <br>
+      <h4>
+        Idioma: Español Latino 🇲🇽
+      </h4>
+    </div>
+    <div class="sinopsis">
+      <h4>
+        Tras reunirse con el recién elegido presidente de los EE. UU., Thaddeus Ross, Sam se encuentra en medio de un incidente internacional. Debe descubrir el motivo que se esconde tras un perverso complot global, antes de que su verdadero artífice enfurezca al mundo entero.
+      </h4>
+    </div>
+    <br>
+    <div class="xec">
+      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+    </div>
+    <div class="recomendaciones">
+      <br>
+      <div class="series-grid">
+        <a href="../View Peliculas/Capitan america el nuevo mundo (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg" alt="Serie 1">Capitán América: Un nuevo mundo<p></p></a>
+        <a href="#" class="serie"><img src="Fondos Reproduccion Trailers/Fondo negro.jpg" alt="Serie 2"><p></p></a>
+        <a href="#" class="serie"><img src="Fondos Reproduccion Trailers/Fondo negro.jpg" alt="Serie 3"><p></p></a>
+        <a href="#" class="serie"><img src="Fondos Reproduccion Trailers/Fondo negro.jpg" alt="Serie 4"><p></p></a>
+        <a href="#" class="serie"><img src="Fondos Reproduccion Trailers/Fondo negro.jpg" alt="Serie 5"><p></p></a>
+        <a href="#" class="serie"><img src="Fondos Reproduccion Trailers/Fondo negro.jpg" alt="Serie 6"><p></p></a>
+      </div>
+    </div>
+    <br>
+    <style>
+      /*RETROCEDER*/
+      .Serie,a {
+        color:fff;font-size:15px;margin-top:0px;
+      }
+      .series-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .serie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+      }
+      
+      .serie img {
+        width: 120px;
+        max-width: 150px;
+        border-radius: 10px;
+      }
+      /* Iconos debajo del reproductor */
+      .icons-container {
+        display: flex;
+        gap: 15px;
+        margin: 1px 0;
+      }
+      
+      .icons-container i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .icons-container i:hover {
+        color: yellow;
+      }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+    <script>
+      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+      const player = new Plyr('.vid1',{controls});
+    </script>
+  </body>
+</html>
+
+
+
+
+
