@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votación</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .opcion {
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .opcion:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .contador {
+      color: blue;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .votada {
+      background-color: green !important;
+    }
+
+    @media (max-width: 600px) {
+      .opcion {
+        font-size: 16px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>¿Cuál genero prefieres que agrege?</h1>
+
+  <div class="opciones">
+    <div class="opcion" id="opcion-0" onclick="votar(0)">
+      Opción 1: Terror
+      <div class="contador" id="contador-0">0</div>
+    </div>
+    <div class="opcion" id="opcion-1" onclick="votar(1)">
+      Opción 2: Accion
+      <div class="contador" id="contador-1">0</div>
+    </div>
+    <div class="opcion" id="opcion-2" onclick="votar(2)">
+      Opción 3: Drama
+      <div class="contador" id="contador-2">0</div>
+    </div>
+    <div class="opcion" id="opcion-2" onclick="votar(2)">
+      Opción 4: Romance
+      <div class="contador" id="contador-2">0</div>
+    </div>
+    <div class="opcion" id="opcion-2" onclick="votar(2)">
+      Opción 5: Animacion
+      <div class="contador" id="contador-2">0</div>
+    </div>
+  </div>
+
+  <script>
+    const votos = [0, 0, 0];
+
+    function votar(index) {
+      if (localStorage.getItem("votoRealizado")) {
+        alert("Ya has votado.");
+        return;
+      }
+
+      votos[index]++;
+      document.getElementById(`contador-${index}`).textContent = votos[index];
+      document.getElementById(`opcion-${index}`).classList.add('votada');
+      localStorage.setItem("votoRealizado", index);
+      alert("¡Gracias por tu voto!");
+    }
+
+    // Restaurar estado si ya se votó
+    window.onload = function () {
+      const voto = localStorage.getItem("votoRealizado");
+      if (voto !== null) {
+        document.getElementById(`opcion-${voto}`).classList.add('votada');
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Votación</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .opcion {
+      border: 2px solid white;
+      padding: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .opcion:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .contador {
+      color: blue;
+      font-size: 22px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .opcion {
+        padding: 15px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>¿Cuál prefieres?</h1>
+  <div class="opciones">
+    <div class="opcion" onclick="votar(0)">
+      Opción 1
+      <div class="contador" id="contador-0">0</div>
+    </div>
+    <div class="opcion" onclick="votar(1)">
+      Opción 2
+      <div class="contador" id="contador-1">0</div>
+    </div>
+    <div class="opcion" onclick="votar(2)">
+      Opción 3
+      <div class="contador" id="contador-2">0</div>
+    </div>
+  </div>
+
+  <script>
+    const votos = [0, 0, 0];
+
+    function votar(index) {
+      if (localStorage.getItem("yaVoto")) {
+        alert("Ya has votado.");
+        return;
+      }
+
+      votos[index]++;
+      document.getElementById(`contador-${index}`).textContent = votos[index];
+      localStorage.setItem("yaVoto", "true");
+      alert("¡Gracias por votar!");
+    }
+  </script>
+
+</body>
+</html>
