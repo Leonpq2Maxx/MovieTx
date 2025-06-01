@@ -1,59 +1,153 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Compartir en WhatsApp</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compartir MovieTx</title>
   <style>
     body {
+      background-color: #000;
+      color: white;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
-      background-color: #000000;
+      padding: 30px 20px;
+      min-height: 100vh;
     }
 
-    .btn-whatsapp {
-      background-color: #25D366;
-      color: white;
+    h1 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 28px;
+    }
+
+    #qrcode {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    .boton {
+      width: 100%;
+      max-width: 320px;
+      padding: 12px 20px;
+      margin: 10px 0;
+      font-size: 18px;
+      font-weight: bold;
       border: none;
-      padding: 40px 20px;
-      font-size: 30px;
-      border-radius: 8px;
+      border-radius: 12px;
+      color: white;
       cursor: pointer;
+      text-align: center;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      justify-content: center;
+      gap: 12px;
+      transition: opacity 0.3s ease;
     }
 
-    .btn-whatsapp:hover {
-      background-color: #1ebe5b;
+    .boton:hover {
+      opacity: 0.9;
     }
 
-    .btn-whatsapp svg {
-      width: 60px;
-      height: 70px;
+    .whatsapp {
+      background-color: #25D366;
+    }
+
+    .instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      color: yellow;
+      font-size: 14px;
+      display: none;
+      text-align: center;
+      max-width: 320px;
+    }
+
+    .subtitulo {
+      margin-top: 12px;
+      max-width: 320px;
+      color: #ddd;
+      font-size: 14px;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Iconos SVG tamaño */
+    .icono {
+      width: 24px;
+      height: 24px;
       fill: white;
+      flex-shrink: 0;
     }
   </style>
 </head>
 <body>
 
-  <button class="btn-whatsapp" onclick="compartirEnWhatsApp()">
-    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 .396c-8.837 0-16 7.163-16 16 0 2.822.735 5.555 2.135 7.957l-2.219 8.043 8.268-2.165c2.314 1.24 4.931 1.903 7.816 1.903 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.886c-2.43 0-4.739-.653-6.78-1.893l-.486-.288-4.901 1.282 1.312-4.773-.314-.495c-1.293-2.037-1.976-4.391-1.976-6.823 0-7.18 5.839-13.019 13.019-13.019s13.019 5.839 13.019 13.019-5.839 13.019-13.019 13.019zM23.603 19.551c-.353-.176-2.084-1.028-2.408-1.143-.323-.118-.559-.176-.794.177-.235.353-.91 1.143-1.116 1.377-.206.235-.412.265-.765.088-.353-.177-1.491-.55-2.84-1.753-1.05-.94-1.758-2.099-1.963-2.452-.206-.353-.022-.544.153-.72.157-.156.353-.412.529-.618.176-.206.235-.353.353-.588.118-.235.059-.441-.029-.618-.088-.177-.794-1.915-1.088-2.618-.285-.684-.578-.588-.794-.599-.206-.012-.441-.015-.676-.015s-.618.088-.941.441c-.323.353-1.235 1.206-1.235 2.941s1.265 3.411 1.441 3.647c.177.235 2.489 3.806 6.033 5.336.841.362 1.496.578 2.005.735.841.265 1.607.235 2.215.147.676-.103 2.084-.853 2.377-1.676.294-.823.294-1.529.206-1.676-.088-.147-.323-.235-.676-.412z"/>
+  <h1>Compartir MovieTx</h1>
+
+  <div id="qrcode"></div>
+  
+
+  <button class="boton whatsapp" onclick="compartirWhatsApp()">
+    <svg class="icono" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M20.52 3.48A11.72 11.72 0 0 0 3.48 20.52L2 22l1.44-4.2A11.69 11.69 0 0 0 12 24a11.73 11.73 0 0 0 8.52-3.48 11.74 11.74 0 0 0 3.48-8.52 11.73 11.73 0 0 0-3.48-8.52zM12 21.5a9.5 9.5 0 0 1-5.13-1.5l-.36-.22-3.05.8.8-3.05-.22-.36A9.5 9.5 0 1 1 12 21.5zm5.1-6.18c-.27-.13-1.6-.79-1.85-.88-.25-.09-.44-.13-.63.13-.19.27-.74.88-.9 1.06-.16.18-.33.2-.6.07-.27-.13-1.15-.42-2.19-1.36-.81-.72-1.35-1.6-1.5-1.88-.16-.27-.02-.42.12-.55.13-.13.27-.33.4-.5.13-.18.18-.3.27-.5.09-.18.05-.35-.02-.5-.07-.13-.63-1.53-.86-2.1-.23-.55-.46-.48-.63-.49-.16-.01-.35-.01-.54-.01-.18 0-.5.07-.76.35-.26.27-1 1-1 2.43s1.03 2.82 1.18 3.02c.14.2 2.04 3.12 4.94 4.37.69.3 1.23.48 1.65.62.69.22 1.32.19 1.82.12.56-.08 1.6-.65 1.83-1.28.23-.62.23-1.15.16-1.28-.07-.13-.26-.2-.54-.33z"/>
     </svg>
-    Compartir Aplicacion "𝐌𝐨𝐯𝐢𝐞𝐓𝐱" por WhatsApp
+    Compartir en WhatsApp
   </button>
 
+  <button class="boton instagram" onclick="compartirInstagram()">
+    <svg class="icono" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+    </svg>
+    Compartir por Instagram
+  </button>
+
+  <div class="mensaje" id="mensajeInstagram">
+    ¡Enlace copiado! Ábrelo en Instagram y pégalo en un mensaje.
+  </div>
+
+  <div class="subtitulo">
+    Gracias por compartir MovieTx, así podemos seguir creciendo y agregando más contenido.
+  </div>
+
+  <!-- Librería QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
   <script>
-    function compartirEnWhatsApp() {
-      const mensaje = encodeURIComponent("¡Descarga esta increíble app aquí! 👉 https://www.mediafire.com/file/fmqpx5z4twlrs3p/MovieTx.apk/file");
-      const url = `https://wa.me/?text=${mensaje}`;
-      window.open(url, '_blank');
+    const enlaceApp = "https://www.mediafire.com/file/fmqpx5z4twlrs3p/MovieTx.apk/file"; // Cambia aquí por tu enlace real
+    const mensaje = `¡Descarga esta app increíble! ${enlaceApp}`;
+
+    function compartirWhatsApp() {
+      const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
     }
+
+    function compartirInstagram() {
+      navigator.clipboard.writeText(mensaje).then(() => {
+        const mensajeEl = document.getElementById("mensajeInstagram");
+        mensajeEl.style.display = "block";
+        setTimeout(() => {
+          mensajeEl.style.display = "none";
+        }, 4000);
+      });
+    }
+
+    // Generar QR
+    new QRCode(document.getElementById("qrcode"), {
+      text: enlaceApp,
+      width: 180,
+      height: 180,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
   </script>
 
 </body>
