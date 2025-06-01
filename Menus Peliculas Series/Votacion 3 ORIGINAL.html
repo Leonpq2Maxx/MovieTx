@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Votación 2 prueba</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Votación MovieTx</title>
   <style>
     body {
       background-color: black;
@@ -67,6 +67,21 @@
       font-weight: bold;
     }
 
+    .popup {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #222;
+      color: #0f0;
+      padding: 20px 30px;
+      border: 2px solid green;
+      border-radius: 10px;
+      font-size: 18px;
+      z-index: 1000;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .opcion {
         font-size: 16px;
@@ -77,25 +92,40 @@
 </head>
 <body>
 
-  <h1>¿Cuál prefieres?</h1>
+  <h1>¿Cuál película prefieres?</h1>
 
   <div class="opciones">
     <div class="opcion" id="opcion-0" onclick="votar(0)">
-      Opción 1
+      Opción 1: Accion
       <div class="contador" id="contador-0">0</div>
     </div>
     <div class="opcion" id="opcion-1" onclick="votar(1)">
-      Opción 2
+      Opción 2: Animacion
       <div class="contador" id="contador-1">0</div>
     </div>
     <div class="opcion" id="opcion-2" onclick="votar(2)">
-      Opción 3
+      Opción 3: Drama
       <div class="contador" id="contador-2">0</div>
     </div>
+    <div class="opcion" id="opcion-3" onclick="votar(2)">
+      Opción 4: Romance
+      <div class="contador" id="contador-3">0</div>
+    </div>
+    <div class="opcion" id="opcion-4" onclick="votar(2)">
+      Opción 5: Terror
+      <div class="contador" id="contador-4">0</div>
+    </div>
+    <div class="opcion" id="opcion-5" onclick="votar(2)">
+      Opción 6: Comedia
+      <div class="contador" id="contador-5">0</div>
+    </div>
+    
   </div>
 
   <div class="temporizador" id="temporizador"></div>
   <div class="resultado" id="resultado"></div>
+
+  <div class="popup" id="popup">¡Gracias por votar en MovieTx!</div>
 
   <script>
     const tiempoLimite = 20 * 60 * 60 * 1000; // 20 horas
@@ -105,6 +135,12 @@
       for (let i = 0; i < 3; i++) {
         document.getElementById(`contador-${i}`).textContent = votos[i];
       }
+    }
+
+    function mostrarPopup() {
+      const popup = document.getElementById("popup");
+      popup.style.display = "block";
+      setTimeout(() => popup.style.display = "none", 3000);
     }
 
     function votar(index) {
@@ -122,8 +158,8 @@
       localStorage.setItem("votoRealizado", index.toString());
       document.getElementById(`opcion-${index}`).classList.add("votada");
       actualizarContadores();
+      mostrarPopup();
       iniciarTemporizador();
-      alert("¡Gracias por tu voto!");
     }
 
     function mostrarResultado() {
@@ -159,7 +195,7 @@
         if (restante <= 0) {
           display.textContent = "¡La votación ha terminado!";
           mostrarResultado();
-          setTimeout(reiniciarVotacion, 5000); // reinicia tras 5 seg
+          setTimeout(reiniciarVotacion, 10000); // Reiniciar después de 10 seg
           return;
         }
 
