@@ -4,6 +4,13 @@ C
 
 
 
+F
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg",Freestyle (2023)
+
+
+
 
 K
 
@@ -21,7 +28,7 @@ http://208.88.245.81/nuevo/xsiempre.rbd.latino.2024.mkv musical y documentaal
 
 
 Wonka Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",Wonka go:Wonka
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cDkMUi0i85qgjlRqq92k2yzRHA2.jpg",Wonka go:Wonka
 http://208.88.245.85/nuevo/wonka.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",Wonka (2023)

@@ -2,19 +2,29 @@
 
 A
 
+subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fv9c5fsdxqUzkullgMB4cZja29y.jpg",Aladdin (2019)
+https://dl.dropbox.com/scl/fi/acgrahd2zzcqgh5zo0hx9/Aladdin.2019.1080p-dual-lat-cinecalidad.to.mp4?rlkey=qtonjfh72uy6bvmjsad1kiadh&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg",Aladdin go:Aladdin
 http://fina.dyndns.tv/Peliculas/Aladdin.mkv
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tC54XTUu4NVsMeWdSofja2uye9c.jpg",Aladdin 2 El retorno de Jafar (1994)
+https://dl.dropbox.com/scl/fi/ft2ckn95emqxotbvb7b65/Aladd-n.El.Regreso.De.Jafar.1994.1080P-Dual-Lat.mkv?rlkey=cwrvxhtkj6813pk6mgpg54r75&st=
 
-
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/abWvjyJz4kcp1xDn28RwyXjoIds.jpg",Aladdin 3 Aladdin y el rey de los ladrones (1996)
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/abWvjyJz4kcp1xDn28RwyXjoIds.jpg",Aladdin 3: El rey de los ladrones (1996)
+https://dl.dropbox.com/scl/fi/nwminnezvuvu198a8475d/Aladd-n.Y.El.Rey.De.Los.Ladrones.1996.1080P-Dual-Lat.mkv?rlkey=1npyxyh42xf0agde1r4ktqvzh&st=
 
 
 B
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg",Buzz Lightyear (2022)
+https://dl.dropbox.com/scl/fi/rxnwajbcwydosci025nzv/Lightyear.2022.1080p-dual-lat-cinecalidad.re.mp4?rlkey=voeyfoclotyrg6x6d9zg0xoaq&st=
+
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg",Blancanieves (2025)
 https://dl.dropbox.com/scl/fi/6w613p7xuy1tzoselmgmb/Blanca.Nieves.2025.1080P-Dual-Lat.mkv?rlkey=1oh5xme8exwj880rmntzgtace&st=
@@ -34,8 +44,9 @@ https://dl.dropbox.com/scl/fi/anu1e7jfdqhdx6x1ix7y9/Bambi-una-aventura-2025.mp4?
 
 C
 
-
+subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",Coco (2017)
+https://dl.dropbox.com/scl/fi/pfndn0wnjws80pfeotf1o/Coco.2017.1080p-dual-lat.mp4?rlkey=2sa8qu2l7wgs97udnwqmdijr9&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",Cars go:Cars1 (2006)
@@ -103,9 +114,9 @@ https://dl.dropbox.com/scl/fi/019rxqf6iiu2y4lkf06sa/Frozen.ii.2019.1080P-Dual-La
 
 h
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dK9rNoC97tgX3xXg5zdxFisdfcp.jpg",Hércules (1997)
-
+https://dl.dropbox.com/scl/fi/vuxvswm2w0rr987z8arpl/H-rcules.1997.1080P-Dual-Lat.mkv?rlkey=bfavf9ocqlru4kf190zmeyqn4&st=
 
 
 
@@ -190,7 +201,6 @@ subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",Mufasa: El rey león (2024) 
 https://dl.dropbox.com/scl/fi/ho5b640nqivpweapw5byq/294028-24b36b4d-42d1-461c-87c0-706be80100ad-odsj-2584694-streamwish.mp4?rlkey=aliq10yeworwounyswjazq7xv&st=
 
-
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg",Moana (2016)
 https://dl.dropbox.com/scl/fi/s30qf1hyi27386un4oekd/Moana.2016.1080p-dual-lat.mp4?rlkey=x95hdcwm1fujjc6j2u4m9mp4t&st=
@@ -199,9 +209,9 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg",Moana 2 (2024)
 https://dl.dropbox.com/scl/fi/ej548y6fqwu5y93wzgjvg/Moana.2.2024.1080P-Dual-Lat.mkv?rlkey=egjrop2zd3y0ivtnpuxnsweo5&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gknRvWOe1vypDJfFA4jnprCoK0T.jpg",Mickey, Donald y Goofy: Los tres mosqueteros (2004)
-
+https://dl.dropbox.com/scl/fi/h7f4nk3gkr1gzkn5jpm1a/Mickey.Donald.Goofy.Los.Tres.Mosqueteros.2004.1080P-Dual-Lat.mkv?rlkey=najkdqoz2ovb4cgy0hn1xcbqs&st=
 
 
 
@@ -249,7 +259,7 @@ Subido
 https://dl.dropbox.com/scl/fi/l8zid6b87ejionpikl1ud/Pocahontas.2.Encuentro.De.Dos.Mundos.1998.1080P-Dual-Lat.mkv?rlkey=gebg4lpws5yyhukzsa51ijh9m&st=
 
 
-t
+T
 
 subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1Gk8iihu4Q4BGh2n1IwNLB3zM8E.jpg",Tarzan 
@@ -266,6 +276,24 @@ https://dl.dropbox.com/scl/fi/mlhfuhcrykf9amu0smno5/Tierra.De.Osos.2003.1080P-Du
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/iiRaRi7SFCawo6lieWi3Ntcy936.jpg",Tierra de osos 2 (2006)
 https://dl.dropbox.com/scl/fi/sg7nq5u8a8yscah24wr69/Tierra.De.Osos.2.2006.1080P-Dual-Lat.mkv?rlkey=thb88lnf4gx84lskunxyzuca1&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9eTdRP1wEZX2JYO7kHNk5yGBbh5.jpg",Toy Story (1995)
+https://dl.dropbox.com/scl/fi/2y9sffhp4sr1tewmhkmc5/Toy.story.1.1995.1080P-Dual-Lat.mp4?rlkey=s600jmi8s02b890riguaupv5w&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t1VBfUln1XwTDHYjQaijyb7m888.jpg",Toy Story 2 (1999)
+https://dl.dropbox.com/scl/fi/5m200rgcrb5e600nr8rt1/Toy.story.2.1999.1080P-Dual-Lat.mp4?rlkey=9sqjh8i1rjxvu93kx724wo1rp&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg",Toy Story 3 (2010)
+https://dl.dropbox.com/scl/fi/yw9aayb417d4r3ypg2vme/Toy.story.3.2010.1080P-Dual-Lat.mp4?rlkey=fhunm53ch46c1n3oolnb3jo9p&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg",Toy Story 4 (2019)
+https://dl.dropbox.com/scl/fi/dsymsmj1uaxh4cn28lnsk/Toystory4.2019.1080P-Dual-Lat.mp4?rlkey=8xjorrdpn0rkvgttajy0rejef&st=
+
+
 
 
 W

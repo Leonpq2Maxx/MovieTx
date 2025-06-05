@@ -5,6 +5,8 @@ Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg",Azrael (2024)
 https://dl.dropbox.com/scl/fi/igizypgam0ra2ekbvfh0n/Azrael.-2024-.1080P.Dual.Lat.mkv?rlkey=n9n96tk7tgsrnavytx44084ph&st=
 
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",Asesino serial (2024) crimen,terror,suspenso
+
 Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://xl.movieposterdb.com/21_07/2014/3322940/xl_3322940_29a35439.jpg",Annabelle 1 (2014)
 https://dl.dropbox.com/scl/fi/c4y8vmzvwttrw9y51zvz8/Annabelle.2014.1080P-Dual-Lat.mp4?rlkey=igq4az6ke0jtnu22suc5uyt51&st=
@@ -18,15 +20,8 @@ subido
 https://dl.dropbox.com/scl/fi/phy3ip3ioojlg7vcgd5gy/Annabelle.comes.home.2019.1080P-Dual-Lat.mp4?rlkey=geo7jbrydvuek4x8cyr2m5st4&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",El bufón go:ElBufon
-http://208.88.245.85/nuevo/el.bufon.dual.2023.mkv
-
-Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://th.bing.com/th/id/OIP.TAyt2SGYGXZtVsPtfAf9pQAAAA?rs=1&pid=ImgDetMain",Abigail (2024)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmay24%2FVer%20Abigail%20online%20HD%20-%20Cuevana%202.mp4
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",Los juegos del hambre 5 terror go:LjueHa
-http://208.88.245.85/nuevo/los.juegos.del.hambre.5.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/wbGlMrymGFhYE8CTDVc7xwPUD6j.jpg",Anna go:Anna
 http://fina.dyndns.tv/Peliculas//Anna.mp4
@@ -43,6 +38,8 @@ Subido
 https://dl.dropbox.com/scl/fi/ur1xcyku3dvhy8yp0ujfd/Baghead.Contacto.Con.La.Muerte.2024.1080P-Dual-Lat.mp4?rlkey=gi7kxrnnupjmsye0r8ap2a789&st=
 
 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/eNpY5iiCv2sRXYmEeHA9SHT9Th2.jpg",Bloody Mary (2024)
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500",Feliz día de tu muerte 1 (2017)
 http://vod.tuxchannel.mx/peliculas/720/happy%20death%20day.mkv
@@ -50,6 +47,10 @@ http://vod.tuxchannel.mx/peliculas/720/happy%20death%20day.mkv
 
 
 C
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",El bufón go:ElBufon
+http://208.88.245.85/nuevo/el.bufon.dual.2023.mkv
 
 subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg",El conjuro (2013)
@@ -62,9 +63,6 @@ https://dl.dropbox.com/scl/fi/6gvzq42a2a2nfc3ca0h90/The.conjuring.2.2016.1080P-D
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg",El conjuro 3: El diablo me obligo hacerlo (2021)
 https://dl.dropbox.com/scl/fi/iuf0861zknazyjvqjrjlu/The.Conjuring.The.Devil.Made.Me.Do.It.2021.1080P-Dual-Lat.mp4?rlkey=c3pjsl6y9xcfzwv9izf9j75sm&st=
-
-La monja img
-https://image.tmdb.org/t/p/original/ce6f0GNhtHdIvtCoXfp3amE0fWz.jpg
 
 Eliminado
 https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg
@@ -86,6 +84,19 @@ http://208.88.245.85/nuevo/cementerio.mascotas.elorigen.dual2023.mkv
 
 
 D
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yfJwNAIzPPyAAOoCue1goOuHM81.jpg", Dulce Venganza (2010) go:DulceVeng1
+http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/g1WEqWtielGmcWj0hleLhDriB7w.jpg", Dulce Venganza 2 (2013) go:DulceVeng2
+http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%202.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aH3TbHO71FkUSXVKDbpPaoFtgG3.jpg", Dulce Venganza 3 (2015)
+http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%203.mkv
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg",Destino final: Lazos de sangre (2025)
@@ -158,10 +169,11 @@ http://vod.tuxchannel.mx/peliculas/720/my%20best%20friends%20exorcism%202022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",El bosque de los suicidios (2016) go:EBosqueS Terror, Suspense, Misterio
 http://vod.tuxchannel.mx/peliculas/720/el%20bosque%20de%20los%20suicidios.mkv
 
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg",El exorcista de Georgetown (2024) 
+https://dl.dropbox.com/scl/fi/lze03175k4felc6a9q5fl/Exorcismo.2024.1080P-Dual-Lat.mkv?rlkey=fg7ooj8m4apw3dzxlu4m387ad&st=
 
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qELKmWDNahBIHlHHLf3eLCq6j97.jpg",Ouija: El origen del mal (2016) go:Ouija16
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qELKmWDNahBIHlHHLf3eLCq6j97.jpg",Ouija: El origen del mal go:Ouija16 (2016)
 http://vod.tuxchannel.mx/peliculas/720/ouija%20%20origin%20of%20evil.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/fPtUgMcLIboqlTlPrq0bQpKK8eq.jpg",El menú (2022) go:Menu22
@@ -170,7 +182,7 @@ https://d1yei2z3i6k35z.cloudfront.net/2104853/63b6f9421344e_16EMNumero4k_T.mp4
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg",Evil dead:El despertar 2023 go:EvilDead
 http://208.88.245.85/nuevo/evildead.eldespertar.dual2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2H445u87FDUOl3EijrvUJqZekoY.jpg",El exorcismo de Emily Rose (2005) go:ExorDERO
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2H445u87FDUOl3EijrvUJqZekoY.jpg",El exorcismo de Emily Rose go:ExorDERO (2005)
 http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20emily%20ross.mkv
 
 
@@ -233,6 +245,12 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 L
 
 Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg",La calle del terror: La reina del baile (2025)
+https://dl.dropbox.com/scl/fi/knybyzxv9mnfabwvi88w7/Fear.street.prom.queen.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=bzlgl2d9ffu15l93pc6j28pzx&st=
+
+
+
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg",Presencia (2025)
 https://dl.dropbox.com/scl/fi/3wejw520iu2ib1vwtzmo0/Presencia.2025.1080P-Dual-Lat.mkv?rlkey=1jlcnt1wuelkm0qog4sph6sd6&st=
 
@@ -274,6 +292,8 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",La acompañante (2025)
 https://dl.dropbox.com/scl/fi/k5kwtfnqh8yka4wj1p429/Compa-era.Perfecta.2025.1080P-Dual-Lat.mkv?rlkey=ao8zyfo2bvkruckj8iv0wfhi2&st=
 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",Los juegos del hambre 5 terror go:LjueHa
+http://208.88.245.85/nuevo/los.juegos.del.hambre.5.dual.2023.mkv
 
 #EXTINF:-1,La invitación (2022)
 http://vod.tuxchannel.mx/peliculas/720/the%20invitation%202022.mkv
@@ -340,6 +360,9 @@ http://208.88.245.85/nuevo/unoparamorir.latino.2023.mkv
 
 P
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9MqBGo9BWainDLms66YLiDr5aS.jpg",Poseída (2025)
+https://dl.dropbox.com/scl/fi/vaojm6s9wj0v8xkxqb0fs/Poseida-2025.mp4?rlkey=0e2wb0onm7ejvdjyzqmxn2ff4&st=
 
 
 
@@ -356,6 +379,12 @@ https://tvinnov.online/Peliculas///PELICULAS%20INGLES/The.Day.After.Quarantine.2
 
 
 R
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",ROB1N
+
+
+
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sD6LX35RwyDzMDAunn89MBZFnFv.jpg",REC 4 (2014) go:Rec4
 http://vod.tuxchannel.mx/peliculas/720/rec%204.mkv
@@ -456,20 +485,24 @@ https://dl.dropbox.com/scl/fi/3xt7djd74cqgiqneot0gz/A.quiet.place.2018.1080p-dua
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/yMeKoe3ui4Pad8FUOJwCby3SOWe.jpg",Uno para morir 2023
 http://208.88.245.85/nuevo/unoparamorir.latino.2023.mkv
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vAYTXSUnQjmTFcm97BhROQav1wF.jpg",Until Dawn: Noche de terror (2025)
+https://dl.dropbox.com/scl/fi/pz0ljf2y98oh57s8325xz/Until-Dawn-2025.mp4?rlkey=rdkmtvquhmvim8e2kj8w7lbmq&st=
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ozENiUeN6EV12Q9vpaM5okAT2NI.jpg",Un cuento de pescadores (2025)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
 
 V
 
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yfJwNAIzPPyAAOoCue1goOuHM81.jpg", Dulce Venganza (2010) go:DulceVeng1
-http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave.mkv
-
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/g1WEqWtielGmcWj0hleLhDriB7w.jpg", Dulce Venganza 2 (2013) go:DulceVeng2
-http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%202.mkv
-
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aH3TbHO71FkUSXVKDbpPaoFtgG3.jpg", Dulce Venganza 3 (2015)
-http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%203.mkv
 
 
 

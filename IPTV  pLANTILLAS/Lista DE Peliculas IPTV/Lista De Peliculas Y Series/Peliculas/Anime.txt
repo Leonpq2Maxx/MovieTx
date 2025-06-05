@@ -12,7 +12,7 @@ http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",Boruto la pelicula
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",Boruto: La pelicula
 https://pomf2.lain.la/f/ujnar7ej.mp4
 
 Subido
@@ -51,16 +51,21 @@ https://pomf2.lain.la/f/bq0q7wap.mp4
 
 
 D
+
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg",Dragon Ball Z La Batalla De Los Dioses (2013) | MegaMaxx
 https://dn720303.ca.archive.org/0/items/dragon-ball-z-la-batalla-de-los-dioses/Dragon%20Ball%20Z%20la%20Batalla%20de%20los%20Dioses.ia.mp4
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg",Dragon Ball Z: La resurrecion de freezer (2015)
+https://dl.dropbox.com/scl/fi/pmdvuuxtgni6xfi252vx5/Dragon.ball.z.resurrection.f.2015.1080p-dual-lat.mp4?rlkey=pkfk0l2ojjgk0911baoxtl54g&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg",Dragon Ball Super Broly (2018) | MegaMaxx
 https://ia801905.us.archive.org/22/items/dragon-ball-super-broly/Dragon%20Ball%20Super%3A%20Broly.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.pinimg.com/originals/d2/4c/0c/d24c0cac91e6c5f7f020b886dd45be31.jpg",Dragon Ball Super: Super Hero (2022) | MegaMaxx
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/o3a2yc2zkmdsq9wZ6Hnyu3jfLcC.jpg",Dragon Ball Super: Super Hero (2022) | MegaMaxx
 https://dl.dropboxusercontent.com/scl/fi/jy535c6e18x0ydikzhniw/Dragon.Ball.Super.Super.Hero.2022.1080P-Dual-Lat.mp4?rlkey=c2634uyll6a1rimri72e2akf9&st=
 
 Subido
@@ -70,60 +75,135 @@ https://pomf2.lain.la/f/oh69iwud.mp4
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8SpYfrxp1kXpBLWnmmoXgc4tI9R3Wr2RFWA&s",Dragon Ball Gt: Despues de 100 años
+https://dl.dropbox.com/scl/fi/h6q0a27m2a2pnqusgn70f/Dragon-ball-gt-100a-os.mp4?rlkey=ymjozpox8hov55usqzu343oxz&st=
 https://pomf2.lain.la/f/zhgzxnic.mp4
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg", Dragon Ball Z: Episodio de Bardock
+https://dl.dropbox.com/scl/fi/ppa1vjh7mjlfekdy4st94/Dragon-ball-z-episodio-de-Bardock-Espa-ol-Latino-Completo-720P_HD.mp4?rlkey=o0jel4tqau5s8khpsioifzwpk&st=
 https://pomf2.lain.la/f/9nzstm94.mp4
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",Dragon Ball Z: Los tres grandes Super Saiyans
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg",Dragon Ball Z: Los tres grandes Super Saiyans
+https://dl.dropbox.com/scl/fi/s60h3fjqyfocpgd528frg/Dragon-Ball-Z-Los-tres-super-saiyajins.mp4?rlkey=uukcaj37oqfeptt9k5ajyj095&st=
 https://pomf2.lain.la/f/cztm9ml9.mp4
 
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jamUcpRFj8ZHjQrPHieweUKbRBh.jpg", Dragon Ball Z: La Pelea de Bardock vs Freezer
+https://dl.dropbox.com/scl/fi/zhgnaas4gvkhu1ui2xwst/Dragon-ball-z-bardock-vs-freezer.mp4?rlkey=84kzgu6yg62lxcnk0yxybqg3k&st=
 https://pomf2.lain.la/f/4frslouo.mp4
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/r0GNumFcQu68a0b5IKcs9P6wZtW.jpg", Dragon Ball Z: Los rivales mas poderosos
+https://dl.dropbox.com/scl/fi/819k8li0r6tsuu1epx0zk/Dragon-Ball-Z-Los-Rivales-mas-Poderosos.mp4?rlkey=cyn55wxn69ev3go616ogn3e7p&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/r1ha6nMoLIlsBVUbgZ6uWjF84nj.jpg", Dragon Ball Z: La galaxia corre peligro (1993)
+https://dl.dropbox.com/scl/fi/cuuf6t5cdynyr0whktcqj/Dragon-Ball-Z-La-galaxia-corre-peligro.mp4?rlkey=79rjsljijl55kd9nzuu2janlw&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.pinimg.com/564x/14/4c/c4/144cc486f2430a8ddec0a9f1101f3d20.jpg",Dragon Ball Z: El poder invensible (1993)
+https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/daKUEF0jEFJv0CXes48LpaDg3o8.jpg",Dragon Ball Z: El regreso de broly (1994)
+https://dl.dropbox.com/scl/fi/gxs1v21167asaezzvleb4/Dragon-Ball-Z-El-Regreso-de-broly.mp4?rlkey=smi2eok2rr2ujvrvw60metzq7&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/96IrRfvolvjoTey4M12UNvtJ1hq.jpg",Dragon Ball Z: El combate final (1995)
+https://dl.dropbox.com/scl/fi/3jrehlcdoq89wx14nm8im/Dragon-Ball-Z-El-combate-final.mp4?rlkey=lox3zi5gsqn5r3xrh069vy9of&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/a8uGQUIj51UILeImTvRCtwI6HWF.jpg",Dragon Ball Z: El regreso de cooler
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/27KARvbKeiGasPL7tYVaIEk3bya.jpg",Dragon Ball Z: Los dos guerreros del futuro
+https://dl.dropbox.com/scl/fi/hidpvshoygb92gqjc5erl/Dragon-Ball-Z-Los-dos-guerreros-del-futuro-1993.mp4?rlkey=qi3ifgwldwdvwi2u3xb4i5tet&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.pinimg.com/originals/ce/3b/b6/ce3bb6dc36836631bb6b6c27322726cb.jpg",Dragon Ball Z: El ataque del dragon
+https://dl.dropbox.com/scl/fi/pykkde5xnom0g7bo61b7x/Dragon-Ball-Z-El-Ataque-del-dragon.mp4?rlkey=nlwoga3ff86c30tkpt5l6nw8z&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yS6Ho9mHvhGHa6bDM7plpkypE3Z.jpg",Dragon Ball Z: La fusion de goku y vegeta
+https://dl.dropbox.com/scl/fi/9me4yfnqx8c60jn5hdcbc/Dragon-Ball-Z-La-fusion-de-goku-y-vegeta.mp4?rlkey=qurdzya65bttvpoztxc9j8vks&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fnL91s898xIK0wJnHVC0oGSFAXd.jpg",Dragon Ball Z: El super guerrero Son Goku
+https://dl.dropbox.com/scl/fi/rigo9c1fnq2syinp7szhk/Dragon-Ball-Z-Goku-es-un-super-saiyajin.mp4?rlkey=uzgflgbicfkdgiog8v1c65csf&st=
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5elbm3iLgGQ6nA5vqUmi9vIojbF.jpg",Dragon Ball Z: El más fuerte del mundo (1990)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg",Dragon Ball Z: La super batalla (1990)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fAwrVa1RA4RGnGvbx34KhlWdKIw.jpg",Dragon Ball Z: Plan para erradicar a los Super Saiyans (2010)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/f2BipTKswrdpqoCc1xJDyL35rJy.jpg",Dragon Ball: Gran aventura mística (1988)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg",Dragon Ball: La leyenda del dragón Shenron (1986)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",Dragon Ball: El camino hacia el poder (1996)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2L6mX0DyItEsG39uYHWjztEfVOn.jpg",Dragon Ball: La princesa durmiente del castillo del mal (1987)
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
 
 E
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",The Seven Deadly Sins: El rencor de Edimburgo - Parte 2 go:El rencor2 | MegaMaxx
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",Los siete pecados capitales: El rencor de Edimburgo - Parte 2 go:El rencor2 | MegaMaxx
 http://208.88.245.81/nuevo/el.rencor.de.edimburgo.part2.dual2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",EL RENCOR DE EDIMBURGO PARTE 2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/516MFML05KWiPfiQNAsVCGMySc7.jpg",Los siete pecados capitales: El rencor de edimburgo - Parte 2 go:El rencor2
 http://208.88.245.85/nuevo/el.rencor.de.edimburgo.part2.dual2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",El rencor de edimburgo parte 1
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",Los siete pecados capitales: El rencor de edimburgo - parte 1
 https://dl.dropbox.com/scl/fi/jsnn27uxsbfngwblye9j3/Los-siete-pecados-capitales-el-rencor-parte-1.mp4?rlkey=77peq4p2ey2blu8bkvpi0rbzs&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg",Los siete pecados capitales: La maldición de la luz (2021)
+https://dl.dropbox.com/scl/fi/sxahylo1kzmodc5jmcpzp/The.Seven.Deadly-Sins.Cursed.By.Light.2021.1080p.dual-lat.cinecalidad.run.mp4?rlkey=7d0xnj0mt6ukmdegcwdwqcbda&st=
 
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg",Los siete pecados capitales: Prisioneros del cielo (2018)
+https://dl.dropbox.com/scl/fi/by5es2uhxz4goz4weoen3/Los-siete-pecados-capitales-prisioneros-en-el-ciel.mp4?rlkey=tvaan880o3ev0k0b176za7i7s&st=
+
+
+
+S
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/TiMOBlMWgdBNcJCVbCIjkp2ShA.jpg",Steven Universe: La película (2019)
+https://dl.dropbox.com/scl/fi/6o1xd70czrwpeve54uunm/Steven.Universe.La.Pel-cula.2019.720p-Dual-Lat.mkv?rlkey=i4rro7sprq9j5fs7zevxuty28&st=
+
+
+
+
+
+
+
+
+
+
+
 
 
 

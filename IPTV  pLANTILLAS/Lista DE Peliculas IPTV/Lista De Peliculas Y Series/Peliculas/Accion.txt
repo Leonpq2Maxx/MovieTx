@@ -1,7 +1,11 @@
 A
 
 Subido
-#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/original/dPOJuPyFpPZ8hh5QwnRwBTjYanl.jpg" type="movie" group-title="Pelis 1" type="movie" ,Avatar (2009) go:Avatar
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",Alarum: Código Letal (2025)
+https://dl.dropbox.com/scl/fi/zd7zcg5khncloceom249i/Alarum.Codigo.Letal.2025.1080P-Dual-Lat.mkv?rlkey=i9j31g4crpwszhpm6s1gvoq1o&st=
+
+Subido
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dPOJuPyFpPZ8hh5QwnRwBTjYanl.jpg",Avatar (2009) go:Avatar
 http://vod.tuxchannel.mx/peliculas/720/avatar.mkv
 
 Subido
@@ -149,19 +153,60 @@ http://vod.tuxchannel.mx/peliculas/720/kong%20skull%20island.mkv
 
 L
 
-#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg"group-title="Pelis 1" type="movie" ,Lift el robo de primera clase go:Liftrobo
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",La fuente de la eterna juventud (2025)
+https://dl.dropbox.com/scl/fi/ietygi0otuy2k03gssfba/La.Fuente.De.La.Juventud.2025.1080P-Dual-Lat.mkv?rlkey=mgu2uybpvpq247v2uuno7qu39&st=
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase go:Liftrobo
 http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv
 
+
+
 R
+
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg",Rápidos y furiosos X go:RapidoFX
 http://208.88.245.85/nuevo/fastfuriusx.dual.2023.mkv
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/AcwmKWzrJ9tMPjU8jU9XlEpmsmZ.jpg",Rápidos y furiosos 10
 http://208.88.245.85/nuevo/fastfuriusx.dual.2023.mkv
 
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",Rápidos y furiosos 10 (2023)
 https://od.lk/s/NV8xODU0MTg5MjBf/R%C3%A1pidos%20y%20furiosos%20X%20%282023%29%20Online.mp4
 
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9pnO6MLFvZDmgJ5qLQ3bdkGJjP2.jpg",Rapido y furioso 1 (2001)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8o3Py5qAgOUm0seWHmxpLwQmb1L.jpg",Rapido y furioso 2 (2003)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bDeOdgKaEK1zZxdUefutdppYjZf.jpg",Rapido y furioso 3: Carrera de Tokio (2006)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ko8rdwxHKmLVZ3surk0iALp5IsH.jpg",Rapido y furioso 4: Aún más rápido (2009)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mtRhCiT4hZzaP6c3DJqec1Jjm0i.jpg",Rapido y furioso 5: Sin control (2011)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8883pxkiVDQOC1PorvWiBKN3Yyu.jpg",Rapido y furioso 6 (2013)
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/n5yLlBdOBOWhE2664ULGJVuyLvL.jpg",Rapido y furioso 7 (2015)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3scawlCwqKCIfZK4L8aIro8vsMb.jpg",Rapido y furioso 8 (2017)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aGAbQMMfhFogEX8rzh5t98aeHoG.jpg",Rapido y furioso 9 (2021)
 
 
 S
@@ -177,13 +222,17 @@ http://vod.tuxchannel.mx/peliculas/720/the%20contractor%202022.mkv
 
 T
 
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",The beekeeper: Sentencia de muerte go:Protec24
 http://208.88.245.81/nuevo/the.beekeeper.el.protector.2024.dual.mkv
+
 
 #EXTINF:-1,Frente al tornado poster "https://image.tmdb.org/t/p/original/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg" Frente al tornado (2021) go:frenteTor
 http://vod.tuxchannel.mx/peliculas/720/13%20minutes%202021.mkv
 
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zzsryqYKz60Hn73AiZqbJGgAbMk.jpg",La leyenda de Tarzán (2016)
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg",Twisters (2024) go:Twisters
