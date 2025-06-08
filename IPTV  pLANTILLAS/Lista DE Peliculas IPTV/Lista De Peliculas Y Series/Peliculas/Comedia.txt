@@ -2,85 +2,7 @@ A
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",Argylle: Agente secreto (2024) go:AgenteS4
 http://vod.tuxchannel.mx/peliculas/720/argylle%202024.mkv
 
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gjk8YdXpItoC1in53FCrZMFIuBx.jpg",La otra cara de la Luna (2024) go:LOCara24
-http://208.88.245.81/nuevo/flyme.to.the.moon.2024.dual.mkv comedia y romance
 
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/zDWHsjfdsvZZkMWo1u1Ep7Y77FQ.jpg",Los instigadores (2024) go:Incita24
-http://208.88.245.85/nuevo/incitadores.2024.dual.mkv comedia,accion crimen
-
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//to0HRDQTk7ZceEjehm6TS9dNHqf.jpg",El elfo de la Navidad (2023) comedia,avenura
-http://208.88.245.85/nuevo/elia.y.el.elfo.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ApRW9CPK83fF4KCXPR00KCzXOjL.jpg",El panadero go:ElPanad12
-http://208.88.245.81/nuevo/el.panadero.dual.2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tEQSmMmtgsD4ssNaIWmPgQJsSwJ.jpg",Papás a la antigua (2023) comedia go:PapaAn23
-http://208.88.245.85/nuevo/papas.ala.antigua.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//9sA8HGHvbm9CqIJZfFmFZxgsOH6.jpg",Welcome al Norte (2023) comedia
-http://208.88.245.85/nuevo/wellcome.al.norte.latino2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//tOp2zFXEfctumVbZFRFbBpZl6uB.jpg",Mejor Navidad, ¡imposible! (2023) comedia
-http://208.88.245.85/nuevo/mejor.navidad.imposible.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eO4nzd4p7lKxUFQtQF2qui8gGNf.jpg",El sabor de la Navidad (2023) comedia
-http://208.88.245.85/nuevo/el.sabor.dla.navidad.latino2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/xM1yX980L50kjyGuvhykkz4utry.jpg",¡Hasta la madre! del Día de los muertos (2023) comedia
-http://208.88.245.85/nuevo/hastalamadre.del.diademuertos.latino2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//fnRUCA0fjEb3kuIaTGogL7425IC.jpg",Familia revuelta (2023) comedia
-http://208.88.245.85/nuevo/familia.revuelta.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ykkVuQgvjrVWiEe7TvUQZOrLUgC.jpg",Genie (2023) comedia
-http://208.88.245.85/nuevo/genie.dual.2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//9sA8HGHvbm9CqIJZfFmFZxgsOH6.jpg",Welcome al norte (2023) comedia
-http://208.88.245.85/nuevo/wellcome.al.norte.latino2023.mkv
-
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/of6Ds591FJTKoBHYjDFzH6jlTyK.jpg",Navidad en Candy Cane Lane (2023) omedia
-http://208.88.245.85/nuevo/la.calle.dela.navidad.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sIpn96a6QyXLEDydbTg7ciGcncs.jpg",Viaje Todo Robado (2023) comedia
-http://208.88.245.85/nuevo/viaje.todo.robado.latino2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//suDjK0qIsPoBNrAhWUtIjkIWx1G.jpg",La tipica navidad (2023)
-http://208.88.245.81/nuevo/la.tipica.navidad.2023.dual.mkv comedia, drama romance
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//zswSOwzHmP90XXsbdcAIKhchOKL.jpg",¿Tus navidades o las mías? 2 (2023)
-http://208.88.245.85/nuevo/tu.navidad.ola.mia2.dual.2024.mkv romance comedia
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//4PIEcP9saKXUtK09iIQEKEXNORk.jpg",Los que se quedan 
-http://208.88.245.85/nuevo/los.que.se.quedan.2024.dual.mkv comedia drama
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase
-http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv Acción, Comedia, Crimen
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/aJg7z3AVwBakEUDdJaah5QyebXn.jpg",The Claus Family 3 (2022)
-http://208.88.245.85/nuevo/la.familia.claus3.dual2023.mkv comedia
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//5JyivjFm8WzZU2jhzjMWdbWdOwj.jpg",No voy a pedirle a nadie que me crea (2023)
-http://208.88.245.85/nuevo/no.voy.apedirle.anadie.kmcrea.latino.2024.mkv comedia drama crimen
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5dliMQ2ODbGNoq0hlefdnuXQxMw.jpg",Unos suegros de armas tomar (2023) comedia, accion romance
-https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjulio%2FVer%20Unos%20suegros%20de%20armas%20tomar%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7MhXiTmTl16LwXNPbWCmqxj7UxH.jpg",Juego de roles go:JuegoDRo
-http://208.88.245.85/nuevo/juego.droles.dual.2024.mkv accion comedia romance
-
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/1UHp2QEBPnTrcx0i6aYw6jWtDbI.jpg",El sindicato (2024) go:ElSin24
-http://208.88.245.81/nuevo/el.sindicato.2024.dual.mkv comedia accion
-
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//dEsuQOZwdaFAVL26RjgjwGl9j7m.jpg",Harold y su crayón mágico (2024)
-http://208.88.245.85/nuevo/harold.y.su.crayon.magico.2024.dual.mkv
-
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/ukpk3ZFeDOmznIBFbSpdXb6o1pt.jpg",Inexpertos (2024) go:Inexpe24
-http://208.88.245.85/nuevo/inexpertos.2024.dual.mkv
-
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//8mmpltkcG9areafsQHXaURedno3.jpg",Tipos de gentileza (2024) drama comedia
-https://dl.dropbox.com/scl/fi/pbbd324tsxerjmqt31ner/Ver-Tipos-de-gentileza-online-HD-GNULA.mp4?rlkey=7uk7upi7n7t7mbz50nyee0r94&st=f3qc2bwf&dl=0
 B
 
 
@@ -94,7 +16,7 @@ http://208.88.245.81/nuevo/benditasuegra.latino.2023.mkv
 C
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jCerTXgMp5iiSoJofwkKskp2w45.jpg",Chicas malas (2024) go:Chicamalas
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jCerTXgMp5iiSoJofwkKskp2w45.jpg",Chicas malas (2024)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20Chicas%20pesadas%20online%20HD%20-%20Cuevana%202.mp4
 
 
@@ -103,29 +25,73 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 D
 
 Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pAVGfrADDvKMgoZnJLSCiLBCCiG.jpg",¿Donde esta el fantasma? (2013)
+https://dl.dropbox.com/scl/fi/lyyx8ahi44zfsgxu0cx1r/Y.D-nde.Esta.El.Fantasma.2013.1080P-Dual-Lat.mp4?rlkey=2leb7pw5f6d83iupbg7ttvuis&st=
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mNkAOFyb4TV2gTSc92jx2O9evtj.jpg",Doblemente embarazada 2 (2022) go:DobleEm1 go:DobleEm22
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vRbDuqlmGPM9wGZ3VwbrjQu16Oa.jpg",¿Donde esta el fantasma? 2 (2014)
+https://dl.dropbox.com/scl/fi/03x9fzrhnndf5min3kzhw/A.Haunted.House.2.1080P-Dual-Lat.mp4?rlkey=nk410hmc7wo5jn1khc8ivm5cy&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mNkAOFyb4TV2gTSc92jx2O9evtj.jpg",Doblemente embarazada 2 (2022) go:DobleEm22
 http://vod.tuxchannel.mx/peliculas/720/doblemente%20embarazada%202%202022.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/hyFKdAN5Dl93mt2JHfcfvIyf38g.jpg",Diario de mi Vagina (2024) go:DMvagina Comedia/Drama
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/hyFKdAN5Dl93mt2JHfcfvIyf38g.jpg",Diario de mi Vagina (2024) 	Comedia/Drama
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Diario%20de%20mi%20vagina%20online%20HD%20-%20Cuevana%202.mp4
 
 
 
 E
+
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/1UHp2QEBPnTrcx0i6aYw6jWtDbI.jpg",El sindicato (2024) go:ElSin24
+http://208.88.245.81/nuevo/el.sindicato.2024.dual.mkv comedia accion
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/31IB4VXpan7JrQYnnr7g75YqOu8.jpg",El último vagon (2023) go:EUvagon
 Ehttp://208.88.245.85/nuevo/ultimo.vagon.latino2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//to0HRDQTk7ZceEjehm6TS9dNHqf.jpg",El elfo de la Navidad (2023) comedia,avenura
+http://208.88.245.85/nuevo/elia.y.el.elfo.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ApRW9CPK83fF4KCXPR00KCzXOjL.jpg",El panadero go:ElPanad12
+http://208.88.245.81/nuevo/el.panadero.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//eO4nzd4p7lKxUFQtQF2qui8gGNf.jpg",El sabor de la Navidad (2023) comedia
+http://208.88.245.85/nuevo/el.sabor.dla.navidad.latino2023.mkv
+
+
+F
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//fnRUCA0fjEb3kuIaTGogL7425IC.jpg",Familia revuelta (2023) comedia
+http://208.88.245.85/nuevo/familia.revuelta.dual2023.mkv
+
+
 
 G
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/liLN69YgoovHVgmlHJ876PKi5Yi.jpg",Ghosting (2023) go:Ghosted23
 http://208.88.245.81/nuevo/ghosted.dual.2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ykkVuQgvjrVWiEe7TvUQZOrLUgC.jpg",Genie (2023) comedia
+http://208.88.245.85/nuevo/genie.dual.2023.mkv
+
+
+J
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7MhXiTmTl16LwXNPbWCmqxj7UxH.jpg",Juego de roles go:JuegoDRo
+http://208.88.245.85/nuevo/juego.droles.dual.2024.mkv accion comedia romance
 
 
 H
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/j741ip55NOzabrllOXHJv2vpag7.jpg",¡Hasta la madre del Día de las Madres! (2023) go:HLMDDLM3
 http://208.88.245.85/nuevo/hastalam.dldia.dlamadre.latino.2023.mkv
 
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//dEsuQOZwdaFAVL26RjgjwGl9j7m.jpg",Harold y su crayón mágico (2024)
+http://208.88.245.85/nuevo/harold.y.su.crayon.magico.2024.dual.mkv
+
+I
+
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/ukpk3ZFeDOmznIBFbSpdXb6o1pt.jpg",Inexpertos (2024) go:Inexpe24
+http://208.88.245.85/nuevo/inexpertos.2024.dual.mkv
 
 
 L
@@ -139,10 +105,29 @@ http://208.88.245.85/nuevo/la.gran.seduccion.2023.latino.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3wu1W6bvNGPm2AvVDP7dkGYF8pd.jpg",Los menospreciados go:MenosPre2
 http://208.88.245.81/nuevo/los.menospreciados.dual.2024.mkv
 
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gjk8YdXpItoC1in53FCrZMFIuBx.jpg",La otra cara de la Luna (2024) go:LOCara24
+http://208.88.245.81/nuevo/flyme.to.the.moon.2024.dual.mkv comedia y romance
+
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/original/zDWHsjfdsvZZkMWo1u1Ep7Y77FQ.jpg",Los instigadores (2024) go:Incita24
+http://208.88.245.85/nuevo/incitadores.2024.dual.mkv comedia,accion crimen
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//suDjK0qIsPoBNrAhWUtIjkIWx1G.jpg",La tipica navidad (2023)
+http://208.88.245.81/nuevo/la.tipica.navidad.2023.dual.mkv comedia, drama romance
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//4PIEcP9saKXUtK09iIQEKEXNORk.jpg",Los que se quedan 
+http://208.88.245.85/nuevo/los.que.se.quedan.2024.dual.mkv comedia drama
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase
+http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv Acción, Comedia, Crimen
+
+
 Los descendientes: Corazón rebelde (2024)
 
 
 M
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//tOp2zFXEfctumVbZFRFbBpZl6uB.jpg",Mejor Navidad, ¡imposible! (2023) comedia
+http://208.88.245.85/nuevo/mejor.navidad.imposible.dual2023.mkv
 
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg",Me vuelves loca (2023) go:MLoca23
@@ -151,16 +136,32 @@ http://208.88.245.85/nuevo/m.vuelves.loca.latino2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg",Me vuelves loca
 http:/208.88.245.85/nuevo/m.vuelves.loca.latino2023.mkv  
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7r9pn1g3lY95DjiwzxpmNqlJzeO.jpg",Mi abuelo es un peligro (2016)
-
+https://dl.dropbox.com/scl/fi/3tjglc6m3qejrye4838im/Mi.abuelo.es.un.peligro.2016.1080p-dual-lat.mp4?rlkey=6v3r565011fuwcznfxjocjqts&st=
 
 
 
 N
+
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg",No Me La Toquen (2018)
 https://dl.dropbox.com/scl/fi/jezdirnudopnnuryfmbaf/Blockers.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=npa8oat5vlbb5ybi30jsb0iq2&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/of6Ds591FJTKoBHYjDFzH6jlTyK.jpg",Navidad en Candy Cane Lane (2023) omedia
+http://208.88.245.85/nuevo/la.calle.dela.navidad.dual2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//5JyivjFm8WzZU2jhzjMWdbWdOwj.jpg",No voy a pedirle a nadie que me crea (2023)
+http://208.88.245.85/nuevo/no.voy.apedirle.anadie.kmcrea.latino.2024.mkv comedia drama crimen
+
+
+
+P
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tEQSmMmtgsD4ssNaIWmPgQJsSwJ.jpg",Papás a la antigua (2023) comedia go:PapaAn23
+http://208.88.245.85/nuevo/papas.ala.antigua.dual2023.mkv
+
+
 
 
 Q
@@ -181,11 +182,20 @@ Subido
 http://vod.tuxchannel.mx/peliculas/720/the%20hangover%20part%20II.mkv
 
 
+
+P
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mm1M6CoN2qLy8BpnrmYEVToQHJR.jpg",Pobres criaturas (2023) Comedia/Romance/Ciencia Ficcion
+https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20Pobres%20Criaturas%20online%20HD%20-%20Cuevana%202.mp4
+
+
+
 R
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",Ricky Stanicky: El impostor (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Ricky%20Stanicky-%20El%20impostor%20online%20HD%20-%20Cuevana%202.mp4
+
 
 
 S
@@ -199,17 +209,32 @@ T
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7onQmk5ZzUjx6SEAiqILWQFTaYC.jpg",Tequila repasado go:TequilaRE
 http://208.88.245.81/nuevo/tequila.re.pasado.2024.latino.mkv
 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/aJg7z3AVwBakEUDdJaah5QyebXn.jpg",The Claus Family 3 (2022)
+http://208.88.245.85/nuevo/la.familia.claus3.dual2023.mkv comedia
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//zswSOwzHmP90XXsbdcAIKhchOKL.jpg",¿Tus navidades o las mías? 2 (2023)
+http://208.88.245.85/nuevo/tu.navidad.ola.mia2.dual.2024.mkv romance comedia
+
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//8mmpltkcG9areafsQHXaURedno3.jpg",Tipos de gentileza (2024) drama comedia
+https://dl.dropbox.com/scl/fi/pbbd324tsxerjmqt31ner/Ver-Tipos-de-gentileza-online-HD-GNULA.mp4?rlkey=7uk7upi7n7t7mbz50nyee0r94&st=f3qc2bwf&dl=0
 
 
-P
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mm1M6CoN2qLy8BpnrmYEVToQHJR.jpg",Pobres criaturas (2023) Comedia/Romance/Ciencia Ficcion
-https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20Pobres%20Criaturas%20online%20HD%20-%20Cuevana%202.mp4
+U
 
-
-
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5dliMQ2ODbGNoq0hlefdnuXQxMw.jpg",Unos suegros de armas tomar (2023) comedia, accion romance
+https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjulio%2FVer%20Unos%20suegros%20de%20armas%20tomar%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 
 
+V
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sIpn96a6QyXLEDydbTg7ciGcncs.jpg",Viaje Todo Robado (2023) comedia
+http://208.88.245.85/nuevo/viaje.todo.robado.latino2023.mkv
+
+W
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//9sA8HGHvbm9CqIJZfFmFZxgsOH6.jpg",Welcome al Norte (2023) comedia
+http://208.88.245.85/nuevo/wellcome.al.norte.latino2023.mkv
 
 

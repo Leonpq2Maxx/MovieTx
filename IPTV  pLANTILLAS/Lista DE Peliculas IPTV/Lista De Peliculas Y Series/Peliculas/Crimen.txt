@@ -1,11 +1,29 @@
 Crimen 
 
+
+A
+
+
+
+Subido
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",Asesino serial Strange Darling (2024) crimen,terror,suspenso
+https://dl.dropbox.com/scl/fi/jgnezwq0w1ddidene6pju/Asesino-serial-2024.mp4?rlkey=ow3ootcly7htvefkkeeky95n1&st=
+
+
+
 C
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//6YZmezBcTwL9KUn5kkygAvrJ1fx.jpg",Criptoestafas go:Criptoest
 http://208.88.245.81/nuevo/criptoestafas.2024.dual.mkv
 
 
+
+
+
 L
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vjAMj81oYBryzGBhJk4gcK0M636.jpg",Sombras de un crimen go:Sombras23
+http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/tg1LwZgPKcvxaIgWauX8F5Cs6HS.jpg",La oscuridad de la Luz del Mundo go:LODLZM
 http://208.88.245.85/nuevo/la.oscuridad.delaluz.del.mundo.latino2023.mkv
 
@@ -27,4 +45,7 @@ http://208.88.245.81/nuevo/el.asesinato.de.gabby.petito.dual.2023.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg",El asesino go:EAsesino
 http://208.88.245.81/nuevo/el.asesino.dual.2023.mkv
+
+
+
 

@@ -1,5 +1,8 @@
 A
 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zhxqRc8oqehGcyVq1igPEc2BDfR.jpg",Anna (2019)
+http://fina.dyndns.tv/Peliculas//Anna.mp4
+
 Subido
 #EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",Alarum: Código Letal (2025)
 https://dl.dropbox.com/scl/fi/zd7zcg5khncloceom249i/Alarum.Codigo.Letal.2025.1080P-Dual-Lat.mkv?rlkey=i9j31g4crpwszhpm6s1gvoq1o&st=

@@ -5,8 +5,6 @@ Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg",Azrael (2024)
 https://dl.dropbox.com/scl/fi/igizypgam0ra2ekbvfh0n/Azrael.-2024-.1080P.Dual.Lat.mkv?rlkey=n9n96tk7tgsrnavytx44084ph&st=
 
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",Asesino serial (2024) crimen,terror,suspenso
-
 Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://xl.movieposterdb.com/21_07/2014/3322940/xl_3322940_29a35439.jpg",Annabelle 1 (2014)
 https://dl.dropbox.com/scl/fi/c4y8vmzvwttrw9y51zvz8/Annabelle.2014.1080P-Dual-Lat.mp4?rlkey=igq4az6ke0jtnu22suc5uyt51&st=
@@ -23,8 +21,6 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://th.bing.com/th/id/OIP.TAyt2SGYGXZtVsPtfAf9pQAAAA?rs=1&pid=ImgDetMain",Abigail (2024)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmay24%2FVer%20Abigail%20online%20HD%20-%20Cuevana%202.mp4
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/wbGlMrymGFhYE8CTDVc7xwPUD6j.jpg",Anna go:Anna
-http://fina.dyndns.tv/Peliculas//Anna.mp4
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg",Atrapados en lo Profundo Atrapados en el abismo (2024) go:AtrapaP2
@@ -414,38 +410,52 @@ https://ia804700.us.archive.org/9/items/fi_20230106/La%20Luz%20del%20Diablo.mp4
 
 S
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/aQPeznSu7XDTrrdCtT5eLiu52Yu.jpg",SAW X go:Sawx
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nzVkXj1IX0BNoYzpTVogtkcCStf.jpg",SAW X go:SawX
 http://208.88.245.85/nuevo/saw.x.dual.2023.mkv
 
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/aQPeznSu7XDTrrdCtT5eLiu52Yu.jpg",Saw X
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nzVkXj1IX0BNoYzpTVogtkcCStf.jpg",Saw X
 http://208.88.245.85/nuevo/saw.x.dual.2023.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pn51im1JIMJgq9eqRAIvoQ1b1cv.jpg",Saw 9 (2021)
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ocaPrXzYK5LluHWMg2tSTWtoz0i.jpg",Saw 9 (Espiral: El juego del miedo continua) (2021)
 http://vod.tuxchannel.mx/peliculas/720/spiral%20from%20the%20book%20of%20saw%202021.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/2mUqHJG7ZiGwZYIylczFCsRPbXM.jpg",Saw 8 (2017) go:Saw8
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/90T0Cjx2yl6RaFhxas1eKnCphh5.jpg",Saw 8 (2017) go:Saw8
 http://vod.tuxchannel.mx/peliculas/720/jigsaw.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vC9T3hjrV9jEBIQ5Ce9eZzN1xxJ.jpg",Saw 7 (2010)
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/otcgtanjfiuN11zkfyVZA2gYHFM.jpg",Saw 7 (2010) go:Saw7
 http://vod.tuxchannel.mx/peliculas/720/saw%20VII.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/9fFI57FuE9X4pUCIiKZZZCB7caK.jpg",Saw 6 (2009) go:Saw6
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/sT1ch0QsHmUdjVjxl4GZO4W4Hpg.jpg",Saw 6 (2009) go:Saw6
 http://vod.tuxchannel.mx/peliculas/720/saw%20VI.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dpiS8OcDaTkBdQZkkrdQPPXdJgK.jpg",Saw 5 (2008)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fkb5iYclS18yvEBWkRLau3bKhnE.jpg",Saw 5 (2008) go:Saw5
 http://vod.tuxchannel.mx/peliculas/720/saw%20V.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/e3pLI0qN1AKGHwOcMuwTpyI2SLN.jpg",Saw 4 (2007)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xmGLouNtJMYZjgfXW7EisUTa0ti.jpg",Saw 4 (2007) go:Saw4
 http://vod.tuxchannel.mx/peliculas/720/saw%20IV.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4iO9n24Rb10peXV0JH2EldIOrAp.jpg",Saw 3 (2006) go:Saw3
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rfwlLuptcyQNhSivC4CsPKjSpOg.jpg",Saw 3 (2006) go:Saw3
 http://vod.tuxchannel.mx/peliculas/720/saw%20III.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vadsox7kS3dTzODeGdeWg3cbW9z.jpg",Saw 2 (2005)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4KC1RHtH4asWc44Lu7wguMPNwqu.jpg",Saw 2 (El juego del miedo 2) (2005) go:Saw2
 http://vod.tuxchannel.mx/peliculas/720/saw%20II.mkv
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/h2x0kRZWvwpw8GvghmQUn1m1jQo.jpg",Saw 1 (2004)
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ee9gOVGZmemoJiK6nG1tGkZv10L.jpg",Saw 1 (El juego del miedo) (2004) go:Saw1
 http://vod.tuxchannel.mx/peliculas/720/saw%20I.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vjAMj81oYBryzGBhJk4gcK0M636.jpg",Sombras de un crimen
-http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
-
+Subido
 #EXTINF:-1,Sonrie (2022)
 http://vod.tuxchannel.mx/peliculas/720/smile%202022.mkv
 
@@ -468,10 +478,8 @@ https://dl.dropbox.com/scl/fi/k9fjg190fgvusg93si8tm/Tarot.De.La.Muerte.2024.1080
 
 U
 
+Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg",Un lugar en Silencio: Día uno go:Tranqui3 (2024)
-http://208.88.245.81/nuevo/un.lugar.en.silencio.dia1.2024.dual.mkv
-
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//hU42CRk14JuPEdqZG3AWmagiPAP.jpg",Un lugar en Silencio: Día uno (2024)
 http://208.88.245.81/nuevo/un.lugar.en.silencio.dia1.2024.dual.mkv
 
 Subido
@@ -481,6 +489,7 @@ http://vod.tuxchannel.mx/peliculas/720/a%20quiet%20place%20part%20II%202021.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg",Un lugar en silencio (2018)
 https://dl.dropbox.com/scl/fi/3xt7djd74cqgiqneot0gz/A.quiet.place.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=b98an85allzaeitbzoqb71p30&st=
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/yMeKoe3ui4Pad8FUOJwCby3SOWe.jpg",Uno para morir 2023
 http://208.88.245.85/nuevo/unoparamorir.latino.2023.mkv

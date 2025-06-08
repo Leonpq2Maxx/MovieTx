@@ -121,7 +121,7 @@ https://dl.dropbox.com/scl/fi/hidpvshoygb92gqjc5erl/Dragon-Ball-Z-Los-dos-guerre
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://i.pinimg.com/originals/ce/3b/b6/ce3bb6dc36836631bb6b6c27322726cb.jpg",Dragon Ball Z: El ataque del dragon
-https://dl.dropbox.com/scl/fi/pykkde5xnom0g7bo61b7x/Dragon-Ball-Z-El-Ataque-del-dragon.mp4?rlkey=nlwoga3ff86c30tkpt5l6nw8z&st=
+https://dl.dropbox.com/scl/fi/pykkde5xnom0g7bo61b7x/Dragon-Ball-Z-El-Ataque-del-dragon.mp4?rlkey=nlwoga3ff86c30tkpt5l6nw8z&st= controlar
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yS6Ho9mHvhGHa6bDM7plpkypE3Z.jpg",Dragon Ball Z: La fusion de goku y vegeta
@@ -131,29 +131,33 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fnL91s898xIK0wJnHVC0oGSFAXd.jpg",Dragon Ball Z: El super guerrero Son Goku
 https://dl.dropbox.com/scl/fi/rigo9c1fnq2syinp7szhk/Dragon-Ball-Z-Goku-es-un-super-saiyajin.mp4?rlkey=uzgflgbicfkdgiog8v1c65csf&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5elbm3iLgGQ6nA5vqUmi9vIojbF.jpg",Dragon Ball Z: El más fuerte del mundo (1990)
+https://dl.dropbox.com/scl/fi/94klww2le3y1vw9zgkunv/Dragon-Ball-Z-El-mas-fuerte-del-mundo-1990.mp4?rlkey=avx55mssi1k7adzwfcg3rnlfk&st=
 
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg",Dragon Ball Z: La super batalla (1990)
+https://dl.dropbox.com/scl/fi/1emxqgfmpt7mh1epsvvn2/Dragon-Ball-Z-La-batalla-mas-grande-de-este-mundo-esta-por-comenzar.mp4?rlkey=idmr36ccujczdjlx04uee39jr&st=
 
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fAwrVa1RA4RGnGvbx34KhlWdKIw.jpg",Dragon Ball Z: Plan para erradicar a los Super Saiyans (2010)
+https://dl.dropbox.com/scl/fi/4vlwun60x6z3ib5et82zn/EL-PLAN-PARA-ERRADICAR-A-LOS-SAYAYIN-PELICULA-COMPLETA-ESPA-OL-LATINO-HD-720P_HD.mp4?rlkey=jdhjaktzb1ofwxtob6542g0ae&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/f2BipTKswrdpqoCc1xJDyL35rJy.jpg",Dragon Ball: Gran aventura mística (1988)
+https://dl.dropbox.com/scl/fi/l1fn1epxjjk4s3nuqxmia/Dragon-Ball-una-aventura-mistica.mp4?rlkey=frr86ylu658y84l8wb830ynmv&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg",Dragon Ball: La leyenda del dragón Shenron (1986)
+https://dl.dropbox.com/scl/fi/s3lv2gz361hor0u0g1drg/Dragon-Ball-La-leyenda-de-shen-long.mp4?rlkey=t11dh1yqgqhzyfepifw6v6g3t&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",Dragon Ball: El camino hacia el poder (1996)
+https://dl.dropbox.com/scl/fi/lroundzohbydbuc46qfpz/Dragon-Ball-El-camino-hacia-el-poder.mp4?rlkey=z1drtoge9pyyn4oo8omj2z5ld&st=
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2L6mX0DyItEsG39uYHWjztEfVOn.jpg",Dragon Ball: La princesa durmiente del castillo del mal (1987)
-
+https://dl.dropbox.com/scl/fi/7xzvzapcrpv648koabnqp/Dragon-ball-la-leyenda-de-la-princesa-durmiente.mp4?rlkey=s37apy3egwrh88iwr6udzjjlp&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
