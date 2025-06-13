@@ -1,15 +1,25 @@
+
+B
+
+Subdo
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/x2pegSby27ebOwW361GJb1aKcxa.jpg",Banger (2025)
+https://dl.dropbox.com/scl/fi/v7xsmf1hdaggdjlvwxf2r/Banger.2025.1080P-Dual-Lat.mkv?rlkey=5z41vpmyrr4lsxksdafqdmxim&st=
+
+
+
+
 C
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lTCsGvAjqBbqp7T5ziK28SeDfVT.jpg",Cato tiago pzk (2021)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lTCsGvAjqBbqp7T5ziK28SeDfVT.jpg",CATO tiago pzk (2021)
 https://dl.dropbox.com/scl/fi/n4wq66s8ccs8gcnq7v86b/Cato.2021.1080P-Dual-Lat.mp4?rlkey=smqkbc2vkko0ocx77l7dcvh2a&st=
 
 
 F
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg",Freestyle (2023)
-
+https://dl.dropbox.com/scl/fi/9y3m5p8oukcclsl2r00nd/Freestyle-2023.mp4?rlkey=zbqtowkbh2q33z8sjlwvwdzeu&st=
 
 
 

@@ -134,6 +134,14 @@ https://dl.dropbox.com/scl/fi/xu02xc78tpp4n1950ptz2/Kung.Fu.Panda.4.2024.1080P-D
 L
 
 Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg",Lo que le falta a esta estrella (2025)
+https://dl.dropbox.com/scl/fi/gbsofc341j4x8cfv2txkn/Lo.Que.Le.Falta.A.Esta.Estrella.2025.1080P-Dual-Lat.mkv?rlkey=2nvn0i2pvfgoi3bwhxuuiye3r&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/F4OILPPbBfCYkWoW5be1UZnmJq.jpg",La rosa de Versalles (2025)
+https://dl.dropbox.com/scl/fi/w3d5lp1v2riv5gwcso4i5/La.Rosa.De.Versalles.2025.1080P-Dual-Lat.mkv?rlkey=6yniiztjgiahasmtajal8e8r5&st=
+
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kr36D6FiF8mNrsPz4fL6OUAvrrJ.jpg",Liga de la Justicia: Crisis en Tierras Infinitas - parte 1 go:LjcriTi (2024)
 http://208.88.245.81/nuevo/LJ.crisis.tierras.infinitas.p1.2024.dual.mkv
 
@@ -149,12 +157,6 @@ http://208.88.245.81/nuevo/Liga.de.la.Justicia.Crisis.en.Tierras.Infinitas.3.202
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/dXbpNrPDZDMEbujFoOxmMNQVMHa.jpg",Los Pinguinos de madagascar go:Pinguin1
 http://fina.dyndns.tv/Peliculas/Pinguinos%20de%20Madagascar.mkv
-
-
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg",Mr Peabody y Sherman go:ShermanYP
-http://fina.dyndns.tv/Peliculas/Mr%20Peabody%20and%20Sherman.mkv
-
-
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/OKeu0tqBBdcnKVABplvLYhOEZT.jpg",La liga de la justicia mundo Bélico go:LJDLJMB
 http://208.88.245.85/nuevo/ligadlajusticia.mundo.belico.dual2023.mkv
@@ -183,10 +185,6 @@ http://208.88.245.81/nuevo/la.navidad.del.pequeno.batman.2023.dual.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//atBDD05PbVDI2lm2OUy1KFQpzen.jpg",Los tipos malos: Una navidad muy mala (2023) go:LosTMalos animacion comedia
 http://208.88.245.85/nuevo/los.tipos.malos.una.navidad.muymala.dual2023.mkv
 
-Subido
-
-
-
 Subido            
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cQDqNCtq7j5xaCXGeLsLZK90RuR.jpg",Luck: Suerte go:LuckSuerte (2022)
 http://vod.tuxchannel.mx/peliculas/720/luck%202022.mkv
@@ -211,6 +209,9 @@ http://208.88.245.85/nuevo/la.magia.dla.navidad.dual.2023.mkv
 )
 
 M
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg",Mr Peabody y Sherman go:ShermanYP
+http://fina.dyndns.tv/Peliculas/Mr%20Peabody%20and%20Sherman.mkv
 
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zrV5GnfCcLWzyjrFgYTpjQPRMfl.jpg",Madagascar (2005)
@@ -306,7 +307,9 @@ http://208.88.245.85/nuevo/powerangers.ayerhoysiempre.dual2023.mkv
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ajvpd9jEuQtknq92guThYE1GSGP.jpg",Phineas y Ferb Star Wars 
 http://fina.dyndns.tv/Peliculas/Phineas%20y%20Ferb%20Star%20Wars.mkv
 
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qHDsrBZJRx6ZCO4tocFh3gnbosU.jpg",Predator: Asesino de asesinos (2025) Animacion, accion
+https://dl.dropbox.com/scl/fi/ojplmorrc90pgos6isasz/Depredador.Cazador.De.Asesinos.2025.1080P-Dual-Lat.mkv?rlkey=qi3kfoolpgkb34jkh63y5568a&st=
 
 
 R
@@ -418,7 +421,7 @@ Subido
 https://dl.dropbox.com/scl/fi/b1czcia7ews3wvynxmiso/The.boss.baby.2017.1080p-dual-lat.mp4?rlkey=x7cvmwxi7swrozabuzs3nm51y&st=
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/76quYBayIWrSYsHyVSEPrbOhhSr.jpg",Urkel salva la navidad (2023) go:UrkelSN
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/76quYBayIWrSYsHyVSEPrbOhhSr.jpg",Urkel salva la navidad go:UrkelSN (2023)
 http://208.88.245.85/nuevo/urkel.salva.la.navidad.movie.dual2023.mkv
 
 

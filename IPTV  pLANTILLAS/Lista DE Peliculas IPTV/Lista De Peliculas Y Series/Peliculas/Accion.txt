@@ -59,7 +59,7 @@ Subido
 https://dl.dropbox.com/scl/fi/5z54279hcxx8g8z6oh9ws/Bad.Boys.II.2003.1080P-Dual-Lat.mp4?rlkey=qbrdqfvz4gq9aq5e87bca8mx0&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",Bad Boys Para Siempre (2020) go:Badboys3
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",Bad Boys Para Siempre (2020)
 https://dl.dropbox.com/scl/fi/01jnh4tk060wehqr6zczc/Bad.boys.for.life.2020.1080P-Dual-Lat.mp4?rlkey=10kibtebmfvbijrgdst9jyv69&st=
 
 Subido
@@ -104,11 +104,11 @@ Subido
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Damsel%20online%20HD%20-%20Cuevana%202.mp4
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",Detonantes (2024) go:Detonante
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",Detonantes go:Detonante (2024)
 http://208.88.245.81/nuevo/detonantes.2024.dual.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://cl2.buscafs.com/www.tomatazos.com/public/uploads/images/442324/442324.jpg",Deadpool y Wolverine (2024) go:Deadpool4
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
 
 
@@ -151,6 +151,24 @@ https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg",Kong: la Isla Calavera (2017) go:LongLIS7
 http://vod.tuxchannel.mx/peliculas/720/kong%20skull%20island.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/C4V4XW2igocPP54wqufQKSVQuq.jpg",K.O. (2025)
+https://dl.dropbox.com/scl/fi/s54vo5nhz3xq3mk6r6b3s/K.O.2025.1080P-Dual-Lat.mkv?rlkey=z7j1obvjdagbkxuu7dmkw8b8l&st=
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
+
+
 
 
 
@@ -210,6 +228,14 @@ https://od.lk/s/NV8xODU0MTg5MjBf/R%C3%A1pidos%20y%20furiosos%20X%20%282023%29%20
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aGAbQMMfhFogEX8rzh5t98aeHoG.jpg",Rapido y furioso 9 (2021)
+
+
+
+P
+
+
+
+
 
 
 S

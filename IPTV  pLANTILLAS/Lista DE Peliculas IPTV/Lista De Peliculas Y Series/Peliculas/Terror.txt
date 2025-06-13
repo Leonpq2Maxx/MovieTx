@@ -95,7 +95,7 @@ Subido
 http://vod.tuxchannel.mx/peliculas/720/i%20spit%20on%20your%20grave%203.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg",Destino final: Lazos de sangre (2025)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg",Destino final 6: Lazos de sangre (2025)
 https://dl.dropbox.com/scl/fi/q8pkqqheapici9poxqv5b/Destino-final-lazos-de-sangre-2025.mp4?rlkey=m9lca3vrx7qhtyvn2op8es627&st=
 
 
@@ -111,11 +111,11 @@ http://vod.tuxchannel.mx/peliculas/720/destino%20final%202.mkv
 http://vod.tuxchannel.mx/peliculas/720/destino%20final%203.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/Akx1Po4ZLetOWfYJhQf75tbhTtK.jpg",Destino final 5 (2011)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/Akx1Po4ZLetOWfYJhQf75tbhTtK.jpg",Destino final 5 (2011) go:DestinoF5
 http://vod.tuxchannel.mx/peliculas/720/destino%20final%205.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5vxXrr1MqGsT4NNeRITpfDnl4Rq.jpg",Destino final 4 (2009)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/5vxXrr1MqGsT4NNeRITpfDnl4Rq.jpg",Destino final 4 (2009) go:DestinoF4
 http://vod.tuxchannel.mx/peliculas/720/destino%20final%204.mkv
 
 
@@ -126,9 +126,12 @@ http://208.88.245.85/nuevo/dracula.mar.de.sangre.dual2023.mkv
 
 
 E
-
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg",Eliminar amigo (2014)
+https://dl.dropbox.com/scl/fi/km3jf0ogcm4d95rv127eg/Eliminar.amigo.2014.1080p-dual-lat.mp4?rlkey=mkeyoeyyer2ftf1q15rd7adz2&st=
 
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yVPear63M3MRiDyrSf6wsFgzN3A.jpg",El hoyo (2019)
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jHGgM019xAoy62cKZtDmTxvQlUY.jpg",El hoyo 2 (2024)
@@ -192,7 +195,7 @@ http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20carmen%20farias%202
 
 
 f
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7BpNtNfxuocYEVREzVMO75hso1l.jpg",Five night at Freddys (2023) go:fiveFree
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//7BpNtNfxuocYEVREzVMO75hso1l.jpg",Five night at Freddys go:fiveFree (2023)
 http://208.88.245.85/nuevo/fivenight.at.freddys.dual2023.mkv
 
 
@@ -206,7 +209,7 @@ https://dl.dropbox.com/scl/fi/ofbuox10p4sojfth9r358/World.War.Z.2013.1080P-Dual-
 
 H
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg",Háblame (2023) go:Hablame
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg",Háblame go:Hablame (2023)
 http://208.88.245.81/nuevo/hablame.dual.2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/8n8D2lmlCHRtex8rMkREc79ldW7.jpg",HáBLAME
 http://208.88.245.85/nuevo/hablame.dual.2023.mkv
@@ -299,6 +302,18 @@ http://vod.tuxchannel.mx/peliculas/720/the%20invitation%202022.mkv
 M
 
 Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5kymocKK0SfyEEV0ohNEBz1lxNx.jpg",Martyrs (2008)
+https://dl.dropbox.com/scl/fi/bspl8ayjiam1ig3vuv8pm/M-rtires.2008.1080P-Dual-Lat.mp4?rlkey=5zdlij73fccvw3f1tbn1k0vp3&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aDi56oSNirZStVwgl8R12nkQrIk.jpg",Mientras duermes (2011)
+https://dl.dropbox.com/scl/fi/q2mee7kepizb0drvhbjxa/Mientras.Duermes.2021.1080P-Dual-Lat.mp4?rlkey=vddidowpd87olh8ouyxldml5y&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg",Mara (2018)
+https://dl.dropbox.com/scl/fi/65k6f2q01kfm0oziensoa/Mara.mp4?rlkey=gh6q5dr8t12qy4f2wvjy49hfp&st=
+
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oCVDRqnh6xtaexTKQ8OkXD89rkL.jpg",Maligno (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2Fmaligno.mp4
 
@@ -314,7 +329,6 @@ http://208.88.245.85/nuevo/megan.dual.2022.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ajZUEsDpo3EgiHZ8HX9yQJIRnFf.jpg",MEGAN
 http://208.88.245.85/nuevo/megan.dual.2022.mkv
-
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/v31MsWhF9WFh7Qooq6xSBbmJxoG.jpg",EL MENú
 http://208.88.245.85/nuevo/el.menu.dual.2022.mkv
@@ -360,6 +374,8 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9MqBGo9BWainDLms66YLiDr5aS.jpg",Poseída (2025)
 https://dl.dropbox.com/scl/fi/vaojm6s9wj0v8xkxqb0fs/Poseida-2025.mp4?rlkey=0e2wb0onm7ejvdjyzqmxn2ff4&st=
 
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gbK0XS34qIuidH4tIQm9CyTtgK7.jpg",Los pecadores (2025)
 
 
 Q
@@ -472,9 +488,16 @@ https://pomf2.lain.la/f/6lkpkl7w.mp4
 T
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/r8kgyBIT5umT330gISJH5hqRhhy.jpg", Tarot de la muerte (2024) 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/r8kgyBIT5umT330gISJH5hqRhhy.jpg",Tarot de la muerte (2024) 
 https://dl.dropbox.com/scl/fi/k9fjg190fgvusg93si8tm/Tarot.De.La.Muerte.2024.1080P-Dual-Lat.mkv?rlkey=p9k8bsebml760ni1a386coz28&st=
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6f7EZ60KwDfjCv0KGKPIQk5QdJ5.jpg",Turno nocturno (2024)
+https://dl.dropbox.com/scl/fi/vk4i7d7kncl7hmb1o2ews/Turno-nocturno-2024.mp4?rlkey=p4owg5wv2uxjsb03qn3hot968&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kIO7eVOivYH9LptLxdXio5KRor.jpg",Terror en el rio (2025)
+https://dl.dropbox.com/scl/fi/t3wembx4jlflj4qjoemiu/Terror.En.El.Rio.2025.1080P-Dual-Lat.mkv?rlkey=dpbl6az9quinfeyj0nbqelzll&st=
 
 U
 

@@ -16,7 +16,7 @@ http://208.88.245.81/nuevo/benditasuegra.latino.2023.mkv
 C
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jCerTXgMp5iiSoJofwkKskp2w45.jpg",Chicas malas (2024)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jCerTXgMp5iiSoJofwkKskp2w45.jpg",Chicas malas go:ChiMala24 (2024)
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20Chicas%20pesadas%20online%20HD%20-%20Cuevana%202.mp4
 
 
@@ -68,7 +68,7 @@ http://208.88.245.85/nuevo/familia.revuelta.dual2023.mkv
 
 
 G
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/liLN69YgoovHVgmlHJ876PKi5Yi.jpg",Ghosting (2023) go:Ghosted23
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/liLN69YgoovHVgmlHJ876PKi5Yi.jpg",Ghosting go:Ghosted23 (2023)
 http://208.88.245.81/nuevo/ghosted.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//ykkVuQgvjrVWiEe7TvUQZOrLUgC.jpg",Genie (2023) comedia
@@ -130,7 +130,7 @@ M
 http://208.88.245.85/nuevo/mejor.navidad.imposible.dual2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg",Me vuelves loca (2023) go:MLoca23
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg",Me vuelves loca go:MLoca23 (2023)
 http://208.88.245.85/nuevo/m.vuelves.loca.latino2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg",Me vuelves loca
@@ -154,7 +154,9 @@ http://208.88.245.85/nuevo/la.calle.dela.navidad.dual2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//5JyivjFm8WzZU2jhzjMWdbWdOwj.jpg",No voy a pedirle a nadie que me crea (2023)
 http://208.88.245.85/nuevo/no.voy.apedirle.anadie.kmcrea.latino.2024.mkv comedia drama crimen
 
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6YsEHhqgT6c8nJlS1TL1Zyrxwgw.jpg",Nonnas (2025)
+https://dl.dropbox.com/scl/fi/sctrme5cwlg5y3284p89e/Nonnas.2025.1080P-Dual-Lat.mkv?rlkey=t1r1axx3lgrkoqjaktv17eeak&st=
 
 P
 
@@ -228,6 +230,10 @@ https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn
 
 
 V
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/A8E8EqXqETV8ggPiOkHjaBU8H9N.jpg",Viaje de fin de curso: Mallorca (2025)
+https://dl.dropbox.com/scl/fi/40j9nmp479fcjtxgzytrp/Viaje.De.Fin.De.Curso.Mallorca.2025.1080P-Cast.mkv?rlkey=awqwvetopem8dtzsnozxzrwko&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/sIpn96a6QyXLEDydbTg7ciGcncs.jpg",Viaje Todo Robado (2023) comedia
 http://208.88.245.85/nuevo/viaje.todo.robado.latino2023.mkv

@@ -105,14 +105,16 @@ http://fina.dyndns.tv/Peliculas/Eva.mkv
 
 M
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qz7BADRc32DYQCmgooJwI8UWRRC.jpg", Miller's Girl (2024)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qz7BADRc32DYQCmgooJwI8UWRRC.jpg",Miller's Girl (2024)
 https://dl.dropbox.com/scl/fi/6mmlrt7ojmqzpi9wf2aei/Miller-s.Girl.2024.1080P-Dual-Lat.mkv?rlkey=ehkpbcav964gnna87mfkscvyw&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg",Mala influencia (2025)
 https://dl.dropbox.com/scl/fi/0y1q3uh45sx3dm4amyqfd/Mala.Influencia.2025.1080P-Cast.mkv?rlkey=1hnfdwg910x6365wxhv23ejgz&st=
 
-
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/r6K6spYEWf7aDGsY4EdkScZW1Hl.jpg",Mi lista de deseos (2025)
+https://dl.dropbox.com/scl/fi/ak4gbd2mekjbh63bftk81/Mi.Lista.De.Deseos.2025.1080P-Dual-Lat.mkv?rlkey=61rgb3q2ssff7b4fdn6qhfgkl&st=
 
 
 O

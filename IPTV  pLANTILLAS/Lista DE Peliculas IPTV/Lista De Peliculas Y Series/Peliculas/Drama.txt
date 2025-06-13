@@ -8,9 +8,6 @@ http://vod.tuxchannel.mx/peliculas/720/abandoned%202022.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iKcnbqhKvlwfF4CnMVlRrYlOvM5.jpg",Air: La historia detrás del logo (2023) go:Air23
 http://208.88.245.85/nuevo/air.2023.dual.mkv
 
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",A ganar (2018) 
-https://dl.dropbox.com/scl/fi/0prsz81yb8pv74njs8d0j/The.miracle.season.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=g97lmjjkt9ekh8stxzh6ci8g8&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//57MFWGHarg9jid7yfDTka4RmcMU.jpg",American fiction
 http://208.88.245.81/nuevo/american.fiction.2023.dual.mkv comedia drama
@@ -42,21 +39,21 @@ D
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3sPMGyUvwNdlCgceuBvb50jC7mN.jpg",Dejar el mundo atrás (2023) go:DejarAt drama misterio suspenso
 http://208.88.245.85/nuevo/dejar.el.mundo.atras.dual.2023.mkv
 
-
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg",Desaparecidos en la noche (2024)
+https://dl.dropbox.com/scl/fi/i44ucg82wmidxhg4k7n6q/Desaparecidos.En.La.Noche.2024.1080P-Dual-Lat.mkv?rlkey=v4frj42ei4286likd0tm9mplm&st=
 
 
 E
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8vD6lIkdbTDGI1P2cuIprVlqen7.jpg",El deseo de Ana (2021)
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/32QnVNvl1XlORBW3CvWsM3byCOH.jpg",El negocio del dolor (2023) go:EneDolor drama
 http://208.88.245.85/nuevo/el.negocio.deldolor.dual20223.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//AjAElsEROAhnRLFzob8eqTfvlN7.jpg",Elena sabe (2023) go:ElenaSa drama
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//AjAElsEROAhnRLFzob8eqTfvlN7.jpg",Elena sabe go:ElenaSa (2023) drama
 http://208.88.245.85/nuevo/elena.sabe.latino2023.mkv
 
 
@@ -90,8 +87,9 @@ H
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1BNLHd8oKsy76FzvR9s3E5v8KO9.jpg",Háblame de ti (2022) go:Hablati drama comedia
 http://208.88.245.85/nuevo/hablamedeti.latino.2023.mkv
 
-
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg",Harta (2025)
+https://dl.dropbox.com/scl/fi/bwc38qcxl9tmw25e302jl/Harta.2025.1080P-Dual-Lat.mkv?rlkey=xa3xygkv1h2q6ixkolxfk4nfk&st=
 
 L
 
@@ -108,12 +106,9 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg",La evaluación (2025)
 https://dl.dropbox.com/scl/fi/hqvuvdvffyc3yb3v1c487/La.Evaluacion.2025.1080P-Dual-Lat.mkv?rlkey=enzeybr5jdz452cin29wolj9t&st=
 
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rayAREIKtSinuov10GvrZHyXfXH.jpg",La hermanastra fea (2025) terror
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg",La mitad de Ana (2025)
-
+https://dl.dropbox.com/scl/fi/5kbwwx2xpy5rs5d4ngdxv/La-mitad-de-ana-2025.mp4?rlkey=n1qtb5wqnm7kdnvj140rwm3c3&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//k7rEpZfNPB35FFHB00ZhXHKTL7X.jpg",La sociedad de la nieve (2023) drama historia
 http://208.88.245.85/nuevo/la.sociedad.dla.nieve.latino.2024.mkv
@@ -125,7 +120,7 @@ M
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//w5hACqUlPbpHiGLYbtoQHF0SNWe.jpg",Manodromo go:Manodro
 http://208.88.245.81/nuevo/manodromo.2020.dual.mkv misterio,drama suspenso
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kxj7rMco6RNYsVcNwuGAIlfWu64.jpg",Maestro go:Maestro
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//kxj7rMco6RNYsVcNwuGAIlfWu64.jpg",Maestro go:Maestro 
 http://208.88.245.85/nuevo/maestro.dual.2024.mkv
 
 
@@ -158,7 +153,7 @@ https://dl.dropbox.com/scl/fi/yj7i1w4fahszq6i9iruzg/Rehen.2025.1080P-Dual-Lat.mk
 http://208.88.245.81/nuevo/radical.latino.2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2by4DHPmfaTqJ9YJZJK5tPxHpuk.jpg",Remando como un solo hombre (2023) go:RemanCSH
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2by4DHPmfaTqJ9YJZJK5tPxHpuk.jpg",Remando como un solo hombre go:RemanCSH (2023)
 http://208.88.245.85/nuevo/remando.como.un.solo.hombre.dual.2024.mkv drama historia
 
 
@@ -182,7 +177,7 @@ http://208.88.245.81/nuevo/sp.no.apto.para.menores.dual.2023.mkv
 T
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg",Temporada de huracanes (2023) go:TempoDH drama suspenso crimen
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg",Temporada de huracanes go:TempoDH (2023)
 http://208.88.245.85/nuevo/temporada.de.huracanes.lat.2023.mkv
 
 Subido
@@ -190,10 +185,6 @@ Subido
 https://dl.dropbox.com/scl/fi/3ja3n1jfxsierv3hgnfva/Estoy.Bien.2024.1080P-Dual-Lat.mkv?rlkey=dgk4nc6xd07z4ki637ib9iq16&st=
 
 
-
-Y
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg",Yo, Tonya (2017) deporte
 
 
 
