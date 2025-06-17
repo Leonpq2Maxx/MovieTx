@@ -60,6 +60,10 @@ http://208.88.245.85/nuevo/elena.sabe.latino2023.mkv
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xL6EhUuS8TlcizP8KKtzbBOLs9q.jpg",El color púrpura (2023) go:ElColorP
 http://208.88.245.85/nuevo/el.color.purpura.2023dual.mkv ddrama
 
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg",El Maravilloso Mago de Oz (2025)
+https://dl.dropbox.com/scl/fi/sf5m6m4ijzg2y5ap7jxzu/El-Maravilloso.Mago.De.Oz.2025.Dual.1080p.Latino.mkv?rlkey=lb25ktgofttxhqu9nn74e8kxl&st=
+
 
 E
 

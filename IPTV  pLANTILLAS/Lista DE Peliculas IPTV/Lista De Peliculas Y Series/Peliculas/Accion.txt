@@ -117,6 +117,9 @@ http://208.88.245.85/nuevo/duro.de.entrenar.dual.2023.mkv
 
 
 E
+
+
+
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kkFn3KM47Qq4Wjhd8GuFfe3LX27.jpg",El planeta de los simios: Un nuevo reino (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20El%20planeta%20de%20los%20simios-%20Nuevo%20reino%20online%20HD%20-%20Cuevana%202.mp4
@@ -137,7 +140,13 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",Extraterritorial (2025)	
 https://dl.dropbox.com/scl/fi/lug9morotse42ufiu3lpn/Extraterritorial.2025.1080P-Dual-Lat.mkv?rlkey=c773238pqf20crpe7k4alk1g8&st=
 
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",El ladrón de joyas (2025)
+https://dl.dropbox.com/scl/fi/1ey016vsad4n98d3paqls/El.Ladron.De.Joyas.2025.1080P-Dual-Lat.mkv?rlkey=7mue4uuxobatx0ztt4q48m8zr&st=
 
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg",Estragos (2025)
+https://dl.dropbox.com/scl/fi/1dop4ez8sfcjunvi2odwk/Estragos.2025.1080P-Dual-Lat.mkv?rlkey=cba55hwyyygi54ancw143b41g&st=
 
 
 k
@@ -155,6 +164,11 @@ http://vod.tuxchannel.mx/peliculas/720/kong%20skull%20island.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/C4V4XW2igocPP54wqufQKSVQuq.jpg",K.O. (2025)
 https://dl.dropbox.com/scl/fi/s54vo5nhz3xq3mk6r6b3s/K.O.2025.1080P-Dual-Lat.mkv?rlkey=z7j1obvjdagbkxuu7dmkw8b8l&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg",G20 (2025)
+https://dl.dropbox.com/scl/fi/gnn2hxojco8m4vf6zqvsu/G20.2025.1080P-Dual-Lat.mkv?rlkey=fwsqndlgx25ovci65kxg3bd3a&st=
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="",
 
@@ -181,6 +195,17 @@ https://dl.dropbox.com/scl/fi/ietygi0otuy2k03gssfba/La.Fuente.De.La.Juventud.202
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase go:Liftrobo
 http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv
+
+
+N
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg",Novocaine: Sin dolor (2025)
+https://dl.dropbox.com/scl/fi/56ok26aywc7vtsxeuzbx8/Novocaine.Sin.Dolor.2025.1080P-Dual-Lat.mkv?rlkey=ct5pwdiqzibme0m34vzbfnb3o&st=
+
+
+
+
 
 
 

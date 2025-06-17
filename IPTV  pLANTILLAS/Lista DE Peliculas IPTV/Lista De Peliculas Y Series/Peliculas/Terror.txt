@@ -130,6 +130,11 @@ Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg",Eliminar amigo (2014)
 https://dl.dropbox.com/scl/fi/km3jf0ogcm4d95rv127eg/Eliminar.amigo.2014.1080p-dual-lat.mp4?rlkey=mkeyoeyyer2ftf1q15rd7adz2&st=
 
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dQM2LDOmolIGt7WzcHl6ZSUAdci.jpg",Eliminar amigo 2 (2018)
+
+
+
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yVPear63M3MRiDyrSf6wsFgzN3A.jpg",El hoyo (2019)
 
 
@@ -181,15 +186,13 @@ https://d1yei2z3i6k35z.cloudfront.net/2104853/63b6f9421344e_16EMNumero4k_T.mp4
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg",Evil dead:El despertar 2023 go:EvilDead
 http://208.88.245.85/nuevo/evildead.eldespertar.dual2023.mkv
 
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2H445u87FDUOl3EijrvUJqZekoY.jpg",El exorcismo de Emily Rose go:ExorDERO (2005)
 http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20emily%20ross.mkv
 
-
-
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pMyOSRURkxF6YId9vOTGsBH1jRb.jpg", El exorcismo de Carmen Farías (2021) go:CarmenFari
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/pMyOSRURkxF6YId9vOTGsBH1jRb.jpg",El exorcismo de Carmen Farías (2021) go:CarmenFari
 http://vod.tuxchannel.mx/peliculas/720/el%20exorcismo%20de%20carmen%20farias%202021.mkv
-
 
 
 
@@ -501,6 +504,22 @@ https://dl.dropbox.com/scl/fi/vk4i7d7kncl7hmb1o2ews/Turno-nocturno-2024.mp4?rlke
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kIO7eVOivYH9LptLxdXio5KRor.jpg",Terror en el rio (2025)
 https://dl.dropbox.com/scl/fi/t3wembx4jlflj4qjoemiu/Terror.En.El.Rio.2025.1080P-Dual-Lat.mkv?rlkey=dpbl6az9quinfeyj0nbqelzll&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rQR4NQwV9ixWoOHHTJd2Dt0chGc.jpg",Terrifier (2011)
+https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg",Terrifier 2 (2022)
+https://dl.dropbox.com/scl/fi/xln7vq6jyxqlaavwyo42u/Terrifier-2-2022.mp4?rlkey=uwirc5qpspzeo1bysyyxd6nye&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg",Terrifier 3 (2024)
+https://dl.dropbox.com/scl/fi/9ep2vlwxm0he5r7sdto2q/Terrifier.3.Payaso.siniestro.2024.720p-Dual-Lat.mkv?rlkey=i5am7375srqch10fjyc30u286&st=
+
+
+
+
 
 U
 

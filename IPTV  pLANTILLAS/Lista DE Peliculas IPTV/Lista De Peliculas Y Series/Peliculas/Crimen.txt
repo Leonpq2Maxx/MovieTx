@@ -1,5 +1,3 @@
-Crimen 
-
 
 A
 
@@ -9,6 +7,8 @@ Subido
 #EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",Asesino serial Strange Darling (2024) crimen,terror,suspenso
 https://dl.dropbox.com/scl/fi/jgnezwq0w1ddidene6pju/Asesino-serial-2024.mp4?rlkey=ow3ootcly7htvefkkeeky95n1&st=
 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg",Anna Nicole Smith: Tú no me conoces 2023 go:Annanico
+http://208.88.245.85/nuevo/annanicolle.dual.2023.mkv
 
 
 C
@@ -17,27 +17,8 @@ http://208.88.245.81/nuevo/criptoestafas.2024.dual.mkv
 
 
 
+E
 
-
-L
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vjAMj81oYBryzGBhJk4gcK0M636.jpg",Sombras de un crimen go:Sombras23
-http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/tg1LwZgPKcvxaIgWauX8F5Cs6HS.jpg",La oscuridad de la Luz del Mundo go:LODLZM
-http://208.88.245.85/nuevo/la.oscuridad.delaluz.del.mundo.latino2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg",Anna Nicole Smith: Tú no me conoces 2023 go:Annanico
-http://208.88.245.85/nuevo/annanicolle.dual.2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//90D6sXfbXKhDpd4S1cHICdAe8VD.jpg",Fineskind entre hermanos go:Finesk2 (2023) crimen suspenso
-http://208.88.245.85/nuevo/finestkind.dual.2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uthO75TZ3701HDiNzB4hxRw1zdU.jpg",Misterio en Venecia (2023) go:MisteV23 crimen misterio suspenso
-http://208.88.245.85/nuevo/misterio.en.venecia.dual2023.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aZXHjmhSSGUshLEdgsNCTH9z7Ix.jpg",Los asesinos de la luna go:LADLLu (2023) crime historia drama
-http://208.88.245.85/nuevo/las.asesinos.de.la.luna.dual.2023.mkv
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//8atmQTJJUqA1eMW6dDSrb1TNxiX.jpg",El asesinato de Gabby Petito (2022) go:EAGabby crimen documental
 http://208.88.245.81/nuevo/el.asesinato.de.gabby.petito.dual.2023.mkv
@@ -45,6 +26,49 @@ http://208.88.245.81/nuevo/el.asesinato.de.gabby.petito.dual.2023.mkv
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg",El asesino go:EAsesino
 http://208.88.245.81/nuevo/el.asesino.dual.2023.mkv
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg",El Guasón (2019)
+https://dl.dropbox.com/scl/fi/p7zrohbsmy9x8me9eijg5/Guas-n.2019.1080p-dual-lat.mkv?rlkey=54dx7pk331dxbai3dgxw8j93x&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg",El Guasón 2 (2024)
+https://dl.dropbox.com/scl/fi/zfqmde64wncaxym3hkyzu/Guason.2.Folie.a.Deux.2024.720p-Dual-Lat.mkv?rlkey=rrqmyax4tucckgd3j0ifl6z7y&st=
+
+
+F
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//90D6sXfbXKhDpd4S1cHICdAe8VD.jpg",Fineskind entre hermanos go:Finesk2 (2023) crimen suspenso
+http://208.88.245.85/nuevo/finestkind.dual.2023.mkv
+
+
+
+L
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/tg1LwZgPKcvxaIgWauX8F5Cs6HS.jpg",La oscuridad de la Luz del Mundo go:LODLZM
+http://208.88.245.85/nuevo/la.oscuridad.delaluz.del.mundo.latino2023.mkv
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aZXHjmhSSGUshLEdgsNCTH9z7Ix.jpg",Los asesinos de la luna go:LADLLu (2023) crime historia drama
+http://208.88.245.85/nuevo/las.asesinos.de.la.luna.dual.2023.mkv
+
+
+
+
+M
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uthO75TZ3701HDiNzB4hxRw1zdU.jpg",Misterio en Venecia (2023) go:MisteV23 crimen misterio suspenso
+http://208.88.245.85/nuevo/misterio.en.venecia.dual2023.mkv
+
+
+
+
+S
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/vjAMj81oYBryzGBhJk4gcK0M636.jpg",Sombras de un crimen go:Sombras23
+http://208.88.245.85/nuevo/marlowe.2023.dual.mkv
 
 
 
