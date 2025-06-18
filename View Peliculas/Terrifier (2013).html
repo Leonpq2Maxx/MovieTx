@@ -25,10 +25,16 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
+    .player {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 10px;
+    }
     .player video {
       width: 100%;
       height: auto;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
     }
     .info {
       display: flex;
@@ -124,7 +130,8 @@
 <body ondragstart="return false;" ondrop="return false;">
   <div class="player">
     <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4">
+      <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4" data-quality="1080">
+      <source src="https://dl.dropbox.com/scl/fi/s1lowqualitylink/Terrifier-2013-SD.mp4?rlkey=lowreskey&st=" type="video/mp4" data-quality="480">
     </video>
   </div>
 
@@ -193,9 +200,27 @@
   <script>
     const player = new Plyr('.vid1', {
       controls: [
-        'play-large', 'play', 'fast-forward', 'progress', 'current-time', 'duration',
+        'play-large', 'play', 'progress', 'current-time', 'duration',
         'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-      ]
+      ],
+      settings: ['captions', 'quality', 'speed'],
+      speed: { selected: 1, options: [0.75, 1, 1.25, 1.5, 2] },
+      quality: {
+        default: 1080,
+        options: [480, 1080],
+        forced: true,
+        onChange: (quality) => {
+          const video = player.media;
+          const sources = Array.from(video.querySelectorAll('source'));
+          const match = sources.find(s => s.getAttribute('data-quality') == quality);
+          if (match) {
+            const currentTime = player.currentTime;
+            video.src = match.src;
+            player.restart();
+            player.currentTime = currentTime;
+          }
+        }
+      }
     });
 
     const notification = document.getElementById('fullscreenNotification');
@@ -229,6 +254,20 @@
           document.exitFullscreen();
         }
       }
+    });
+
+    // Guardar y restaurar progreso
+    player.on('timeupdate', () => {
+      localStorage.setItem('video-time', player.currentTime);
+    });
+
+    player.on('ready', () => {
+      const savedTime = localStorage.getItem('video-time');
+      if (savedTime) player.currentTime = savedTime;
+    });
+
+    player.on('ended', () => {
+      alert('Gracias por ver el video. ¿Deseas ver la siguiente parte?');
     });
   </script>
 </body>
