@@ -217,7 +217,7 @@
       </a>
     </div>
   </div>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
   <script>
     const videoElement = document.querySelector('.vid1');
@@ -225,23 +225,12 @@
     const STORAGE_KEY = 'pos_' + videoSrc;
 
     const player = new Plyr(videoElement, {
-  controls: [
-    'rewind', 'play-large', 'play', 'fast-forward',
-    'progress', 'current-time', 'duration', 'mute', 'volume',
-    'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-  ],
-  settings: ['speed', 'quality'], // cambia aquí el orden si lo deseas
-  quality: {
-    default: 1080,
-    options: [1080, 720, 480],
-    forced: true,
-    onChange: (quality) => {
-      console.log('Resolución seleccionada:', quality);
-      // Aquí podrías implementar cambio de fuente real
-    }
-  }
-});
-    
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       const savedTime = localStorage.getItem(STORAGE_KEY);
