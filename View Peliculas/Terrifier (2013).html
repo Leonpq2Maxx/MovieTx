@@ -155,6 +155,24 @@
         'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
       ]
     });
+
+    // Detectar rotación de pantalla y activar pantalla completa
+    window.addEventListener("orientationchange", () => {
+      if (window.orientation === 90 || window.orientation === -90) {
+        const videoElement = document.querySelector(".vid1");
+        if (videoElement.requestFullscreen) {
+          videoElement.requestFullscreen();
+        } else if (videoElement.webkitRequestFullscreen) {
+          videoElement.webkitRequestFullscreen();
+        } else if (videoElement.msRequestFullscreen) {
+          videoElement.msRequestFullscreen();
+        }
+      } else {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+      }
+    });
   </script>
 </body>
 </html>
