@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terrifier (2013) - Reproductor</title>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
-  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&family=Kanit&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet" />
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
   <style>
     :root {
       --plyr-color-main: #ff0000;
@@ -104,7 +104,10 @@
       border-radius: 8px;
       font-size: 14px;
       z-index: 9999;
-      animation: fadeInOut 3s ease-in-out;
+      animation: fadeInOut 4s forwards;
+    }
+    .notification.show {
+      display: block;
     }
     .notification button {
       margin-left: 10px;
@@ -127,17 +130,17 @@
     }
   </style>
 </head>
-<body ondragstart="return false;" ondrop="return false;">
+<body>
   <div class="player">
     <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4" data-quality="1080">
-      <source src="https://dl.dropbox.com/scl/fi/s1lowqualitylink/Terrifier-2013-SD.mp4?rlkey=lowreskey&st=" type="video/mp4" data-quality="480">
+      <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4" data-quality="1080" />
+      <source src="https://dl.dropbox.com/scl/fi/s1lowqualitylink/Terrifier-2013-SD.mp4?rlkey=lowreskey&st=" type="video/mp4" data-quality="480" />
     </video>
   </div>
 
   <div class="notification" id="fullscreenNotification">
     Modo pantalla completa activado automáticamente.
-    <button onclick="exitFullscreen()">Salir</button>
+    <button aria-label="Salir de pantalla completa" onclick="exitFullscreen()">Salir</button>
   </div>
 
   <div class="info">
@@ -169,28 +172,28 @@
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
     <div class="series-grid">
-      <a href="Terrifier 2 (2022).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2">
+      <a href="Terrifier-2-(2022).html" class="serie">
+        <img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2" />
         <p>Terrifier 2</p>
       </a>
-      <a href="Terrifier 3 Payaso (2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3">
+      <a href="Terrifier-3-Payaso-(2024).html" class="serie">
+        <img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3" />
         <p>Terrifier 3</p>
       </a>
       <a href="go:Tranqui3" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg" alt="Un lugar en Silencio: Día uno">
+        <img src="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg" alt="Un lugar en Silencio: Día uno" />
         <p>Un lugar en Silencio: Día uno</p>
       </a>
-      <a href="Annabelle 2 la creacion 2 (2017).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Annabelle 2">
+      <a href="Annabelle-2-la-creacion-2-(2017).html" class="serie">
+        <img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Annabelle 2" />
         <p>Annabelle 2: La creación</p>
       </a>
-      <a href="Atrapados en lo Profundo Atrapados en el abismo (2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg" alt="Atrapados en lo Profundo">
+      <a href="Atrapados-en-lo-Profundo-Atrapados-en-el-abismo-(2024).html" class="serie">
+        <img src="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg" alt="Atrapados en lo Profundo" />
         <p>Atrapados en lo Profundo</p>
       </a>
-      <a href="Eliminado (2014).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="Eliminar amigo">
+      <a href="Eliminado-(2014).html" class="serie">
+        <img src="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="Eliminar amigo" />
         <p>Eliminar amigo</p>
       </a>
     </div>
@@ -210,6 +213,7 @@
         options: [480, 1080],
         forced: true,
         onChange: (quality) => {
+          // No se modifica para mantener como estaba
           const video = player.media;
           const sources = Array.from(video.querySelectorAll('source'));
           const match = sources.find(s => s.getAttribute('data-quality') == quality);
@@ -226,9 +230,9 @@
     const notification = document.getElementById('fullscreenNotification');
 
     function showNotification() {
-      notification.style.display = 'block';
+      notification.classList.add('show');
       setTimeout(() => {
-        notification.style.display = 'none';
+        notification.classList.remove('show');
       }, 4000);
     }
 
@@ -238,31 +242,42 @@
       }
     }
 
-    window.addEventListener("orientationchange", () => {
-      if (window.orientation === 90 || window.orientation === -90) {
-        const videoElement = document.querySelector(".vid1");
-        if (videoElement.requestFullscreen) {
-          videoElement.requestFullscreen();
-        } else if (videoElement.webkitRequestFullscreen) {
-          videoElement.webkitRequestFullscreen();
-        } else if (videoElement.msRequestFullscreen) {
-          videoElement.msRequestFullscreen();
+    function handleFullscreenByOrientation() {
+      const videoElement = document.querySelector(".vid1");
+      if (window.innerWidth > window.innerHeight) { // Landscape
+        if (!document.fullscreenElement) {
+          if (videoElement.requestFullscreen) {
+            videoElement.requestFullscreen();
+          } else if (videoElement.webkitRequestFullscreen) {
+            videoElement.webkitRequestFullscreen();
+          } else if (videoElement.msRequestFullscreen) {
+            videoElement.msRequestFullscreen();
+          }
+          showNotification();
         }
-        showNotification();
-      } else {
+      } else { // Portrait
         if (document.fullscreenElement) {
           document.exitFullscreen();
         }
       }
-    });
+    }
 
-    // Guardar y restaurar progreso
+    window.addEventListener('resize', handleFullscreenByOrientation);
+    window.addEventListener('load', handleFullscreenByOrientation);
+
+    // Prevención de drag & drop global
+    document.body.addEventListener('dragstart', e => e.preventDefault());
+    document.body.addEventListener('drop', e => e.preventDefault());
+
+    // Guardar y restaurar progreso por video
     player.on('timeupdate', () => {
-      localStorage.setItem('video-time', player.currentTime);
+      const videoKey = 'video-time-' + player.media.currentSrc;
+      localStorage.setItem(videoKey, player.currentTime);
     });
 
     player.on('ready', () => {
-      const savedTime = localStorage.getItem('video-time');
+      const videoKey = 'video-time-' + player.media.currentSrc;
+      const savedTime = localStorage.getItem(videoKey);
       if (savedTime) player.currentTime = savedTime;
     });
 
