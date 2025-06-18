@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Buscador avanzado de películas XSPLUS" />
-  <title>BUSCADOR AVANZADO XSPLUS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Buscador Avanzado XSPLUS de Películas 2025 - Encuentra tus estrenos favoritos en segundos">
+  <title>Buscador Avanzado XSPLUS</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
   <style>
     * {
@@ -13,16 +13,18 @@
       box-sizing: border-box;
     }
     body {
-      background: #000;
       font-family: 'Nunito', sans-serif;
+      background-color: #0d0d0d;
       color: #fff;
+      overflow-x: hidden;
     }
-    .xaviec {
-      background: #000;
+    header {
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 10px 0;
+      background: #000;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
       z-index: 1000;
     }
     .form__group {
@@ -32,100 +34,85 @@
     }
     .form__field {
       width: 100%;
-      padding: 7px 0;
-      background: transparent;
       border: none;
-      border-bottom: 2px solid #9b9b9b;
+      border-bottom: 2px solid #ff3c3c;
+      background: transparent;
       color: #fff;
       font-size: 1.3rem;
+      padding: 8px 0;
       outline: none;
-    }
-    .form__field::placeholder {
-      color: transparent;
     }
     .form__label {
       position: absolute;
-      top: 0;
       left: 0;
-      color: #fff;
-      font-size: 1rem;
-      pointer-events: none;
-      transition: 0.2s ease all;
-    }
-    .form__field:focus ~ .form__label,
-    .form__field:not(:placeholder-shown) ~ .form__label {
-      top: -20px;
+      top: -18px;
+      color: #ff3c3c;
       font-size: 0.9rem;
-      color: red;
+      font-weight: bold;
     }
     main {
-      padding-top: 80px;
+      padding: 120px 20px 40px;
     }
-    .cards {
+    ul.cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      list-style: none;
     }
     .card {
+      background: #111;
+      border-radius: 10px;
+      overflow: hidden;
       text-align: center;
-      text-decoration: none;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
     .card img {
       width: 100%;
       height: auto;
-      border-radius: 7px;
+      display: block;
     }
     .card span {
       display: block;
-      margin-top: 8px;
+      padding: 10px;
       font-size: 0.9rem;
       color: #ccc;
     }
-    @media screen and (max-width: 600px) {
+    @media (max-width: 600px) {
       .form__field {
         font-size: 1rem;
+      }
+      .card span {
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <header class="xaviec">
+  <header>
     <div class="form__group">
-      <input type="text" id="myInput" class="form__field" placeholder="Buscar películas" onkeyup="myFunction()" required>
-      <label for="myInput" class="form__label">Buscar</label>
+      <input type="text" id="myInput" class="form__field" placeholder="Buscar películas..." onkeyup="filtrarPeliculas()" required>
+      <label class="form__label" for="myInput">Buscar</label>
     </div>
   </header>
 
   <main>
     <ul class="cards" id="cards">
-      <!-- Películas insertadas automáticamente -->
-      <li><a href="#" class="card">
-        <img src="https://image.tmdb.org/t/p/original/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg" alt="Póster de Harta" />
-        <span>Harta Drama, Suspenso 2025 Película</span>
-      </a></li>
-
-      <li><a href="#" class="card">
-        <img src="https://image.tmdb.org/t/p/original/t9MqBGo9BWainDLms66YLiDr5aS.jpg" alt="Póster de Poseída" />
-        <span>Poseída Terror, Misterio 2025 Película</span>
-      </a></li>
-
-      <li><a href="#" class="card">
-        <img src="https://image.tmdb.org/t/p/original/qHDsrBZJRx6ZCO4tocFh3gnbosU.jpg" alt="Póster de Predator" />
-        <span>Predator Asesino de asesinos Animación, Acción, Ciencia Ficción 2025 Película</span>
-      </a></li>
-
-      <!-- Puedes continuar agregando más aquí -->
+      <!-- Las tarjetas de películas originales ya están dentro del HTML. -->
     </ul>
   </main>
 
   <script>
-    function myFunction() {
+    function filtrarPeliculas() {
       const input = document.getElementById("myInput").value.toLowerCase();
       const cards = document.querySelectorAll("#cards li");
       cards.forEach(card => {
         const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "" : "none";
+        card.style.display = text.includes(input) ? "block" : "none";
       });
     }
   </script>
