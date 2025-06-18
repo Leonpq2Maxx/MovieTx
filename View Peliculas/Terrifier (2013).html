@@ -35,13 +35,17 @@
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
+      justify-content: center;
       padding: 10px;
       border: 1px solid rgba(16, 235, 255, 0.461);
       border-radius: 10px;
       margin: 10px;
-    }
-    .info i, .info span {
       font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
     .hd-tag {
       display: flex;
@@ -82,6 +86,14 @@
     .serie p {
       margin-top: 5px;
     }
+    .toggle-container {
+      text-align: center;
+      margin: 10px;
+    }
+    .toggle-container label {
+      cursor: pointer;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
@@ -89,6 +101,13 @@
     <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
       <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4">
     </video>
+  </div>
+
+  <div class="toggle-container">
+    <label>
+      <input type="checkbox" id="fullscreenToggle" checked>
+      Activar pantalla completa automática en modo horizontal
+    </label>
   </div>
 
   <div class="info">
@@ -156,9 +175,10 @@
       ]
     });
 
-    // Detectar rotación de pantalla y activar pantalla completa
+    const fullscreenToggle = document.getElementById('fullscreenToggle');
+
     window.addEventListener("orientationchange", () => {
-      if (window.orientation === 90 || window.orientation === -90) {
+      if (fullscreenToggle.checked && (window.orientation === 90 || window.orientation === -90)) {
         const videoElement = document.querySelector(".vid1");
         if (videoElement.requestFullscreen) {
           videoElement.requestFullscreen();
