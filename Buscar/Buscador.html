@@ -11,7 +11,12 @@
 <style type='text/css'>*{margin:0;padding:0;box-sizing:border-box;list-style:none;}
 a{text-decoration:none;}
 body{background:#000;font-family:Nunito,sans-serif;}
-.cards{display:grid;grid-template-columns:1fr 1fr 1fr;}
+.cards{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
 .card{text-align:center;}
 .card img{padding:1px;width:98%;height:98%;border-radius:7px;}
 .card span{padding:0 .3rem;display:none;}
@@ -48,7 +53,7 @@ img[data-original-width] {height: auto;}
 .xaviec{background:#000;position:fixed;top:-5px;width:100%;}
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   padding: 1rem;
 }
@@ -1989,7 +1994,7 @@ body {
 <style>@media screen and (max-width:480px){.tiktok{font-size:24px;letter-spacing:2px}}
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   padding: 1rem;
 }
