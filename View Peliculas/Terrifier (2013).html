@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
   <style>
     :root {
       --plyr-color-main: #ff0000;
@@ -86,6 +87,7 @@
     .serie p {
       margin-top: 5px;
     }
+
     html { font-size: 100%; }
     body { font-size: 1rem; }
     h1 { font-size: 2rem; }
@@ -116,6 +118,38 @@
     .info, .info *, .info span, .info i {
       font-style: normal !important;
     }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
   </style>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
@@ -126,10 +160,7 @@
     </video>
   </div>
 
-  <div id="resume-msg" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85); padding: 10px 20px; color: #0f0; border-radius: 8px; z-index: 9999; font-weight: bold;">
-    ✅ Continuando desde donde lo dejaste...
-  </div>
+  <div id="resume-msg">✅ Reanudando: Terrifier (2013)</div>
 
   <div class="info">
     <i class="fal fa-calendar-alt"></i><span>2013</span>
@@ -206,11 +237,10 @@
       if (savedTime && parseFloat(savedTime) > 10) {
         videoElement.currentTime = parseFloat(savedTime);
         const msg = document.getElementById('resume-msg');
-        msg.style.display = 'block';
-        setTimeout(() => msg.style.display = 'none', 5000);
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
       }
 
-      // Botón retroceder 10s si no existe
       const controls = document.querySelector('.plyr__controls');
       if (controls && !document.getElementById('custom-rewind')) {
         const rewindBtn = document.createElement('button');
