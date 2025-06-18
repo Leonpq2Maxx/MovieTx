@@ -4,65 +4,52 @@
     <meta charset="UTF-8">
     <title>Terrifier: El inicio (2013)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Mientras cuida a dos niños durante Halloween, una niñera descubre una cinta con tres historias de terror.">
-    <!-- Fonts & Icons -->
+    <meta name="description" content="Una niñera descubre una cinta de video con historias de terror en Halloween.">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
     <style>
       * {
-        -webkit-tap-highlight-color: transparent;
-        user-select: none;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        outline: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
       }
       body {
-        margin: 0;
         background-color: #000;
-        font-family: 'PT Sans', sans-serif;
         color: #fff;
+        font-family: 'PT Sans', sans-serif;
       }
       :root {
         --plyr-color-main: #ff0000;
         --plyr-video-control-color: #0022ff;
       }
-      .plyr--video {
-        background: #000;
-        height: 100%;
-        overflow: hidden;
-      }
       video {
-        max-width: 100%;
+        width: 100%;
         height: auto;
-        border-radius: 5px;
+        border-radius: 8px;
+      }
+      .player {
+        padding: 10px;
       }
       .info-bar {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         justify-content: space-around;
+        align-items: center;
         padding: 10px;
-        border: 1px solid rgba(16, 235, 255, 0.461);
+        border: 1px solid rgba(16, 235, 255, 0.4);
         border-radius: 10px;
         margin: 10px;
-      }
-      .info-bar span {
-        display: flex;
-        align-items: center;
-        gap: 5px;
         font-size: 14px;
-      }
-      .info-bar svg {
-        border-radius: 4px;
       }
       .titulo, .sinopsis {
         padding: 10px;
         font-family: 'Kanit', sans-serif;
       }
-      .titulo h3, .titulo h4, .sinopsis h4 {
-        margin: 5px 0;
+      .sinopsis p {
+        font-size: 14px;
       }
       .recomendaciones {
         padding: 10px;
@@ -71,7 +58,6 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 15px;
-        text-align: center;
       }
       .serie {
         display: flex;
@@ -85,34 +71,26 @@
         max-width: 150px;
         border-radius: 10px;
         height: auto;
-        loading: lazy;
       }
-      .icons-container {
-        display: flex;
-        gap: 15px;
-        margin: 10px 0;
-      }
-      .icons-container i {
-        font-size: 24px;
-        cursor: pointer;
-      }
-      .icons-container i:hover {
-        color: yellow;
+      @media screen and (max-width: 768px) {
+        .info-bar {
+          flex-direction: column;
+          gap: 8px;
+        }
       }
     </style>
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <main>
       <div class="player">
-        <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
+        <video id="video" class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
           <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" size="480">
-          <track kind="subtitles" src="subtitulos.vtt" srclang="es" label="Español" default>
         </video>
       </div>
-      <section class="info-bar" aria-label="Información de la película">
-        <span><i class="fal fa-calendar-alt"></i>2013</span>
-        <span><i class="fal fa-clock"></i>1H 22Min</span>
-        <span><i class="fal fa-thumbs-up"></i>56%</span>
+      <section class="info-bar">
+        <span><i class="fal fa-calendar-alt"></i> 2013</span>
+        <span><i class="fal fa-clock"></i> 1H 22Min</span>
+        <span><i class="fal fa-thumbs-up"></i> 56%</span>
         <span>
           <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="4" fill="white" />
@@ -133,7 +111,7 @@
         </p>
       </section>
       <section class="recomendaciones">
-        <h4>Podría interesarte:</h4>
+        <h4 style="padding-left: 10px;">Podría interesarte:</h4>
         <div class="series-grid">
           <a href="Terrifier 2 (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2"><p>Terrifier 2</p></a>
           <a href="Terrifier 3 Payaso (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3"><p>Terrifier 3</p></a>
@@ -146,11 +124,17 @@
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
     <script>
-      const controls = [
-        'play-large', 'play', 'fast-forward', 'progress', 'current-time',
-        'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-      ];
-      const player = new Plyr('.vid1', { controls });
+      const player = new Plyr('.vid1', {
+        controls: ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay','fullscreen']
+      });
+
+      // Detectar reproducción para girar automáticamente en móviles
+      const video = document.getElementById('video');
+      video.addEventListener('play', () => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => {});
+        }
+      });
     </script>
   </body>
 </html>
