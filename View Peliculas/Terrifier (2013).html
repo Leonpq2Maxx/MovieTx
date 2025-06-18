@@ -249,7 +249,7 @@
         rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
         rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
         rewindBtn.onclick = () => {
-          videoElement.currentTime = Math.max(videoElement.currentTime - 10, 0);
+          videoElement.currentTime = 0;
         };
         controls.insertBefore(rewindBtn, controls.firstChild);
       }
@@ -260,6 +260,7 @@
         localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
       }
     }, 5000);
+    
   </script>
 </body>
 </html>
