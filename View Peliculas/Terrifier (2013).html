@@ -1,289 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terrifier (2013) - Reproductor</title>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&family=Kanit&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet" />
-  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
-  <style>
-    :root {
-      --plyr-color-main: #ff0000;
-      --plyr-video-control-color: #0022ff;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      outline: none;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-    body {
-      background-color: #000;
-      font-family: 'PT Sans', sans-serif;
-      color: #fff;
-    }
-    .player {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 10px;
-    }
-    .player video {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-    }
-    .info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      border: 1px solid rgba(16, 235, 255, 0.461);
-      border-radius: 10px;
-      margin: 10px;
-      font-size: 14px;
-    }
-    .info i {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .hd-tag {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hd-tag svg {
-      border-radius: 4px;
-    }
-    .titulo, .sinopsis {
-      padding: 10px;
-    }
-    .titulo h3, .titulo h4, .sinopsis h4 {
-      font-family: 'Kanit', sans-serif;
-      margin-bottom: 5px;
-    }
-    .recomendaciones {
-      padding: 10px;
-    }
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 15px;
-      text-align: center;
-    }
-    .serie {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: white;
-    }
-    .serie img {
-      width: 100%;
-      max-width: 150px;
-      border-radius: 10px;
-    }
-    .serie p {
-      margin-top: 5px;
-    }
-    .notification {
-      display: none;
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      z-index: 9999;
-      animation: fadeInOut 4s forwards;
-    }
-    .notification.show {
-      display: block;
-    }
-    .notification button {
-      margin-left: 10px;
-      background: #ff4444;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .notification button:hover {
-      background: #dd2222;
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-  </style>
-</head>
-<body>
-  <div class="player">
-    <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4" data-quality="1080" />
-      <source src="https://dl.dropbox.com/scl/fi/s1lowqualitylink/Terrifier-2013-SD.mp4?rlkey=lowreskey&st=" type="video/mp4" data-quality="480" />
-    </video>
-  </div>
-
-  <div class="notification" id="fullscreenNotification">
-    Modo pantalla completa activado automáticamente.
-    <button aria-label="Salir de pantalla completa" onclick="exitFullscreen()">Salir</button>
-  </div>
-
-  <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2013</span>
-    <i class="fal fa-clock"></i><span>1h 22min</span>
-    <i class="fal fa-thumbs-up"></i><span>56%</span>
-    <div class="hd-tag">
-      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <rect width="24" height="24" rx="4" fill="white" />
-        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
-      </svg>
-      <span>1080P</span>
-    </div>
-    <span>🇲🇽</span>
-  </div>
-
-  <div class="titulo">
-    <h3>Terrifier: El inicio</h3>
-    <h4>Género: Terror</h4>
-  </div>
-
-  <div class="sinopsis">
-    <h4>Sinopsis:</h4>
-    <p>
-      Mientras cuida a dos niños durante la noche de Halloween, una niñera encuentra una vieja cinta de vídeo en un saco de golosinas infantil. En la cinta se cuentan tres historias de terror conectadas por un payaso asesino. A medida que avanza la noche, una serie de sucesos extraños comienzan a ocurrir en la casa.
-    </p>
-  </div>
-
-  <div class="recomendaciones">
-    <h4>Podría interesarte:</h4>
-    <div class="series-grid">
-      <a href="Terrifier-2-(2022).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2" />
-        <p>Terrifier 2</p>
-      </a>
-      <a href="Terrifier-3-Payaso-(2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3" />
-        <p>Terrifier 3</p>
-      </a>
-      <a href="go:Tranqui3" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg" alt="Un lugar en Silencio: Día uno" />
-        <p>Un lugar en Silencio: Día uno</p>
-      </a>
-      <a href="Annabelle-2-la-creacion-2-(2017).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Annabelle 2" />
-        <p>Annabelle 2: La creación</p>
-      </a>
-      <a href="Atrapados-en-lo-Profundo-Atrapados-en-el-abismo-(2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg" alt="Atrapados en lo Profundo" />
-        <p>Atrapados en lo Profundo</p>
-      </a>
-      <a href="Eliminado-(2014).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="Eliminar amigo" />
-        <p>Eliminar amigo</p>
-      </a>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
-  <script>
-    const player = new Plyr('.vid1', {
-      controls: [
-        'play-large', 'play', 'progress', 'current-time', 'duration',
-        'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-      ],
-      settings: ['captions', 'quality', 'speed'],
-      speed: { selected: 1, options: [0.75, 1, 1.25, 1.5, 2] },
-      quality: {
-        default: 1080,
-        options: [480, 1080],
-        forced: true,
-        onChange: (quality) => {
-          // No se modifica para mantener como estaba
-          const video = player.media;
-          const sources = Array.from(video.querySelectorAll('source'));
-          const match = sources.find(s => s.getAttribute('data-quality') == quality);
-          if (match) {
-            const currentTime = player.currentTime;
-            video.src = match.src;
-            player.restart();
-            player.currentTime = currentTime;
-          }
-        }
+  <head>
+    <meta charset="UTF-8">
+    <title>Terrifier: El inicio (2013)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Mientras cuida a dos niños durante Halloween, una niñera descubre una cinta con tres historias de terror.">
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css">
+    <style>
+      * {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
       }
-    });
-
-    const notification = document.getElementById('fullscreenNotification');
-
-    function showNotification() {
-      notification.classList.add('show');
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 4000);
-    }
-
-    function exitFullscreen() {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
+      body {
+        margin: 0;
+        background-color: #000;
+        font-family: 'PT Sans', sans-serif;
+        color: #fff;
       }
-    }
-
-    function handleFullscreenByOrientation() {
-      const videoElement = document.querySelector(".vid1");
-      if (window.innerWidth > window.innerHeight) { // Landscape
-        if (!document.fullscreenElement) {
-          if (videoElement.requestFullscreen) {
-            videoElement.requestFullscreen();
-          } else if (videoElement.webkitRequestFullscreen) {
-            videoElement.webkitRequestFullscreen();
-          } else if (videoElement.msRequestFullscreen) {
-            videoElement.msRequestFullscreen();
-          }
-          showNotification();
-        }
-      } else { // Portrait
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        }
+      :root {
+        --plyr-color-main: #ff0000;
+        --plyr-video-control-color: #0022ff;
       }
-    }
-
-    window.addEventListener('resize', handleFullscreenByOrientation);
-    window.addEventListener('load', handleFullscreenByOrientation);
-
-    // Prevención de drag & drop global
-    document.body.addEventListener('dragstart', e => e.preventDefault());
-    document.body.addEventListener('drop', e => e.preventDefault());
-
-    // Guardar y restaurar progreso por video
-    player.on('timeupdate', () => {
-      const videoKey = 'video-time-' + player.media.currentSrc;
-      localStorage.setItem(videoKey, player.currentTime);
-    });
-
-    player.on('ready', () => {
-      const videoKey = 'video-time-' + player.media.currentSrc;
-      const savedTime = localStorage.getItem(videoKey);
-      if (savedTime) player.currentTime = savedTime;
-    });
-
-    player.on('ended', () => {
-      alert('Gracias por ver el video. ¿Deseas ver la siguiente parte?');
-    });
-  </script>
-</body>
+      .plyr--video {
+        background: #000;
+        height: 100%;
+        overflow: hidden;
+      }
+      video {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+      }
+      .info-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px;
+        border: 1px solid rgba(16, 235, 255, 0.461);
+        border-radius: 10px;
+        margin: 10px;
+      }
+      .info-bar span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+      }
+      .info-bar svg {
+        border-radius: 4px;
+      }
+      .titulo, .sinopsis {
+        padding: 10px;
+        font-family: 'Kanit', sans-serif;
+      }
+      .titulo h3, .titulo h4, .sinopsis h4 {
+        margin: 5px 0;
+      }
+      .recomendaciones {
+        padding: 10px;
+      }
+      .series-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+        text-align: center;
+      }
+      .serie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+      }
+      .serie img {
+        width: 100%;
+        max-width: 150px;
+        border-radius: 10px;
+        height: auto;
+        loading: lazy;
+      }
+      .icons-container {
+        display: flex;
+        gap: 15px;
+        margin: 10px 0;
+      }
+      .icons-container i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .icons-container i:hover {
+        color: yellow;
+      }
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <main>
+      <div class="player">
+        <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
+          <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" size="480">
+          <track kind="subtitles" src="subtitulos.vtt" srclang="es" label="Español" default>
+        </video>
+      </div>
+      <section class="info-bar" aria-label="Información de la película">
+        <span><i class="fal fa-calendar-alt"></i>2013</span>
+        <span><i class="fal fa-clock"></i>1H 22Min</span>
+        <span><i class="fal fa-thumbs-up"></i>56%</span>
+        <span>
+          <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="white" />
+            <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+          </svg>
+          1080P
+        </span>
+        <span>🇲🇽</span>
+      </section>
+      <section class="titulo">
+        <h3>Terrifier: El inicio</h3>
+        <h4>Género: Terror</h4>
+      </section>
+      <section class="sinopsis">
+        <h4>Sinopsis:</h4>
+        <p>
+          Mientras cuida a dos niños durante la noche de Halloween, una niñera encuentra una vieja cinta de vídeo en un saco de golosinas infantil. En la cinta se cuentan tres historias de terror conectadas por un payaso asesino. A medida que avanza la noche, una serie de sucesos extraños comienzan a ocurrir en la casa.
+        </p>
+      </section>
+      <section class="recomendaciones">
+        <h4>Podría interesarte:</h4>
+        <div class="series-grid">
+          <a href="Terrifier 2 (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2"><p>Terrifier 2</p></a>
+          <a href="Terrifier 3 Payaso (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3"><p>Terrifier 3</p></a>
+          <a href="go:Tranqui3" class="serie"><img src="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg" alt="Un lugar en silencio: Día uno"><p>Un lugar en Silencio: Día uno</p></a>
+          <a href="Annabelle 2 la creacion 2 (2017).html" class="serie"><img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Annabelle 2"><p>Annabelle 2: La creación</p></a>
+          <a href="Atrapados en lo Profundo Atrapados en el abismo (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg" alt="Atrapados en lo Profundo"><p>Atrapados en lo Profundo</p></a>
+          <a href="Eliminado (2014).html" class="serie"><img src="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="Eliminar amigo"><p>Eliminar amigo</p></a>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+    <script>
+      const controls = [
+        'play-large', 'play', 'fast-forward', 'progress', 'current-time',
+        'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ];
+      const player = new Plyr('.vid1', { controls });
+    </script>
+  </body>
 </html>
