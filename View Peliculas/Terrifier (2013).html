@@ -11,24 +11,7 @@
     :root {
       --plyr-color-main: #ff0000;
       --plyr-video-control-color: #0022ff;
-      --bg-color: #000;
-      --text-color: #fff;
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #000;
-        --text-color: #fff;
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-color: #fff;
-        --text-color: #000;
-      }
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -37,27 +20,23 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
-
     body {
-      background-color: var(--bg-color);
+      background-color: #000;
       font-family: 'PT Sans', sans-serif;
-      color: var(--text-color);
+      color: #fff;
       line-height: 1.4;
     }
-
     .player {
       width: 100vw;
       max-width: 100%;
       height: auto;
     }
-
     .player video {
       width: 100%;
       height: auto;
       max-height: 60vh;
       border-radius: 8px;
     }
-
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -70,67 +49,55 @@
       margin: 10px;
       font-size: 14px;
     }
-
     .info i {
       display: flex;
       align-items: center;
       gap: 4px;
     }
-
     .hd-tag {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-
     .hd-tag svg {
       border-radius: 4px;
     }
-
     .titulo, .sinopsis {
       padding: 10px;
     }
-
     .titulo h3, .titulo h4, .sinopsis h4 {
       font-family: 'Kanit', sans-serif;
       margin-bottom: 5px;
     }
-
     .sinopsis p, .serie p {
       font-size: 16px;
       text-align: justify;
       word-wrap: break-word;
     }
-
     .recomendaciones {
       padding: 10px;
     }
-
     .series-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 15px;
       text-align: center;
     }
-
     .serie {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-decoration: none;
-      color: inherit;
+      color: white;
     }
-
     .serie img {
       width: 100%;
       max-width: 150px;
       border-radius: 10px;
     }
-
     .serie p {
       margin-top: 5px;
     }
-
     .notification {
       display: none;
       position: fixed;
@@ -145,7 +112,6 @@
       z-index: 9999;
       animation: fadeInOut 3s ease-in-out;
     }
-
     @keyframes fadeInOut {
       0% { opacity: 0; }
       10% { opacity: 1; }
