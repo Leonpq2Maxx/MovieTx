@@ -86,13 +86,38 @@
     .serie p {
       margin-top: 5px;
     }
-    .toggle-container {
-      text-align: center;
-      margin: 10px;
-    }
-    .toggle-container label {
-      cursor: pointer;
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
       font-size: 14px;
+      z-index: 9999;
+      animation: fadeInOut 3s ease-in-out;
+    }
+    .notification button {
+      margin-left: 10px;
+      background: #ff4444;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .notification button:hover {
+      background: #dd2222;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
@@ -103,11 +128,9 @@
     </video>
   </div>
 
-  <div class="toggle-container">
-    <label>
-      <input type="checkbox" id="fullscreenToggle" checked>
-      Activar pantalla completa automática en modo horizontal
-    </label>
+  <div class="notification" id="fullscreenNotification">
+    Modo pantalla completa activado automáticamente.
+    <button onclick="exitFullscreen()">Salir</button>
   </div>
 
   <div class="info">
@@ -175,10 +198,23 @@
       ]
     });
 
-    const fullscreenToggle = document.getElementById('fullscreenToggle');
+    const notification = document.getElementById('fullscreenNotification');
+
+    function showNotification() {
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 4000);
+    }
+
+    function exitFullscreen() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
 
     window.addEventListener("orientationchange", () => {
-      if (fullscreenToggle.checked && (window.orientation === 90 || window.orientation === -90)) {
+      if (window.orientation === 90 || window.orientation === -90) {
         const videoElement = document.querySelector(".vid1");
         if (videoElement.requestFullscreen) {
           videoElement.requestFullscreen();
@@ -187,6 +223,7 @@
         } else if (videoElement.msRequestFullscreen) {
           videoElement.msRequestFullscreen();
         }
+        showNotification();
       } else {
         if (document.fullscreenElement) {
           document.exitFullscreen();
