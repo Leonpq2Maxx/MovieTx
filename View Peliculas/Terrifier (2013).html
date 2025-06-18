@@ -219,48 +219,62 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
-  <script>
-    const videoElement = document.querySelector('.vid1');
-    const videoSrc = videoElement.querySelector('source').getAttribute('src');
-    const STORAGE_KEY = 'pos_' + videoSrc;
+<script>
+  const videoElement = document.querySelector('.vid1');
+  const videoSrc = videoElement.querySelector('source').getAttribute('src');
+  const STORAGE_KEY = 'pos_' + videoSrc;
 
-    const player = new Plyr(videoElement, {
-      controls: [
-        'rewind', 'play-large', 'play', 'fast-forward',
-        'progress', 'current-time', 'duration', 'mute', 'volume',
-        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-      ]
-    });
+  const player = new Plyr(videoElement, {
+    controls: [
+      'rewind', 'play-large', 'play', 'fast-forward',
+      'progress', 'current-time', 'duration', 'mute', 'volume',
+      'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+    ]
+  });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedTime = localStorage.getItem(STORAGE_KEY);
-      if (savedTime && parseFloat(savedTime) > 10) {
-        videoElement.currentTime = parseFloat(savedTime);
-        const msg = document.getElementById('resume-msg');
-        msg.classList.add('visible');
-        setTimeout(() => msg.classList.remove('visible'), 5000);
-      }
+  // Función para forzar pantalla completa
+  function openFullscreen() {
+    if (videoElement.requestFullscreen) {
+      videoElement.requestFullscreen();
+    } else if (videoElement.webkitRequestFullscreen) {
+      videoElement.webkitRequestFullscreen();
+    } else if (videoElement.msRequestFullscreen) {
+      videoElement.msRequestFullscreen();
+    }
+  }
 
-      const controls = document.querySelector('.plyr__controls');
-      if (controls && !document.getElementById('custom-rewind')) {
-        const rewindBtn = document.createElement('button');
-        rewindBtn.id = 'custom-rewind';
-        rewindBtn.className = 'plyr__control';
-        rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
-        rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
-        rewindBtn.onclick = () => {
-          videoElement.currentTime = 0;
-        };
-        controls.insertBefore(rewindBtn, controls.firstChild);
-      }
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTime = localStorage.getItem(STORAGE_KEY);
+    if (savedTime && parseFloat(savedTime) > 10) {
+      videoElement.currentTime = parseFloat(savedTime);
+      const msg = document.getElementById('resume-msg');
+      msg.classList.add('visible');
+      setTimeout(() => msg.classList.remove('visible'), 5000);
+    }
 
-    setInterval(() => {
-      if (!videoElement.paused && !videoElement.ended) {
-        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-      }
-    }, 5000);
-    
-  </script>
+    const controls = document.querySelector('.plyr__controls');
+    if (controls && !document.getElementById('custom-rewind')) {
+      const rewindBtn = document.createElement('button');
+      rewindBtn.id = 'custom-rewind';
+      rewindBtn.className = 'plyr__control';
+      rewindBtn.setAttribute('aria-label', 'Reiniciar video');
+      rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+      rewindBtn.onclick = () => {
+        videoElement.currentTime = 0;
+      };
+      controls.insertBefore(rewindBtn, controls.firstChild);
+    }
+
+    // Activar fullscreen automáticamente al reproducir
+    videoElement.addEventListener('play', openFullscreen, { once: true });
+  });
+
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+      localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+    }
+  }, 5000);
+</script>
+
 </body>
 </html>
