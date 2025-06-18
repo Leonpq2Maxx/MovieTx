@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terrifier (2013) - Reproductor</title>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
-  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-  <style>:root {
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet" />
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
+
+  <style>
+    :root {
       --plyr-color-main: #ff0000;
       --plyr-video-control-color: #0022ff;
     }
@@ -15,7 +17,6 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      outline: none;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
@@ -86,41 +87,65 @@
       margin-top: 5px;
     }
 
-html {
-  font-size: 100%;
-}
-body {
-  font-size: 1rem;
-}
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3, h4 { font-size: 1.2rem; }
+    html {
+      font-size: 100%;
+    }
+    body {
+      font-size: 1rem;
+    }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
 
-@media screen and (max-width: 768px) {
-  body { font-size: 1.05rem; }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.3rem; }
-  h3, h4 { font-size: 1.1rem; }
-  .info, .sinopsis p, .serie p {
-    font-size: 1rem !important;
-  }
-}
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
 
-@media screen and (max-width: 480px) {
-  body { font-size: 1.1rem; }
-  h1 { font-size: 1.4rem; }
-  h2 { font-size: 1.2rem; }
-  h3, h4 { font-size: 1rem; }
-}
-body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
-  font-style: italic;
-}
-.info, .info *, .info span, .info i {
-  font-style: normal !important;
-}
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
 
-</style>
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    /* Mostrar más/menos sinopsis */
+    .sinopsis-text {
+      max-height: 4.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      transition: max-height 0.3s ease;
+    }
+    .sinopsis-text.expanded {
+      max-height: 1000px;
+    }
+    .toggle-btn {
+      background-color: #222;
+      color: white;
+      border: 1px solid white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body ondragstart="return false;" ondrop="return false;">
   <div class="player">
     <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
@@ -143,55 +168,49 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, 
   </div>
 
   <div class="titulo">
-    <h3>Terrifier: El payaso del abismo</h3>
+    <h3>Terrifier: El Inicio</h3>
     <br>
     <h4>Género: Terror</h4>
   </div>
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
-    <p>En la noche más oscura de Halloween, una cinta maldita revive a un payaso demoníaco sediento de sangre. La niñera y los niños deberán enfrentar el terror absoluto, donde cada historia se convierte en una amenaza real.</p>
+    <p class="sinopsis-text">
+      En la noche más oscura de Halloween, una cinta maldita revive a un payaso demoníaco sediento de sangre.
+      La niñera y los niños deberán enfrentar el terror absoluto, donde cada historia se convierte en una amenaza real.
+    </p>
+    <button class="toggle-btn" onclick="toggleSinopsis()">Mostrar más</button>
   </div>
 
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="Terrifier 2 (2022).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg" alt="Terrifier 2">
-        <p>Terrifier 2</p>
-      </a>
-      <a href="Terrifier 3 Payaso (2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg" alt="Terrifier 3">
-        <p>Terrifier 3</p>
-      </a>
-      <a href="go:Tranqui3" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg" alt="Un lugar en Silencio: Día uno">
-        <p>Un lugar en Silencio: Día uno</p>
-      </a>
-      <a href="Annabelle 2 la creacion 2 (2017).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg" alt="Annabelle 2">
-        <p>Annabelle 2: La creación</p>
-      </a>
-      <a href="Atrapados en lo Profundo Atrapados en el abismo (2024).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg" alt="Atrapados en lo Profundo">
-        <p>Atrapados en lo Profundo</p>
-      </a>
-      <a href="Eliminado (2014).html" class="serie">
-        <img src="https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="Eliminar amigo">
-        <p>Eliminar amigo</p>
-      </a>
+      <!-- tus recomendaciones aquí -->
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+  <!-- Plyr player y Chromecast -->
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3.6.7/dist/plyr.min.js"></script>
   <script>
     const player = new Plyr('.vid1', {
       controls: [
-        'play-large', 'play', 'fast-forward', 'progress', 'current-time', 'duration',
-        'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+        'play-large', 'play', 'fast-forward', 'progress', 'current-time',
+        'duration', 'mute', 'volume', 'chromecast', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
       ]
     });
+
+    function toggleSinopsis() {
+      const text = document.querySelector('.sinopsis-text');
+      const btn = document.querySelector('.toggle-btn');
+      if (text.classList.contains('expanded')) {
+        text.classList.remove('expanded');
+        btn.textContent = 'Mostrar más';
+      } else {
+        text.classList.add('expanded');
+        btn.textContent = 'Mostrar menos';
+      }
+    }
   </script>
 </body>
 </html>
