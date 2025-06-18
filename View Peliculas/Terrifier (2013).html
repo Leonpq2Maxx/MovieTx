@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Terrifier (2013) - Reproductor</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
@@ -86,6 +86,26 @@
     .serie p {
       margin-top: 5px;
     }
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 9999;
+      animation: fadeInOut 3s ease-in-out;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
@@ -93,6 +113,10 @@
     <video class="vid1 js-player" controls poster="https://image.tmdb.org/t/p/original/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg" preload="none">
       <source src="https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=" type="video/mp4">
     </video>
+  </div>
+
+  <div class="notification" id="fullscreenNotification">
+    Modo pantalla completa activado automáticamente.
   </div>
 
   <div class="info">
@@ -159,6 +183,32 @@
         'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
       ]
     });
+
+    function showNotification() {
+      const notification = document.getElementById('fullscreenNotification');
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+
+    window.addEventListener("orientationchange", () => {
+      if (window.orientation === 90 || window.orientation === -90) {
+        const videoElement = document.querySelector(".vid1");
+        if (videoElement.requestFullscreen) {
+          videoElement.requestFullscreen();
+        } else if (videoElement.webkitRequestFullscreen) {
+          videoElement.webkitRequestFullscreen();
+        } else if (videoElement.msRequestFullscreen) {
+          videoElement.msRequestFullscreen();
+        }
+        showNotification();
+      } else {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+      }
+    });
   </script>
 </body>
-</html
+</html>
