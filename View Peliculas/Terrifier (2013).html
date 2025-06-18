@@ -217,38 +217,33 @@
       </a>
     </div>
   </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/plyr@3.6.7/dist/plyr.min.js"></script>
-<script>
-  const videoElement = document.querySelector('.vid1');
-  const videoSrc = "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.m3u8"; // usa tu .m3u8 real
-  const STORAGE_KEY = 'pos_' + videoSrc;
+    const player = new Plyr(videoElement, {
+  controls: [
+    'rewind', 'play-large', 'play', 'fast-forward',
+    'progress', 'current-time', 'duration', 'mute', 'volume',
+    'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+  ],
+  settings: ['speed', 'quality'], // cambia aquí el orden si lo deseas
+  quality: {
+    default: 1080,
+    options: [1080, 720, 480],
+    forced: true,
+    onChange: (quality) => {
+      console.log('Resolución seleccionada:', quality);
+      // Aquí podrías implementar cambio de fuente real
+    }
+  }
+});
+    
 
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(videoSrc);
-    hls.attachMedia(videoElement);
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-      const availableQualities = hls.levels.map(l => l.height).sort((a, b) => b - a);
-      const player = new Plyr(videoElement, {
-        controls: [
-          'rewind', 'play-large', 'play', 'fast-forward',
-          'progress', 'current-time', 'duration', 'mute', 'volume',
-          'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-        ],
-        settings: ['quality'],
-        quality: {
-          default: availableQualities[0],
-          options: availableQualities,
-          forced: true,
-          onChange: (quality) => {
-            const level = hls.levels.findIndex(l => l.height === quality);
-            hls.currentLevel = level;
-          }
-        }
-      });
-
+    document.addEventListener('DOMContentLoaded', () => {
       const savedTime = localStorage.getItem(STORAGE_KEY);
       if (savedTime && parseFloat(savedTime) > 10) {
         videoElement.currentTime = parseFloat(savedTime);
@@ -264,20 +259,19 @@
         rewindBtn.className = 'plyr__control';
         rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
         rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
-        rewindBtn.onclick = () => { videoElement.currentTime = 0; };
+        rewindBtn.onclick = () => {
+          videoElement.currentTime = 0;
+        };
         controls.insertBefore(rewindBtn, controls.firstChild);
       }
-
-      setInterval(() => {
-        if (!videoElement.paused && !videoElement.ended) {
-          localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-        }
-      }, 5000);
     });
-  } else {
-    const player = new Plyr(videoElement);
-  }
-</script>
 
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 5000);
+    
+  </script>
 </body>
 </html>
