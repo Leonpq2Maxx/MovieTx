@@ -16,6 +16,19 @@
       border-bottom: 2px solid #fff;
       padding-bottom: 10px;
     }
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .filters select {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
     h2 {
       margin-top: 30px;
       padding-left: 10px;
@@ -72,24 +85,79 @@
       font-size: 16px;
       line-height: 1;
     }
-  </style>
+      .filters button {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      background-color: #444;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .filters button:hover {
+      background-color: #666;
+    }
+</style>
 </head>
 <body>
   <h1>🎬 Películas Favoritas</h1>
+  <div class="filters">
+    <button id="limpiarFiltros">Limpiar filtros</button>
+    <select id="filtroGenero">
+      <option value="">Todos los géneros</option>
+    </select>
+    <select id="filtroAnio">
+      <option value="">Todos los años</option>
+    </select>
+  </div>
   <div id="contenedor"></div>
 
   <script>
     const favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
     const contenedor = document.getElementById('contenedor');
+    const filtroGenero = document.getElementById('filtroGenero');
+    const filtroAnio = document.getElementById('filtroAnio');
 
+    // Obtener géneros y años únicos
     const generosUnicos = [...new Set(favoritos.map(f => f.genero?.trim() || "Otros"))].sort();
+    const aniosUnicos = [...new Set(favoritos.map(f => f.anio || "Sin Año"))].sort();
 
-    generosUnicos.forEach(genero => {
-      const peliculas = favoritos
-        .filter(f => (f.genero || "Otros").trim() === genero)
-        .sort((a, b) => a.titulo.localeCompare(b.titulo));
+    // Llenar select de géneros
+    generosUnicos.forEach(g => {
+      const opt = document.createElement("option");
+      opt.value = g;
+      opt.textContent = g;
+      filtroGenero.appendChild(opt);
+    });
 
-      if (peliculas.length > 0) {
+    // Llenar select de años
+    aniosUnicos.forEach(a => {
+      const opt = document.createElement("option");
+      opt.value = a;
+      opt.textContent = a;
+      filtroAnio.appendChild(opt);
+    });
+
+    function renderPeliculas() {
+      contenedor.innerHTML = "";
+
+      const generoSeleccionado = filtroGenero.value;
+      const anioSeleccionado = filtroAnio.value;
+
+      const filtradas = favoritos.filter(f => {
+        const coincideGenero = !generoSeleccionado || (f.genero?.trim() || "Otros") === generoSeleccionado;
+        const coincideAnio = !anioSeleccionado || f.anio === anioSeleccionado;
+        return coincideGenero && coincideAnio;
+      });
+
+      const agrupadas = {};
+      filtradas.forEach(f => {
+        const genero = f.genero?.trim() || "Otros";
+        if (!agrupadas[genero]) agrupadas[genero] = [];
+        agrupadas[genero].push(f);
+      });
+
+      Object.keys(agrupadas).sort().forEach(genero => {
         const h2 = document.createElement("h2");
         h2.textContent = genero;
         contenedor.appendChild(h2);
@@ -97,45 +165,57 @@
         const grid = document.createElement("div");
         grid.className = "grid";
 
-        peliculas.forEach((fav, index) => {
-          const card = document.createElement('div');
-          card.className = 'card';
+        agrupadas[genero]
+          .sort((a, b) => a.titulo.localeCompare(b.titulo))
+          .forEach(fav => {
+            const card = document.createElement('div');
+            card.className = 'card';
 
-          const link = document.createElement('a');
-          link.href = fav.titulo + '.html';
+            const link = document.createElement('a');
+            link.href = fav.titulo + '.html';
 
-          const img = document.createElement('img');
-          img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
-          img.alt = fav.titulo;
+            const img = document.createElement('img');
+            img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
+            img.alt = fav.titulo;
 
-          const title = document.createElement('p');
-          title.textContent = fav.titulo;
+            const title = document.createElement('p');
+            title.textContent = fav.titulo;
 
-          const genre = document.createElement('p');
-          genre.className = 'genre';
-          genre.textContent = fav.genero || '';
+            const genre = document.createElement('p');
+            genre.className = 'genre';
+            genre.textContent = fav.genero || '';
 
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
-          delBtn.textContent = '✖';
-          delBtn.title = 'Quitar favorito';
-          delBtn.onclick = () => {
-            const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
-            localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
-            location.reload();
-          };
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-btn';
+            delBtn.textContent = '✖';
+            delBtn.title = 'Quitar favorito';
+            delBtn.onclick = () => {
+              const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
+              localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
+              location.reload();
+            };
 
-          link.appendChild(img);
-          link.appendChild(title);
-          link.appendChild(genre);
-          card.appendChild(link);
-          card.appendChild(delBtn);
-          grid.appendChild(card);
-        });
+            link.appendChild(img);
+            link.appendChild(title);
+            link.appendChild(genre);
+            card.appendChild(link);
+            card.appendChild(delBtn);
+            grid.appendChild(card);
+          });
 
         contenedor.appendChild(grid);
-      }
-    });
+      });
+    }
+
+    filtroGenero.onchange = renderPeliculas;
+    filtroAnio.onchange = renderPeliculas;
+
+    document.getElementById('limpiarFiltros').onclick = () => {
+      filtroGenero.value = "";
+      filtroAnio.value = "";
+      renderPeliculas();
+    };
+    renderPeliculas();
   </script>
 </body>
 </html>
