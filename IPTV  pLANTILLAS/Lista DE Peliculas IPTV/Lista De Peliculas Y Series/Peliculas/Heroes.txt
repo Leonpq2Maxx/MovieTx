@@ -81,7 +81,7 @@ https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.av
 D
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4 subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4 subido
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
 
 Subido
