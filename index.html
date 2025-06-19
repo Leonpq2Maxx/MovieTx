@@ -2323,5 +2323,44 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
 <script src='https://dl.dropbox.com/s/x2to4fmvv2ftcqn/xscript.js'></script>
+
+<!-- Menú Inferior Fijo -->
+<nav class="menu-inferior">
+  <a href="#home"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="#buscar"><i class="fas fa-search"></i><span>Buscar</span></a>
+  <a href="#compartir"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
+</nav>
+
+<style>
+.menu-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #000;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
+.menu-inferior a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.menu-inferior a i {
+  font-size: 18px;
+}
+.menu-inferior span {
+  font-size: 10px;
+}
+</style>
+
 </body>
 </html>
