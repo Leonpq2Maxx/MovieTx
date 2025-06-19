@@ -68,7 +68,7 @@
     }
     .series-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 15px;
       text-align: center;
     }
@@ -150,14 +150,7 @@
         padding: 8px 16px;
       }
     }
-  
-@media screen and (max-width: 768px) and (orientation: landscape) {
-  .series-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-}
-
-</style>
+  </style>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
 
@@ -194,6 +187,7 @@
     <p>
       Basado en la historia real del equipo de voleibol femenino de West High School. Tras la trágica muerte de la jugadora estrella de la escuela, Caroline 'Line' Found, las jugadores restantes deberán unirse bajo la dirección de su dura entrenadora (Helen Hunt) con la esperanza de ganar el campeonato estatal.
     </p>
+  </div>
   
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
@@ -208,7 +202,6 @@
       ⭐ Favoritos
     </button>
   </div>
-
 
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
@@ -241,23 +234,7 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-    titulo: "¡A Ganar!",
-    imagen: "https://image.tmdb.org/t/p/w300/zwfec4vK1EvkQapE5wcYrB1BHov.jpg",
-    genero: "Drama"
-  };
-
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "favoritos.html";
-});
-
-</script>
+  
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -304,7 +281,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "¡A Ganar!",
-    imagen: "https://image.tmdb.org/t/p/w300/zwfec4vK1EvkQapE5wcYrB1BHov.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
     genero: "Drama"
   };
 
@@ -317,5 +294,25 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 });
 
 </script>
+
+
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "¡A Ganar!",
+    imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
+    genero: "Drama",
+    archivo: "¡A Ganar! (2018).html"
+  };
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+</script>
+
 </body>
 </html>
