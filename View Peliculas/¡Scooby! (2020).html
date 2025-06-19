@@ -188,6 +188,7 @@
       Con cientos de casos resueltos y aventuras compartidas, Scooby y la pandilla se enfrentan al misterio más grande y desafiante de todos los tiempos: un complot para liberar al perro fantasma Cerberus en el mundo. Mientras compiten para detener esta escasez de perros global, la pandilla descubre que Scooby tiene un legado secreto y un destino épico más grande de lo que cualquiera podría haber imaginado.
     </p>
   </div>
+
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
       background: #ff4444;
@@ -236,9 +237,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "¡Scooby!",
-    imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
-    genero: "Animacion"
+    titulo: "Nombre de pelicula",
+    imagen: "Poster",
+    genero: "Genero"
   };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -295,9 +296,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "¡Scooby!",
-    imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
-    genero: "Animacion"
+    titulo: "Nombre de pelicula",
+    imagen: "Poster",
+    genero: "Genero"
   };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -309,5 +310,24 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 });
 
 </script>
+
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "Nombre de la pelicula",
+    imagen: "Poster",
+    genero: "Genero",
+    archivo: ".html"
+  };
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+</script>
+
 </body>
 </html>
