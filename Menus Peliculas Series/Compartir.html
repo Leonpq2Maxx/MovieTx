@@ -200,43 +200,45 @@
     Compartir Home por WhatsApp
   </button>
 
-  <!-- Menú Inferior Fijo -->
-<nav class="menu-inferior">
-  <a href="../index.html"><i class="fas fa-home"></i><span>Home</span></a>
-  <a href="#"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
-  <a href="../Buscar/Buscador.html"><i class="fas fa-search"></i><span>Buscar</span></a>
-  <a href="Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
-</nav>
+  
+
 
 <style>
-.menu-inferior {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #000;
-  border-top: 1px solid #333;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1000;
-}
-.menu-inferior a {
-  color: white;
-  text-decoration: none;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.menu-inferior a i {
-  font-size: 18px;
-}
-.menu-inferior span {
-  font-size: 10px;
+@media (max-width: 768px) {
+  .boton-volver-movil {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  }
+  .boton-volver-movil:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .boton-volver-movil svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+  }
 }
 </style>
+
+<button class="boton-volver-movil" onclick="window.history.back()" aria-label="Volver atrás">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+  </svg>
+</button>
 
 </body>
 </html>
