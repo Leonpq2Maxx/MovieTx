@@ -25,7 +25,7 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 20px;
       margin-top: 10px;
     }
@@ -102,7 +102,7 @@
           card.className = 'card';
 
           const link = document.createElement('a');
-          link.href = fav.titulo + '.html';
+          link.href = fav.archivo || encodeURIComponent(fav.titulo.replace(/\s+/g, '_')) + '.html';
 
           const img = document.createElement('img');
           img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
