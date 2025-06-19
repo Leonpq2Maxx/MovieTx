@@ -172,7 +172,7 @@
             card.className = 'card';
 
             const link = document.createElement('a');
-            link.href = fav.titulo + '.html';
+            link.href = encodeURIComponent(fav.titulo.replace(/\s+/g, '_')) + '.html';
 
             const img = document.createElement('img');
             img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
