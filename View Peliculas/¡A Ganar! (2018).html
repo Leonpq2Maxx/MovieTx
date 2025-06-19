@@ -294,10 +294,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 });
 
 </script>
-
-
-<script>
-document.getElementById('btn-favorito').addEventListener('click', () => {
+<script>document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "¡A Ganar!",
     imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
@@ -311,8 +308,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
   window.location.href = "favoritos.html";
-});
-</script>
-
+});</script>
 </body>
 </html>
