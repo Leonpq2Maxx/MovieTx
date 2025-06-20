@@ -185,8 +185,21 @@
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-        A una banda de delincuentes se les ha encargado secuestrar a Abigail, una bailarina de doce años hija de una poderosa figura del inframundo. Su misión requiere también vigilarla durante la noche para poder cobrar un rescate de 50 millones de dólares. En una mansión aislada, los captores comienzan a desaparecer, uno por uno, y descubren, para su creciente horror, que la pequeña niña con la que están encerrados no es normal y está mostrando su verdadera naturaleza.
+      A una banda de delincuentes se les ha encargado secuestrar a Abigail, una bailarina de doce años hija de una poderosa figura del inframundo. Su misión requiere también vigilarla durante la noche para poder cobrar un rescate de 50 millones de dólares. En una mansión aislada, los captores comienzan a desaparecer, uno por uno, y descubren, para su creciente horror, que la pequeña niña con la que están encerrados no es normal y está mostrando su verdadera naturaleza.
     </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
   </div>
 
   <div class="recomendaciones">
@@ -220,7 +233,24 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Abigail",
+  imagen: "https://image.tmdb.org/t/p/w300/kmB9grIf2fvpwwsDmNMN0XFz1tT.jpg",
+  genero: "Terror",
+  archivo: "Abigail (2024).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -263,6 +293,23 @@
       }
     }, 5000);
     
-  </script>
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Abigail",
+  imagen: "https://image.tmdb.org/t/p/w300/kmB9grIf2fvpwwsDmNMN0XFz1tT.jpg",
+  genero: "Terror",
+  archivo: "Abigail (2024).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
 </body>
 </html>

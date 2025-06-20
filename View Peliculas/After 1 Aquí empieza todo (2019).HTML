@@ -236,10 +236,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "After",
-    imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
-    genero: "Romance"
-  };
+  titulo: "After",
+  imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
+  genero: "Romance",
+  archivo: ".html"
+};
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -295,10 +296,11 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "After",
-    imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
-    genero: "Romance"
-  };
+  titulo: "After",
+  imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
+  genero: "Romance",
+  archivo: ".html"
+};
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
