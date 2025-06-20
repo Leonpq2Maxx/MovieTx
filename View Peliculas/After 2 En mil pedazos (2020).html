@@ -206,27 +206,27 @@
     <br>
     <div class="series-grid">
       <a href="After 1 Aquí empieza todo (2019).HTML" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg" alt="">
         <p>After 1: Aquí empieza todo</p>
       </a>
       <a href="After 3 Amor infinito (2022).html" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>After 3: Amor infinito</p>
       </a>
       <a href="After 4 Aquí acaba todo (2023).htm" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>After 4: Aquí acaba todo</p>
       </a>
       <a href="365 Dias 2 Aquel dia (2022).html" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/jBpqADo9XAKaecvI3f0J4hRAEyO.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>365 Dias 2: Aquel día</p>
       </a>
       <a href="2 Culpa Mia (2025).html" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Culpa Mia 2: Londres</p>
       </a>
       <a href="Un ladron romantico (2024).html" class="serie">
-        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Un ladrón romántico</p>
       </a>
     </div>
@@ -235,10 +235,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "After 2: En mil pedazos",
-    imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg",
-    genero: "Romance"
-  };
+  titulo: "After 2: En mil pedazos",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Romance",
+  archivo: "After 2 En mil pedazos (2020).html"
+};
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -294,10 +295,11 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "After 2: En mil pedazos",
-    imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg",
-    genero: "Romance"
-  };
+  titulo: "After 2: En mil pedazos",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Romance",
+  archivo: "After 2 En mil pedazos (2020).html"
+};
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
