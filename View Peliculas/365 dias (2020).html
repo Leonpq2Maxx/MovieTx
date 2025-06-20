@@ -155,6 +155,14 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
+    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
+      <source src="Link de pelicula" type="video/mp4">
+    </video>
+  </div>
+
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
+
+  <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/e8b2F4eg6ansZhaQQN8iXfzZtz7.jpg" preload="none">
       <source src="https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelisarregladas%2Fparte2%2FVer%20pel%C3%ADcula%20365%20d%C3%ADas%20online%20gratis%20en%20HD%20%E2%80%A2%20Gnula.mp4" type="video/mp4">
     </video>
@@ -188,6 +196,19 @@
       Massimo es miembro de la mafia siciliana y Laura es una directora de ventas. Ella no espera que un viaje a Sicilia salve su relación, pero Massimo la secuestrará durante 365 días para que se enamore de él.
     </p>
   </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
 
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
@@ -220,7 +241,24 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "365 Días",
+  imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
+  genero: "Romance",
+  archivo: "365 dias (2020).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -263,6 +301,23 @@
       }
     }, 5000);
     
-  </script>
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "365 Días",
+  imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
+  genero: "Romance",
+  archivo: "365 dias (2020).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
 </body>
 </html>
