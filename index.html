@@ -2311,12 +2311,15 @@
 
 <style> 
 
-    .xplus i {
-        margin-left:2px; 
-        color:#ff004c; 
-        font-weight:bold; 
-        font-size:10px;
-    }
+.xplus {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  font-style: normal;
+}
+
 </style>
 
 
@@ -2331,7 +2334,6 @@
   <a href="View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
   <a href="#buscar"><i class="fas fa-search"></i><span>Buscar</span></a>
   <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
-  <a href="/ajustes" title="Ajustes"><i class="fas fa-cog"></i><span>Ajuste</span></a>
 </nav>
 
 <style>
@@ -2404,137 +2406,6 @@
   font-size: 10px;
 }
 </style>
-
-
-<!-- Panel de Ajustes -->
-<div id="settingsPanel" style="
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 100%;
-  max-width: 320px;
-  height: 100%;
-  background: white;
-  box-shadow: -2px 0 8px rgba(0,0,0,0.3);
-  z-index: 9999;
-  transition: right 0.3s ease;
-  padding: 20px;
-  overflow-y: auto;
-">
-  <div style="text-align:center;">
-    <label for="profilePicInput" style="cursor:pointer;">
-      <img id="userImage" src="" alt="Usuario" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:2px solid #ccc;">
-    </label>
-    <input type="file" id="profilePicInput" accept="image/*" style="display:none;">
-    <input type="text" id="usernameInput" placeholder="Tu nombre" style="margin-top:10px;padding:5px;width:80%;border:1px solid #ccc;border-radius:4px;text-align:center;">
-  </div>
-
-  <h4 style="margin-top:25px;">Historial de películas</h4>
-  <div id="historyCarousel" style="display: flex; gap: 10px; overflow-x: auto; padding: 10px 0;"></div>
-
-  <button onclick="clearHistory()" style="width:100%;margin-top:10px;background:#ff5e5e;color:white;border:none;border-radius:5px;padding:10px;">Borrar historial</button>
-
-  <h4 style="margin-top:30px;">Preferencias</h4>
-  <label style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-    <input type="checkbox" id="darkModeToggle">
-    Modo oscuro
-  </label>
-
-  <button onclick="closeSettings()" style="margin-top:25px;width:100%;padding:10px;background:#0b57cf;color:white;border:none;border-radius:5px;">Cerrar</button>
-</div>
-
-<div id="settingsBackdrop" onclick="closeSettings()" style="
-  position: fixed;top: 0;left: 0;width: 100%;height: 100%;
-  background: rgba(0,0,0,0.4);z-index: 9998;display: none;
-"></div>
-
-<script>document.addEventListener("DOMContentLoaded", function() {
-
-  const settingsPanel = document.getElementById('settingsPanel');
-  const settingsBackdrop = document.getElementById('settingsBackdrop');
-  const openBtn = document.getElementById('openSettings');
-  const userImage = document.getElementById('userImage');
-  const profilePicInput = document.getElementById('profilePicInput');
-  const usernameInput = document.getElementById('usernameInput');
-  const historyCarousel = document.getElementById('historyCarousel');
-  const darkModeToggle = document.getElementById('darkModeToggle');
-
-  openBtn.onclick = () => {
-    settingsPanel.style.right = "0";
-    settingsBackdrop.style.display = "block";
-  };
-
-  function closeSettings() {
-    settingsPanel.style.right = "-100%";
-    settingsBackdrop.style.display = "none";
-  }
-
-  function clearHistory() {
-    localStorage.removeItem("movieHistory");
-    historyCarousel.innerHTML = "";
-  }
-
-  function loadHistory() {
-    const history = JSON.parse(localStorage.getItem("movieHistory")) || [];
-    historyCarousel.innerHTML = "";
-    history.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      img.style.height = "80px";
-      img.style.borderRadius = "6px";
-      historyCarousel.appendChild(img);
-    });
-  }
-
-  profilePicInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        userImage.src = e.target.result;
-        localStorage.setItem("userProfileImage", e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  usernameInput.addEventListener("input", () => {
-    localStorage.setItem("username", usernameInput.value);
-  });
-
-  window.addEventListener("load", () => {
-    const savedImage = localStorage.getItem("userProfileImage");
-    userImage.src = savedImage || "https://i.imgur.com/dfRg3Gf.png";
-
-    const savedName = localStorage.getItem("username");
-    usernameInput.value = savedName || "";
-
-    const darkMode = localStorage.getItem("darkMode") === "true";
-    darkModeToggle.checked = darkMode;
-    document.body.classList.toggle("drK", darkMode);
-
-    loadHistory();
-  });
-
-  darkModeToggle.addEventListener("change", () => {
-    const isDark = darkModeToggle.checked;
-    document.body.classList.toggle("drK", isDark);
-    localStorage.setItem("darkMode", isDark);
-  });
-
-  function addMovieToHistory(url) {
-    let history = JSON.parse(localStorage.getItem("movieHistory")) || [];
-    if (!history.includes(url)) {
-      history.push(url);
-      localStorage.setItem("movieHistory", JSON.stringify(history));
-      loadHistory();
-    }
-  }
-
-  // Ejemplo de uso:
-  // addMovieToHistory("https://image.tmdb.org/t/p/w200/6vjEvMwns7kgkcEjJLRrXhkIhVb.jpg");
-
-});</script>
 
 </body>
 </html>
