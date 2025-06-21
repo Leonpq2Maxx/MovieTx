@@ -241,16 +241,6 @@
     /*End Carousel*/
     
 </style>
-
-<style>
-.mobMn ul li a {
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-.mobMn ul li a:hover {
-  transform: scale(1.2);
-  color: #ffcc00;
-}
-</style>
 </head>
 <body class='oneGrd MN-2 mobS hdMn bD onIndx onHm' id='mainCont'>
 <script>/*<![CDATA[*/ (localStorage.getItem('mode')) === 'darkmode' ? document.querySelector('#mainCont').classList.add('drK') : document.querySelector('#mainCont').classList.remove('drK') /*]]>*/</script>
@@ -2371,6 +2361,31 @@
   font-size: 10px;
 }
 </style>
+
+
+<nav class="bottom-menu">
+  <a href="/dinero" title="Dinero">
+    <i class="fas fa-piggy-bank"></i><span>Dinero</span>
+  </a>
+  <a href="/buscar" title="Buscar">
+    <i class="fas fa-magnifying-glass"></i><span>Buscar</span>
+  </a>
+  <a href="/favoritos" title="Favoritos">
+    <i class="fas fa-heart"></i><span>Favoritos</span>
+  </a>
+  <a href="https://wa.me/?text=Descarga%20la%20app%20MovieTx%20https://tuapp.com" title="Compartir">
+    <i class="fas fa-share-nodes"></i><span>Compartir</span>
+  </a>
+</nav>
+
+<script>
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('.bottom-menu a').forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    }
+  });
+</script>
 
 </body>
 </html>
