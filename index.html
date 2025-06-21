@@ -2328,6 +2328,7 @@
 <nav class="menu-inferior">
   <a href="#home"><i class="fas fa-home"></i><span>Home</span></a>
   <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="/favoritos"><i class="fas fa-heart"></i><span>Favoritos</span></a>
   <a href="#buscar"><i class="fas fa-search"></i><span>Buscar</span></a>
   <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
 </nav>
@@ -2361,31 +2362,6 @@
   font-size: 10px;
 }
 </style>
-
-
-<nav class="bottom-menu">
-  <a href="/dinero" title="Dinero">
-    <i class="fas fa-piggy-bank"></i><span>Dinero</span>
-  </a>
-  <a href="/buscar" title="Buscar">
-    <i class="fas fa-magnifying-glass"></i><span>Buscar</span>
-  </a>
-  <a href="/favoritos" title="Favoritos">
-    <i class="fas fa-heart"></i><span>Favoritos</span>
-  </a>
-  <a href="https://wa.me/?text=Descarga%20la%20app%20MovieTx%20https://tuapp.com" title="Compartir">
-    <i class="fas fa-share-nodes"></i><span>Compartir</span>
-  </a>
-</nav>
-
-<script>
-  const currentPath = window.location.pathname;
-  document.querySelectorAll('.bottom-menu a').forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-      link.classList.add('active');
-    }
-  });
-</script>
 
 </body>
 </html>
