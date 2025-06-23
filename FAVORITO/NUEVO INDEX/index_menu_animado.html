@@ -34,6 +34,48 @@
         background-color: rgb(16, 235, 255, 0.461);
         color: white;
     }
+
+@media (max-width: 768px) {
+  .menu-inferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 9999;
+    animation: slideUp 0.6s ease forwards;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .menu-inferior a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .menu-inferior a:active {
+    transform: scale(0.9);
+    color: #00eaff;
+  }
+
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
 </style>
 <style>
     /* Variable color */
@@ -216,7 +258,7 @@
     .xplus{position:relative;text-align:center;color:white;}
     /*.centered{ font-size:12px; font-weight:bold; position:absolute; top:80%; left: 50%; transform:translate(-50%,-50%)} 
     .cent{ font-size:auto; position:absolute ; top:95%; left: 50%; transform:translate(-50%,-50%)} */
-    .xaviec{width:113px;border-radius:7px;height:150px;z-index:1;}
+    .xaviec{width:110px;border-radius:7px;height:150px;z-index:1;}
     .mnt{width:100px;border-radius:100px;height:100px;}
     #xs-header{background:transparent;left:0;position:fixed;top:-10px;width:100%;z-index:90;height:8%;}
     /*end card poster*/
@@ -240,29 +282,49 @@
     }
     /*End Carousel*/
     
-</style>
 
-<style>
-  .xplus {
-    color: var(--headC);
-    transition: color 0.3s ease;
+@media (max-width: 768px) {
+  .menu-inferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 9999;
+    animation: slideUp 0.6s ease forwards;
+    transform: translateY(100%);
+    opacity: 0;
   }
-  body.drK .xplus {
-    color: #ffffff !important;
+
+  .menu-inferior a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, color 0.2s;
   }
-  /* Disminuye todas las etiquetas <i> al 85% de su tamaño actual */
-i {
-  display: block;              /* Se comporta como un bloque para adaptarse al ancho */
-  font-size: 0.68em;           /* Mantiene un tamaño cómodo para iconos/textos */
-  line-height: 1.4;            /* Espacio cómodo entre líneas para legibilidad */
-  white-space: normal;         /* Permite que el texto pase a otra línea */
-  word-break: break-word;      /* Corta las palabras largas para adaptarse al contenedor */
-  overflow-wrap: break-word;   /* Asegura que no desborde para texto extensos */
+
+  .menu-inferior a:active {
+    transform: scale(0.9);
+    color: #00eaff;
+  }
+
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
 
-
 </style>
-
 </head>
 <body class='oneGrd MN-2 mobS hdMn bD onIndx onHm' id='mainCont'>
 <script>/*<![CDATA[*/ (localStorage.getItem('mode')) === 'darkmode' ? document.querySelector('#mainCont').classList.add('drK') : document.querySelector('#mainCont').classList.remove('drK') /*]]>*/</script>
@@ -393,18 +455,15 @@ i {
 
 <br><br>
 
-
-
 <div class="poster">
     <h4 class="alignleft">Recien subidas</h4></div>
     <br>
     <div class="scrollmenu">
-        
 
         <a href="go:fiveFree">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w500//7BpNtNfxuocYEVREzVMO75hso1l.jpg">
-                <i>Five Nights at freddy´s</i>
+                <i>Five Nights at Freddy's</i>
             </div>
         </a>
 
@@ -495,7 +554,7 @@ i {
         <a href="View Peliculas/La Leyenda de Ochi (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg">
-                <i>La leyenda de ochi</I>
+                <i>La Leyenda de Ochi</I>
             </div>
         </a> 
 
@@ -523,7 +582,7 @@ i {
         <a href="View Peliculas/La rosa de Versalles (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg">
-                <i>La rosa de Ver...</I>
+                <i>La rosa de Versalles</I>
             </div>
         </a>
 
@@ -632,7 +691,7 @@ i {
         <a href="View Peliculas/La Leyenda de Ochi (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg">
-                <i>La leyenda de ochi</I>
+                <i>La Leyenda de Ochi</I>
             </div>
         </a>
 
@@ -674,7 +733,7 @@ i {
         <a href="View Peliculas/Mi lista de deseos (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/r6K6spYEWf7aDGsY4EdkScZW1Hl.jpg">
-                <i>Mi lista de...</i>
+                <i>Mi lista de deseos</i>
             </div>
         </a>
 
@@ -705,7 +764,7 @@ i {
         <a href="View Peliculas/La rosa de Versalles (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg">
-                <i>La rosa de Ver...</I>
+                <i>La rosa de Versalles</I>
             </div>
         </a>
 
@@ -740,7 +799,7 @@ i {
         <a href="View Peliculas/El último respiro 2025.html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/lhRLEa7xMw8yy4JDTQthQMFij93.jpg">
-                <i>El último res...</I>
+                <i>El último respiro</I>
             </div>
         </a> 
 
@@ -754,7 +813,7 @@ i {
         <a href="View Peliculas/La calle del terror La reina del baile (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg" alt="">
-                <i>La calle del...</i>
+                <i>La calle del terror</i>
             </div>
         </a>
 
@@ -775,7 +834,7 @@ i {
         <a href="View Peliculas/Pideme lo que quieras (2024).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg" alt="">
-                <i>Pídeme lo que...</i>
+                <i>Pídeme lo que quieras</i>
             </div>
         </a> 
 
@@ -796,7 +855,7 @@ i {
         <a href="View Peliculas/Destino Final Lazos De Sangre (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg">
-                <i>Destino Final: Fi...</i>
+                <i>Destino Final 6: Lazos...</i>
             </div>
         </a>
 
@@ -838,7 +897,7 @@ i {
         <a href="View Series/The Walking Dead (2010).HTML">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/uYFK6OpX4HseiMPKYPznVXPwZX9.jpg">
-                <i>The walking dead</i>
+                <i>The Walking Dead</i>
             </div>
         </a> 
 
@@ -1041,7 +1100,7 @@ i {
         <a href="Trailers/Trailer Destino Final Lazos De Sangre (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg">
-                <i>Trailer Destino: Fi...</i>
+                <i>Trailer Destino Final 6</i>
             </div>
         </a>
 
@@ -1548,11 +1607,11 @@ i {
         <a href="View Peliculas/Diario de mi vagina (2024).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w500/hyFKdAN5Dl93mt2JHfcfvIyf38g.jpg">
-                <i>Diario de mi va...</i>
+                <i>Diario de mi...</i>
             </div>
         </a> 
 
-        <a href="View Peliculas/Barbie (2023).html">
+        <a href="go:Barbie23">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg">
                 <i>Barbie</i>
@@ -2058,7 +2117,7 @@ i {
         <a href="View Peliculas/Pideme lo que quieras (2024).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg" alt="">
-                <i>Pídeme lo que...</i>
+                <i>Pídeme lo que quieras</i>
             </div>
         </a> 
 
@@ -2204,21 +2263,21 @@ i {
         <a href="View Peliculas/La calle del terror La reina del baile (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg" alt="">
-                <i>La calle del terror...</i>
+                <i>La calle del terror</i>
             </div>
         </a>
 
         <a href="View Peliculas/Until Dawn Noche de terror (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg" alt="">
-                <i>Until Dawn...</i>
+                <i>Until Dawn</i>
             </div>
         </a>
 
         <a href="View Peliculas/Destino Final Lazos De Sangre (2025).html">
             <div class="xplus">
                 <img loading="lazy" class="xaviec" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg">
-                <i>Destino Final 6: La...</i>
+                <i>Destino Final 6: Lazos...</i>
             </div>
         </a>
 
@@ -2334,23 +2393,15 @@ i {
 
 <br><br>
 
+<style> 
 
+    .xplus i {
+        margin-left:2px; 
+        color:#ff004c; 
+        font-weight:bold; 
+        font-size:10px;
+    }
 
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
-<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
-<script src='https://dl.dropbox.com/s/x2to4fmvv2ftcqn/xscript.js'></script>
-
-<!-- Menú Inferior Fijo -->
-<nav class="menu-inferior">
-  <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
-  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
-  <a href="View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
-  <a href="Buscar/Buscardor.html"><i class="fas fa-search"></i><span>Buscar</span></a>
-  <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
-</nav>
-
-<style>
 @media (max-width: 768px) {
   .menu-inferior {
     position: fixed;
@@ -2391,7 +2442,24 @@ i {
     }
   }
 }
-    
+
+</style>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+<script src='https://dl.dropbox.com/s/x2to4fmvv2ftcqn/xscript.js'></script>
+
+<!-- Menú Inferior Fijo -->
+<nav class="menu-inferior">
+  <a href="#home"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
+  <a href="#buscar"><i class="fas fa-search"></i><span>Buscar</span></a>
+  <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
+</nav>
+
+<style>
 .menu-inferior {
   position: fixed;
   bottom: 0;
@@ -2419,7 +2487,59 @@ i {
 .menu-inferior span {
   font-size: 10px;
 }
+
+@media (max-width: 768px) {
+  .menu-inferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 9999;
+    animation: slideUp 0.6s ease forwards;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .menu-inferior a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .menu-inferior a:active {
+    transform: scale(0.9);
+    color: #00eaff;
+  }
+
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
 </style>
+
+
+<nav class="menu-inferior">
+  <a href="/dinero"><i class="fas fa-piggy-bank"></i><span>Dinero</span></a>
+  <a href="/buscar"><i class="fas fa-search"></i><span>Buscar</span></a>
+  <a href="/favoritos"><i class="fas fa-heart"></i><span>Favoritos</span></a>
+  <a href="https://wa.me/?text=Descarga%20la%20app%20MovieTx%20https://tuapp.com">
+    <i class="fas fa-share-alt"></i><span>Compartir</span>
+  </a>
+</nav>
 
 </body>
 </html>
