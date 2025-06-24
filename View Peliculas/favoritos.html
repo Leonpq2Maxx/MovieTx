@@ -79,63 +79,62 @@
   <div id="contenedor"></div>
 
   <script>
-    const favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-    const contenedor = document.getElementById('contenedor');
+const favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+const contenedor = document.getElementById('contenedor');
 
-    const generosUnicos = [...new Set(favoritos.map(f => f.genero?.trim() || "Otros"))].sort();
+function mostrarFavoritosPorTipo(tipo) {
+  const favoritosTipo = favoritos.filter(f => f.tipo === tipo);
+  if (favoritosTipo.length > 0) {
+    const h2 = document.createElement("h2");
+    h2.textContent = tipo === "pelicula" ? "🎞️ Películas Favoritas" : "📺 Series Favoritas";
+    contenedor.appendChild(h2);
 
-    generosUnicos.forEach(genero => {
-      const peliculas = favoritos
-        .filter(f => (f.genero || "Otros").trim() === genero)
-        .sort((a, b) => a.titulo.localeCompare(b.titulo));
+    const grid = document.createElement("div");
+    grid.className = "grid";
 
-      if (peliculas.length > 0) {
-        const h2 = document.createElement("h2");
-        h2.textContent = genero;
-        contenedor.appendChild(h2);
+    favoritosTipo.forEach(fav => {
+      const card = document.createElement('div');
+      card.className = 'card';
 
-        const grid = document.createElement("div");
-        grid.className = "grid";
+      const link = document.createElement('a');
+      link.href = fav.archivo;
 
-        peliculas.forEach((fav, index) => {
-          const card = document.createElement('div');
-          card.className = 'card';
+      const img = document.createElement('img');
+      img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
+      img.alt = fav.titulo;
 
-          const link = document.createElement('a');
-          link.href = fav.archivo || encodeURIComponent(fav.titulo.replace(/\s+/g, '_')) + '.html';
+      const title = document.createElement('p');
+      title.textContent = fav.titulo;
 
-          const img = document.createElement('img');
-          img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
-          img.alt = fav.titulo;
+      const genre = document.createElement('p');
+      genre.className = 'genre';
+      genre.textContent = fav.genero || '';
 
-          const title = document.createElement('p');
-          title.textContent = fav.titulo;
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.textContent = '✖';
+      delBtn.title = 'Quitar favorito';
+      delBtn.onclick = () => {
+        const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
+        location.reload();
+      };
 
-          const genre = document.createElement('p');
-          genre.className = 'genre';
-          genre.textContent = fav.genero || '';
-
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
-          delBtn.textContent = '✖';
-          delBtn.title = 'Quitar favorito';
-          delBtn.onclick = () => {
-            const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
-            localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
-            location.reload();
-          };
-
-          link.appendChild(img);
-          link.appendChild(title);
-          link.appendChild(genre);
-          card.appendChild(link);
-          card.appendChild(delBtn);
-          grid.appendChild(card);
-        });
-
-        contenedor.appendChild(grid);
-      }
+      link.appendChild(img);
+      link.appendChild(title);
+      link.appendChild(genre);
+      card.appendChild(link);
+      card.appendChild(delBtn);
+      grid.appendChild(card);
     });
-  </script>
+    contenedor.appendChild(grid);
+  }
+}
+
+// Llamamos para mostrar primero películas y luego series
+mostrarFavoritosPorTipo("pelicula");
+mostrarFavoritosPorTipo("serie");
+</script>
+
 </body>
 </html>
