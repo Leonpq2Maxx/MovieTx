@@ -7,8 +7,8 @@ subido
 https://dl.dropbox.com/scl/fi/acgrahd2zzcqgh5zo0hx9/Aladdin.2019.1080p-dual-lat-cinecalidad.to.mp4?rlkey=qtonjfh72uy6bvmjsad1kiadh&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg",Aladdin go:Aladdin
-http://fina.dyndns.tv/Peliculas/Aladdin.mkv
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg",Aladdin (1993)
+https://dl.dropbox.com/scl/fi/vql4ijsfk0s5465s1bt6a/Aladdin.1992.1080p-dual-lat-cinecalidad.is.mp4?rlkey=tgeihruzajf0ovwpzpazjhhax&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tC54XTUu4NVsMeWdSofja2uye9c.jpg",Aladdin 2 El retorno de Jafar (1994)
@@ -49,12 +49,12 @@ subido
 https://dl.dropbox.com/scl/fi/pfndn0wnjws80pfeotf1o/Coco.2017.1080p-dual-lat.mp4?rlkey=2sa8qu2l7wgs97udnwqmdijr9&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",Cars go:Cars1 (2006)
-http://fina.dyndns.tv/Peliculas/Cars.mkv
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",Cars (2006)
+https://dl.dropbox.com/scl/fi/otghj0f0orj98yr1kqo80/Cars.2006.1080P-Dual-Lat.mp4?rlkey=w4tsieopb0gbp09h66ym7tcaw&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",Cars 2 go:Cars2 (2011)
-http://fina.dyndns.tv/Peliculas/Cars%202.mkv
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",Cars 2 (2011)
+https://dl.dropbox.com/scl/fi/xdrx2lp58mqr15ys54sw5/Cars.2.2011.1080P-Dual-Lat.mp4?rlkey=83bh2z5o20313z7ph7yfxpeqq&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg",Cars 3 (2017)
@@ -73,11 +73,11 @@ http://fina.dyndns.tv/Peliculas/Dumbo.mkv
 E
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lH8CLypeehddHZt172TzUGWutH8.jpg",Encanto (2021) Html
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lH8CLypeehddHZt172TzUGWutH8.jpg",Encanto (2021) 
 https://dl.dropboxusercontent.com/scl/fi/r9fjyel691mtibdxl4qux/Encanto-Espa-ol-Latino-2021.mp4?rlkey=554uu7mwjn9l9zk5ze2yy03mo&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg",ELEMENTAL go:Elemental
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg",Elemental (2023)
 http://208.88.245.85/nuevo/elemental.dual2023.mkv
 
 Subido

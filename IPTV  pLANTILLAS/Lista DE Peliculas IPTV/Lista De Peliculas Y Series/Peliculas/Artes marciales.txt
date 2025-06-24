@@ -1,7 +1,7 @@
 6
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg",60 Minutos
-https://pomf2.lain.la/f/lxcouxj.mp4
+https://dl.dropbox.com/scl/fi/dt492182zvrg21e4fgl9z/60.minutos.2024.720p-Dual-Lat.mkv?rlkey=ohx45xbv2146ralkbtmnrcn6m&st=
 
 
 

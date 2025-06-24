@@ -42,7 +42,7 @@ http://vod.tuxchannel.mx/peliculas/720/happy%20death%20day.mkv
 C
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",El bufón go:ElBufon
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",El bufón
 http://208.88.245.85/nuevo/el.bufon.dual.2023.mkv
 
 subido
@@ -61,13 +61,13 @@ https://dl.dropbox.com/scl/fi/iuf0861zknazyjvqjrjlu/The.Conjuring.The.Devil.Made
 Eliminado: Dark Web (2018)
 https://image.tmdb.org/t/p/w300/dQM2LDOmolIGt7WzcHl6ZSUAdci.jpg
 
+Subido
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg",Cementerio de Animales (2019)
+https://dl.dropbox.com/scl/fi/f4cksc93t7tx1tp9estuq/Cementerio-de-animales-2019.mp4?rlkey=x7gtqvuerumg54aur59y0s85f&st=
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg",Cementerio de Animales 2019 
-http://fina.dyndns.tv/Peliculas/Cementerio%20de%20Animales%202019.mkv
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/sbzfFLgExjl7ekLeNFEZ9EwOA9V.jpg",Cementerio de animales 2: Los orígenes go:CementM2 (2023)
-http://208.88.245.85/nuevo/cementerio.mascotas.elorigen.dual2023.mkv
-
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/h6OOcYnuYVoaQQm3zGIYJ7XfTuo.jpg",Cementerio de animales 2: Los orígenes (2023)
+https://dl.dropbox.com/scl/fi/uzf38m0swfqhuqvg2rtfp/Cementerio.de.Mascotas.El.Origen.2023.720p-Dual-Lat.mkv?rlkey=mrpe1ms6owqr6kw5laxp2cwkj&st=
 
 
 
@@ -111,7 +111,7 @@ http://vod.tuxchannel.mx/peliculas/720/destino%20final%205.mkv
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg",Destino final 6: Lazos de sangre (2025)
-https://dl.dropbox.com/scl/fi/q8pkqqheapici9poxqv5b/Destino-final-lazos-de-sangre-2025.mp4?rlkey=m9lca3vrx7qhtyvn2op8es627&st=
+https://dl.dropbox.com/scl/fi/8hgk8gyyeay4x5oo3urex/Destino.Final.Lazos.De.Sangre.2025.1080P-Dual-Lat.mkv?rlkey=vqxh4tulrnpouap7qknjplb1f&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/nrtbv6Cew7qC7k9GsYSf5uSmuKh.jpg",Dracula mar de sangre (2023)
 http://208.88.245.85/nuevo/dracula.mar.de.sangre.dual2023.mkv

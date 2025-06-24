@@ -1,9 +1,20 @@
 A
+A
 
 
-Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",Alavin y las ardillas 2
-https://pomf2.lain.la/f/361w8io8.mp4
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg",Alavin y las ardillas
+
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",Alavin y las ardillas 2
+
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/tVzpyRUZ3LwEZmK7gpvmKVFBqp6.jpg",Alavin y las ardillas 3
+
+
+
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/isz4uh337srL6PIYiKXTS5Htssq.jpg",Alavin y las ardillas 4
 
 
 
@@ -13,7 +24,7 @@ B
 
 
 
-subido
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi8T-uyOjQ4VnKbOL1JD2FnmG3IP-Z5kxjxQ&s",Bob esponja: La marea desconocidas (2016) go:BobLMD
 http://208.88.245.85/nuevo/bob.esponja.la.marea.desconocida.dual2023.mkv
 
@@ -21,17 +32,22 @@ Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg",Plankton bob esponja (2025)
 https://dl.dropbox.com/scl/fi/jono80wrhx5u0tj5wkie3/Plankton.La.Pel-cula.2025.1080P-Dual-Lat.mkv?rlkey=7yfghuiico5ug19ng9zkvvz26&st=
 
-subido
-#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg",Al rescate de Fondo de Bikini go:AlRescate (2024)
-http://208.88.245.81/nuevo/ar.rescate.dfondo.dbikini.2024.dual.mkv
+Subido
+#EXTINF:-1 group-title="Pelis 2" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg",Al rescate de Fondo de Bikini (2024)
+https://dl.dropbox.com/scl/fi/95o2eeconp8jmu4h19z59/Al.Rescate.De.Fondo.De.Bikini.La.Pel-cula.De.Arenita.Mejillas.2024.1080P-Dual-Lat.mkv?rlkey=g5oedr5mquzaihnc6v2z55aue&st=
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg",Bob esponja: La pelicula (2004)
-
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/z5aphafm6OEcAq4jwOs5Ml9F384.jpg",Bob Esponja: Un héroe fuera del agua (2015)
-
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg",Bob Esponja: Un héroe al rescate (2020)
+https://dl.dropbox.com/scl/fi/kqyva7e33se5cmxe8zgme/The.spongebob.movie.sponge.on.the.run.2020.1080p-dual-lat-cinecalidad.is.mp4?rlkey=d7ab7cve2mus26ve8yr4iwupe&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/z5aphafm6OEcAq4jwOs5Ml9F384.jpg",Bob Esponja: Un héroe fuera del agua (2015)
+https://dl.dropbox.com/scl/fi/gk6eyb1i3zrk8gd0jtmt5/The.spongebob.movie.sponge.out.of.water.2015.hd-dual-lat.mp4?rlkey=3xhpm12vhmvh2motyw95dbjca&st=
+
+Subido
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg",Bob esponja: La pelicula (2004)
+https://dl.dropbox.com/scl/fi/hh1xgnzlbp108s5sidez3/Bob-esponja-2004.mp4?rlkey=jtpfvtdn2c3e6h55tnwxe73wq&st=
+
 
 
 
@@ -78,7 +94,7 @@ http://208.88.245.81/nuevo/el.nino.y.la.garza.2024.dual.mkv animacion aventura f
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelisdici%E2%96%B7%20Ver%20El%20Diario%20de%20Greg%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20Latino.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg",El rey mono go:Reymono
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg",El rey mono
 http://208.88.245.85/nuevo/el.reymono.dual2023.mkv
 
 Subido
@@ -263,8 +279,7 @@ Subido
 http://fina.dyndns.tv/Peliculas/Megamente.mkv
 
 
-Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",Super Mario Bros: La Película go:Mariobros (2023)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg",Super Mario Bros: La Película (2023)
 http://208.88.245.85/nuevo/supermariobros.dual.2023.mkv
 
 Subido
@@ -325,9 +340,9 @@ S
 
 
 
-Subido
+
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/lWEUafLv3z00YB70ZInXLNnWRik.jpg",Spider-Man: un nuevo universo go:Spider18 (2018)
-http://vod.tuxchannel.mx/peliculas/720/spiderman%20un%20nuevo%20universo.mkv
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/37WcNMgNOMxdhT87MFl7tq7FM1.jpg",Spider-Man: Cruzando el Multiverso 2023 go:Spider23

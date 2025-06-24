@@ -13,14 +13,14 @@ http://208.88.245.81/nuevo/blacklover.espadadelreymago.2023dual.mkv
 
 subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",Boruto: La pelicula
-https://pomf2.lain.la/f/ujnar7ej.mp4
+https://dl.dropbox.com/scl/fi/m3ii7qi3wogk7etwssiqp/Boruto-Uzumaki-2015.mp4?rlkey=o5bj6l9w6u5k3qyqjsiw49no2&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/phPfQ4jWhwmZrmPhAtVYUJfqfwG.jpg",Naruto shippuden the last (2014)
-https://pomf2.lain.la/f/bq0q7wap.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6qeIjzsXxDTkbGimtYJKNLiPtZt.jpg", Naruto: ¡Batalla ninja en la tierra de la nieve! (2004)
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6qeIjzsXxDTkbGimtYJKNLiPtZt.jpg",Naruto: ¡Batalla ninja en la tierra de la nieve! (2004)
 
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mpNOFVmqcqCTxVRN1h0vwIyynyY.jpg",Naruto Shippuden 1: La Muerte de Naruto (2007)
@@ -35,7 +35,8 @@ https://pomf2.lain.la/f/bq0q7wap.mp4
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jCDNRKHUEPLPzdilMmh7xX8pMB8.jpg",Naruto Shippuden 4: La torre perdida (2010)
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bBqEiQbbfyt4MWR3NhDZMbS4Wp8.jpg",Naruto Shippuden 2: Lazos 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bBqEiQbbfyt4MWR3NhDZMbS4Wp8.jpg",Naruto Shippuden 2: Lazos (2008) 
+
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1J4qxwTqHuYzTCTcHtlXKzj0J3x.jpg",Naruto Shippuden 3: Los Herederos de la Voluntad de Fuego (2009)
 

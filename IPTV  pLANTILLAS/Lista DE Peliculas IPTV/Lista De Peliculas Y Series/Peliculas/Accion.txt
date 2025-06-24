@@ -278,7 +278,7 @@ T
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",The beekeeper: Sentencia de muerte go:Protec24
-http://208.88.245.81/nuevo/the.beekeeper.el.protector.2024.dual.mkv
+https://dl.dropbox.com/scl/fi/0hs3kuola9nq7rkiuzutp/Beekeeper.Sentencia.de.Muerte.2024.720p-Dual-Lat.mkv?rlkey=3u3ndixjcnmal64txxyjima3x&st=
 
 
 #EXTINF:-1,Frente al tornado poster "https://image.tmdb.org/t/p/original/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg" Frente al tornado (2021) go:frenteTor
