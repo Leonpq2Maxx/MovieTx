@@ -155,17 +155,17 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
-      <source src="Link de pelicula" type="video/mp4">
+    <video class="vid1 js-player" loading="lazy" controls poster="" preload="none">
+      <source src="" type="video/mp4">
     </video>
   </div>
 
-  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: ¡A GANAR!</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>0000</span>
+    <i class="fal fa-calendar-alt"></i><span>Año</span>
     <i class="fal fa-clock"></i><span>0h 00min</span>
-    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <i class="fal fa-thumbs-up"></i><span>00%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -183,10 +183,11 @@
         <span style="color: white; font-size: 14px; font-family: sans-serif;">CAM</span>
       </div>
     <span>🇲🇽</span>
+    
   </div>
 
   <div class="titulo">
-    <h3>Nombre de pelicula</h3>
+    <h3>Nombre de la pelicula</h3>
     <br>
     <h4>Género: </h4>
   </div>
@@ -215,28 +216,28 @@
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <a href="" class="serie">
+        <img loading="lazy" src="" alt="https://image.tmdb.org/t/p/w300/">
         <p>Nombre de pelicula</p>
       </a>
     </div>
@@ -245,11 +246,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Nombre de pelicula",
-  imagen: "https://image.tmdb.org/t/p/w300/",
-  genero: "Genero",
-  archivo: ".html"
-};
+    titulo: "Nombre de pelicula",
+    imagen: "imagen de pelicula miniatura",
+    genero: "genero de peliculas"
+  };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -305,11 +305,10 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Nombre de pelicula",
-  imagen: "https://image.tmdb.org/t/p/w300/",
-  genero: "Genero",
-  archivo: ".html"
-};
+    titulo: "Nombre de pelicula",
+    imagen: "imagen de pelicula miniatura",
+    genero: "genero de peliculas"
+  };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {

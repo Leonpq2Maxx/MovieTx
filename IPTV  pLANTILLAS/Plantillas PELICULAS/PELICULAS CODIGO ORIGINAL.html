@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TITULO - Reproductor</title>
+  <title>MovieTx - Reproductor</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
@@ -155,17 +155,17 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" controls poster="" preload="none">
-      <source src="" type="video/mp4">
+    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
+      <source src="Link de pelicula" type="video/mp4">
     </video>
   </div>
 
-  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula (AÑO)</div>
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>AÑO</span>
-    <i class="fal fa-clock"></i><span>1h 22min</span>
-    <i class="fal fa-thumbs-up"></i><span>56%</span>
+    <i class="fal fa-calendar-alt"></i><span>0000</span>
+    <i class="fal fa-clock"></i><span>0h 00min</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -173,7 +173,6 @@
       </svg>
       <span>1080P</span>
     </div>
-    <span>🇲🇽</span>
     <!-- CAMARA-->
       <div style="display: flex; align-items: center; gap: 6px;">
         <!-- Ícono de cámara en SVG -->
@@ -183,6 +182,7 @@
         <!-- Texto CAM -->
         <span style="color: white; font-size: 14px; font-family: sans-serif;">CAM</span>
       </div>
+    <span>🇲🇽</span>
   </div>
 
   <div class="titulo">
@@ -194,42 +194,72 @@
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-      
+
     </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
   </div>
 
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="" alt="Image de pelicula">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p>Nombre de pelicula</p>
       </a>
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Genero",
+  archivo: ".html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -272,6 +302,23 @@
       }
     }, 5000);
     
-  </script>
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Genero",
+  archivo: ".html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
 </body>
 </html>
