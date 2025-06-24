@@ -313,16 +313,16 @@
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaSerie = {
   titulo: "WandaVision (2021)",
-  imagen: "https://image.tmdb.org/t/p/...imagen.png",
-  genero: "Marvel",
+  imagen: "https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6PmaoJRScw.jpg",
+  genero: "Marvel/Serie",
   archivo: "WandaVision (2021) copy.html",
-  tipo: "serie"
+  tipo: "serie"  // ✅ ¡Importante!
 };
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
+let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+if (!favoritos.some(f => f.titulo === nuevaSerie.titulo && f.tipo === "serie")) {
+  favoritos.push(nuevaSerie);
+  localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+}
   window.location.href = "../View Peliculas/favoritos.html";
 });
 </script>
