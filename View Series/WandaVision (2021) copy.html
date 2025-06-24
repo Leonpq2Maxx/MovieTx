@@ -307,24 +307,28 @@
     </div>
   </div>
 <br>
-<!-- FAVORITOS PARA WANDAVISION -->
+
+<!-- AQUÍ VA EL CÓDIGO PARA EL BOTÓN DE FAVORITO EN SERIES -->
 <script>
-document.getElementById('btn-favorito').addEventListener('click', () => {
+document.getElementById("btn-favorito").addEventListener("click", () => {
   const nuevaSerie = {
-  titulo: "WandaVision (2021)",
-  imagen: "https://image.tmdb.org/t/p/w300/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg",
-  genero: "Marvel",
-  archivo: "../View Series/WandaVision (2021) copy.html",
-  tipo: "Serie"
-};
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-if (!favoritos.some(f => f.titulo === nuevaSerie.titulo && f.tipo === 'serie')) {
+    titulo: "WandaVision (2021)",
+    imagen: "https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6PmaoJRScw.jpg",
+    genero: "Marvel",
+    archivo: "WandaVision (2021) copy.html",
+    tipo: "serie"
+  };
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos_detalles") || "[]");
+  if (!favoritos.some(f => f.titulo === nuevaSerie.titulo && f.tipo === "serie")) {
     favoritos.push(nuevaSerie);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-}
+    localStorage.setItem("favoritos_detalles", JSON.stringify(favoritos));
+  }
+  alert("Serie guardada en favoritos!");
   window.location.href = "../View Peliculas/favoritos.html";
 });
 </script>
+
 
 
 <!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
