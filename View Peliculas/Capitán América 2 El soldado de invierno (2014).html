@@ -1,139 +1,315 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-    <style> 
-    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    body{margin:0;background-color:#000000;}
-    :root{
-    --plyr-color-main:#ff0000;
-    --plyr-video-control-color:#0022ff/*#ff0030*/;}
-    .plyr--video{background:#000;height:100%;overflow: hidden;}
-    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
-    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
-    .relative{position:relative;}
-    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
-    .w-full{display:block;width:100%;}
-    @media (orientation:landscape){
-    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
-    </style>
-  </head>
-  <body ondragstart="return false;" ondrop="return false;">
-    <div class="player">
-      <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/aCfioriaJ4JICZLoEarMMmkvYB1.jpg" preload="none">
-        <source src="https://dl.dropbox.com/scl/fi/zezkut1tqjhaayz6f77zh/Captain.america.the.winter.soldier.2014.1080P-Dual-Lat.mp4?rlkey=n741zfgm8h3un08zp3xp113jw&st=" size="480"></source>
-      </video>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+
+  <div class="player">
+    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/aCfioriaJ4JICZLoEarMMmkvYB1.jpg" preload="none">
+      <source src="https://dl.dropbox.com/scl/fi/zezkut1tqjhaayz6f77zh/Captain.america.the.winter.soldier.2014.1080P-Dual-Lat.mp4?rlkey=n741zfgm8h3un08zp3xp113jw&st=" type="video/mp4">
+    </video>
+  </div>
+
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Capitán América: El soldado de invierno</div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>2014</span>
+    <i class="fal fa-clock"></i><span>2h 16min</span>
+    <i class="fal fa-thumbs-up"></i><span>82%</span>
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
     </div>
-    <style type="text/css">
-      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
-      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-      .xec{position:relative;overflow:hidden;} 
-      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
-      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
-      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;  padding: 5px 10px;border-radius: 10px;border: 1px solid rgba(16, 235, 255, 0.461);color: rgba(255, 255, 255, 0.976);cursor: pointer; }
-      info,a{color:fff;font-size:20px;margin-top:0px;}
-    </style>
-    <info>
-      <i></i>
-      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2014</h9></i>
-      <i class="fal fa-clock"><h9 style="font-size:14;"> 2H 16Min</h9></i>
-      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 82%</h9></i>
-      <i></i>
-    </info>
+    <span>🇲🇽</span>
+  </div>
+
+  <div class="titulo">
+    <h3>Capitán América: El soldado de invierno</h3>
+    <br>
+    <h4>Género: Aventura, Acción, Ciencia ficción, Marvel</h4>
+  </div>
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      Capitán América, Viuda Negra y un nuevo aliado, Falcon, se enfrentan a un enemigo inesperado mientras intentan sacar a la luz una conspiración que pone en riesgo al mundo.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br>
+    <div class="series-grid">
+      <a href="Capitán América 1 El primer vengador (2011).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg" alt="">
+        <p>Capitán América: El primer vengador</p>
+      </a>
+      <a href="Capitán América Civil War (2016).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg" alt="">
+        <p>Capitán América 3: Civil war</p>
+      </a>
+      <a href="Capitan america el nuevo mundo (2025).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg" alt="">
+        <p>Capitán América 4: Un nuevo mundo</p>
+      </a>
+      <a href="Los vengadores Infiniti war (2018).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg" alt="">
+        <p>Los vengadores: Infinity war</p>
+      </a>
+      <a href="Guardianes de la Galaxia Volumen 3 (2023).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg" alt="">
+        <p>Guardianes de la galaxia Vol.3</p>
+      </a>
+      <a href="Spider-Man 3 Sin camino a casa (2021).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg" alt="">
+        <p>Spider-Man: Sin camino a casa</p>
+      </a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Capitán América 2: El soldado de invierno",
+  imagen: "https://image.tmdb.org/t/p/w300/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg",
+  genero: "Marvel",
+  archivo: "Capitán América 2 El soldado de invierno (2014).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const player = new Plyr(videoElement, {
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTime = localStorage.getItem(STORAGE_KEY);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        videoElement.currentTime = parseFloat(savedTime);
+        const msg = document.getElementById('resume-msg');
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
+      }
+
+      const controls = document.querySelector('.plyr__controls');
+      if (controls && !document.getElementById('custom-rewind')) {
+        const rewindBtn = document.createElement('button');
+        rewindBtn.id = 'custom-rewind';
+        rewindBtn.className = 'plyr__control';
+        rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
+        rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+        rewindBtn.onclick = () => {
+          videoElement.currentTime = 0;
+        };
+        controls.insertBefore(rewindBtn, controls.firstChild);
+      }
+    });
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 5000);
     
-    <div class="titulo">
-      <h3>
-        Capitán América: El soldado de invierno
-      </h3>
-      <br>
-      <h4>
-        Genero: Aventura, Acción, Ciencia ficción, Marvel
-      </h4>
-      <br>
-      <h4>
-        Idioma: Español Latino 🇲🇽
-      </h4>
-    </div>
-    <div class="sinopsis">
-      <h4>
-        Capitán América, Viuda Negra y un nuevo aliado, Falcon, se enfrentan a un enemigo inesperado mientras intentan sacar a la luz una conspiración que pone en riesgo al mundo.
-      </h4>
-    </div>
-    <br>
-    <div class="xec">
-      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
-    </div>
-    <div class="recomendaciones">
-      <br>
-      <div class="series-grid">
-        <a href="Capitán América 1 El primer vengador (2011).html" class="serie"><img src="https://image.tmdb.org/t/p/original/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg" alt="Serie 3"><p>Capitán América: El primer vengador</p></a>
-        <a href="Capitán América Civil War (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg" alt="Serie 1"><p>Capitán América 3: Civil war</p></a>
-        <a href="Capitan america el nuevo mundo (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg" alt="Serie 1"><p>Capitán América: Un nuevo mundo</p></a>
-        <a href="Los vengadores Infiniti war (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/q6Q81fP4qPvfQTH2Anlgy12jzO2.jpg" alt="Serie 2"><p>Los vengadores: Infinity war</p></a>
-        <a href="go:GuardiG3" class="serie"><img src="https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg" alt="Serie 5"><p>Guardianes de la galaxia Vol.3</p></a>
-        <a href="go:SSinCasa3" class="serie"><img src="https://image.tmdb.org/t/p/original/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg" alt="Serie 6"><p>Spider-Man: Sin camino a casa</p></a>
-      </div>
-    </div>
-    <br>
-    <style>
-      /*RETROCEDER*/
-      .Serie,a {
-        color:fff;font-size:15px;margin-top:0px;
-      }
-      .series-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .serie {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-      }
-      
-      .serie img {
-        width: 120px;
-        max-width: 150px;
-        border-radius: 10px;
-      }
-      /* Iconos debajo del reproductor */
-      .icons-container {
-        display: flex;
-        gap: 15px;
-        margin: 1px 0;
-      }
-      
-      .icons-container i {
-        font-size: 24px;
-        cursor: pointer;
-      }
-      
-      .icons-container i:hover {
-        color: yellow;
-      }
-    </style>
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Capitán América 2: El soldado de invierno",
+  imagen: "https://image.tmdb.org/t/p/w300/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg",
+  genero: "Marvel",
+  archivo: "Capitán América 2 El soldado de invierno (2014).html"
+};
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
-    <script>
-      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
-      const player = new Plyr('.vid1',{controls});
-    </script>
-  </body>
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+</body>
 </html>
-
-
-
-
-
