@@ -2,44 +2,181 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Video Playlist MOD Xavier Suarez</title>
+<title>MovieTx - Reproductor de serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
-<style type="text/css">
-*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
-body{background:#000;}
-.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
-.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
-.container .main-video{background:#151515;border-radius:5px;padding:10px;}
-.container .main-video video{width:100%;border-radius:5px;}
-.container .main-video .title{
-color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-.container .video-list{
-background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
-.container .video-list::-webkit-scrollbar{
-width:7px;}
-.container .video-list::-webkit-scrollbar-track{
-background:#000;border-radius:50px;}
-.container .video-list::-webkit-scrollbar-thumb{
-background:#00a7ad;border-radius:50px;}
-.container .video-list .vid video{
-width:100px;border-radius:5px;}
-.container .video-list .vid{
-background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
-.container .video-list .vid:hover{
-background:#000;}
-.container .video-list .vid.active{
-background:#00a7ad;}
-.container .video-list .vid.active .title{
-color:#fff;}
-.container .video-list .vid .title{
-color:#fff;font-size:17px;}
-@media (max-width: 999px){
-.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
-@media (max-width: 768px){
-.container{grid-template-columns:1fr;}}
-</style>
+
+<style>
+  .container .main-video{background:#000000;border-radius:5px;padding:0px;}
+  .container .main-video video{width:100%;border-radius:5px;}
+  .container .main-video .title{
+  color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+  .container .video-list{
+  background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+  .container .video-list::-webkit-scrollbar{
+  width:7px;}
+  .container .video-list::-webkit-scrollbar-track{
+  background:#000;border-radius:50px;}
+  .container .video-list::-webkit-scrollbar-thumb{
+  background:#00a7ad;border-radius:50px;}
+  .container .video-list .vid video{
+  width:100px;border-radius:5px;}
+  .container .video-list .vid{
+  background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+  .container .video-list .vid:hover{
+  background:#000;}
+  .container .video-list .vid.active{
+  background:#00a7ad;}
+  .container .video-list .vid.active .title{
+  color:#ff0000;}
+  .container .video-list .vid .title{
+  color:#fff;font-size:17px;}
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -49,552 +186,263 @@ color:#fff;font-size:17px;}
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<h3 class="title">Rosario Tijeras</h3>
-<div class="icons-container">
-    <i class="fas fa-calendar"> <H2 class="title">📅 2016</H2></i>
-    <i class="fas fa-thumbs-up"><H2 class="title">❤️ 85%</H2></i>
-</div>
-</div></div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Rosario Tijeras</div>
 
-<div class="video-list">
-  <div class="vid active">
-    <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/c553zgp5l7gq_n/n.mp4?t=ioAXT-sIq91srJtBWwpZbYUl4Hmd3sygRV-z_QWc08E&s=1743116657&e=43200&f=17632&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/c553zgp5l7gq_t.jpg"></video>
-    <h3 class="title">T1 E1</h3></div>
-
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/jmrzz06jkbcf_n/n.mp4?t=6nFp87P7eNSJVQrbag1ZUSYbhk1gYGk2in9JG-9WOgk&s=1743120867&e=43200&f=17633&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/jmrzz06jkbcf_t.jpg"></video>
-      <h3 class="title">T1 E2</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/n31e5jl2i5rh_n/n.mp4?t=zqQwrhaAJ-L02caCvfPXyHPhpUCa6SLJd9XerM-SDsQ&s=1743120952&e=43200&f=17634&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/n31e5jl2i5rh_t.jpg"></video>
-      <h3 class="title">T1 E3</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/trlvc30b442x_n/n.mp4?t=7Fguks73D-KEeRkWakn1F_TnPy4Cwz5YO3Xv1r6r25o&s=1743121022&e=43200&f=17635&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/trlvc30b442x_t.jpg"></video>
-      <h3 class="title">T1 E4</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/pmqg1ahjd11z_n/n.mp4?t=I9ycC6Az35FnjKZXknUonCnTS3-DYrBeSB0TngQSyV0&s=1743121136&e=43200&f=17636&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/pmqg1ahjd11z_t.jpg"></video>
-      <h3 class="title">T1 E5</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/6mbe33q94jke_n/n.mp4?t=9oybMUbp71y5X-MhBcmT6Z8cjYe17FsGT7SM6yDjXTM&s=1743122087&e=43200&f=17637&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/6mbe33q94jke_t.jpg"></video>
-      <h3 class="title">T1 E6</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/xuhxja47zsbt_n/n.mp4?t=DU9CBOGpzcVKeTN9XRn6ZDOxQH436RrTZy7q_Aogrns&s=1743122388&e=43200&f=17638&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/xuhxja47zsbt_t.jpg"></video>
-      <h3 class="title">T1 E7</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/4mrrflevx59u_n/n.mp4?t=ksb3FounJhXCsnHPIf7vN0_Cvt4f7tcTeFF9QUS2UY4&s=1743122533&e=43200&f=17639&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/4mrrflevx59u_t.jpg"></video>
-      <h3 class="title">T1 E8</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/7qr3g3eq6gk9_n/n.mp4?t=V9CgMftCAJhzda0NswU5l3YmH0yqn-sMnBzlmwHYagg&s=1743122626&e=43200&f=17640&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/7qr3g3eq6gk9_t.jpg"></video>
-      <h3 class="title">T1 E9</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/mc8boi70cc0m_n/n.mp4?t=VBgclc-5-N93LsqGZaesIXQV7_v7OWbhQfAxlFO7e7s&s=1743122709&e=43200&f=17641&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/mc8boi70cc0m_t.jpg"></video>
-      <h3 class="title">T1 E10</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/cwbwlrxggipz_n/n.mp4?t=fvaa3V9T6Uaedo5f02MOl-OYnBOPQhcY9YbPeAKoiS4&s=1743123006&e=43200&f=17642&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/cwbwlrxggipz_t.jpg"></video>
-      <h3 class="title">T1 E11</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/oyc6qu00ttt9_n/n.mp4?t=5uHvhiQsJFYLWwoycmhACWRsUQ_Ad4RXDxnmm3aHwIg&s=1743123043&e=43200&f=17643&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/oyc6qu00ttt9_t.jpg"></video>
-      <h3 class="title">T1 E12</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/vejvs10zqxks_n/n.mp4?t=Ju0W79CQxQodYRy-mHC6NkcKPkRVzXcbKo0sxZ1vH8E&s=1743123159&e=43200&f=17644&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/oyc6qu00ttt9_t.jpg"></video>
-      <h3 class="title">T1 E13</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/zglas2dpnmqj_n/n.mp4?t=7DmOofxmwHrvobRDnwViFCoPOGAbfae3Rleo0dx-W0k&s=1743123248&e=43200&f=17645&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/zglas2dpnmqj_t.jpg"></video>
-      <h3 class="title">T1 E14</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/gidj87pf171b_n/n.mp4?t=irL84wFBhOhvkc9d3bDIAEMWqPkGepnlS6Po88QksaY&s=1743123303&e=43200&f=17646&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/gidj87pf171b_t.jpg"></video>
-      <h3 class="title">T1 E15</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/dtzg4kx0wcvg_n/n.mp4?t=7kLjS3FyuY5gYzQ6yEGHyQ1AahWxhOamhQI6S8g1V8I&s=1743123468&e=43200&f=17647&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/dtzg4kx0wcvg_t.jpg"></video>
-      <h3 class="title">T1 E16</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/is4zn0mt1rxv_n/n.mp4?t=CzT47b3nk63oZNLuFe8XTsL3qKUAIVc4XVHuGpLAilA&s=1743123508&e=43200&f=17648&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/is4zn0mt1rxv_t.jpg"></video>
-      <h3 class="title">T1 E17</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/7zi5f7jwsvfh_n/n.mp4?t=Bf7hDe9jQv8mC_Egg-oJLAYW0XU9Ixp4v1CGoC7vhGs&s=1743124112&e=43200&f=17649&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/7zi5f7jwsvfh_t.jpg"></video>
-      <h3 class="title">T1 E18</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/leh18d98dqbu_n/n.mp4?t=RRctqVQxYZtzN-rbtTqmNIZvVufmv3SO0q4a8Zp51Gc&s=1743124513&e=43200&f=17650&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/leh18d98dqbu_t.jpg"></video>
-      <h3 class="title">T1 E19</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/insh3vazrcxu_n/n.mp4?t=tzUsHFw2TKW_E8Uy1iixznvplfnl4LHlzAEVnMv85UA&s=1743124641&e=43200&f=17651&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/insh3vazrcxu_t.jpg"></video>
-      <h3 class="title">T1 E20</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/v0xaik7iq2lm_n/n.mp4?t=CKVpc4_fnSY70EaSCGvYrZR1rGlV4062kAGeGhCEKxs&s=1743124697&e=43200&f=17653&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/v0xaik7iq2lm_t.jpg"></video>
-      <h3 class="title">T1 E21</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/rr0382pp96yh_n/n.mp4?t=KEgysJocOdQQb-hh6EhXED6xvaUfDtEHKqBcuplSlEU&s=1743124755&e=43200&f=17652&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/rr0382pp96yh_t.jpg"></video>
-      <h3 class="title">T1 E22</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/cotwcrm7pa31_n/n.mp4?t=nwXCjHNOKm9PQyhZX-_zF21uuvqkEUcZqPfl57H3fU8&s=1743124787&e=43200&f=17654&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/cotwcrm7pa31_t.jpg"></video>
-      <h3 class="title">T1 E23</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/wdl55052nhra_n/n.mp4?t=nPnNCBpd-_lRZOV3CPCjXidjm8SCjyxMsqIz3G_4xLo&s=1743124837&e=43200&f=17655&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/wdl55052nhra_t.jpg"></video>
-      <h3 class="title">T1 E24</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/35ewa3798zqq_n/n.mp4?t=0ePO90NXFmFzqBLmWM77gzd_UqsSTRctNwXD7GjrFnQ&s=1743125147&e=43200&f=17656&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/35ewa3798zqq_t.jpg"></video>
-      <h3 class="title">T1 E25</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/ruyicgfrv9f9_n/n.mp4?t=wcQliZISeo-2PcJ15ZJqwZV_I7gw2zbX-XGJVzcAGho&s=1743125206&e=43200&f=17657&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/ruyicgfrv9f9_t.jpg"></video>
-      <h3 class="title">T1 E26</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/8t646ttwbw9i_n/n.mp4?t=QgfDMmxN_A17CLa5T4DzXzxTy3A5FaL69tU6ttCtGg4&s=1743125262&e=43200&f=17658&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/8t646ttwbw9i_t.jpg"></video>
-      <h3 class="title">T1 E27</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/qxiqgojcelrg_n/n.mp4?t=hDFyd1c9IubyyrJ5ikxAuiid2DWQV2X5w7BMguz0CJ4&s=1743125369&e=43200&f=17659&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/qxiqgojcelrg_t.jpg"></video>
-      <h3 class="title">T1 E28</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/qmq7x2lgs8ys_n/n.mp4?t=oiAz-v9ATzXWjPvj0CHKx54bohedE2IZ-MgCeVRWE7w&s=1743125593&e=43200&f=17660&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/qmq7x2lgs8ys_t.jpg"></video>
-      <h3 class="title">T1 E29</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/1y5lgsrgdjxd_n/n.mp4?t=cWKaA98Or5DAPEkeLIoilTKSGOYeaE70awTqMROcIdk&s=1743125686&e=43200&f=17661&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/1y5lgsrgdjxd_t.jpg"></video>
-      <h3 class="title">T1 E30</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/d7ew89qphzr6_n/n.mp4?t=acp6_jFQRUdsrgypxYAeQx0GjXMVZu7cr33sEPKohws&s=1743125853&e=43200&f=17662&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/d7ew89qphzr6_t.jpg"></video>
-      <h3 class="title">T1 E31</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/k9nguifeo6su_n/n.mp4?t=NCmuA3iP1OeThCWTtYQgdGTfcUusgT36D_z4ETQ7hro&s=1743126151&e=43200&f=17663&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/k9nguifeo6su_t.jpg"></video>
-      <h3 class="title">T1 E32</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/i6i9c5f95acr_n/n.mp4?t=1_XxotaR8-qFHc5cF4vDom3KpHfUPE7mW9df8UA_yrE&s=1743126193&e=43200&f=17664&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/i6i9c5f95acr_t.jpg"></video>
-      <h3 class="title">T1 E33</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/1nv14esvtb86_n/n.mp4?t=FxJVTYvIWDjaPSVPbFwm4X30h7k0w7sBbctpn9wTcSQ&s=1743126262&e=43200&f=17665&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/1nv14esvtb86_t.jpg"></video>
-      <h3 class="title">T1 E34</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/5uh1mc24g2j5_n/n.mp4?t=YB7si1SyOXVV2rR_cLMXv0zpKeHJ8hszi8VnlvmxgkA&s=1743126337&e=43200&f=17666&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/5uh1mc24g2j5_t.jpg"></video>
-      <h3 class="title">T1 E35</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/poh18f8nkfyr_n/n.mp4?t=WmmvUlYke2SY6Z1xLJAQf8rCyOOeputOcLwUDisagtU&s=1743126485&e=43200&f=17667&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/poh18f8nkfyr_t.jpg"></video>
-      <h3 class="title">T1 E36</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/pndwm99dug0y_n/n.mp4?t=coOC1mt054MLEFvZhdoounVU99tMVZkjaSuqRd76-0E&s=1743126553&e=43200&f=17668&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/pndwm99dug0y_t.jpg"></video>
-      <h3 class="title">T1 E37</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/qhoi6ax86ul6_n/n.mp4?t=KR0kSo1eeqIUgtl5KkVf1bqEZlNMwXSWpz0cRmLET1Y&s=1743126621&e=43200&f=17669&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/qhoi6ax86ul6_t.jpg"></video>
-      <h3 class="title">T1 E38</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/db4q2vvuh5cj_n/n.mp4?t=YkVmeILIp2tlOmEDEK-iglqXo7rVRGPfpnXbXG9v36s&s=1743126665&e=43200&f=17670&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/db4q2vvuh5cj_t.jpg"></video>
-      <h3 class="title">T1 E39</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/wsydrgqapdmu_n/n.mp4?t=C6ESMh7GOFfs3YDVLYgF0zi1LFf4tZp2J6SYurqYd34&s=1743126713&e=43200&f=17671&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/wsydrgqapdmu_t.jpg"></video>
-      <h3 class="title">T1 E40</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/g9h1nwq8dczj_n/n.mp4?t=rcwzSv7FR6cA7CeUljo_dcLdBWiD1ldEq1PM_jH9bqk&s=1743126856&e=43200&f=17672&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/g9h1nwq8dczj_t.jpg"></video>
-      <h3 class="title">T1 E41</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/zb2uuwjkhqu7_n/n.mp4?t=JlgBGcZRRHusa0NmpkEddTzSUmb85ntwXUkFj1eU7QE&s=1743127842&e=43200&f=17673&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/zb2uuwjkhqu7_t.jpg"></video>
-      <h3 class="title">T1 E42</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/45hkujwco9nk_n/n.mp4?t=vUv1sEsMC9YpcR-Ugzpgeizi37LP3lVoXuTsjL6Vye4&s=1743127889&e=43200&f=17674&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/45hkujwco9nk_t.jpg"></video>
-      <h3 class="title">T1 E43</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/oaclawdu45hc_n/n.mp4?t=Wpu6dYnmQmfmGm8EFfggtpxCLFJiD2j5DS5KYyMCzBU&s=1743128131&e=43200&f=17675&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/oaclawdu45hc_t.jpg"></video>
-      <h3 class="title">T1 E44</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/rbqu41x711uo_n/n.mp4?t=I6SLnRyMtJ_Gwodss9_6Sa95Lnq4WotdORsoLKJCH3Y&s=1743128218&e=43200&f=17676&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/rbqu41x711uo_t.jpg"></video>
-      <h3 class="title">T1 E45</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/likqgbfo8s8n_n/n.mp4?t=OSiAcnwseZPaxsm2EHIqQCwZ9KHBBaLn7XT16dyMWqc&s=1743128259&e=43200&f=17677&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/likqgbfo8s8n_t.jpg"></video>
-      <h3 class="title">T1 E46</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/0un1iwufmk11_n/n.mp4?t=ZnG-HN3sLnuEi22DsyhBA1buokaLMXVLkgHiYHAcp8s&s=1743128343&e=43200&f=17678&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/0un1iwufmk11_t.jpg"></video>
-      <h3 class="title">T1 E47</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/5hpitzznxa4p_n/n.mp4?t=2VMlltGDLbW1yxHubGPFQFZ6WbvNGghKfjpobv9MkQw&s=1743128407&e=43200&f=17679&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/5hpitzznxa4p_t.jpg"></video>
-      <h3 class="title">T1 E48</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/9svb2m124qwt_n/n.mp4?t=e9eS09wpsVAIXgQ6S8OmoNwhgNQrryel5_ip_79cqWA&s=1743128467&e=43200&f=17680&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/9svb2m124qwt_t.jpg"></video>
-      <h3 class="title">T1 E49</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/2zce6e8op993_n/n.mp4?t=gP4YzWTEn8nn_MrMFSH7hjUJO8ivAGa4IIbc5k84DC0&s=1743128523&e=43200&f=17681&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/2zce6e8op993_t.jpg"></video>
-      <h3 class="title">T1 E50</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/m04jorodb6xf_n/n.mp4?t=a26D_3wruZG5XBpNHPCINfjZEoqHQEamixQz2NtZgZw&s=1743128659&e=43200&f=17682&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/m04jorodb6xf_t.jpg"></video>
-      <h3 class="title">T1 E51</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/8qxrc125k4pk_n/n.mp4?t=95AzOqUnxGsLjMb8O_azD9l12eUwEerzMKzpVfSPAac&s=1743129369&e=43200&f=17683&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/8qxrc125k4pk_t.jpg"></video>
-      <h3 class="title">T1 E52</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/8qxrc125k4pk_n/n.mp4?t=95AzOqUnxGsLjMb8O_azD9l12eUwEerzMKzpVfSPAac&s=1743129369&e=43200&f=17683&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/ebx3be5swa5v_t.jpg"></video>
-      <h3 class="title">T1 E53</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/qonjq11gmmfs_n/n.mp4?t=Do4Jmo6kxLeAULeMz3YUF2MCaawGMQ4a8G1g0Vj9Rm0&s=1743130770&e=43200&f=17685&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/qonjq11gmmfs_t.jpg"></video>
-      <h3 class="title">T1 E54</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/27avlnvvx3g5_n/n.mp4?t=HqfFNSHoD5wW21IF1jsV5QPZod_8_CFn_J-jmqjTZHc&s=1743130816&e=43200&f=17686&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/27avlnvvx3g5_t.jpg"></video>
-      <h3 class="title">T1 E55</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/wza8of33qh9y_n/n.mp4?t=fzeuKbSP7koGs7xJmvuMN3ox3RyQDE0rBq3_dghF_Yk&s=1743130893&e=43200&f=17687&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/wza8of33qh9y_t.jpg"></video>
-      <h3 class="title">T1 E56</h3>
-    </div>
-    <div class="vid">
-      <video src="https://02-ukr-sv.enpantallas.com/v/01/00003/utku50yuw61z_n/n.mp4?t=z3kIuZ9cHKgui28zBX5nb0RofsBM2B2iDRj-6sTjh-w&s=1743130949&e=43200&f=17688&sp=625&i=201.253" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/utku50yuw61z_t.jpg"></video>
-      <h3 class="title">T1 E57</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/uno653q61fqd_n/n.mp4?t=92p-3jttUPVEsBpDBKcZWqcbSH2IybTD8_aWp-JVORY&s=1743131007&e=43200&f=17689&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/uno653q61fqd_t.jpg"></video>
-      <h3 class="title">T1 E58</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/uwwy0oyaovew_n/n.mp4?t=zoUo7g_6O5nRrkvyQSZx3Rui-WJ5m6lianZXVH5w044&s=1743131122&e=43200&f=17690&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/uwwy0oyaovew_t.jpg"></video>
-      <h3 class="title">T1 E59</h3>
-    </div>
-    <div class="vid">
-      <video src="https://04-ukr-sv.enpantallas.com/v/01/00003/xd08ygls48us_n/n.mp4?t=LQ_qN_dkqkQDrbnXSI7fBHBh1l5aY7UjRtqo1g1eDdk&s=1743131198&e=43200&f=17691&sp=625&i=201.253" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/xd08ygls48us_t.jpg"></video>
-      <h3 class="title">T1 E60</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/6mbe33q94jke_t.jpg"></video>
-      <h3 class="title">T2 E1</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/z1oedybnqoo2_t.jpg"></video>
-      <h3 class="title">T2 E2</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/zvli5y9evpit_t.jpg"></video>
-      <h3 class="title">T2 E3</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/zfgidjkzyfl3_t.jpg"></video>
-      <h3 class="title">T2 E4</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/dhymdcmgejgr_t.jpg"></video>
-      <h3 class="title">T2 E5</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/lxuc0b0h8r90_t.jpg"></video>
-      <h3 class="title">T2 E6</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/j0vrioloheyi_t.jpg"></video>
-      <h3 class="title">T2 E7</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/ypy7t5g423ws_t.jpg"></video>
-      <h3 class="title">T2 E8</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/msiowjc6s656_t.jpg"></video>
-      <h3 class="title">T2 E9</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/3h0yh0xottry_t.jpg"></video>
-      <h3 class="title">T2 E10</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/d8rj59rtbn7f_t.jpg"></video>
-      <h3 class="title">T2 E11</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/hdspdofslfxp_t.jpg"></video>
-      <h3 class="title">T2 E12</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/8ies6gf681zs_t.jpg"></video>
-      <h3 class="title">T2 E13</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/gx6dfwe9i2tm_t.jpg"></video>
-      <h3 class="title">T2 E14</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/gryu9frfmhoq_t.jpg"></video>
-      <h3 class="title">T2 E15</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/thfxz8x0yznk_t.jpg"></video>
-      <h3 class="title">T2 E16</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/3wvav1cu83nk_t.jpg"></video>
-      <h3 class="title">T2 E17</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/ivqj00ovn1v0_t.jpg"></video>
-      <h3 class="title">T2 E18</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/713km4sad6z3_t.jpg"></video>
-      <h3 class="title">T2 E19</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/pzttbafq8zjc_t.jpg"></video>
-      <h3 class="title">T2 E20</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/dnwzw7zfnv40_t.jpg"></video>
-      <h3 class="title">T2 E21</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/9mxazxitjv6a_t.jpg"></video>
-      <h3 class="title">T2 E22</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://02-ukr-sv.enpantallas.com/i/01/00003/y189as80dss4_t.jpg"></video>
-      <h3 class="title">T2 E23</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/0mfbwxehrxec_t.jpg"></video>
-      <h3 class="title">T2 E24</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster="https://04-ukr-sv.enpantallas.com/i/01/00003/kqkndba8aiad_t.jpg"></video>
-      <h3 class="title">T2 E25</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E26</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E27</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E28</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E29</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E30</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E31</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E32</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E33</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E34</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E35</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E36</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E37</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E38</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E39</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E40</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E41</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E42</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E43</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E44</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E45</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E46</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E47</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E48</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E49</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E50</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E51</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E52</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E53</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E54</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E55</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E56</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E57</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E58</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E59</h3>
-    </div>
-    <div class="vid">
-      <video src="" muted poster=""></video>
-      <h3 class="title">T2 E60</h3>
-    </div>
-
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>2025</span>
+    <i class="fal fa-clock"></i><span>T4</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
   </div>
 
-</div>
+  <div class="titulo">
+    <h3>Rosario Tijeras</h3>
+    <br>
+    <h4>Género: Drama, Crimen</h4>
+  </div>
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      La serie cuenta la historia de una guerrera de uno de los barrios más pobres y peligrosos en Ciudad de México. Su belleza y nobleza contrasta con el ambiente gris y desolado donde creció. Ella es temida por sus enemigos y adorada por sus amigos.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+  <br><br>
+
+<div class="video-list">
+
+  <div class="vid">
+  <video src="#"  muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <h3 class="title">Temporada 4 (2025)</h3></div>
+
+
+  <div class="vid active">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 1 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 2 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 3 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 4 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 5 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 6 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 7 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 8 </h3></div>
+     
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 9 </h3></div>
+  
+  
+</div></div>
 
 <br>
 <div class="recomendaciones">
-  <h3 style="color: white;">Podría Interesarte las siguientes</h3>
-<br>
-  <div class="series-grid">
-    <a href="El marginal (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/eAy2tSlGtzseWfYemt398QrPtf2.jpg" alt="Serie 1"><p>El Marginal</p></a>
-    <a href="Pablo Escobar, el patrón del mal (2012).html" class="serie"><img src="https://image.tmdb.org/t/p/original/jZqm7HFuxfH9P0LFjQZ8nzrCUHP.jpg" alt="Serie 2"><p>Pablo Escobar, el patrón del mal</p></a>
-    <a href="Sin Senos no hay Paraiso (2008).html" class="serie"><img src="https://image.tmdb.org/t/p/original/pSsQ5rFalyT7ehwgeSlITgBSi5S.jpg" alt="Serie 3"><p>Sin Senos No Hay Paraiso</p></a>
-    <a href="Invasión secreta (2023).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7SAIwUnkDsRjLNGQcsxyVqQny7D.jpg" alt="Serie 4"><p>Invasión secreta</p></a>
-    <a href="Ms. Marvel (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/3KzoEdclGwXQH2t2oYZZlw46TvW.jpg" alt="Serie 5"><p>Ms. Marvel</p></a>
-    <a href="She Hulk (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/4ie82rXFa1rAJ9qTWoCvlljglLJ.jpg" alt="Serie 6"><p>She-Hulk: abogada Hulka</p></a>
+    <h4>Podría interesarte:</h4>
+    <br>
+    <div class="series-grid">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>nombre de serie</p>
+      </a>
+    </div>
   </div>
-</div>
 <br>
-<style>
-  /*RETROCEDER*/
 
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    text-align: center;
+<!-- FAVORITOS PARA WANDAVISION -->
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "Rosario tijeras",
+    imagen: "https://image.tmdb.org/t/p/w300/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg",
+    genero: "Marvel/Serie",
+    archivo: "Rosario Tijeras (2016).html"
+  };
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
+  window.location.href = "../View Peliculas/favoritos.html";
+});
+</script>
 
-  .serie {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
 
-  .serie img {
-    width: 120px;
-    max-width: 150px;
-    border-radius: 10px;
-  }
-  /* Iconos debajo del reproductor */
-  .icons-container {
-    display: flex;
-    gap: 15px;
-    margin: 1px 0;
-  }
+<!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.js-player').forEach(video => {
+    const controls = video.closest('.main-video')?.querySelector('.plyr__controls');
+    if (controls && !controls.querySelector('#plyr-restart')) {
+      // 1️⃣ Crear botón de Reinicio al inicio (#plyr-restart) al EXTREMO IZQUIERDO
+      const restartBtn = document.createElement("button");
+      restartBtn.className = "plyr__control";
+      restartBtn.id = "plyr-restart";
+      restartBtn.innerHTML = '<i class="fas fa-undo"></i><span class="plyr__sr-only">Reiniciar al inicio</span>';
+      restartBtn.title = "Reiniciar al inicio (0s)";
+      restartBtn.addEventListener("click", () => {
+        video.currentTime = 0;
+      });
+      controls.insertBefore(restartBtn, controls.firstChild);
 
-  .icons-container i {
-    font-size: 24px;
-    cursor: pointer;
-  }
+      // 2️⃣ Crear botón de Retroceso (#plyr-rewind) junto al de Reinicio
+      const rewindBtn = document.createElement("button");
+      rewindBtn.className = "plyr__control";
+      rewindBtn.id = "plyr-rewind";
+      rewindBtn.innerHTML = '<i class="fas fa-step-backward"></i><span class="plyr__sr-only">Retroceder 10 segundos</span>';
+      rewindBtn.title = "Retroceder 10s";
+      rewindBtn.addEventListener("click", () => {
+        video.currentTime = Math.max(video.currentTime - 10, 0);
+      });
+      controls.insertBefore(rewindBtn, restartBtn.nextSibling);
 
-  .icons-container i:hover {
-    color: yellow;
-  }
-</style>
+      // 3️⃣ Crear botón de Avance (#plyr-fast-forward) estándar de Plyr
+      const forwardBtn = document.createElement("button");
+      forwardBtn.className = "plyr__control";
+      forwardBtn.id = "plyr-fast-forward";
+      forwardBtn.innerHTML = '<i class="fa fa-forward"></i><span class="plyr__sr-only">Avanzar 10 segundos</span>';
+      forwardBtn.title = "Avanzar 10s";
+
+      const playButton = controls.querySelector('.plyr__control[data-plyr="play"]');
+      if (playButton) {
+        playButton.after(forwardBtn);
+      } else {
+        controls.appendChild(forwardBtn);
+      }
+
+      forwardBtn.addEventListener("click", () => {
+        video.currentTime = Math.min(video.currentTime + 10, video.duration);
+      });
+    }
+  });
+});
+</script>
+
+
+
+<!-- Lógica para guardar posición y mostrar mensaje de reanudación por episodio -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mainVideo = document.querySelector('.main-video video');
+  const resumeMsg = document.getElementById('resume-msg');
+  let currentEpisode = null;
+
+  // Al hacer clic en un episodio
+  document.querySelectorAll('.video-list .vid').forEach(videoItem => {
+    videoItem.addEventListener('click', e => {
+      // Identificamos el episodio por posición en la lista
+      const episodeIndex = Array.from(document.querySelectorAll('.video-list .vid')).indexOf(videoItem);
+      currentEpisode = episodeIndex;
+
+      // Cambiamos la fuente del video
+      const src = videoItem.querySelector('video').getAttribute('src');
+      mainVideo.setAttribute('src', src);
+
+      // Checamos si existe posición guardada para este episodio
+      const savedTime = localStorage.getItem(`pos_episodio_${episodeIndex}`);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        mainVideo.currentTime = parseFloat(savedTime);
+        resumeMsg.textContent = `✅ Reanudando ${videoItem.querySelector('.title').textContent.trim()} donde lo dejaste`;
+        resumeMsg.classList.add('visible');
+        setTimeout(() => {
+          resumeMsg.classList.remove('visible');
+        }, 3000);
+      }
+    });
+  });
+
+  // Guardamos posición cada 5 seg para cada episodio activo
+  setInterval(() => {
+    if (!mainVideo.paused && !mainVideo.ended && currentEpisode !== null) {
+      localStorage.setItem(`pos_episodio_${currentEpisode}`, mainVideo.currentTime);
+    }
+  }, 5000);
+});
+</script>
+
+
+<!-- ACELERAR VIDEO -->
+<script>
+const videoList = document.querySelectorAll('.video-list .vid');
+const mainVideo = document.querySelector('.main-video video');
+
+videoList.forEach(videoItem => {
+  videoItem.addEventListener('click', e => {
+    videoList.forEach(v => v.classList.remove('active'));
+    videoItem.classList.add('active');
+
+    const videoSrc = videoItem.getAttribute('data-url');
+    mainVideo.setAttribute('src', videoSrc);
+    mainVideo.play();
+  });
+});
+</script>
+
+
+
+
+
+</script>
+
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script type="text/javascript">
@@ -621,3 +469,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
+
+
+
+
