@@ -307,24 +307,22 @@
     </div>
   </div>
 <br>
-<!-- Favoritos -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+<!-- FAVORITOS PARA WANDAVISION -->
+<script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "365 Días 2: Aquel día",
-  imagen: "https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg",
-  genero: "Romance",
-  archivo: "365 Dias 2 Aquel dia (2022).html"
-};
-
+    titulo: "WandaVision (2021)",
+    imagen: "https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6PmaoJRScw.jpg",
+    genero: "Marvel",
+    archivo: "WandaVision (2021) copy.html"
+  };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
     favoritos.push(nuevaPelicula);
     localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
-  window.location.href = "favoritos.html";
+  window.location.href = "../View Peliculas/favoritos.html";
 });
-
 </script>
 
 
@@ -421,7 +419,22 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
+<!-- ACELERAR VIDEO -->
+<script>
+const videoList = document.querySelectorAll('.video-list .vid');
+const mainVideo = document.querySelector('.main-video video');
 
+videoList.forEach(videoItem => {
+  videoItem.addEventListener('click', e => {
+    videoList.forEach(v => v.classList.remove('active'));
+    videoItem.classList.add('active');
+
+    const videoSrc = videoItem.getAttribute('data-url');
+    mainVideo.setAttribute('src', videoSrc);
+    mainVideo.play();
+  });
+});
+</script>
 
 
 
