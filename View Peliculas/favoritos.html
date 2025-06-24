@@ -79,63 +79,60 @@
   <div id="contenedor"></div>
 
   <script>
-    const favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-    const contenedor = document.getElementById('contenedor');
+const favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+const contenedorPeliculas = document.getElementById('peliculas-container');
+const contenedorSeries = document.getElementById('series-container');
 
-    const generosUnicos = [...new Set(favoritos.map(f => f.genero?.trim() || "Otros"))].sort();
+function crearSeccion(favoritos, contenedor, tituloSeccion) {
+  if (favoritos.length > 0) {
+    const h2 = document.createElement('h2');
+    h2.textContent = tituloSeccion;
+    contenedor.appendChild(h2);
 
-    generosUnicos.forEach(genero => {
-      const peliculas = favoritos
-        .filter(f => (f.genero || "Otros").trim() === genero)
-        .sort((a, b) => a.titulo.localeCompare(b.titulo));
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    favoritos.forEach(fav => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const link = document.createElement('a');
+      link.href = fav.archivo;
 
-      if (peliculas.length > 0) {
-        const h2 = document.createElement("h2");
-        h2.textContent = genero;
-        contenedor.appendChild(h2);
+      const img = document.createElement('img');
+      img.src = fav.imagen;
 
-        const grid = document.createElement("div");
-        grid.className = "grid";
+      const title = document.createElement('p');
+      title.textContent = fav.titulo;
 
-        peliculas.forEach((fav, index) => {
-          const card = document.createElement('div');
-          card.className = 'card';
+      const genre = document.createElement('p');
+      genre.className = 'genre';
+      genre.textContent = fav.genero;
 
-          const link = document.createElement('a');
-          link.href = fav.archivo || encodeURIComponent(fav.titulo.replace(/\s+/g, '_')) + '.html';
-
-          const img = document.createElement('img');
-          img.src = fav.imagen || 'https://via.placeholder.com/300x450?text=' + encodeURIComponent(fav.titulo);
-          img.alt = fav.titulo;
-
-          const title = document.createElement('p');
-          title.textContent = fav.titulo;
-
-          const genre = document.createElement('p');
-          genre.className = 'genre';
-          genre.textContent = fav.genero || '';
-
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
-          delBtn.textContent = '✖';
-          delBtn.title = 'Quitar favorito';
-          delBtn.onclick = () => {
-            const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
-            localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
-            location.reload();
-          };
-
-          link.appendChild(img);
-          link.appendChild(title);
-          link.appendChild(genre);
-          card.appendChild(link);
-          card.appendChild(delBtn);
-          grid.appendChild(card);
-        });
-
-        contenedor.appendChild(grid);
-      }
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.textContent = '✖';
+      delBtn.title = 'Quitar favorito';
+      delBtn.onclick = () => {
+        const nuevos = favoritos.filter(f => f.titulo !== fav.titulo);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(nuevos));
+        location.reload();
+      };
+      link.appendChild(img);
+      link.appendChild(title);
+      link.appendChild(genre);
+      card.appendChild(link);
+      card.appendChild(delBtn);
+      grid.appendChild(card);
     });
-  </script>
+    contenedor.appendChild(grid);
+  }
+}
+
+// Filtramos favoritos
+const peliculas = favoritos.filter(f => (f.tipo || "").toLowerCase() === "pelicula");
+const series = favoritos.filter(f => (f.tipo || "").toLowerCase() === "serie");
+
+crearSeccion(peliculas, contenedorPeliculas, "🎞️ Películas Favoritas");
+crearSeccion(series, contenedorSeries, "📺 Series Favoritas");
+</script>
 </body>
 </html>
