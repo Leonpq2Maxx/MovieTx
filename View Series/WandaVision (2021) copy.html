@@ -318,10 +318,10 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   tipo: "Serie"
 };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
+if (!favoritos.some(f => f.titulo === nuevaSerie.titulo && f.tipo === 'serie')) {
+    favoritos.push(nuevaSerie);
     localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
+}
   window.location.href = "../View Peliculas/favoritos.html";
 });
 </script>
