@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="Css/Script.css"/>
+<script src="Js/Script.js"></script>
+<style type="text/css">
+  *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+  body{background:#000;}
+  .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+  .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+  .container .main-video{background:#000000;border-radius:5px;padding:0px;}
+  .container .main-video video{width:100%;border-radius:5px;}
+  .container .main-video .title{
+  color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+  .container .video-list{
+  background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+  .container .video-list::-webkit-scrollbar{
+  width:7px;}
+  .container .video-list::-webkit-scrollbar-track{
+  background:#000;border-radius:50px;}
+  .container .video-list::-webkit-scrollbar-thumb{
+  background:#00a7ad;border-radius:50px;}
+  .container .video-list .vid video{
+  width:100px;border-radius:5px;}
+  .container .video-list .vid{
+  background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+  .container .video-list .vid:hover{
+  background:#000;}
+  .container .video-list .vid.active{
+  background:#00a7ad;}
+  .container .video-list .vid.active .title{
+  color:#ff0000;}
+  .container .video-list .vid .title{
+  color:#fff;font-size:17px;}
+  @media (max-width: 999px){
+  .container{grid-template-columns:1.5fr 1fr;padding:0px;}}
+  @media (max-width: 768px){
+  .container{grid-template-columns:1fr;}}
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+  
+</style>
+<link rel="stylesheet" href="" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6PmaoJRScw.jpg" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>0000</span>
+    <i class="fal fa-clock"></i><span>0h 00min</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
+  </div>
+
+  <div class="titulo">
+    <h3>Nombre de pelicula</h3>
+    <br>
+    <h4>Género: </h4>
+  </div>
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+
+<div class="video-list">
+
+  <div class="vid">
+  <video src="#" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <h3 class="title">Temporada 1 (2021)</h3></div>
+
+  <div class="vid active">
+  <video src="https://pomf2.lain.la/f/xsugd3ss.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FoNCzeCXFanVEWNpzRzyffhLLfZs.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 1 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/99zmm7fz.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F3KZQbfi6SE5rTA5ysh8FvOMBuUN.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 2 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/191xo092.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FzT55iSCAWsKJOpEc6s989lgok65.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 3 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/zh42vjbt.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fn05kPjsO1LBRiTeGmJY6u68pfYO.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 4 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/epl64vjq.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F8b3iZ1JldI9dzoz3FWeRBc4hfdM.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 5 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/o8e2mp9x.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FuNB7e6JjmFBOzuVp2duZ4pNwvmm.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 6 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/qi4y94zc.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F6cvuOffBsrKNZSSsci4QMcuAZEM.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 7 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/9y4gxwrs.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FjNXfApR7P5XlUSYZfHxRDHkjYwo.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 8 </h3></div>
+     
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/0m0y00jw.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F8OIqCs8UUiG1ifmrAcn29A7tL4T.jpg&w=256&q=75"></video>
+  <h3 class="title"> Episodio 9 </h3></div>
+  
+  
+</div></div>
+
+<br>
+<div class="recomendaciones">
+  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+  <br>
+  <br>
+  <div class="recomendaciones">
+    <br>
+    <div class="series-grid">
+      <a href="Agatha Quien Sino (2024).html" class="serie"><img src="https://image.tmdb.org/t/p/original/sCCxIHlXRXPABbJ4JVMOi7RhQmq.jpg" alt="Serie 1"><p>Agatha ¿Quien Si No?</p></a>
+      <a href="Loki (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/53aonG0QS3ynbYuuwhPtyoOwTDD.jpg" alt="Serie 2"><p>Loki</p></a>
+      <a href="Falcon y el Soldado de Invierno (2021).html" class="serie"><img src="https://image.tmdb.org/t/p/original/kW3vNNeeIDkZ2xoRyWmNkeOK6f1.jpg" alt="Serie 3"><p>Falcon y el Soldado de Invierno</p></a>
+      <a href="Invasión secreta (2023).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7SAIwUnkDsRjLNGQcsxyVqQny7D.jpg" alt="Serie 4"><p>Invasión secreta</p></a>
+      <a href="Ms. Marvel (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/3KzoEdclGwXQH2t2oYZZlw46TvW.jpg" alt="Serie 5"><p>Ms. Marvel</p></a>
+      <a href="She Hulk (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/4ie82rXFa1rAJ9qTWoCvlljglLJ.jpg" alt="Serie 6"><p>She-Hulk: abogada Hulka</p></a>
+    </div>
+  </div>
+</div>
+<br>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  /*RETROCEDER*/
+
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+
+  info,a{color:fff;font-size:20px;margin-top:0px;}
+  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+  }
+
+  .Serie,a {
+    color:fff;font-size:15px;margin-top:0px;
+  }
+
+  .serie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+
+  .serie img {
+    width: 120px;
+    max-width: 150px;
+    border-radius: 10px;
+  }
+  /* Iconos debajo del reproductor */
+  .icons-container {
+    display: flex;
+    gap: 2px;
+    margin: 1px 0;
+  }
+
+  .icons-container i {
+    font-size: 3px;
+    cursor: pointer;
+  }
+
+  .icons-container i:hover {
+    color: yellow;
+  }
+
+  .container .main-video .Sinopsis{
+    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
+  }
+
+  .alignleft {
+    float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
+  } 
+
+</style>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Genero",
+  archivo: ".html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const player = new Plyr(videoElement, {
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTime = localStorage.getItem(STORAGE_KEY);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        videoElement.currentTime = parseFloat(savedTime);
+        const msg = document.getElementById('resume-msg');
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
+      }
+
+      const controls = document.querySelector('.plyr__controls');
+      if (controls && !document.getElementById('custom-rewind')) {
+        const rewindBtn = document.createElement('button');
+        rewindBtn.id = 'custom-rewind';
+        rewindBtn.className = 'plyr__control';
+        rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
+        rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+        rewindBtn.onclick = () => {
+          videoElement.currentTime = 0;
+        };
+        controls.insertBefore(rewindBtn, controls.firstChild);
+      }
+    });
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 5000);
+    
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Genero",
+  archivo: ".html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+
+  <div class="player">
+    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
+      <source src="Link de pelicula" type="video/mp4">
+    </video>
+  </div>
+
+  
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br>
+    <div class="series-grid">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+    </div>
+  </div>
+
+  
+</body>
+</html>
