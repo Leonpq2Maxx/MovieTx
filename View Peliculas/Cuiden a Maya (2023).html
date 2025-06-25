@@ -155,17 +155,17 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/5ENhq5KEmflufK7aXXaquG1l2vb.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/s5nyzg18d9qhwadnruv4l/Fury.2014.hd-latino-e-ingles-subt.mp4?rlkey=dz6egrkdrh0es46i4d6oi8vs9&st=" type="video/mp4">
+    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
+      <source src="Link de pelicula" type="video/mp4">
     </video>
   </div>
 
-  <div id="resume-msg">✅ Reanudando donde lo dejaste: Corazones de acero</div>
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2014</span>
-    <i class="fal fa-clock"></i><span>2h 14min</span>
-    <i class="fal fa-thumbs-up"></i><span>89%</span>
+    <i class="fal fa-calendar-alt"></i><span>0000</span>
+    <i class="fal fa-clock"></i><span>0h 00min</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -177,15 +177,15 @@
   </div>
 
   <div class="titulo">
-    <h3>Corazones de acero</h3>
+    <h3>Nombre de pelicula</h3>
     <br>
-    <h4>Género: Guerra, Bélica, Drama, Acción</h4>
+    <h4>Género: </h4>
   </div>
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-      Abril de 1945. Al mando del veterano sargento Wardaddy, un pelotón de cinco soldados americanos a bordo de un carro de combate -el Fury- ha de luchar contra un ejército nazi al borde de la desesperación, pues los alemanes saben que su derrota estaba ya cantada por aquel entonces. 
+
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -206,29 +206,29 @@
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="Hasta el ultimo hombre (2016).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/v5ZCVgxlFmlpFnR9DWVUkOVw4hW.jpg" alt="">
-        <p>Hasta el ultimo hombre</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Heroico (2023).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/tRD18JW9iKqmwkQKvzPYDQetRoI.jpg" alt="">
-        <p>Heroico</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Napoleón (2023).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/zoo5k1Rsx4Bel0ng9G8yRwku2ND.jpg" alt="">
-        <p>Napoleon</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="La madre (2023).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg" alt="">
-        <p>La Madre</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Radical (2023).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/eSatbygYZp8ooprBHZdb6GFZxGB.jpg" alt="">
-        <p>Radical</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="El planeta de los simios 3 guerra (2017).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg" alt="">
-        <p>El planeta de los simios 3: La guerra</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
     </div>
   </div>
@@ -236,10 +236,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Corazones de acero",
-  imagen: "https://image.tmdb.org/t/p/w300/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg",
-  genero: "Guerra",
-  archivo: "Corazones de acero (2016).html"
+  titulo: "nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Disney",
+  archivo: ".html"
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -296,10 +296,10 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Corazones de acero",
-  imagen: "https://image.tmdb.org/t/p/w300/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg",
-  genero: "Guerra",
-  archivo: "Corazones de acero (2016).html"
+  titulo: "Nombre de pelicula",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "Disney",
+  archivo: ".html"
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
