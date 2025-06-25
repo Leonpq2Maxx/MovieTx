@@ -1,29 +1,29 @@
 H
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ecz83StK0eK8Rnio8TCmhbtVU98.jpg",Hijo de Dios (2014)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ecz83StK0eK8Rnio8TCmhbtVU98.jpg",Hijo de Dios (2014)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Hijo%20de%20Dios%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ecz83StK0eK8Rnio8TCmhbtVU98.jpg",Hijo de Dios (2014)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ecz83StK0eK8Rnio8TCmhbtVU98.jpg",Hijo de Dios (2014)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Hijo%20de%20Dios%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 
 
 L
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg",La resurrección de Cristo (2016)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg",La resurrección de Cristo (2016)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/3Ei59AR64x6dMZfWobPCkZjbqTL.jpg",Moises: Los diez mandamientos (1956)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/3Ei59AR64x6dMZfWobPCkZjbqTL.jpg",Moises: Los diez mandamientos (1956)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Los%20Diez%20Mandamientos%20(1956)%20Online%20Latino%20HD%20-%20Cuevana%20HD.mp4
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg",La pasión de Cristo (2004) go:PasionCr
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg",La pasión de Cristo (2004) go:PasionCr
 http://vod.tuxchannel.mx/peliculas/720/the%20passion%20of%20the%20christ.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/6hGh4z503k8wA8mLlmvwhTSGja.jpg",La resurrección de Cristo (2016)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/6hGh4z503k8wA8mLlmvwhTSGja.jpg",La resurrección de Cristo (2016)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 
 
@@ -31,7 +31,7 @@ https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o
 M
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",María Magdalena (2018)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",María Magdalena (2018)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Mar%C3%ADa%20Magdalena%20Online%20Gratis%20(%E2%9A%9C%EF%B8%8F%202018)%20-%20CUEVANA3.mp4
 
 
@@ -42,7 +42,7 @@ P
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",Pablo, el apóstol de Cristo (2018)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",Pablo, el apóstol de Cristo (2018)
 https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Pablo%20Apostol%20De%20Cristo%20(2018)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4
 
 
@@ -50,7 +50,7 @@ https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o
 S
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/1MvQXCBJtC34yI16QS276ZjWKY1.jpg",Su unico hijo 2023 go:SuUnicoHij
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg",Su unico hijo 2023 go:SuUnicoHij
 http://208.88.245.85/nuevo/su.unico.hijo.dual2023.mkv
 
 

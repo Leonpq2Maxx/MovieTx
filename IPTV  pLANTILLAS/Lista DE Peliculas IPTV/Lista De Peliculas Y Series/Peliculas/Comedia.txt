@@ -5,9 +5,9 @@ http://vod.tuxchannel.mx/peliculas/720/argylle%202024.mkv
 
 B
 
-
+Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",Barbie (2023) go:Barbie
-http://208.88.245.81/nuevo/barbie.dual.2023.mkv
+https://dl.dropbox.com/scl/fi/lwl847wwfjbxx8ftpfs6c/Barbie.2023.720p-Dual-Lat.mkv?rlkey=i13nnc9ak6a7wxgxaa9ui5pwc&st=
 
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5xupm2thQic5GzYi6nim6URMZOY.jpg",Bendita suegra (2023) go:BendiS23
 http://208.88.245.81/nuevo/benditasuegra.latino.2023.mkv

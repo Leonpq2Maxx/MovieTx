@@ -81,16 +81,16 @@ https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.av
 D
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4 subido
-http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg",Deadpool (2016)
+https://dl.dropbox.com/scl/fi/pf7aaukbvu760p88hm7f7/Deadpool.2016.1080p-dual-lat.mp4?rlkey=qdszat19stbqzhnv1f32hqex3&st=
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg",Deadpool 2 (2018)
 https://dl.dropbox.com/scl/fi/zncte4hm0depgczukmc6d/Deadpool.2.2018.1080p.unrated-dual-lat-cinecalidad.to.mp4?rlkey=ibcvq1tdl0kanagzrnxrh7he1&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg",Deadpool (2016)
-https://dl.dropbox.com/scl/fi/pf7aaukbvu760p88hm7f7/Deadpool.2016.1080p-dual-lat.mp4?rlkey=qdszat19stbqzhnv1f32hqex3&st=
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4 subido
+
 
 Subido
 #EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dAh03zjNzjhiQPrq4Dcr7qKDPlR.jpg",Doctor Strange go:DStrange1

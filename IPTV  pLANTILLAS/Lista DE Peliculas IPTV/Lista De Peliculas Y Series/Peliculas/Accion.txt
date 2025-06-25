@@ -1,98 +1,98 @@
 A
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zhxqRc8oqehGcyVq1igPEc2BDfR.jpg",Anna (2019)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/zhxqRc8oqehGcyVq1igPEc2BDfR.jpg",Anna (2019)
 http://fina.dyndns.tv/Peliculas//Anna.mp4
 
 Subido
-#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",Alarum: Código Letal (2025)
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",Alarum: Código Letal (2025)
 https://dl.dropbox.com/scl/fi/zd7zcg5khncloceom249i/Alarum.Codigo.Letal.2025.1080P-Dual-Lat.mkv?rlkey=i9j31g4crpwszhpm6s1gvoq1o&st=
 
 Subido
-#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/dPOJuPyFpPZ8hh5QwnRwBTjYanl.jpg",Avatar (2009) go:Avatar
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/dPOJuPyFpPZ8hh5QwnRwBTjYanl.jpg",Avatar (2009) go:Avatar
 http://vod.tuxchannel.mx/peliculas/720/avatar.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bqOqQ2Tawum3eHKNrc94P4EeaZB.jpg",Avatar: El sentido del agua (2022) go:Avatar2
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/bqOqQ2Tawum3eHKNrc94P4EeaZB.jpg",Avatar: El sentido del agua (2022) go:Avatar2
 http://208.88.245.85/nuevo/avatar2.dual2022.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/fKaP5Z0cloniKAhUcH7DbsDP6O4.jpg",Misión de rescate 1 (2020) 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/fKaP5Z0cloniKAhUcH7DbsDP6O4.jpg",Misión de rescate 1 (2020) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fjunn%2FVer%20Misi%C3%B3n%20de%20rescate%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg",Misión de rescate 2 (2023) 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg",Misión de rescate 2 (2023) 
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fjunn%2FVer%20Tyler%20Rake%202%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie"  tvg-logo="https://image.tmdb.org/t/p/original/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg",Misión de rescate 2 go:MisionRe2 (2023) accion
+#EXTINF:-1 group-title="Pelis 1" type="movie"  tvg-logo="https://image.tmdb.org/t/p/w300/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg",Misión de rescate 2 go:MisionRe2 (2023) accion
 http://208.88.245.85/nuevo/extraction.dual.2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg",Rebel Moon (Parte uno): La niña del fuego (2023) go:RebelMon ACCION DRAMA
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg",Rebel Moon (Parte uno): La niña del fuego (2023) go:RebelMon ACCION DRAMA
 http://208.88.245.85/nuevo/rebelmoon.p1.lanina.de.fuego.dual2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7mEX07jWRYrjarW84sBeFghGMfa.jpg",Plan en familia (2023) go:PlanEFa accion comedia 
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/7mEX07jWRYrjarW84sBeFghGMfa.jpg",Plan en familia (2023) go:PlanEFa accion comedia 
 http://208.88.245.85/nuevo/plan.familiar.dual.2023.mkv
 
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/mClrCMfGpOqTSiuCTSK67WZ92x5.jpg",Monster High 2 (2023) accion aventura go:MonsterH
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/mClrCMfGpOqTSiuCTSK67WZ92x5.jpg",Monster High 2 (2023) accion aventura go:MonsterH
 http://208.88.245.85/nuevo/monsterhigh.dual.2023.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//vBZ0qvaRxqEhZwl6LWmruJqWE8Z.jpg",The Creator (2023) accion go:Creator23
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/vBZ0qvaRxqEhZwl6LWmruJqWE8Z.jpg",The Creator (2023) accion go:Creator23
 http://208.88.245.85/nuevo/the.creator.resistencia.dual.2023.mkv
 
 
 B
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aXDkg5obS59srKM2IefPIZMGF4b.jpg",Blancanieves y la leyenda del cazador (2012)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/aXDkg5obS59srKM2IefPIZMGF4b.jpg",Blancanieves y la leyenda del cazador (2012)
 
 subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ZYpSdXaTMFYCGbmVmXOFbdJmSv.jpg",Bad Boys 1 Dos policias rebeldes (1994) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ZYpSdXaTMFYCGbmVmXOFbdJmSv.jpg",Bad Boys 1 Dos policias rebeldes (1994) 
 pomf2.lain.la/f/scoyr7k2.mp4
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/qyHDZB87UQF9cu6uuQzhhaKGvuo.jpg",Bad Boys 2 Dos policias rebeldes II (2020) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/qyHDZB87UQF9cu6uuQzhhaKGvuo.jpg",Bad Boys 2 Dos policias rebeldes II (2020) 
 https://dl.dropbox.com/scl/fi/5z54279hcxx8g8z6oh9ws/Bad.Boys.II.2003.1080P-Dual-Lat.mp4?rlkey=qbrdqfvz4gq9aq5e87bca8mx0&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",Bad Boys Para Siempre (2020)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",Bad Boys Para Siempre (2020)
 https://dl.dropbox.com/scl/fi/01jnh4tk060wehqr6zczc/Bad.boys.for.life.2020.1080P-Dual-Lat.mp4?rlkey=10kibtebmfvbijrgdst9jyv69&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg",Bad Boys 4: Hasta la muerte (2024) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg",Bad Boys 4: Hasta la muerte (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20Bad%20Boys-%20Hasta%20la%20muerte%20online%20HD%20-%20Cuevana%202.mp4
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4F2lHozzpR6kzsKJluUidDsNfbY.jpg",La bala perdida (2020)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/4F2lHozzpR6kzsKJluUidDsNfbY.jpg",La bala perdida (2020)
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/p6HNFpXiXIdyMRJTrfkgaPkFCK.jpg",La bala perdida 2 (2022)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/p6HNFpXiXIdyMRJTrfkgaPkFCK.jpg",La bala perdida 2 (2022)
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",La bala perdida 3 (2025)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",La bala perdida 3 (2025)
 https://dl.dropbox.com/scl/fi/793ycdi4e0chi81y62qgq/Bala.Perdida.3.2025.1080P-Dual-Lat.mkv?rlkey=m2z7rw7wh6xcmyj60hrzxbypf&st=
 
 C
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/n8ZpMwYT02XjpQHpSxn1eJw5Zpz.jpg",Crater (2023) go:Crater23
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/n8ZpMwYT02XjpQHpSxn1eJw5Zpz.jpg",Crater (2023) go:Crater23
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fmayooo%2FVer%20Cr%C3%A1ter%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4
 
 subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/n8ZpMwYT02XjpQHpSxn1eJw5Zpz.jpg",Crater go:Crater23
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/n8ZpMwYT02XjpQHpSxn1eJw5Zpz.jpg",Crater go:Crater23
 http://208.88.245.81/nuevo/crater.dual.2023.mkv
 
 Subido
-#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/w500/AtQDTlj3MFOXJd5C9OopaRo3rRo.jpg" type="movie" group-title="Pelis 1" type="movie" ,Código 8 (2019) go:Codigo8
-http://vod.tuxchannel.mx/peliculas/720/code%208%202019.mkv
+#EXTINF:-1  tvg-logo="https://image.tmdb.org/t/p/w300/AtQDTlj3MFOXJd5C9OopaRo3rRo.jpg" type="movie" group-title="Pelis 1" type="movie" ,Código 8 (2019) go:Codigo8
+https://dl.dropbox.com/scl/fi/wgy6blkygtsxdbwawv5c3/Code.8.Renegados2019.1080P-Dual-Lat.mp4?rlkey=6womxdw43w8leazr39c0210ts&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/b00zs9USt7Qwd1po8Dm5tt0JUU9.jpg",Código 8 (Parte 2) (2024) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/b00zs9USt7Qwd1po8Dm5tt0JUU9.jpg",Código 8 (Parte 2) (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20C%C3%B3digo%208-%20Renegados%20(Parte%20II)%20online%20HD%20-%20Cuevana%202.mp4
 
 
@@ -100,19 +100,19 @@ https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66
 D
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/gh7oa9IKlu5yMveemyJkzLfopuB.jpg",Damsel (2024) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/gh7oa9IKlu5yMveemyJkzLfopuB.jpg",Damsel (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Damsel%20online%20HD%20-%20Cuevana%202.mp4
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",Detonantes go:Detonante (2024)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",Detonantes (2024)
 http://208.88.245.81/nuevo/detonantes.2024.dual.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",Deadpool y Wolverine (2024) go:Deadpool4
 http://208.88.245.81/nuevo/deadpool.y.wolverine.2024.dual.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg",Duro de entrenar go:DuroEn23
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg",Duro de entrenar go:DuroEn23
 http://208.88.245.85/nuevo/duro.de.entrenar.dual.2023.mkv
 
 
@@ -121,52 +121,52 @@ E
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/kkFn3KM47Qq4Wjhd8GuFfe3LX27.jpg",El planeta de los simios: Un nuevo reino (2024) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/kkFn3KM47Qq4Wjhd8GuFfe3LX27.jpg",El planeta de los simios: Un nuevo reino (2024) 
 https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20El%20planeta%20de%20los%20simios-%20Nuevo%20reino%20online%20HD%20-%20Cuevana%202.mp4
 
 subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",El planeta de los simios: La guerra (2017) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",El planeta de los simios: La guerra (2017) 
 https://dl.dropbox.com/scl/fi/frq9iu4id74n1l28rnytp/War.for.the.planet.of.the.apes.2017.1080p-dual-lat.mp4?rlkey=oclamavp01zvvh98kqkyo9ssl&st=
 
 subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",El planeta de los simios: Confrontacion (2014) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",El planeta de los simios: Confrontacion (2014) 
 https://dl.dropbox.com/scl/fi/73jw0bwu0qkzj1iqyiup5/Dawn.of.the.planet.of.the.apes.2014.1080p-dual-lat.mp4?rlkey=d5ryregqrjsguowlu2az28lmi&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",El planeta de los simios: [R] Evolucion (2011) 
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",El planeta de los simios: [R] Evolucion (2011) 
 https://dl.dropbox.com/scl/fi/s7wdlhn2o2vr4r8t8rwge/Rise.of.the.planet.of.the.apes.2011.1080p-dual-lat.mp4?rlkey=1cudv5381fhlyhwulzc955bts&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",Extraterritorial (2025)	
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",Extraterritorial (2025)	
 https://dl.dropbox.com/scl/fi/lug9morotse42ufiu3lpn/Extraterritorial.2025.1080P-Dual-Lat.mkv?rlkey=c773238pqf20crpe7k4alk1g8&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",El ladrón de joyas (2025)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",El ladrón de joyas (2025)
 https://dl.dropbox.com/scl/fi/1ey016vsad4n98d3paqls/El.Ladron.De.Joyas.2025.1080P-Dual-Lat.mkv?rlkey=7mue4uuxobatx0ztt4q48m8zr&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg",Estragos (2025)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg",Estragos (2025)
 https://dl.dropbox.com/scl/fi/1dop4ez8sfcjunvi2odwk/Estragos.2025.1080P-Dual-Lat.mkv?rlkey=cba55hwyyygi54ancw143b41g&st=
 
 
 k
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/rRLqnazAys1CQGNX5BpXN0Gbowy.jpg",Godzilla y Kong: El nuevo imperio (2024)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/rRLqnazAys1CQGNX5BpXN0Gbowy.jpg",Godzilla y Kong: El nuevo imperio (2024)
 https://dl.dropbox.com/scl/fi/3p4utaci6ou4kiaqazce6/Godzilla.Y.Kongel.Nuevo.Imperio.2024.1080P-Dual-Lat.mkv?rlkey=n496684euu83qt9cclw36opmj&st=
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",Godzilla vs Kong (2021)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",Godzilla vs Kong (2021)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismarz%2FMixDrop%20-%20Watch%20Godzilla.vs.Kong.2021.1080P.Latino.mp4
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg",Kong: la Isla Calavera (2017) go:LongLIS7
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg",Kong: la Isla Calavera (2017) go:LongLIS7
 http://vod.tuxchannel.mx/peliculas/720/kong%20skull%20island.mkv
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/C4V4XW2igocPP54wqufQKSVQuq.jpg",K.O. (2025)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg",K.O. (2025)
 https://dl.dropbox.com/scl/fi/s54vo5nhz3xq3mk6r6b3s/K.O.2025.1080P-Dual-Lat.mkv?rlkey=z7j1obvjdagbkxuu7dmkw8b8l&st=
 
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg",G20 (2025)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg",G20 (2025)
 https://dl.dropbox.com/scl/fi/gnn2hxojco8m4vf6zqvsu/G20.2025.1080P-Dual-Lat.mkv?rlkey=fwsqndlgx25ovci65kxg3bd3a&st=
 
 
@@ -189,18 +189,18 @@ https://dl.dropbox.com/scl/fi/gnn2hxojco8m4vf6zqvsu/G20.2025.1080P-Dual-Lat.mkv?
 L
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",La fuente de la eterna juventud (2025)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",La fuente de la eterna juventud (2025)
 https://dl.dropbox.com/scl/fi/ietygi0otuy2k03gssfba/La.Fuente.De.La.Juventud.2025.1080P-Dual-Lat.mkv?rlkey=mgu2uybpvpq247v2uuno7qu39&st=
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500//gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase go:Liftrobo
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg",Lift el robo de primera clase go:Liftrobo
 http://208.88.245.85/nuevo/lift.1robo.de1clase.2024dual.mkv
 
 
 N
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg",Novocaine: Sin dolor (2025)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg",Novocaine: Sin dolor (2025)
 https://dl.dropbox.com/scl/fi/56ok26aywc7vtsxeuzbx8/Novocaine.Sin.Dolor.2025.1080P-Dual-Lat.mkv?rlkey=ct5pwdiqzibme0m34vzbfnb3o&st=
 
 
@@ -212,47 +212,47 @@ https://dl.dropbox.com/scl/fi/56ok26aywc7vtsxeuzbx8/Novocaine.Sin.Dolor.2025.108
 R
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg",Rápidos y furiosos X go:RapidoFX
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg",Rápidos y furiosos X go:RapidoFX
 http://208.88.245.85/nuevo/fastfuriusx.dual.2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/AcwmKWzrJ9tMPjU8jU9XlEpmsmZ.jpg",Rápidos y furiosos 10
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/AcwmKWzrJ9tMPjU8jU9XlEpmsmZ.jpg",Rápidos y furiosos 10
 http://208.88.245.85/nuevo/fastfuriusx.dual.2023.mkv
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",Rápidos y furiosos 10 (2023)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/1E5baAaEse26fej7uHcjOgEE2t2.jpg",Rápidos y furiosos 10 (2023)
 https://od.lk/s/NV8xODU0MTg5MjBf/R%C3%A1pidos%20y%20furiosos%20X%20%282023%29%20Online.mp4
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/9pnO6MLFvZDmgJ5qLQ3bdkGJjP2.jpg",Rapido y furioso 1 (2001)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/9pnO6MLFvZDmgJ5qLQ3bdkGJjP2.jpg",Rapido y furioso 1 (2001)
 
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8o3Py5qAgOUm0seWHmxpLwQmb1L.jpg",Rapido y furioso 2 (2003)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/8o3Py5qAgOUm0seWHmxpLwQmb1L.jpg",Rapido y furioso 2 (2003)
 
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/bDeOdgKaEK1zZxdUefutdppYjZf.jpg",Rapido y furioso 3: Carrera de Tokio (2006)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/bDeOdgKaEK1zZxdUefutdppYjZf.jpg",Rapido y furioso 3: Carrera de Tokio (2006)
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/ko8rdwxHKmLVZ3surk0iALp5IsH.jpg",Rapido y furioso 4: Aún más rápido (2009)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/ko8rdwxHKmLVZ3surk0iALp5IsH.jpg",Rapido y furioso 4: Aún más rápido (2009)
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/mtRhCiT4hZzaP6c3DJqec1Jjm0i.jpg",Rapido y furioso 5: Sin control (2011)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/mtRhCiT4hZzaP6c3DJqec1Jjm0i.jpg",Rapido y furioso 5: Sin control (2011)
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8883pxkiVDQOC1PorvWiBKN3Yyu.jpg",Rapido y furioso 6 (2013)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/8883pxkiVDQOC1PorvWiBKN3Yyu.jpg",Rapido y furioso 6 (2013)
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/n5yLlBdOBOWhE2664ULGJVuyLvL.jpg",Rapido y furioso 7 (2015)
-
-
-
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/3scawlCwqKCIfZK4L8aIro8vsMb.jpg",Rapido y furioso 8 (2017)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/n5yLlBdOBOWhE2664ULGJVuyLvL.jpg",Rapido y furioso 7 (2015)
 
 
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/aGAbQMMfhFogEX8rzh5t98aeHoG.jpg",Rapido y furioso 9 (2021)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/3scawlCwqKCIfZK4L8aIro8vsMb.jpg",Rapido y furioso 8 (2017)
+
+
+
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/aGAbQMMfhFogEX8rzh5t98aeHoG.jpg",Rapido y furioso 9 (2021)
 
 
 
@@ -265,43 +265,44 @@ P
 
 S
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/79wPBxEn6z1WSjAaACR0VCktv15.jpg",Sonido de libertad go:SonidoDL (Accion/Drama)
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/79wPBxEn6z1WSjAaACR0VCktv15.jpg",Sonido de libertad go:SonidoDL (Accion/Drama)
 http://208.88.245.81/nuevo/sonido.de.libertad.2023dual.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/qA5kPYZA7FkVvqcEfJRoOy4kpHg.jpg",SONIDO DE LIBERTAD
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/qA5kPYZA7FkVvqcEfJRoOy4kpHg.jpg",SONIDO DE LIBERTAD
 http://208.88.245.85/nuevo/sonido.de.libertad.2023dual.mkv
 
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/uboar85WH92Q5Ct2Y0B2YEdYRNF.jpg",Soldado de elite: El contratista (2022) go:SoldElit
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/uboar85WH92Q5Ct2Y0B2YEdYRNF.jpg",Soldado de elite: El contratista (2022) go:SoldElit
 http://vod.tuxchannel.mx/peliculas/720/the%20contractor%202022.mkv
 
 T
 
 Subido
-#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/original/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",The beekeeper: Sentencia de muerte go:Protec24
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",The beekeeper: Sentencia de muerte go:Protec24
 https://dl.dropbox.com/scl/fi/0hs3kuola9nq7rkiuzutp/Beekeeper.Sentencia.de.Muerte.2024.720p-Dual-Lat.mkv?rlkey=3u3ndixjcnmal64txxyjima3x&st=
 
 
-#EXTINF:-1,Frente al tornado poster "https://image.tmdb.org/t/p/original/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg" Frente al tornado (2021) go:frenteTor
+#EXTINF:-1 group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg" Frente al tornado (2021)
 http://vod.tuxchannel.mx/peliculas/720/13%20minutes%202021.mkv
 
 
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/original/zzsryqYKz60Hn73AiZqbJGgAbMk.jpg",La leyenda de Tarzán (2016)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/zzsryqYKz60Hn73AiZqbJGgAbMk.jpg",La leyenda de Tarzán (2016)
 
 
 Subido
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg",Twisters (2024) go:Twisters
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w300/pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg",Twisters (2024) go:Twisters
 http://208.88.245.81/nuevo/twisters.tornados.2024.dual.mkv
-#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w500//pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg",Twisters (2024)
+
+#EXTINF:-1 group-title="Pelis 2" type="película" tvg-logo="https://image.tmdb.org/t/p/w300/pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg",Twisters (2024)
 http://208.88.245.81/nuevo/twisters.tornados.2024.dual.mkv
 
 
 U
 Subido
-#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://i.pinimg.com/736x/67/d4/dd/67d4dd6018a616f134c2965e6cad1e9c.jpg",Uncharted: Fuera Del Mapa (2021)
+#EXTINF:-1 group-title="Pelis 2"  type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/77dlklwA1VJOLCqIhhmkmS39BLH.jpg",Uncharted: Fuera Del Mapa (2021)
 https://archive.org/download/uncharted-fuera-del-mapa-espanol-latino/Uncharted%20Fuera%20Del%20Mapa%20-%20Espa%C3%B1ol%20Latino%20-%202022.ia.mp4
 
 subido
-#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w500/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg",Uncharted (2022)
+#EXTINF:-1 type="movie" group-title="Pelis 1" type="movie" tvg-logo="https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg",Uncharted (2022)
 https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2F%E2%96%B7%20Ver%20Uncharted-%20Fuera%20del%20Mapa%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20en%20Espa%C3%B1ol%20Latino.mp4
 
 
