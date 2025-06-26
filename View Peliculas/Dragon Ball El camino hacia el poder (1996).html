@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+
+  <div class="player">
+    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/xDmJk9zQVsTKwNzHeKySoCguAk5.jpg" preload="none">
+      <source src="https://dl.dropbox.com/scl/fi/lroundzohbydbuc46qfpz/Dragon-Ball-El-camino-hacia-el-poder.mp4?rlkey=z1drtoge9pyyn4oo8omj2z5ld&st=" type="video/mp4">
+    </video>
+  </div>
+
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Dragon Ball: El camino hacia el poder</div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>1996</span>
+    <i class="fal fa-clock"></i><span>1h 20min</span>
+    <i class="fal fa-thumbs-up"></i><span>92%</span>
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
+  </div>
+
+  <div class="titulo">
+    <h3>Dragon Ball: El camino hacia el poder</h3>
+    <br>
+    <h4>Género: Animación, Acción, Ciencia ficción, Anime</h4>
+  </div>
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      El camino hacia el más fuerte es la 17ª película basada basada en la serie de manga y anime Dragon Ball, y la 4º de la etapa Dragon Ball. Se hizo con motivo del 10º aniversario de la serie, y cuenta de una manera diferente desde el principio de la serie hasta el fin del Ejército Red Ribbon, con una mejora gráfica y efectos en 3D: Goku conoce a Bulma y juntos deciden ir en busca de las siete Dragon Ball para resucitar al Dragón Xeron y pedirle un deseo.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br>
+    <div class="series-grid">
+      <a href="Dragon Ball Z La Batalla De Los Dioses.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg" alt="">
+        <p>Dragon Ball Z: La Batalla De Los Dioses</p>
+      </a>
+      <a href="Dragon Ball Z La resurreccion de Freezer (2015).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg" alt="">
+        <p>Dragon Ball Z: La resurreccion de Freezer</p>
+      </a>
+      <a href="Dragon Ball Super Broly.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg" alt="">
+        <p>Dragon Ball Super: Broly</p>
+      </a>
+      <a href="Dragon Ball Super Super Hero (2022).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/o3a2yc2zkmdsq9wZ6Hnyu3jfLcC.jpg" alt="">
+        <p>Dragon Ball Super: Super Hero</p>
+      </a>
+      <a href="Dragon Ball Z El poder invensible.html" class="serie">
+        <img loading="lazy" src="https://i.pinimg.com/564x/14/4c/c4/144cc486f2430a8ddec0a9f1101f3d20.jpg" alt="">
+        <p>Dragon Ball Z: El poder Invencible</p>
+      </a>
+      <a href="Dragon Ball Z El regreso del guerrero legendario.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/daKUEF0jEFJv0CXes48LpaDg3o8.jpg" alt="">
+        <p>Dragon Ball Z: El regreso Del guerrero legendario</p>
+      </a>
+      <a href="Dragon Ball Z El combate final.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/96IrRfvolvjoTey4M12UNvtJ1hq.jpg" alt="">
+        <p>Dragon Ball Z: El combate final</p>
+      </a>
+      <a href="Dragon Ball Z La galaxia corre peligro (1993).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/r1ha6nMoLIlsBVUbgZ6uWjF84nj.jpg" alt="">
+        <p>Dragon Ball Z: La galaxia corre peligro</p>
+      </a>
+      <a href="Dragon Ball Z La pelea de bardock vs freezer.html" class="serie">
+        <img loading="lazy" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/376d1f2a-21fc-4e16-bab1-9b7af23c020f/d5zn719-903049cb-58ff-4f35-97f9-395db8b5e2a0.png/v1/fill/w_769,h_1039,q_70,strp/bardock_vs_freezer_by_ifeergirl_d5zn719-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MzcyNiIsInBhdGgiOiJcL2ZcLzM3NmQxZjJhLTIxZmMtNGUxNi1iYWIxLTliN2FmMjNjMDIwZlwvZDV6bjcxOS05MDMwNDljYi01OGZmLTRmMzUtOTdmOS0zOTVkYjhiNWUyYTAucG5nIiwid2lkdGgiOiI8PTI3NTYifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.m8SaSx_RV0dwWdEkQGeG-SGvKE9BjFG2QsXAwVdzsyo" alt="">
+        <p>Dragon Ball Z: La pelea de Bardock Vs Freezer</p>
+      </a>
+      <a href="Dragon Ball Z Episodio de bardock.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/9aC4CaaUKZt4el5Ncnt24sM.jpg" alt="">
+        <p>Dragon Ball Z: Episodio de Bardock</p>
+      </a>
+      <a href="Dragon Ball Z Los tres grandes Super Saiyans.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg" alt="">
+        <p>Dragon Ball Z: Los tres grandes Super Saiyans</p>
+      </a>
+      <a href="Dragon Ball Z Devuelvamen a mi gohan.html" class="serie">
+        <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8SpYfrxp1kXpBLWnmmoXgc4tI9R3Wr2RFWA&s" alt="">
+        <p>Dragon Ball Z: Devuélvanme a mi Gohan</p>
+      </a>
+      <a href="Dragon Ball Z El ataque del dragón (1995).html" class="serie">
+        <img loading="lazy" src="https://i.pinimg.com/originals/ce/3b/b6/ce3bb6dc36836631bb6b6c27322726cb.jpg" alt="">
+        <p>Dragon Ball Z: El ataque del dragon</p>
+      </a>
+      <a href="Dragon Ball Z Los dos guerreros del futuro.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/27KARvbKeiGasPL7tYVaIEk3bya.jpg" alt="">
+        <p>Dragon Ball Z: Los dos guerraros del futuro</p>
+      </a>
+      <a href="Dragon Ball Z La fusion de goku y vegeta.html" class="serie">
+        <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSE6t38ABYCnlwk_rhivaXQOwPTXrGOUidjA&s" alt="">
+        <p>Dragon Ball Z: La fusion de goku y vegeta</p>
+      </a>
+      <a href="Dragon Ball Z El super guerrero Son Goku.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/lS9bsDXBwPaMeUBNT2zRTN27Ask.jpg" alt="">
+        <p>Dragon Ball Z: El super saiyajin Son Goku</p>
+      </a>
+      <a href="Dragon Ball Z El mas fuerte del mundo.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/3ipNfb1BIs6xGORZETfL2rYUy4w.jpg" alt="">
+        <p>Dragon Ball Z: El más fuerte del mundo</p>
+      </a>
+      <a href="Dragon Ball Z La super batalla (1990).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/dMACJjc8VlCIvz9zlkkosXf5VxQ.jpg" alt="">
+        <p>Dragon Ball Z: La super batalla</p>
+      </a>
+      <a href="Dragon Ball Z Los rivales mas poderosos.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/r0GNumFcQu68a0b5IKcs9P6wZtW.jpg" alt="">
+        <p>Dragon Ball Z: Los rivales mas poderosos</p>
+      </a>
+      <a href="Dragon Ball Z El regreso de cooler.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/a8uGQUIj51UILeImTvRCtwI6HWF.jpg" alt="">
+        <p>Dragon Ball Z: El regreso de Cooler</p>
+      </a>
+      <a href="Dragon Ball Z Plan para erradicar a los Super Saiyans (2010).html" class="serie">
+        <img loading="lazy" src="https://pbs.twimg.com/media/EKpCUouWwAYu2Mn.jpg" alt="">
+        <p>Dragon Ball Z: Plan para erradicar a los Super Saiyans</p>
+      </a>
+      <a href="Dragon Ball Gran aventura mística (1988).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/7f2vIwxEXryqavvgVAcqUe2CG0Q.jpg" alt="">
+        <p>Dragon Ball: Gran aventura mística</p>
+      </a>
+      <a href="Dragon Ball La leyenda del dragón Shenron (1986).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg" alt="">
+        <p>Dragon Ball: La leyenda del dragón Shenron</p>
+      </a>
+      <a href="Dragon Ball Gt despues de 100 años.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/mTPrYo1GspMcF7unmGdXg0DvJwk.jpg" alt="">
+        <p>Dragon Ball GT: Despues de 100 años</p>
+      </a>
+      <a href="Dragon Ball La princesa durmiente del castillo del mal (1987).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/sTTQ3efvJeW4VDheKvyoLgFAgku.jpg" alt="">
+        <p>Dragon Ball: La princesa durmiente</p>
+      </a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Dragon Ball: El camino hacia el poder",
+  imagen: "https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",
+  genero: "Anime",
+  archivo: "Dragon Ball El camino hacia el poder (1996).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const player = new Plyr(videoElement, {
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTime = localStorage.getItem(STORAGE_KEY);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        videoElement.currentTime = parseFloat(savedTime);
+        const msg = document.getElementById('resume-msg');
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
+      }
+
+      const controls = document.querySelector('.plyr__controls');
+      if (controls && !document.getElementById('custom-rewind')) {
+        const rewindBtn = document.createElement('button');
+        rewindBtn.id = 'custom-rewind';
+        rewindBtn.className = 'plyr__control';
+        rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
+        rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+        rewindBtn.onclick = () => {
+          videoElement.currentTime = 0;
+        };
+        controls.insertBefore(rewindBtn, controls.firstChild);
+      }
+    });
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 5000);
+    
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Dragon Ball: El camino hacia el poder",
+  imagen: "https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",
+  genero: "Anime",
+  archivo: "Dragon Ball El camino hacia el poder (1996).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+</body>
+</html>
