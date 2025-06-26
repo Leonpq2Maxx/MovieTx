@@ -51,6 +51,9 @@ img[data-original-width] {height: auto;}
 <link href='https://fonts.googleapis.com/css2?family=Nunito&display=swap' rel='stylesheet'/>
 <link href='https://fonts.googleapis.com/css2?family=Lato&display=swap' rel='stylesheet'/>
 <link href='https://fonts.googleapis.com/css2?family=Montserrat&display=swap' rel='stylesheet'/>
+
+<!-- Añadir esta línea en la sección <head> -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <!--LAS DEMÁS-->
@@ -2034,13 +2037,35 @@ img[data-original-width] {height: auto;}
 </style>
 
 <!-- Menú Inferior Fijo -->
-<nav class="menu-inferior">
-  <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
-  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
-  <a href="View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
-  <a href="Buscar/Buscador.html"><i class="fas fa-search"></i><span>Buscar</span></a>
-  <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
+<nav class="menu-fijo">
+  <a href="../index.html"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="../Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="../View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
+  <a href="#"><i class="fas fa-search"></i><span>Buscar</span></a>
+  <a href="../Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
 </nav>
+
+<style>
+.menu-fijo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: #111;
+  padding: 10px 0;
+}
+.menu-fijo a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+.menu-fijo a:hover {
+  color: #f00;
+}
+</style>
+
 
 <style>
 @media (max-width: 768px) {
