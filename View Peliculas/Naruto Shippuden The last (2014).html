@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <style> 
+    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    body{margin:0;background-color:#000000;}
+    :root{
+    --plyr-color-main:#ff0000;
+    --plyr-video-control-color:#0022ff/*#ff0030*/;}
+    .plyr--video{background:#000;height:100%;overflow: hidden;}
+    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
+    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
+    .relative{position:relative;}
+    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+    .w-full{display:block;width:100%;}
+    @media (orientation:landscape){
+    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div class="player">
+      <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/jjZRd9rUWWZGqFwf2TcsNCM5qZ6.jpg" preload="none">
+        <source src="https://pomf2.lain.la/f/bq0q7wap.mp4" size="480"></source>
+      </video>
+    </div>
+    <style type="text/css">
+      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
+      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+      .xec{position:relative;overflow:hidden;} 
+      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;  padding: 5px 10px;border-radius: 10px;border: 1px solid rgba(16, 235, 255, 0.461);color: rgba(255, 255, 255, 0.976);cursor: pointer; }
+      info,a{color:fff;font-size:20px;margin-top:0px;}
+    </style>
+    <info>
+      <i></i>
+      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2014</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 1H 52Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 74%</h9></i>
+      <i></i>
+    </info>
+    
+    <div class="titulo">
+      <h3>
+        Naruto Shippuden, La Película: The Last
+      </h3>
+      <br>
+      <h4>
+        Genero: Acción, Romance, Animación, Anime
+      </h4>
+      <br>
+      <h4>
+        Idioma: Español Latino 🇲🇽
+      </h4>
+    </div>
+    <div class="sinopsis">
+      <h4>
+        Han pasado dos años desde que acabó la Cuarta Guerra Shinobi y con ello la última pelea entre Naruto y Sasuke. Konoha se encuentra en paz, pero un nuevo enemigo amenaza esta paz. La luna que fue creada por el sabio de los seis caminos cuando sello al Jūbi, se perturba y empieza a dirigirse a la tierra en forma de un meteorito gigante, se descubre que el causante de esta inminente tragedia es alguien llamado Toneri Ōtsutsuki quien es el último descendiente del Clan Ōtsutsuki, cuyos miembros habitaron en la luna los último mil años.
+      </h4>
+    </div>
+    <br>
+    <div class="xec">
+      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+    </div>
+    <div class="recomendaciones">
+      <br>
+      <div class="series-grid">
+        <a href="../View Series/Naruto Shippuden (2007).html" class="serie"><img src="https://image.tmdb.org/t/p/original/eWC5lT2LJxKeoz21G6T60kjsBbU.jpg" alt="Serie 6"><p>Naruto Shippuden</p></a>
+        <a href="Boruto 2015.html" class="serie"><img src="https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg" alt="Serie 3"><p>Boruto: La pelicula</p></a>
+        <a href="Naruto Batalla ninja en la tierra de la nieve (2004).html" class="serie"><img src="https://image.tmdb.org/t/p/original/6qeIjzsXxDTkbGimtYJKNLiPtZt.jpg" alt="Serie 2"><p>Naruto: ¡Batalla ninja en la tierra de la nieve!</p></a>
+        <a href="Naruto Shippuden 1 La Muerte de Naruto (2007).html" class="serie"><img src="https://image.tmdb.org/t/p/original/mpNOFVmqcqCTxVRN1h0vwIyynyY.jpg" alt="Serie 1"><p>Naruto Shippuden 1: La Muerte de Naruto</p></a>
+        <a href="Naruto La Leyenda de la Piedra De Gelel (2005).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7MZJUygW5mfAzjojCiwZvrQAuj9.jpg" alt="Serie 4"><p>Naruto: La Leyenda de la Piedra De Gelel</p></a>
+        <a href="Naruto Shippuden 6 El camino del Ninja (2012).html" class="serie"><img src="https://image.tmdb.org/t/p/original/lJeGneudoQs4TIDqt4nPfwO1xtJ.jpg" alt="Serie 5"><p>Naruto Shippuden 6 El camino del Ninja</p></a>
+        <a href="Naruto Shippuden 4 La torre perdida (2010).html" class="serie"><img src="https://image.tmdb.org/t/p/original/jCDNRKHUEPLPzdilMmh7xX8pMB8.jpg" alt="Serie 6"><p>Naruto Shippuden 4: La torre perdida </p></a>
+        <a href="Naruto Shippuden 2 Lazos.html" class="serie"><img src="https://image.tmdb.org/t/p/original/bBqEiQbbfyt4MWR3NhDZMbS4Wp8.jpg" alt="Serie 6"><p>Naruto Shippuden 2: Lazos</p></a>
+        <a href="Naruto Shippuden 3 Los Herederos de la Voluntad de Fuego (2009).html" class="serie"><img src="https://image.tmdb.org/t/p/original/1J4qxwTqHuYzTCTcHtlXKzj0J3x.jpg" alt="Serie 6"><p>Naruto Shippuden 3: Los Herederos de la Voluntad de Fuego</p></a>
+        <a href="Naruto Shippuden 5 Prisión de Sangre (2011).html" class="serie"><img src="https://image.tmdb.org/t/p/original/iYXuahpWvVwbGTVkc6QK6kRpLRN.jpg" alt="Serie 6"><p>Naruto Shippuden 5: Prisión de Sangre (2011)</p></a>
+      </div>
+    </div>
+    <br>
+    <style>
+      /*RETROCEDER*/
+      .Serie,a {
+        color:fff;font-size:15px;margin-top:0px;
+      }
+      .series-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .serie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+      }
+      
+      .serie img {
+        width: 120px;
+        max-width: 150px;
+        border-radius: 10px;
+      }
+      /* Iconos debajo del reproductor */
+      .icons-container {
+        display: flex;
+        gap: 15px;
+        margin: 1px 0;
+      }
+      
+      .icons-container i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .icons-container i:hover {
+        color: yellow;
+      }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+    <script>
+      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+      const player = new Plyr('.vid1',{controls});
+    </script>
+  </body>
+</html>
+
+
+
+
+
