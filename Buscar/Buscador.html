@@ -57,7 +57,7 @@ img[data-original-width] {height: auto;}
 <div class="xaviec">
 <div class="form__group field">
 <input autocomplete="off" type="input" onkeyup="myFunction()" class="form__field" placeholder="Buscar" name="name" id="myInput" required />
-<label for="name" class="form__label">Peliculas Agregadas</label>
+<label for="name" class="form__label">Buscar</label>
 </div></div></div><br><br><br><br>
 <center>
     
@@ -2033,33 +2033,83 @@ img[data-original-width] {height: auto;}
 @media screen and (max-width:480px){.tiktok{font-size:24px;letter-spacing:2px}}
 </style>
 
-<!-- Menú inferior fijo -->
-<nav class="menu-fijo">
-  <a href="#"><i class="fa fa-home"></i> Inicio</a>
-  <a href="#"><i class="fa fa-search"></i> Buscar</a>
-  <a href="#"><i class="fa fa-heart"></i> Favoritos</a>
+<!-- Menú Inferior Fijo -->
+<nav class="menu-inferior">
+  <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="View Peliculas/favoritos.html"><i class="fas fa-heart"></i><span>Favoritos</span></a>
+  <a href="Buscar/Buscador.html"><i class="fas fa-search"></i><span>Buscar</span></a>
+  <a href="Menus Peliculas Series/Compartir.html"><i class="fas fa-share-alt"></i><span>Compartir</span></a>
 </nav>
 
-<!-- Estilos básicos para menú fijo -->
 <style>
-.menu-fijo {
+@media (max-width: 768px) {
+  .menu-inferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 9999;
+    animation: slideUp 0.6s ease forwards;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .menu-inferior a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .menu-inferior a:active {
+    transform: scale(0.9);
+    color: #00eaff;
+  }
+
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+    
+.menu-inferior {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  height: 60px;
+  background: #000;
+  border-top: 1px solid #333;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #111;
-  padding: 10px 0;
+  z-index: 1000;
 }
-.menu-fijo a {
-  color: #fff;
+.menu-inferior a {
+  color: white;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.menu-fijo i {
-  font-size: 1.5rem;
+.menu-inferior a i {
+  font-size: 18px;
+}
+.menu-inferior span {
+  font-size: 10px;
 }
 </style>
 <!-- Añadir en <head> para usar iconos de Font Awesome -->
