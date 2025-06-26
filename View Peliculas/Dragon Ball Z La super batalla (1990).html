@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>PLANTILLA MODIFICADA POR XAVIER SUAREZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <style> 
+    *{-webkit-tap-highlight-color:transparent;user-select:none;margin:0;padding:0;box-sizing:border-box;outline:none;user-select:none;}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    body{margin:0;background-color:#000000;}
+    :root{
+    --plyr-color-main:#ff0000;
+    --plyr-video-control-color:#0022ff/*#ff0030*/;}
+    .plyr--video{background:#000;height:100%;overflow: hidden;}
+    .column{grid-template-columns: repeat(3,minmax(0,1fr));}
+    .grid{display:grid;gap:0.25rem;padding:0.25rem;}
+    .relative{position:relative;}
+    img,svg, video{max-width:100%;height:165px;border-radius:5px;}
+    .w-full{display:block;width:100%;}
+    @media (orientation:landscape){
+    .column{grid-template-columns:repeat(5,minmax(0,1fr));}}
+    </style>
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div class="player">
+      <video class="vid1 js-player" controls="" poster="https://image.tmdb.org/t/p/original/en28AEmaJxE3SPXZcMD8OvgX6Jz.jpg" preload="none">
+        <source src="https://dl.dropbox.com/scl/fi/1emxqgfmpt7mh1epsvvn2/Dragon-Ball-Z-La-batalla-mas-grande-de-este-mundo-esta-por-comenzar.mp4?rlkey=idmr36ccujczdjlx04uee39jr&st=" size="480"></source>
+      </video>
+    </div>
+    <style type="text/css">
+      .alignleft{float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;} 
+      h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+      .xec{position:relative;overflow:hidden;} 
+      .titulo{color:#fff;font-family:'Kanit', sans-serif;font-size:16px;padding:10px;}
+      .sinopsis{color:#fff;font-family:'Kanit', sans-serif;font-size:14px;padding:10px;}
+      info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;  padding: 5px 10px;border-radius: 10px;border: 1px solid rgba(16, 235, 255, 0.461);color: rgba(255, 255, 255, 0.976);cursor: pointer; }
+      info,a{color:fff;font-size:20px;margin-top:0px;}
+    </style>
+    <info>
+      <i></i>
+      <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 1990</h9></i>
+      <i class="fal fa-clock"><h9 style="font-size:14;"> 45Min</h9></i>
+      <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 68%</h9></i>
+      <i></i>
+    </info>
+    
+    <div class="titulo">
+      <h3>
+        Dragon Ball Z: La super batalla
+      </h3>
+      <br>
+      <h4>
+        Genero: Animación, Acción, Ciencia ficción, Anime
+      </h4>
+      <br>
+      <h4>
+        Idioma: Español Latino 🇲🇽
+      </h4>
+    </div>
+    <div class="sinopsis">
+      <h4>
+        Sexta película basada en el manga/anime de Akira Toriyama y tercera de la etapa Dragon Ball Z. Una banda de desertores del ejército de Freezer, capitaneada por el misterioso Tarles, llega a la Tierra con una semilla terrible. Una vez plantada, surge un árbol monstruoso que amenaza con absorber toda vida en el planeta. Por una broma del destino, Tarles resulta ser un saiyan que se parece a Son Goku como si fuera su hermano gemelo.
+      </h4>
+    </div>
+    <br>
+    <div class="xec">
+      <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+    </div>
+    <div class="recomendaciones">
+      <br>
+      <div class="series-grid">
+        <a href="Dragon Ball Z La Batalla De Los Dioses.html" class="serie"><img src="https://image.tmdb.org/t/p/original/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg" alt="Serie 3"><p>Dragon Ball Z La Batalla De Los Dioses</p></a>
+        <a href="Dragon Ball Z La resurreccion de Freezer (2015).html" class="serie"><img src="https://image.tmdb.org/t/p/original/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg" alt="Serie 2"><p>Dragon Ball Z: La resurreccion de Freezer</p></a>
+        <a href="Dragon Ball Super Broly.html" class="serie"><img src="https://image.tmdb.org/t/p/original/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg" alt="Serie 1"><p>Dragon Ball Super: Broly</p></a>
+        <a href="Dragon Ball Super Super Hero (2022).html" class="serie"><img src="https://image.tmdb.org/t/p/original/o3a2yc2zkmdsq9wZ6Hnyu3jfLcC.jpg" alt="Serie 1"><p>Dragon Ball Super: Super Hero</p></a>
+        <a href="Dragon Ball Z El poder invensible.html" class="serie"><img src="https://i.pinimg.com/564x/14/4c/c4/144cc486f2430a8ddec0a9f1101f3d20.jpg" alt="Serie 6"><p>Dragon Ball Z: El poder Invencible</p></a>
+        <a href="Dragon Ball Z El regreso del guerrero legendario.html" class="serie"><img src="https://image.tmdb.org/t/p/original/daKUEF0jEFJv0CXes48LpaDg3o8.jpg" alt="Serie 6"><p>Dragon Ball Z: El regreso Del guerrero legendario</p></a>
+        <a href="Dragon Ball Z El combate final.html" class="serie"><img src="https://image.tmdb.org/t/p/original/96IrRfvolvjoTey4M12UNvtJ1hq.jpg" alt="Serie 6"><p>Dragon Ball Z: El combate final</p></a>
+        <a href="Dragon Ball Z La galaxia corre peligro (1993).html" class="serie"><img src="https://image.tmdb.org/t/p/original/r1ha6nMoLIlsBVUbgZ6uWjF84nj.jpg" alt="Serie 6"><p>Dragon Ball Z: La galaxia corre peligro</p></a>
+        <a href="Dragon Ball Z La pelea de bardock vs freezer.html" class="serie"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/376d1f2a-21fc-4e16-bab1-9b7af23c020f/d5zn719-903049cb-58ff-4f35-97f9-395db8b5e2a0.png/v1/fill/w_769,h_1039,q_70,strp/bardock_vs_freezer_by_ifeergirl_d5zn719-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MzcyNiIsInBhdGgiOiJcL2ZcLzM3NmQxZjJhLTIxZmMtNGUxNi1iYWIxLTliN2FmMjNjMDIwZlwvZDV6bjcxOS05MDMwNDljYi01OGZmLTRmMzUtOTdmOS0zOTVkYjhiNWUyYTAucG5nIiwid2lkdGgiOiI8PTI3NTYifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.m8SaSx_RV0dwWdEkQGeG-SGvKE9BjFG2QsXAwVdzsyo" alt="Serie 6"><p>Dragon Ball Z: La pelea de Bardock Vs Freezer</p></a>
+        <a href="Dragon Ball Z Episodio de bardock.html" class="serie"><img src="https://image.tmdb.org/t/p/original/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg" alt="Serie 6"><p>Dragon Ball Z: Episodio de Bardock</p></a>
+        <a href="Dragon Ball Z Devuelvamen a mi gohan.html" class="serie"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8SpYfrxp1kXpBLWnmmoXgc4tI9R3Wr2RFWA&s" alt="Serie 6"><p>Dragon Ball Z: Devuélvanme a mi Gohan</p></a>
+        <a href="Dragon Ball Z El ataque del dragón (1995).html" class="serie"><img src="https://i.pinimg.com/originals/ce/3b/b6/ce3bb6dc36836631bb6b6c27322726cb.jpg" alt="Serie 6"><p>Dragon Ball Z: El ataque del dragon</p></a>
+        <a href="Dragon Ball Z Los dos guerreros del futuro.html" class="serie"><img src="https://image.tmdb.org/t/p/original/27KARvbKeiGasPL7tYVaIEk3bya.jpg" alt="Serie 6"><p>Dragon Ball Z: Los dos guerraros del futuro</p></a>
+        <a href="Dragon Ball Z La fusion de goku y vegeta.html" class="serie"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSE6t38ABYCnlwk_rhivaXQOwPTXrGOUidjA&s" alt="Serie 6"><p>Dragon Ball Z: La fusion de goku y vegeta</p></a>
+        <a href="Dragon Ball Z El super guerrero Son Goku.html" class="serie"><img src="https://image.tmdb.org/t/p/original/lS9bsDXBwPaMeUBNT2zRTN27Ask.jpg" alt="Serie 6"><p>Dragon Ball Z: El super saiyajin Son Goku</p></a>
+        <a href="Dragon Ball Z El mas fuerte del mundo.html" class="serie"><img src="https://image.tmdb.org/t/p/original/3ipNfb1BIs6xGORZETfL2rYUy4w.jpg" alt="Serie 6"><p>Dragon Ball Z: El más fuerte del mundo</p></a>
+        <a href="Dragon Ball Z Los tres grandes Super Saiyans.html" class="serie"><img src="https://image.tmdb.org/t/p/original/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg" alt="Serie 6"><p>Dragon Ball Z: Los tres grandes Super Saiyans</p></a>
+        <a href="Dragon Ball Z Los rivales mas poderosos.html" class="serie"><img src="https://image.tmdb.org/t/p/original/r0GNumFcQu68a0b5IKcs9P6wZtW.jpg" alt="Serie 6"><p>Dragon Ball Z: Los rivales mas poderosos</p></a>
+        <a href="Dragon Ball Z El regreso de cooler.html" class="serie"><img src="https://image.tmdb.org/t/p/original/a8uGQUIj51UILeImTvRCtwI6HWF.jpg" alt="Serie 6"><p>Dragon Ball Z: El regreso de Cooler</p></a>
+        <a href="Dragon Ball Z Plan para erradicar a los Super Saiyans (2010).html" class="serie"><img src="https://pbs.twimg.com/media/EKpCUouWwAYu2Mn.jpg" alt="Serie 6"><p>Dragon Ball Z: Plan para erradicar a los Super Saiyans</p></a>
+        <a href="Dragon Ball Gran aventura mística (1988).html" class="serie"><img src="https://image.tmdb.org/t/p/original/7f2vIwxEXryqavvgVAcqUe2CG0Q.jpg" alt="Serie 6"><p>Dragon Ball: Gran aventura mística</p></a>
+        <a href="Dragon Ball La leyenda del dragón Shenron (1986).html" class="serie"><img src="https://image.tmdb.org/t/p/original/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg" alt="Serie 6"><p>Dragon Ball: La leyenda del dragón Shenron</p></a>
+        <a href="Dragon Ball Gt despues de 100 años.html" class="serie"><img src="https://image.tmdb.org/t/p/original/mTPrYo1GspMcF7unmGdXg0DvJwk.jpg" alt="Serie 6"><p>Dragon Ball GT: Despues de 100 años</p></a>
+        <a href="Dragon Ball El camino hacia el poder (1996).html" class="serie"><img src="https://image.tmdb.org/t/p/original/2PiRMHl7QDwuB0rAw0GjVHVb847.jpg" alt="Serie 6"><p>Dragon Ball: El camino hacia el poder</p></a>
+        <a href="Dragon Ball La princesa durmiente del castillo del mal (1987).html" class="serie"><img src="https://image.tmdb.org/t/p/original/sTTQ3efvJeW4VDheKvyoLgFAgku.jpg" alt="Serie 6"><p>Dragon Ball: La princesa durmiente</p></a>
+      </div>
+    </div>
+    <br>
+    <style>
+      /*RETROCEDER*/
+      .Serie,a {
+        color:fff;font-size:15px;margin-top:0px;
+      }
+      .series-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .serie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+      }
+      
+      .serie img {
+        width: 120px;
+        max-width: 150px;
+        border-radius: 10px;
+      }
+      /* Iconos debajo del reproductor */
+      .icons-container {
+        display: flex;
+        gap: 15px;
+        margin: 1px 0;
+      }
+      
+      .icons-container i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .icons-container i:hover {
+        color: yellow;
+      }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js"></script>
+    <script>
+      const controls = ['play-large','play','fast-forward','progress','current-time','duration','mute','volume','captions','settings','pip','airplay',/*'download',*/'fullscreen'];
+      const player = new Plyr('.vid1',{controls});
+    </script>
+  </body>
+</html>
+
+
+
+
