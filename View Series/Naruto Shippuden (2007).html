@@ -2,21 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Video Playlist MOD Xavier Suarez</title>
+<title>MovieTx - Reproductor de serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
-<link rel="stylesheet" href="Css/Script.css"/>
-<script src="Js/Script.js"></script>
-<style type="text/css">
-  *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
-  body{background:#000;}
-  .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
-  .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+
+<style>
   .container .main-video{background:#000000;border-radius:5px;padding:0px;}
   .container .main-video video{width:100%;border-radius:5px;}
   .container .main-video .title{
   color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-  .container .video-list{
+    .container .video-list{
   background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
   .container .video-list::-webkit-scrollbar{
   width:7px;}
@@ -36,12 +32,148 @@
   color:#ff0000;}
   .container .video-list .vid .title{
   color:#fff;font-size:17px;}
-  @media (max-width: 999px){
-  .container{grid-template-columns:1.5fr 1fr;padding:0px;}}
-  @media (max-width: 768px){
-  .container{grid-template-columns:1fr;}}
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-</style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
 <link rel="stylesheet" href="" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
@@ -54,2111 +186,2229 @@
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<info>
-  <i></i>
-  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2007</h9></i>
-  <i class="fal fa-clock"><h9 style="font-size:14;"> 348 Episodios</h9></i>
-  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 85%</h9></i>
-  <i></i>
-</info>
-<h3 class="title">Naruto Shippuden</h3>
-    <h4>
-      Genero: Animación, Accion, Aventura, Ciencia Ficcion y Fantasia
-    </h4>
-    <br>
-    <h4>
-      Idioma: Español Latino 🇲🇽
-    </h4>
-<h4 class="Sinopsis">
-  Los ninjas utilizan todo tipo de artes marciales desde la lucha cuerpo a cuerpo a ilusiones o técnicas secretas como por ejemplo la manipulación de elementos. El protagonista es un joven aspirante a ninja Uzumaki Naruto, un muchacho que sueña en convertirse algun dia en el líder de su aldea (Hokage). 
-</h4>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Naruto Shippuden</div>
 
-</div></div>
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>2007</span>
+    <i class="fal fa-clock"></i><span>348Epi</span>
+    <i class="fal fa-thumbs-up"></i><span>85%</span>
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
+  </div>
+
+  <div class="titulo">
+    <h3>Naruto Shippuden</h3>
+    <br>
+    <h4>Género: Animación, Accion, Aventura, Ciencia Ficcion, Fantasia, Anime</h4>
+  </div>
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      Los ninjas utilizan todo tipo de artes marciales desde la lucha cuerpo a cuerpo a ilusiones o técnicas secretas como por ejemplo la manipulación de elementos. El protagonista es un joven aspirante a ninja Uzumaki Naruto, un muchacho que sueña en convertirse algun dia en el líder de su aldea (Hokage). 
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+  <br><br>
 
 <div class="video-list">
 
   <div class="vid">
-  <video src="#" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <video src="#"  loading="lazy" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <h3 class="title">Temporada 1 (2007)</h3></div>
+
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
   <h3 class="title">Temporada 1 (2007)</h3></div>
    
   <div class="vid active">
-  <video src="https://pomf2.lain.la/f/c83t7eks.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfzv-Of6Zbx1_pIgYhDD6J7vxMq-pL_z21-QynKimjrqbtOy9fi_oq8--tnnf4ODaYKOqzLcLnnqlCGl7KVEMzmvmaPKEK6fxcdEvYzmFzcyDlY19qBryzXb.jpg?r=d4e"></video>
+  <video src="https://pomf2.lain.la/f/c83t7eks.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfzv-Of6Zbx1_pIgYhDD6J7vxMq-pL_z21-QynKimjrqbtOy9fi_oq8--tnnf4ODaYKOqzLcLnnqlCGl7KVEMzmvmaPKEK6fxcdEvYzmFzcyDlY19qBryzXb.jpg?r=d4e"></video>
   <h3 class="title">Episodio 1 - Vuelta a Casa</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/0vb1fe2.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABe9iCqnHrPwsNrXWzE3jlk9y-QZcmAGCfaxKfgyDYUZ2t0Yj8Zb8QfJ4wjN6LKXPLZesGnIcSeuzNBaTd_yLk5WgyqWlXldFlC0tSK7WtYvLUWSSg0V7m5dr.jpg?r=c35"></video>
+  <video src="https://pomf2.lain.la/f/0vb1fe2.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABe9iCqnHrPwsNrXWzE3jlk9y-QZcmAGCfaxKfgyDYUZ2t0Yj8Zb8QfJ4wjN6LKXPLZesGnIcSeuzNBaTd_yLk5WgyqWlXldFlC0tSK7WtYvLUWSSg0V7m5dr.jpg?r=c35"></video>
   <h3 class="title">Episodio 2 - Akatsuki, empieza la acción</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/3w27bltl.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfzv-Of6Zbx1_pIgYhDD6J7vxMq-pL_z21-QynKimjrqbtOy9fi_oq8--tnnf4ODaYKOqzLcLnnqlCGl7KVEMzmvmaPKEK6fxcdEvYzmFzcyDlY19qBryzXb.jpg?r=d4e"></video>
+  <video src="https://pomf2.lain.la/f/3w27bltl.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABfzv-Of6Zbx1_pIgYhDD6J7vxMq-pL_z21-QynKimjrqbtOy9fi_oq8--tnnf4ODaYKOqzLcLnnqlCGl7KVEMzmvmaPKEK6fxcdEvYzmFzcyDlY19qBryzXb.jpg?r=d4e"></video>
   <h3 class="title">Episodio 3 - Los Resultados del Entrenamiento</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/xivm24it.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXbmq-RZNRhZidCEouT8jrNhGQkKTQNRZvAXQNPr2csIZ9VtXXtsxk78c6VvEQfwyk5UG6W2bE2BTOejsWgkyxzMo7jVXK9S1aj9HK4TA59DogOdj8GI8c7x.jpg?r=19e"></video>
+  <video src="https://pomf2.lain.la/f/xivm24it.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXbmq-RZNRhZidCEouT8jrNhGQkKTQNRZvAXQNPr2csIZ9VtXXtsxk78c6VvEQfwyk5UG6W2bE2BTOejsWgkyxzMo7jVXK9S1aj9HK4TA59DogOdj8GI8c7x.jpg?r=19e"></video>
   <h3 class="title">Episodio 4 - El Jinchūriki de la Arena</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/a2ebf8wm.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWfTJ4sk_XOlkurQXCIrCG_HWnwZ3q8Dvd5pR6wNsen-2MJuXrjltpkonem-zVQshWV7UI5eIqKMpY2B3Ux9E5nP9IWwUu1TyfVzSukPGID98PO9XGKYV0Vl.jpg?r=810"></video>
+  <video src="https://pomf2.lain.la/f/a2ebf8wm.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWfTJ4sk_XOlkurQXCIrCG_HWnwZ3q8Dvd5pR6wNsen-2MJuXrjltpkonem-zVQshWV7UI5eIqKMpY2B3Ux9E5nP9IWwUu1TyfVzSukPGID98PO9XGKYV0Vl.jpg?r=810"></video>
   <h3 class="title">Episodio 5 - ¡Como el Kazekage...!</h3></div>
 
   <div class="vid">
-  <video src=" https://pomf2.lain.la/f/npn1q849.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXwXv6e5fGQaP0b_OOPqha8XnLJDizuU0jt0J77UipjZT2kfzS90TBrw1kQjzEkPrXnxhnWS2oS2gbd2icI1b2t4olxAXyu-dxNfbDh7WN6Rilr9WP_FO8lO.jpg?r=773"></video>
+  <video src=" https://pomf2.lain.la/f/npn1q849.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABXwXv6e5fGQaP0b_OOPqha8XnLJDizuU0jt0J77UipjZT2kfzS90TBrw1kQjzEkPrXnxhnWS2oS2gbd2icI1b2t4olxAXyu-dxNfbDh7WN6Rilr9WP_FO8lO.jpg?r=773"></video>
   <h3 class="title">Episodio 6 - Contingente despejado</h3></div>
       
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/bskcqavb.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABbbA40P9Lpe5iVY7FwMLgPnH8hzhEUaI-3LOzVERhWegUtydlSp2FeAmyIwEvPBnDOCZHjKAD1FaF59vCsUYBFB6UX8fYQY-Qz_gmPYORsdxatVKl21G-8EK.jpg?r=6ca"></video>
+  <video src="https://pomf2.lain.la/f/bskcqavb.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABbbA40P9Lpe5iVY7FwMLgPnH8hzhEUaI-3LOzVERhWegUtydlSp2FeAmyIwEvPBnDOCZHjKAD1FaF59vCsUYBFB6UX8fYQY-Qz_gmPYORsdxatVKl21G-8EK.jpg?r=6ca"></video>
   <h3 class="title">Episodio 7 - Corre, Kankuro</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/b1bpo6l.mp4" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABRGqd5yH3RU7bGvntxJihJEWfI09Vd6BL2BNqF64VZWmVmxS562eh7q8CcK_CS2KOdIlmgJyMILXKDeyF8a-ooRF_FhByMrQWhXJMe1t660yi_lZwNmczlaN.jpg?r=363"></video>
+  <video src="https://pomf2.lain.la/f/b1bpo6l.mp4" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABRGqd5yH3RU7bGvntxJihJEWfI09Vd6BL2BNqF64VZWmVmxS562eh7q8CcK_CS2KOdIlmgJyMILXKDeyF8a-ooRF_FhByMrQWhXJMe1t660yi_lZwNmczlaN.jpg?r=363"></video>
   <h3 class="title">Episodio 8 - El equipo Kakashi ¡Desplegado!</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABc3akv0Dwwv54YEB-Q6qHnMwEUTNLbMexJRsaypC-r7xdGsMO8xYk0e-pbS63dcpSYPRZU6OcA_NeanMR5NDH13GE5qU2T67FTPKlKlQoWar3DZHjRrviqZT.jpg?r=bde"></video>
+  <video src="" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABc3akv0Dwwv54YEB-Q6qHnMwEUTNLbMexJRsaypC-r7xdGsMO8xYk0e-pbS63dcpSYPRZU6OcA_NeanMR5NDH13GE5qU2T67FTPKlKlQoWar3DZHjRrviqZT.jpg?r=bde"></video>
   <h3 class="title">Episodio 9 - Las Lagrimas del Jinchūriki</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWQC8uJYF_ZEAv3D8HXjp9OMFlTqQ9hATZqDe-rog4j3qwcAJLnGI9PDfroJZlxVZPSysb-hBNComdKAh6fFh174L2NUDimO4VPtoodrIlRMloa7HerEyy-m.jpg?r=e40"></video>
+  <video src="" loading="lazy" muted poster="https://occ-0-1216-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABWQC8uJYF_ZEAv3D8HXjp9OMFlTqQ9hATZqDe-rog4j3qwcAJLnGI9PDfroJZlxVZPSysb-hBNComdKAh6fFh174L2NUDimO4VPtoodrIlRMloa7HerEyy-m.jpg?r=e40"></video>
   <h3 class="title">Episodio 10 - Jutsu de Sellado: Nueve Dragones Ilusorios</h3></div>
 
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ikrSnMLMJahU7Pi339ajgZ4Fn6THhbuarg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ikrSnMLMJahU7Pi339ajgZ4Fn6THhbuarg&s"></video>
   <h3 class="title">Episodio 11 - La Aprendiz de Ninja Medico</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR55-EcyGMBl3u_ydzvfWVAqtCIflGD2SCM9g&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR55-EcyGMBl3u_ydzvfWVAqtCIflGD2SCM9g&s"></video>
   <h3 class="title">Episodio 12 - La Determinación de la Anciana</h3></div>
     
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtcp90xB8qK31XVqdZav0pwUoSipx6cXb62g&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtcp90xB8qK31XVqdZav0pwUoSipx6cXb62g&s"></video>
   <h3 class="title">Episodio 13 - Los dos destinos se cruzan</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPPI6678TPeaJr8p6swr1iDM6ta38YxGaXLQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPPI6678TPeaJr8p6swr1iDM6ta38YxGaXLQ&s"></video>
   <h3 class="title">Episodio 14 - El Crecimiento de Naruto</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://i.ytimg.com/vi/htCjisJU0zM/maxresdefault.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://i.ytimg.com/vi/htCjisJU0zM/maxresdefault.jpg"></video>
   <h3 class="title">Episodio 15 - El nombre de la esfera oculta</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEWl7xNh3deIs7hjiw1W98zvD8eHU9HYvB-w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEWl7xNh3deIs7hjiw1W98zvD8eHU9HYvB-w&s"></video>
   <h3 class="title">Episodio 16 - El secreto detrás de un Jinchūriki</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn89wLT6mwLFn_gb-kV9XrijS8KT1adrZZ7A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn89wLT6mwLFn_gb-kV9XrijS8KT1adrZZ7A&s"></video>
   <h3 class="title">Episodio 17 - ¡Gaara muere!</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSRCX5OIVXJBgsSrgnjfwt9QEz9KGXxEReEg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSRCX5OIVXJBgsSrgnjfwt9QEz9KGXxEReEg&s"></video>
   <h3 class="title">Episodio 18 - Abertura!! Entrada salvadora</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0QM9E5R9RXvl9wa8V-Ri8MQlWUC95iG5gjg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0QM9E5R9RXvl9wa8V-Ri8MQlWUC95iG5gjg&s"></video>
   <h3 class="title">Episodio 19 - ¡Trampas en la operación! Enemigos del Equipo Gai!</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhg0-BVBWWrYy8N_R71uLJIzbaImrAWv1oQQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhg0-BVBWWrYy8N_R71uLJIzbaImrAWv1oQQ&s"></video>
   <h3 class="title">Episodio 20 - Hiruko contra las dos Kunoichi</h3></div>
 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 21</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 22</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 23</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 24</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 25</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 26</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 27</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 28</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 29</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 30</h3></div>
 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 31</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 32</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 33</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 34</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 35</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 36</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 37</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 38</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 39</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 40</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 41</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 42</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 43</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 44</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 45</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 46</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 47</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 48</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 49</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 50</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 51</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 52</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 53</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 54</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 55</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 56</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 57</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 58</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 59</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 60</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 61</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 62</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 63</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 64</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 65</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 66</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 67</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 68</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 69</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 70</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 71</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 72</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 73</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 74</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 75</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 76</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 77</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 78</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 79</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 80</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 81</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 82</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 83</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 84</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 85</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 86</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 87</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 88</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 89</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 90</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 91</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 92</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 93</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 94</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 95</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 96</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 97</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 98</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 99</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 100</h3></div>
 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 101</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 102</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 103</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 104</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 105</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 106 </h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 107</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 108</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 109</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 110</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 111</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 112</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 113</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 114</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 115</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 116</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 117</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 118</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 119</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 120</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 121</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 122</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://pomf2.lain.la/f/8v2sq1e.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://pomf2.lain.la/f/8v2sq1e.jpg"></video>
   <h3 class="title">Episodio 123 - ¡Choque!</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwFfSJ8YSLwx3N1Q_8hq4Xz58hsKYYN34XHQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwFfSJ8YSLwx3N1Q_8hq4Xz58hsKYYN34XHQ&s"></video>
   <h3 class="title">Episodio 124 - Arte</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/c648941b9fda620fe65907cc95893dd8.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/c648941b9fda620fe65907cc95893dd8.jpg"></video>
   <h3 class="title">Episodio 125 - Desaparición</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLwRwj1PkSycL3zFP-YwKEK45SRiEMFnO-rw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLwRwj1PkSycL3zFP-YwKEK45SRiEMFnO-rw&s"></video>
   <h3 class="title">Episodio 126 - Crepúsculo</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLCwsIPy69RyQKunluWIJFqSM3iyJrkRes5A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLCwsIPy69RyQKunluWIJFqSM3iyJrkRes5A&s"></video>
   <h3 class="title">Episodio 127 - La Historia de Un Ninja Audaz ～ Parte I</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROi0la2M4R_-escs5qHHU2Td-utHOY2QojGQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROi0la2M4R_-escs5qHHU2Td-utHOY2QojGQ&s"></video>
   <h3 class="title">Episodio 128 - La Historia de Un Ninja Audaz ～ Parte II</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfsMT_vh8_41kxhqh7JtjyG3piI1edwDAD7A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfsMT_vh8_41kxhqh7JtjyG3piI1edwDAD7A&s"></video>
   <h3 class="title">Episodio 129 - ¡Infiltración! La Aldea Oculta Entre la Lluvia</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQagZDbcf_i1AB64qeKY5LVV5Vlmu_VWu6PGQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQagZDbcf_i1AB64qeKY5LVV5Vlmu_VWu6PGQ&s"></video>
   <h3 class="title">Episodio 130 - El Hombre Que Se Convirtió en Dios</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHj9H3TVqtKpg8HfItS0Cy9HKMFoKNLFAcpQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHj9H3TVqtKpg8HfItS0Cy9HKMFoKNLFAcpQ&s"></video>
   <h3 class="title">Episodio 131 - ¡Invocado! Modo Sabio</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu6uMy63KtNvJpaK_KHS7xpLQJCYq5QFGUog&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu6uMy63KtNvJpaK_KHS7xpLQJCYq5QFGUog&s"></video>
   <h3 class="title">Episodio 132 - Reunión de Los Seis Caminos de Pain</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpeWSu_QMweVo6tiWyf511TQG6l2CcCx1Ug&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpeWSu_QMweVo6tiWyf511TQG6l2CcCx1Ug&s"></video>
   <h3 class="title">Episodio 133 - La Historia del Heroico Jiraiya</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiTGqTuhNf-svSzzivMyZJz-HNOw2Mkc-0fQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiTGqTuhNf-svSzzivMyZJz-HNOw2Mkc-0fQ&s"></video>
   <h3 class="title">Episodio 134 - Invitación al Banquete</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmc8ekaZYi96KRIWZ28TMd45MJ_xjOhXXmKQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmc8ekaZYi96KRIWZ28TMd45MJ_xjOhXXmKQ&s"></video>
   <h3 class="title">Episodio 135 - Los Momentos Más Largos...</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWDLDicRtxVo6i-KUNSGsKuUSGBnPnIDNsCg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWDLDicRtxVo6i-KUNSGsKuUSGBnPnIDNsCg&s"></video>
   <h3 class="title">Episodio 136 - La Luz y Oscuridad del Mangekyō Sharingan</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvPCs5__iIALqd3FxbdhLtahdaQNNVksy0A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvPCs5__iIALqd3FxbdhLtahdaQNNVksy0A&s"></video>
   <h3 class="title">Episodio 137 - Iluminación Celestial</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBErFVWYYXlz4_pnDzjg7aUTKTtRk81f08FQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBErFVWYYXlz4_pnDzjg7aUTKTtRk81f08FQ&s"></video>
   <h3 class="title">Episodio 138 - Deceso</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNlHDLdw6_lEfXbTeIssUdpftGt7ig_LPBBw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNlHDLdw6_lEfXbTeIssUdpftGt7ig_LPBBw&s"></video>
   <h3 class="title">Episodio 139 - El Misterio de Tobi</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKb1GzyX2bTOjBN8m9CaOhlk_g7vMDgAwl7g&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKb1GzyX2bTOjBN8m9CaOhlk_g7vMDgAwl7g&s"></video>
   <h3 class="title">Episodio 140 - Destino</h3></div>
     
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6jse5BHOwm0-8D9ao1H69GzT-7sVtR1sFDg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6jse5BHOwm0-8D9ao1H69GzT-7sVtR1sFDg&s"></video>
   <h3 class="title">Episodio 141 - Verdad</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/5b1c675506be44fbc7e92a92e426d043.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/5b1c675506be44fbc7e92a92e426d043.jpg"></video>
   <h3 class="title">Episodio 142 - Batalla de Unraikyo</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-SIKhELV17ad7jBGwli2gxCgW7V8ghP7vKg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-SIKhELV17ad7jBGwli2gxCgW7V8ghP7vKg&s"></video>
   <h3 class="title">Episodio 143 - El Ocho Colas vs Sasuke</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4ZUoVYaAj6S3ii2p8zoPwcSjP1lbVYbxpYw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4ZUoVYaAj6S3ii2p8zoPwcSjP1lbVYbxpYw&s"></video>
   <h3 class="title">Episodio 144 - Viajero</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQUTs83hWMWrR-LXJiHegxiWk1zkY8FdnB9A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQUTs83hWMWrR-LXJiHegxiWk1zkY8FdnB9A&s"></video>
   <h3 class="title">Episodio 145 - El Sucesor de La Técnica Prohibida</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn_Gdqg98S5_N26vdJUpcXNsiR99t4wr_qbg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn_Gdqg98S5_N26vdJUpcXNsiR99t4wr_qbg&s"></video>
   <h3 class="title">Episodio 146 - El Deseo Del Sucesor</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhzCXvHggAd3fzCB-5D02TM6t_vb-LOiOLQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhzCXvHggAd3fzCB-5D02TM6t_vb-LOiOLQ&s"></video>
   <h3 class="title">Episodio 147 - El Pasado Del Ninja Renegado</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvV2V4HmqKE8InJjBEIP5pnOEE_FoQ2Si3w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvV2V4HmqKE8InJjBEIP5pnOEE_FoQ2Si3w&s"></video>
   <h3 class="title">Episodio 148 - Heredero de La Oscuridad</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcVMNHjMUpm0BwYKZv3J-CLFgMYvTPuij6Fg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcVMNHjMUpm0BwYKZv3J-CLFgMYvTPuij6Fg&s"></video>
   <h3 class="title">Episodio 149 - Separación</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyoEZRCPHXG69k12bhTVn0ZGoUmyFcvUqipA&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyoEZRCPHXG69k12bhTVn0ZGoUmyFcvUqipA&s"></video>
   <h3 class="title">Episodio 150 - Activando la Técnica Prohibida</h3></div>
     
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIAaHAD4qNFiZFyZkGiOpKWnPgmYWb6pN-6w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIAaHAD4qNFiZFyZkGiOpKWnPgmYWb6pN-6w&s"></video>
   <h3 class="title">Episodio 151 - Alumno y Maestro</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT66QPRKOrFz3HirwJ46Sz1KV4NcTpsneKYg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT66QPRKOrFz3HirwJ46Sz1KV4NcTpsneKYg&s"></video>
   <h3 class="title">Episodio 152 - Noticia sombria</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoXa_swwFqmluDTmlqd5AF_rXaTV_csysdWQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoXa_swwFqmluDTmlqd5AF_rXaTV_csysdWQ&s"></video>
   <h3 class="title">Episodio 153 - Tras la Sombra del Maestro</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgXvjqGck2BX1fgMzofj5X6K8hmeeysqgZtYvVKkHqMSP0mDtDMLrDTPUxabtDOFQ2Xe4&usqp=CAU"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgXvjqGck2BX1fgMzofj5X6K8hmeeysqgZtYvVKkHqMSP0mDtDMLrDTPUxabtDOFQ2Xe4&usqp=CAU"></video>
   <h3 class="title">Episodio 154 - Descifrado</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJOEbxULNuJ8I6qXPS5NnPPIqMk98OLy-Ug&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJOEbxULNuJ8I6qXPS5NnPPIqMk98OLy-Ug&s"></video>
   <h3 class="title">Episodio 155 - El Primer Desafío</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe5KETvCMJvF7Z0iQH0YQ-GjKsVfQPW4XcRQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe5KETvCMJvF7Z0iQH0YQ-GjKsVfQPW4XcRQ&s"></video>
   <h3 class="title">Episodio 156 - Superando al Maestro</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq8FlRgjixm5HHQIGa2aRw1lfKaDUkc5on8w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq8FlRgjixm5HHQIGa2aRw1lfKaDUkc5on8w&s"></video>
   <h3 class="title">Episodio 157 - Ataque a Konoha</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGsE08fX41u4bAR8SPKSSEPjL9Eev6WjHCLg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGsE08fX41u4bAR8SPKSSEPjL9Eev6WjHCLg&s"></video>
   <h3 class="title">Episodio 158 - El Poder Para Creer</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQubGtu74y0dnFrNYHXSGUSkG0OUap9TZg0cQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQubGtu74y0dnFrNYHXSGUSkG0OUap9TZg0cQ&s"></video>
   <h3 class="title">Episodio 159 - Pain vs. Kakashi</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBC4Z2Ar-p5BzZmy9l2HsDj3KvZdnU7oQoew&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBC4Z2Ar-p5BzZmy9l2HsDj3KvZdnU7oQoew&s"></video>
   <h3 class="title">Episodio 160 - El Misterio de Pain</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 161 - </h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 162 - </h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 163 - </h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 164 - </h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 165</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 1616</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 167</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 168</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 169</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 170</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 171</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 172</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 173</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 174</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 175</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 176</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 177</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 178</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 179</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 180</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 181</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 182</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 183</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 184</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 185</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 186</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 187</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 188</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 189</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 190</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 191</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 192</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 193</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 194</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 195</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 196</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 197</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 198</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 199</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 200</h3></div>
 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 201</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 202</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 203</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 204</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 205</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 206</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 207</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 208</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 209</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 210</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 211</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 212</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 213</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 214</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 215</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 216</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 217</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 218</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 219</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 220</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 221</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 222</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 223</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 224</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 225</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 226</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 227</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 228</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 229</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 230</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 231</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 232</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 233</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 234</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 235</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 236</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 237</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 238</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 239</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 240</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 241</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 242</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 243</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 244</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 245</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 246</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 247</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 248</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 249</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 250</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 251</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 252</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 253</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 254</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 255</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 256</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 257</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 258</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 259</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 260</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 261</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 262</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 263</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 264</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 265</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 266</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 267</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 268</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 269</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 270</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 271</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 272</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 273</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 274</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 275</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 276</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 277</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 278</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 279</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 280</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 281</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 282</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 283</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 284</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 285</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 286</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 287</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 288</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 289</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 290</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 291</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 292</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 293</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 294</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 295</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 296</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 297</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 298</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 299</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwRDWkdeLyNwzGiYRxlr9fgY_Hmh4iUJVyKA&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwRDWkdeLyNwzGiYRxlr9fgY_Hmh4iUJVyKA&s"></video>
   <h3 class="title">Episodio 300 - El Mizukage, la Almeja Gigante y el Espejismo</h3></div>
 
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzkRgsRxKnrW8gAF4QwU8gXTh6rfwtBCrL9w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzkRgsRxKnrW8gAF4QwU8gXTh6rfwtBCrL9w&s"></video>
   <h3 class="title">Episodio 301 - Contradicción </h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToAOA-SII5hihAJPFAmEs-vVBvBtEMrOkQwg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToAOA-SII5hihAJPFAmEs-vVBvBtEMrOkQwg&s"></video>
   <h3 class="title">Episodio 302 - Terror: Tiranía de Vapor Peligrosa</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA8_V5x4IDN1GZnZ7X1KhHE3HZ9f2mArKnsw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA8_V5x4IDN1GZnZ7X1KhHE3HZ9f2mArKnsw&s"></video>
   <h3 class="title">Episodio 303 - Fantasmas del Pasado</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxns-9nSK6ruQFrDjnGiY3uR_82C1wldz-AQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxns-9nSK6ruQFrDjnGiY3uR_82C1wldz-AQ&s"></video>
   <h3 class="title">Episodio 304 - Jutsu Modificado del Infierno</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ35SnDNtGxQGm80y5-Vbek6peMT23W2A_Hkw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ35SnDNtGxQGm80y5-Vbek6peMT23W2A_Hkw&s"></video>
   <h3 class="title">Episodio 305 - Los Vengadores</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ZA07n-bujcoi2R2BM8-milQxOncAzBMuuQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ZA07n-bujcoi2R2BM8-milQxOncAzBMuuQ&s"></video>
   <h3 class="title">Episodio 306 - El Ojo del Corazón </h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAn1YfkTBTEowVLHk3CkFzH8iVv7_QaDPjzw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAn1YfkTBTEowVLHk3CkFzH8iVv7_QaDPjzw&s"></video>
   <h3 class="title">Episodio 307 - Desvaneciéndose Bajo la Luz de la Luna</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAQ2hCNTK9_CP2HGGN6x72fpj-6nVUoNUc1w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAQ2hCNTK9_CP2HGGN6x72fpj-6nVUoNUc1w&s"></video>
   <h3 class="title">Episodio 308 - La Noche de la Luna Creciente</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPUWR4xqdkT4Km-lHldBjSwwJRaXCne0ccQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPUWR4xqdkT4Km-lHldBjSwwJRaXCne0ccQ&s"></video>
   <h3 class="title">Episodio 309 - La Misión de Rango A: Pelea de Comida</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9vWz81rniF71UNDlbYki3eEf6jc1EfxYQYg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9vWz81rniF71UNDlbYki3eEf6jc1EfxYQYg&s"></video>
   <h3 class="title">Episodio 310 - Desmoronamiento del Castillo</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShaJPske2vOvlO-q-jgBcHlHwG1lLhYd53-A&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShaJPske2vOvlO-q-jgBcHlHwG1lLhYd53-A&s"></video>
   <h3 class="title">Episodio 311 - Prologo del Camino Ninja</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYQaI5aFwvASI2MqkPHAYPZN3l6dqdeIJIkw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYQaI5aFwvASI2MqkPHAYPZN3l6dqdeIJIkw&s"></video>
   <h3 class="title">Episodio 312 - El Viejo y el Ojo del Dragón</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyOdCSuDhFv4YaOwInZ5MKWX0T_SoPSLbxfQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyOdCSuDhFv4YaOwInZ5MKWX0T_SoPSLbxfQ&s"></video>
   <h3 class="title">Episodio 313 - Lluvia Seguida de Nieve</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2hpOiOW_G_ftZIpKGpZQTYRisxsKMij7e-g&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2hpOiOW_G_ftZIpKGpZQTYRisxsKMij7e-g&s"></video>
   <h3 class="title">Episodio 314 - Triste Nevada</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6J5MdFsiDOyI9nNu9-peIoO_swXieKj5Nkw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6J5MdFsiDOyI9nNu9-peIoO_swXieKj5Nkw&s"></video>
   <h3 class="title">Episodio 315 - Las Últimas Nevadas</h3></div>
     
   <div class="vid">
-  <video src="" muted poster="https://i.ytimg.com/vi/ln3FOca-uS0/maxresdefault.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://i.ytimg.com/vi/ln3FOca-uS0/maxresdefault.jpg"></video>
   <h3 class="title">Episodio 316 - ¡Reanimación! ¡Las Fuerzas Aliadas!</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtyXJrTBzgi-LLl7pA-9nBj0ABOaY7D-T5zQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtyXJrTBzgi-LLl7pA-9nBj0ABOaY7D-T5zQ&s"></video>
   <h3 class="title">Episodio 317 - ¡Shino vs Torune!</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyUiotQf6IFxY8Tb9QSUwKNEtL66lhEoYT8Q&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyUiotQf6IFxY8Tb9QSUwKNEtL66lhEoYT8Q&s"></video>
   <h3 class="title">Episodio 318 - Un hoyo en el corazón - El otro Jinchūriki</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://pomf2.lain.la/f/eprxihfg.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://pomf2.lain.la/f/eprxihfg.jpg"></video>
   <h3 class="title">Episodio 319 - El alma que habita en un Títere</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://pomf2.lain.la/f/9mok099y.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://pomf2.lain.la/f/9mok099y.jpg"></video>
   <h3 class="title">Episodio 320 - ¡Corre, Omoi!</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG4-lyqFCAVFQS5--vMHJhdyjmtRUZdW7r2g&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG4-lyqFCAVFQS5--vMHJhdyjmtRUZdW7r2g&s"></video>
   <h3 class="title">Episodio 321 - ¡Llegan los refuerzos!</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzPXISHFObTriWVZwvVPvWYX5uPTdSvCbPjg&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzPXISHFObTriWVZwvVPvWYX5uPTdSvCbPjg&s"></video>
   <h3 class="title">Episodio 322 - Madara Uchiha</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://play-reactor.com/wp-content/uploads/2013/08/5-kages.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2013/08/5-kages.jpg"></video>
   <h3 class="title">Episodio 323 - Se reunen los 5 kages</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://pictures.betaseries.com/banners/episodes/79824/03c61e6163366d176d8b54e3808352d9.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://pictures.betaseries.com/banners/episodes/79824/03c61e6163366d176d8b54e3808352d9.jpg"></video>
   <h3 class="title">Episodio 324 - La máscara indestructible y las burbujas Explosivas</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5afKjyCZzihQkQ2wap1IHLHzw9CehBo4JUx8vkp3voRueAYh3FtBngAu-VBkx_Q8L2oo&usqp=CAU"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5afKjyCZzihQkQ2wap1IHLHzw9CehBo4JUx8vkp3voRueAYh3FtBngAu-VBkx_Q8L2oo&usqp=CAU"></video>
   <h3 class="title">Episodio 325 - Jinchūriki VS Jinchūriki</h3></div>
       
   <div class="vid">
-  <video src="" muted poster="https://play-reactor.com/wp-content/uploads/2013/08/d55.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2013/08/d55.jpg"></video>
   <h3 class="title">Episodio 326 - El cuatro colas: El rey sabio de los monos</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://www.narutogt.it/files/gallerie/tv/shippuden/327/Naruto-Shippuuden-episode-327-screenshot-006.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://www.narutogt.it/files/gallerie/tv/shippuden/327/Naruto-Shippuuden-episode-327-screenshot-006.jpg"></video>
   <h3 class="title">Episodio 327 - Nueve colas</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://i.ytimg.com/vi/PLuI-9ewick/maxresdefault.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://i.ytimg.com/vi/PLuI-9ewick/maxresdefault.jpg"></video>
   <h3 class="title">Episodio 328 - Kurama</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqu6SkCPY3aYeT8VHCZfpLMg6MUt4EtMtauA&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqu6SkCPY3aYeT8VHCZfpLMg6MUt4EtMtauA&s"></video>
   <h3 class="title">Episodio 329 - Equipo de 2 hombres</h3></div>
           
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl4MZ0kT7Zu3Pcw60M_k5lAc8ClJvJDeYafQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl4MZ0kT7Zu3Pcw60M_k5lAc8ClJvJDeYafQ&s"></video>
   <h3 class="title">Episodio 330 - Prediccion de victoria</h3></div>
   
   <div class="vid">
-  <video src="" muted poster="https://i.ytimg.com/vi/NTuavPKsrhc/maxresdefault.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://i.ytimg.com/vi/NTuavPKsrhc/maxresdefault.jpg"></video>
   <h3 class="title">Episodio 331 - Ojos que Miran Hacia la Oscuridad</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://play-reactor.com/wp-content/uploads/2013/09/fdc.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2013/09/fdc.jpg"></video>
   <h3 class="title">Episodio 332 - La voluntad de piedra</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://play-reactor.com/wp-content/uploads/2013/10/92e.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2013/10/92e.jpg"></video>
   <h3 class="title">Episodio 333 - Riesgo del edotensei</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/e87cae2312d18fd505aff22c92bc27ee.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=1200,height=675/catalog/crunchyroll/e87cae2312d18fd505aff22c92bc27ee.jpg"></video>
   <h3 class="title">Episodio 334 - Hermanos luchando juntos</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIjVXhhz7yQAWDR0Y7tNfJW9sLIScEcH759w&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIjVXhhz7yQAWDR0Y7tNfJW9sLIScEcH759w&s"></video>
   <h3 class="title">Episodio 335 - Konoha de todos</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY3ydyY7-5NSdobtfRNcP6tiNBZSRD4pu4Ew&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY3ydyY7-5NSdobtfRNcP6tiNBZSRD4pu4Ew&s"></video>
   <h3 class="title">Episodio 336 - Kabuto Yakushi</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkwWOtWAr1W-gHon0ZUGWJa3nc3RsB3W36iw&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkwWOtWAr1W-gHon0ZUGWJa3nc3RsB3W36iw&s"></video>
   <h3 class="title">Episodio 337 - Activacion de Izanami</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://m.media-amazon.com/images/M/MV5BOGFjMTVjOTUtNDJjNy00MjYxLWE3OGItYzAyNDUyMDAwMzEzXkEyXkFqcGc@._V1_.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://m.media-amazon.com/images/M/MV5BOGFjMTVjOTUtNDJjNy00MjYxLWE3OGItYzAyNDUyMDAwMzEzXkEyXkFqcGc@._V1_.jpg"></video>
   <h3 class="title">Episodio 338 - Izanagi e Izanami</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://pomf2.lain.la/f/v1ppylxd.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://pomf2.lain.la/f/v1ppylxd.jpg"></video>
   <h3 class="title">Episodio 339 - Te amare por siempre</h3></div>
               
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/ueryzymu.mp4" muted poster="https://m.media-amazon.com/images/M/MV5BNzdhNTQzMTQtOTg2My00MGFiLWFjNjctYmVhYzM5MDM3Y2IwXkEyXkFqcGc@._V1_.jpg"></video>
+  <video src="https://pomf2.lain.la/f/ueryzymu.mp4" loading="lazy" muted poster="https://m.media-amazon.com/images/M/MV5BNzdhNTQzMTQtOTg2My00MGFiLWFjNjctYmVhYzM5MDM3Y2IwXkEyXkFqcGc@._V1_.jpg"></video>
   <h3 class="title">Episodio 340 - Edotensei: Liberacion</h3></div>
     
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/178pgqsh.mp4" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPMJCJpzcR_JvAcPR0mE8N0xsLsowQkIhM7w&s"></video>
+  <video src="https://pomf2.lain.la/f/178pgqsh.mp4" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPMJCJpzcR_JvAcPR0mE8N0xsLsowQkIhM7w&s"></video>
   <h3 class="title">Episodio 341 - El regreso de orochimaru</h3></div>
             
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/8m19nanf.mp4" muted poster="https://simkl.in/episodes/26/26326863107140780_w.jpg"></video>
+  <video src="https://pomf2.lain.la/f/8m19nanf.mp4" loading="lazy" muted poster="https://simkl.in/episodes/26/26326863107140780_w.jpg"></video>
   <h3 class="title">Episodio 342 - Secreto del Ninjutsu: Espacio-Tiempo</h3></div>
             
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/edvsvkxm.mp4" muted poster="https://play-reactor.com/wp-content/uploads/2013/12/c54.jpg?w=640"></video>
+  <video src="https://pomf2.lain.la/f/edvsvkxm.mp4" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2013/12/c54.jpg?w=640"></video>
   <h3 class="title">Episodio 343 - ¿Quien eres tu?</h3></div>
             
   <div class="vid">
-  <video src="https://pomf2.lain.la/f/na0m9edc.mp4" muted poster="https://play-reactor.com/wp-content/uploads/2014/01/4bd.png"></video>
+  <video src="https://pomf2.lain.la/f/na0m9edc.mp4" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2014/01/4bd.png"></video>
   <h3 class="title">Episodio 344 - Obito y Madara</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://play-reactor.com/wp-content/uploads/2014/01/140116122720131652.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://play-reactor.com/wp-content/uploads/2014/01/140116122720131652.jpg"></video>
   <h3 class="title">Episodio 345 - Estoy en el infierno</h3></div>
         
   <div class="vid">
-  <video src="" muted poster="https://i.pinimg.com/736x/a9/98/bf/a998bf24e00a3d856b1a03bf6701a7d0.jpg"></video>
+  <video src="" loading="lazy" muted poster="https://i.pinimg.com/736x/a9/98/bf/a998bf24e00a3d856b1a03bf6701a7d0.jpg"></video>
   <h3 class="title">Episodio 346 - Mundo de ensueños</h3></div>
               
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9k_A-yw_5gBisXrS2w1AuneI2IS5BT0Sp5Q&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9k_A-yw_5gBisXrS2w1AuneI2IS5BT0Sp5Q&s"></video>
   <h3 class="title">Episodio 347 - Una sombra que se arrastra</h3></div>
             
   <div class="vid">
-  <video src="" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ30FOR_PfNfHgX0R5OyUhT972Uc9BsS7FOZQ&s"></video>
+  <video src="" loading="lazy" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ30FOR_PfNfHgX0R5OyUhT972Uc9BsS7FOZQ&s"></video>
   <h3 class="title">Episodio 348 - Renace: Akatsuki</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 349</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 350</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 351</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 352</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 353</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 354</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 355</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 356</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 357</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 358</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 359</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 360</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 361</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 362</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 363</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 364</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 365</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 366</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 367</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 368</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 369</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 370</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 371</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 372</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 373</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 374</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 375</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 376</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 377</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 378</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 379</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 380</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 381</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 382</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 383</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 384</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 385</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 386</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 387</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 388</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 389</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 390</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 391</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 392</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 393</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 394</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 395</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 396</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 397</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 398</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 399</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 400</h3></div>
 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 401</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 402</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 403</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 404</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 405</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 406</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 407</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 408</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 409</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 410</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 411</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 412</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 413</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 414</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 415</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 416</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 417</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 418</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 419</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 420</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 421</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 422</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 423</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 424</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 425</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 426</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 427</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 428</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 429</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 430</h3></div>
   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 431</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio4 32</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 433</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 434</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 435</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 436</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 437</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 438</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 439</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 440</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 441</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 442</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 443</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 444</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 445</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 446</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 447</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 448</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 449</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 450</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 451</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 452</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 453</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 454</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 455</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 456</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 457</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 458</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 459</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 460</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 461</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 462</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 463</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 464</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 465</h3></div>
         
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 466</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 467</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 468</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 469</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 470</h3></div>
     
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 471</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 472</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 473</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 474</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 475</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 476</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 477</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 478</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 479</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 480</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 481</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 482</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 483</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 484</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 485</h3></div>
           
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 486</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 487</h3></div>
               
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 488</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 489</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 490</h3></div>
       
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 491</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 492</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 493</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 494</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 495</h3></div>
             
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 496</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 497</h3></div>
                 
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 498</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 499</h3></div>
                   
   <div class="vid">
-  <video src="" muted poster=""></video>
+  <video src="" loading="lazy" muted poster=""></video>
   <h3 class="title">Episodio 500</h3></div>
-
-</div>
+  
+</div></div>
 
 <br>
 <div class="recomendaciones">
-  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
-  <br>
-  <br>
-  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br>
     <div class="series-grid">
-      <a href="Naruto (2002).html" class="serie"><img src="https://image.tmdb.org/t/p/original/oOkvQ1anSMvdYbUGGf7NAnfwHUt.jpg" alt="Serie 3"><p>Naruto Uzumaki</p></a>
-      <a href="Boruto: Naruto Next Generations (2017).html" class="serie"><img src="https://image.tmdb.org/t/p/original/Nb77kwxuPVy8N5Tq9qgtQ2P47u.jpg" alt="Serie 1"><p>Boruto: Naruto Next Generations (2017)</p></a>
-      <a href="Los siete pecados capitales (2014).html" class="serie"><img src="https://image.tmdb.org/t/p/original/yhmHgYvxj1Xez3q6pJKxQVFiP4S.jpg" alt="Serie 2"><p>Los siete pecados capitales</p></a>
-      <a href="Dragon Ball Z.html" class="serie"><img src="https://image.tmdb.org/t/p/original/vcGMjOwwNjOY4NyrDj0sI4VW7Xi.jpg" alt="Serie 4"><p>Dragon Ball Z</p></a>
-      <a href="Baki (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/p0Jz2IQ12YqKwHwzD00KpXjidn8.jpg" alt="Serie 5"><p>Baki</p></a>
-      <a href="Hajime No Ippo (2000).html" class="serie"><img src="https://image.tmdb.org/t/p/original/lrJZMOwa4BalX6WRC5x5g0bzVhy.jpg" alt="Serie 6"><p>Espíritu de lucha: Hajime no Ippo</p></a>
+      <a href="Naruto (2002).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/oOkvQ1anSMvdYbUGGf7NAnfwHUt.jpg" alt="">
+        <p>Naruto Uzumaki</p>
+      </a>
+      <a href="Boruto Naruto Next Generations (2017).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/Nb77kwxuPVy8N5Tq9qgtQ2P47u.jpg" alt="">
+        <p>Boruto: Naruto Next Generations</p>
+      </a>
+      <a href="Los siete pecados capitales (2014).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/yhmHgYvxj1Xez3q6pJKxQVFiP4S.jpg" alt="">
+        <p>Los siete pecados capitales</p>
+      </a>
+      <a href="Dragon Ball Z.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/vcGMjOwwNjOY4NyrDj0sI4VW7Xi.jpg" alt="">
+        <p>Dragon Ball Z</p>
+      </a>
+      <a href="Baki (2018).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/p0Jz2IQ12YqKwHwzD00KpXjidn8.jpg" alt="">
+        <p>Baki</p>
+      </a>
+      <a href="Hajime No Ippo (2000).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/lrJZMOwa4BalX6WRC5x5g0bzVhy.jpg" alt="">
+        <p>Espíritu de lucha: Hajime no Ippo</p>
+      </a>
     </div>
   </div>
-</div>
-
 <br>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-  /*RETROCEDER*/
 
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-
-  info,a{color:fff;font-size:20px;margin-top:0px;}
-  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
-
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    text-align: center;
+<!-- FAVORITOS PARA WANDAVISION -->
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "Naruto Shippuden",
+    imagen: "https://image.tmdb.org/t/p/w300/eWC5lT2LJxKeoz21G6T60kjsBbU.jpg",
+    genero: "Marvel/Serie",
+    archivo: "Naruto Shippuden (2007).html"
+  };
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
+  window.location.href = "../View Peliculas/favoritos.html";
+});
+</script>
 
-  .Serie,a {
-    color:fff;font-size:15px;margin-top:0px;
-  }
 
-  .serie {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
+<!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.js-player').forEach(video => {
+    const controls = video.closest('.main-video')?.querySelector('.plyr__controls');
+    if (controls && !controls.querySelector('#plyr-restart')) {
+      // 1️⃣ Crear botón de Reinicio al inicio (#plyr-restart) al EXTREMO IZQUIERDO
+      const restartBtn = document.createElement("button");
+      restartBtn.className = "plyr__control";
+      restartBtn.id = "plyr-restart";
+      restartBtn.innerHTML = '<i class="fas fa-undo"></i><span class="plyr__sr-only">Reiniciar al inicio</span>';
+      restartBtn.title = "Reiniciar al inicio (0s)";
+      restartBtn.addEventListener("click", () => {
+        video.currentTime = 0;
+      });
+      controls.insertBefore(restartBtn, controls.firstChild);
 
-  .serie img {
-    width: 120px;
-    max-width: 150px;
-    border-radius: 10px;
-  }
-  /* Iconos debajo del reproductor */
-  .icons-container {
-    display: flex;
-    gap: 2px;
-    margin: 1px 0;
-  }
+      // 2️⃣ Crear botón de Retroceso (#plyr-rewind) junto al de Reinicio
+      const rewindBtn = document.createElement("button");
+      rewindBtn.className = "plyr__control";
+      rewindBtn.id = "plyr-rewind";
+      rewindBtn.innerHTML = '<i class="fas fa-step-backward"></i><span class="plyr__sr-only">Retroceder 10 segundos</span>';
+      rewindBtn.title = "Retroceder 10s";
+      rewindBtn.addEventListener("click", () => {
+        video.currentTime = Math.max(video.currentTime - 10, 0);
+      });
+      controls.insertBefore(rewindBtn, restartBtn.nextSibling);
 
-  .icons-container i {
-    font-size: 3px;
-    cursor: pointer;
-  }
+      // 3️⃣ Crear botón de Avance (#plyr-fast-forward) estándar de Plyr
+      const forwardBtn = document.createElement("button");
+      forwardBtn.className = "plyr__control";
+      forwardBtn.id = "plyr-fast-forward";
+      forwardBtn.innerHTML = '<i class="fa fa-forward"></i><span class="plyr__sr-only">Avanzar 10 segundos</span>';
+      forwardBtn.title = "Avanzar 10s";
 
-  .icons-container i:hover {
-    color: yellow;
-  }
+      const playButton = controls.querySelector('.plyr__control[data-plyr="play"]');
+      if (playButton) {
+        playButton.after(forwardBtn);
+      } else {
+        controls.appendChild(forwardBtn);
+      }
 
-  .container .main-video .Sinopsis{
-    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
-  }
+      forwardBtn.addEventListener("click", () => {
+        video.currentTime = Math.min(video.currentTime + 10, video.duration);
+      });
+    }
+  });
+});
+</script>
 
-  .alignleft {
-    float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
-  } 
 
-</style>
+
+<!-- Lógica para guardar posición y mostrar mensaje de reanudación por episodio -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mainVideo = document.querySelector('.main-video video');
+  const resumeMsg = document.getElementById('resume-msg');
+  let currentEpisode = null;
+
+  // Al hacer clic en un episodio
+  document.querySelectorAll('.video-list .vid').forEach(videoItem => {
+    videoItem.addEventListener('click', e => {
+      // Identificamos el episodio por posición en la lista
+      const episodeIndex = Array.from(document.querySelectorAll('.video-list .vid')).indexOf(videoItem);
+      currentEpisode = episodeIndex;
+
+      // Cambiamos la fuente del video
+      const src = videoItem.querySelector('video').getAttribute('src');
+      mainVideo.setAttribute('src', src);
+
+      // Checamos si existe posición guardada para este episodio
+      const savedTime = localStorage.getItem(`pos_episodio_${episodeIndex}`);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        mainVideo.currentTime = parseFloat(savedTime);
+        resumeMsg.textContent = `✅ Reanudando ${videoItem.querySelector('.title').textContent.trim()} donde lo dejaste`;
+        resumeMsg.classList.add('visible');
+        setTimeout(() => {
+          resumeMsg.classList.remove('visible');
+        }, 3000);
+      }
+    });
+  });
+
+  // Guardamos posición cada 5 seg para cada episodio activo
+  setInterval(() => {
+    if (!mainVideo.paused && !mainVideo.ended && currentEpisode !== null) {
+      localStorage.setItem(`pos_episodio_${currentEpisode}`, mainVideo.currentTime);
+    }
+  }, 5000);
+});
+</script>
+
+
+<!-- ACELERAR VIDEO -->
+<script>
+const videoList = document.querySelectorAll('.video-list .vid');
+const mainVideo = document.querySelector('.main-video video');
+
+videoList.forEach(videoItem => {
+  videoItem.addEventListener('click', e => {
+    videoList.forEach(v => v.classList.remove('active'));
+    videoItem.classList.add('active');
+
+    const videoSrc = videoItem.getAttribute('data-url');
+    mainVideo.setAttribute('src', videoSrc);
+    mainVideo.play();
+  });
+});
+</script>
+
+
+
+
+
+</script>
+
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script type="text/javascript">
@@ -2185,6 +2435,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
+
 
 
 
