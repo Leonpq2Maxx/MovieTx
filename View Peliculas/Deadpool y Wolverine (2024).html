@@ -232,6 +232,26 @@
       </a>
     </div>
   </div>
+  <style>
+    #btn-favorito.animado {
+      animation: favPop 0.3s ease;
+    }
+    @keyframes favPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+  </style>
+  <script>
+    const btnFav = document.getElementById('btn-favorito');
+btnFav.addEventListener('click', () => {
+  btnFav.classList.add('animado');
+  setTimeout(() => {
+    btnFav.classList.remove('animado');
+  }, 300);
+});
+
+  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
