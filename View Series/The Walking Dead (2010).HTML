@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor de serie</title>
+<title>MovieTx - Reproductor De Serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -32,148 +32,148 @@
   color:#ff0000;}
   .container .video-list .vid .title{
   color:#fff;font-size:17px;}
-  :root {
-    --plyr-color-main: #ff0000;
-    --plyr-video-control-color: #0022ff;
-  }
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
-  body {
-    background-color: #000;
-    font-family: 'PT Sans', sans-serif;
-    color: #fff;
-  }
-  .player video {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  .info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: 1px solid rgba(16, 235, 255, 0.461);
-    border-radius: 10px;
-    margin: 10px;
-    font-size: 14px;
-  }
-  .info i {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .hd-tag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .hd-tag svg {
-    border-radius: 4px;
-  }
-  .titulo, .sinopsis {
-    padding: 10px;
-  }
-  .titulo h3, .titulo h4, .sinopsis h4 {
-    font-family: 'Kanit', sans-serif;
-    margin-bottom: 5px;
-  }
-  .recomendaciones {
-    padding: 10px;
-  }
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-    text-align: center;
-  }
-  .serie {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
-  .serie img {
-    width: 100%;
-    max-width: 150px;
-    border-radius: 10px;
-  }
-  .serie p {
-    margin-top: 5px;
-  }
-
-  html { font-size: 100%; }
-  body { font-size: 1rem; }
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  h3, h4 { font-size: 1.2rem; }
-
-  @media screen and (max-width: 768px) {
-    body { font-size: 1.05rem; }
-    h1 { font-size: 1.5rem; }
-    h2 { font-size: 1.3rem; }
-    h3, h4 { font-size: 1.1rem; }
-    .info, .sinopsis p, .serie p {
-      font-size: 1rem !important;
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
     }
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
 
-  @media screen and (max-width: 480px) {
-    body { font-size: 1.1rem; }
-    h1 { font-size: 1.4rem; }
-    h2 { font-size: 1.2rem; }
-    h3, h4 { font-size: 1rem; }
-  }
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
 
-  body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
-    font-style: italic;
-  }
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
 
-  .info, .info *, .info span, .info i {
-    font-style: normal !important;
-  }
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
 
-  #resume-msg {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.85);
-    padding: 10px 20px;
-    color: #0f0;
-    border-radius: 8px;
-    z-index: 9999;
-    font-weight: bold;
-    max-width: 90%;
-    font-size: 1rem;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-    opacity: 0;
-    transition: opacity 0.8s ease;
-  }
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
 
-  #resume-msg.visible {
-    display: block;
-    opacity: 1;
-  }
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
 
-  @media (max-width: 480px) {
     #resume-msg {
-      font-size: 0.9rem;
-      padding: 8px 16px;
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
     }
-  }
-</style>
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
 <link rel="stylesheet" href="" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://image.tmdb.org/t/p/original/uvoZWNDDScxcygQ09EQOhhVWvQz.jpg" controls muted autoplay>
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/uvoZWNDDScxcygQ09EQOhhVWvQz.jpg" controls muted preload="metadata"> <!-- Para agregar busca esta pagina y entra a "https://www.themoviedb.org"-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
 <div id="resume-msg">✅ Reanudando donde lo dejaste: The Walking Dead</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2010</span>
-    <i class="fal fa-clock"></i><span>7Ep</span>
-    <i class="fal fa-thumbs-up"></i><span>87%</span>
+    <i class="fal fa-calendar-alt"></i><span>2010</span><!-- Año que se estreno la serie -->
+    <i class="fal fa-clock"></i><span>T1</span><!-- Debes poner la cantidad de temporadas que tiene EJEMPLO "T1" O "T8" DEPENDIENDO LA CANTIDAD DE TEMPORADAS QUE TENGAS -->
+    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- La calificacion de la serie -->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -204,9 +204,236 @@
 
   <div class="titulo">
     <h3>The Walking Dead</h3>
-    <br>
-    <h4>Género: Acción, Drama, Ciencia Ficción y Fantasía</h4>
   </div>
+
+  <!-- Selector de Temporadas y Botones de Episodios -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
+  <div>
+    <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
+      <option value="1" selected>Temporada 1</option>
+      <option value="2">Temporada 2</option>
+    </select>
+  </div>
+  <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
+</div>
+
+<!-- Botones de episodios -->
+<div id="episodios" style="
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+"></div>
+
+<script>
+const episodiosData = {
+  1: [
+    { titulo: "Episodio 1 - Los viejos tiempos", src: "https://pomf2.lain.la/f/suvf9w98.mp4" },
+    { titulo: "Episodio 2 - Agallas", src: "https://pomf2.lain.la/f/4f4e75d7.mp4" },
+    { titulo: "Episodio 3 - Díselo a las ranas", src: "https://pomf2.lain.la/f/v4wlp04p.mp4" },
+    { titulo: "Episodio 4 - Muchachos", src: "https://pomf2.lain.la/f/q3bd5p0o.mp4" },
+    { titulo: "Episodio 5 - Código Wildfire", src: "https://pomf2.lain.la/f/bxxsk325.mp4" },
+    { titulo: "Episodio 6 - TS-19", src: "https://pomf2.lain.la/f/ofq1mlqu.mp4" }
+    // Agrega más si tienes
+  ],
+  2: [
+    { titulo: "Episodio 1 - Lo que nos espera", src: "" },
+    { titulo: "Episodio 2 - Sangría", src: "" },
+    { titulo: "Episodio 3 - Guarda la última", src: "" },
+    { titulo: "Episodio 4 - La rosa cheroqui", src: "" },
+    { titulo: "Episodio 5 - El chupacabras", src: "" },
+    { titulo: "Episodio 6 - Secretos", src: "" },
+    { titulo: "Episodio 7 - Prácticamente muertos", src: "" },
+    { titulo: "Episodio 8 - Nebraska", src: "" },
+    { titulo: "Episodio 9 - Dedo en gatillo", src: "" },
+    { titulo: "Episodio 10 - A 30 kilómetros", src: "" },
+    { titulo: "Episodio 11 - Juez, jurado y verdugo", src: "" },
+    { titulo: "Episodio 12 - Los mejores ángeles", src: "" },
+    { titulo: "Episodio 12 - Junto al fuego que se extingue", src: "" }
+  ],
+  3: [
+    { titulo: "Episodio 1", src: "#" },
+    { titulo: "Episodio 2", src: "#" }
+    // Rellena si tienes links
+  ]
+};
+
+const temporadaSelect = document.getElementById("temporada-select");
+const episodiosContainer = document.getElementById("episodios");
+const episodioCount = document.getElementById("episodio-count");
+const mainVideo = document.querySelector('.main-video video');
+const titleDiv = document.querySelector('.main-video .title');
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  const episodios = episodiosData[temporada] || [];
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      mainVideo.setAttribute("src", ep.src);
+      mainVideo.play();
+      if (titleDiv) {
+        titleDiv.innerHTML = ep.titulo;
+      }
+    });
+    episodiosContainer.appendChild(btn);
+  });
+}
+
+
+// Inicializar con la temporada por defecto
+renderEpisodios(temporadaSelect.value);
+
+// Cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  renderEpisodios(temporadaSelect.value);
+});
+</script>
+
+<script>
+let currentEpisodeIndex = 0;
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  const episodios = episodiosData[temporada] || [];
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      playEpisode(ep.src, ep.titulo, index);
+    });
+    episodiosContainer.appendChild(btn);
+  });
+}
+
+function playEpisode(src, titulo, index) {
+  currentEpisodeIndex = index;
+  mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
+  mainVideo.pause();
+mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  if (titleDiv) titleDiv.innerHTML = titulo;
+
+  // Desmarcar todos los botones
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  // Marcar el botón actual en rojo
+  buttons[index]?.classList.add("active");
+  buttons[index].style.background = "red";
+  buttons[index].style.color = "#fff";
+
+  // Reanudar si hay guardado
+  const saved = localStorage.getItem(`resume_${temporadaSelect.value}_${index}`);
+  if (saved && parseFloat(saved) > 10) {
+    mainVideo.currentTime = parseFloat(saved);
+    const msg = document.getElementById("resume-msg");
+    msg.textContent = `✅ Reanudando ${titulo} donde lo dejaste`;
+    msg.classList.add("visible");
+    setTimeout(() => msg.classList.remove("visible"), 3000);
+  }
+}
+
+
+
+// Guardar tiempo cada 5s
+setInterval(() => {
+  if (!mainVideo.paused && !mainVideo.ended) {
+    localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
+  }
+}, 5000);
+
+// Auto-next al finalizar
+mainVideo.addEventListener("ended", () => {
+  const episodios = episodiosData[temporadaSelect.value] || [];
+  if (currentEpisodeIndex + 1 < episodios.length) {
+    const next = episodios[currentEpisodeIndex + 1];
+    playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
+  }
+});
+
+// Re-render al cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  // Detener y reiniciar el video
+  mainVideo.pause();
+  mainVideo.removeAttribute("src");
+  mainVideo.load(); // reinicia el reproductor
+});
+// Limpiar título
+  if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
+  // Limpiar botones marcados
+  document.querySelectorAll("#episodios button").forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  
+
+
+// Inicial
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
+</script>
+
+<style>
+  #episodios button {
+    min-width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  #episodios button.active {
+  background: red !important;
+  color: white !important;
+  #episodios button {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+#episodios::-webkit-scrollbar {
+  height: 6px;
+}
+#episodios::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+#episodios::-webkit-scrollbar-track {
+  background: #111;
+}
+}
+
+</style>
+
+<div class="titulo">
+  <h4>Género: Acción, Drama, Ciencia Ficción y Fantasía</h4>
+</div>
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
@@ -227,127 +454,39 @@
       ⭐ Favoritos
     </button>
   </div>
-  <br><br>
-
-<div class="video-list">
-
-  <div class="vid">
-  <video src="#"  muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
-  <h3 class="title">Temporada 1 (2010)</h3></div>
-
-  <div class="vid active">
-  <video src="https://pomf2.lain.la/f/suvf9w98.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F9ySQwesIgS804Au9vbWk9tUOp9p.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 1 - Los viejos tiempos</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/4f4e75d7.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F9wGCjzZMAd7wS4LrxJadQPUelnn.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 2 - Agallas</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/v4wlp04p.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fid5zyIRWig8wSE1cdj2TUil3xF0.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 3 - Díselo a las ranas</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/q3bd5p0o.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtLqHPgxyNvj02kB1qsvU6KnNzzv.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 4 - Muchachos</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/bxxsk325.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiuyqfagPbhEmF6yaPWmEMgKsQkd.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 5 - Código Wildfire</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ofq1mlqu.mp4" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FqOsfqcIURwZlP6umsosjE4nxhrj.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 6 - TS-19</h3></div>
-
-  <div class="vid">
-  <video src="#" muted poster="../img poster/Temporadas/Temporada 2.jpg"></video>
-  <h3 class="title">Temporada 2</h3></div>
-
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4cJ4owOZSEkYTlKZZAbSym0KYI5.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 1 - Lo que nos espera</h3></div>
-  
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2dUZ2Oh4lH4DImV10dP35LPJOOu.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 2 - Sangría</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FpT09tJky9PypueBdGaUqtZe4vCc.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 3 - Guarda la última</h3></div>
-        
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FrDQXB2GQvGufXfVvlj4gFSGWPIG.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 4 - La rosa cheroqui</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtJKg7l4r0MhRWOzbBA28qrqH4Cv.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 5 - El chupacabras</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FjaFnWd6Ge0ymmzVqE5X9BuvwZRx.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 6 - Secretos</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FfBr0hwygAJb3UY95pVWdvkDkluf.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 7 - Prácticamente muertos</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F5gXXvhQyu0dJhtjCafy8NSiRJkP.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 8 - Nebraska</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2sgqMeVKRuyEQdKVSa2v8FOlfgG.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 9 - Dedo en gatillo</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4N2vrvnCt6dy7D8Y9qeFJYVHuAJ.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 10 - A 30 kilómetros</h3></div>
-    
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FyU9aoAwCEXWDjgzXt5oSLyTplgf.jpg&w=256&q=75"></video>
-  <h3 class="title"> Episodio 11 - Juez, jurado y verdugo</h3></div>
-          
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F21ES174AHVnZ42iOsC8opxg3dL8.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 12 - Los mejores ángeles</h3></div>
-      
-  <div class="vid">
-  <video src="" muted poster="https://cuevana.biz/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FAfX5ZoVYicVHqFirgMctnrcFxId.jpg&w=256&q=75"></video>
-  <h3 class="title">Episodio 13 - Junto al fuego que se extingue</h3></div>
-  
-</div></div>
+  <br>
 
 <br>
 <div class="recomendaciones">
-    <h4>Podría interesarte:</h4>
-    <br>
-    <div class="series-grid">
-      <a href="The Walking Dead The ones two live (2024).HTML" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/yft2a3vnCblf6wmF6gTqgdKZUMi.jpg" alt="">
-        <p>The Walking Dead: The Ones Who Live</p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/j00juJOffNdhkpkIaayQjcgvK2n.jpg" alt="">
-        <p>Fear the Walking Dead</p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kdM24KINoAVK9wjCtDJCkdffEpc.jpg" alt="">
-        <p>The Walking Dead: Daryl Dixon</p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/6HanIV2hTLE2w7A5bI1KJb3bTL7.jpg" alt="">
-        <p>The Walking Dead: World Beyond</p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kIJasGleGYOsM9X3nGYviLEMm2t.jpg" alt="">
-        <p>The Walking Dead: Dead City</p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/zRMUHvTgQ79zteQafNI46Nd9XFm.jpg" alt="">
-        <p>Tales of the Walking Dead</p>
-      </a>
-    </div>
+  <h4>Podría interesarte:</h4>
+  <br>
+  <div class="series-grid">
+    <a href="The Walking Dead The ones two live (2024).HTML" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/yft2a3vnCblf6wmF6gTqgdKZUMi.jpg" alt="">
+      <p>The Walking Dead: The Ones Who Live</p>
+    </a>
+    <a href="" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/j00juJOffNdhkpkIaayQjcgvK2n.jpg" alt="">
+      <p>Fear the Walking Dead</p>
+    </a>
+    <a href="" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kdM24KINoAVK9wjCtDJCkdffEpc.jpg" alt="">
+      <p>The Walking Dead: Daryl Dixon</p>
+    </a>
+    <a href="" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/6HanIV2hTLE2w7A5bI1KJb3bTL7.jpg" alt="">
+      <p>The Walking Dead: World Beyond</p>
+    </a>
+    <a href="" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kIJasGleGYOsM9X3nGYviLEMm2t.jpg" alt="">
+      <p>The Walking Dead: Dead City</p>
+    </a>
+    <a href="" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/zRMUHvTgQ79zteQafNI46Nd9XFm.jpg" alt="">
+      <p>Tales of the Walking Dead</p>
+    </a>
   </div>
+</div>
 <br>
 
 <!-- FAVORITOS PARA WANDAVISION -->
@@ -357,7 +496,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     titulo: "The walking dead",
     imagen: "https://image.tmdb.org/t/p/w300/uYFK6OpX4HseiMPKYPznVXPwZX9.jpg",
     genero: "Zombie/Serie",
-    archivo: "The Walking Dead (2010).HTML"
+    archivo: "../View Series/The Walking Dead (2010).HTML"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -511,7 +650,3 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
-
-
-
-

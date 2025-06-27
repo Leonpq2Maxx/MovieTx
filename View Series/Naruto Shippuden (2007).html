@@ -204,7 +204,6 @@
 
   <div class="titulo">
     <h3>Naruto Shippuden</h3>
-    <h4>Género: Animación, Accion, Aventura, Ciencia Ficcion, Fantasia, Anime</h4>
   </div>
 
   <!-- Selector de Temporadas y Botones de Episodios -->
@@ -246,7 +245,7 @@ const episodiosData = {
     { titulo: "Episodio 341- El regreso de orochimaru", src: "https://pomf2.lain.la/f/178pgqsh.mp4" },
     { titulo: "Episodio 342 - Secreto del Ninjutsu: Espacio-Tiempo", src: "https://pomf2.lain.la/f/8m19nanf.mp4" },
     { titulo: "Episodio 343 - ¿Quien eres tu?", src: "https://pomf2.lain.la/f/edvsvkxm.mp4" },
-    { titulo: "Episodio 9 - Obito y Madara", src: "https://pomf2.lain.la/f/na0m9edc.mp4" }
+    { titulo: "Episodio 344 - Obito y Madara", src: "https://pomf2.lain.la/f/na0m9edc.mp4" }
 
     // Agrega más si tienes
   ],
@@ -435,6 +434,12 @@ playEpisode(
 
 </style>
 
+<br>
+
+<div class="titulo">
+  <h4>Género: Animación, Accion, Aventura, Ciencia Ficcion, Fantasia, Anime</h4>
+</div>
+
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
@@ -494,10 +499,10 @@ playEpisode(
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "WandaVision (2021)",
-    imagen: "https://image.tmdb.org/t/p/w300/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg",
-    genero: "Marvel/Serie",
-    archivo: "WandaVision (2021) copy.html"
+    titulo: "Naruto Shippuden",
+    imagen: "https://image.tmdb.org/t/p/w300/eWC5lT2LJxKeoz21G6T60kjsBbU.jpg",
+    genero: "Anime/Serie",
+    archivo: "../View Series/Naruto Shippuden (2007).html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
