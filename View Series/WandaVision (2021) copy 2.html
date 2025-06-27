@@ -357,7 +357,6 @@ mainVideo.addEventListener("ended", () => {
 
 // Re-render al cambiar temporada
 temporadaSelect.addEventListener("change", () => {
-  renderEpisodios(temporadaSelect.value);
   // Detener y reiniciar el video
   mainVideo.pause();
   mainVideo.removeAttribute("src");
@@ -372,8 +371,7 @@ temporadaSelect.addEventListener("change", () => {
     btn.style.color = "#ccc";
   });
 
- // Renderizar botones nuevos
-  renderEpisodios(temporadaSelect.value);
+
 
 
 // Inicial
