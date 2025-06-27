@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie</title>
+<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="Imagen de fondo" controls muted preload="metadata"> <!-- Para agregar busca esta pagina y entra a "https://www.themoviedb.org"-->
+<video class='js-player' poster="AGREGAR IMAGEN DE FONDO" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de Serie</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de serie</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>0000</span><!-- Año que se estreno la serie -->
-    <i class="fal fa-clock"></i><span>TEMPORADA</span><!-- Debes poner la cantidad de temporadas que tiene EJEMPLO "T1" O "T8" DEPENDIENDO LA CANTIDAD DE TEMPORADAS QUE TENGAS -->
-    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- La calificacion de la serie -->
+    <i class="fal fa-calendar-alt"></i><span>0000</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+    <i class="fal fa-clock"></i><span>T0</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4-->
+    <i class="fal fa-thumbs-up"></i><span>00%</span> <!-- LA CALIFICACION DE LA SERIE -->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -233,22 +233,22 @@
 <script>
 const episodiosData = {
   1: [
-    { titulo: "Episodio 1 - Inicio", src: "https://pomf2.lain.la/f/c83t7eks.mp4" },
-    { titulo: "Episodio 2 - Conflicto", src: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=" }
+    { titulo: "Episodio 1 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" }
     // Agrega más si tienes
   ],
   2: [
-    { titulo: "Episodio 1 - Casi una plegaria", src: "https://dl.dropbox.com/scl/fi/u7of1bnagiofdsgwbmzit/Una-buena-familia-america-1.mp4" },
-    { titulo: "Episodio 2 - Salta para alejar el miedo", src: "https://dl.dropbox.com/scl/fi/5iire9gbcz6y69vc16kkw/Una-buena-familia-america-2.mp4" },
-    { titulo: "Episodio 3 - Fantasmas por todas partes", src: "https://dl.dropbox.com/scl/fi/jvxwfz71m3k71ykpbbwev/Una-buena-familia-america-3.mp4" },
-    { titulo: "Episodio 4 - Justo ahí en blanco y negro", src: "https://dl.dropbox.com/scl/fi/zkwd4tfni113hi5c0g2cq/Una-buena-familia-americana-4.mp4" },
-    { titulo: "Episodio 5 - Duele demasiado sin él", src: "https://dl.dropbox.com/scl/fi/2hijinz3bmhr8leyw2l6q/Una-buena-familia-americana-5.mp4" },
-    { titulo: "Episodio 6 - Hoy no, Satanás", src: "https://dl.dropbox.com/scl/fi/spjwe4bv0i0pp1588ay0x/Una-buena-familia-americana-6.mp4" },
-    { titulo: "Episodio 7 - Si cuentas una historia lo suficientemente bien", src: "https://dl.dropbox.com/scl/fi/u1u1gtcc5vb3wjqnftn3s/Una-buena-familia-7.mp4" }
+    { titulo: "Episodio 1 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 3 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 4 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 5 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 6 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 7 - Nombre del episodio", src: "Link Del video" }
   ],
   3: [
-    { titulo: "Episodio 1", src: "#" },
-    { titulo: "Episodio 2", src: "#" }
+    { titulo: "Episodio 1 Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 Nombre del episodio", src: "Link Del video" }
     // Rellena si tienes links
   ]
 };
@@ -261,7 +261,12 @@ const titleDiv = document.querySelector('.main-video .title');
 
 function renderEpisodios(temporada) {
   episodiosContainer.innerHTML = "";
+  
   const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
   episodioCount.textContent = `${episodios.length} Capítulos`;
 
   episodios.forEach((ep, index) => {
@@ -281,6 +286,15 @@ function renderEpisodios(temporada) {
     });
     episodiosContainer.appendChild(btn);
   });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
 }
 
 
@@ -298,7 +312,12 @@ let currentEpisodeIndex = 0;
 
 function renderEpisodios(temporada) {
   episodiosContainer.innerHTML = "";
+  
   const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
   episodioCount.textContent = `${episodios.length} Capítulos`;
 
   episodios.forEach((ep, index) => {
@@ -314,6 +333,15 @@ function renderEpisodios(temporada) {
     });
     episodiosContainer.appendChild(btn);
   });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
 }
 
 function playEpisode(src, titulo, index) {
@@ -322,6 +350,7 @@ function playEpisode(src, titulo, index) {
   mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
   if (titleDiv) titleDiv.innerHTML = titulo;
 
   // Desmarcar todos los botones
@@ -338,14 +367,10 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   buttons[index].style.color = "#fff";
 
   // Reanudar si hay guardado
-  const saved = localStorage.getItem(`resume_${temporadaSelect.value}_${index}`);
-  if (saved && parseFloat(saved) > 10) {
-    mainVideo.currentTime = parseFloat(saved);
-    const msg = document.getElementById("resume-msg");
-    msg.textContent = `✅ Reanudando ${titulo} donde lo dejaste`;
-    msg.classList.add("visible");
-    setTimeout(() => msg.classList.remove("visible"), 3000);
-  }
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${titulo}`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
 }
 
 
@@ -357,8 +382,18 @@ setInterval(() => {
   }
 }, 5000);
 
+
+mainVideo.addEventListener("pause", () => {
+  if (autoNextPlaying && !mainVideo.ended) {
+    mainVideo.play();
+    autoNextPlaying = false;
+  }
+});
+
+
 // Auto-next al finalizar
 mainVideo.addEventListener("ended", () => {
+  mainVideo.currentTime = 0;
   const episodios = episodiosData[temporadaSelect.value] || [];
   if (currentEpisodeIndex + 1 < episodios.length) {
     const next = episodios[currentEpisodeIndex + 1];
@@ -423,13 +458,14 @@ playEpisode(
 </style>
 
 <div class="titulo">
-  <h4>Género: </h4>
+  <h4>Género: </h4> <!-- GENERO DE LA SERIE -->
 </div>
+
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-      
+
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -460,20 +496,20 @@ playEpisode(
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
       <p>Nombre de Serie</p>
     </a>
-  <a href="#" class="serie">
-    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
       <p>Nombre de Serie</p>
     </a>
-  <a href="#" class="serie">
-    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
       <p>Nombre de Serie</p>
     </a>
-  <a href="#" class="serie">
-    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
       <p>Nombre de Serie</p>
     </a>
-  <a href="#" class="serie">
-    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
       <p>Nombre de Serie</p>
     </a>
   </div>
@@ -484,10 +520,10 @@ playEpisode(
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "Nombre de serie",
-    imagen: "https://image.tmdb.org/t/p/w300/",
-    genero: "Genero de serie",
-    archivo: "html del tu serie"
+    titulo: "Nombre de la serie",
+    imagen: "https://image.tmdb.org/t/p/w300/", 
+    genero: "#/Serie",
+    archivo: "aca deben de poner el nombre del html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
