@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie</title>
+<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://image.tmdb.org/t/p/original/wJoPsjcJkMAr7ifNqo7qlNXDzil.jpg" controls muted preload="metadata">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/wJoPsjcJkMAr7ifNqo7qlNXDzil.jpg" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: El juego del camalar</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: El juego del calamar</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2021</span>
-    <i class="fal fa-clock"></i><span>T2</span>
-    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <i class="fal fa-calendar-alt"></i><span>2021</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+    <i class="fal fa-clock"></i><span>T3</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4-->
+    <i class="fal fa-thumbs-up"></i><span>83%</span> <!-- LA CALIFICACION DE LA SERIE -->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -203,7 +203,7 @@
   </div>
 
   <div class="titulo">
-    <h3>El juego del camalar</h3>
+    <h3>Trailer: El juego del calamar</h3>
   </div>
 
   <!-- Selector de Temporadas y Botones de Episodios -->
@@ -211,8 +211,6 @@
   <div>
     <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
       <option value="1" selected>Temporada 1</option>
-      <option value="2">Temporada 2</option>
-      <option value="3">Temporada 3</option>
     </select>
   </div>
   <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
@@ -233,34 +231,10 @@
 <script>
 const episodiosData = {
   1: [
-    { titulo: "Episodio 1 - Luz roja, luz verde", src: "https://pomf2.lain.la/f/ms1jmsqt.mp4" },
-    { titulo: "Episodio 2 - INFIERNO", src: "https://pomf2.lain.la/f/qt4mljp.mp4" },
-    { titulo: "Episodio 3 - El hombre del paraguas", src: "https://pomf2.lain.la/f/l6nnuimm.mp4" },
-    { titulo: "Episodio 4 - No abandones el equipo", src: "https://pomf2.lain.la/f/7b498vvh.mp4" },
-    { titulo: "Episodio 5 - Un mundo justo", src: "https://pomf2.lain.la/f/1qkw8fnl.mp4" },
-    { titulo: "Episodio 6 - Canicas", src: "https://pomf2.lain.la/f/biuc9q09.mp4" },
-    { titulo: "Episodio 7 - Los Vip", src: "https://pomf2.lain.la/f/durwx8id.mp4" },
-    { titulo: "Episodio 8 - El Juego Del Calamar", src: "https://pomf2.lain.la/f/lj8wulcj.mp4" },
-    { titulo: "Episodio 9 - Ultimo Juego", src: "https://pomf2.lain.la/f/4wkb714z.mp4" }
+    { titulo: "Temporada 1 - 2021", src: "https://pomf2.lain.la/f/2ibx5be1.mp4" },
+    { titulo: "Temporada 2 - 2024", src: "https://pomf2.lain.la/f/gx2ce2jt.mp4" },
+    { titulo: "Temporada 3 - 2025", src: "https://pomf2.lain.la/f/ys5ort5.mp4" }
     // Agrega más si tienes
-  ],
-  2: [
-    { titulo: "Episodio 1 - Sustento y azar", src: "https://pomf2.lain.la/f/ms26sodv.mp4" },
-    { titulo: "Episodio 2 - Fiesta de Halloween", src: "https://pomf2.lain.la/f/vh3a6css.mp4" },
-    { titulo: "Episodio 3 - 001", src: "https://pomf2.lain.la/f/njqor1xp.mp4" },
-    { titulo: "Episodio 4 - Seis piernas", src: "https://pomf2.lain.la/f/4wbmkpbu.mp4" },
-    { titulo: "Episodio 5 - Otra ronda", src: "https://dl.dropboxusercontent.com/scl/fi/pulw5k1twd035wc9dkckr/El-Juego-Del-Calamar-T2-Cap5.mp4?rlkey=wbgasljxsqaa8jz31396bjzy3&st=" },
-    { titulo: "Episodio 6 - O X", src: "https://pomf2.lain.la/f/yt14iy7u.mp4" },
-    { titulo: "Episodio 7 - Amigos o enemigos", src: "https://pomf2.lain.la/f/a7npytuo.mp4" }
-  ],
-  3: [
-    { titulo: "Episodio 1 - Llaves y cuchillos", src: "https://dl.dropbox.com/scl/fi/6vque8yn2d81v084pfqwv/El-juego-del-calamar-T3-C1-2025.mp4?rlkey=yp1jrx2x4ec489c63m6nyfo82&st=" },
-    { titulo: "Episodio 2 - Noche estrellada", src: "https://dl.dropbox.com/scl/fi/yknn3xevxuk43z9fdk8px/El-juego-del-calamar-T3-C2-2025.mp4?rlkey=e51mv72g3lvso172elh8tw1ts&st=" },
-    { titulo: "Episodio 3 - No es culpa tuya", src: "https://dl.dropbox.com/scl/fi/ob63d7ent24jjqndac8lt/El-juego-del-calamar-T3-C3-2025.mp4?rlkey=1h841i5vpc67h6lyc4szrz1mo&st=" },
-    { titulo: "Episodio 4 - 222", src: "https://dl.dropbox.com/scl/fi/k5fpwtfy4e37pmkqaw3ig/El-juego-del-calamar-T3-C4-2025.mp4?rlkey=siblgnbxzs7sj4nbqag8i5tji&st=" },
-    { titulo: "Episodio 5 - ○△□", src: "https://dl.dropbox.com/scl/fi/ahh500o19r7jpz8j7fzaf/El-juego-del-calamar-T3-C5-2025.mp4?rlkey=p22znr5st1tj7ndzewi010iuz&st=" },
-    { titulo: "Episodio 6 - La naturaleza humana", src: "https://dl.dropbox.com/scl/fi/0qq28soexzcb13fia17u3/El-juego-del-calamar-T3-C6-2025.mp4?rlkey=bnbwerj1jfd63vv5fcdu940c0&st=" },
-    // Rellena si tienes links
   ]
 };
 
@@ -469,7 +443,7 @@ playEpisode(
 </style>
 
 <div class="titulo">
-  <h4>Género: Acción, Misterio, Drama, Terror</h4>
+  <h4>Género: Accion, Misterio, Drama, Terror</h4> <!-- GENERO DE LA SERIE -->
 </div>
 
 
@@ -479,71 +453,20 @@ playEpisode(
       Cientos de personas con problemas de dinero aceptan una invitación rarísima para competir en juegos infantiles. Dentro los esperan un tentador premio y desafíos letales.
     </p>
   </div>
-  <div style="text-align: center; margin-top: 15px;">
-    <button id="btn-favorito" style="
-      background: #ff4444;
-      color: white;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 20px;
-      font-size: 1rem;
-      cursor: pointer;
-    ">
-      ⭐ Favoritos
-    </button>
-  </div>
-  <br>
 
 <br>
 <div class="recomendaciones">
   <h4>Podría interesarte:</h4>
   <br>
   <div class="series-grid">
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
-    </a>
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
-    </a>
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
-    </a>
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
-    </a>
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
-    </a>
-    <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+    <a href="../View Series/El Juego Del Calamar (2021).html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg" alt="">
+      <p>El juego del calamar</p>
     </a>
   </div>
 </div>
 <br>
 
-<!-- FAVORITOS PARA WANDAVISION -->
-<script>
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-    titulo: "El juego del calamar",
-    imagen: "https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg",
-    genero: "Crimen/Serie",
-    archivo: "../View Series/El Juego Del Calamar (2021).html"
-  };
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "../View Peliculas/favoritos.html";
-});
-</script>
 
 
 <!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
