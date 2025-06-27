@@ -202,12 +202,17 @@
     <span>🇲🇽</span>
   </div>
 
+  <div class="titulo">
+    <h3>Prueba</h3>
+    <h4>Género: Marvel</h4>
+  </div>
+
   <!-- Selector de Temporadas y Botones de Episodios -->
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
   <div>
     <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
-      <option value="1">Temporada 1</option>
-      <option value="2" selected>Temporada 2</option>
+      <option value="1" selected>Temporada 1</option>
+      <option value="2">Temporada 2</option>
       <option value="3">Temporada 3</option>
     </select>
   </div>
@@ -270,6 +275,7 @@ function renderEpisodios(temporada) {
   });
 }
 
+
 // Inicializar con la temporada por defecto
 renderEpisodios(temporadaSelect.value);
 
@@ -279,18 +285,114 @@ temporadaSelect.addEventListener("change", () => {
 });
 </script>
 
-<style>
-  #episodios button:hover {
-  background: #00a7ad;
-  color: white;
+<script>
+let currentEpisodeIndex = 0;
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  const episodios = episodiosData[temporada] || [];
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      playEpisode(ep.src, ep.titulo, index);
+    });
+    episodiosContainer.appendChild(btn);
+  });
 }
+
+function playEpisode(src, titulo, index) {
+  currentEpisodeIndex = index;
+  mainVideo.src = src;
+  mainVideo.play();
+  if (titleDiv) titleDiv.innerHTML = titulo;
+
+  // Desmarcar todos los botones
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  // Marcar el botón actual en rojo
+  buttons[index]?.classList.add("active");
+  buttons[index].style.background = "red";
+  buttons[index].style.color = "#fff";
+
+  // Reanudar si hay guardado
+  const saved = localStorage.getItem(`resume_${temporadaSelect.value}_${index}`);
+  if (saved && parseFloat(saved) > 10) {
+    mainVideo.currentTime = parseFloat(saved);
+    const msg = document.getElementById("resume-msg");
+    msg.textContent = `✅ Reanudando ${titulo} donde lo dejaste`;
+    msg.classList.add("visible");
+    setTimeout(() => msg.classList.remove("visible"), 3000);
+  }
+}
+
+
+// Guardar tiempo cada 5s
+setInterval(() => {
+  if (!mainVideo.paused && !mainVideo.ended) {
+    localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
+  }
+}, 5000);
+
+// Auto-next al finalizar
+mainVideo.addEventListener("ended", () => {
+  const episodios = episodiosData[temporadaSelect.value] || [];
+  if (currentEpisodeIndex + 1 < episodios.length) {
+    const next = episodios[currentEpisodeIndex + 1];
+    playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
+  }
+});
+
+// Re-render al cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  renderEpisodios(temporadaSelect.value);
+  // Detener y reiniciar el video
+  mainVideo.pause();
+  mainVideo.removeAttribute("src");
+  mainVideo.load(); // reinicia el reproductor
+});
+// Limpiar título
+  if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
+  // Limpiar botones marcados
+  document.querySelectorAll("#episodios button").forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+ // Renderizar botones nuevos
+  renderEpisodios(temporadaSelect.value);
+
+
+// Inicial
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
+</script>
+
+<style>
+  #episodios button.active {
+  background: red !important;
+  color: white !important;
+}
+
 </style>
 
-  <div class="titulo">
-    <h3>wANDA</h3>
-    <br>
-    <h4>Género: Marvel</h4>
-  </div>
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
