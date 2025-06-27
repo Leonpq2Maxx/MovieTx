@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+<style type="text/css">
+*{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+body{background:#000;}
+.heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+.container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+.container .main-video{background:#151515;border-radius:5px;padding:10px;}
+.container .main-video video{width:100%;border-radius:5px;}
+.container .main-video .title{
+color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+.container .video-list{
+background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+.container .video-list::-webkit-scrollbar{
+width:7px;}
+.container .video-list::-webkit-scrollbar-track{
+background:#000;border-radius:50px;}
+.container .video-list::-webkit-scrollbar-thumb{
+background:#00a7ad;border-radius:50px;}
+.container .video-list .vid video{
+width:100px;border-radius:5px;}
+.container .video-list .vid{
+background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+.container .video-list .vid:hover{
+background:#000;}
+.container .video-list .vid.active{
+background:#00a7ad;}
+.container .video-list .vid.active .title{
+color:#fff;}
+.container .video-list .vid .title{
+color:#fff;font-size:17px;}
+@media (max-width: 999px){
+.container{grid-template-columns:1.5fr 1fr;padding:10px;}}
+@media (max-width: 768px){
+.container{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://telefe-static.akamaized.net/media/18226537/tlf_josue_thumb.jpg" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<h3 class="title">Josué y la tierra prometida</h3>
+<div class="icons-container">
+    <i class="fas fa-calendar"> <H2 class="title">📅 2016</H2></i>
+    <i class="fas fa-thumbs-up"><H2 class="title">❤️ 98%</H2></i>
+</div>
+</div></div>
+
+<div class="video-list">
+  <div class="vid active">
+    <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/4mcf5gxyrwhd_n/n.mp4?t=fC5IGF4nMrFZ5JrAA6QiMQNC10IL4hrr0wG7Ck1g9fg&s=1743152806&e=43200&f=43225&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/4mcf5gxyrwhd_t.jpg"></video>
+    <h3 class="title">Episodio 1</h3></div>
+    
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/qql5udipuxaf_n/n.mp4?t=BgnSlKVYFECdsc3cd9Zef6Bnmz4O1aBlAJmkrloYDQU&s=1743153992&e=43200&f=43226&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/qql5udipuxaf_t.jpg"></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/our8qkpytwlf_n/n.mp4?t=MjIMJabxAjHYdb1iUWiXx8ZPqJUlpAxPsQlRhamUjw0&s=1743154047&e=43200&f=43227&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/our8qkpytwlf_t.jpg"></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/vwd8clmw7t4o_n/n.mp4?t=pclSalds1rYQ-j68jFNwE9L7bdIAex9Yy6sUPQ-nGS8&s=1743154644&e=43200&f=43228&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/vwd8clmw7t4o_t.jpg"></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/d64fvbbnt8jq_n/n.mp4?t=PFncsUotY888oSMohKvFIRinVdwUezJ5uDTxX-mLOiw&s=1743154711&e=43200&f=43229&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/d64fvbbnt8jq_t.jpg"></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/rzn3qs12e41w_n/n.mp4?t=de_mCZXvKxqUWq0oqRUdPi3BCiBtqWjCBNhyz1h6N-g&s=1743154747&e=43200&f=43230&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/rzn3qs12e41w_t.jpg"></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/wvsw12a3n901_n/n.mp4?t=ZFDQLZq41oIqVll1buD0DD2Ve-f5rUiRgPn_UUdbNbM&s=1743154811&e=43200&f=43231&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/wvsw12a3n901_t.jpg"></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/lvqks49urw0r_n/n.mp4?t=Wo30vIN3SYnsiZHjlIotrlo1gC2FEFx529wOD6a6hxw&s=1743154870&e=43200&f=43232&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/lvqks49urw0r_t.jpg"></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/de38ncc0gz4i_n/n.mp4?t=QjqrexrwdIRWgA-wLL197_Wry3zLrMwl2FPR8NASiGE&s=1743154897&e=43200&f=43233&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/de38ncc0gz4i_t.jpg"></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/7usc6wbd0h1g_n/n.mp4?t=NUbN_ziU4KLYTJGNYhBJGfrMZFp2Ikrm_I4gptzruXY&s=1743154946&e=43200&f=43234&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/7usc6wbd0h1g_t.jpg"></video>
+      <h3 class="title">Episodio 10</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/jvj2slrjebu2_n/n.mp4?t=VNU0uE4cZUgtSq09ZNempakSV5msYUqoehCKEjIZ1AQ&s=1743156015&e=43200&f=43245&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/jvj2slrjebu2_t.jpg"></video>
+      <h3 class="title">Episodio 11</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/fk30w8i8p3w0_n/n.mp4?t=jAN3-3m3ntRXd3djttbdVW7bOfIUcPbL39dzEXInq98&s=1743156194&e=43200&f=43256&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/fk30w8i8p3w0_t.jpg"></video>
+      <h3 class="title">Episodio 12</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/nm7xplcpsa2c_n/n.mp4?t=1aZDIiC1O3lV6UdoS916VCx78_sxOxBvKrfvP9yKgRA&s=1743156249&e=43200&f=43267&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/nm7xplcpsa2c_t.jpg"></video>
+      <h3 class="title">Episodio 13</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/8lwfbgdkn816_n/n.mp4?t=9y3PwowvCFYpyqrCBpyWN23AsiZsJNLEt6EKHmd0p2A&s=1743156292&e=43200&f=43278&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/8lwfbgdkn816_t.jpg"></video>
+      <h3 class="title">Episodio 14</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/kw5d8kv9o6hu_n/n.mp4?t=DTT8zK5IHbyAfPgmsfIiNNwtoHk6cwgEuDf-e_TSyvE&s=1743156333&e=43200&f=43289&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/kw5d8kv9o6hu_t.jpg"></video>
+      <h3 class="title">Episodio 15</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 16</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 17</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 18</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 19</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/r5gpheccwknb_t.jpg"></video>
+      <h3 class="title">Episodio 20</h3>
+    </div><div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/195px4xfhrvt_t.jpg"></video>
+      <h3 class="title">Episodio 30</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/6u0qtqkkvqvr_t.jpg"></video>
+      <h3 class="title">Episodio 40</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/t7b25pqeho85_t.jpg"></video>
+      <h3 class="title">Episodio 50</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/oi7vtxjmh1se_t.jpg"></video>
+      <h3 class="title">Episodio 60</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/3l4wz5vzn51a_t.jpg"></video>
+      <h3 class="title">Episodio 70</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/2bjd62pi0zac_t.jpg"></video>
+      <h3 class="title">Episodio 80</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/yc8todl255da_t.jpg"></video>
+      <h3 class="title">Episodio 90</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/o1odwlfcyenh_n/n.mp4?t=1_AbIzOS-NSTv-WzvVapuNhd1KPDKdBuf2WZ5EsP3G0&s=1743157465&e=43200&f=43235&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/o1odwlfcyenh_t.jpg"></video>
+      <h3 class="title">Episodio 100</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/ol0vrndwyaue_n/n.mp4?t=XGTV0aOMTOAXaa-4dh6pZG-C_56GhJnTkiuYXNrbStY&s=1743157440&e=43200&f=43236&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/ol0vrndwyaue_t.jpg"></video>
+      <h3 class="title">Episodio 101</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/ffnj7hihw1m4_n/n.mp4?t=iRGikDwdGcUwBPrKcXREQAykW5GpAH9RdwI6X_RE-E0&s=1743157411&e=43200&f=43237&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/ffnj7hihw1m4_t.jpg"></video>
+      <h3 class="title">Episodio 102</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/qq7j3rofbx1g_n/n.mp4?t=ZrqcHPjadKq0sjzYbZrN3M_B33JdBj1OL-Ao_R0nLk8&s=1743157377&e=43200&f=43238&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/qq7j3rofbx1g_t.jpg"></video>
+      <h3 class="title">Episodio 103</h3>
+    </div>
+    <div class="vid">
+      <video src=https://08-ukr-sv.enpantallas.com/v/01/00008/dzwrne59tl62_n/n.mp4?t=NCO0lIV-QxtS86dBsxpmXYs9nadeKOiNAt_Xe33aV8E&s=1743157311&e=43200&f=43240&sp=625&i=201.253"" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/dzwrne59tl62_t.jpg"></video>
+      <h3 class="title">Episodio 104</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/h5l1s1ehe9s0_n/n.mp4?t=CuAwHeS_QtS06eTj1nF1x8fw41FGehDAAfq2HUCpqBU&s=1743156404&e=43200&f=43239&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/h5l1s1ehe9s0_t.jpg"></video>
+      <h3 class="title">Episodio 105</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/19egvba7po2w_n/n.mp4?t=paVQefLm3SzQ7WCVRHyJoKHwViTjGBtTbSp0ptm4l5k&s=1743156619&e=43200&f=43241&sp=625&i=201.253" muted poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKy_T95lC9g-fwjKO7PawDs1bc-FsxnEgvUA&s"></video>
+      <h3 class="title">Episodio 106</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/l552m0cmyhlo_n/n.mp4?t=RooBMisFMruhg9HYCChJKJ4QwL5VywnxnSa5PXxKMNc&s=1743157245&e=43200&f=43242&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/l552m0cmyhlo_t.jpg"></video>
+      <h3 class="title">Episodio 107</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/9opj98uo63t2_n/n.mp4?t=SG17ORevFEBbz_gEOky8ubGqVtBqRKq3eXcAOeeCDfs&s=1743157159&e=43200&f=43243&sp=625&i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/9opj98uo63t2_t.jpg"></video>
+      <h3 class="title">Episodio 108</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/hcfus3eqaar2_n/n.mp4?t=aABXvoouDX4xvdjYGTNqzI8V14J7WdYVhlYGswhIcPA&s=1743157060&e=43200&f=43244&sp=625&i=201.253" muted poster="https://s1.dmcdn.net/v/UoTJE1bucRScZomDO/x720"></video>
+      <h3 class="title">Episodio 109</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/3o0z42sp5ecm_t.jpg"></video>
+      <h3 class="title">Episodio 110</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/kdd761fqvhzd_t.jpg"></video>
+      <h3 class="title">Episodio 120</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/73jcafbfsotw_t.jpg"></video>
+      <h3 class="title">Episodio 130</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/i20dur4pp7mg_t.jpg"></video>
+      <h3 class="title">Episodio 140</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/phy4yq2cucue_t.jpg"></video>
+      <h3 class="title">Episodio 150</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/0ybdidpcc9dw_t.jpg"></video>
+      <h3 class="title">Episodio 160</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 3</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 4</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 5</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 6</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 7</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 8</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 9</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/1gihv22h6h4r_t.jpg"></video>
+      <h3 class="title">Episodio 170</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 1</h3>
+    </div>
+    <div class="vid">
+      <video src="" muted poster=""></video>
+      <h3 class="title">Episodio 2</h3>
+    </div>
+    <div class="vid">
+      <video src="https://08-ukr-sv.enpantallas.com/v/01/00008/o1odwlfcyenh_n/n.mp4?t=xY26yXExaJRNfgcQOp8S9Os-DCMLiyAttXtx5ZLEuN0&amp;s=1743219427&amp;e=43200&amp;f=43235&amp;sp=625&amp;i=201.253" muted poster="https://08-ukr-sv.enpantallas.com/i/01/00008/vx2g89fm5mn2_t.jpg"></video>
+      <h3 class="title">Episodio 173</h3>
+    </div>
+
+  </div>
+
+</div>
+
+<br>
+<div class="recomendaciones">
+  <h3 style="color: white;">Podría Interesarte las siguientes</h3>
+  <br>
+    <div class="series-grid">
+        <a href="Moises Y Los Diez Mandamientos.html" class="serie"><img src="../img poster/Serie/Moises Y Los Diiez Mandamientos.jpg" alt="Serie 1"><p>Moises Y Los Diez Mandamientos</p></a>
+        <a href="El Rico Y Lazaro (2017).html" class="serie"><img src="https://image.tmdb.org/t/p/original/k6AxLEM3kBXbQv1mTLWXt4dLs8V.jpg" alt="Serie 2"><p>El Rico Y Lazaro</p></a>
+        <a href="Jesus.html" class="serie"><img src="../img poster/Serie/Jesus.jpg" alt="Serie 3"><p>Jesus</p></a>
+        <a href="Rey David.html" class="serie"><img src="https://image.tmdb.org/t/p/original/5sWqEJSGfLq6ssXFexDAB5PdopR.jpg" alt="Serie 4"><p>Rey David</p></a>
+        <a href="Genesis (2021).HTML" class="serie"><img src="../img poster/Serie/genesis.jpg" alt="Serie 5"><p>Genesis</p></a>
+        <a href="Jose De Egipto (2013).html" class="serie"><img src="https://image.tmdb.org/t/p/original/1BuIBHKlBqhyjF3qpupd2enVjNT.jpg" alt="Serie 6"><p>Jose De Egipto</p></a>
+    </div>
+</div>
+<br>
+<style>
+  /*RETROCEDER*/
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+  }
+
+  .serie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+
+  .serie img {
+    width: 120px;
+    max-width: 150px;
+    border-radius: 10px;
+  }
+  /* Iconos debajo del reproductor */
+  .icons-container {
+    display: flex;
+    gap: 15px;
+    margin: 1px 0;
+  }
+
+  .icons-container i {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .icons-container i:hover {
+    color: yellow;
+  }
+</style>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>

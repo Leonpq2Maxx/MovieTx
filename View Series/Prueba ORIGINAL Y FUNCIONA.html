@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="Miniatura de serie" controls muted preload="metadata">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6PmaoJRScw.jpg" controls muted preload="metadata">
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de serie</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>Año</span><!-- Año en que salio la serie -->
-    <i class="fal fa-clock"></i><span>Temporadas EJ (t1) Solo la cantidad de temporadas que tengas</span>
-    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- Calificacion de la serie -->
+    <i class="fal fa-calendar-alt"></i><span>2021</span>
+    <i class="fal fa-clock"></i><span>T2</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -203,8 +203,8 @@
   </div>
 
   <div class="titulo">
-    <h3>Nombre de serie</h3>
-    <h4>Género: </h4>
+    <h3>Prueba</h3>
+    <h4>Género: Marvel</h4>
   </div>
 
   <!-- Selector de Temporadas y Botones de Episodios -->
@@ -320,6 +320,7 @@ function renderEpisodios(temporada) {
 function playEpisode(src, titulo, index) {
   currentEpisodeIndex = index;
   mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
   if (titleDiv) titleDiv.innerHTML = titulo;
@@ -380,6 +381,8 @@ temporadaSelect.addEventListener("change", () => {
     btn.style.background = "#222";
     btn.style.color = "#ccc";
   });
+
+  
 
 
 // Inicial
@@ -446,29 +449,29 @@ playEpisode(
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="365 dias mas 3 (2022).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg" alt="">
+        <p>365 Dias 3: Más</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="365 dias (2020).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg" alt="">
+        <p>365 Dias</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="Romper el circulo (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg" alt="">
+        <p>Romper el circulo</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="El es asi 2021.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg" alt="">
+        <p>El es asi</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="Un ladron romantico (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg" alt="">
+        <p>Un ladron romantico</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+      <a href="Lecciones para canalla (2022).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/AP9kVisL0Xo4GNBQVNa8qv1yLo.jpg" alt="">
+        <p>Lecciones para canalla</p>
       </a>
     </div>
   </div>
@@ -478,10 +481,10 @@ playEpisode(
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "Nombre de serie",
-    imagen: "https://image.tmdb.org/t/p/w300/", <!-- Aca va el poster de la serie -->
+    titulo: "WandaVision (2021)",
+    imagen: "https://image.tmdb.org/t/p/w300/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg",
     genero: "Marvel/Serie",
-    archivo: "html donde tengas ubicado tu codigo"
+    archivo: "WandaVision (2021) copy.html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {

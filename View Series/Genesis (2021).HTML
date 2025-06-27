@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Video Playlist MOD Xavier Suarez</title>
+<!-- Responsive viewport -->
+<meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+<link rel="stylesheet" href="Css/Script.css"/>
+<script src="Js/Script.js"></script>
+<style type="text/css">
+  *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
+  body{background:#000;}
+  .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
+  .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+  .container .main-video{background:#000000;border-radius:5px;padding:0px;}
+  .container .main-video video{width:100%;border-radius:5px;}
+  .container .main-video .title{
+  color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
+  .container .video-list{
+  background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
+  .container .video-list::-webkit-scrollbar{
+  width:7px;}
+  .container .video-list::-webkit-scrollbar-track{
+  background:#000;border-radius:50px;}
+  .container .video-list::-webkit-scrollbar-thumb{
+  background:#00a7ad;border-radius:50px;}
+  .container .video-list .vid video{
+  width:100px;border-radius:5px;}
+  .container .video-list .vid{
+  background:#000;display:flex;align-items:center;gap:15px;border-radius:5px;margin:10px;padding:10px;border:1px solid rgba(0,0,0,.1);cursor:pointer;}
+  .container .video-list .vid:hover{
+  background:#000;}
+  .container .video-list .vid.active{
+  background:#00a7ad;}
+  .container .video-list .vid.active .title{
+  color:#ff0000;}
+  .container .video-list .vid .title{
+  color:#fff;font-size:17px;}
+  @media (max-width: 999px){
+  .container{grid-template-columns:1.5fr 1fr;padding:0px;}}
+  @media (max-width: 768px){
+  .container{grid-template-columns:1fr;}}
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+  
+</style>
+<link rel="stylesheet" href="" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+<div class="main-video">
+<div class="video">
+<video class='js-player' poster="https://telefe-static.akamaized.net/media/18238798/datos-curiosos-genesis-telefe.png?width=888&height=500&mode=crop" controls muted autoplay>
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<info>
+  <i></i>
+  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2021</h9></i>
+  <i class="fal fa-clock"><h9 style="font-size:14;"> 250 Episodios</h9></i>
+  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 80%</h9></i>
+  <i></i>
+</info>
+<h3 class="title">Genesis</h3>
+<h4>
+  Genero: Drama, Biblico
+</h4>
+  <br>
+<h4>
+  Idioma: Español Latino 🇲🇽
+</h4>
+<h4 class="Sinopsis">
+  La novela está basada en el libro de Génesis en la Biblia y cuenta la historia de la creación del mundo, el primer hombre, Adán, y la primera mujer, Eva; el gran diluvio; la Torre de Babel, el viaje de Abraham, y llega hasta el período de esclavitud del pueblo hebreo en Egipto.
+</h4>
+
+</div></div>
+
+<div class="video-list">
+
+  <div class="vid">
+  <video src="#" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <h3 class="title">Temporada 1 (2021)</h3></div>
+
+  <div class="vid active">
+  <video src="https://ok6-1.vkuser.net/?expires=1744522995496&srcIp=201.253.135.207&pr=10&srcAg=CHROME_ANDROID&ms=95.142.206.128&type=1&sig=G-wrkk9CLQs&ct=0&urls=185.226.53.92%3B185.226.55.20&clientType=1&zs=43&id=2370322893423" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 1 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7gbvvqqe.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 2 </h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/cl6ya9v9.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 3</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/tq24rx1f.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 4</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/83repaum.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 5</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/4ilu55et.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 6</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/zrbqjpi2.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 7</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/78492o8u.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 8</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/4vpk3d0x.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 9</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/hqr9n9o2.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 10</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/t7dss91e.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 11</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/hggwp6zd.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 12</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7r51knx6.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 13</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/ol4wutvn.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 14</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/frunayk.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 15</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/mol9on4k.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 16</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/vud28l0u.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 17</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/i2kmrfee.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 18</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/3hig8ij.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 19</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/mj9o1bd8.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 20</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/0gc48txr.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 21</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/xd5tqno5.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 22</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/jj65z6u4.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 23</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/02rxsk3a.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 24</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7tmnov.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 25</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7ku5vx5p.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 26</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/os0av2j6.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 27</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/ls436u56.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 28</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/j69l6867.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 29</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/po5r5359.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 30</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/ijyoypc3.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 31</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/vt9xsnp.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 32</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/lauy2wmg.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 33</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/tb398h.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 34</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/t48wtax.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 35</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/a5cjcrrm.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 36</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7u1x4itt.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 37</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/efdzn72f.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 38</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/h3ee0c0m.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 39</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/dhw49xmw.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 40</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/7253pldu.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 41</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/9q3e459b.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 42</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/c77ubum.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 43</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/mknvmf50.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 44</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/19yya1d.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 45</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/9awbdz89.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 46</h3></div>
+    
+  <div class="vid">
+  <video src="https://pomf2.lain.la/f/" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
+  <h3 class="title">Episodio 47</h3></div>
+    
+</div>
+
+<br>
+<div class="recomendaciones">
+  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+  <br>
+  <br>
+  <div class="recomendaciones">
+    <div class="series-grid">
+      <a href="Moises Y Los Diez Mandamientos.html" class="serie"><img src="../img poster/Serie/Moises Y Los Diiez Mandamientos.jpg" alt="Serie 3"><p>Moises Y Los Diez Mandamientos</p></a>
+      <a href="Josue Y La Tierra Prometida (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/ciY0RaYIzKwt2nEQfVAXJyoxv3c.jpg" alt="Serie 2"><p>Josue Y La Tierra Prometida</p></a>
+      <a href="Rey David.html" class="serie"><img src="../img poster/Serie/Jesus.jpg" alt="Serie 1"><p>Jesus</p></a>
+      <a href="Rey David.html" class="serie"><img src="https://image.tmdb.org/t/p/original/5sWqEJSGfLq6ssXFexDAB5PdopR.jpg" alt="Serie 4"><p>Rey David</p></a>
+      <a href="La Casa De David (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 5"><p>La Casa De David</p></a>
+      <a href="Sanson Y Dalila.html" class="serie"><img src="../img poster/Serie/Sanson y dalila.jpg" alt="Serie 6"><p>Sanson Y Dalila</p></a>
+    </div>
+  </div>
+</div>
+
+<br>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  /*RETROCEDER*/
+
+  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
+
+  info,a{color:fff;font-size:20px;margin-top:0px;}
+  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+  }
+
+  .Serie,a {
+    color:fff;font-size:15px;margin-top:0px;
+  }
+
+  .serie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+
+  .serie img {
+    width: 120px;
+    max-width: 150px;
+    border-radius: 10px;
+  }
+  /* Iconos debajo del reproductor */
+  .icons-container {
+    display: flex;
+    gap: 2px;
+    margin: 1px 0;
+  }
+
+  .icons-container i {
+    font-size: 3px;
+    cursor: pointer;
+  }
+
+  .icons-container i:hover {
+    color: yellow;
+  }
+
+  .container .main-video .Sinopsis{
+    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
+  }
+
+  .alignleft {
+    float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
+  } 
+
+</style>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+<script type="text/javascript">
+let listVideo = document.querySelectorAll('.video-list .vid');
+let mainVideo = document.querySelector('.main-video video');
+let title = document.querySelector('.main-video .title');
+
+listVideo.forEach(video =>{
+  video.onclick = () =>{
+    listVideo.forEach(vid => vid.classList.remove('active'));
+    video.classList.add('active');
+    if(video.classList.contains('active')){
+      let src = video.children[0].getAttribute('src');
+      mainVideo.src = src;
+      let text = video.children[1].innerHTML;
+      title.innerHTML = text;
+    };
+  };
+});
+</script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script>//<![CDATA[
+const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+//]]></script>
+</body>
+</html>
+
+
+
+

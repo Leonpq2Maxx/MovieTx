@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie</title>
+<title>MovieTx - Reproductor de serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -12,7 +12,7 @@
   .container .main-video video{width:100%;border-radius:5px;}
   .container .main-video .title{
   color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-    .container .video-list{
+  .container .video-list{
   background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
   .container .video-list::-webkit-scrollbar{
   width:7px;}
@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="Miniatura de serie" controls muted preload="metadata">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg" controls muted autoplay>
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de serie</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Rosario Tijeras</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>Año</span><!-- Año en que salio la serie -->
-    <i class="fal fa-clock"></i><span>Temporadas EJ (t1) Solo la cantidad de temporadas que tengas</span>
-    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- Calificacion de la serie -->
+    <i class="fal fa-calendar-alt"></i><span>2025</span>
+    <i class="fal fa-clock"></i><span>T4</span>
+    <i class="fal fa-thumbs-up"></i><span>70%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -203,227 +203,15 @@
   </div>
 
   <div class="titulo">
-    <h3>Nombre de serie</h3>
-    <h4>Género: </h4>
+    <h3>Rosario Tijeras</h3>
+    <br>
+    <h4>Género: Drama, Crimen</h4>
   </div>
-
-  <!-- Selector de Temporadas y Botones de Episodios -->
-<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
-  <div>
-    <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
-      <option value="1" selected>Temporada 1</option>
-      <option value="2">Temporada 2</option>
-      <option value="3">Temporada 3</option>
-    </select>
-  </div>
-  <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
-</div>
-
-<!-- Botones de episodios -->
-<div id="episodios" style="
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  padding: 10px;
-  overflow-x: auto;
-  white-space: nowrap;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-"></div>
-
-<script>
-const episodiosData = {
-  1: [
-    { titulo: "Episodio 1 - Inicio", src: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=" },
-    { titulo: "Episodio 2 - Conflicto", src: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=" }
-    // Agrega más si tienes
-  ],
-  2: [
-    { titulo: "Episodio 1 - Casi una plegaria", src: "https://dl.dropbox.com/scl/fi/u7of1bnagiofdsgwbmzit/Una-buena-familia-america-1.mp4" },
-    { titulo: "Episodio 2 - Salta para alejar el miedo", src: "https://dl.dropbox.com/scl/fi/5iire9gbcz6y69vc16kkw/Una-buena-familia-america-2.mp4" },
-    { titulo: "Episodio 3 - Fantasmas por todas partes", src: "https://dl.dropbox.com/scl/fi/jvxwfz71m3k71ykpbbwev/Una-buena-familia-america-3.mp4" },
-    { titulo: "Episodio 4 - Justo ahí en blanco y negro", src: "https://dl.dropbox.com/scl/fi/zkwd4tfni113hi5c0g2cq/Una-buena-familia-americana-4.mp4" },
-    { titulo: "Episodio 5 - Duele demasiado sin él", src: "https://dl.dropbox.com/scl/fi/2hijinz3bmhr8leyw2l6q/Una-buena-familia-americana-5.mp4" },
-    { titulo: "Episodio 6 - Hoy no, Satanás", src: "https://dl.dropbox.com/scl/fi/spjwe4bv0i0pp1588ay0x/Una-buena-familia-americana-6.mp4" },
-    { titulo: "Episodio 7 - Si cuentas una historia lo suficientemente bien", src: "https://dl.dropbox.com/scl/fi/u1u1gtcc5vb3wjqnftn3s/Una-buena-familia-7.mp4" }
-  ],
-  3: [
-    { titulo: "Episodio 1", src: "#" },
-    { titulo: "Episodio 2", src: "#" }
-    // Rellena si tienes links
-  ]
-};
-
-const temporadaSelect = document.getElementById("temporada-select");
-const episodiosContainer = document.getElementById("episodios");
-const episodioCount = document.getElementById("episodio-count");
-const mainVideo = document.querySelector('.main-video video');
-const titleDiv = document.querySelector('.main-video .title');
-
-function renderEpisodios(temporada) {
-  episodiosContainer.innerHTML = "";
-  const episodios = episodiosData[temporada] || [];
-  episodioCount.textContent = `${episodios.length} Capítulos`;
-
-  episodios.forEach((ep, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = index + 1;
-    btn.style.cssText = `
-      width: 40px; height: 40px;
-      background: #222; border: none; border-radius: 5px;
-      color: #ccc; font-size: 1rem; cursor: pointer;
-    `;
-    btn.addEventListener("click", () => {
-      mainVideo.setAttribute("src", ep.src);
-      mainVideo.play();
-      if (titleDiv) {
-        titleDiv.innerHTML = ep.titulo;
-      }
-    });
-    episodiosContainer.appendChild(btn);
-  });
-}
-
-
-// Inicializar con la temporada por defecto
-renderEpisodios(temporadaSelect.value);
-
-// Cambiar temporada
-temporadaSelect.addEventListener("change", () => {
-  renderEpisodios(temporadaSelect.value);
-});
-</script>
-
-<script>
-let currentEpisodeIndex = 0;
-
-function renderEpisodios(temporada) {
-  episodiosContainer.innerHTML = "";
-  const episodios = episodiosData[temporada] || [];
-  episodioCount.textContent = `${episodios.length} Capítulos`;
-
-  episodios.forEach((ep, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = index + 1;
-    btn.style.cssText = `
-      width: 40px; height: 40px;
-      background: #222; border: none; border-radius: 5px;
-      color: #ccc; font-size: 1rem; cursor: pointer;
-    `;
-    btn.addEventListener("click", () => {
-      playEpisode(ep.src, ep.titulo, index);
-    });
-    episodiosContainer.appendChild(btn);
-  });
-}
-
-function playEpisode(src, titulo, index) {
-  currentEpisodeIndex = index;
-  mainVideo.src = src;
-  mainVideo.pause();
-mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
-  if (titleDiv) titleDiv.innerHTML = titulo;
-
-  // Desmarcar todos los botones
-  const buttons = document.querySelectorAll("#episodios button");
-  buttons.forEach(btn => {
-    btn.classList.remove("active");
-    btn.style.background = "#222";
-    btn.style.color = "#ccc";
-  });
-
-  // Marcar el botón actual en rojo
-  buttons[index]?.classList.add("active");
-  buttons[index].style.background = "red";
-  buttons[index].style.color = "#fff";
-
-  // Reanudar si hay guardado
-  const saved = localStorage.getItem(`resume_${temporadaSelect.value}_${index}`);
-  if (saved && parseFloat(saved) > 10) {
-    mainVideo.currentTime = parseFloat(saved);
-    const msg = document.getElementById("resume-msg");
-    msg.textContent = `✅ Reanudando ${titulo} donde lo dejaste`;
-    msg.classList.add("visible");
-    setTimeout(() => msg.classList.remove("visible"), 3000);
-  }
-}
-
-
-// Guardar tiempo cada 5s
-setInterval(() => {
-  if (!mainVideo.paused && !mainVideo.ended) {
-    localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
-  }
-}, 5000);
-
-// Auto-next al finalizar
-mainVideo.addEventListener("ended", () => {
-  const episodios = episodiosData[temporadaSelect.value] || [];
-  if (currentEpisodeIndex + 1 < episodios.length) {
-    const next = episodios[currentEpisodeIndex + 1];
-    playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
-  }
-});
-
-// Re-render al cambiar temporada
-temporadaSelect.addEventListener("change", () => {
-  // Detener y reiniciar el video
-  mainVideo.pause();
-  mainVideo.removeAttribute("src");
-  mainVideo.load(); // reinicia el reproductor
-});
-// Limpiar título
-  if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
-  // Limpiar botones marcados
-  document.querySelectorAll("#episodios button").forEach(btn => {
-    btn.classList.remove("active");
-    btn.style.background = "#222";
-    btn.style.color = "#ccc";
-  });
-
-
-// Inicial
-renderEpisodios(temporadaSelect.value);
-playEpisode(
-  episodiosData[temporadaSelect.value][0].src,
-  episodiosData[temporadaSelect.value][0].titulo,
-  0
-);
-</script>
-
-<style>
-  #episodios button {
-    min-width: 40px;
-    height: 40px;
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-  }
-  #episodios button.active {
-  background: red !important;
-  color: white !important;
-  #episodios button {
-  scroll-snap-align: start;
-  flex: 0 0 auto;
-}
-#episodios::-webkit-scrollbar {
-  height: 6px;
-}
-#episodios::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-#episodios::-webkit-scrollbar-track {
-  background: #111;
-}
-}
-
-</style>
-
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-      Combinando el estilo clásico de las sitcoms con el MCU (Universo Cinematográfico de Marvel), cuenta la historia Wanda Maximoff y Vision, dos seres con superpoderes que viven una vida idílica en las afueras de una ciudad hasta que un día comienzan a sospechar que no todo es lo que parece.
+      La serie cuenta la historia de una guerrera de uno de los barrios más pobres y peligrosos en Ciudad de México. Su belleza y nobleza contrasta con el ambiente gris y desolado donde creció. Ella es temida por sus enemigos y adorada por sus amigos.
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -439,7 +227,53 @@ playEpisode(
       ⭐ Favoritos
     </button>
   </div>
-  <br>
+  <br><br>
+
+<div class="video-list">
+
+  <div class="vid">
+  <video src="#"  muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
+  <h3 class="title">Temporada 4 (2025)</h3></div>
+
+
+  <div class="vid active">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 1 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 2 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 3 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 4 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 5 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 6 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 7 </h3></div>
+    
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 8 </h3></div>
+     
+  <div class="vid">
+  <video src="#" loading="lazy" muted poster="https://image.tmdb.org/t/p/original/hsSw3DuG2ah2wgaZeDTwyv5FPh3.jpg"></video>
+  <h3 class="title"> Episodio 9 </h3></div>
+  
+  
+</div></div>
 
 <br>
 <div class="recomendaciones">
@@ -448,27 +282,27 @@ playEpisode(
     <div class="series-grid">
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
       <a href="#" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
+        <p>nombre de serie</p>
       </a>
     </div>
   </div>
@@ -478,10 +312,10 @@ playEpisode(
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "Nombre de serie",
-    imagen: "https://image.tmdb.org/t/p/w300/", <!-- Aca va el poster de la serie -->
+    titulo: "Rosario tijeras",
+    imagen: "https://image.tmdb.org/t/p/w300/v3UHVBe7tQD4zVamNSqaTyycuwg.jpg",
     genero: "Marvel/Serie",
-    archivo: "html donde tengas ubicado tu codigo"
+    archivo: "Rosario Tijeras (2016).html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -635,3 +469,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
+
+
+
+
