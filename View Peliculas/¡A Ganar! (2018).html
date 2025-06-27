@@ -241,6 +241,8 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   genero: "Drama",
   archivo: "¡A Ganar! (2018).html"
 };
+document.querySelector("video").requestFullscreen();
+
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
