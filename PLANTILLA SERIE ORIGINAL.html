@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="Miniatura de serie" controls muted preload="metadata">
+<video class='js-player' poster="Imagen de fondo" controls muted preload="metadata"> <!-- Para agregar busca esta pagina y entra a "https://www.themoviedb.org"-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de serie</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de Serie</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>Año</span><!-- Año en que salio la serie -->
-    <i class="fal fa-clock"></i><span>Temporadas EJ (t1) Solo la cantidad de temporadas que tengas</span>
-    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- Calificacion de la serie -->
+    <i class="fal fa-calendar-alt"></i><span>0000</span><!-- Año que se estreno la serie -->
+    <i class="fal fa-clock"></i><span>TEMPORADA</span><!-- Debes poner la cantidad de temporadas que tiene EJEMPLO "T1" O "T8" DEPENDIENDO LA CANTIDAD DE TEMPORADAS QUE TENGAS -->
+    <i class="fal fa-thumbs-up"></i><span>00%</span><!-- La calificacion de la serie -->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -204,7 +204,6 @@
 
   <div class="titulo">
     <h3>Nombre de serie</h3>
-    <h4>Género: </h4>
   </div>
 
   <!-- Selector de Temporadas y Botones de Episodios -->
@@ -234,7 +233,7 @@
 <script>
 const episodiosData = {
   1: [
-    { titulo: "Episodio 1 - Inicio", src: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=" },
+    { titulo: "Episodio 1 - Inicio", src: "https://pomf2.lain.la/f/c83t7eks.mp4" },
     { titulo: "Episodio 2 - Conflicto", src: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=" }
     // Agrega más si tienes
   ],
@@ -320,6 +319,7 @@ function renderEpisodios(temporada) {
 function playEpisode(src, titulo, index) {
   currentEpisodeIndex = index;
   mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
   if (titleDiv) titleDiv.innerHTML = titulo;
@@ -347,6 +347,7 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
     setTimeout(() => msg.classList.remove("visible"), 3000);
   }
 }
+
 
 
 // Guardar tiempo cada 5s
@@ -380,6 +381,8 @@ temporadaSelect.addEventListener("change", () => {
     btn.style.background = "#222";
     btn.style.color = "#ccc";
   });
+
+  
 
 
 // Inicial
@@ -419,11 +422,14 @@ playEpisode(
 
 </style>
 
+<div class="titulo">
+  <h4>Género: </h4>
+</div>
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4>
     <p>
-      Combinando el estilo clásico de las sitcoms con el MCU (Universo Cinematográfico de Marvel), cuenta la historia Wanda Maximoff y Vision, dos seres con superpoderes que viven una vida idílica en las afueras de una ciudad hasta que un día comienzan a sospechar que no todo es lo que parece.
+      
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -443,35 +449,35 @@ playEpisode(
 
 <br>
 <div class="recomendaciones">
-    <h4>Podría interesarte:</h4>
-    <br>
-    <div class="series-grid">
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de Serie</p>
-      </a>
-    </div>
+  <h4>Podría interesarte:</h4>
+  <br>
+  <div class="series-grid">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+  <a href="#" class="serie">
+    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+  <a href="#" class="serie">
+    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+  <a href="#" class="serie">
+    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+  <a href="#" class="serie">
+    <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
   </div>
+</div>
 <br>
 
 <!-- FAVORITOS PARA WANDAVISION -->
@@ -479,9 +485,9 @@ playEpisode(
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "Nombre de serie",
-    imagen: "https://image.tmdb.org/t/p/w300/", <!-- Aca va el poster de la serie -->
-    genero: "Marvel/Serie",
-    archivo: "html donde tengas ubicado tu codigo"
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    genero: "Genero de serie",
+    archivo: "html del tu serie"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
