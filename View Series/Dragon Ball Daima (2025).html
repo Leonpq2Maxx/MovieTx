@@ -375,13 +375,13 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
 
-// Seleccionar el episodio visto 30/06/2025
+
+  30/06/2025
   localStorage.setItem("ultimo_episodio", JSON.stringify({
   temporada: temporadaSelect.value,
   index: index
 }));
 
-  
 }
 
 
@@ -431,7 +431,8 @@ temporadaSelect.addEventListener("change", () => {
   
 
 
-// Inicial 30/05/2025
+// Inicial
+// Inicial
 const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
 
 if (ultimo && episodiosData[ultimo.temporada]) {
@@ -440,36 +441,26 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   const ep = episodiosData[ultimo.temporada][ultimo.index];
   if (ep) {
     currentEpisodeIndex = ultimo.index;
-  mainVideo.src = ep.src;
-  mainVideo.load();
-  mainVideo.pause();
-  if (titleDiv) titleDiv.innerHTML = ep.titulo;
+    mainVideo.src = ep.src;
+    mainVideo.load(); // carga sin reproducir
+    mainVideo.pause();
+    if (titleDiv) titleDiv.innerHTML = ep.titulo;
 
-  const buttons = document.querySelectorAll("#episodios button");
-  buttons.forEach(btn => {
-    btn.classList.remove("active");
-    btn.style.background = "#222";
-    btn.style.color = "#ccc";
-  });
-  setTimeout(() => {
-  const buttons = document.querySelectorAll("#episodios button");
-  const btnActivo = buttons[ultimo.index];
-  if (btnActivo) {
-    btnActivo.classList.add("active");
-    btnActivo.style.background = "red";
-    btnActivo.style.color = "#fff";
-    btnActivo.scrollIntoView({ behavior: "smooth", inline: "center" });
+    const buttons = document.querySelectorAll("#episodios button");
+    buttons.forEach(btn => {
+      btn.classList.remove("active");
+      btn.style.background = "#222";
+      btn.style.color = "#ccc";
+    });
+    buttons[ultimo.index]?.classList.add("active");
+    buttons[ultimo.index].style.background = "red";
+    buttons[ultimo.index].style.color = "#fff";
+
+    const msg = document.getElementById("resume-msg");
+    msg.textContent = `✅ ${ep.titulo} cargado`;
+    msg.classList.add("visible");
+    setTimeout(() => msg.classList.remove("visible"), 3000);
   }
-}, 50);
-
-btnActivo.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-
-
-  const msg = document.getElementById("resume-msg");
-  msg.textContent = `✅ ${ep.titulo} cargado`;
-  msg.classList.add("visible");
-  setTimeout(() => msg.classList.remove("visible"), 3000);
-}
 } else {
   renderEpisodios(temporadaSelect.value);
   const ep = episodiosData[temporadaSelect.value][0];
@@ -484,25 +475,9 @@ btnActivo.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest
   buttons[0].style.color = "#fff";
 }
 
-
 </script>
 
 <style>
-
-#episodios {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scroll-padding-inline: 10px;
-}
-
-#episodios button {
-  scroll-snap-align: center;
-}
-
-
-
   #episodios button {
     min-width: 40px;
     height: 40px;
