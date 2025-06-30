@@ -374,6 +374,13 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
+
+  // Guardar episodio actual
+localStorage.setItem('ultimo_episodio', JSON.stringify({
+  temporada: temporadaSelect.value,
+  index: index
+}));
+
 }
 
 
@@ -420,16 +427,73 @@ temporadaSelect.addEventListener("change", () => {
     btn.style.color = "#ccc";
   });
 
+
+  // Guardar episodio actual y tiempo
+localStorage.setItem('ultimo_episodio', JSON.stringify({
+  temporada: temporadaSelect.value,
+  index: index,
+  titulo: titulo,
+  src: src,
+  tiempo: mainVideo.currentTime || 0
+}));
+
+
   
+const ultimo = JSON.parse(localStorage.getItem('ultimo_episodio'));
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  setTimeout(() => {
+    const episodio = episodiosData[ultimo.temporada][ultimo.index];
+    if (episodio) {
+      playEpisode(episodio.src, episodio.titulo, ultimo.index);
+    }
+  }, 200); // Espera para asegurar que se rendericen los botones
+} else {
+  renderEpisodios(temporadaSelect.value);
+  playEpisode(
+    episodiosData[temporadaSelect.value][0].src,
+    episodiosData[temporadaSelect.value][0].titulo,
+    0
+  );
+}
 
+const ultimo = JSON.parse(localStorage.getItem('ultimo_episodio'));
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  setTimeout(() => {
+    const episodio = episodiosData[ultimo.temporada][ultimo.index];
+    if (episodio) {
+      mainVideo.src = episodio.src;
+      mainVideo.load();
+      mainVideo.currentTime = ultimo.tiempo || 0;
+      mainVideo.play();
+      if (titleDiv) titleDiv.innerHTML = episodio.titulo;
 
-// Inicial
-renderEpisodios(temporadaSelect.value);
-playEpisode(
-  episodiosData[temporadaSelect.value][0].src,
-  episodiosData[temporadaSelect.value][0].titulo,
-  0
-);
+      const botones = document.querySelectorAll("#episodios button");
+      botones.forEach(btn => btn.classList.remove("active"));
+      if (botones[ultimo.index]) {
+        botones[ultimo.index].classList.add("active");
+        botones[ultimo.index].style.background = "red";
+        botones[ultimo.index].style.color = "#fff";
+      }
+
+      const msg = document.getElementById("resume-msg");
+      msg.textContent = `✅ Reanudando: ${episodio.titulo}`;
+      msg.classList.add("visible");
+      setTimeout(() => msg.classList.remove("visible"), 3000);
+    }
+  }, 200);
+} else {
+  renderEpisodios(temporadaSelect.value);
+  playEpisode(
+    episodiosData[temporadaSelect.value][0].src,
+    episodiosData[temporadaSelect.value][0].titulo,
+    0
+  );
+}
+
 </script>
 
 <style>
