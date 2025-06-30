@@ -451,6 +451,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     btn.style.background = "#222";
     btn.style.color = "#ccc";
   });
+  setTimeout(() => {
+  const buttons = document.querySelectorAll("#episodios button");
   const btnActivo = buttons[ultimo.index];
   if (btnActivo) {
     btnActivo.classList.add("active");
@@ -458,6 +460,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     btnActivo.style.color = "#fff";
     btnActivo.scrollIntoView({ behavior: "smooth", inline: "center" });
   }
+}, 50);
+
 
   const msg = document.getElementById("resume-msg");
   msg.textContent = `✅ ${ep.titulo} cargado`;
