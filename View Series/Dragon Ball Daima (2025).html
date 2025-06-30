@@ -353,7 +353,6 @@ function playEpisode(src, titulo, index) {
   mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
-  mainVideo.play(); // forzar reproducción automática
   if (titleDiv) titleDiv.innerHTML = titulo;
 
   // Desmarcar todos los botones
@@ -378,7 +377,23 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   localStorage.setItem("ultimo_episodio", JSON.stringify({
   temporada: temporadaSelect.value,
   index: index
+  
 }));
+
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  const ep = episodiosData[ultimo.temporada][ultimo.index];
+  if (ep) {
+    playEpisode(ep.src, ep.titulo, ultimo.index);
+    mainVideo.pause(); // <-- Esto es nuevo
+  }
+} else {
+  const ep = episodiosData[temporadaSelect.value][0];
+  playEpisode(ep.src, ep.titulo, 0);
+  mainVideo.pause(); // <-- Esto también es nuevo
+}
+
 
 }
 
@@ -430,13 +445,24 @@ temporadaSelect.addEventListener("change", () => {
 
 
 // Inicial
+const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
 
+renderEpisodios(temporadaSelect.value);
+
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  const ep = episodiosData[ultimo.temporada][ultimo.index];
+  if (ep) {
+    playEpisode(ep.src, ep.titulo, ultimo.index);
+  }
+} else {
   playEpisode(
     episodiosData[temporadaSelect.value][0].src,
     episodiosData[temporadaSelect.value][0].titulo,
     0
   );
-
+}
 
 </script>
 
