@@ -473,7 +473,15 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   buttons[0]?.classList.add("active");
   buttons[0].style.background = "red";
   buttons[0].style.color = "#fff";
+  
 }
+
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
 
 </script>
 
