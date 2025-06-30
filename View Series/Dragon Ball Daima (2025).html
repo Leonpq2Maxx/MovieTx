@@ -2,21 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Video Playlist MOD Xavier Suarez</title>
+<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
-<link rel="stylesheet" href="Css/Script.css"/>
-<script src="Js/Script.js"></script>
-<style type="text/css">
-  *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
-  body{background:#000;}
-  .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
-  .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+
+<style>
   .container .main-video{background:#000000;border-radius:5px;padding:0px;}
   .container .main-video video{width:100%;border-radius:5px;}
   .container .main-video .title{
   color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-  .container .video-list{
+    .container .video-list{
   background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
   .container .video-list::-webkit-scrollbar{
   width:7px;}
@@ -36,12 +32,148 @@
   color:#ff0000;}
   .container .video-list .vid .title{
   color:#fff;font-size:17px;}
-  @media (max-width: 999px){
-  .container{grid-template-columns:1.5fr 1fr;padding:0px;}}
-  @media (max-width: 768px){
-  .container{grid-template-columns:1fr;}}
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-</style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
 <link rel="stylesheet" href="" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
@@ -50,192 +182,478 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://4kwallpapers.com/images/wallpapers/dragon-ball-daima-2560x1440-19050.jpeg" controls muted autoplay>
-<source src="" type="application/x-mpegURL">
+<video class='js-player' poster="https://4kwallpapers.com/images/wallpapers/dragon-ball-daima-2560x1440-19050.jpeg" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<info>
-  <i></i>
-  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2025</h9></i>
-  <i class="fal fa-clock"><h9 style="font-size:14;"> 20 Episodios</h9></i>
-  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 92%</h9></i>
-  <i></i>
-</info>
-<h3 class="title">Dragon Ball Daima</h3>
-<h4>
-  Genero: Animación, Acción y Aventura, Comedia, Ciencia Ficción y Fantasía
-</h4>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Dragon Ball Daima</div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>2024</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+    <i class="fal fa-clock"></i><span>T1</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4-->
+    <i class="fal fa-thumbs-up"></i><span>82%</span> <!-- LA CALIFICACION DE LA SERIE -->
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
+  </div>
+
+  <div class="titulo">
+    <h3>Dragon Ball Daima</h3>
+  </div>
+
+  <!-- Selector de Temporadas y Botones de Episodios -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
+  <div>
+    <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
+      <option value="1" selected>Temporada 1</option>
+    </select>
+  </div>
+  <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
+</div>
+
+<!-- Botones de episodios -->
+<div id="episodios" style="
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+"></div>
+
+<script>
+const episodiosData = {
+  1: [
+    { titulo: "Episodio 1 - Conspiracion", src: "https://pomf2.lain.la/f/3deuw2nw.mp4" },
+    { titulo: "Episodio 2 - Glorio", src: "https://pomf2.lain.la/f/c1qtdrt.mp4" },
+    { titulo: "Episodio 3 - Daima", src: "https://pomf2.lain.la/f/c1xqqkxc.mp4" },
+    { titulo: "Episodio 4 - ¡El Tercer Mundo!", src: "https://pomf2.lain.la/f/ijd1fot.mp4" },
+    { titulo: "Episodio 5 - Panzy", src: "https://pomf2.lain.la/f/6lkpkl7w.mp4" },
+    { titulo: "Episodio 6 - Relámpago", src: "https://pomf2.lain.la/f/w9maa9ic.mp4" },
+    { titulo: "Episodio 7 - Collar", src: "https://pomf2.lain.la/f/531m7yt0.mp4" },
+    { titulo: "Episodio 8 - Tamagami", src: "https://pomf2.lain.la/f/ffew74io.mp4" },
+    { titulo: "Episodio 9 - Ladrones", src: "https://pomf2.lain.la/f/xipoodzs.mp4" },
+    { titulo: "Episodio 10 - Océano", src: "https://pomf2.lain.la/f/2sh4293.mp4" },
+    { titulo: "Episodio 11 - leyenda", src: "https://pomf2.lain.la/f/oqmjt7sx.mp4" },
+    { titulo: "Episodio 12 - Verdadera Fuerza", src: "https://pomf2.lain.la/f/e13uctl1.mp4" },
+    { titulo: "Episodio 13 - Sorpresa", src: "https://pomf2.lain.la/f/14tyten2.mp4" },
+    { titulo: "Episodio 14 - Tabú", src: "https://pomf2.lain.la/f/6iqwrhko.mp4" },
+    { titulo: "Episodio 15 - Tercer Ojo", src: "https://pomf2.lain.la/f/xkybyd8j.mp4" },
+    { titulo: "Episodio 16 - Degesu", src: "https://pomf2.lain.la/f/caz9f4jg.mp4" },
+    { titulo: "Episodio 17 - Gomah", src: "https://pomf2.lain.la/f/1w9ozxez.mp4" },
+    { titulo: "Episodio 18 - Despertar", src: "https://pomf2.lain.la/f/ej0yv6px.mp4" },
+    { titulo: "Episodio 19 - Traición", src: "https://pomf2.lain.la/f/ucme72wo.mp4" },
+    { titulo: "Episodio 20 - El Nuevo Rey Demonio", src: "https://pomf2.lain.la/f/8uylbiua.mp4" }
+    // Agrega más si tienes
+  ]
+};
+
+
+const temporadaSelect = document.getElementById("temporada-select");
+const episodiosContainer = document.getElementById("episodios");
+const episodioCount = document.getElementById("episodio-count");
+const mainVideo = document.querySelector('.main-video video');
+const titleDiv = document.querySelector('.main-video .title');
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  
+  const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      mainVideo.setAttribute("src", ep.src);
+      mainVideo.play();
+      if (titleDiv) {
+        titleDiv.innerHTML = ep.titulo;
+      }
+    });
+    episodiosContainer.appendChild(btn);
+  });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
+}
+
+
+// Inicializar con la temporada por defecto
+renderEpisodios(temporadaSelect.value);
+
+// Cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  renderEpisodios(temporadaSelect.value);
+});
+</script>
+
+<script>
+let currentEpisodeIndex = 0;
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  
+  const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      playEpisode(ep.src, ep.titulo, index);
+    });
+    episodiosContainer.appendChild(btn);
+  });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
+}
+
+function playEpisode(src, titulo, index) {
+  currentEpisodeIndex = index;
+  mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
+  mainVideo.pause();
+mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
+  if (titleDiv) titleDiv.innerHTML = titulo;
+
+  // Desmarcar todos los botones
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  // Marcar el botón actual en rojo
+  buttons[index]?.classList.add("active");
+  buttons[index].style.background = "red";
+  buttons[index].style.color = "#fff";
+
+  // Reanudar si hay guardado
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${titulo}`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
+}
+
+
+
+// Guardar tiempo cada 5s
+setInterval(() => {
+  if (!mainVideo.paused && !mainVideo.ended) {
+    localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
+  }
+}, 5000);
+
+
+mainVideo.addEventListener("pause", () => {
+  if (autoNextPlaying && !mainVideo.ended) {
+    mainVideo.play();
+    autoNextPlaying = false;
+  }
+});
+
+
+// Auto-next al finalizar
+mainVideo.addEventListener("ended", () => {
+  mainVideo.currentTime = 0;
+  const episodios = episodiosData[temporadaSelect.value] || [];
+  if (currentEpisodeIndex + 1 < episodios.length) {
+    const next = episodios[currentEpisodeIndex + 1];
+    playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
+  }
+});
+
+// Re-render al cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  // Detener y reiniciar el video
+  mainVideo.pause();
+  mainVideo.removeAttribute("src");
+  mainVideo.load(); // reinicia el reproductor
+});
+// Limpiar título
+  if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
+  // Limpiar botones marcados
+  document.querySelectorAll("#episodios button").forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  
+
+
+// Inicial
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
+</script>
+
+<style>
+  #episodios button {
+    min-width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  #episodios button.active {
+  background: red !important;
+  color: white !important;
+  #episodios button {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+#episodios::-webkit-scrollbar {
+  height: 6px;
+}
+#episodios::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+#episodios::-webkit-scrollbar-track {
+  background: #111;
+}
+}
+
+</style>
+
+<div class="titulo">
+  <h4>Género: Animación, Anime, Accion, Aventura, Comedia, Sci-Fi & Fantasia</h4> <!-- GENERO DE LA SERIE -->
+</div>
+
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      Misteriosamente transformados en mini versiones de sí mismos, Goku y sus amigos viajan al Reino de los Demonios para descubrir la verdad y encontrar una cura.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
   <br>
-<h4>
-  Idioma: Español Latino 🇲🇽
-</h4> 
-<h4 class="Sinopsis">
-  Misteriosamente transformados en mini versiones de sí mismos, Goku y sus amigos viajan al Reino de los Demonios para descubrir la verdad y encontrar una cura.
-</h4>
-  
-</div></div>
-
-<div class="video-list">
-
-  <div class="vid">
-  <video src="#" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
-  <h3 class="title">Temporada 1 (2025)</h3></div>
-
-  <div class="vid active">
-  <video src="https://pomf2.lain.la/f/3deuw2nw.mp4" muted poster="https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2024/10/critica-capitulo-1-dragon-ball-daima-arranca-prospera-nueva-era-serie-akira-toriyama-4248625.jpg?tf=3840x"></video>
-  <h3 class="title">Episodio 1 - Conspiracion</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/c1qtdrt.mp4" muted poster="https://hdfullcdn.cc/tthumb/312x176/ethumb_tt29485149_1_2.jpg"></video>
-  <h3 class="title">Episodio 2 - Glorio</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/c1xqqkxc.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABVnKxObsoq841TiphY0gFAcN7gP7BuuZNtk8PQSOsvLwKyuKS8imgCxsHTYgkMYvAUjmzAVoqg0EScOkAW1L3vB6eiRMC0TM-zzcBngwxFPjz9llfpterR6o.jpg?r=197"></video>
-  <h3 class="title">Episodio 3 - Daima</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ijd1fot.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABb9BQMaUpi4vQrRhV66Dz_eiCzjkkGPLTJXidk9YzhWCM5Yp1WUNqIsO5Q6eZYI6kwjCqrrz_oqsQoM9Lx_aL4NLSSE98zp-McPCIrvHatGeSUhukrhwBZ_w.jpg?r=189"></video>
-  <h3 class="title">Episodio 4 - ¡El Tercer Mundo!</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/6lkpkl7w.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABTY8V1GcwILa_KbNh5h82Uuo7p9cAUXL5WD2k32Md4e9jhdmsjCrBSM_E_H-5I34HEbg0Wp0VICTUCElaO1av3Amr6m8bc0aZNPCyy06IMJbcl5IxVlQfLXW.jpg?r=228"></video>
-  <h3 class="title">Episodio 5 - Panzy</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/w9maa9ic.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2024/11/dragon-ball-daima-capitulo-6-.jpg"></video>
-  <h3 class="title">Episodio 6 - Relámpago</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/531m7yt0.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2024/11/dragon-ball-daima-capitulo-7.jpg"></video>
-  <h3 class="title">Episodio 7 - Collar</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ffew74io.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABY9OvBKBJ9dmDwyz148_Ca2osZQ_Yy-ZYnZkzmM2zUGVML3OOpZx4TyL5GJdnaEmB_kWTpSduO9nkuqbU-1AH45b_SVWCy9l1oxj9MhmoYrmxAg5JcpztKyY.jpg?r=e44" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABY9OvBKBJ9dmDwyz148_Ca2osZQ_Yy-ZYnZkzmM2zUGVML3OOpZx4TyL5GJdnaEmB_kWTpSduO9nkuqbU-1AH45b_SVWCy9l1oxj9MhmoYrmxAg5JcpztKyY.jpg?r=e44"></video>
-  <h3 class="title">Episodio 8 - Tamagami</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/xipoodzs.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZ7fsV14P2yOBRqIsNhfSmi2vAG0C4aAw3WFKdSxUWcgNNWr4Nlki2C6_s1ip22oxqcayUFxnLvYtv_U5dUKPDkZnhPm4mX54Lu3tP1imRkci5b0bM2rYew0.jpg?r=9f7"></video>
-  <h3 class="title">Episodio 9 - Ladrones</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/2sh4293.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABeD9RVNdtf0Miox5lWUYU2LxFNxF8hT3Paf2lZp0vVp47sb4xEHr8p972N-9Yqffv_uNAxMI9lisD2QoJrmA4R4EXNoP1VBCjz8Wza9Y6vgHJI40R48V0T5l.jpg?r=c11"></video>
-  <h3 class="title">Episodio 10 - Océano</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/oqmjt7sx.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABc5FLZchSPFN8K9ek4hAg7vXTy7vCOBc_vTSi_zQW1Fbfu_YccAVmgtF3dE4QVUsCuf4treWvRJ37JMuQmRFcWlgSWvvoHZOoztzzNSmrmVn8vdFkcB3oLjO.jpg?r=e94"></video>
-  <h3 class="title">Episodio 11 - leyenda</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/e13uctl1.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2024/12/dragon-ball-daima-capitulo-12.jpg"></video>
-  <h3 class="title">Episodio 12 - Verdadera Fuerza</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/14tyten2.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABaMtVBgpyaRHddF8N4cgzrMdXNpCtva0sTveluoAvV8txCW2CswLr0w3B9eK8cmqXjt5kT7gSVl9qjhWzxeRfcCJI2oAeSmkqu3CjsqxKOUen5iB1h7Y2OJu.jpg?r=e1f"></video>
-  <h3 class="title">Episodio 13 - Sorpresa</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/6iqwrhko.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2025/01/dragon-ball-daima-capitulo-14.jpg"></video>
-  <h3 class="title">Episodio 14 - Tabú</h3></div>
-      
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/xkybyd8j.mp4" muted poster="https://occ-0-3791-185.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABVAhfm7u8oPBkmFj7VqcZaIlFMP4YjhSWEk0sQRXPpPa1bA3iiJ9MEkmxKvReqdwbSPn9osaRik5hQl8f2_tnfRxjLKHViVxYG6GjMSDZWfAbL2yNW7W2dby.jpg?r=d8b"></video>
-  <h3 class="title">Episodio 15 - Tercer Ojo</h3></div>
-      
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/caz9f4jg.mp4" muted poster="https://cdn.jkdesu.com/assets/images/animes/video/image_thumb/jkvideo_90f3653fe1e53ded2b4c7e8491c72df9.jpg"></video>
-  <h3 class="title">Episodio 16 - Degesu</h3></div>
-      
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/1w9ozxez.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2025/02/dragon-ball-daima-capitulo-17.jpg"></video>
-  <h3 class="title">Episodio 17 - Gomah</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ej0yv6px.mp4" muted poster="https://dragonballserie.net/wp-content/uploads/2025/02/dragon-ball-daima-capitulo-18.jpg"></video>
-  <h3 class="title">Episodio 18 - Despertar</h3></div>
-        
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ucme72wo.mp4" muted poster="https://static1.cbrimages.com/wordpress/wp-content/uploads/2025/02/untitled9-1.jpg"></video>
-  <h3 class="title">Episodio 19 - Traición</h3></div>
-  
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/8uylbiua.mp4" muted poster="https://i.ytimg.com/vi/MFQegd8HhUE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAO5xbwQJNPXwMEK16A3xh3bzDKRg"></video>
-  <h3 class="title">Episodio 20 - El Nuevo Rey Demonio</h3></div>
-  
-</div></div>
 
 <br>
 <div class="recomendaciones">
-  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
-  <br>
+  <h4>Podría interesarte:</h4>
   <br>
   <div class="series-grid">
-    <a href="Dragon Ball Z.html" class="serie"><img src="https://image.tmdb.org/t/p/original/8UKfUPTvl8uuMZdr1TAqVrswqdG.jpg" alt="Serie 1"><p>Dragon Ball Z</p></a>
-    <a href="Dragon Ball Super (2015).html" class="serie"><img src="https://image.tmdb.org/t/p/original/qEUrbXJ2qt4Rg84Btlx4STOhgte.jpg" alt="Serie 2"><p>Dragon Ball Super</p></a>
-    <a href="Dragon Ball Heroes (2018).html" class="serie"><img src="https://image.tmdb.org/t/p/original/8jq6xv5c1WK7KAPOXCsodm8eUxp.jpg" alt="Serie 3"><p>Dragon Ball Heroes</p></a>
-    <a href="Dragon Ball Gt (1998).html" class="serie"><img src="https://image.tmdb.org/t/p/original/621kwKHFsA0JYnHPmvzwdRw0dbr.jpg" alt="Serie 4"><p>Dragon Ball Gt</p></a>
-    <a href="Dragon Ball (1997).html" class="serie"><img src="https://image.tmdb.org/t/p/original/dJlS1BsXxGEemIxs1uv4jqisJFQ.jpg" alt="Serie 5"><p>Dragon Ball</p></a>
-    <a href="Dragon Ball Kai.html" class="serie"><img src="https://image.tmdb.org/t/p/original/ojsPI8fNwcecKLhVC4rB4ZZhFMc.jpg" alt="Serie 6"><p>Dragon Ball Kai</p></a>
+    <a href="Dragon Ball Z.html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/8UKfUPTvl8uuMZdr1TAqVrswqdG.jpg" alt="">
+      <p>Dragon Ball Z</p>
+    </a>
+    <a href="Dragon Ball Super (2015).html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/qEUrbXJ2qt4Rg84Btlx4STOhgte.jpg" alt="">
+      <p>Dragon Ball Super</p>
+    </a>
+    <a href="Dragon Ball Heroes (2018).html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/8jq6xv5c1WK7KAPOXCsodm8eUxp.jpg" alt="">
+      <p>Dragon Ball Heroes</p>
+    </a>
+    <a href="Dragon Ball Gt (1998).html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/621kwKHFsA0JYnHPmvzwdRw0dbr.jpg" alt="">
+      <p>Dragon Ball Gt</p>
+    </a>
+    <a href="Dragon Ball (1997).html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/dJlS1BsXxGEemIxs1uv4jqisJFQ.jpg" alt="">
+      <p>Dragon Ball</p>
+    </a>
+    <a href="Dragon Ball Kai.html" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/ojsPI8fNwcecKLhVC4rB4ZZhFMc.jpg" alt="">
+      <p>Dragon Ball Kai</p>
+    </a>
   </div>
 </div>
 <br>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-  /*RETROCEDER*/
 
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-
-  info,a{color:fff;font-size:20px;margin-top:0px;}
-  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
-
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    text-align: center;
+<!-- FAVORITOS -->
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "Dragon Ball Daima",
+    imagen: "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg", 
+    genero: "Anime/Serie",
+    archivo: "../View Series/Dragon Ball Daima (2025).html"
+  };
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
+  window.location.href = "../View Peliculas/favoritos.html";
+});
+</script>
 
-  .Serie,a {
-    color:fff;font-size:15px;margin-top:0px;
-  }
 
-  .serie {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
+<!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.js-player').forEach(video => {
+    const controls = video.closest('.main-video')?.querySelector('.plyr__controls');
+    if (controls && !controls.querySelector('#plyr-restart')) {
+      // 1️⃣ Crear botón de Reinicio al inicio (#plyr-restart) al EXTREMO IZQUIERDO
+      const restartBtn = document.createElement("button");
+      restartBtn.className = "plyr__control";
+      restartBtn.id = "plyr-restart";
+      restartBtn.innerHTML = '<i class="fas fa-undo"></i><span class="plyr__sr-only">Reiniciar al inicio</span>';
+      restartBtn.title = "Reiniciar al inicio (0s)";
+      restartBtn.addEventListener("click", () => {
+        video.currentTime = 0;
+      });
+      controls.insertBefore(restartBtn, controls.firstChild);
 
-  .serie img {
-    width: 120px;
-    max-width: 150px;
-    border-radius: 10px;
-  }
-  /* Iconos debajo del reproductor */
-  .icons-container {
-    display: flex;
-    gap: 2px;
-    margin: 1px 0;
-  }
+      // 2️⃣ Crear botón de Retroceso (#plyr-rewind) junto al de Reinicio
+      const rewindBtn = document.createElement("button");
+      rewindBtn.className = "plyr__control";
+      rewindBtn.id = "plyr-rewind";
+      rewindBtn.innerHTML = '<i class="fas fa-step-backward"></i><span class="plyr__sr-only">Retroceder 10 segundos</span>';
+      rewindBtn.title = "Retroceder 10s";
+      rewindBtn.addEventListener("click", () => {
+        video.currentTime = Math.max(video.currentTime - 10, 0);
+      });
+      controls.insertBefore(rewindBtn, restartBtn.nextSibling);
 
-  .icons-container i {
-    font-size: 3px;
-    cursor: pointer;
-  }
+      // 3️⃣ Crear botón de Avance (#plyr-fast-forward) estándar de Plyr
+      const forwardBtn = document.createElement("button");
+      forwardBtn.className = "plyr__control";
+      forwardBtn.id = "plyr-fast-forward";
+      forwardBtn.innerHTML = '<i class="fa fa-forward"></i><span class="plyr__sr-only">Avanzar 10 segundos</span>';
+      forwardBtn.title = "Avanzar 10s";
 
-  .icons-container i:hover {
-    color: yellow;
-  }
+      const playButton = controls.querySelector('.plyr__control[data-plyr="play"]');
+      if (playButton) {
+        playButton.after(forwardBtn);
+      } else {
+        controls.appendChild(forwardBtn);
+      }
 
-  .container .main-video .Sinopsis{
-    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
-  }
+      forwardBtn.addEventListener("click", () => {
+        video.currentTime = Math.min(video.currentTime + 10, video.duration);
+      });
+    }
+  });
+});
+</script>
 
-  .alignleft {
-    float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
-  } 
 
-</style>
+
+<!-- Lógica para guardar posición y mostrar mensaje de reanudación por episodio -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mainVideo = document.querySelector('.main-video video');
+  const resumeMsg = document.getElementById('resume-msg');
+  let currentEpisode = null;
+
+  // Al hacer clic en un episodio
+  document.querySelectorAll('.video-list .vid').forEach(videoItem => {
+    videoItem.addEventListener('click', e => {
+      // Identificamos el episodio por posición en la lista
+      const episodeIndex = Array.from(document.querySelectorAll('.video-list .vid')).indexOf(videoItem);
+      currentEpisode = episodeIndex;
+
+      // Cambiamos la fuente del video
+      const src = videoItem.querySelector('video').getAttribute('src');
+      mainVideo.setAttribute('src', src);
+
+      // Checamos si existe posición guardada para este episodio
+      const savedTime = localStorage.getItem(`pos_episodio_${episodeIndex}`);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        mainVideo.currentTime = parseFloat(savedTime);
+        resumeMsg.textContent = `✅ Reanudando ${videoItem.querySelector('.title').textContent.trim()} donde lo dejaste`;
+        resumeMsg.classList.add('visible');
+        setTimeout(() => {
+          resumeMsg.classList.remove('visible');
+        }, 3000);
+      }
+    });
+  });
+
+  // Guardamos posición cada 5 seg para cada episodio activo
+  setInterval(() => {
+    if (!mainVideo.paused && !mainVideo.ended && currentEpisode !== null) {
+      localStorage.setItem(`pos_episodio_${currentEpisode}`, mainVideo.currentTime);
+    }
+  }, 5000);
+});
+</script>
+
+
+<!-- ACELERAR VIDEO -->
+<script>
+const videoList = document.querySelectorAll('.video-list .vid');
+const mainVideo = document.querySelector('.main-video video');
+
+videoList.forEach(videoItem => {
+  videoItem.addEventListener('click', e => {
+    videoList.forEach(v => v.classList.remove('active'));
+    videoItem.classList.add('active');
+
+    const videoSrc = videoItem.getAttribute('data-url');
+    mainVideo.setAttribute('src', videoSrc);
+    mainVideo.play();
+  });
+});
+</script>
+
+
+
+
+
+</script>
+
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script type="text/javascript">
@@ -262,5 +680,3 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
-
-

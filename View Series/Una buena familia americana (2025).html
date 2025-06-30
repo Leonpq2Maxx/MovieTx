@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie</title>
+<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -211,6 +211,8 @@
   <div>
     <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
       <option value="1" selected>Temporada 1</option>
+      <option value="2">Temporada 2</option>
+      <option value="3">Temporada 3</option>
     </select>
   </div>
   <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
@@ -242,7 +244,6 @@ const episodiosData = {
   ],
 };
 
-
 const temporadaSelect = document.getElementById("temporada-select");
 const episodiosContainer = document.getElementById("episodios");
 const episodioCount = document.getElementById("episodio-count");
@@ -251,7 +252,12 @@ const titleDiv = document.querySelector('.main-video .title');
 
 function renderEpisodios(temporada) {
   episodiosContainer.innerHTML = "";
+  
   const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
   episodioCount.textContent = `${episodios.length} Capítulos`;
 
   episodios.forEach((ep, index) => {
@@ -271,6 +277,15 @@ function renderEpisodios(temporada) {
     });
     episodiosContainer.appendChild(btn);
   });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
 }
 
 
@@ -288,7 +303,12 @@ let currentEpisodeIndex = 0;
 
 function renderEpisodios(temporada) {
   episodiosContainer.innerHTML = "";
+  
   const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
   episodioCount.textContent = `${episodios.length} Capítulos`;
 
   episodios.forEach((ep, index) => {
@@ -304,6 +324,15 @@ function renderEpisodios(temporada) {
     });
     episodiosContainer.appendChild(btn);
   });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
 }
 
 function playEpisode(src, titulo, index) {
@@ -312,6 +341,7 @@ function playEpisode(src, titulo, index) {
   mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
   if (titleDiv) titleDiv.innerHTML = titulo;
 
   // Desmarcar todos los botones
@@ -328,14 +358,10 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   buttons[index].style.color = "#fff";
 
   // Reanudar si hay guardado
-  const saved = localStorage.getItem(`resume_${temporadaSelect.value}_${index}`);
-  if (saved && parseFloat(saved) > 10) {
-    mainVideo.currentTime = parseFloat(saved);
-    const msg = document.getElementById("resume-msg");
-    msg.textContent = `✅ Reanudando ${titulo} donde lo dejaste`;
-    msg.classList.add("visible");
-    setTimeout(() => msg.classList.remove("visible"), 3000);
-  }
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${titulo}`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
 }
 
 
@@ -347,8 +373,18 @@ setInterval(() => {
   }
 }, 5000);
 
+
+mainVideo.addEventListener("pause", () => {
+  if (autoNextPlaying && !mainVideo.ended) {
+    mainVideo.play();
+    autoNextPlaying = false;
+  }
+});
+
+
 // Auto-next al finalizar
 mainVideo.addEventListener("ended", () => {
+  mainVideo.currentTime = 0;
   const episodios = episodiosData[temporadaSelect.value] || [];
   if (currentEpisodeIndex + 1 < episodios.length) {
     const next = episodios[currentEpisodeIndex + 1];
@@ -411,6 +447,7 @@ playEpisode(
 }
 
 </style>
+<br>
 
 <div class="titulo">
   <h4>Género: Drama</h4>

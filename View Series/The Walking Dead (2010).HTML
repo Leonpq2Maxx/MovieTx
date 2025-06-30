@@ -212,7 +212,6 @@
     <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
       <option value="1" selected>Temporada 1</option>
       <option value="2">Temporada 2</option>
-      <option value="3">Temporada 3</option>
     </select>
   </div>
   <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
@@ -274,7 +273,7 @@ function renderEpisodios(temporada) {
   
   const episodios = episodiosData[temporada] || [];
   const yearSpan = document.querySelector('.info span');
-  const yearBySeason = { 1: '2010', 2: '2011', 3: '2014' };
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
   if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
 
   episodioCount.textContent = `${episodios.length} Capítulos`;
@@ -325,7 +324,7 @@ function renderEpisodios(temporada) {
   
   const episodios = episodiosData[temporada] || [];
   const yearSpan = document.querySelector('.info span');
-  const yearBySeason = { 1: '2010', 2: '2011', 3: '2014' };
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
   if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
 
   episodioCount.textContent = `${episodios.length} Capítulos`;
@@ -468,7 +467,7 @@ playEpisode(
 </style>
 
 <div class="titulo">
-  <h4>Género: Acción, Drama, Ciencia Ficción, Fantasía</h4> <!-- GENERO DE LA SERIE -->
+  <h4>Género: Accion, Drama, Apocalipsis</h4> <!-- GENERO DE LA SERIE -->
 </div>
 
 
