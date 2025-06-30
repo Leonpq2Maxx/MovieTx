@@ -382,26 +382,6 @@ localStorage.setItem('ultimo_episodio', JSON.stringify({
 }));
 
 
-const ultimo = JSON.parse(localStorage.getItem('ultimo_episodio'));
-if (ultimo && episodiosData[ultimo.temporada]) {
-  temporadaSelect.value = ultimo.temporada;
-  renderEpisodios(ultimo.temporada);
-  
-  setTimeout(() => {
-    const episodio = episodiosData[ultimo.temporada][ultimo.index];
-    if (episodio) {
-      playEpisode(episodio.src, episodio.titulo, ultimo.index);
-      
-      const botones = document.querySelectorAll("#episodios button");
-      if (botones[ultimo.index]) {
-        botones.forEach(btn => btn.classList.remove("active"));
-        botones[ultimo.index].classList.add("active");
-        botones[ultimo.index].style.background = "red";
-        botones[ultimo.index].style.color = "#fff";
-      }
-    }
-  }, 200);
-}
 
 
 
