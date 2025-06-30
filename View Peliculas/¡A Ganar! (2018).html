@@ -311,6 +311,33 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   window.location.href = "favoritos.html";
 });
 
+window.addEventListener('orientationchange', () => {
+  if (window.matchMedia("(orientation: landscape)").matches) {
+    // Entrar a pantalla completa si el dispositivo está horizontal
+    const playerContainer = videoElement.closest('.player');
+    if (playerContainer.requestFullscreen) {
+      playerContainer.requestFullscreen();
+    } else if (playerContainer.webkitRequestFullscreen) {
+      playerContainer.webkitRequestFullscreen();
+    } else if (playerContainer.msRequestFullscreen) {
+      playerContainer.msRequestFullscreen();
+    }
+  } else {
+    // Salir de pantalla completa si vuelve a vertical
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  }
+});
+
+
 </script>
+
 </body>
 </html>
