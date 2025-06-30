@@ -353,7 +353,7 @@ function playEpisode(src, titulo, index) {
   mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
-  mainVideo.play(); // forzar reproducción automática
+  
   if (titleDiv) titleDiv.innerHTML = titulo;
 
   // Desmarcar todos los botones
@@ -374,11 +374,12 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
-  
+
   localStorage.setItem("ultimo_episodio", JSON.stringify({
   temporada: temporadaSelect.value,
   index: index
 }));
+
 
 }
 
