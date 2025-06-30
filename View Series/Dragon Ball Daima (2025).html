@@ -455,6 +455,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     buttons[ultimo.index]?.classList.add("active");
     buttons[ultimo.index].style.background = "red";
     buttons[ultimo.index].style.color = "#fff";
+    buttons[ultimo.index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+
 
     const msg = document.getElementById("resume-msg");
     msg.textContent = `✅ ${ep.titulo} cargado`;
@@ -475,9 +477,21 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   buttons[0].style.color = "#fff";
 }
 
+setTimeout(() => {
+  buttons[ultimo.index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+}, 50);
+
+
+
 </script>
 
 <style>
+  #episodios {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
   #episodios button {
     min-width: 40px;
     height: 40px;
