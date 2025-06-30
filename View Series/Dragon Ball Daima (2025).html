@@ -347,45 +347,61 @@ function renderEpisodios(temporada) {
 
 }
 
+function playEpisode(src, titulo, index) {
+  currentEpisodeIndex = index;
+  mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
+  mainVideo.pause();
+mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
+  if (titleDiv) titleDiv.innerHTML = titulo;
+
+  // Desmarcar todos los botones
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  // Marcar el botón actual en rojo
+  buttons[index]?.classList.add("active");
+  buttons[index].style.background = "red";
+  buttons[index].style.color = "#fff";
+
+  // Reanudar si hay guardado
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${titulo}`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
+}
+
+localStorage.setItem('ultimo_episodio', JSON.stringify({
+  temporada: temporadaSelect.value,
+  index: index
+}));
+
+
 const ultimo = JSON.parse(localStorage.getItem('ultimo_episodio'));
 if (ultimo && episodiosData[ultimo.temporada]) {
   temporadaSelect.value = ultimo.temporada;
   renderEpisodios(ultimo.temporada);
-
+  
   setTimeout(() => {
     const episodio = episodiosData[ultimo.temporada][ultimo.index];
     if (episodio) {
-      mainVideo.src = episodio.src;
-      mainVideo.load();
-      mainVideo.currentTime = ultimo.tiempo || 0;
-      mainVideo.play();
-
-      if (titleDiv) titleDiv.innerHTML = episodio.titulo;
-
+      playEpisode(episodio.src, episodio.titulo, ultimo.index);
+      
       const botones = document.querySelectorAll("#episodios button");
-      botones.forEach(btn => btn.classList.remove("active"));
       if (botones[ultimo.index]) {
+        botones.forEach(btn => btn.classList.remove("active"));
         botones[ultimo.index].classList.add("active");
         botones[ultimo.index].style.background = "red";
         botones[ultimo.index].style.color = "#fff";
       }
-
-      const msg = document.getElementById("resume-msg");
-      msg.textContent = `✅ Reanudando: ${episodio.titulo}`;
-      msg.classList.add("visible");
-      setTimeout(() => msg.classList.remove("visible"), 3000);
     }
   }, 200);
-} else {
-  renderEpisodios(temporadaSelect.value);
-  playEpisode(
-    episodiosData[temporadaSelect.value][0].src,
-    episodiosData[temporadaSelect.value][0].titulo,
-    0
-  );
 }
-
-
 
 
 
@@ -441,20 +457,6 @@ playEpisode(
   episodiosData[temporadaSelect.value][0].titulo,
   0
 );
-
-
-localStorage.setItem('ultimo_episodio', JSON.stringify({
-  temporada: temporadaSelect.value,
-  index: index,
-  titulo: titulo,
-  src: src,
-  tiempo: mainVideo.currentTime || 0
-}));
-
-
-
-
-
 </script>
 
 <style>
