@@ -382,6 +382,19 @@ localStorage.setItem('ultimo_episodio', JSON.stringify({
 }));
 
 
+// Restaurar episodio visual seleccionado desde localStorage
+const ultimo = JSON.parse(localStorage.getItem('ultimo_episodio'));
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+
+  setTimeout(() => {
+    const episodio = episodiosData[ultimo.temporada][ultimo.index];
+    if (episodio) {
+      playEpisode(episodio.src, episodio.titulo, ultimo.index);
+    }
+  }, 200);
+}
 
 
 
