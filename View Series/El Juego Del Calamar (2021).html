@@ -382,6 +382,12 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
+
+  localStorage.setItem("ultimo_episodio", JSON.stringify({
+  temporada: temporadaSelect.value,
+  index: index
+}));
+
 }
 
 
@@ -432,12 +438,25 @@ temporadaSelect.addEventListener("change", () => {
 
 
 // Inicial
+const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
+
 renderEpisodios(temporadaSelect.value);
-playEpisode(
-  episodiosData[temporadaSelect.value][0].src,
-  episodiosData[temporadaSelect.value][0].titulo,
-  0
-);
+
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  const ep = episodiosData[ultimo.temporada][ultimo.index];
+  if (ep) {
+    playEpisode(ep.src, ep.titulo, ultimo.index);
+  }
+} else {
+  playEpisode(
+    episodiosData[temporadaSelect.value][0].src,
+    episodiosData[temporadaSelect.value][0].titulo,
+    0
+  );
+}
+
 </script>
 
 <style>
