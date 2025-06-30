@@ -2,21 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Video Playlist MOD Xavier Suarez</title>
+<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
-<link rel="stylesheet" href="Css/Script.css"/>
-<script src="Js/Script.js"></script>
-<style type="text/css">
-  *{margin:0;padding:0;box-sizing:border-box;text-transform:capitalize;}
-  body{background:#000;}
-  .heading{color:#444;font-size:40px;text-align:center;padding:10px;}
-  .container{display:grid;grid-template-columns:2fr 1fr;gap:15px;align-items:flex-start;padding:5px 5%;}
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+
+<style>
   .container .main-video{background:#000000;border-radius:5px;padding:0px;}
   .container .main-video video{width:100%;border-radius:5px;}
   .container .main-video .title{
   color:#fff;font-size:23px;padding-top:15px;padding-bottom:15px;}
-  .container .video-list{
+    .container .video-list{
   background:#151515;border-radius:5px;height:317px;overflow-y:scroll;}
   .container .video-list::-webkit-scrollbar{
   width:7px;}
@@ -36,13 +32,148 @@
   color:#ff0000;}
   .container .video-list .vid .title{
   color:#fff;font-size:17px;}
-  @media (max-width: 999px){
-  .container{grid-template-columns:1.5fr 1fr;padding:0px;}}
-  @media (max-width: 768px){
-  .container{grid-template-columns:1fr;}}
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-  
-</style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color: #0022ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .titulo h3, .titulo h4, .sinopsis h4 {
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 5px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    .serie img {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 10px;
+    }
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 1rem; }
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
 <link rel="stylesheet" href="" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
@@ -51,303 +182,707 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://telefe-static.akamaized.net/media/18238798/datos-curiosos-genesis-telefe.png?width=888&height=500&mode=crop" controls muted autoplay>
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/vH88w13MdmnJhmk6OEeFd7Rc1IG.jpg" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<info>
-  <i></i>
-  <i class="fal fa-calendar-alt"><h9 style="font-size:14;"> 2021</h9></i>
-  <i class="fal fa-clock"><h9 style="font-size:14;"> 250 Episodios</h9></i>
-  <i class="fal fa-thumbs-up"><h9 style="font-size:14;"> 80%</h9></i>
-  <i></i>
-</info>
-<h3 class="title">Genesis</h3>
-<h4>
-  Genero: Drama, Biblico
-</h4>
-  <br>
-<h4>
-  Idioma: Español Latino 🇲🇽
-</h4>
-<h4 class="Sinopsis">
-  La novela está basada en el libro de Génesis en la Biblia y cuenta la historia de la creación del mundo, el primer hombre, Adán, y la primera mujer, Eva; el gran diluvio; la Torre de Babel, el viaje de Abraham, y llega hasta el período de esclavitud del pueblo hebreo en Egipto.
-</h4>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Genesis</div>
 
-</div></div>
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>2021</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+    <i class="fal fa-clock"></i><span>T1</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4-->
+    <i class="fal fa-thumbs-up"></i><span>78%</span> <!-- LA CALIFICACION DE LA SERIE -->
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+    <span>🇲🇽</span>
+  </div>
 
-<div class="video-list">
+  <div class="titulo">
+    <h3>Genesis</h3>
+  </div>
 
-  <div class="vid">
-  <video src="#" muted poster="../img poster/Temporadas/Temporada 1.jpg"></video>
-  <h3 class="title">Temporada 1 (2021)</h3></div>
-
-  <div class="vid active">
-  <video src="https://ok6-1.vkuser.net/?expires=1744522995496&srcIp=201.253.135.207&pr=10&srcAg=CHROME_ANDROID&ms=95.142.206.128&type=1&sig=G-wrkk9CLQs&ct=0&urls=185.226.53.92%3B185.226.55.20&clientType=1&zs=43&id=2370322893423" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 1 </h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7gbvvqqe.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 2 </h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/cl6ya9v9.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 3</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/tq24rx1f.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 4</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/83repaum.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 5</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/4ilu55et.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 6</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/zrbqjpi2.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 7</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/78492o8u.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 8</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/4vpk3d0x.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 9</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/hqr9n9o2.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 10</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/t7dss91e.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 11</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/hggwp6zd.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 12</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7r51knx6.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 13</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ol4wutvn.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 14</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/frunayk.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 15</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/mol9on4k.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 16</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/vud28l0u.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 17</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/i2kmrfee.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 18</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/3hig8ij.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 19</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/mj9o1bd8.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 20</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/0gc48txr.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 21</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/xd5tqno5.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 22</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/jj65z6u4.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 23</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/02rxsk3a.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 24</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7tmnov.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 25</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7ku5vx5p.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 26</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/os0av2j6.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 27</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ls436u56.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 28</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/j69l6867.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 29</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/po5r5359.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 30</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/ijyoypc3.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 31</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/vt9xsnp.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 32</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/lauy2wmg.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 33</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/tb398h.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 34</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/t48wtax.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 35</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/a5cjcrrm.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 36</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7u1x4itt.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 37</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/efdzn72f.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 38</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/h3ee0c0m.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 39</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/dhw49xmw.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 40</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/7253pldu.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 41</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/9q3e459b.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 42</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/c77ubum.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 43</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/mknvmf50.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 44</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/19yya1d.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 45</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/9awbdz89.mp4" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 46</h3></div>
-    
-  <div class="vid">
-  <video src="https://pomf2.lain.la/f/" muted poster="https://image.tmdb.org/t/p/original/eu6gHTDUWSKwT2sgoIYBRB9S6v7.jpg"></video>
-  <h3 class="title">Episodio 47</h3></div>
-    
+  <!-- Selector de Temporadas y Botones de Episodios -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
+  <div>
+    <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
+      <option value="1" selected>Temporada 1</option>
+    </select>
+  </div>
+  <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
 </div>
+
+<!-- Botones de episodios -->
+<div id="episodios" style="
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+"></div>
+
+<script>
+const episodiosData = {
+  1: [
+    { titulo: "Episodio 1", src: "https://www.febspot.com/get_file/27/906ccdf946c8b8d2567f8c2208cf3eac/2426000/2426645/2426645_720p.mp4" },
+    { titulo: "Episodio 2", src: "https://www.febspot.com/get_file/27/e1df7fe88c58a3163c9bc169d0ebc6fb/2429000/2429993/2429993_720p.mp4" },
+    { titulo: "Episodio 3", src: "https://www.febspot.com/get_file/27/e79a4998c919166677dfba622cbe755a/2431000/2431074/2431074_720p.mp4" },
+    { titulo: "Episodio 4", src: "https://www.febspot.com/get_file/27/d541dcab47636399f7f1d24574109108/2431000/2431169/2431169_720p.mp4" },
+    { titulo: "Episodio 5", src: "https://www.febspot.com/get_file/27/e22f0e23dd8df3dc39049d44dc4497ce/2431000/2431220/2431220_720p.mp4" },
+    { titulo: "Episodio 6", src: "https://www.febspot.com/get_file/25/6ae5a543760c57d995e700816b7732c5/2449000/2449182/2449182_720p.mp4" },
+    { titulo: "Episodio 7", src: "https://www.febspot.com/get_file/22/8720414e34f4fbffe303fa6b2eb87829/2452000/2452640/2452640_720p.mp4" },
+    { titulo: "Episodio 8", src: "https://www.febspot.com/get_file/22/55409aa1cb73134a657658e64af53fbc/2452000/2452850/2452850_720p.mp4" },
+    { titulo: "Episodio 9", src: "https://www.febspot.com/get_file/5/0a6d1de6f40f212ea4f44c8db1546d4f/2495000/2495456/2495456_720p.mp4" },
+    { titulo: "Episodio 10", src: "https://www.febspot.com/get_file/5/dcb42d4db3562f941c5dea2b0c22784a/2495000/2495374/2495374_720p.mp4" },
+    { titulo: "Episodio 11- Avenida brasil", src: "https://www.febspot.com/get_file/20/e8776101a13398b70d78429d19bceed1/1440000/1440968/1440968_720p.mp4" },
+    { titulo: "Episodio 12 - Avenida brasil 2", src: "https://www.febspot.com/get_file/20/641a3c32109a5cfa7d9fd549e40178ac/1440000/1440984/1440984_720p.mp4" },
+    { titulo: "Episodio 13 - Avenida brasil 3", src: "https://www.febspot.com/get_file/20/f83cc251db7939647da7df24e4f0efeb/1440000/1440986/1440986_720p.mp4" },
+    { titulo: "Episodio 14 - Avenida brasil 4", src: "https://www.febspot.com/get_file/20/7c78c7864b9f49b09c6fe39ace0673ea/1440000/1440996/1440996_720p.mp4" },
+    { titulo: "Episodio 2 - Avenida brasil 5", src: "https://www.febspot.com/get_file/20/e11032470f71a417dc133fdf11f9a834/1440000/1440998/1440998_720p.mp4" },
+    { titulo: "Episodio 2 - Avenida brasil 6", src: "https://www.febspot.com/get_file/20/56bbe3361557c92d9cb6fe86eb2f8917/1445000/1445322/1445322_720p.mp4" },
+    { titulo: "Episodio 2 - Nombre del episodio 7", src: "https://www.febspot.com/get_file/20/2080b5e7a7d3342937305a423e3c4501/1445000/1445334/1445334_720p.mp4" },
+    { titulo: "Episodio 2 - Nombre del episodio 8", src: "https://www.febspot.com/get_file/20/885a8f2317061f5b50bf349bebefb82f/1445000/1445336/1445336_720p.mp4" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" }
+    // Agrega más si tienes
+  ]
+};
+
+const temporadaSelect = document.getElementById("temporada-select");
+const episodiosContainer = document.getElementById("episodios");
+const episodioCount = document.getElementById("episodio-count");
+const mainVideo = document.querySelector('.main-video video');
+const titleDiv = document.querySelector('.main-video .title');
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  
+  const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      mainVideo.setAttribute("src", ep.src);
+      mainVideo.play();
+      if (titleDiv) {
+        titleDiv.innerHTML = ep.titulo;
+      }
+    });
+    episodiosContainer.appendChild(btn);
+  });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
+}
+
+
+// Inicializar con la temporada por defecto
+renderEpisodios(temporadaSelect.value);
+
+// Cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  renderEpisodios(temporadaSelect.value);
+});
+</script>
+
+<script>
+let currentEpisodeIndex = 0;
+
+function renderEpisodios(temporada) {
+  episodiosContainer.innerHTML = "";
+  
+  const episodios = episodiosData[temporada] || [];
+  const yearSpan = document.querySelector('.info span');
+  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+
+  episodioCount.textContent = `${episodios.length} Capítulos`;
+
+  episodios.forEach((ep, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.style.cssText = `
+      width: 40px; height: 40px;
+      background: #222; border: none; border-radius: 5px;
+      color: #ccc; font-size: 1rem; cursor: pointer;
+    `;
+    btn.addEventListener("click", () => {
+      playEpisode(ep.src, ep.titulo, index);
+    });
+    episodiosContainer.appendChild(btn);
+  });
+
+  // Marcar automáticamente el primer episodio
+  const firstBtn = document.querySelector('#episodios button');
+  if (firstBtn) {
+    firstBtn.classList.add('active');
+    firstBtn.style.background = 'red';
+    firstBtn.style.color = '#fff';
+  }
+
+}
+
+function playEpisode(src, titulo, index) {
+  currentEpisodeIndex = index;
+  mainVideo.src = src;
+  mainVideo.load(); // prepara el video sin reproducir //
+  mainVideo.pause();
+mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
+  if (titleDiv) titleDiv.innerHTML = titulo;
+
+  // Desmarcar todos los botones
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  // Marcar el botón actual en rojo
+  buttons[index]?.classList.add("active");
+  buttons[index].style.background = "red";
+  buttons[index].style.color = "#fff";
+
+  // Reanudar si hay guardado
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${titulo}`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
+}
+
+
+
+// Guardar tiempo cada 5s
+setInterval(() => {
+  if (!mainVideo.paused && !mainVideo.ended) {
+    localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
+  }
+}, 5000);
+
+
+mainVideo.addEventListener("pause", () => {
+  if (autoNextPlaying && !mainVideo.ended) {
+    mainVideo.play();
+    autoNextPlaying = false;
+  }
+});
+
+
+// Auto-next al finalizar
+mainVideo.addEventListener("ended", () => {
+  mainVideo.currentTime = 0;
+  const episodios = episodiosData[temporadaSelect.value] || [];
+  if (currentEpisodeIndex + 1 < episodios.length) {
+    const next = episodios[currentEpisodeIndex + 1];
+    playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
+  }
+});
+
+// Re-render al cambiar temporada
+temporadaSelect.addEventListener("change", () => {
+  // Detener y reiniciar el video
+  mainVideo.pause();
+  mainVideo.removeAttribute("src");
+  mainVideo.load(); // reinicia el reproductor
+});
+// Limpiar título
+  if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
+  // Limpiar botones marcados
+  document.querySelectorAll("#episodios button").forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+
+  
+
+
+// Inicial
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
+</script>
+
+<style>
+  #episodios button {
+    min-width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  #episodios button.active {
+  background: red !important;
+  color: white !important;
+  #episodios button {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+#episodios::-webkit-scrollbar {
+  height: 6px;
+}
+#episodios::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+#episodios::-webkit-scrollbar-track {
+  background: #111;
+}
+}
+
+</style>
+<br>
+
+<div class="titulo">
+  <h4>Género: Drama</h4> <!-- GENERO DE LA SERIE -->
+</div>
+
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      La novela está basada en el libro de Génesis en la Biblia y cuenta la historia de la creación del mundo, el primer hombre, Adán, y la primera mujer, Eva; el gran diluvio; la Torre de Babel, el viaje de Abraham, y llega hasta el período de esclavitud del pueblo hebreo en Egipto.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+  <br>
 
 <br>
 <div class="recomendaciones">
-  <h4 class="alignleft">Podria Interesarte Las Siguientes</h4>
+  <h4>Podría interesarte:</h4>
   <br>
-  <br>
-  <div class="recomendaciones">
-    <div class="series-grid">
-      <a href="Moises Y Los Diez Mandamientos.html" class="serie"><img src="../img poster/Serie/Moises Y Los Diiez Mandamientos.jpg" alt="Serie 3"><p>Moises Y Los Diez Mandamientos</p></a>
-      <a href="Josue Y La Tierra Prometida (2016).html" class="serie"><img src="https://image.tmdb.org/t/p/original/ciY0RaYIzKwt2nEQfVAXJyoxv3c.jpg" alt="Serie 2"><p>Josue Y La Tierra Prometida</p></a>
-      <a href="Rey David.html" class="serie"><img src="../img poster/Serie/Jesus.jpg" alt="Serie 1"><p>Jesus</p></a>
-      <a href="Rey David.html" class="serie"><img src="https://image.tmdb.org/t/p/original/5sWqEJSGfLq6ssXFexDAB5PdopR.jpg" alt="Serie 4"><p>Rey David</p></a>
-      <a href="La Casa De David (2025).html" class="serie"><img src="https://image.tmdb.org/t/p/original/5s6OHwM0Z3VTquTaEmpCBd4G3X4.jpg" alt="Serie 5"><p>La Casa De David</p></a>
-      <a href="Sanson Y Dalila.html" class="serie"><img src="../img poster/Serie/Sanson y dalila.jpg" alt="Serie 6"><p>Sanson Y Dalila</p></a>
-    </div>
+  <div class="series-grid">
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
+    <a href="#" class="serie">
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+      <p>Nombre de Serie</p>
+    </a>
   </div>
 </div>
-
 <br>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-  /*RETROCEDER*/
 
-  h4{margin-left:5px;color:#fff;font-family:'Kanit', sans-serif;font-size:15px;}
-
-  info,a{color:fff;font-size:20px;margin-top:0px;}
-  info{background:transparent;color:#fff;font-family:'PT Sans', sans-serif;left:0;right:0;height:2.5em;display:flex;flex-direction:row;align-items:center;justify-content:space-between;text-decoration:none;cursor:pointer;}
-
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    text-align: center;
+<!-- FAVORITOS PARA WANDAVISION -->
+<script>
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+    titulo: "Genesis",
+    imagen: "https://image.tmdb.org/t/p/w300/8hUZa9LzC4vyQiwX8KadKLIBXWg.jpg", 
+    genero: "Drama/Serie",
+    archivo: "../View Series/Genesis (2021).html"
+  };
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
   }
+  window.location.href = "../View Peliculas/favoritos.html";
+});
+</script>
 
-  .Serie,a {
-    color:fff;font-size:15px;margin-top:0px;
-  }
 
-  .serie {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
+<!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.js-player').forEach(video => {
+    const controls = video.closest('.main-video')?.querySelector('.plyr__controls');
+    if (controls && !controls.querySelector('#plyr-restart')) {
+      // 1️⃣ Crear botón de Reinicio al inicio (#plyr-restart) al EXTREMO IZQUIERDO
+      const restartBtn = document.createElement("button");
+      restartBtn.className = "plyr__control";
+      restartBtn.id = "plyr-restart";
+      restartBtn.innerHTML = '<i class="fas fa-undo"></i><span class="plyr__sr-only">Reiniciar al inicio</span>';
+      restartBtn.title = "Reiniciar al inicio (0s)";
+      restartBtn.addEventListener("click", () => {
+        video.currentTime = 0;
+      });
+      controls.insertBefore(restartBtn, controls.firstChild);
 
-  .serie img {
-    width: 120px;
-    max-width: 150px;
-    border-radius: 10px;
-  }
-  /* Iconos debajo del reproductor */
-  .icons-container {
-    display: flex;
-    gap: 2px;
-    margin: 1px 0;
-  }
+      // 2️⃣ Crear botón de Retroceso (#plyr-rewind) junto al de Reinicio
+      const rewindBtn = document.createElement("button");
+      rewindBtn.className = "plyr__control";
+      rewindBtn.id = "plyr-rewind";
+      rewindBtn.innerHTML = '<i class="fas fa-step-backward"></i><span class="plyr__sr-only">Retroceder 10 segundos</span>';
+      rewindBtn.title = "Retroceder 10s";
+      rewindBtn.addEventListener("click", () => {
+        video.currentTime = Math.max(video.currentTime - 10, 0);
+      });
+      controls.insertBefore(rewindBtn, restartBtn.nextSibling);
 
-  .icons-container i {
-    font-size: 3px;
-    cursor: pointer;
-  }
+      // 3️⃣ Crear botón de Avance (#plyr-fast-forward) estándar de Plyr
+      const forwardBtn = document.createElement("button");
+      forwardBtn.className = "plyr__control";
+      forwardBtn.id = "plyr-fast-forward";
+      forwardBtn.innerHTML = '<i class="fa fa-forward"></i><span class="plyr__sr-only">Avanzar 10 segundos</span>';
+      forwardBtn.title = "Avanzar 10s";
 
-  .icons-container i:hover {
-    color: yellow;
-  }
+      const playButton = controls.querySelector('.plyr__control[data-plyr="play"]');
+      if (playButton) {
+        playButton.after(forwardBtn);
+      } else {
+        controls.appendChild(forwardBtn);
+      }
 
-  .container .main-video .Sinopsis{
-    color:#ffffff;font-size:14px;padding-top:15px;padding-bottom:15px;
-  }
+      forwardBtn.addEventListener("click", () => {
+        video.currentTime = Math.min(video.currentTime + 10, video.duration);
+      });
+    }
+  });
+});
+</script>
 
-  .alignleft {
-    float:left;margin-left:10px;color:#fff;font-family:'Kanit', sans-serif;/*font-weight:bold;*/font-size:20px;
-  } 
 
-</style>
+
+<!-- Lógica para guardar posición y mostrar mensaje de reanudación por episodio -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mainVideo = document.querySelector('.main-video video');
+  const resumeMsg = document.getElementById('resume-msg');
+  let currentEpisode = null;
+
+  // Al hacer clic en un episodio
+  document.querySelectorAll('.video-list .vid').forEach(videoItem => {
+    videoItem.addEventListener('click', e => {
+      // Identificamos el episodio por posición en la lista
+      const episodeIndex = Array.from(document.querySelectorAll('.video-list .vid')).indexOf(videoItem);
+      currentEpisode = episodeIndex;
+
+      // Cambiamos la fuente del video
+      const src = videoItem.querySelector('video').getAttribute('src');
+      mainVideo.setAttribute('src', src);
+
+      // Checamos si existe posición guardada para este episodio
+      const savedTime = localStorage.getItem(`pos_episodio_${episodeIndex}`);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        mainVideo.currentTime = parseFloat(savedTime);
+        resumeMsg.textContent = `✅ Reanudando ${videoItem.querySelector('.title').textContent.trim()} donde lo dejaste`;
+        resumeMsg.classList.add('visible');
+        setTimeout(() => {
+          resumeMsg.classList.remove('visible');
+        }, 3000);
+      }
+    });
+  });
+
+  // Guardamos posición cada 5 seg para cada episodio activo
+  setInterval(() => {
+    if (!mainVideo.paused && !mainVideo.ended && currentEpisode !== null) {
+      localStorage.setItem(`pos_episodio_${currentEpisode}`, mainVideo.currentTime);
+    }
+  }, 5000);
+});
+</script>
+
+
+<!-- ACELERAR VIDEO -->
+<script>
+const videoList = document.querySelectorAll('.video-list .vid');
+const mainVideo = document.querySelector('.main-video video');
+
+videoList.forEach(videoItem => {
+  videoItem.addEventListener('click', e => {
+    videoList.forEach(v => v.classList.remove('active'));
+    videoItem.classList.add('active');
+
+    const videoSrc = videoItem.getAttribute('data-url');
+    mainVideo.setAttribute('src', videoSrc);
+    mainVideo.play();
+  });
+});
+</script>
+
+
+
+
+
+</script>
+
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script type="text/javascript">
@@ -374,7 +909,3 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 //]]></script>
 </body>
 </html>
-
-
-
-
