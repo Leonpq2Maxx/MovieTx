@@ -353,6 +353,7 @@ function playEpisode(src, titulo, index) {
   mainVideo.load(); // prepara el video sin reproducir //
   mainVideo.pause();
 mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+  mainVideo.play(); // forzar reproducción automática
   if (titleDiv) titleDiv.innerHTML = titulo;
 
   // Desmarcar todos los botones
@@ -373,15 +374,14 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
-  
+
+// Seleccionar el episodio visto 30/06/2025
   localStorage.setItem("ultimo_episodio", JSON.stringify({
   temporada: temporadaSelect.value,
   index: index
-  
 }));
 
-
-
+  
 }
 
 
@@ -431,25 +431,53 @@ temporadaSelect.addEventListener("change", () => {
   
 
 
-// Inicial
+// Inicial 30/05/2025
 const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
-
-renderEpisodios(temporadaSelect.value);
 
 if (ultimo && episodiosData[ultimo.temporada]) {
   temporadaSelect.value = ultimo.temporada;
   renderEpisodios(ultimo.temporada);
   const ep = episodiosData[ultimo.temporada][ultimo.index];
   if (ep) {
-    playEpisode(ep.src, ep.titulo, ultimo.index);
+    currentEpisodeIndex = ultimo.index;
+  mainVideo.src = ep.src;
+  mainVideo.load();
+  mainVideo.pause();
+  if (titleDiv) titleDiv.innerHTML = ep.titulo;
+
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.style.background = "#222";
+    btn.style.color = "#ccc";
+  });
+  const btnActivo = buttons[ultimo.index];
+  if (btnActivo) {
+    btnActivo.classList.add("active");
+    btnActivo.style.background = "red";
+    btnActivo.style.color = "#fff";
+    btnActivo.scrollIntoView({ behavior: "smooth", inline: "center" });
   }
-} else {
-  playEpisode(
-    episodiosData[temporadaSelect.value][0].src,
-    episodiosData[temporadaSelect.value][0].titulo,
-    0
-  );
+
+  const msg = document.getElementById("resume-msg");
+  msg.textContent = `✅ ${ep.titulo} cargado`;
+  msg.classList.add("visible");
+  setTimeout(() => msg.classList.remove("visible"), 3000);
 }
+} else {
+  renderEpisodios(temporadaSelect.value);
+  const ep = episodiosData[temporadaSelect.value][0];
+  mainVideo.src = ep.src;
+  mainVideo.load();
+  mainVideo.pause();
+  if (titleDiv) titleDiv.innerHTML = ep.titulo;
+
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons[0]?.classList.add("active");
+  buttons[0].style.background = "red";
+  buttons[0].style.color = "#fff";
+}
+
 
 </script>
 
