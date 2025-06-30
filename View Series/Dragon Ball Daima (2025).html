@@ -380,19 +380,6 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   
 }));
 
-if (ultimo && episodiosData[ultimo.temporada]) {
-  temporadaSelect.value = ultimo.temporada;
-  renderEpisodios(ultimo.temporada);
-  const ep = episodiosData[ultimo.temporada][ultimo.index];
-  if (ep) {
-    playEpisode(ep.src, ep.titulo, ultimo.index);
-    mainVideo.pause(); // <-- Esto es nuevo
-  }
-} else {
-  const ep = episodiosData[temporadaSelect.value][0];
-  playEpisode(ep.src, ep.titulo, 0);
-  mainVideo.pause(); // <-- Esto también es nuevo
-}
 
 
 }
