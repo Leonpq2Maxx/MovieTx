@@ -322,18 +322,7 @@ window.addEventListener('orientationchange', () => {
     } else if (playerContainer.msRequestFullscreen) {
       playerContainer.msRequestFullscreen();
     }
-  } else {
-    // Salir de pantalla completa si vuelve a vertical
-    if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-    }
-  }
+  } 
 });
 
 
