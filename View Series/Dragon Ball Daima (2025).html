@@ -462,6 +462,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   }
 }, 50);
 
+btnActivo.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+
 
   const msg = document.getElementById("resume-msg");
   msg.textContent = `✅ ${ep.titulo} cargado`;
@@ -486,6 +488,21 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 </script>
 
 <style>
+
+#episodios {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-inline: 10px;
+}
+
+#episodios button {
+  scroll-snap-align: center;
+}
+
+
+
   #episodios button {
     min-width: 40px;
     height: 40px;
