@@ -572,22 +572,6 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 <br>
 <!-- Historial -->
 
-<div id="mensaje-confirmacion" style="
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
-  z-index: 9999;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  transition: opacity 0.5s ease;
-"></div>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const serieTitulo = "El juego del calamar";
@@ -597,18 +581,6 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     const index = historial.findIndex(h => h.titulo === serieTitulo);
-
-    if (indexHist === -1) {
-      historial.push({
-        titulo: historialTitulo,
-        imagen: historialImagen,
-        progreso: "Asistido 0 min",
-        archivo: historialArchivo
-      });
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-      indexHist = historial.length - 1;
-      mostrarMensaje('✅ Agregado al historial');
-    }
 
     if (index === -1) {
       historial.unshift({
