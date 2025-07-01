@@ -26,10 +26,22 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
-      border-radius: 8px;
+      height: 100%;
     }
     .info {
       display: flex;
