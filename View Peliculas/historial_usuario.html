@@ -73,6 +73,21 @@
       height: 24px;
       cursor: pointer;
     }
+    #mensaje-confirmacion {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      transition: opacity 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -83,9 +98,21 @@
   </header>
   <h2>Última semana</h2>
   <div class="grid" id="historial-container"></div>
+  <div id="mensaje-confirmacion"></div>
 
   <script>
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
 
     function renderHistorial() {
       const container = document.getElementById('historial-container');
@@ -101,17 +128,18 @@
             </div>
             <div class="item-title">${item.titulo}</div>
           </div>
-          <button class="delete-btn" onclick="eliminarItem(${index})">×</button>
+          <button class="delete-btn" onclick="eliminarItem(${index}, '${item.titulo.replace(/'/g, "\'")}')">×</button>
         `;
         container.appendChild(div);
       });
     }
 
-    function eliminarItem(index) {
-      if (confirm(`¿Eliminar "${historial[index].titulo}" del historial?`)) {
+    function eliminarItem(index, titulo) {
+      if (confirm(`¿Eliminar "${titulo}" del historial?`)) {
         historial.splice(index, 1);
         localStorage.setItem('historial_usuarios', JSON.stringify(historial));
         renderHistorial();
+        mostrarMensaje(`🗑️ Eliminado: ${titulo}`);
       }
     }
 
@@ -120,6 +148,7 @@
         localStorage.removeItem('historial_usuarios');
         historial = [];
         renderHistorial();
+        mostrarMensaje('🧹 Historial eliminado');
       }
     }
 
