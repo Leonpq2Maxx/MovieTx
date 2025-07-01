@@ -571,33 +571,6 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 </div>
 <br>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const serieTitulo = "El juego del calamar";
-    const serieImagen = "https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg";
-    const archivoHTML = "../View Series/El Juego Del Calamar (2021).html"; // ✅ Ruta relativa al historial
-    const progresoTexto = "Episodio 1 - Prueba"; // Puedes cambiarlo dinámicamente
-
-    let historial = JSON.parse(localStorage.getItem('../View Peliculas/historial_usuarios') || '[]');
-    const index = historial.findIndex(h => h.titulo === serieTitulo);
-
-    if (index === -1) {
-      historial.unshift({
-        titulo: serieTitulo,
-        imagen: serieImagen,
-        progreso: progresoTexto,
-        archivo: archivoHTML,
-        timestamp: Date.now() // ✅ IMPORTANTE
-      });
-      if (historial.length > 20) historial.pop(); // Limita a 20
-    } else {
-      historial[index].progreso = progresoTexto;
-      historial[index].timestamp = Date.now(); // ✅ Actualiza orden
-    }
-
-    localStorage.setItem('../View Peliculas/historial_usuarios', JSON.stringify(historial));
-  });
-</script>
 
 <!-- Historial -->
 <script>
@@ -611,7 +584,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const archivoHTML = "../View Series/El Juego Del Calamar (2021).html";
 
     function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
-      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      let historial = JSON.parse(localStorage.getItem('../View Peliculas/historial_usuarios') || '[]');
       const registro = historial.find(h => h.titulo === serieTitulo);
       const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
 
@@ -626,7 +599,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
       } else {
         registro.progreso = progresoTexto;
       }
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      localStorage.setItem('../View Peliculas/historial_usuarios', JSON.stringify(historial));
     }
 
     function mostrarMensaje(texto) {
