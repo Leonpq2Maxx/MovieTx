@@ -570,6 +570,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   </div>
 </div>
 <br>
+<!-- Historial -->
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -578,7 +579,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const archivoHTML = "../View Series/El Juego Del Calamar (2021).html"; // ✅ Ruta relativa al historial
     const progresoTexto = "Episodio 1 - Prueba"; // Puedes cambiarlo dinámicamente
 
-    let historial = JSON.parse(localStorage.getItem('../View Peliculas/historial_usuarios') || '[]');
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     const index = historial.findIndex(h => h.titulo === serieTitulo);
 
     if (index === -1) {
@@ -595,11 +596,10 @@ if (ultimo && episodiosData[ultimo.temporada]) {
       historial[index].timestamp = Date.now(); // ✅ Actualiza orden
     }
 
-    localStorage.setItem('../View Peliculas/historial_usuarios', JSON.stringify(historial));
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
   });
 </script>
 
-<!-- Historial -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const mainVideo = document.querySelector('.main-video video');
@@ -611,7 +611,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const archivoHTML = "../View Series/El Juego Del Calamar (2021).html";
 
     function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
-      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      let historial = JSON.parse(localStorage.getItem('../View Peliculas/historial_usuarios') || '[]');
       const registro = historial.find(h => h.titulo === serieTitulo);
       const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
 
@@ -626,7 +626,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
       } else {
         registro.progreso = progresoTexto;
       }
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      localStorage.setItem('../View Peliculas/historial_usuarios', JSON.stringify(historial));
     }
 
     function mostrarMensaje(texto) {
