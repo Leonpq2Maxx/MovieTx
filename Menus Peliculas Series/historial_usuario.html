@@ -40,6 +40,7 @@
       border-radius: 10px;
       overflow: hidden;
       font-size: 0.9rem;
+      cursor: pointer;
     }
     .item img {
       width: 100%;
@@ -80,11 +81,13 @@
         const div = document.createElement('div');
         div.className = 'item';
         div.innerHTML = `
-          <div style="position: relative;">
-            <img src="${item.imagen}" alt="${item.titulo}">
-            <div class="capitulo">${item.progreso}</div>
-          </div>
-          <div class="item-title">${item.titulo}</div>
+          <a href="${item.archivo}" style="text-decoration: none; color: inherit;">
+            <div style="position: relative;">
+              <img src="${item.imagen}" alt="${item.titulo}">
+              <div class="capitulo">${item.progreso}</div>
+            </div>
+            <div class="item-title">${item.titulo}</div>
+          </a>
         `;
         container.appendChild(div);
       });
