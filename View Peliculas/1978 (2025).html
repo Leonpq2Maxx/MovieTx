@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MovieTx - Reproductor</title>
+  <title>MovieTx - Reproductor de pelicula</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-
   <style>
     :root {
       --plyr-color-main: #ff0000;
@@ -26,11 +25,24 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
     }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -155,17 +167,17 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="miniatura" preload="none">
-      <source src="Link de pelicula" type="video/mp4">
+    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/A81WfCAmydM880E9ZkULRjaX9QL.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
+      <source src="https://dl.dropbox.com/scl/fi/h3y5ye6hfqifjsqolfg0w/1978.2025.1080P-Lat.mkv?rlkey=fbvfj844uowkaro7wi6y6ifqb&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
     </video>
   </div>
 
-  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: 1978</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>0000</span>
-    <i class="fal fa-clock"></i><span>0h 00min</span>
-    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <i class="fal fa-calendar-alt"></i><span>2025</span> <!--Aca va el año de estreno de pelicula-->
+    <i class="fal fa-clock"></i><span>1h 16min</span> <!--aca va cuanto dura-->
+    <i class="fal fa-thumbs-up"></i><span>60%</span> <!--aca va la calificacion-->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -173,28 +185,19 @@
       </svg>
       <span>1080P</span>
     </div>
-    <!-- CAMARA-->
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <!-- Ícono de cámara en SVG -->
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 5H16.83L15 3H9L7.17 5H4C2.9 5 2 5.9 2 7V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V7C22 5.9 21.1 5 20 5ZM12 17C9.79 17 8 15.21 8 13C8 10.79 9.79 9 12 9C14.21 9 16 10.79 16 13C16 15.21 14.21 17 12 17Z"/>
-        </svg>
-        <!-- Texto CAM -->
-        <span style="color: white; font-size: 14px; font-family: sans-serif;">CAM</span>
-      </div>
     <span>🇲🇽</span>
   </div>
 
   <div class="titulo">
-    <h3>Nombre de pelicula</h3>
+    <h3>1978</h3>
     <br>
-    <h4>Género: </h4>
+    <h4>Género: Terror, Suspenso, Drama</h4> <!-- Aca agregar el genero de la pelicula -->
   </div>
 
-  <div class="sinopsis">
+  <div class="sinopsis"> <!--Aca va la sinopsis donde esta <p>Sinopsis...</p>-->
     <h4>Sinopsis:</h4>
     <p>
-
+      Durante la final del Mundial, en tiempos de dictadura militar, unos torturadores secuestran a un grupo de jóvenes. Lo que comienza como un interrogatorio inhumano se convierte en un verdadero tormento: han secuestrado a personas equivocadas. Eso no es todo, ya que pertenecen a una secta guiada por una fuerza desconocida y el centro clandestino de detención se convertirá en el mismísimo infierno.
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -215,41 +218,54 @@
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="Annabelle (2014).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg" alt="">
+        <p>Annabelle</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="Baghead contacto con la muerte (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg" alt="">
+        <p>Baghead: Contacto con la muerte</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="El conjuro 1 (2013).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg" alt="">
+        <p>El conjuro</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="Destino Final Lazos De Sangre (2025).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg" alt="">
+        <p>Destino final 6: Lazos de sangre</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="Eliminado (2014).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg" alt="">
+        <p>Eliminar amigo</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de pelicula</p>
+      <a href="En las profundidades del sena (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg" alt="">
+        <p>En las profundidades del Sena</p>
       </a>
     </div>
   </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Nombre de pelicula",
-  imagen: "https://image.tmdb.org/t/p/w300/",
-  genero: "Genero",
-  archivo: ".html"
+  titulo: "1978",
+  imagen: "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg",
+  genero: "Terror",
+  archivo: "1978 (2025).html"
 };
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+
+
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -305,10 +321,10 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-  titulo: "Nombre de pelicula",
-  imagen: "https://image.tmdb.org/t/p/w300/",
-  genero: "Genero",
-  archivo: ".html"
+  titulo: "1978",
+  imagen: "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg",
+  genero: "Terror",
+  archivo: "1978 (2025).html"
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -319,6 +335,80 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   window.location.href = "favoritos.html";
 });
 
+
 </script>
+
+<!--Aca va el mensaje que se ha agregado al historial-->
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.querySelector('.vid1');
+    if (!videoElement) return;
+
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const historialTitulo = "1978";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg";
+    const historialArchivo = "1978 (2025).html";
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+    if (indexHist === -1) {
+      historial.push({
+        titulo: historialTitulo,
+        imagen: historialImagen,
+        progreso: "Asistido 0 min",
+        archivo: historialArchivo
+      });
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
+    }
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+        if (historial[indexHist]) {
+          const minutos = Math.floor(videoElement.currentTime / 60);
+          historial[indexHist].progreso = `Asistido ${minutos} min`;
+          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        }
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 10000);
+  });
+</script>
+
+
 </body>
 </html>

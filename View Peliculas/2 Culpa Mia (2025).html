@@ -170,7 +170,7 @@
 
   <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/8FH23n6noUWqeNBtcnmFhsrTTwD.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/afq4jimn5oall33gtp7yt/Culpa.M-a.Londres.2025.1080P-Dual-Lat.mkv?rlkey=4bmhkao6rvrn3jwsgqkm8ab7s&st=" type="video/mp4">
+      <source src="https://dl.dropbox.com/scl/fi/f0ssvb8zrj6p2p30zgzrs/My.fault.london.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=ncm7to2oy0sfttbrp4ftlz6rg&st=" type="video/mp4">
     </video>
   </div>
 
@@ -187,7 +187,7 @@
       </svg>
       <span>1080P</span>
     </div>
-    <span>🇲🇽</span>
+    <span>🇪🇸</span>
   </div>
 
   <div class="titulo">
@@ -255,6 +255,16 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   genero: "Romance",
   archivo: "2 Culpa Mia (2025).html"
 };
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {

@@ -26,10 +26,22 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
-      border-radius: 8px;
+      height: 100%;
     }
     .info {
       display: flex;
@@ -156,7 +168,7 @@
 
   <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/k24eZq5I3jyz4htPkZCRpnUmBzE.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/c5sg0kwbuw69jjm84jviv/Culpa.Tuya.2024.1080p-Cast.mkv?rlkey=zwz2jl0ngewpqay38ooszbuji&st=" type="video/mp4">
+      <source src="https://dl.dropbox.com/scl/fi/zm9h8doo7g7kwd0f7sm6c/Culpa-tuya-2024.mp4?rlkey=cfyicql2ul47jgli8g676mozv&st=" type="video/mp4">
     </video>
   </div>
 
@@ -173,7 +185,7 @@
       </svg>
       <span>1080P</span>
     </div>
-    <span>🇲🇽</span>
+    <span>🇪🇸</span>
   </div>
 
   <div class="titulo">
@@ -241,6 +253,16 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   genero: "Romance",
   archivo: "1 Culpa tuya (2024).html"
 };
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -312,7 +334,36 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 
 </script>
 
-<!-- Historial -->
+<!--Aca va el mensaje que se ha agregado al historial-->
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.querySelector('.vid1');
@@ -337,6 +388,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
     }
 
     setInterval(() => {

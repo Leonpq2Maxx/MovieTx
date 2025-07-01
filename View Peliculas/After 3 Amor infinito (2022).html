@@ -1,13 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MovieTx - Reproductor</title>
+  <title>MovieTx - Reproductor de pelicula</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-
   <style>
     :root {
       --plyr-color-main: #ff0000;
@@ -26,11 +26,24 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
     }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -155,8 +168,8 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/rwgmDkIEv8VjAsWx25ottJrFvpO.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/1sxa7z40k8spgl169c9mr/After.Para.Siempre.2023.1080P-Dual-Lat.mp4?rlkey=ndpuunh4tejq42usn5dfgbaeq&st=" type="video/mp4">
+    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/rwgmDkIEv8VjAsWx25ottJrFvpO.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
+      <source src="https://dl.dropbox.com/scl/fi/1sxa7z40k8spgl169c9mr/After.Para.Siempre.2023.1080P-Dual-Lat.mp4?rlkey=ndpuunh4tejq42usn5dfgbaeq&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
     </video>
   </div>
 
@@ -233,6 +246,7 @@
       </a>
     </div>
   </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
@@ -242,6 +256,18 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   genero: "Romance",
   archivo: "After 3 Amor infinito (2022).html"
 };
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+
+
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -298,7 +324,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
   titulo: "After 3: Amor infinito",
-  imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg",
+  imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpgvcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg",
   genero: "Romance",
   archivo: "After 3 Amor infinito (2022).html"
 };
@@ -311,6 +337,80 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   window.location.href = "favoritos.html";
 });
 
+
 </script>
+
+<!--Aca va el mensaje que se ha agregado al historial-->
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.querySelector('.vid1');
+    if (!videoElement) return;
+
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const historialTitulo = "After 3: Amor infinito";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg";
+    const historialArchivo = "After 3 Amor infinito (2022).html";
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+    if (indexHist === -1) {
+      historial.push({
+        titulo: historialTitulo,
+        imagen: historialImagen,
+        progreso: "Asistido 0 min",
+        archivo: historialArchivo
+      });
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
+    }
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+        if (historial[indexHist]) {
+          const minutos = Math.floor(videoElement.currentTime / 60);
+          historial[indexHist].progreso = `Asistido ${minutos} min`;
+          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        }
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 10000);
+  });
+</script>
+
+
 </body>
 </html>
