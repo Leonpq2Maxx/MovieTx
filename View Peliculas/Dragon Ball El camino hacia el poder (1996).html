@@ -387,12 +387,13 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 });
 
 </script>
+
 <!--Aca va el mensaje que se ha agregado al historial-->
 <div id="mensaje-confirmacion" style="
   display: none;
   position: fixed;
   bottom: 30px;
-  left: 20%;
+  left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.85);
   color: #fff;
@@ -428,7 +429,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     const historialTitulo = "Dragon Ball: El camino hacia el poder";
     const historialImagen = "https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg";
     const historialArchivo = "Dragon Ball El camino hacia el poder (1996).html";
-
+    
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
 
@@ -457,6 +458,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }, 10000);
   });
 </script>
+
 
 </body>
 </html>
