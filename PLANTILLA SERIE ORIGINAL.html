@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
+<title>MovieTx - Reproductor De Serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -182,7 +182,7 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="AGREGAR IMAGEN DE FONDO" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
+<video class='js-player' poster="Aca va la imagen de fondo " controls muted preload="metadata"> <!--Aca te dejo la pagina para agregar el fondo https://www.themoviedb.org-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
@@ -233,23 +233,28 @@
 <script>
 const episodiosData = {
   1: [
-    { titulo: "Episodio 1 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" }
+    { titulo: "Episodio 1 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 3 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 4 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 5 - Nombre del episodio", src: "Link del video" }
     // Agrega más si tienes
   ],
   2: [
-    { titulo: "Episodio 1 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 2 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 3 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 4 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 5 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 6 - Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 7 - Nombre del episodio", src: "Link Del video" }
+    { titulo: "Episodio 1 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 3 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 4 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 5 - Nombre del episodio", src: "Link del video" }
+    // Agrega más si tienes
   ],
   3: [
-    { titulo: "Episodio 1 Nombre del episodio", src: "Link Del video" },
-    { titulo: "Episodio 2 Nombre del episodio", src: "Link Del video" }
-    // Rellena si tienes links
+    { titulo: "Episodio 1 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 2 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 3 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 4 - Nombre del episodio", src: "Link del video" },
+    { titulo: "Episodio 5 - Nombre del episodio", src: "Link del video" }
+    // Agrega más si tienes
   ]
 };
 
@@ -264,7 +269,7 @@ function renderEpisodios(temporada) {
   
   const episodios = episodiosData[temporada] || [];
   const yearSpan = document.querySelector('.info span');
-  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  const yearBySeason = { 1: '2021', 2: '2024', 3: '2025' };
   if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
 
   episodioCount.textContent = `${episodios.length} Capítulos`;
@@ -315,7 +320,7 @@ function renderEpisodios(temporada) {
   
   const episodios = episodiosData[temporada] || [];
   const yearSpan = document.querySelector('.info span');
-  const yearBySeason = { 1: '2021', 2: '2022', 3: '2023' };
+  const yearBySeason = { 1: '2021', 2: '2024', 3: '2025' };
   if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
 
   episodioCount.textContent = `${episodios.length} Capítulos`;
@@ -371,6 +376,12 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
+
+  localStorage.setItem("ultimo_episodio", JSON.stringify({
+  temporada: temporadaSelect.value,
+  index: index
+}));
+
 }
 
 
@@ -421,12 +432,49 @@ temporadaSelect.addEventListener("change", () => {
 
 
 // Inicial
-renderEpisodios(temporadaSelect.value);
-playEpisode(
-  episodiosData[temporadaSelect.value][0].src,
-  episodiosData[temporadaSelect.value][0].titulo,
-  0
-);
+const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
+
+if (ultimo && episodiosData[ultimo.temporada]) {
+  temporadaSelect.value = ultimo.temporada;
+  renderEpisodios(ultimo.temporada);
+  const ep = episodiosData[ultimo.temporada][ultimo.index];
+  if (ep) {
+    currentEpisodeIndex = ultimo.index;
+    mainVideo.src = ep.src;
+    mainVideo.load(); // carga sin reproducir
+    mainVideo.pause();
+    if (titleDiv) titleDiv.innerHTML = ep.titulo;
+
+    const buttons = document.querySelectorAll("#episodios button");
+    buttons.forEach(btn => {
+      btn.classList.remove("active");
+      btn.style.background = "#222";
+      btn.style.color = "#ccc";
+    });
+    buttons[ultimo.index]?.classList.add("active");
+    buttons[ultimo.index].style.background = "red";
+    buttons[ultimo.index].style.color = "#fff";
+
+    const msg = document.getElementById("resume-msg");
+    msg.textContent = `✅ ${ep.titulo} cargado`;
+    msg.classList.add("visible");
+    setTimeout(() => msg.classList.remove("visible"), 3000);
+  }
+} else {
+  renderEpisodios(temporadaSelect.value);
+  const ep = episodiosData[temporadaSelect.value][0];
+  mainVideo.src = ep.src;
+  mainVideo.load();
+  mainVideo.pause();
+  if (titleDiv) titleDiv.innerHTML = ep.titulo;
+
+  const buttons = document.querySelectorAll("#episodios button");
+  buttons[0]?.classList.add("active");
+  buttons[0].style.background = "red";
+  buttons[0].style.color = "#fff";
+}
+
+
 </script>
 
 <style>
@@ -456,17 +504,17 @@ playEpisode(
 }
 
 </style>
-<br>
 
+<br>
 <div class="titulo">
-  <h4>Género: </h4> <!-- GENERO DE LA SERIE -->
+  <h4>Género: </h4> <!--Aca va el genero de la serie-->
 </div>
 
 
   <div class="sinopsis">
-    <h4>Sinopsis:</h4>
+    <h4>Sinopsis:</h4><!--Aca va la sinopsis en el <p>Sinopsis</<p> que esta debajo-->
     <p>
-
+      
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -490,41 +538,138 @@ playEpisode(
   <br>
   <div class="series-grid">
     <a href="#" class="serie">
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt=""> <!--Aca va las imagenes de las series solo debes de agregar la ultima parte despues de la "/" ej: (https://image.tmdb.org/t/p/original/qZJt1XlRVbQhGV7MtZnbiR6vxPh.jpg) solo debes agregar esto (qZJt1XlRVbQhGV7MtZnbiR6vxPh.jpg)-->
+      <p></p>
     </a>
     <a href="#" class="serie">
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <p></p>
     </a>
     <a href="#" class="serie">
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <p></p>
     </a>
     <a href="#" class="serie">
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <p></p>
     </a>
     <a href="#" class="serie">
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <p></p>
     </a>
     <a href="#" class="serie">
       <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-      <p>Nombre de Serie</p>
+      <p></p>
     </a>
   </div>
 </div>
 <br>
+<!-- Historial -->
 
-<!-- FAVORITOS PARA WANDAVISION -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const serieTitulo = "Nombre de serie";
+    const serieImagen = "https://image.tmdb.org/t/p/w300/"; //Aca va la ultima parte de la imagen como hice el ej de arriba se agrega despues de la barra. esta de esta forma para que la imagen carge mas rapido
+    const archivoHTML = "../View Series/.html"; // ✅ Ruta relativa al historial
+    const progresoTexto = "Actualizado"; // Puedes cambiarlo dinámicamente
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    const index = historial.findIndex(h => h.titulo === serieTitulo);
+
+    if (index === -1) {
+      historial.unshift({
+        titulo: serieTitulo,
+        imagen: serieImagen,
+        progreso: progresoTexto,
+        archivo: archivoHTML,
+        timestamp: Date.now() // ✅ IMPORTANTE
+      });
+      if (historial.length > 20) historial.pop(); // Limita a 20
+    } else {
+      historial[index].progreso = progresoTexto;
+      historial[index].timestamp = Date.now(); // ✅ Actualiza orden
+    }
+
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainVideo = document.querySelector('.main-video video');
+    const titleDiv = document.querySelector('.main-video .title');
+    const temporadaSelect = document.getElementById('temporada-select');
+
+    const serieTitulo = "Nombre de serie";
+    const serieImagen = "https://image.tmdb.org/t/p/w300/";
+    const archivoHTML = "../View Series/.html";
+
+    function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
+  let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+  const registro = historial.find(h => h.titulo === serieTitulo);
+  const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
+
+  if (!registro) {
+    historial.unshift({
+      titulo: serieTitulo,
+      imagen: serieImagen,
+      progreso: progresoTexto,
+      archivo: archivoHTML,
+      timestamp: Date.now() // ✅ se agrega timestamp al guardar
+    });
+    mostrarMensaje("📺 Agregado al historial");
+  } else {
+    registro.progreso = progresoTexto;
+    registro.timestamp = Date.now(); // ✅ actualiza el orden
+  }
+
+  localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+}
+
+
+    function mostrarMensaje(texto) {
+      let mensaje = document.getElementById('mensaje-confirmacion');
+      if (!mensaje) {
+        mensaje = document.createElement('div');
+        mensaje.id = 'mensaje-confirmacion';
+        mensaje.style.cssText = `
+          position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+          background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px;
+          border-radius: 8px; font-size: 1rem; z-index: 9999;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        `;
+        document.body.appendChild(mensaje);
+      }
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
+
+    window.guardarEnHistorial = guardarEnHistorial;
+
+    mainVideo.addEventListener('play', () => {
+      if (titleDiv?.innerText) {
+        const temporada = temporadaSelect?.value || '1';
+        const index = Array.from(document.querySelectorAll('#episodios button')).findIndex(btn => btn.classList.contains('active'));
+        guardarEnHistorial(titleDiv.innerText, temporada, index);
+      }
+    });
+  });
+</script>
+
+
+<!-- FAVORITOS -->
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "Nombre de la serie",
+    titulo: "Nombre de serie",
     imagen: "https://image.tmdb.org/t/p/w300/", 
     genero: "#/Serie",
-    archivo: "aca deben de poner el nombre del html"
+    archivo: "../View Series/.html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -646,11 +791,6 @@ videoList.forEach(videoItem => {
 });
 </script>
 
-
-
-
-
-</script>
 
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
