@@ -104,56 +104,55 @@
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
 
     function mostrarMensaje(texto) {
-      const mensaje = document.getElementById('mensaje-confirmacion');
-      mensaje.textContent = texto;
-      mensaje.style.display = 'block';
-      mensaje.style.opacity = '1';
-      setTimeout(() => {
-        mensaje.style.opacity = '0';
-        setTimeout(() => mensaje.style.display = 'none', 500);
-      }, 3000);
-    }
+  let mensaje = document.getElementById('mensaje-confirmacion');
+  if (!mensaje) {
+    mensaje = document.createElement('div');
+    mensaje.id = 'mensaje-confirmacion';
+    mensaje.style.cssText = `
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px;
+      border-radius: 8px; font-size: 1rem; z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      transition: opacity 0.5s ease;
+    `;
+    document.body.appendChild(mensaje);
+  }
+  mensaje.textContent = texto;
+  mensaje.style.display = 'block';
+  mensaje.style.opacity = '1';
+  setTimeout(() => {
+    mensaje.style.opacity = '0';
+    setTimeout(() => mensaje.style.display = 'none', 500);
+  }, 3000);
+}
 
-    function renderHistorial() {
-      const container = document.getElementById('historial-container');
-      container.innerHTML = '';
-      historial.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.innerHTML = `
-          <div style="text-decoration: none; color: inherit; cursor: pointer;">
-            <div style="position: relative;">
-              <img src="${item.imagen}" alt="${item.titulo}">
-              <div class="capitulo">${item.progreso}</div>
-            </div>
-            <div class="item-title">${item.titulo}</div>
-          </div>
-          <button class="delete-btn" onclick="eliminarItem(${index}, '${item.titulo}')">×</button>
-        `;
-        div.addEventListener('click', () => window.location.href = item.archivo);
-        container.appendChild(div);
-      });
-    }
-
-    function eliminarItem(index, titulo) {
-      if (confirm(`¿Eliminar "${titulo}" del historial?`)) {
-        historial.splice(index, 1);
-        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-        renderHistorial();
-        mostrarMensaje(`🗑️ Eliminado: ${titulo}`);
-      }
-    }
-
-    function limpiarHistorial() {
-      if (confirm('¿Deseas borrar todo el historial?')) {
-        localStorage.removeItem('historial_usuarios');
-        historial = [];
-        renderHistorial();
-        mostrarMensaje('🧹 Historial eliminado');
-      }
-    }
-
+function eliminarItem(index, titulo) {
+  if (confirm(`¿Eliminar \"${titulo}\" del historial?`)) {
+    historial.splice(index, 1);
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
     renderHistorial();
+    mostrarMensaje(`🗑️ Eliminado: ${titulo}`);
+  }
+}
+
+function renderHistorial() {
+  const container = document.getElementById('historial-container');
+  container.innerHTML = '';
+  historial.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div style="position: relative;">
+        <img src="${item.imagen}" alt="${item.titulo}" style="cursor: pointer;" onclick="location.assign('${item.archivo}')">
+        <div class="capitulo">${item.progreso}</div>
+      </div>
+      <div class="item-title" style="cursor: pointer;" onclick="location.assign('${item.archivo}')">${item.titulo}</div>
+      <button class="delete-btn" onclick="eliminarItem(${index}, '${item.titulo.replace(/'/g, "\\'")}')">×</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
   </script>
 </body>
 </html>

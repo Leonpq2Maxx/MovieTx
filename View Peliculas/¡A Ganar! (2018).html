@@ -313,6 +313,35 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 
 
 </script>
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.querySelector('.vid1');
@@ -337,6 +366,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
     }
 
     setInterval(() => {
@@ -352,6 +382,8 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }, 10000);
   });
 </script>
+
+
 
 </body>
 </html>
