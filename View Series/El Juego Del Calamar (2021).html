@@ -611,23 +611,27 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const archivoHTML = "../View Series/El Juego Del Calamar (2021).html";
 
     function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
-      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-      const registro = historial.find(h => h.titulo === serieTitulo);
-      const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
+  let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+  const registro = historial.find(h => h.titulo === serieTitulo);
+  const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
 
-      if (!registro) {
-        historial.push({
-          titulo: serieTitulo,
-          imagen: serieImagen,
-          progreso: progresoTexto,
-          archivo: archivoHTML
-        });
-        mostrarMensaje("📺 Agregado al historial");
-      } else {
-        registro.progreso = progresoTexto;
-      }
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-    }
+  if (!registro) {
+    historial.unshift({
+      titulo: serieTitulo,
+      imagen: serieImagen,
+      progreso: progresoTexto,
+      archivo: archivoHTML,
+      timestamp: Date.now() // ← nuevo
+    });
+    mostrarMensaje("📺 Agregado al historial");
+  } else {
+    registro.progreso = progresoTexto;
+    registro.timestamp = Date.now(); // ← actualizar si ya existe
+  }
+
+  localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+}
+
 
     function mostrarMensaje(texto) {
       let mensaje = document.getElementById('mensaje-confirmacion');
