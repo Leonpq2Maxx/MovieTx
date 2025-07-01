@@ -232,6 +232,7 @@
       </a>
     </div>
   </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
@@ -241,6 +242,17 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   genero: "Drama",
   archivo: "¡A Ganar! (2018).html"
 };
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+
 
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -382,7 +394,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }, 10000);
   });
 </script>
-
 
 
 </body>
