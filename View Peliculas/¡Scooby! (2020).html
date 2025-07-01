@@ -321,9 +321,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
     const STORAGE_KEY = 'pos_' + videoSrc;
 
-    const historialTitulo = "¡A Ganar!";
-    const historialImagen = "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg";
-    const historialArchivo = "¡A Ganar! (2018).html";
+    const historialTitulo = "¡Scooby!";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg";
+    const historialArchivo = "¡Scooby! (2020).html";
 
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
