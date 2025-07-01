@@ -26,11 +26,25 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
+    .player {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.player video,
+.player iframe,
+.player .plyr {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -429,7 +443,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     const historialTitulo = "Dragon Ball: El camino hacia el poder";
     const historialImagen = "https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg";
     const historialArchivo = "Dragon Ball El camino hacia el poder (1996).html";
-    
+
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
 
