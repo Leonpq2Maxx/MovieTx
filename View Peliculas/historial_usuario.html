@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Historial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
   <style>
     body {
       margin: 0;
@@ -99,26 +100,91 @@
   <h2>Última semana</h2>
   <div class="grid" id="historial-container"></div>
   <div id="mensaje-confirmacion"></div>
+  <div id="modal-confirmacion" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;align-items:center;justify-content:center;">
+    <div style="background:#1e1e1e;padding:20px;border-radius:10px;max-width:80%;text-align:center;color:#fff;">
+      <p id="modal-mensaje"></p>
+      <div style="margin-top:15px;">
+        <button id="btn-cancelar" style="margin-right:10px;background:#444;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Cancelar</button>
+        <button id="btn-confirmar" style="background:crimson;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Eliminar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     const LIMITE_HISTORIAL = 20;
+    let ultimoEliminado = null;
+    let pendienteEliminarIndex = null;
+    let pendienteEliminarTitulo = null;
 
-    // Mantener historial dentro del límite
-    while (historial.length > LIMITE_HISTORIAL) {
-      historial.pop(); // elimina el último
-    }
+    historial.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    while (historial.length > LIMITE_HISTORIAL) historial.pop();
     localStorage.setItem('historial_usuarios', JSON.stringify(historial));
 
-    function mostrarMensaje(texto) {
+    function mostrarMensaje(texto, conDeshacer = false) {
       const mensaje = document.getElementById('mensaje-confirmacion');
-      mensaje.textContent = texto;
+      mensaje.innerHTML = texto;
+      if (conDeshacer) {
+        const btn = document.createElement('button');
+        btn.textContent = 'Deshacer';
+        btn.style.marginLeft = '15px';
+        btn.style.background = '#444';
+        btn.style.color = '#fff';
+        btn.style.border = 'none';
+        btn.style.borderRadius = '4px';
+        btn.style.padding = '6px 12px';
+        btn.style.cursor = 'pointer';
+        btn.onclick = () => {
+          if (ultimoEliminado) {
+            historial.unshift(ultimoEliminado);
+            localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+            renderHistorial();
+            ultimoEliminado = null;
+            mensaje.style.display = 'none';
+          }
+        };
+        mensaje.appendChild(btn);
+      }
       mensaje.style.display = 'block';
       mensaje.style.opacity = '1';
       setTimeout(() => {
         mensaje.style.opacity = '0';
         setTimeout(() => mensaje.style.display = 'none', 500);
-      }, 3000);
+      }, 5000);
+    }
+
+    function eliminarItem(index, titulo) {
+      pendienteEliminarIndex = index;
+      pendienteEliminarTitulo = titulo;
+      document.getElementById('modal-mensaje').textContent = `¿Eliminar "${titulo}" del historial?`;
+      document.getElementById('modal-confirmacion').style.display = 'flex';
+    }
+
+    document.getElementById('btn-cancelar').onclick = () => {
+      pendienteEliminarIndex = null;
+      pendienteEliminarTitulo = null;
+      document.getElementById('modal-confirmacion').style.display = 'none';
+    };
+
+    document.getElementById('btn-confirmar').onclick = () => {
+      if (pendienteEliminarIndex !== null) {
+        ultimoEliminado = historial.splice(pendienteEliminarIndex, 1)[0];
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        renderHistorial();
+        mostrarMensaje(`🗑️ Eliminado: ${pendienteEliminarTitulo}`, true);
+        pendienteEliminarIndex = null;
+        pendienteEliminarTitulo = null;
+      }
+      document.getElementById('modal-confirmacion').style.display = 'none';
+    };
+
+    function limpiarHistorial() {
+      if (confirm('¿Deseas borrar todo el historial?')) {
+        localStorage.removeItem('historial_usuarios');
+        historial = [];
+        renderHistorial();
+        mostrarMensaje('🧹 Historial eliminado');
+      }
     }
 
     function renderHistorial() {
@@ -139,24 +205,6 @@
         `;
         container.appendChild(div);
       });
-    }
-
-    function eliminarItem(index, titulo) {
-      if (confirm(`¿Eliminar "${titulo}" del historial?`)) {
-        historial.splice(index, 1);
-        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-        renderHistorial();
-        mostrarMensaje(`🗑️ Eliminado: ${titulo}`);
-      }
-    }
-
-    function limpiarHistorial() {
-      if (confirm('¿Deseas borrar todo el historial?')) {
-        localStorage.removeItem('historial_usuarios');
-        historial = [];
-        renderHistorial();
-        mostrarMensaje('🧹 Historial eliminado');
-      }
     }
 
     renderHistorial();
