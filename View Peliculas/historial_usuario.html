@@ -31,7 +31,7 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       padding: 0 15px 30px;
     }
@@ -40,7 +40,7 @@
       border-radius: 10px;
       overflow: hidden;
       font-size: 0.9rem;
-      cursor: pointer;
+      position: relative;
     }
     .item img {
       width: 100%;
@@ -60,6 +60,34 @@
       padding: 8px;
       text-align: center;
     }
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(255, 0, 0, 0.8);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 0.8rem;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+    #mensaje-confirmacion {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      transition: opacity 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -70,14 +98,26 @@
   </header>
   <h2>Última semana</h2>
   <div class="grid" id="historial-container"></div>
+  <div id="mensaje-confirmacion"></div>
 
   <script>
-    const historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
 
     function renderHistorial() {
       const container = document.getElementById('historial-container');
       container.innerHTML = '';
-      historial.forEach(item => {
+      historial.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'item';
         div.innerHTML = `
@@ -88,15 +128,27 @@
             </div>
             <div class="item-title">${item.titulo}</div>
           </a>
+          <button class="delete-btn" onclick="eliminarItem(${index})">×</button>
         `;
         container.appendChild(div);
       });
     }
 
+    function eliminarItem(index) {
+      if (confirm('¿Eliminar este elemento del historial?')) {
+        historial.splice(index, 1);
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        renderHistorial();
+        mostrarMensaje('🗑️ Eliminado del historial');
+      }
+    }
+
     function limpiarHistorial() {
       if (confirm('¿Deseas borrar todo el historial?')) {
         localStorage.removeItem('historial_usuarios');
+        historial = [];
         renderHistorial();
+        mostrarMensaje('🧹 Historial eliminado');
       }
     }
 
