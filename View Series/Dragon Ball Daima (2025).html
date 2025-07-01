@@ -1,4 +1,25 @@
 
+<video class='js-player' poster="" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
+<source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+</video>
+<!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+<div id="resume-msg">✅ Reanudando donde lo dejaste: Dragon Ball Daima</div>
+
+
+
+  <div class="titulo">
+    <h3>Dragon Ball Daima</h3>
+  </div>
+
+  <!-- Selector de Temporadas y Botones de Episodios -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
+  <div>
+    <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
+      <option value="1" selected>Temporada 1</option>
+    </select>
+  </div>
+  <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
+</div>
 
 <!-- Botones de episodios -->
 <div id="episodios" style="
@@ -134,13 +155,6 @@ mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se manteng
   msg.textContent = `✅ ${titulo}`;
   msg.classList.add("visible");
   setTimeout(() => msg.classList.remove("visible"), 3000);
-
-  // Nuevo 30/06/25
-
-  localStorage.setItem("ultimo_episodio", JSON.stringify({
-  temporada: temporadaSelect.value,
-  index: index
-}));
 }
 
 
@@ -191,47 +205,12 @@ temporadaSelect.addEventListener("change", () => {
 
 
 // Inicial
-const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
-
-if (ultimo && episodiosData[ultimo.temporada]) {
-  temporadaSelect.value = ultimo.temporada;
-  renderEpisodios(ultimo.temporada);
-  const ep = episodiosData[ultimo.temporada][ultimo.index];
-  if (ep) {
-    currentEpisodeIndex = ultimo.index;
-    mainVideo.src = ep.src;
-    mainVideo.load(); // carga sin reproducir
-    mainVideo.pause();
-    if (titleDiv) titleDiv.innerHTML = ep.titulo;
-
-    const buttons = document.querySelectorAll("#episodios button");
-    buttons.forEach(btn => {
-      btn.classList.remove("active");
-      btn.style.background = "#222";
-      btn.style.color = "#ccc";
-    });
-    buttons[ultimo.index]?.classList.add("active");
-    buttons[ultimo.index].style.background = "red";
-    buttons[ultimo.index].style.color = "#fff";
-
-    const msg = document.getElementById("resume-msg");
-    msg.textContent = `✅ ${ep.titulo} cargado`;
-    msg.classList.add("visible");
-    setTimeout(() => msg.classList.remove("visible"), 3000);
-  }
-} else {
-  renderEpisodios(temporadaSelect.value);
-  const ep = episodiosData[temporadaSelect.value][0];
-  mainVideo.src = ep.src;
-  mainVideo.load();
-  mainVideo.pause();
-  if (titleDiv) titleDiv.innerHTML = ep.titulo;
-
-  const buttons = document.querySelectorAll("#episodios button");
-  buttons[0]?.classList.add("active");
-  buttons[0].style.background = "red";
-  buttons[0].style.color = "#fff";
-}
+renderEpisodios(temporadaSelect.value);
+playEpisode(
+  episodiosData[temporadaSelect.value][0].src,
+  episodiosData[temporadaSelect.value][0].titulo,
+  0
+);
 </script>
 
 <style>
@@ -262,19 +241,40 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 
 </style>
 
+<div class="titulo">
+  <h4>Género: </h4> <!-- GENERO DE LA SERIE -->
+</div>
 
+
+  <div class="sinopsis">
+    <h4>Sinopsis:</h4>
+    <p>
+      
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+  <br>
+
+<br>
 
 <br>
 
 <!-- FAVORITOS -->
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-    titulo: "Dragon Ball Daima",
-    imagen: "", 
-    genero: "Anime/Serie",
-    archivo: "../View Series/Dragon Ball Daima (2025).html"
-  };
+  
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
     favoritos.push(nuevaPelicula);
@@ -429,11 +429,20 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 </html>
 
 
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>MovieTx - Reproductor De Serie FUNCIONA 100% </title>
+<title>MovieTx - Reproductor De Serie</title>
 <!-- Responsive viewport -->
 <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
@@ -613,7 +622,7 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://4kwallpapers.com/images/wallpapers/dragon-ball-daima-2560x1440-19050.jpeg" controls muted preload="metadata"> <!-- ACA DEBEN DE PONER LA IMAGEN DE FONDO QUE ESTARA EN LA PAGINA "https://www.themoviedb.org/"-->
+<video class='js-player' poster="https://4kwallpapers.com/images/wallpapers/dragon-ball-daima-2560x1440-19050.jpeg" controls muted preload="metadata">
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
@@ -659,7 +668,6 @@ const players = Array.from(document.querySelectorAll('.js-player')).map(player =
   -webkit-overflow-scrolling: touch;
 "></div>
 
-<!--Aca para agregar la Ej temporada 4. copia 3: hasta cerrar el corchete ], y pegalo-->
 <script>
 const episodiosData = {
   1: [
@@ -936,7 +944,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 
 <br>
 <div class="titulo">
-  <h4>Género: Animación, Anime, Accion, Aventura, Comedia, Sci-Fi & Fantasia</h4> <!-- GENERO DE LA SERIE -->
+  <h4>Género: Animación, Anime, Accion, Aventura, Comedia, Sci-Fi & Fantasia</h4>
 </div>
 
 
@@ -997,8 +1005,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const serieTitulo = "Dragon Ball Daima"; // Aca va el nombre de la serie
-    const serieImagen = "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg"; //Aca va el poster
+    const serieTitulo = "Dragon Ball Daima";
+    const serieImagen = "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg";
     const archivoHTML = "../View Series/Dragon Ball Daima (2025).html"; // ✅ Ruta relativa al historial
     const progresoTexto = "Actualizado"; // Puedes cambiarlo dinámicamente
 
@@ -1029,28 +1037,32 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const titleDiv = document.querySelector('.main-video .title');
     const temporadaSelect = document.getElementById('temporada-select');
 
-    const serieTitulo = "Dragon Ball Daima"; //Aca va el nombre de la serie
-    const serieImagen = "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg"; //Aca va el poster
+    const serieTitulo = "Dragon Ball Daima";
+    const serieImagen = "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg";
     const archivoHTML = "../View Series/Dragon Ball Daima (2025).html";
 
     function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
-      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-      const registro = historial.find(h => h.titulo === serieTitulo);
-      const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
+  let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+  const registro = historial.find(h => h.titulo === serieTitulo);
+  const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
 
-      if (!registro) {
-        historial.push({
-          titulo: serieTitulo,
-          imagen: serieImagen,
-          progreso: progresoTexto,
-          archivo: archivoHTML
-        });
-        mostrarMensaje("📺 Agregado al historial");
-      } else {
-        registro.progreso = progresoTexto;
-      }
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-    }
+  if (!registro) {
+    historial.unshift({
+      titulo: serieTitulo,
+      imagen: serieImagen,
+      progreso: progresoTexto,
+      archivo: archivoHTML,
+      timestamp: Date.now() // ✅ se agrega timestamp al guardar
+    });
+    mostrarMensaje("📺 Agregado al historial");
+  } else {
+    registro.progreso = progresoTexto;
+    registro.timestamp = Date.now(); // ✅ actualiza el orden
+  }
+
+  localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+}
+
 
     function mostrarMensaje(texto) {
       let mensaje = document.getElementById('mensaje-confirmacion');
@@ -1092,8 +1104,8 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "Dragon Ball Daima",
-    imagen: "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg",
-    genero: "Anime/Serie", //Aca va el genero 1 solo puede ser ej "Drama/Series o Accion/Series" dependiendo del genero que tenga
+    imagen: "https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg", 
+    genero: "Anime/Serie",
     archivo: "../View Series/Dragon Ball Daima (2025).html"
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
