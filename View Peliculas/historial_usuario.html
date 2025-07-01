@@ -121,25 +121,26 @@
         const div = document.createElement('div');
         div.className = 'item';
         div.innerHTML = `
-          <a href="${item.archivo}" style="text-decoration: none; color: inherit;">
+          <div style="text-decoration: none; color: inherit; cursor: pointer;">
             <div style="position: relative;">
               <img src="${item.imagen}" alt="${item.titulo}">
               <div class="capitulo">${item.progreso}</div>
             </div>
             <div class="item-title">${item.titulo}</div>
-          </a>
-          <button class="delete-btn" onclick="eliminarItem(${index})">×</button>
+          </div>
+          <button class="delete-btn" onclick="eliminarItem(${index}, '${item.titulo}')">×</button>
         `;
+        div.addEventListener('click', () => window.location.href = item.archivo);
         container.appendChild(div);
       });
     }
 
-    function eliminarItem(index) {
-      if (confirm('¿Eliminar este elemento del historial?')) {
+    function eliminarItem(index, titulo) {
+      if (confirm(`¿Eliminar "${titulo}" del historial?`)) {
         historial.splice(index, 1);
         localStorage.setItem('historial_usuarios', JSON.stringify(historial));
         renderHistorial();
-        mostrarMensaje('🗑️ Eliminado del historial');
+        mostrarMensaje(`🗑️ Eliminado: ${titulo}`);
       }
     }
 
