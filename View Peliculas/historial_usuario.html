@@ -102,6 +102,13 @@
 
   <script>
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    const LIMITE_HISTORIAL = 20;
+
+    // Mantener historial dentro del límite
+    while (historial.length > LIMITE_HISTORIAL) {
+      historial.pop(); // elimina el último
+    }
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
 
     function mostrarMensaje(texto) {
       const mensaje = document.getElementById('mensaje-confirmacion');
