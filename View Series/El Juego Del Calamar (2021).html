@@ -571,9 +571,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 </div>
 <br>
 
-<!-- Historial -->
 <script>
-  
   document.addEventListener('DOMContentLoaded', () => {
     const serieTitulo = "El juego del calamar";
     const serieImagen = "https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg";
@@ -601,7 +599,6 @@ if (ultimo && episodiosData[ultimo.temporada]) {
   });
 </script>
 
-
 <!-- Historial -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -614,7 +611,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
     const archivoHTML = "../View Series/El Juego Del Calamar (2021).html";
 
     function guardarEnHistorial(epTitulo, temporada, episodioIndex) {
-      let historial = JSON.parse(localStorage.getItem('../View Peliculas/historial_usuarios') || '[]');
+      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
       const registro = historial.find(h => h.titulo === serieTitulo);
       const progresoTexto = `T${temporada} • Episodio ${episodioIndex + 1} - ${epTitulo}`;
 
@@ -629,7 +626,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
       } else {
         registro.progreso = progresoTexto;
       }
-      localStorage.setItem('../View Peliculas/historial_usuarios', JSON.stringify(historial));
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
     }
 
     function mostrarMensaje(texto) {
