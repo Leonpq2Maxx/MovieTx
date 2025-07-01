@@ -26,10 +26,22 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
-      border-radius: 8px;
+      height: 100%;
     }
     .info {
       display: flex;
@@ -311,5 +323,78 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 });
 
 </script>
+
+<!--Aca va el mensaje que se ha agregado al historial-->
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.querySelector('.vid1');
+    if (!videoElement) return;
+
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const historialTitulo = "Harta";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg";
+    const historialArchivo = "Harta (2025).html";
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+    if (indexHist === -1) {
+      historial.push({
+        titulo: historialTitulo,
+        imagen: historialImagen,
+        progreso: "Asistido 0 min",
+        archivo: historialArchivo
+      });
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
+    }
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+        if (historial[indexHist]) {
+          const minutos = Math.floor(videoElement.currentTime / 60);
+          historial[indexHist].progreso = `Asistido ${minutos} min`;
+          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        }
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 10000);
+  });
+</script>
+
+
 </body>
 </html>
