@@ -26,11 +26,25 @@
       font-family: 'PT Sans', sans-serif;
       color: #fff;
     }
-    .player video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
+    .player {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.player video,
+.player iframe,
+.player .plyr {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -163,7 +177,7 @@
   <div id="resume-msg">✅ Reanudando donde lo dejaste: Culpa mia: Londres</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>AÑO</span>
+    <i class="fal fa-calendar-alt"></i><span>2025</span>
     <i class="fal fa-clock"></i><span>1h 22min</span>
     <i class="fal fa-thumbs-up"></i><span>56%</span>
     <div class="hd-tag">
@@ -177,7 +191,7 @@
   </div>
 
   <div class="titulo">
-    <h3>Nombre de pelicula</h3>
+    <h3>Culpa mía: Londres</h3>
     <br>
     <h4>Género: Romance, Drama</h4>
   </div>
