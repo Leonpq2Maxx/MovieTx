@@ -311,22 +311,44 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   window.location.href = "favoritos.html";
 });
 
-window.addEventListener('orientationchange', () => {
-  if (window.matchMedia("(orientation: landscape)").matches) {
-    // Entrar a pantalla completa si el dispositivo está horizontal
-    const playerContainer = videoElement.closest('.player');
-    if (playerContainer.requestFullscreen) {
-      playerContainer.requestFullscreen();
-    } else if (playerContainer.webkitRequestFullscreen) {
-      playerContainer.webkitRequestFullscreen();
-    } else if (playerContainer.msRequestFullscreen) {
-      playerContainer.msRequestFullscreen();
-    }
-  } 
-});
-
 
 </script>
 
+<script>
+  const videoElement = document.querySelector('.vid1');
+  const videoSrc = videoElement.querySelector('source').getAttribute('src');
+  const STORAGE_KEY = 'pos_' + videoSrc;
+
+  const historialTitulo = "¡A Ganar!";
+  const historialImagen = "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg";
+  const historialArchivo = "¡A Ganar! (2018).html";
+
+  // Registrar entrada en historial al cargar la página
+  let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+  let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+  if (indexHist === -1) {
+    historial.push({
+      titulo: historialTitulo,
+      imagen: historialImagen,
+      progreso: "Asistido 0 min",
+      archivo: historialArchivo
+    });
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    indexHist = historial.length - 1;
+  }
+
+  // Actualizar progreso cada 10s
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+      historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      if (historial[indexHist]) {
+        const minutos = Math.floor(videoElement.currentTime / 60);
+        historial[indexHist].progreso = `Asistido ${minutos} min`;
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      }
+      localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+    }
+  }, 10000);
+</script>
 </body>
 </html>
