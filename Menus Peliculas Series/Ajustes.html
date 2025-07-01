@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Usuario</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #111;
+      color: white;
+    }
+    .profile {
+      padding: 20px;
+      text-align: center;
+    }
+    .avatar-container {
+      position: relative;
+      display: inline-block;
+    }
+    .avatar-container input {
+      display: none;
+    }
+    .avatar-container label {
+      cursor: pointer;
+    }
+    .avatar-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    .user-email {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    .section-buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+    .section-buttons button {
+      flex: 1;
+      margin: 0 5px;
+      background-color: #222;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .history, .more-options {
+      padding: 10px 20px;
+    }
+    .history h3, .more-options h3 {
+      margin-bottom: 10px;
+    }
+    .history-items {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+    }
+    .history-items img {
+      width: 100px;
+      border-radius: 10px;
+    }
+    .more-options .option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
+    .option i {
+      margin-right: 10px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #f60;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+  </style>
+</head>
+<body>
+  <div class="profile">
+    <div class="avatar-container">
+      <input type="file" id="avatarInput" accept="image/*">
+      <label for="avatarInput">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" id="avatarImage">
+      </label>
+    </div>
+    <div class="user-email">maxibriizueela***@gmail.com</div>
+  </div>
+
+  <div class="section-buttons">
+    <button onclick="alert('Ir a favoritos')">❤️ Favoritos</button>
+    <button onclick="alert('Ir a historial')">🕒 Historial</button>
+    <button onclick="alert('Compartir')">🔗 Compartir</button>
+  </div>
+
+  <div class="history">
+    <h3>Historial</h3>
+    <div class="history-items">
+      <img src="https://image.tmdb.org/t/p/w300/kKS6xZZ5kDF6vqK8gG4WfN6Qk8H.jpg" alt="1">
+      <img src="https://image.tmdb.org/t/p/w300/rDjHF5jLCoNc0pLf3vKc5ZwB0ss.jpg" alt="2">
+      <img src="https://image.tmdb.org/t/p/w300/x2RS3uTcsJJ9IfjNPcgDmukoEcQ.jpg" alt="3">
+    </div>
+  </div>
+
+  <div class="more-options">
+    <h3>Más funciones</h3>
+    <div class="option"><span><i class="fas fa-user-cog"></i>Gestión</span><i class="fas fa-chevron-right"></i></div>
+    <div class="option">
+      <span><i class="fas fa-user-secret"></i>Para adultos</span>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="option"><span><i class="fas fa-question-circle"></i>Ayuda y Feedback</span><i class="fas fa-chevron-right"></i></div>
+    <div class="option"><span><i class="fas fa-closed-captioning"></i>Audio y Subtítulos</span><i class="fas fa-chevron-right"></i></div>
+    <div class="option"><span><i class="fas fa-cog"></i>Configuraciones</span><i class="fas fa-chevron-right"></i></div>
+  </div>
+
+  <script>
+    document.getElementById('avatarInput').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          document.getElementById('avatarImage').src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #1e1e1e;
+      font-size: 1.2rem;
+    }
+    header i {
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    h2 {
+      padding: 15px;
+      font-size: 1.2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
+      padding: 0 15px 30px;
+    }
+    .item {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.9rem;
+    }
+    .item img {
+      width: 100%;
+      display: block;
+    }
+    .item .capitulo {
+      background: rgba(0, 0, 0, 0.7);
+      color: #00ffae;
+      padding: 3px 6px;
+      font-size: 0.75rem;
+      position: absolute;
+      bottom: 35px;
+      left: 5px;
+      border-radius: 5px;
+    }
+    .item-title {
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <i class="fas fa-arrow-left" onclick="history.back()"></i>
+    <span>Historial</span>
+    <i class="fas fa-trash-alt" onclick="limpiarHistorial()"></i>
+  </header>
+  <h2>Última semana</h2>
+  <div class="grid" id="historial-container"></div>
+
+  <script>
+    const historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+
+    function renderHistorial() {
+      const container = document.getElementById('historial-container');
+      container.innerHTML = '';
+      historial.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+          <div style="position: relative;">
+            <img src="${item.imagen}" alt="${item.titulo}">
+            <div class="capitulo">${item.progreso}</div>
+          </div>
+          <div class="item-title">${item.titulo}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function limpiarHistorial() {
+      if (confirm('¿Deseas borrar todo el historial?')) {
+        localStorage.removeItem('historial_usuarios');
+        renderHistorial();
+      }
+    }
+
+    renderHistorial();
+  </script>
+</body>
+</html>
