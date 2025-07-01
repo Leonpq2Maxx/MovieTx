@@ -182,16 +182,16 @@
 <div class="container">
 <div class="main-video">
 <div class="video">
-<video class='js-player' poster="https://image.tmdb.org/t/p/original/wJoPsjcJkMAr7ifNqo7qlNXDzil.jpg" controls muted preload="metadata">
+<video class='js-player' poster="https://image.tmdb.org/t/p/original/wJoPsjcJkMAr7ifNqo7qlNXDzil.jpg" controls muted preload="metadata"> <!--Aca te dejo la pagina para agregar el fondo https://www.themoviedb.org-->
 <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
 </video>
 <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
-<div id="resume-msg">✅ Reanudando donde lo dejaste: El juego del camalar</div>
+<div id="resume-msg">✅ Reanudando donde lo dejaste: El juego del calamar</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2021</span>
-    <i class="fal fa-clock"></i><span>T3</span>
-    <i class="fal fa-thumbs-up"></i><span>70%</span>
+    <i class="fal fa-calendar-alt"></i><span>2021</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+    <i class="fal fa-clock"></i><span>T3</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4-->
+    <i class="fal fa-thumbs-up"></i><span>88%</span> <!-- LA CALIFICACION DE LA SERIE -->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -203,7 +203,7 @@
   </div>
 
   <div class="titulo">
-    <h3>El juego del camalar</h3>
+    <h3>El juego del calamar</h3>
   </div>
 
   <!-- Selector de Temporadas y Botones de Episodios -->
@@ -513,8 +513,9 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 
 <br>
 <div class="titulo">
-  <h4>Género: Acción, Misterio, Drama, Terror</h4> <!--Aca va el genero de la serie-->
+  <h4>Género: Action, Misterio, Drama, Crimen</h4> <!--Aca va el genero de la serie-->
 </div>
+
 
   <div class="sinopsis">
     <h4>Sinopsis:</h4><!--Aca va la sinopsis en el <p>Sinopsis</<p> que esta debajo-->
@@ -672,7 +673,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "El juego del calamar",
-    imagen: "https://image.tmdb.org/t/p/w300/m2o9vamnvtseVG7HgcFeSEoJ8HR.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/m2o9vamnvtseVG7HgcFeSEoJ8HR.jpg", 
     genero: "Crimen/Serie",
     archivo: "../View Series/El Juego Del Calamar (2021).html"
   };
