@@ -391,7 +391,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         imagen: historialImagen,
         progreso: "Asistido 0 min",
         archivo: historialArchivo
-        timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
