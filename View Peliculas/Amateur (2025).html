@@ -402,6 +402,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         if (historial[indexHist]) {
           const minutos = Math.floor(videoElement.currentTime / 60);
           historial[indexHist].progreso = `Asistido ${minutos} min`;
+          historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
           localStorage.setItem('historial_usuarios', JSON.stringify(historial));
         }
         localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
