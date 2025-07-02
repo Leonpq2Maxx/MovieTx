@@ -252,7 +252,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "¡Scooby!",
   imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
   genero: "Animacion",
-  archivo: "¡Scooby! (2020).html"
+  archivo: "¡Scooby! (2020).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
 historial.push({
@@ -324,7 +326,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "¡Scooby!",
   imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
   genero: "Animacion",
-  archivo: "¡Scooby! (2020).html"
+  archivo: "¡Scooby! (2020).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
