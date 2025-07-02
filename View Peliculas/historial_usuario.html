@@ -8,6 +8,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
   <style>
+
+    .etiqueta {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #e91e63;
+  color: white;
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
     body {
       margin: 0;
       font-family: 'Roboto', sans-serif;
@@ -179,7 +191,8 @@
             <div style="position: relative;">
               <img src="${item.imagen}" alt="${item.titulo}">
               <div class="capitulo">${item.progreso}</div>
-            </div>
+              ${item.tipo ? `<div class="etiqueta">${item.tipo === 'serie' ? 'Serie' : 'Película'}</div>` : ''}
+              </div>
             <div class="item-title">${item.titulo}</div>
           </div>
           <button class="delete-btn" onclick="eliminarItem(${index}, '${item.titulo.replace(/'/g, "\'")}')">×</button>
