@@ -246,14 +246,17 @@
       </a>
     </div>
   </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
   titulo: "Culpa mia: Londres",
   imagen: "https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg",
-  genero: "Romance",
-  archivo: "2 Culpa Mia (2025).html"
+  genero: "Romance, Drama",
+  archivo: "2 Culpa Mia (2025).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
 historial.push({
@@ -265,6 +268,8 @@ historial.push({
 });
 
 historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+
+
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -322,8 +327,10 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
   titulo: "Culpa mia: Londres",
   imagen: "https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg",
-  genero: "Romance",
-  archivo: "2 Culpa Mia (2025).html"
+  genero: "Romance, Drama",
+  archivo: "2 Culpa Mia (2025).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -333,6 +340,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   }
   window.location.href = "favoritos.html";
 });
+
 
 </script>
 
@@ -386,7 +394,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        archivo: historialArchivo
+        archivo: historialArchivo,
+        tipo: "pelicula", // ✅ ya está
+        // timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
@@ -394,16 +404,21 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }
 
     setInterval(() => {
-      if (!videoElement.paused && !videoElement.ended) {
-        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-        if (historial[indexHist]) {
-          const minutos = Math.floor(videoElement.currentTime / 60);
-          historial[indexHist].progreso = `Asistido ${minutos} min`;
-          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-        }
-        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-      }
-    }, 10000);
+  if (!videoElement.paused && !videoElement.ended) {
+    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+    
+    if (indexHist !== -1) {
+      const minutos = Math.floor(videoElement.currentTime / 60);
+      historial[indexHist].progreso = `Asistido ${minutos} min`;
+      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    }
+
+    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+  }
+}, 10000);
+
   });
 </script>
 
