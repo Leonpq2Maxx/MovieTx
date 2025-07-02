@@ -673,9 +673,11 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
     titulo: "El juego del calamar",
-    imagen: "https://image.tmdb.org/t/p/w300/m2o9vamnvtseVG7HgcFeSEoJ8HR.jpg", 
-    genero: "Crimen/Serie",
-    archivo: "../View Series/El Juego Del Calamar (2021).html"
+  imagen: "https://image.tmdb.org/t/p/w300/m2o9vamnvtseVG7HgcFeSEoJ8HR.jpg",
+  genero: "Drama", // o "Serie", "Crimen/Serie", etc.
+  archivo: "../View Series/El Juego Del Calamar (2021).html",
+  tipo: "serie", // ✅ identifica si es "serie" o "pelicula"
+  timestamp: 1720000000000 // opcional: para ordenar por fech
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
