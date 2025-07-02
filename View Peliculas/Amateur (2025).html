@@ -387,6 +387,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
+        historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
         archivo: historialArchivo,
         timestamp: Date.now()
       });
