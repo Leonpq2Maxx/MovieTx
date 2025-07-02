@@ -252,7 +252,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "¡A Ganar!",
   imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
   genero: "Drama",
-  archivo: "¡A Ganar! (2018).html"
+  archivo: "../View Peliculas/¡A Ganar! (2018).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
 historial.push({
@@ -324,7 +326,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "¡A Ganar!",
   imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
   genero: "Drama",
-  archivo: "¡A Ganar! (2018).html"
+  archivo: "../View Peliculas/¡A Ganar! (2018).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
