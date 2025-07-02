@@ -168,7 +168,7 @@
 
   <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/2Hz53Ap0KLULE37BzwvZOBsMosW.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
-      <source src="https://dl.dropbox.com/scl/fi/up157bwn7hyxpzy24yrhh/El-ladron-de-joyas-2025.mp4?rlkey=6r3cjyikpsfct5sr7klnwysxv&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
+      <source src="Link de pelicula" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
     </video>
   </div>
 
@@ -397,10 +397,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
       indexHist = historial.length - 1;
       mostrarMensaje('✅ Agregado al historial');
     }
-
-    historial[indexHist].progreso = `Asistido ${minutos} min`;
-    historial[indexHist].timestamp = Date.now();
-
 
     setInterval(() => {
       if (!videoElement.paused && !videoElement.ended) {
