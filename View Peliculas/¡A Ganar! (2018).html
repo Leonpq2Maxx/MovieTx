@@ -315,7 +315,6 @@ historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
     setInterval(() => {
       if (!videoElement.paused && !videoElement.ended) {
         localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-        indexHist = historial.findIndex(item => item.titulo === historialTitulo);
       }
     }, 5000);
     
@@ -409,6 +408,7 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
   }
 }, 10000);
+
 
   });
 </script>
