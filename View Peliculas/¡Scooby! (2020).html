@@ -341,8 +341,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 
 
 </script>
-
-<!--Aca va el mensaje que se ha agregado al historial-->
 <div id="mensaje-confirmacion" style="
   display: none;
   position: fixed;
@@ -392,7 +390,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        archivo: historialArchivo
+        archivo: historialArchivo,
+        tipo: "pelicula", // ✅ ya está
+        // timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
