@@ -390,7 +390,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        archivo: historialArchivo
+        archivo: historialArchivo,
+        tipo: "pelicula", // ✅ ya está
+        // timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
@@ -412,7 +414,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
   }
 }, 10000);
-
 
   });
 </script>
