@@ -261,10 +261,11 @@ historial.push({
   titulo: historialTitulo,
   imagen: historialImagen,
   progreso: "Asistido 0 min",
-  historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
   archivo: historialArchivo,
   timestamp: Date.now() // ← agregado
 });
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -387,7 +388,6 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
         archivo: historialArchivo,
         timestamp: Date.now()
       });
