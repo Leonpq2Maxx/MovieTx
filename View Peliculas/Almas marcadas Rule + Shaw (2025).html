@@ -1,3 +1,177 @@
+
+  
+
+  
+
+historial.push({
+  titulo: historialTitulo,
+  imagen: historialImagen,
+  progreso: "Asistido 0 min",
+  archivo: historialArchivo,
+  timestamp: Date.now() // ← agregado
+});
+
+historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+
+
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+</script>
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const player = new Plyr(videoElement, {
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTime = localStorage.getItem(STORAGE_KEY);
+      if (savedTime && parseFloat(savedTime) > 10) {
+        videoElement.currentTime = parseFloat(savedTime);
+        const msg = document.getElementById('resume-msg');
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
+      }
+
+      const controls = document.querySelector('.plyr__controls');
+      if (controls && !document.getElementById('custom-rewind')) {
+        const rewindBtn = document.createElement('button');
+        rewindBtn.id = 'custom-rewind';
+        rewindBtn.className = 'plyr__control';
+        rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
+        rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+        rewindBtn.onclick = () => {
+          videoElement.currentTime = 0;
+        };
+        controls.insertBefore(rewindBtn, controls.firstChild);
+      }
+    });
+
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+        indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+      }
+    }, 5000);
+    
+  
+document.getElementById('btn-favorito').addEventListener('click', () => {
+  const nuevaPelicula = {
+  titulo: "Almas marcadas: Rule + Shaw",
+  imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg",
+  genero: "Romance",
+  archivo: "Almas marcadas Rule + Shaw (2025).html"
+};
+
+  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+    favoritos.push(nuevaPelicula);
+    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  }
+  window.location.href = "favoritos.html";
+});
+
+
+</script>
+
+<!--Aca va el mensaje que se ha agregado al historial-->
+<div id="mensaje-confirmacion" style="
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease;
+"></div>
+
+<script>
+  function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje-confirmacion');
+    mensaje.textContent = texto;
+    mensaje.style.display = 'block';
+    mensaje.style.opacity = '1';
+    setTimeout(() => {
+      mensaje.style.opacity = '0';
+      setTimeout(() => mensaje.style.display = 'none', 500);
+    }, 3000);
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.querySelector('.vid1');
+    if (!videoElement) return;
+
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const historialTitulo = "Almas marcadas: Rule + Shaw";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg";
+    const historialArchivo = "Almas marcadas Rule + Shaw (2025).html";
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+    if (indexHist === -1) {
+      historial.push({
+        titulo: historialTitulo,
+        imagen: historialImagen,
+        progreso: "Asistido 0 min",
+        archivo: historialArchivo
+      });
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      indexHist = historial.length - 1;
+      mostrarMensaje('✅ Agregado al historial');
+    }
+
+    setInterval(() => {
+  if (!videoElement.paused && !videoElement.ended) {
+    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+    
+    if (indexHist !== -1) {
+      const minutos = Math.floor(videoElement.currentTime / 60);
+      historial[indexHist].progreso = `Asistido ${minutos} min`;
+      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    }
+
+    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+  }
+}, 10000);
+
+  });
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -167,17 +341,17 @@
 <body ondragstart="return false;" ondrop="return false;">
 
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/uEFgYNggglIgno71h73W1oJAiQG.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
-      <source src="https://dl.dropbox.com/scl/fi/nn8zmke4u409kc51h4d1f/Almas-marcadas-2025.mp4?rlkey=lx0qms8ss6dcpzza469tepksx&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
+    <video class="vid1 js-player" loading="lazy" controls poster="Imagen de fono" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
+      <source src="Link de pelicula" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
     </video>
   </div>
 
-  <div id="resume-msg">✅ Reanudando donde lo dejaste: Almas marcadas: Rule + Shaw</div>
+  <div id="resume-msg">✅ Reanudando donde lo dejaste: Nombre de pelicula</div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span>2025</span>
-    <i class="fal fa-clock"></i><span>1h 33min</span>
-    <i class="fal fa-thumbs-up"></i><span>88%</span>
+    <i class="fal fa-calendar-alt"></i><span>0000</span> <!--Aca va el año de estreno de pelicula-->
+    <i class="fal fa-clock"></i><span>0h 00min</span> <!--aca va cuanto dura-->
+    <i class="fal fa-thumbs-up"></i><span>00%</span> <!--aca va la calificacion-->
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -185,19 +359,28 @@
       </svg>
       <span>1080P</span>
     </div>
-    <span>🇪🇸</span>
+    <!-- CAMARA-->
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <!-- Ícono de cámara en SVG -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 5H16.83L15 3H9L7.17 5H4C2.9 5 2 5.9 2 7V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V7C22 5.9 21.1 5 20 5ZM12 17C9.79 17 8 15.21 8 13C8 10.79 9.79 9 12 9C14.21 9 16 10.79 16 13C16 15.21 14.21 17 12 17Z"/>
+        </svg>
+        <!-- Texto CAM -->
+        <span style="color: white; font-size: 14px; font-family: sans-serif;">CAM</span>
+      </div>
+    <span>🇲🇽</span>
   </div>
 
   <div class="titulo">
-    <h3>Almas marcadas: Rule + Shaw</h3>
+    <h3>Nombre de pelicula</h3>
     <br>
-    <h4>Género: Romance, Drama</h4>
+    <h4>Género: </h4> <!-- Aca agregar el genero de la pelicula -->
   </div>
 
-  <div class="sinopsis">
+  <div class="sinopsis"> <!--Aca va la sinopsis donde esta <p>Sinopsis...</p>-->
     <h4>Sinopsis:</h4>
     <p>
-      Shaw Landon ha amado a Rule Archer desde el primer momento en que lo vio. Rule, un tatuador rebelde y de carácter irascible, no tiene tiempo para una buena estudiante de medicina como Shaw, aunque sea la única que lo ve como realmente es. Ella vive según las reglas de los demás; él crea las suyas. Pero una falda corta, demasiados cócteles de cumpleaños y secretos revelados conducen a una noche que ninguno de los dos podrá olvidar. Ahora, Shaw y Rule deben descubrir cómo una chica como ella y un chico como él pueden estar juntos sin destruir su amor... ni a sí mismos.
+
     </p>
   </div>
   <div style="text-align: center; margin-top: 15px;">
@@ -218,33 +401,32 @@
     <h4>Podría interesarte:</h4>
     <br>
     <div class="series-grid">
-      <a href="After 1 Aquí empieza todo (2019).HTML" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg" alt="">
-        <p>After: Aquí empieza todo</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="365 días más 3 (2022).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg" alt="">
-        <p>365 Dias 3: Mas</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="1 Culpa tuya (2024).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/1jvCVdlgInyItAUEvvvCakm1Yxz.jpg" alt="">
-        <p>Culpa tuya</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Cincuenta sombras de Grey (2015).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg" alt="">
-        <p>Cincuenta sombras de Grey</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Desafiante Rivales (2024).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg" alt="">
-        <p>Desafiante Rivales</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
-      <a href="Sugar Baby (2024).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/uLbDZIDAbN6SIiBr7Z2eMZ9212S.jpg" alt="">
-        <p>Sugar Baby</p>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
       </a>
     </div>
   </div>
-  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
@@ -252,7 +434,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "Almas marcadas: Rule + Shaw",
   imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg",
   genero: "Romance",
-  archivo: "Almas marcadas Rule + Shaw (2025).html"
+  archivo: "Almas marcadas Rule + Shaw (2025).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
 historial.push({
@@ -324,7 +508,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "Almas marcadas: Rule + Shaw",
   imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg",
   genero: "Romance",
-  archivo: "Almas marcadas Rule + Shaw (2025).html"
+  archivo: "Almas marcadas Rule + Shaw (2025).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -388,7 +574,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        archivo: historialArchivo
+        archivo: historialArchivo,
+        tipo: "pelicula", // ✅ ya está
+        // timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
@@ -396,16 +584,21 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }
 
     setInterval(() => {
-      if (!videoElement.paused && !videoElement.ended) {
-        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-        if (historial[indexHist]) {
-          const minutos = Math.floor(videoElement.currentTime / 60);
-          historial[indexHist].progreso = `Asistido ${minutos} min`;
-          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-        }
-        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-      }
-    }, 10000);
+  if (!videoElement.paused && !videoElement.ended) {
+    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+    
+    if (indexHist !== -1) {
+      const minutos = Math.floor(videoElement.currentTime / 60);
+      historial[indexHist].progreso = `Asistido ${minutos} min`;
+      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    }
+
+    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+  }
+}, 10000);
+
   });
 </script>
 
