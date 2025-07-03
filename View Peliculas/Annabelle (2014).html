@@ -244,7 +244,51 @@
       </a>
     </div>
   </div>
-  
+  <div style="text-align: center; margin-top: 15px;">
+    <button id="btn-favorito" style="
+      background: #ff4444;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    ">
+      ⭐ Favoritos
+    </button>
+  </div>
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br>
+    <div class="series-grid">
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="#" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+    </div>
+  </div>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
 document.getElementById('btn-favorito').addEventListener('click', () => {
@@ -252,7 +296,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "Annabelle",
   imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg",
   genero: "Terror",
-  archivo: "Annabelle (2014).html"
+  archivo: "Annabelle (2014).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
 historial.push({
@@ -324,7 +370,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
   titulo: "Annabelle",
   imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg",
   genero: "Terror",
-  archivo: "Annabelle (2014).html"
+  archivo: "Annabelle (2014).html",
+  tipo: "pelicula",
+  timestamp: Date.now()
 };
 
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
@@ -388,7 +436,9 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
-        archivo: historialArchivo
+        archivo: historialArchivo,
+        tipo: "pelicula", // ✅ ya está
+        // timestamp: Date.now()
       });
       localStorage.setItem('historial_usuarios', JSON.stringify(historial));
       indexHist = historial.length - 1;
@@ -396,16 +446,21 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
     }
 
     setInterval(() => {
-      if (!videoElement.paused && !videoElement.ended) {
-        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-        if (historial[indexHist]) {
-          const minutos = Math.floor(videoElement.currentTime / 60);
-          historial[indexHist].progreso = `Asistido ${minutos} min`;
-          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-        }
-        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-      }
-    }, 10000);
+  if (!videoElement.paused && !videoElement.ended) {
+    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+    
+    if (indexHist !== -1) {
+      const minutos = Math.floor(videoElement.currentTime / 60);
+      historial[indexHist].progreso = `Asistido ${minutos} min`;
+      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    }
+
+    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+  }
+}, 10000);
+
   });
 </script>
 
