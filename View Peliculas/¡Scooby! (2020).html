@@ -236,33 +236,11 @@
   <div class="sinopsis">
     <h4>
       Sinopsis:
-    </h4><p class="colapsado" id="sinopsis-texto">
+    </h4>
+    <p>
       Con cientos de casos resueltos y aventuras compartidas, Scooby y la pandilla se enfrentan al misterio más grande y desafiante de todos los tiempos: un complot para liberar al perro fantasma Cerberus en el mundo. Mientras compiten para detener esta escasez de perros global, la pandilla descubre que Scooby tiene un legado secreto y un destino épico más grande de lo que cualquiera podría haber imaginado.
-    </p><div style="text-align: right; margin-top: 5px;"><button id="toggle-sinopsis" style="background: none; border: none; color:rgb(255, 0, 0); font-size: 0.9rem; cursor: pointer; white-space: nowrap;">Ver más</button></div>
+    </p>
   </div>
-  
-  <!--ACA VA LA SINOPSIS DE VER MAS/VER MENOS-->
-  <style>
-    #sinopsis-texto.colapsado {
-      display: -webkit-box;
-      -webkit-line-clamp: 3; /* muestra solo 3 líneas */
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  </style>
-  <!--ESTE SCRIPT FUNCIONA DE VER MAS/VER MENOS-->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const texto = document.getElementById('sinopsis-texto');
-      const boton = document.getElementById('toggle-sinopsis');
-    
-      boton.addEventListener('click', () => {
-        texto.classList.toggle('colapsado');
-        boton.textContent = texto.classList.contains('colapsado') ? 'Ver más' : 'Ver menos';
-      });
-    });
-  </script>
 
   <!-- NO BORRAR ES EL BOTON DEL FAVORITOS -->
   <div style="text-align: center; margin-top: 15px;">
