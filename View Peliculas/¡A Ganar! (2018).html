@@ -195,11 +195,43 @@
   </div>
 
   <div class="sinopsis">
-    <h4>Sinopsis:</h4>
-    <p>
+    <h4>
+      Sinopsis:
+    </h4>
+    <p id="sinopsis-texto" class="colapsado">
       Basado en la historia real del equipo de voleibol femenino de West High School. Tras la trágica muerte de la jugadora estrella de la escuela, Caroline 'Line' Found, las jugadores restantes deberán unirse bajo la dirección de su dura entrenadora (Helen Hunt) con la esperanza de ganar el campeonato estatal.
     </p>
+    <button id="toggle-sinopsis" style="
+    background: none;
+    border: none;
+    color:rgb(255, 0, 0);
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 5px;
+    ">Ver más</button>
   </div>
+  <style>
+    #sinopsis-texto.colapsado {
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* muestra solo 3 líneas */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const texto = document.getElementById('sinopsis-texto');
+      const boton = document.getElementById('toggle-sinopsis');
+    
+      boton.addEventListener('click', () => {
+        texto.classList.toggle('colapsado');
+        boton.textContent = texto.classList.contains('colapsado') ? 'Ver más' : 'Ver menos';
+      });
+    });
+  </script>
+
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
       background: #ff4444;
