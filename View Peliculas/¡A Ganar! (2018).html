@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MovieTx - Reproductor</title>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
-  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-
-  <style>
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>MovieTx - Reproductor</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet"/>
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
+    <style>
     :root {
       --plyr-color-main: #ff0000;
       --plyr-video-control-color: #0022ff;
@@ -43,6 +42,7 @@
       width: 100%;
       height: 100%;
     }
+
     .info {
       display: flex;
       flex-wrap: wrap;
@@ -91,11 +91,15 @@
       text-decoration: none;
       color: white;
     }
+
     .serie img {
       width: 100%;
-      max-width: 150px;
+      height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN forzandolas para que se adapten bien*/
       border-radius: 10px;
+      object-fit: cover;     /* recorta lo que sobra sin deformar */
+      object-position: center; /* centra el contenido visual */
     }
+
     .serie p {
       margin-top: 5px;
     }
@@ -162,54 +166,66 @@
         padding: 8px 16px;
       }
     }
+
+    #genero-texto.colapsado {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media screen and (max-width: 768px) {
+      #sinopsis-texto.colapsado {
+        -webkit-line-clamp: 5;
+      }
+    }
+    
+    @media screen and (min-width: 769px) {
+      #sinopsis-texto.colapsado {
+        -webkit-line-clamp: 3;
+      }
+    }
   </style>
 </head>
-<body ondragstart="return false;" ondrop="return false;">
 
+<body ondragstart="return false;" ondrop="return false;">
+  
   <div class="player">
-    <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/zwfec4vK1EvkQapE5wcYrB1BHov.jpg" preload="none">
-      <source src="https://dl.dropbox.com/scl/fi/0prsz81yb8pv74njs8d0j/The.miracle.season.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=g97lmjjkt9ekh8stxzh6ci8g8&st=" type="video/mp4">
+    <video class="vid1 js-player" controls="" loading="lazy" poster="https://image.tmdb.org/t/p/original/zwfec4vK1EvkQapE5wcYrB1BHov.jpg" preload="none">
+      <source src="https://dl.dropbox.com/scl/fi/0prsz81yb8pv74njs8d0j/The.miracle.season.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=g97lmjjkt9ekh8stxzh6ci8g8&amp;st=" type="video/mp4"/>
     </video>
   </div>
-
+  
   <div id="resume-msg">✅ Reanudando donde lo dejaste: ¡A GANAR!</div>
-
   <div class="info">
     <i class="fal fa-calendar-alt"></i><span>2018</span>
     <i class="fal fa-clock"></i><span>1h 41min</span>
     <i class="fal fa-thumbs-up"></i><span>72%</span>
     <div class="hd-tag">
-      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <rect width="24" height="24" rx="4" fill="white" />
-        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      <svg height="22" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="white" height="24" rx="4" width="24"></rect>
+        <text fill="black" font-family="Arial, sans-serif" font-size="12" font-style="italic" font-weight="bold" x="4" y="17">HD</text>
       </svg>
       <span>1080P</span>
     </div>
     <span>🇲🇽</span>
   </div>
-
+  
   <div class="titulo">
     <h3>¡A Ganar!</h3>
-    <br>
-    <h4>Género: Drama</h4>
+    <br/>
+    <h4>Género: Drama, Animacion, Accion, Terror, Comedia</h4>
   </div>
-
   <div class="sinopsis">
     <h4>
       Sinopsis:
-    </h4>
-    <p id="sinopsis-texto" class="colapsado">
+    </h4><p class="colapsado" id="sinopsis-texto">
       Basado en la historia real del equipo de voleibol femenino de West High School. Tras la trágica muerte de la jugadora estrella de la escuela, Caroline 'Line' Found, las jugadores restantes deberán unirse bajo la dirección de su dura entrenadora (Helen Hunt) con la esperanza de ganar el campeonato estatal.
-    </p>
-    <button id="toggle-sinopsis" style="
-    background: none;
-    border: none;
-    color:rgb(255, 0, 0);
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin-top: 5px;
-    ">Ver más</button>
+    </p><div style="text-align: right; margin-top: 5px;"><button id="toggle-sinopsis" style="background: none; border: none; color:rgb(255, 0, 0); font-size: 0.9rem; cursor: pointer; white-space: nowrap;">Ver más</button></div>
   </div>
+  
+  <!--ACA VA LA SINOPSIS DE VER MAS/VER MENOS-->
   <style>
     #sinopsis-texto.colapsado {
       display: -webkit-box;
@@ -219,7 +235,7 @@
       text-overflow: ellipsis;
     }
   </style>
-
+  <!--ESTE SCRIPT FUNCIONA DE VER MAS/VER MENOS-->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const texto = document.getElementById('sinopsis-texto');
@@ -232,6 +248,21 @@
     });
   </script>
 
+  <!--ESTE SCRIPT DETECTA SI HAY DESBORDE REAL O NO Y SINO LO HAY, OCULTE EL BOTON-->
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sinopsis = document.getElementById('sinopsis-texto');
+  const boton = document.getElementById('toggle-sinopsis');
+
+  const hayDesborde = sinopsis.scrollHeight > sinopsis.clientHeight;
+
+  if (!hayDesborde) {
+    boton.style.display = 'none';
+  }
+});
+</script>
+
+  
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
       background: #ff4444;
@@ -245,71 +276,70 @@
       ⭐ Favoritos
     </button>
   </div>
-
+  <br>
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
-    <br>
+    <br/>
     <div class="series-grid">
-      <a href="Yo, Tonya (2017).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg" alt="">
+      <a class="serie" href="Yo, Tonya (2017).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg"/>
         <p>Yo, Tonya</p>
       </a>
-      <a href="Desaparecidos en la noche (2024).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg" alt="">
+      <a class="serie" href="Desaparecidos en la noche (2024).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg"/>
         <p>Desaparecidos en la noche</p>
       </a>
-      <a href="Asesino serial (2024).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg" alt="">
+      <a class="serie" href="Asesino serial (2024).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"/>
         <p>Asesino serial</p>
       </a>
-      <a href="Harta (2025).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg" alt="">
+      <a class="serie" href="Harta (2025).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"/>
         <p>Harta</p>
       </a>
-      <a href="La mitad de Ana (2025).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg" alt="">
+      <a class="serie" href="La mitad de Ana (2025).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"/>
         <p>La mitad de Ana</p>
       </a>
-      <a href="El deseo de Ana (2021).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/8vD6lIkdbTDGI1P2cuIprVlqen7.jpg" alt="">
+      <a class="serie" href="El deseo de Ana (2021).html">
+        <img alt="" loading="lazy" src="https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg"/>
         <p>El deseo de Ana</p>
       </a>
     </div>
   </div>
+  <br>
   
-
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-  titulo: "¡A Ganar!",
-  imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
-  genero: "Drama",
-  archivo: "../View Peliculas/¡A Ganar! (2018).html",
-  tipo: "pelicula",
-  timestamp: Date.now()
-};
+    document.getElementById('btn-favorito').addEventListener('click', () => {
+      const nuevaPelicula = {
+        titulo: "¡A Ganar!",
+        imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
+        genero: "Drama",
+        archivo: "../View Peliculas/¡A Ganar! (2018).html",
+        tipo: "pelicula",
+        timestamp: Date.now()
+      };
 
-historial.push({
-  titulo: historialTitulo,
-  imagen: historialImagen,
-  progreso: "Asistido 0 min",
-  archivo: historialArchivo,
-  timestamp: Date.now() // ← agregado
-});
+      historial.push({
+        titulo: historialTitulo,
+        imagen: historialImagen,
+        progreso: "Asistido 0 min",
+        archivo: historialArchivo,
+        timestamp: Date.now() // ← agregado
+      });
 
-historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
+      historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
 
-
-
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "favoritos.html";
-});
-
-</script>
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+        favoritos.push(nuevaPelicula);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      }
+      window.location.href = "favoritos.html";
+    });
+  </script>
+  
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -345,63 +375,57 @@ historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
         controls.insertBefore(rewindBtn, controls.firstChild);
       }
     });
-
+    
     setInterval(() => {
       if (!videoElement.paused && !videoElement.ended) {
         localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
       }
     }, 5000);
     
-  
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-  titulo: "¡A Ganar!",
-  imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
-  genero: "Drama",
-  archivo: "../View Peliculas/¡A Ganar! (2018).html",
-  tipo: "pelicula",
-  timestamp: Date.now()
-};
-
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "favoritos.html";
-});
-
-
-</script>
-<div id="mensaje-confirmacion" style="
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
-  z-index: 9999;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  transition: opacity 0.5s ease;
-"></div>
-
-<script>
-  function mostrarMensaje(texto) {
-    const mensaje = document.getElementById('mensaje-confirmacion');
-    mensaje.textContent = texto;
-    mensaje.style.display = 'block';
-    mensaje.style.opacity = '1';
-    setTimeout(() => {
-      mensaje.style.opacity = '0';
-      setTimeout(() => mensaje.style.display = 'none', 500);
-    }, 3000);
-  }
-</script>
-
+    document.getElementById('btn-favorito').addEventListener('click', () => {
+      const nuevaPelicula = {
+        titulo: "¡A Ganar!",
+        imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
+        genero: "Drama",
+        archivo: "../View Peliculas/¡A Ganar! (2018).html",
+        tipo: "pelicula",
+        timestamp: Date.now()
+      };
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+        favoritos.push(nuevaPelicula);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      }
+      window.location.href = "favoritos.html";
+    });
+  </script>
+  <div id="mensaje-confirmacion" style="
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: opacity 0.5s ease;">
+  </div>
+  <script>
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
+  </script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.querySelector('.vid1');
@@ -449,7 +473,5 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 
   });
 </script>
-
-
 </body>
 </html>
