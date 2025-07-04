@@ -133,6 +133,20 @@
     }
     .cancelar { background: #444; color: white; }
     .confirmar { background: crimson; color: white; }
+    @media screen and (orientation: landscape) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .item img {
+    height: 120px !important;
+    object-fit: contain !important;
+    background-color: #000;
+    width: 100%;
+  }
+  .item {
+    padding-bottom: 5px;
+  }
+}
   </style>
 </head>
 <body>
