@@ -189,6 +189,18 @@
       }
     }
 
+
+    /* ACA ES LA ANIMACION DE FAVORITOS */
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    #btn-favorito.animado {
+      animation: pop 0.3s ease;
+    }
+
   </style>
 </head>
 
@@ -251,8 +263,6 @@
     });
   </script>
 
-
-  
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
       background: #ff4444;
@@ -266,7 +276,9 @@
       ⭐ Favoritos
     </button>
   </div>
+
   <br>
+
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
     <br/>
@@ -297,20 +309,12 @@
       </a>
     </div>
   </div>
+
   <br>
   
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
     document.getElementById('btn-favorito').addEventListener('click', () => {
-      const nuevaPelicula = {
-        titulo: "¡A Ganar!",
-        imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
-        genero: "Drama",
-        archivo: "../View Peliculas/¡A Ganar! (2018).html",
-        tipo: "pelicula",
-        timestamp: Date.now()
-      };
-
       historial.push({
         titulo: historialTitulo,
         imagen: historialImagen,
@@ -381,6 +385,12 @@
         tipo: "pelicula",
         timestamp: Date.now()
       };
+
+      const btn = document.getElementById('btn-favorito');
+      btn.classList.add('animado');
+      setTimeout(() => btn.classList.remove('animado'), 300);
+      mostrarMensaje("⭐ Agregado a Favoritos");
+
       let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
       if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
         favoritos.push(nuevaPelicula);
