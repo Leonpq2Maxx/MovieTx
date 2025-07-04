@@ -36,6 +36,16 @@
       gap: 15px;
       padding: 0 15px 30px;
     }
+
+    @media screen and (orientation: landscape) and (max-height: 600px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .item img {
+        height: 140px !important;
+      }
+    
+    }
     .item {
       background-color: #1a1a1a;
       border-radius: 10px;
