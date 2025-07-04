@@ -2080,19 +2080,20 @@ img[data-original-width] {height: auto;}
 <script>
   const input = document.getElementById("myInput");
 
-  // Cargar el valor guardado al cargar la página
-  window.addEventListener("DOMContentLoaded", () => {
-    const buscadorGuardado = localStorage.getItem("busqueda_peliculas");
-    if (buscadorGuardado) {
-      input.value = buscadorGuardado;
-      myFunction(); // Llamá la función de búsqueda para aplicar el filtro
+  // Cargar la búsqueda solo si es navegación entre páginas (no recarga)
+  if (performance.navigation.type !== 1) {
+    const busqueda = sessionStorage.getItem("busqueda_peliculas");
+    if (busqueda) {
+      input.value = busqueda;
+      myFunction(); // aplicar el filtro si ya había búsqueda
     }
-  });
+  }
 
-  // Guardar el valor cada vez que se escribe
+  // Guardar la búsqueda en cada tecla
   input.addEventListener("keyup", () => {
-    localStorage.setItem("busqueda_peliculas", input.value);
+    sessionStorage.setItem("busqueda_peliculas", input.value);
   });
 </script>
+
 </body>
 </html>
