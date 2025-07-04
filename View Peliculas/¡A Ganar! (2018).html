@@ -315,15 +315,6 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
     document.getElementById('btn-favorito').addEventListener('click', () => {
-      historial.push({
-        titulo: historialTitulo,
-        imagen: historialImagen,
-        progreso: "Asistido 0 min",
-        archivo: historialArchivo,
-        timestamp: Date.now() // ← agregado
-      });
-
-      historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
 
       let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
       if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
@@ -376,6 +367,7 @@
       }
     }, 5000);
     
+    /* ACA VA LA NOMBRE, IMAGEN, GENERO, ARCHIVO DONDE GUARDAN SU HTML DE PELICULA Y EL TIEMPO */
     document.getElementById('btn-favorito').addEventListener('click', () => {
       const nuevaPelicula = {
         titulo: "¡A Ganar!",
