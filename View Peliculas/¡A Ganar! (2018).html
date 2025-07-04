@@ -175,17 +175,21 @@
       text-overflow: ellipsis;
     }
 
-    @media screen and (max-width: 768px) {
-      #sinopsis-texto.colapsado {
-        -webkit-line-clamp: 5;
-      }
-    }
-    
-    @media screen and (min-width: 769px) {
-      #sinopsis-texto.colapsado {
-        -webkit-line-clamp: 3;
-      }
-    }
+
+    /* LA SINOPSIS VA DESAPARECER CUANDO ESTE EN HORIZONTAL */
+
+    @media (orientation: landscape) {
+  #toggle-sinopsis {
+    display: none !important;
+  }
+}
+
+@media (orientation: portrait) {
+  #toggle-sinopsis {
+    display: inline-block !important;
+  }
+}
+
   </style>
 </head>
 
@@ -215,7 +219,7 @@
   <div class="titulo">
     <h3>¡A Ganar!</h3>
     <br/>
-    <h4>Género: Drama, Animacion, Accion, Terror, Comedia</h4>
+    <h4>Género: Drama</h4>
   </div>
   <div class="sinopsis">
     <h4>
@@ -248,19 +252,6 @@
     });
   </script>
 
-  <!--ESTE SCRIPT DETECTA SI HAY DESBORDE REAL O NO Y SINO LO HAY, OCULTE EL BOTON-->
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const sinopsis = document.getElementById('sinopsis-texto');
-  const boton = document.getElementById('toggle-sinopsis');
-
-  const hayDesborde = sinopsis.scrollHeight > sinopsis.clientHeight;
-
-  if (!hayDesborde) {
-    boton.style.display = 'none';
-  }
-});
-</script>
 
   
   <div style="text-align: center; margin-top: 15px;">
@@ -399,6 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = "favoritos.html";
     });
   </script>
+
   <div id="mensaje-confirmacion" style="
     display: none;
     position: fixed;
@@ -414,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     transition: opacity 0.5s ease;">
   </div>
+
   <script>
     function mostrarMensaje(texto) {
       const mensaje = document.getElementById('mensaje-confirmacion');
@@ -426,23 +419,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 3000);
     }
   </script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const videoElement = document.querySelector('.vid1');
-    if (!videoElement) return;
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const videoElement = document.querySelector('.vid1');
+      if (!videoElement) return;
 
-    const videoSrc = videoElement.querySelector('source').getAttribute('src');
-    const STORAGE_KEY = 'pos_' + videoSrc;
+      const videoSrc = videoElement.querySelector('source').getAttribute('src');
+      const STORAGE_KEY = 'pos_' + videoSrc;
 
-    const historialTitulo = "¡A Ganar!";
-    const historialImagen = "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg";
-    const historialArchivo = "¡A Ganar! (2018).html";
+      const historialTitulo = "¡A Ganar!";
+      const historialImagen = "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg";
+      const historialArchivo = "¡A Ganar! (2018).html";
 
-    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
 
-    if (indexHist === -1) {
-      historial.push({
+      if (indexHist === -1) {
+        historial.push({
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
@@ -454,24 +448,20 @@ document.addEventListener('DOMContentLoaded', () => {
       indexHist = historial.length - 1;
       mostrarMensaje('✅ Agregado al historial');
     }
-
     setInterval(() => {
-  if (!videoElement.paused && !videoElement.ended) {
-    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
-    
-    if (indexHist !== -1) {
-      const minutos = Math.floor(videoElement.currentTime / 60);
-      historial[indexHist].progreso = `Asistido ${minutos} min`;
-      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-    }
-
-    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-  }
-}, 10000);
-
-  });
-</script>
+      if (!videoElement.paused && !videoElement.ended) {
+        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+        indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+        if (indexHist !== -1) {
+          const minutos = Math.floor(videoElement.currentTime / 60);
+          historial[indexHist].progreso = `Asistido ${minutos} min`;
+          historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        }
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 10000);
+    });
+  </script>
 </body>
 </html>
