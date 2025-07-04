@@ -1,13 +1,14 @@
 
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Historial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historial</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet"/>
+<link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
+<style>
     body {
       margin: 0;
       font-family: 'Roboto', sans-serif;
@@ -36,19 +37,6 @@
       gap: 15px;
       padding: 0 15px 30px;
     }
-
-    @media screen and (orientation: landscape) and (max-height: 600px) {
-      .grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .item img {
-        height: 140px !important;
-        object-fit: cover;
-        object-position: center;
-      }
-    
-    }
-
     .item {
       background-color: #1a1a1a;
       border-radius: 10px;
@@ -59,7 +47,7 @@
     .item img {
       width: 100%;
       height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN*/
-      object-fit: cover; /*ESTABA COVER*/
+      object-fit: cover;
       border-radius: 8px;
     }
     .item .etiqueta {
@@ -115,29 +103,42 @@
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
       transition: opacity 0.5s ease;
     }
-  </style>
+  
+@media screen and (orientation: landscape) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .item img {
+    height: 120px !important;
+    object-fit: contain !important;
+    background-color: #000;
+    width: 100%;
+  }
+  .item {
+    padding-bottom: 5px;
+  }
+}
+</style>
 </head>
 <body>
-  <header>
-    <i class="fas fa-arrow-left" onclick="history.back()"></i>
-    <span>Historial</span>
-    <i class="fas fa-trash-alt" onclick="limpiarHistorial()"></i>
-  </header>
-  <h2>Última semana</h2>
-  <div class="grid" id="historial-container"></div>
-  <div id="mensaje-confirmacion"></div>
-
-  <div id="modal-confirmacion" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;align-items:center;justify-content:center;">
-    <div style="background:#1e1e1e;padding:20px;border-radius:10px;max-width:80%;text-align:center;color:#fff;">
-      <p id="modal-mensaje"></p>
-      <div style="margin-top:15px;">
-        <button id="btn-cancelar" style="margin-right:10px;background:#444;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Cancelar</button>
-        <button id="btn-confirmar" style="background:crimson;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Eliminar</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
+<header>
+<i class="fas fa-arrow-left" onclick="history.back()"></i>
+<span>Historial</span>
+<i class="fas fa-trash-alt" onclick="limpiarHistorial()"></i>
+</header>
+<h2>Última semana</h2>
+<div class="grid" id="historial-container"></div>
+<div id="mensaje-confirmacion"></div>
+<div id="modal-confirmacion" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;align-items:center;justify-content:center;">
+<div style="background:#1e1e1e;padding:20px;border-radius:10px;max-width:80%;text-align:center;color:#fff;">
+<p id="modal-mensaje"></p>
+<div style="margin-top:15px;">
+<button id="btn-cancelar" style="margin-right:10px;background:#444;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Cancelar</button>
+<button id="btn-confirmar" style="background:crimson;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">Eliminar</button>
+</div>
+</div>
+</div>
+<script>
     let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
     const LIMITE_HISTORIAL = 21; // ACA ES PARA AUMENTAR EL NUMERO DE TARJETAS DE PELICULAS SI QUIERES AUMENTAR PARA QUE SE VEAN 30 ES ASI POR EJEMPLO: SI QUIERES QUE SEAN 30 DEBES CAMBIAR EL "2" Y PONER "3"
     let ultimoEliminado = null;
