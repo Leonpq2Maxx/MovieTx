@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MovieTx - Reproductor de pelicula</title>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet">
-  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet"/>
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
   <style>
     :root {
       --plyr-color-main: #ff0000;
@@ -91,11 +91,15 @@
       text-decoration: none;
       color: white;
     }
+
     .serie img {
       width: 100%;
-      max-width: 150px;
+      height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN forzandolas para que se adapten bien*/
       border-radius: 10px;
+      object-fit: cover;     /* recorta lo que sobra sin deformar */
+      object-position: center; /* centra el contenido visual */
     }
+
     .serie p {
       margin-top: 5px;
     }
@@ -162,10 +166,31 @@
         padding: 8px 16px;
       }
     }
+
+    #genero-texto.colapsado {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ACA ES LA ANIMACION DE FAVORITOS */
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    #btn-favorito.animado {
+      animation: pop 0.3s ease;
+    }
+
   </style>
 </head>
-<body ondragstart="return false;" ondrop="return false;">
 
+<body ondragstart="return false;" ondrop="return false;">
+  
   <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/3lf6YCItKcF3Wrrs7tp1PL0eyOT.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
       <source src="https://dl.dropbox.com/scl/fi/2y6gswnb8setevnlah2ck/Alvin-y-las-ardillas-2.mp4?rlkey=i4p2hktjij1gzr0f8nkd889qz&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
@@ -200,6 +225,8 @@
       Las ardillas más famosas y divertidas del cine regresan a la gran pantalla para protagonizar una nueva aventura. En ella, Alvin y sus compañeros deben enfrentarse a la presión de la escuela, a los problemas de la celebridad y a un grupo de chicas ardilla que les está haciendo la competencia
     </p>
   </div>
+
+  <!-- NO BORRAR ES EL BOTON DEL FAVORITOS -->
   <div style="text-align: center; margin-top: 15px;">
     <button id="btn-favorito" style="
       background: #ff4444;
@@ -214,9 +241,11 @@
     </button>
   </div>
 
+  <br>
+
   <div class="recomendaciones">
     <h4>Podría interesarte:</h4>
-    <br>
+    <br/>
     <div class="series-grid">
       <a href="Alvin y las ardillas (2007).html" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg" alt="">
@@ -244,39 +273,20 @@
       </a>
     </div>
   </div>
-
+  
+  <!-- ¡¡¡NO BORRAR ESTE SCRIPT ES DE FAVORITOS Y SI LO BORRAN AFECTARAN EL FUNCIONAMIENTO DE REPRODUCTOR Y FAVORITOS!!! -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-  titulo: "Alvin y las ardillas 2",
-  imagen: "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",
-  genero: "Animacion",
-  archivo: "Alvin y las ardillas 2 (2009).html",
-  tipo: "pelicula",
-  timestamp: Date.now()
-};
+    document.getElementById('btn-favorito').addEventListener('click', () => {
 
-historial.push({
-  titulo: historialTitulo,
-  imagen: historialImagen,
-  progreso: "Asistido 0 min",
-  archivo: historialArchivo,
-  timestamp: Date.now() // ← agregado
-});
-
-historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
-
-
-
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "favoritos.html";
-});
-
-</script>
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+        favoritos.push(nuevaPelicula);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      }
+      window.location.href = "favoritos.html";
+    });
+  </script>
+  
   <script>
     const videoElement = document.querySelector('.vid1');
     const videoSrc = videoElement.querySelector('source').getAttribute('src');
@@ -312,82 +322,87 @@ historial[indexHist].timestamp = Date.now(); // ← agregado junto con progreso
         controls.insertBefore(rewindBtn, controls.firstChild);
       }
     });
-
+    
     setInterval(() => {
       if (!videoElement.paused && !videoElement.ended) {
         localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
       }
     }, 5000);
     
+    /* ACA VA LA NOMBRE, IMAGEN, GENERO, ARCHIVO DONDE GUARDAN SU HTML DE PELICULA Y EL TIEMPO */
+    document.getElementById('btn-favorito').addEventListener('click', () => {
+      const nuevaPelicula = {
+        titulo: "Alvin y las ardillas 2",
+        imagen: "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",
+        genero: "Animacion",
+        archivo: "Alvin y las ardillas 2 (2009).html",
+        tipo: "pelicula",
+        timestamp: Date.now()
+      };
+
+      /* animacion de favoritos */
+      const btn = document.getElementById('btn-favorito');
+      btn.classList.add('animado');
+      setTimeout(() => btn.classList.remove('animado'), 300);
+      mostrarMensaje("⭐ Agregado a Favoritos");
+
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+        favoritos.push(nuevaPelicula);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      }
+      window.location.href = "favoritos.html";
+    });
+  </script>
+
+  <!--Aca va el mensaje que se ha agregado al historial-->
+  <div id="mensaje-confirmacion" style="
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: opacity 0.5s ease;">
+  </div>
+
+  <script>
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
+  </script>
   
-document.getElementById('btn-favorito').addEventListener('click', () => {
-  const nuevaPelicula = {
-  titulo: "Alvin y las ardillas 2",
-  imagen: "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",
-  genero: "Animacion",
-  archivo: "Alvin y las ardillas 2 (2009).html",
-  tipo: "pelicula",
-  timestamp: Date.now()
-};
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const videoElement = document.querySelector('.vid1');
+      if (!videoElement) return;
 
-  let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-  if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-    favoritos.push(nuevaPelicula);
-    localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  }
-  window.location.href = "favoritos.html";
-});
+      const videoSrc = videoElement.querySelector('source').getAttribute('src');
+      const STORAGE_KEY = 'pos_' + videoSrc;
 
+      /*ACA VA EL NOMBRE, IMAGEN, HTML DONDE ESTA UBICADO SU HTML (HISTORIAL)*/
+      const historialTitulo = "Alvin y las ardillas 2";
+      const historialImagen = "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg";
+      const historialArchivo = "Alvin y las ardillas 2 (2009).html";
 
-</script>
-
-<!--Aca va el mensaje que se ha agregado al historial-->
-<div id="mensaje-confirmacion" style="
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 1rem;
-  z-index: 9999;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  transition: opacity 0.5s ease;
-"></div>
-
-<script>
-  function mostrarMensaje(texto) {
-    const mensaje = document.getElementById('mensaje-confirmacion');
-    mensaje.textContent = texto;
-    mensaje.style.display = 'block';
-    mensaje.style.opacity = '1';
-    setTimeout(() => {
-      mensaje.style.opacity = '0';
-      setTimeout(() => mensaje.style.display = 'none', 500);
-    }, 3000);
-  }
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const videoElement = document.querySelector('.vid1');
-    if (!videoElement) return;
-
-    const videoSrc = videoElement.querySelector('source').getAttribute('src');
-    const STORAGE_KEY = 'pos_' + videoSrc;
-
-    const historialTitulo = "Alvin y las ardillas 2";
-    const historialImagen = "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg";
-    const historialArchivo = "Alvin y las ardillas 2 (2009).html";
-
-    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
-
-    if (indexHist === -1) {
-      historial.push({
+      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+      
+      if (indexHist === -1) {
+        historial.push({
         titulo: historialTitulo,
         imagen: historialImagen,
         progreso: "Asistido 0 min",
@@ -399,26 +414,20 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
       indexHist = historial.length - 1;
       mostrarMensaje('✅ Agregado al historial');
     }
-
     setInterval(() => {
-  if (!videoElement.paused && !videoElement.ended) {
-    historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
-    indexHist = historial.findIndex(item => item.titulo === historialTitulo);
-    
-    if (indexHist !== -1) {
-      const minutos = Math.floor(videoElement.currentTime / 60);
-      historial[indexHist].progreso = `Asistido ${minutos} min`;
-      historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
-      localStorage.setItem('historial_usuarios', JSON.stringify(historial));
-    }
-
-    localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
-  }
-}, 10000);
-
-  });
-</script>
-
-
+      if (!videoElement.paused && !videoElement.ended) {
+        historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+        indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+        if (indexHist !== -1) {
+          const minutos = Math.floor(videoElement.currentTime / 60);
+          historial[indexHist].progreso = `Asistido ${minutos} min`;
+          historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+          localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+        }
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 10000);
+    });
+  </script>
 </body>
 </html>

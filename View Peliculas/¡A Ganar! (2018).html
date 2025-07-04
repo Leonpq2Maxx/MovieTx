@@ -175,21 +175,6 @@
       text-overflow: ellipsis;
     }
 
-
-    /* LA SINOPSIS VA DESAPARECER CUANDO ESTE EN HORIZONTAL */
-    @media (orientation: landscape) {
-      #toggle-sinopsis {
-        display: none !important;
-      }
-    }
-
-    @media (orientation: portrait) {
-      #toggle-sinopsis {
-        display: inline-block !important;
-      }
-    }
-
-
     /* ACA ES LA ANIMACION DE FAVORITOS */
     @keyframes pop {
       0%   { transform: scale(1); }
@@ -287,8 +272,6 @@
       </a>
     </div>
   </div>
-
-  <br>
   
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
