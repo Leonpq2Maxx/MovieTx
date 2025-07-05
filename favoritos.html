@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Favoritos</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <style>
+
+    body {
+      margin: 0;
+      background-color: #121212;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+     a.enlace {
+      text-decoration: none;
+      color: inherit;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #1e1e1e;
+    }
+    header i {
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 0 15px 30px;
+    }
+    .item {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .item img {
+      width: 100%;
+      height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN*/
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .item-title {
+      color: white;
+      white-space: normal;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.85rem; /*0.95 estaba*/
+    }
+    .etiqueta {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #e91e63;
+      color: white;
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .fecha {
+      font-size: 0.65rem;
+      text-align: center;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: crimson;
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    #mensaje-confirmacion {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+      transition: opacity 0.5s ease;
+    }
+    #mensaje-confirmacion button {
+      background: transparent;
+      border: none;
+      color: #00ffee;
+      margin-left: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    #modal-confirmacion {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-confirmacion div {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+    }
+    #modal-confirmacion button {
+      margin: 10px 5px 0;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cancelar { background: #444; color: white; }
+    .confirmar { background: crimson; color: white; }
+    @media screen and (orientation: landscape) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .item img {
+    height: 120px !important;
+    object-fit: contain !important;
+    background-color: #000;
+    width: 100%;
+  }
+  .item {
+    padding-bottom: 5px;
+  }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <i class="fas fa-arrow-left" onclick="history.back()"></i>
+    <span>Favoritos</span>
+    <i class="fas fa-trash" onclick="confirmarEliminarTodo()"></i>
+  </header>
+
+  <div class="grid" id="favoritos-container"></div>
+  <div id="mensaje-confirmacion"></div>
+
+  <div id="modal-confirmacion">
+    <div>
+      <p>¿Eliminar todos los favoritos?</p>
+      <button class="cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="confirmar" onclick="eliminarTodos()">Eliminar</button>
+    </div>
+  </div>
+
+  <script>
+    let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+    favoritos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    let ultimoEliminado = null;
+    let indexUltimo = null;
+
+    const container = document.getElementById('favoritos-container');
+
+    function mostrarMensaje(texto, conDeshacer = false) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.innerHTML = conDeshacer ? texto + ' <button onclick="deshacerEliminacion()">Deshacer</button>' : texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 4000);
+    }
+
+    function renderFavoritos() {
+      container.innerHTML = '';
+      favoritos.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        const tipo = item.tipo === 'serie' ? 'Serie' : 'Película';
+        const episodio = item.progreso || '';
+        const fecha = item.timestamp ? new Date(item.timestamp).toLocaleDateString() : '';
+        div.innerHTML = `
+          <a href="${item.archivo}" class="enlace">
+            <img src="${item.imagen}" alt="${item.titulo}">
+            <div class="item-title">${item.titulo}</div>
+            <div class="fecha">${episodio ? '📺 ' + episodio : '🕓 ' + fecha}</div>
+            <div class="etiqueta">${tipo}</div>
+          </a>
+          <button class="delete-btn" onclick="eliminarFavorito(${index})">×</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function eliminarFavorito(index) {
+      ultimoEliminado = favoritos[index];
+      indexUltimo = index;
+      favoritos.splice(index, 1);
+      localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      renderFavoritos();
+      mostrarMensaje(`❌ Quitado: ${ultimoEliminado.titulo}`, true);
+    }
+
+    function deshacerEliminacion() {
+      if (ultimoEliminado !== null && indexUltimo !== null) {
+        favoritos.splice(indexUltimo, 0, ultimoEliminado);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+        renderFavoritos();
+        mostrarMensaje(`🔄 Restaurado: ${ultimoEliminado.titulo}`);
+        ultimoEliminado = null;
+        indexUltimo = null;
+      }
+    }
+
+    function confirmarEliminarTodo() {
+      document.getElementById('modal-confirmacion').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal-confirmacion').style.display = 'none';
+    }
+
+    function eliminarTodos() {
+      favoritos = [];
+      localStorage.removeItem('favoritos_detalles');
+      renderFavoritos();
+      mostrarMensaje('🧹 Favoritos eliminados');
+      cerrarModal();
+    }
+
+    renderFavoritos();
+  </script>
+</body>
+</html>
