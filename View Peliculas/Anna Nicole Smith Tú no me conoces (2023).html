@@ -94,10 +94,8 @@
 
     .serie img {
       width: 100%;
-      height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN forzandolas para que se adapten bien*/
+      max-width: 150px;
       border-radius: 10px;
-      object-fit: cover;     /* recorta lo que sobra sin deformar */
-      object-position: center; /* centra el contenido visual */
     }
 
     .serie p {
@@ -191,7 +189,7 @@
 
 <body ondragstart="return false;" ondrop="return false;">
   
-  <<div class="player">
+  <div class="player">
     <video class="vid1 js-player" loading="lazy" controls poster="https://image.tmdb.org/t/p/original/nIXBaPRix53sq4W2KK8FazrGzc4.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
       <source src="https://dl.dropbox.com/scl/fi/y9jubtkn9hxk5fs1yokrf/Anna-nicole-2023.mp4?rlkey=k8cskscbcw2n2pdfvzomontjy&st=" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
     </video>
