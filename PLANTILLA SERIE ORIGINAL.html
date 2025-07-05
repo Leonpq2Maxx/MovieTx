@@ -582,6 +582,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
         imagen: serieImagen,
         progreso: progresoTexto,
         archivo: archivoHTML,
+        tipo: "serie", // ✅ ya está
         timestamp: Date.now() // ✅ IMPORTANTE
       });
       if (historial.length > 20) historial.pop(); // Limita a 20
@@ -615,6 +616,7 @@ if (ultimo && episodiosData[ultimo.temporada]) {
       imagen: serieImagen,
       progreso: progresoTexto,
       archivo: archivoHTML,
+      tipo: "serie", // ✅ ya está
       timestamp: Date.now() // ✅ se agrega timestamp al guardar
     });
     mostrarMensaje("📺 Agregado al historial");
@@ -666,10 +668,12 @@ if (ultimo && episodiosData[ultimo.temporada]) {
 <script>
 document.getElementById('btn-favorito').addEventListener('click', () => {
   const nuevaPelicula = {
-    titulo: "Nombre de serie",
-    imagen: "https://image.tmdb.org/t/p/w300/", 
-    genero: "#/Serie",
-    archivo: "../View Series/.html"
+  titulo: "Nombre de serie",
+  imagen: "https://image.tmdb.org/t/p/w300/",
+  genero: "#", // o "Serie", "Crimen/Serie", etc.
+  archivo: "../View Series/.html",
+  tipo: "serie", // ✅ identifica si es "serie" o "pelicula"
+  timestamp: 1720000000000 // opcional: para ordenar por fech
   };
   let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
   if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
