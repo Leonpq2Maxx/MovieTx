@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Favoritos</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <style>
+
+    body {
+      margin: 0;
+      background-color: #000000ff;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+     a.enlace {
+      text-decoration: none;
+      color: inherit;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #1e1e1e;
+    }
+    header i {
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      padding: 0 12px 30px;
+      margin-top: 20px; /* 🔥 NUEVO: separa las tarjetas del header */
+    }
+    @media screen and (max-width: 3000px) {
+  .grid {
+    margin-top: 25px;
+  }
+}
+
+    .item {
+      background-color: #000000;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .item img {
+      width: 100%;
+      height: 180px; /* o 240px */ /*ACA ES EL LARGO DE LA IMAGEN*/
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .item-title {
+      color: white;
+      white-space: normal;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.60rem;  /*0.95 estaba*/
+    }
+    .etiqueta {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #e91e63;
+      color: white;
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .fecha {
+      font-size: 0.65rem;
+      text-align: center;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: crimson;
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    #mensaje-confirmacion {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+      transition: opacity 0.5s ease;
+    }
+    #mensaje-confirmacion button {
+      background: transparent;
+      border: none;
+      color: #00ffee;
+      margin-left: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    #modal-confirmacion {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-confirmacion div {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+    }
+    #modal-confirmacion button {
+      margin: 10px 5px 0;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cancelar { background: #444; color: white; }
+    .confirmar { background: crimson; color: white; }
+    @media screen and (orientation: landscape) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .item img {
+    height: 120px !important;
+    object-fit: contain !important;
+    background-color: #000;
+    width: 100%;
+  }
+  .item {
+    padding-bottom: 5px;
+  }
+}
+  </style>
+</head>
+<body>
+
+
+  <!-- 🔴 Pantalla de carga personalizada MovieTx (versión neón) -->
+<div id="loader-screen">
+  <div class="loader-content">
+    <div class="loader-circle">
+      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
+    </div>
+
+    <h1 class="loader-title">MovieTx</h1>
+    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
+    <p class="loader-msg">Por favor, espere</p>
+
+    <!-- 🔥 Nueva barra de carga profesional -->
+    <div class="loading-bar">
+      <div class="loading-fill" id="loading-fill"></div>
+      <div class="loading-percent" id="loading-percent">0%</div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+#loader-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10000;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loader-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.loader-content { text-align: center; }
+
+.loader-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top: 6px solid #00aaff;
+  border-bottom: 6px solid #ff007f;
+  animation: spin 2s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+}
+
+.loader-logo { width: 100px; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff1a8c, 0 0 40px #ff007f;
+  font-weight: bold;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.loader-sub { font-size: 1.2rem; color: #ccc; }
+.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
+
+/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
+.loading-bar {
+  width: 75%;
+  height: 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  margin: 22px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00aaff, #ff007f);
+  transition: width 0.3s ease;
+}
+
+.loading-percent {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loader = document.getElementById('loader-screen');
+  const continueModal = document.getElementById('continue-modal');
+  if (continueModal) continueModal.style.display = 'none';
+  const bar = document.getElementById('loading-fill');
+  const percent = document.getElementById('loading-percent');
+
+  let totalImages = document.images.length;
+  let loaded = 0;
+
+  if (totalImages === 0) {
+    totalImages = 1;
+    loaded = 1;
+  }
+
+  function updateLoader() {
+    loaded++;
+    let p = Math.floor((loaded / totalImages) * 100);
+
+    bar.style.width = p + "%";
+    percent.textContent = p + "%";
+
+    if (p >= 100) {
+      setTimeout(() => {
+        loader.classList.add("hidden");
+      }, 600);
+    }
+  }
+
+   window.addEventListener('load', () => {
+    // Pequeño retardo opcional de 1 segundo para suavizar
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      setTimeout(() => {
+        if (continueModal) continueModal.style.display = '';
+      }, 700); /*1200*/
+    }, 200); /*1000*/
+  });
+
+  for (let img of document.images) {
+    if (img.complete) updateLoader();
+    else {
+      img.addEventListener("load", updateLoader);
+      img.addEventListener("error", updateLoader);
+    }
+  }
+});
+</script>
+<!-- 🔴 Fin pantalla de carga neón -->
+
+  <header>
+    <i class="fas fa-arrow-left" onclick="history.back()"></i>
+    <span>Favoritos</span>
+    <i class="fas fa-trash" onclick="confirmarEliminarTodo()"></i>
+  </header>
+
+  <div class="grid" id="favoritos-container"></div>
+  <div id="mensaje-confirmacion"></div>
+
+  <div id="modal-confirmacion">
+    <div>
+      <p>¿Eliminar todos los favoritos?</p>
+      <button class="cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="confirmar" onclick="eliminarTodos()">Eliminar</button>
+    </div>
+  </div>
+
+  <!-- Modal de verificación de edad -->
+<div id="ageModal" class="age-modal hidden">
+  <div class="age-modal-content">
+    <span class="close-button" onclick="closeModal()">×</span>
+    <h2>¿Eres mayor de edad?</h2>
+
+    <label for="birthyear">Año de nacimiento:</label>
+    <input type="number" id="birthyear" placeholder="Año" min="1900" max="2025" />
+
+    <label for="age">Edad</label>
+    <input type="number" id="age" placeholder="Edad" min="1" max="120" />
+
+    <button id="confirmAgeBtn">Validar edad</button>
+    <p id="result-message"></p>
+  </div>
+</div>
+
+<style>
+  .age-modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .age-modal-content {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  .age-modal-content h2,
+  .age-modal-content label,
+  .age-modal-content p {
+    color: #000;
+  }
+
+  .age-modal-content input {
+    width: 90%;
+    margin: 10px auto;
+    padding: 8px;
+    display: block;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .age-modal-content button {
+    background: #0b57cf;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .close-button {
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  let pendingRedirect = null;
+
+  function verificarFavorito(url, requiereEdad) {
+    if (requiereEdad) {
+      pendingRedirect = url;
+      openModal();
+    } else {
+      location.href = url;
+    }
+  }
+
+  function openModal() {
+    document.getElementById("ageModal").classList.remove("hidden");
+    document.getElementById("result-message").innerText = "";
+    document.getElementById("birthyear").value = "";
+    document.getElementById("age").value = "";
+  }
+
+  function closeModal() {
+    document.getElementById("ageModal").classList.add("hidden");
+    pendingRedirect = null;
+  }
+
+  document.getElementById("confirmAgeBtn").addEventListener("click", function () {
+    const birthYear = parseInt(document.getElementById("birthyear").value);
+    const enteredAge = parseInt(document.getElementById("age").value);
+    const currentYear = new Date().getFullYear();
+    const calculatedAge = currentYear - birthYear;
+    const result = document.getElementById("result-message");
+
+    if (
+      isNaN(birthYear) || isNaN(enteredAge) ||
+      birthYear > currentYear || birthYear < 1900 ||
+      enteredAge < 0 || enteredAge > 120
+    ) {
+      result.innerText = "Por favor completa los campos con valores válidos.";
+      result.style.color = "red";
+      return;
+    }
+
+    if (enteredAge !== calculatedAge) {
+      result.innerText = "La edad no coincide con el año de nacimiento.";
+      result.style.color = "red";
+      return;
+    }
+
+    if (enteredAge >= 18) {
+      result.innerText = "Acceso permitido. Redirigiendo...";
+      result.style.color = "green";
+      setTimeout(() => {
+        if (pendingRedirect) {
+          window.location.href = pendingRedirect;
+        }
+      }, 1500);
+    } else {
+      result.innerText = "No eres mayor de edad, vuelve a intentarlo más adelante.";
+      result.style.color = "red";
+    }
+  });
+</script>
+
+
+  <script>
+    let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+    favoritos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    let ultimoEliminado = null;
+    let indexUltimo = null;
+
+    const container = document.getElementById('favoritos-container');
+
+    function mostrarMensaje(texto, conDeshacer = false) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.innerHTML = conDeshacer ? texto + ' <button onclick="deshacerEliminacion()">Deshacer</button>' : texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 4000);
+    }
+
+    function renderFavoritos() {
+      container.innerHTML = '';
+      favoritos.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        const tipo = item.tipo === 'serie' ? 'Serie' : 'Película';
+        const episodio = item.progreso || '';
+        const fecha = item.timestamp ? new Date(item.timestamp).toLocaleDateString() : '';
+        div.innerHTML = `
+          <a href="#" class="enlace" onclick="verificarFavorito('${item.archivo}', ${item.adulto === true})">
+            <img src="${item.imagen}" alt="${item.titulo}">
+            <div class="item-title">${item.titulo}</div>
+            <div class="fecha">${episodio ? '📺 ' + episodio : '🕓 ' + fecha}</div>
+            <div class="etiqueta">${tipo}</div>
+          </a>
+          <button class="delete-btn" onclick="eliminarFavorito(${index})">×</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function eliminarFavorito(index) {
+      ultimoEliminado = favoritos[index];
+      indexUltimo = index;
+      favoritos.splice(index, 1);
+      localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      renderFavoritos();
+      mostrarMensaje(`❌ Quitado: ${ultimoEliminado.titulo}`, true);
+    }
+
+    function deshacerEliminacion() {
+      if (ultimoEliminado !== null && indexUltimo !== null) {
+        favoritos.splice(indexUltimo, 0, ultimoEliminado);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+        renderFavoritos();
+        mostrarMensaje(`🔄 Restaurado: ${ultimoEliminado.titulo}`);
+        ultimoEliminado = null;
+        indexUltimo = null;
+      }
+    }
+
+    function confirmarEliminarTodo() {
+      document.getElementById('modal-confirmacion').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal-confirmacion').style.display = 'none';
+    }
+
+    function eliminarTodos() {
+      favoritos = [];
+      localStorage.removeItem('favoritos_detalles');
+      renderFavoritos();
+      mostrarMensaje('🧹 Favoritos eliminados');
+      cerrarModal();
+    }
+
+    renderFavoritos();
+  </script>
+</body>
+</html>

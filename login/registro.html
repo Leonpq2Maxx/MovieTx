@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Registro - MovieTx</title>
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh}
+.card{width:360px;padding:22px;background:linear-gradient(180deg,#090909,#111);border-radius:10px}
+input{width:100%;padding:12px;margin-top:10px;border-radius:6px;border:0;background:#121214;color:#fff}
+button{width:100%;padding:12px;margin-top:14px;border-radius:6px;border:0;background:#e50914;color:#fff;font-weight:700;cursor:pointer}
+.small{text-align:center;margin-top:10px;color:#bbb;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>Crear cuenta</h2>
+  <input id="name" placeholder="Nombre y apellido" />
+  <input id="email" type="email" placeholder="Correo electrónico" />
+  <input id="pass" type="password" placeholder="Contraseña" />
+  <button onclick="register()">Crear cuenta</button>
+  <div class="small" onclick="location.href='login.html'">Volver al login</div>
+</div>
+
+<script>
+function register(){
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('pass').value.trim();
+  if(!name || !email || !pass) return alert('Completa todos los campos.');
+  const user = {name, email, pass, active:false, expire:null};
+  localStorage.setItem('user', JSON.stringify(user));
+  alert('Cuenta creada. Ahora debes enviar el comprobante de pago.');
+  location.href = 'pago.html';
+}
+</script>
+</body>
+</html>

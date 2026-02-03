@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login - MovieTx</title>
+<style>
+:root{/*simple*/}
+body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh}
+.box{width:360px;padding:26px;background:linear-gradient(180deg,#0b0b0c,#111);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.7)}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.appicon{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#1f1f1f,#2b2b2b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px}
+h2{margin:0 0 8px 0}
+input{width:100%;padding:12px;margin-top:10px;border-radius:6px;border:0;background:#121214;color:#fff}
+button{width:100%;padding:12px;margin-top:14px;border-radius:6px;border:0;background:#e50914;color:#fff;font-weight:700;cursor:pointer}
+.small{text-align:center;margin-top:10px;color:#bbb;cursor:pointer}
+.info{font-size:13px;color:#bbb;margin-top:10px}
+
+/* -------- MODAL DEL CREADOR -------- */
+.creator-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.creator-box {
+  width: 320px;
+  padding: 20px;
+  background: #111;
+  border-radius: 10px;
+  text-align: center;
+  animation: pop .25s ease;
+  border: 1px solid #333;
+}
+
+.creator-box h3 {
+  margin: 0 0 6px;
+}
+
+.creator-box p {
+  color: #bbb;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.creator-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+}
+
+.creator-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #e50914;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.creator-box .cancel {
+  margin-top: 10px;
+  cursor: pointer;
+  color: #888;
+  font-size: 14px;
+}
+
+@keyframes pop {
+  from { transform: scale(.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+  <script>
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+if (user && user.isCreator) {
+    console.log("Acceso del creador permitido.");
+    // no redirecciona ni bloquea
+}
+
+  </script>
+<div class="box">
+  <div id="profileArea" style="text-align:center;margin-bottom:15px;">
+</div>
+
+<script>
+const u = JSON.parse(localStorage.getItem("user")||"null");
+if(u && u.profilePic){
+  document.getElementById("profileArea").innerHTML =
+    `<img src="${u.profilePic}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #333">`;
+}
+</script>
+
+  <div class="logo">
+    <div class="appicon">MT</div>
+    <div>
+      <h2>MovieTx</h2>
+      <div class="info">Accede con tu cuenta. Si no pagaste, te pediremos el comprobante.</div>
+    </div>
+  </div>
+
+  <input id="email" type="email" placeholder="Correo electrónico" />
+  <input id="pass" type="password" placeholder="Contraseña" />
+  <button onclick="login()">Entrar</button>
+
+  <div class="small" onclick="location.href='registro.html'">¿No tienes cuenta? Regístrate</div>
+  <div class="small" onclick="location.href='pago.html'">Ir a Pago</div>
+  <div style="margin-top:12px;font-size:12px;color:#bbb">¿Eres admin? <a href="admin.html" style="color:#fff">Panel admin</a></div>
+  <div class="small" onclick="creatorAccess()" style="color:#ff4444">
+  🔑 Acceso del creador
+</div>
+  <!--<div class="small" onclick="creatorAccess()" style="color:#ff4444">Acceso creador</div>-->
+<!-- MODAL ACCESO CREADOR -->
+<div id="creatorModal" class="creator-modal">
+  <div class="creator-box">
+    <h3>Acceso del Creador</h3>
+    <p>Ingresa la clave secreta para acceder sin pago.</p>
+    <input id="creatorKey" type="password" placeholder="Clave del creador">
+    
+    <button onclick="verifyCreatorKey()">Entrar</button>
+    <div class="cancel" onclick="closeCreatorModal()">Cancelar</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+window.onload = function(){
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if(user && user.active && Date.now() < user.expire) {
+      location.href = 'index.html';
+    }
+  } catch(e){ console.error(e) }
+}
+
+function login(){
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('pass').value.trim();
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  if(!user) return alert('No existe una cuenta registrada. Regístrate primero.');
+  if(user.email !== email || user.pass !== pass) return alert('Datos incorrectos.');
+  if(!user.active) {
+    location.href = 'pago.html?needpay=1';
+    return;
+  }
+  if(Date.now() > user.expire) {
+    alert('Tu cuenta venció. Debes pagar nuevamente.');
+    location.href = 'pago.html?needpay=1';
+    return;
+  }
+  location.href = 'inicio.html';
+}
+
+// ---- ACCESO DEL CREADOR ---- //
+
+function creatorAccess() {
+    document.getElementById("creatorModal").style.display = "flex";
+}
+
+function closeCreatorModal() {
+    document.getElementById("creatorModal").style.display = "none";
+}
+
+function verifyCreatorKey() {
+    const SECRET_KEY = "CreadorMaxi_HD53"; 
+    const key = document.getElementById("creatorKey").value.trim();
+
+    if (key === SECRET_KEY) {
+
+        // GUARDAR AL CREADOR
+        const creator = {
+            email: "creador@movietx",
+            name: "Creador",
+            isCreator: true,
+            active: true,
+            expire: 9999999999999
+        };
+
+        localStorage.setItem("user", JSON.stringify(creator));
+
+        alert("Acceso autorizado. Bienvenido creador 👑");
+        location.href = "index.html";
+
+    } else {
+        alert("Clave incorrecta.");
+    }
+}
+
+
+</script>
+</body>
+</html>

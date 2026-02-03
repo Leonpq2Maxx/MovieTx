@@ -1,0 +1,202 @@
+<html lang="es"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Catálogo — Aplicaciones de Nuevas Tecnologías</title>
+  <link rel="icon" type="image/png" href="./Recursos/logo.proyecto..png">
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="stylesheet" href="script.js">
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- Superposición utilizada cuando está abierto el navegador lateral -->
+    <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
+
+    <!-- Navegación lateral (fuera del lienzo) -->
+    <nav id="sideNav" class="side-nav" aria-hidden="true" aria-label="Menú principal" tabindex="-1">
+      <div class="brand" style="align-items:center;">
+        <div style="width:44px;height:44px;border-radius:8px;overflow:hidden">
+          <img src="3261663_ico.png" alt="Logo proyecto" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+        </div>
+        <div>
+          <strong style="display:block">Aplicaciones N.T.</strong>
+          <span class="muted" style="display:block">Catálogo &amp; contacto</span>
+        </div>
+      </div>
+
+      <!-- Elementos de navegación con <detalles> accesibles para menús desplegables -->
+      <div class="nav-section">
+        <a href="#" class="nav-link" id="nav-inicio">Inicio</a>
+
+        <details>
+          <summary style="cursor:pointer;padding:10px 8px;border-radius:8px">Prendas ▾</summary>
+          <div class="sublist">
+            <a href="#" class="nav-link">Remera</a>
+            <a href="#" class="nav-link">Pantalón</a>
+            <a href="#" class="nav-link">Gorra</a>
+            <a href="#" class="nav-link">Conjuntos</a>
+          </div>
+        </details>
+
+        <details>
+          <summary style="cursor:pointer;padding:10px 8px;border-radius:8px">Cantidad ▾</summary>
+          <div class="sublist">
+            <a href="#" class="nav-link">1</a>
+            <a href="#" class="nav-link">2</a>
+            <a href="#" class="nav-link">3</a>
+            <a href="#" class="nav-link">Más</a>
+          </div>
+        </details>
+
+        <details>
+          <summary style="cursor:pointer;padding:10px 8px;border-radius:8px">Contacto ▾</summary>
+          <div class="sublist">
+            <a href="#" class="nav-link">Email</a>
+            <a href="#" class="nav-link">WhatsApp</a>
+          </div>
+        </details>
+      </div>
+
+      <div style="margin-top:auto">
+        <a href="#" class="btn" id="closeNav">Cerrar menú</a>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="site-header" role="banner">
+      <div class="brand" aria-hidden="false">
+        <img src="3261663_ico.png" alt="Logo" loading="lazy">
+        <div>
+          <h1>Bienvenidos!</h1>
+          <p>Crea tu propio estilo.</p>
+        </div>
+      </div>
+
+      <!-- Controls (right) -->
+      <div class="controls" role="navigation" aria-label="Controles de navegación">
+        <button id="openNav" class="btn" aria-expanded="false" aria-controls="sideNav" aria-label="Abrir menú">
+          <span class="hamburger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+          Menú
+        </button>
+      </div>
+    </header>
+
+    <!-- LAYOUT -->
+    <div class="layout" role="main">
+
+      <!-- MAIN CONTENT -->
+      <main class="content" id="mainContent" tabindex="-1">
+        <div class="hero">
+          <div class="logo-hero">
+            <img src="./Recursos/logo.proyecto..png" alt="Logo grande" loading="lazy">
+          </div>
+          <div class="meta">
+            <h2>Catálogo de prendas</h2>
+            <p class="muted">Elegí tu prenda y personalizala a tu gusto.</p>
+            <div class="row" style="margin-top:8px">
+              <span class="badge">Envíos a todo el país</span>
+              <span class="badge">Pagos manuales disponibles</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuadrícula del catálogo (conservé tus artículos) -->
+        <section class="catalog" aria-label="Productos disponibles">
+          <!-- REMERA -->
+          <article class="card" id="item-remera">
+            <img src="./Recursos/remera.negra.png" alt="Remera negra" loading="lazy">
+            <h3>Remera</h3>
+            <p>Son remeras lisas personalizadas a su gusto. El color puede variar.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn" onclick="openLightbox('./Recursos/remera.negra.png')">Ver</button>
+              <button class="btn" onclick="addToCart('Remera')">Pedir</button>
+            </div>
+          </article>
+
+          <article class="card" id="item-remera-blanca">
+            <img src="./Recursos/remera.blanca.png" alt="Remera blanca" loading="lazy">
+            <h3>Remera - Blanca</h3>
+            <p>Remera blanca. Ideal para estampar y personalizar.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn" onclick="openLightbox('./Recursos/remera.blanca.png')">Ver</button>
+              <button class="btn" onclick="addToCart('Remera Blanca')">Pedir</button>
+            </div>
+          </article>
+
+          <!-- PANTALÓN -->
+          <article class="card" id="item-pantalon">
+            <img src="./Recursos/pantalon.png" alt="Pantalón" loading="lazy">
+            <h3>Pantalones</h3>
+            <p>Son de algodón liso color variable, personalizado a su gusto.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn" onclick="openLightbox('./Recursos/pantalon.png')">Ver</button>
+              <button class="btn" onclick="addToCart('Pantalón')">Pedir</button>
+            </div>
+          </article>
+
+          <!-- CONJUNTOS -->
+          <article class="card" id="item-conjuntos">
+            <img src="./Recursos/conjuntos.png" alt="Conjuntos" loading="lazy">
+            <h3>Conjuntos</h3>
+            <p>Son dos prendas de distinto color personalizadas a su gusto</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn" onclick="openLightbox('./Recursos/conjuntos.png')">Ver</button>
+              <button class="btn" onclick="addToCart('Conjunto')">Pedir</button>
+            </div>
+          </article>
+        </section>
+
+        <!-- Media (video + audio si lo tenías) -->
+        <div class="media-row" aria-label="Galería multimedia">
+          <div>
+            <h4 style="margin:0 0 8px 0">Video</h4>
+            <video src="./Recursos/playa.mp4" controls="" preload="metadata" playsinline="" style="border-radius:10px">Tu navegador no soporta el elemento video.</video>
+          </div>
+          <div>
+            <h4 style="margin:0 0 8px 0">Audio (demo)</h4>
+            <audio controls="" src="" style="border-radius:10px">Tu navegador no soporta audio.</audio>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- ASIDE (form + extras) -->
+      <aside class="side" aria-labelledby="contactoTitle">
+        <h3 id="contactoTitle">Contanos cómo te fue</h3>
+        <p class="muted">Tu opinión nos ayuda a mejorar. También podés dejar detalles de tu pedido.</p>
+
+        <form class="form-usuario" id="contactForm" novalidate="">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required="" placeholder="Tu nombre">
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required="" placeholder="tu@email.com">
+
+          <label for="comentario">Comentario</label>
+          <textarea id="comentario" name="comentario" rows="3" placeholder="Deja tu comentario"></textarea>
+
+          <button type="submit">Enviar</button>
+          <div id="formFeedback" aria-live="polite" style="font-size:0.9rem;color:var(--muted)"></div>
+        </form>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+
+        <div>
+          <h4 style="margin:0 0 8px 0">Métodos de pago</h4>
+          <p class="muted">Pago manual — CBU: <strong>12345</strong></p>
+        </div>
+      </aside>
+
+    </div> <!-- /layout -->
+
+    <footer class="site-footer" role="contentinfo">
+      © Aplicaciones de Nuevas Tecnologías 7B — IPET N° 379
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+
+
+</body></html>

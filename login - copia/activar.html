@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Activar cuenta - MovieTx</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Arial;display:flex;align-items:center;justify-content:center;height:100vh}
+.card{width:380px;padding:20px;background:linear-gradient(180deg,#0b0b0c,#111);border-radius:10px}
+input{width:100%;padding:12px;margin-top:10px;border-radius:6px;border:0;background:#121214;color:#fff}
+button{width:100%;padding:12px;margin-top:12px;border-radius:6px;border:0;background:#e50914;color:#fff;font-weight:700;cursor:pointer}
+.small{font-size:13px;color:#bbb;margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>Activar cuenta</h2>
+  <p>Ingresa el código que te dio el administrador luego de verificar tu comprobante.</p>
+  <input id="code" placeholder="Código de activación (p.ej. MTX-ABCDEFG)" />
+  <button onclick="activate()">Activar</button>
+  <div class="small"><a href="login.html" style="color:#fff">Volver</a></div>
+</div>
+
+<script>
+
+// ==========================================
+// REVISAR ACCESO DEL CREADOR (no activa nada)
+// ==========================================
+const user = JSON.parse(localStorage.getItem("user") || "null");
+
+if (user && user.isCreator) {
+    alert("Los creadores no necesitan activar cuenta.");
+    location.href = "index.html";
+}
+
+
+// ==========================================
+// ACTIVACIÓN NORMAL
+// ==========================================
+function activate() {
+
+  const code = document.getElementById('code').value.trim();
+  if (!code) return alert('Ingresa el código.');
+
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  if (!user) return alert('No hay usuario en sesión.');
+
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+
+  const found = verifications.find(v => 
+      v.code === code &&
+      v.email === user.email &&
+      v.status === 'approved'
+  );
+
+  if (!found) {
+      return alert('Código inválido o no autorizado para este usuario.');
+  }
+
+  // ---------------------------
+  // ACTIVAR CUENTA Y FECHA
+  // ---------------------------
+  const ahora = Number(Date.now());
+  const dias30 = 30 * 24 * 60 * 60 * 1000;
+
+  user.active = true;
+  user.expire = ahora + dias30;
+
+  localStorage.setItem('user', JSON.stringify(user));
+
+  // ---------------------------
+  // MARCAR COMO USADO
+  // ---------------------------
+  found.status = 'used';
+  localStorage.setItem('verifications', JSON.stringify(verifications));
+
+  alert('Cuenta activada. Bienvenido!');
+  location.href = 'index.html';
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login - MovieTx</title>
+<style>
+:root{/*simple*/}
+body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh}
+.box{width:360px;padding:26px;background:linear-gradient(180deg,#0b0b0c,#111);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.7)}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.appicon{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#1f1f1f,#2b2b2b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px}
+h2{margin:0 0 8px 0}
+input{width:100%;padding:12px;margin-top:10px;border-radius:6px;border:0;background:#121214;color:#fff}
+button{width:100%;padding:12px;margin-top:14px;border-radius:6px;border:0;background:#e50914;color:#fff;font-weight:700;cursor:pointer}
+.small{text-align:center;margin-top:10px;color:#bbb;cursor:pointer}
+.info{font-size:13px;color:#bbb;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <div class="appicon">MT</div>
+    <div>
+      <h2>MovieTx</h2>
+      <div class="info">Accede con tu cuenta. Si no pagaste, te pediremos el comprobante.</div>
+    </div>
+  </div>
+
+  <input id="email" type="email" placeholder="Correo electrónico" />
+  <input id="pass" type="password" placeholder="Contraseña" />
+  <button onclick="login()">Entrar</button>
+
+  <div class="small" onclick="location.href='registro.html'">¿No tienes cuenta? Regístrate</div>
+  <div class="small" onclick="location.href='pago.html'">Ir a Pago</div>
+  <div style="margin-top:12px;font-size:12px;color:#bbb">¿Eres admin? <a href="admin.html" style="color:#fff">Panel admin</a></div>
+</div>
+
+<script>
+window.onload = function(){
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if(user && user.active && Date.now() < user.expire) {
+      location.href = 'index.html';
+    }
+  } catch(e){ console.error(e) }
+}
+
+function login(){
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('pass').value.trim();
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  if(!user) return alert('No existe una cuenta registrada. Regístrate primero.');
+  if(user.email !== email || user.pass !== pass) return alert('Datos incorrectos.');
+  if(!user.active) {
+    location.href = 'pago.html?needpay=1';
+    return;
+  }
+  if(Date.now() > user.expire) {
+    alert('Tu cuenta venció. Debes pagar nuevamente.');
+    location.href = 'pago.html?needpay=1';
+    return;
+  }
+  location.href = 'inicio.html';
+}
+</script>
+</body>
+</html>

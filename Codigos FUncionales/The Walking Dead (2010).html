@@ -1,0 +1,2783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/CDNSFree2/Plyr/plyr.css" rel="stylesheet"/>
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color:rgb(255, 255, 255);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+    .player {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .player video,
+    .player iframe,
+    .player .plyr {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+
+    .serie img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .serie p {
+      margin-top: 5px;
+    }
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 0.80rem !important; /*estaba en 1rem*/
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 0.80rem; } /*estaba en 1rem*/
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+
+    #genero-texto.colapsado {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ACA ES LA ANIMACION DE FAVORITOS */
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    #btn-favorito.animado {
+      animation: pop 0.3s ease;
+    }
+/* --- Mejor experiencia deslizable en móvil --- */
+@media (max-width: 880px) {
+  /* Lista de temporadas horizontal deslizable */
+  .seasons-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 8px;
+    -webkit-overflow-scrolling: touch; /* suavidad en iOS */
+    scroll-snap-type: x mandatory;
+  }
+
+  .seasons-list ul {
+    flex-direction: row;
+    gap: 12px;
+    width: max-content;
+  }
+
+  .seasons-list li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    min-width: 160px;
+  }
+
+  .seasons-list::-webkit-scrollbar {
+    display: none; /* oculta scrollbar en móviles */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Episodios también deslizable si hay muchos */
+  .episodes-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 8px !important;
+  overflow-x: visible !important;
+  overflow-y: auto !important;
+}
+
+  .episodes-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .episode-card {
+  flex: none !important;
+  width: 100% !important;
+  align-items: center !important;
+}
+}
+/* Estilo para episodio en reproducción */
+.episode-card.viendo {
+  border: 2px solid var(--accent);
+  background: rgba(255, 45, 91, 0.08);
+  box-shadow: 0 0 12px rgba(255,45,91,0.6);
+  position: relative;
+}
+
+.episode-card.viendo::after {
+  content: "▶ Viendo ahora";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+#btn-favorito {
+  background: linear-gradient(135deg, #ff2d55, #ff5e7e);
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
+}
+
+#btn-favorito:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
+}
+
+#btn-favorito::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  50% { transform: translateX(100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+.info-pelicula {
+  text-align: center;
+  margin-top: 20px;
+  color: #fff;
+}
+
+.sinopsis {
+  font-size: 1rem;
+  color: #bbb;
+  max-width: 600px;
+  margin: 10px auto 20px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.play-btn {
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(29, 185, 84, 0.35);
+}
+
+.play-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(29, 185, 84, 0.55);
+}
+
+#btn-favorito {
+  background: linear-gradient(135deg, #ff2d55, #ff5e7e);
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
+}
+
+#btn-favorito:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
+}
+
+#btn-favorito::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  50% { transform: translateX(100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+  .season-episode-tag {
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #9ad0ff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+
+  
+/* 🔴 Modal "Continuar Viendo" estilo Netflix */
+#continue-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  z-index: 99999;
+}
+#continue-modal.active { display: flex; }
+#continue-modal .modal-box {
+  background: #141414;
+  color: #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 0 25px rgba(229,9,20,0.5);
+  text-align: center;
+}
+#continue-modal h3 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #e50914;
+}
+#continue-modal .actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+#continue-modal button {
+  flex: 1;
+  padding: 8px 12px;
+  background: #e50914;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+#continue-modal button:hover {
+  background: #f6121d;
+}
+
+
+/* 💎 Barra de progreso estilo "Neón líquido celeste" */
+.plyr__progress input[type="range"] {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(270deg, #00c6ff, #00e0ff, #00c6ff);
+  background-size: 400% 400%;
+  animation: neonFlow 3s ease infinite;
+  box-shadow: 0 0 14px rgba(0, 230, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.plyr__progress input[type="range"]:hover {
+  box-shadow: 0 0 20px rgba(0, 250, 255, 0.8);
+  transform: scaleY(1.1);
+}
+
+@keyframes neonFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+</head>
+
+<body ondragstart="return false;" ondrop="return false;">
+
+ <script>
+// 🔙 Si el usuario presiona "Atrás" en una película, vuelve al index
+window.history.pushState(null, null, window.location.href);
+window.addEventListener("popstate", function () {
+  window.location.replace("../index.html");
+});
+</script>
+
+  <!-- 🔴 Pantalla de carga personalizada MovieTx (versión neón) -->
+<div id="loader-screen">
+  <div class="loader-content">
+    <div class="loader-circle">
+      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
+    </div>
+    <h1 class="loader-title">MovieTx</h1>
+    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
+    <p class="loader-msg">Por favor, espere</p>
+  </div>
+</div>
+
+<style>
+#loader-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10000;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loader-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.loader-content {
+  text-align: center;
+}
+.loader-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top: 6px solid #00aaff;
+  border-bottom: 6px solid #ff007f;
+  animation: spin 2s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+}
+.loader-logo {
+  width: 100px;
+  height: auto;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.loader-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff1a8c, 0 0 40px #ff007f;
+  font-weight: bold;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.loader-sub {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+.loading-dots::after {
+  content: '';
+  animation: dotPulse 1.5s infinite steps(4);
+}
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+.loader-msg {
+  font-size: 1rem;
+  color: #888;
+  margin-top: 10px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader-screen');
+  const continueModal = document.getElementById('continue-modal');
+  if (continueModal) continueModal.style.display = 'none';
+
+  // Espera a que todas las imágenes (y el resto del contenido visual) terminen de cargar
+  window.addEventListener('load', () => {
+    // Pequeño retardo opcional de 1 segundo para suavizar
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      setTimeout(() => {
+        if (continueModal) continueModal.style.display = '';
+      }, 1200);
+    }, 1000);
+  });
+});
+</script>
+<!-- 🔴 Fin pantalla de carga neón -->
+  
+ <style>
+#video-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#player-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  border-radius: 8px;
+}
+
+.player-spinner {
+  width: 43px; /*circulo de carga de reproductor estaba en 60*/
+  height: 43px; /*circulo de carga de reproductor estaba en 60*/
+  border: 5px solid #222;
+  border-top: 5px solid #ff007f;
+  border-bottom: 5px solid #00aaff;
+  border-radius: 50%;
+  animation: spin 1.3s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.player-loading-text {
+  font-size: 0.80rem; /*agrandar o achicar letra de cargando en el reproductor (estaba en 1.2)*/
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+}
+
+.dots::after {
+  content: '';
+  animation: dotPulse 1.5s infinite steps(4);
+}
+
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+  
+  
+</style>
+
+<script>
+  
+  // este es de Fullscreen //
+  document.addEventListener('DOMContentLoaded', () => {
+  const fsBtn = document.querySelector('.plyr__control[data-plyr="fullscreen"]');
+  if (fsBtn) {
+    fsBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2">
+        <path d="M4 4h6M4 4v6M20 4h-6M20 4v6M4 20h6M4 20v-6M20 20h-6M20 20v-6"/>
+      </svg>
+    `;
+  }
+});
+  
+document.addEventListener('DOMContentLoaded', () => {
+  const video = document.querySelector('video');
+  const loader = document.getElementById('player-loader');
+  
+  if (video && loader) {
+    const showLoader = () => {
+      // Solo mostrar si el video tiene un src real
+      if (video.currentSrc && video.currentSrc.trim() !== "") {
+        loader.style.display = 'flex';
+      }
+    };
+    const hideLoader = () => loader.style.display = 'none';
+    
+    // Mostrar cuando el video se está cargando o bufferizando
+    video.addEventListener('loadstart', showLoader);
+    video.addEventListener('waiting', showLoader);
+    
+    // Ocultar cuando está listo o reproduce
+    video.addEventListener('canplay', hideLoader);
+    video.addEventListener('playing', hideLoader);
+    video.addEventListener('pause', hideLoader);
+    video.addEventListener('ended', hideLoader);
+  }
+});
+
+</script>
+
+    
+  <div class="player">
+    <!-- 🔵 Loader dentro del reproductor -->
+     <div id="player-loader">
+      <div class="player-spinner"></div>
+      <p class="player-loading-text">Cargando<span class="dots"></span></p>
+    </div>
+
+    <video class="vid1 js-player" controls loading="lazy" poster="https://image.tmdb.org/t/p/w780/j0WWIhJzMazd876qG7hf8adwc4s.jpg" preload="none"> <!--Aca esta la pagina para buscar la imagenes u infomacion "https://www.themoviedb.org/"-->
+      <source src="" type="video/mp4"> <!--Aca va el link de la pelicula mp4, los MKV no funcionan cuando se trata de subir el html al appcreator ej.-->
+    </video>
+  </div>
+  <div id="episodio-actual" style="
+  text-align:center;
+  margin:10px;
+  font-size:1rem;
+  font-weight:bold;
+  color:#ff2d5b;
+"></div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>0000</span> <!--Aca va el año de estreno de pelicula-->
+   <!--aca va cuanto dura-->
+    <i class="fal fa-thumbs-up"></i><span>00%</span> <!--aca va la calificacion-->
+    <div class="hd-tag">
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+      <span>1080P</span>
+    </div>
+  </div>
+  
+  <div class="info-pelicula">
+    <h1>The walking dead</h1>
+    <span class="genero-badge">Accion • Drama • Apocalipsis</span>
+    <br>
+    <br>
+    <!-- Botón para abrir el modal -->
+    <button id="open-seasons" class="seasons-open-btn">Ver Temporadas & Episodios</button>
+    
+    <p class="sinopsis">
+      El ayudante del sheriff Rick Grimes despierta de un coma y se encuentra en un mundo postapocalíptico dominado por zombis devoradores de carne. Se lanza a la búsqueda de su familia y, en el camino, se topa con muchos otros supervivientes.
+    </p>
+
+    <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
+      <p><strong>Director:</strong> 0000</p>
+      <p><strong>Reparto:</strong> ------</p>
+      <p><strong>Estreno:</strong> 00/00/0000 | <strong>Idioma:</strong> ----- 🇦🇷</p>
+    </div>
+
+    <br>
+  
+    <div class="acciones">
+      <button id="btn-favorito">⭐ Agregar a Favoritos</button>
+    </div>
+  </div>
+  <br>
+
+  <!-- 🔔 MODAL UNIFICADO DE FAVORITOS (para ambos mensajes) -->
+<div id="modal-favoritos" class="modal-fav" aria-hidden="true">
+  <div class="modal-fav-backdrop"></div>
+  <div class="modal-fav-box">
+    <h3 id="modal-fav-texto">Mensaje aquí</h3>
+    <button id="modal-fav-aceptar">Aceptar</button>
+  </div>
+</div>
+
+<style>
+  .modal-fav {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  }
+  .modal-fav[aria-hidden="false"] {
+    display: flex;
+    animation: fadeIn 0.4s ease forwards;
+  }
+  .modal-fav-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+  }
+  .modal-fav-box {
+    position: relative;
+    background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+    border: 2px solid #ff2d5b;
+    border-radius: 14px;
+    padding: 25px 30px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 0 25px rgba(255,45,91,0.5);
+    max-width: 90%;
+    width: 380px;
+    z-index: 10;
+    animation: scaleUp 0.3s ease forwards;
+  }
+  .modal-fav-box h3 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  #modal-fav-aceptar {
+    background: linear-gradient(135deg, #ff2d5b, #ff5e7e);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    animation: bounceIn 0.6s ease;
+  }
+  #modal-fav-aceptar:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 15px rgba(255,45,91,0.8);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scaleUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  // 🔹 Función general para mostrar el modal
+  function mostrarModalFavoritos(mensaje) {
+    const modal = document.getElementById('modal-favoritos');
+    const texto = document.getElementById('modal-fav-texto');
+    const btnAceptar = document.getElementById('modal-fav-aceptar');
+    texto.textContent = mensaje;
+    modal.setAttribute('aria-hidden', 'false');
+
+    let cerrarTimeout = setTimeout(() => cerrarModal(), 15000);
+
+    function cerrarModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      clearTimeout(cerrarTimeout);
+    }
+
+    btnAceptar.onclick = cerrarModal;
+    modal.querySelector('.modal-fav-backdrop').onclick = cerrarModal;
+  }
+
+  // 🔹 Botón "Agregar a Favoritos"
+  document.getElementById('btn-favorito').addEventListener('click', () => {
+    const nuevaSerie = {
+      titulo: "The Walking Dead",
+      imagen: "https://image.tmdb.org/t/p/w300/9iYinsg30olSCuDoH8VxtRN5gZx.jpg",
+      genero: "Genero",
+      archivo: "../View Series/The Walking Dead (2010).html",
+      tipo: "serie",
+      timestamp: Date.now()
+    };
+
+    const btn = document.getElementById('btn-favorito');
+    btn.classList.add('animado');
+    setTimeout(() => btn.classList.remove('animado'), 300);
+
+    let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+
+    if (!favoritos.some(f => f.titulo === nuevaSerie.titulo)) {
+      favoritos.push(nuevaSerie);
+      localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      mostrarModalFavoritos("⭐ Serie agregada a favoritos");
+      setTimeout(() => window.location.href = "../View Peliculas/favoritos.html", 1800);
+    } else {
+      mostrarModalFavoritos("🎬 Esta serie ya está agregada en favoritos");
+    }
+  });
+</script>
+
+
+<script>
+  function mostrarModalFavoritoExistente() {
+    const modal = document.getElementById('modal-ya-favorito');
+    const btnAceptar = document.getElementById('btn-fav-aceptar');
+    modal.setAttribute('aria-hidden', 'false');
+
+    let cerrarTimeout = setTimeout(() => cerrarModal(), 15000); // auto cierre 15s
+
+    function cerrarModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      clearTimeout(cerrarTimeout);
+    }
+
+    btnAceptar.onclick = cerrarModal;
+    modal.querySelector('.modal-fav-backdrop').onclick = cerrarModal;
+  }
+</script>
+
+
+<!-- ---------- INICIA: Modal de Temporadas y Episodios ---------- -->
+
+
+<!-- Modal -->
+<div id="seasons-modal" class="seasons-modal" aria-hidden="true" role="dialog" aria-label="Temporadas y episodios">
+  <div class="seasons-backdrop" data-close></div>
+  <div class="seasons-panel" role="document">
+    <header class="seasons-header">
+      <div>
+        <h2 id="series-title">Título de la Serie / Colección</h2>
+        <p id="series-sub" class="muted">Selecciona temporada y episodio</p>
+      </div>
+      <button class="close-btn" id="close-seasons" aria-label="Cerrar modal">&times;</button>
+    </header>
+
+    <div class="seasons-body">
+      <aside class="seasons-list" aria-label="Lista de temporadas">
+        <ul id="seasons-list-ul"></ul>
+      </aside>
+
+      <section class="episodes-area" aria-live="polite">
+        <div class="episodes-toolbar">
+          <div class="season-meta">
+            <strong id="season-label">Temporada 1</strong>
+            <span id="season-desc" class="muted">— 8 episodios</span>
+          </div>
+          <div class="episodes-search">
+            <input id="ep-search" placeholder="Buscar episodio..." />
+          </div>
+        </div>
+
+        <div id="episodes-grid" class="episodes-grid" role="list"></div>
+
+        <div id="episodes-footer" class="episodes-footer muted">
+          Haz click en un episodio para reproducir / abrir.
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+  <br>
+<!-- ---------- ESTILOS (dark, moderno, responsive) ---------- -->
+<style>
+  :root{
+    --bg:#040406;
+    --panel:#0b0b0d;
+    --muted: #9aa3ae;
+    --accent: #ff2d5b;
+    --glass: rgba(255,255,255,0.03);
+    --card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    --radius: 12px;
+    --shadow: 0 8px 30px rgba(0,0,0,0.7);
+    --glass-border: rgba(255,255,255,0.04);
+  }
+  /* Button to open */
+  .seasons-open-btn{
+    background: linear-gradient(90deg, rgba(255,45,91,0.12), rgba(255,45,91,0.06));
+    color: white;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+  }
+
+  /* Modal layout */
+  .seasons-modal{ position: fixed; inset: 0; display: none; z-index: 9999; font-family: 'PT Sans', Roboto, sans-serif; }
+  .seasons-modal[aria-hidden="false"]{ display: block; }
+  .seasons-backdrop{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75)); backdrop-filter: blur(6px); }
+  .seasons-panel{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: min(1100px, 96%);
+    max-height: 88vh;
+    background: linear-gradient(180deg, #071018, #070607);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    display:flex;
+    flex-direction: column;
+  }
+
+  .seasons-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 16px 18px;
+    gap:10px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  }
+  .seasons-header h2{ margin:0; font-size:1.05rem; color:#fff; letter-spacing:0.2px; }
+  .seasons-header .muted{ color: var(--muted); font-size:0.85rem; margin-top:2px; }
+
+  .close-btn{
+    background: transparent; color: #fff; border: none; font-size: 26px; line-height:1; cursor:pointer; padding:6px 10px; border-radius:8px;
+  }
+  .close-btn:hover{ background: rgba(255,255,255,0.02); }
+
+  .seasons-body{ display:flex; gap:16px; padding: 18px; overflow: hidden; flex:1; min-height:320px; }
+
+  /* temporadas (izq) */
+  .seasons-list{ width: 220px; background: var(--glass); border-radius: 10px; padding:10px; flex-shrink:0; border:1px solid rgba(255,255,255,0.02); overflow:auto; }
+  .seasons-list ul{ list-style:none; padding:6px; margin:0; display:flex; flex-direction:column; gap:8px; }
+  .seasons-list li{
+    display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; cursor:pointer;
+    transition: transform .18s ease, background .18s ease, box-shadow .18s;
+  }
+  .season-thumb{ width:56px; height:36px; background-size:cover; background-position:center; border-radius:6px; flex-shrink:0; box-shadow: 0 6px 18px rgba(0,0,0,0.5); }
+  .season-info{ display:flex; flex-direction:column; min-width:0; }
+  .season-info .s-title{ color:#fff; font-weight:600; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .season-info .s-sub{ color:var(--muted); font-size:0.8rem; margin-top:2px; }
+
+  .seasons-list li:hover{ transform: translateY(-3px); background: rgba(255,255,255,0.02); box-shadow: 0 10px 30px rgba(2,8,20,0.6); }
+  .seasons-list li.active{ background: linear-gradient(90deg, rgba(255,45,91,0.12), rgba(255,45,91,0.03)); box-shadow: 0 12px 40px rgba(255,45,91,0.06); border:1px solid rgba(255,45,91,0.12); }
+
+  /* episodes area (derecha) */
+  .episodes-area{ flex:1; display:flex; flex-direction:column; gap:12px; overflow:auto; }
+  .episodes-toolbar{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .episodes-search input{
+    padding:8px 12px; width:220px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:#fff;
+  }
+  .episodes-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:12px; padding-top:6px; }
+  .episode-card{
+    display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:var(--card); border:1px solid rgba(255,255,255,0.02);
+    cursor:pointer; transition: transform .16s ease, box-shadow .16s;
+  }
+  .episode-card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,8,20,0.6); }
+  .ep-thumb{ width:120px; height:68px; border-radius:8px; background-size:cover; background-position:center; flex-shrink:0; }
+  .ep-meta{ display:flex; flex-direction:column; min-width:0; }
+  .ep-title{ color:#fff; font-weight:700; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ep-desc{ color:var(--muted); font-size:0.85rem; margin-top:6px; }
+  .ep-actions{ margin-left:auto; display:flex; align-items:center; gap:8px; color:var(--muted); font-size:0.9rem; }
+
+  .play-btn{
+    background: linear-gradient(90deg, rgba(255,45,91,1), rgba(255,120,140,1)); color:white; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:700;
+    box-shadow: 0 6px 20px rgba(255,45,91,0.12);
+  }
+
+  .episodes-footer{ padding:8px 12px; font-size:0.85rem; }
+
+  /* responsive */
+  @media (max-width: 880px){
+    .seasons-body{ flex-direction: column; padding: 12px; gap:12px; }
+    .seasons-list{ width:100%; display:flex; overflow-x:auto; padding:8px; }
+    .seasons-list ul{ flex-direction:row; gap:10px; }
+    .seasons-list li{ min-width:170px; flex:0 0 auto; }
+  }
+  @media (max-width:480px){
+    .episode-card{ padding:8px; gap:8px; }
+    .ep-thumb{ width:96px; height:56px; }
+    .episodes-grid{ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:10px; }
+    .seasons-panel{ width: 96%; max-height: 92vh; }
+  }
+  /* --- Mejoras de adaptación móvil --- */
+@media (max-width: 768px) {
+  .seasons-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    border-radius: 0;
+    left: 0;
+    top: 0;
+    transform: none;
+  }
+
+  .seasons-header {
+    padding: 12px;
+  }
+  .seasons-header h2 {
+    font-size: 1rem;
+  }
+
+  .episodes-search input {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .episodes-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .episode-card {
+    flex-direction: row;
+    padding: 12px;
+  }
+
+  .ep-thumb {
+    width: 120px;
+    height: 70px;
+  }
+
+  .ep-title {
+    font-size: 1rem;
+  }
+
+  .ep-desc {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .episode-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ep-thumb {
+    width: 100%;
+    height: 180px;
+  }
+
+  .ep-meta {
+    margin-top: 8px;
+  }
+
+  .play-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+</style>
+
+<!-- ---------- SCRIPT: datos + interacción ---------- -->
+<script>
+const SERIES_KEY = "Nombre de serie";
+
+  /* ---------- Datos: cambia esto por tu contenido real ---------- */
+  const seasonsData = [
+    {
+      id: 1,
+      title: "Temporada 1",
+      thumb: "https://image.tmdb.org/t/p/w780/dhdzMtQJOAiTJr3Bhcxval2ZT2T.jpg",
+      desc: "Lanzada 2010— 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/suvf9w98.mp4" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/4f4e75d7.mp4" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/v4wlp04p.mp4" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/q3bd5p0o.mp4" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/bxxsk325.mp4" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "https://pomf2.lain.la/f/ofq1mlqu.mp4" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 2,
+      title: "Temporada 2",
+      thumb: "https://image.tmdb.org/t/p/w780/ugndFTbGW9G4iGOu0H5zE6NDp85.jpg",
+      desc: "Lanzada 2011 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 3,
+      title: "Temporada 3",
+      thumb: "https://image.tmdb.org/t/p/w780/qpUAdvHZDe7Cl7X2uHO3K8swW6A.jpg",
+      desc: "Lanzada 2012 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 4,
+      title: "Temporada 4",
+      thumb: "https://image.tmdb.org/t/p/original/A83DXTc7mUBoIzkGNMZg4tZxdid.jpg",
+      desc: "Lanzada 2013 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 5,
+      title: "Temporada 5",
+      thumb: "https://image.tmdb.org/t/p/w780/lhX3Oy5KmckDhhJAiqdQTfFLd4F.jpg",
+      desc: "Lanzada 2013 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 6,
+      title: "Temporada 6",
+      thumb: "https://image.tmdb.org/t/p/w780/3ynZzFOTXVKgN9zaIXLehZCKKfY.jpg",
+      desc: "Lanzada 2024 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 7,
+      title: "Temporada 7",
+      thumb: "https://image.tmdb.org/t/p/w780/wY3KAlS1VgyOc5rJ6kBierv1iKW.jpg",
+      desc: "Lanzada 2012 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 8,
+      title: "Temporada 8",
+      thumb: "https://image.tmdb.org/t/p/original/xVzvD5BPAU4HpleFSo8QOdHkndo.jpg",
+      desc: "Lanzada 202 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 9,
+      title: "Temporada 9",
+      thumb: "https://image.tmdb.org/t/p/w780/xOdA6paXYAWURfNNdYk7Oz62mxA.jpg",
+      desc: "Lanzada 20 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 10,
+      title: "Temporada 10",
+      thumb: "https://image.tmdb.org/t/p/w780/wvdWb5kTQipdMDqCclC6Y3zr4j3.jpg",
+      desc: "Lanzada 20 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+    {
+      id: 11,
+      title: "Temporada 11",
+      thumb: "https://image.tmdb.org/t/p/original/r7zUXadc1saFFSWz8lbUx7q9bkG.jpg",
+      desc: "Lanzada 202 — 0 episodios",
+      episodes: [
+        { id: "s1e1", title: "Episodio 1", time: "45m", thumb: "", href: "" },
+        { id: "s1e2", title: "Episodio 2", time: "45m", thumb: "", href: "" },
+        { id: "s1e3", title: "Episodio 3", time: "45m", thumb: "", href: "" },
+        { id: "s1e4", title: "Episodio 4", time: "45m", thumb: "", href: "" },
+        { id: "s1e5", title: "Episodio 5", time: "45m", thumb: "", href: "" },
+        { id: "s1e6", title: "Episodio 6", time: "45m", thumb: "", href: "" },
+        // ... más episodios
+      ]
+    },
+
+  ];
+  /* ----------------------------------------------------------- */
+
+  // elementos
+  const openBtn = document.getElementById('open-seasons');
+  const modal = document.getElementById('seasons-modal');
+  const closeBtn = document.getElementById('close-seasons');
+  const backdrop = document.querySelector('.seasons-backdrop');
+  const seasonsListUL = document.getElementById('seasons-list-ul');
+  const episodesGrid = document.getElementById('episodes-grid');
+  const seasonLabel = document.getElementById('season-label');
+  const seasonDesc = document.getElementById('season-desc');
+  const epSearch = document.getElementById('ep-search');
+  const seriesTitle = document.getElementById('series-title');
+  const seriesSub = document.getElementById('series-sub');
+
+  let activeSeasonIndex = 0;
+
+  // Inicia modal
+  function openModal(){
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    renderSeasons();
+    selectSeason(0);
+    // foco
+    closeBtn.focus();
+  }
+  function closeModal(){
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeModal();
+  });
+
+  // render temporadas
+  function renderSeasons(){
+    seasonsListUL.innerHTML = '';
+    seasonsData.forEach((s, idx) => {
+      const li = document.createElement('li');
+      li.className = idx === activeSeasonIndex ? 'active' : '';
+      li.tabIndex = 0;
+      li.setAttribute('role','button');
+      li.innerHTML = `
+        <div class="season-thumb" style="background-image:url('${s.thumb}')"></div>
+        <div class="season-info">
+          <div class="s-title">${s.title}</div>
+          <div class="s-sub">${s.desc}</div>
+        </div>
+      `;
+      li.addEventListener('click', () => selectSeason(idx));
+      li.addEventListener('keydown', (ev) => { if(ev.key === 'Enter') selectSeason(idx); });
+      seasonsListUL.appendChild(li);
+    });
+  }
+
+  // seleccionar temporada
+  function selectSeason(index){
+    activeSeasonIndex = index;
+    // actualizar clases
+    Array.from(seasonsListUL.children).forEach((li, i) => {
+      li.classList.toggle('active', i === index);
+    });
+    const season = seasonsData[index];
+    seasonLabel.textContent = season.title;
+    seasonDesc.textContent = `— ${season.episodes.length} episodios`;
+    // render episodios
+    renderEpisodes(season.episodes);
+    // actualiza header (puedes personalizar)
+    seriesTitle.textContent = "Tu Serie Favorita";
+    seriesSub.textContent = `${season.title} • ${season.desc}`;
+    epSearch.value = '';
+  }
+
+  // render episodios
+  function renderEpisodes(episodes){
+  episodesGrid.innerHTML = '';
+  if(!episodes || episodes.length === 0){
+    episodesGrid.innerHTML = `<div class="muted">No hay episodios disponibles.</div>`;
+    return;
+  }
+
+  // Cargar último episodio guardado
+  const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+
+  episodes.forEach(ep => {
+    const card = document.createElement('article');
+    card.className = 'episode-card';
+    card.setAttribute('role','listitem');
+    card.innerHTML = `
+      <div class="ep-meta">
+        <div class="ep-title">${ep.title}</div>
+        <div class="ep-desc">${ep.time || ''}</div>
+      </div>
+      <div class="ep-actions">
+        <button class="play-btn" data-href="${ep.href || '#'}" aria-label="Reproducir ${ep.title}">▶ Reproducir</button>
+      </div>
+    `;
+
+    // ✅ Marcar si es el episodio actual
+    if (ultimo && ultimo.id === ep.id) {
+      card.classList.add('viendo');
+    }
+
+    // 🎬 Al hacer click, reproducir y guardar
+    
+card.querySelector('.play-btn').addEventListener('click', (ev) => {
+      const href = ev.currentTarget.dataset.href;
+      if(href && href !== '#'){
+        const videoElement = document.querySelector('.vid1');
+        const source = videoElement.querySelector('source');
+        source.setAttribute('src', href);
+        videoElement.load();
+
+        // Attempt to read saved progress for this episode
+        try {
+          const progKey = `prog_${SERIES_KEY}_${ep.id}`;
+          const saved = JSON.parse(localStorage.getItem(progKey) || 'null');
+          if (saved && saved.time && !isNaN(saved.time) && saved.time > 0) {
+            const onLoaded = () => {
+              const t = Math.min(saved.time, videoElement.duration || saved.time);
+              videoElement.currentTime = t;
+              videoElement.play();
+              videoElement.removeEventListener('loadedmetadata', onLoaded);
+            };
+            videoElement.addEventListener('loadedmetadata', onLoaded);
+          } else {
+            videoElement.play();
+          }
+        } catch(e) {
+          console.error('Error leyendo progreso para episodio al reproducir', e);
+          videoElement.play();
+        }
+
+        closeModal();
+
+        // 🔴 Guardar temporada y episodio actual
+        const episodioInfo = {
+          temporada: seasonsData[activeSeasonIndex].title,
+          episodio: ep.title,
+          id: ep.id
+        };
+        localStorage.setItem(`ultimoEpisodio_${SERIES_KEY}`, JSON.stringify(episodioInfo));
+
+        // 🔴 Mostrar en pantalla
+        document.getElementById('episodio-actual').textContent =
+          ` Viendo: ${episodioInfo.temporada} - ${episodioInfo.episodio}`;
+
+        // 🔴 Resaltar episodio en la lista
+        document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('viendo'));
+        card.classList.add('viendo');
+      } else {
+        alert('No hay un link válido para este episodio: ' + ep.title);
+      }
+    });
+
+
+    episodesGrid.appendChild(card);
+  });
+}
+
+
+  // búsqueda simple
+  epSearch.addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    const eps = seasonsData[activeSeasonIndex].episodes || [];
+    const filtered = eps.filter(x => x.title.toLowerCase().includes(q));
+    renderEpisodes(filtered);
+  });
+
+  // keyboard focus trap (simple)
+  modal.addEventListener('keydown', (e) => {
+    if(e.key !== 'Tab') return;
+    const focusable = modal.querySelectorAll('button, [tabindex], input');
+    if(!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length -1];
+    if(e.shiftKey && document.activeElement === first){ last.focus(); e.preventDefault(); }
+    else if(!e.shiftKey && document.activeElement === last){ first.focus(); e.preventDefault(); }
+  });
+
+  // inicializa (si quieres abrir automático, descomenta)
+  // renderSeasons(); selectSeason(0);
+
+  // ✅ Restaurar el indicador de episodio actual al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+  const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+  if (ultimo) {
+    document.getElementById('episodio-actual').textContent =
+      ` Viendo: ${ultimo.temporada} - ${ultimo.episodio}`;
+  }
+});
+
+</script>
+<!-- ---------- FIN: Modal de Temporadas y Episodios ---------- -->
+
+  <style>
+    .titulo-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .genero-badge {
+      padding: 4px 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 0, 81, 1);
+      border: 1px solid rgba(255, 0, 81, 1);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 135px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+
+    .titulo {
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 200px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+
+  </style>
+
+  <style>
+    .titulo-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .genero-badge {
+      padding: 4px 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 0, 81, 1);
+      border: 1px solid rgba(255, 0, 81, 1);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 135px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+    
+  </style>
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br/>
+    <div class="series-grid">
+      <a href="The Walking Dead The ones two live (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/t1yUeYKw3s0VntQxzdUgza4msGU.jpg" alt="">
+        <p>The Walking Dead: The ones two lives</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kdM24KINoAVK9wjCtDJCkdffEpc.jpg" alt="">
+        <p>The Walking Dead: Daryl Dixon</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/yd8cDZG4XjNRk7jfEWy18KH07d2.jpg" alt="">
+        <p>Fear the Walking Dead</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/ugdiqJsceA9slg2k4Uu6VKegaw8.jpg" alt="">
+        <p>The Walking Dead: Dead City</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/6HanIV2hTLE2w7A5bI1KJb3bTL7.jpg" alt="">
+        <p>The Walking Dead: World Beyond</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/zRMUHvTgQ79zteQafNI46Nd9XFm.jpg" alt="">
+        <p>Tales of the Walking Dead</p>
+      </a>
+    </div>
+  </div>
+  
+  <!-- ¡¡¡NO BORRAR ESTE SCRIPT ES DE FAVORITOS Y SI LO BORRAN AFECTARAN EL FUNCIONAMIENTO DE REPRODUCTOR Y FAVORITOS!!! -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.js">
+    document.getElementById('btn-favorito').addEventListener('click', () => {
+
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+        favoritos.push(nuevaPelicula);
+        localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      }
+      window.location.href = "../View Peliculas/favoritos.html";
+    });
+  </script>
+  
+  <script>
+    const videoElement = document.querySelector('.vid1');
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    const player = new Plyr(videoElement, {
+      controls: [
+        'rewind', 'play-large', 'play', 'fast-forward',
+        'progress', 'current-time', 'duration', 'mute', 'volume',
+        'captions', 'pip', 'airplay', 'fullscreen'
+      ]
+    });
+
+    // ✅ Reanudar episodio al presionar Play
+player.on('play', () => {
+  const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+  if (ultimo) {
+    const season = seasonsData.find(s => s.title === ultimo.temporada);
+    const ep = season ? season.episodes.find(e => e.id === ultimo.id) : null;
+
+    if (ep && ep.href) {
+      const currentSrc = videoElement.querySelector('source').getAttribute('src');
+      if (currentSrc !== ep.href) {
+        // Cambiar al episodio guardado
+        const source = videoElement.querySelector('source');
+        source.setAttribute('src', ep.href);
+        videoElement.load();
+        videoElement.play();
+
+        // Mostrar indicador en pantalla
+        document.getElementById('episodio-actual').textContent =
+          `🔁 Continuando: ${ultimo.temporada} - ${ultimo.episodio}`;
+      }
+    }
+  }
+});
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTime = localStorage.getItem(STORAGE_KEY);
+      // ❌ Evita reanudar desde el tiempo guardado
+  // if (savedTime && parseFloat(savedTime) > 10) {
+  //   videoElement.currentTime = parseFloat(savedTime);
+  //   const msg = document.getElementById('resume-msg');
+  //   msg.classList.add('visible');
+  //   setTimeout(() => msg.classList.remove('visible'), 5000);
+  // }
+
+      const controls = document.querySelector('.plyr__controls');
+  if (controls && !document.getElementById('custom-rewind')) {
+    const rewindBtn = document.createElement('button');
+    rewindBtn.id = 'custom-rewind';
+    rewindBtn.className = 'plyr__control';
+    rewindBtn.setAttribute('aria-label', 'Retroceder 10 segundos');
+    rewindBtn.innerHTML = '<i class="fas fa-undo"></i>';
+    rewindBtn.onclick = () => {
+      videoElement.currentTime = 0;
+    };
+    controls.insertBefore(rewindBtn, controls.firstChild);
+  }
+});
+    
+    setInterval(() => {
+      if (!videoElement.paused && !videoElement.ended) {
+        localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+      }
+    }, 5000);
+    
+    /* ACA VA LA NOMBRE, IMAGEN, GENERO, ARCHIVO DONDE GUARDAN SU HTML DE PELICULA Y EL TIEMPO */
+    document.getElementById('btn-favorito').addEventListener('click', () => {
+      /* animacion de favoritos */
+      const btn = document.getElementById('btn-favorito');
+      btn.classList.add('animado');
+      setTimeout(() => btn.classList.remove('animado'), 300);
+
+      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+  favoritos.push(nuevaPelicula);
+  localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+  window.location.href = "../View Peliculas/favoritos.html";
+} else {
+  mostrarModalFavoritoExistente();
+}
+
+    });
+  </script>
+
+  <script>
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
+  </script>
+  
+  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('continue-modal');
+  const btnContinuar = document.getElementById('btn-continuar');
+  const btnNuevo = document.getElementById('btn-empezar-nuevo');
+  const continueInfo = document.getElementById('continue-info');
+  const videoElement = document.querySelector('.vid1');
+  const source = videoElement.querySelector('source');
+
+  const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+  const ultimoTiempo = localStorage.getItem('ultimoTiempoReproduccion') || 0;
+
+  if (ultimo) {
+    continueInfo.textContent = `${ultimo.temporada} - ${ultimo.episodio} | Minuto ${(ultimoTiempo/60).toFixed(1)}`;
+    modal.classList.add('active');
+  }
+
+  btnContinuar.addEventListener('click', () => {
+    if (ultimo) {
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const ep = season ? season.episodes.find(e => e.id === ultimo.id) : null;
+      if (ep && ep.href) {
+        source.setAttribute('src', ep.href);
+        videoElement.load();
+        videoElement.currentTime = parseFloat(ultimoTiempo) || 0;
+        videoElement.play();
+      }
+    }
+    modal.classList.remove('active');
+  });
+
+  btnNuevo.addEventListener('click', () => {
+    if (ultimo) {
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const ep = season ? season.episodes.find(e => e.id === ultimo.id) : null;
+      if (ep && ep.href) {
+        source.setAttribute('src', ep.href);  // 🔴 aseguramos que cargue el episodio actual
+        videoElement.load();
+        videoElement.currentTime = 0;         // 🔴 empieza desde 0
+        videoElement.play();
+      }
+    }
+    localStorage.removeItem('ultimoTiempoReproduccion');
+    modal.classList.remove('active');
+  });
+
+  // Guardar progreso cada 5s
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+      localStorage.setItem('ultimoTiempoReproduccion', videoElement.currentTime);
+      
+    }
+  }, 5000);
+
+  // Autoplay al siguiente episodio
+  
+videoElement.addEventListener('ended', () => {
+    const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+    if (ultimo) {
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const idx = season.episodes.findIndex(e => e.id === ultimo.id);
+      if (idx !== -1 && idx + 1 < season.episodes.length) {
+        const nextEp = season.episodes[idx+1];
+        if (nextEp.href) {
+          // set source for next episode
+          source.setAttribute('src', nextEp.href);
+          // load metadata first
+          videoElement.load();
+
+          // if we have saved progress for next episode, resume from there
+          try {
+            const progKey = `prog_${SERIES_KEY}_${nextEp.id}`;
+            const savedProg = JSON.parse(localStorage.getItem(progKey) || 'null');
+            if (savedProg && savedProg.time && !isNaN(savedProg.time) && savedProg.time > 0) {
+              // wait for metadata so we can set currentTime safely
+              const onLoaded = () => {
+                // clamp to duration if available
+                const t = Math.min(savedProg.time, videoElement.duration || savedProg.time);
+                videoElement.currentTime = t;
+                videoElement.play();
+                videoElement.removeEventListener('loadedmetadata', onLoaded);
+              };
+              videoElement.addEventListener('loadedmetadata', onLoaded);
+            } else {
+              // no saved progress, start from 0
+              videoElement.play();
+            }
+          } catch(e) {
+            console.error('Error leyendo progreso del siguiente episodio', e);
+            videoElement.play();
+          }
+
+          // guardar como ultimo episodio reproducido
+          localStorage.setItem(`ultimoEpisodio_${SERIES_KEY}`, JSON.stringify({
+            temporada: season.title,
+            episodio: nextEp.title,
+            id: nextEp.id
+          }));
+          document.getElementById('episodio-actual').textContent =
+            `▶ Viendo: ${season.title} - ${nextEp.title}`;
+        }
+      }
+    }
+  });
+
+
+  
+});
+</script>
+
+<!-- 🔴 Modal Continuar Viendo -->
+<div id="continue-modal">
+  <div class="modal-box">
+    <!-- 🔴 La X debe estar DENTRO de modal-box -->
+    <button id="close-continue-modal" aria-label="Cerrar">✖</button>
+    
+    <h3>¿Quieres continuar viendo desde donde lo dejaste?</h3>
+    <p id="continue-info"></p>
+    <div class="actions">
+      <button id="btn-continuar">Continuar</button>
+      <button id="btn-empezar-nuevo">Empezar desde 0</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('continue-modal');
+  const closeModalX = document.getElementById('close-continue-modal');
+
+  // 👇 Asegúrate de que esto exista
+  closeModalX.addEventListener('click', () => {
+    modal.classList.remove('active'); // 🔴 Oculta el modal
+  });
+});
+</script>
+
+
+  <style>
+   #continue-modal .modal-box {
+  position: relative;   /* 🔹 Esto asegura que la X se posicione dentro de esta caja */
+  background: #141414;
+  color: #fff;
+  border-radius: 12px;
+  padding: 40px 25px 25px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 0 25px rgba(229,9,20,0.5);
+  text-align: center;
+}
+
+#close-continue-modal {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: rgba(229,9,20,0.7);
+  font-size: 0.6rem;  /* 🔹 Ajusta tamaño de la X */
+  cursor: pointer;
+  padding: 2px 6px;
+}
+#close-continue-modal:hover {
+  color: #e50914;
+}
+
+
+
+  </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('continue-modal');
+  const btnContinuar = document.getElementById('btn-continuar');
+  const btnNuevo = document.getElementById('btn-empezar-nuevo');
+  const continueInfo = document.getElementById('continue-info');
+  const videoElement = document.querySelector('.vid1');
+  const source = videoElement.querySelector('source');
+
+  const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+  const ultimoTiempo = localStorage.getItem('ultimoTiempoReproduccion') || 0;
+
+  if (ultimo) {
+    continueInfo.textContent = `${ultimo.temporada} - ${ultimo.episodio} | Minuto ${(ultimoTiempo/60).toFixed(1)}`;
+    modal.classList.add('active');
+  }
+
+  btnContinuar.addEventListener('click', () => {
+    if (ultimo) {
+      const closeModalX = document.getElementById('close-continue-modal');
+closeModalX.addEventListener('click', () => {
+  modal.classList.remove('active');
+});
+
+      const closeModalX = document.getElementById('close-continue-modal');
+closeModalX.addEventListener('click', () => {
+  modal.classList.remove('active');
+});
+
+
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const ep = season ? season.episodes.find(e => e.id === ultimo.id) : null;
+      if (ep && ep.href) {
+        source.setAttribute('src', ep.href);
+        videoElement.load();
+        videoElement.currentTime = parseFloat(ultimoTiempo) || 0;
+        videoElement.play();
+      }
+    }
+    modal.classList.remove('active');
+  });
+
+  btnNuevo.addEventListener('click', () => {
+    if (ultimo) {
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const ep = season ? season.episodes.find(e => e.id === ultimo.id) : null;
+      if (ep && ep.href) {
+        source.setAttribute('src', ep.href);  // 🔴 aseguramos que cargue el episodio actual
+        videoElement.load();
+        videoElement.currentTime = 0;         // 🔴 empieza desde 0
+        videoElement.play();
+      }
+    }
+    localStorage.removeItem('ultimoTiempoReproduccion');
+    modal.classList.remove('active');
+  });
+
+  // Guardar progreso cada 5s
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+      localStorage.setItem('ultimoTiempoReproduccion', videoElement.currentTime);
+      
+    }
+  }, 5000);
+
+  // Autoplay al siguiente episodio
+  
+videoElement.addEventListener('ended', () => {
+    const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+    if (ultimo) {
+      const season = seasonsData.find(s => s.title === ultimo.temporada);
+      const idx = season.episodes.findIndex(e => e.id === ultimo.id);
+      if (idx !== -1 && idx + 1 < season.episodes.length) {
+        const nextEp = season.episodes[idx+1];
+        if (nextEp.href) {
+          // set source for next episode
+          source.setAttribute('src', nextEp.href);
+          // load metadata first
+          videoElement.load();
+
+          // if we have saved progress for next episode, resume from there
+          try {
+            const progKey = `prog_${SERIES_KEY}_${nextEp.id}`;
+            const savedProg = JSON.parse(localStorage.getItem(progKey) || 'null');
+            if (savedProg && savedProg.time && !isNaN(savedProg.time) && savedProg.time > 0) {
+              // wait for metadata so we can set currentTime safely
+              const onLoaded = () => {
+                // clamp to duration if available
+                const t = Math.min(savedProg.time, videoElement.duration || savedProg.time);
+                videoElement.currentTime = t;
+                videoElement.play();
+                videoElement.removeEventListener('loadedmetadata', onLoaded);
+              };
+              videoElement.addEventListener('loadedmetadata', onLoaded);
+            } else {
+              // no saved progress, start from 0
+              videoElement.play();
+            }
+          } catch(e) {
+            console.error('Error leyendo progreso del siguiente episodio', e);
+            videoElement.play();
+          }
+
+          // guardar como ultimo episodio reproducido
+          localStorage.setItem(`ultimoEpisodio_${SERIES_KEY}`, JSON.stringify({
+            temporada: season.title,
+            episodio: nextEp.title,
+            id: nextEp.id
+          }));
+          document.getElementById('episodio-actual').textContent =
+            `▶ Viendo: ${season.title} - ${nextEp.title}`;
+        }
+      }
+    }
+  });
+
+
+  
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.querySelector('.vid1');
+    if (!videoElement) return;
+
+    const videoSrc = videoElement.querySelector('source').getAttribute('src');
+    const STORAGE_KEY = 'pos_' + videoSrc;
+
+    /*ACA VA EL NOMBRE, IMAGEN, HTML DONDE ESTA UBICADO SU HTML (HISTORIAL)*/
+    const historialTitulo = "Nombre de serie";
+    const historialImagen = "https://image.tmdb.org/t/p/w300/";
+    const historialArchivo = "../View Series/.html";
+
+    let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+    let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+    
+    if (indexHist === -1) {
+      historial.push({
+      titulo: historialTitulo,
+      imagen: historialImagen,
+      progreso: "Asistido 0 min",
+      archivo: historialArchivo,
+      tipo: "serie", // ✅ ya está
+      timestamp: Date.now()
+    });
+    localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+    indexHist = historial.length - 1;
+    mostrarModalFavoritos("✅ Agregado al historial");
+
+  }
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+      historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+      if (indexHist !== -1) {
+        const minutos = Math.floor(videoElement.currentTime / 60);
+        historial[indexHist].progreso = `Asistido ${minutos} min`;
+        historial[indexHist].timestamp = Date.now(); // ✅ esto asegura que suba al principio
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      }
+      localStorage.setItem(STORAGE_KEY, videoElement.currentTime);
+    }
+  }, 10000);
+  });
+</script>
+
+
+
+
+<!-- ---------- INICIO: Mejoras de episodios (miniaturas, sinopsis, header, animaciones, progreso) ---------- -->
+<script>
+(function(){
+  // Thumb que pediste para cada episodio (optimizado para móvil)
+  const DEFAULT_EP_THUMB = "";
+
+  // Sobreescribe seasonsData existente (solo para asegurar campos necesarios sin borrar el original)
+  try {
+    if (typeof seasonsData !== 'undefined') {
+      // Añadir thumb/desc/durationSeconds a cada episodio si faltan
+      seasonsData = seasonsData.map(season => {
+        season.episodes = (season.episodes || []).map(ep => {
+          // mantener valores existentes pero añadir defaults
+          ep.thumb = ep.thumb && ep.thumb.trim() ? ep.thumb : DEFAULT_EP_THUMB;
+          // durationSeconds: si ya existe mantener, si no intentar parsear ep.time como '45m'
+          if (!ep.durationSeconds) {
+            if (ep.durationSeconds === 0) ep.durationSeconds = 0;
+            if (ep.time && typeof ep.time === 'string' && /(\d+)\s*m/i.test(ep.time)) {
+              const mins = parseInt(ep.time.match(/(\d+)\s*m/i)[1], 10);
+              ep.durationSeconds = mins * 60;
+            } else {
+              ep.durationSeconds = ep.durationSeconds || (parseInt(ep.duration || 0,10) || 0);
+            }
+          }
+          return ep;
+        });
+        return season;
+      });
+    } else {
+      console.warn("seasonsData no definido - no se aplicaron defaults.");
+    }
+  } catch(e){
+    console.error("Error al normalizar seasonsData:", e);
+  }
+
+  // Helpers almacenamiento
+  function getProgKey(epId){ return `prog_${SERIES_KEY}_${epId}`; }
+  function loadProgress(epId){
+    try { return JSON.parse(localStorage.getItem(getProgKey(epId)) || 'null'); }
+    catch(e){ return null; }
+  }
+  function saveProgressObj(epId, obj){ localStorage.setItem(getProgKey(epId), JSON.stringify(obj)); }
+
+  // Nueva versión de renderEpisodes: reemplaza la anterior
+  window.renderEpisodes = function(episodes){
+    const container = document.getElementById('episodes-grid');
+    if(!container) return;
+    container.innerHTML = '';
+    if(!episodes || episodes.length === 0){
+      container.innerHTML = `<div class="muted">No hay episodios disponibles.</div>`;
+      return;
+    }
+    // obtener ultimo
+    const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+
+    episodes.forEach(ep => {
+      const prog = loadProgress(ep.id) || { time: 0, duration: ep.durationSeconds || 0, completed: false };
+      const percent = (prog.duration && prog.duration>0) ? Math.round((prog.time / prog.duration) * 100) : 0;
+      const card = document.createElement('article');
+      card.className = 'episode-card';
+      card.setAttribute('role','listitem');
+
+      if (ultimo && ultimo.id === ep.id) card.classList.add('viendo');
+
+      // estructura: thumb left (on mobile stacked), content right
+      card.innerHTML = `
+        <div class="ep-thumb" style="background-image:url('${ep.thumb}');"></div>
+        <div class="ep-meta">
+          <div class="ep-title">${escapeHtml(ep.title)}</div>
+          <div class="ep-time">${escapeHtml(ep.time || '')}</div>
+          <div class="ep-desc">${escapeHtml(ep.desc || '')}</div>
+
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+            <div class="ep-progress ${prog.completed ? 'hidden' : ''}" data-epid="${ep.id}">
+              <div class="ep-progress-fill" style="width:${percent}%;" data-epid="${ep.id}"></div>
+            </div>
+            <div class="ep-progress-label" data-epid="${ep.id}">${prog.completed ? 'Completado' : percent + '%'}</div>
+          </div>
+        </div>
+        <div class="ep-actions">
+          <button class="play-btn" data-href="${ep.href || '#'}" data-epid="${ep.id}" aria-label="Reproducir ${escapeHtml(ep.title)}">▶ Reproducir</button>
+        </div>
+      `;
+
+      // click reproducir
+      const playBtn = card.querySelector('.play-btn');
+      playBtn.addEventListener('click', (ev) => {
+        const href = ev.currentTarget.dataset.href;
+        if(href && href !== '#' && href.trim() !== ''){
+          const videoElement = document.querySelector('.vid1');
+          const source = videoElement.querySelector('source');
+          source.setAttribute('src', href);
+          videoElement.load();
+          // intentar play; algunos navegadores bloquean autoplay sin interacción, pero aquí es por click
+          videoElement.play().catch(()=>{});
+          // cerrar modal si existe función closeModal
+          try{ if(typeof closeModal === 'function') closeModal(); else document.getElementById('seasons-modal').setAttribute('aria-hidden','true'); } catch(e){}
+          // guardar ultimo episodio
+          const episodioInfo = { temporada: seasonsData[activeSeasonIndex].title, episodio: ep.title, id: ep.id };
+          localStorage.setItem(`ultimoEpisodio_${SERIES_KEY}`, JSON.stringify(episodioInfo));
+          // mostrar en UI
+          const epActualEl = document.getElementById('episodio-actual');
+          if(epActualEl) epActualEl.textContent = ` Viendo: ${episodioInfo.temporada} - ${episodioInfo.episodio}`;
+          // resaltar
+          document.querySelectorAll('.episode-card').forEach(c=>c.classList.remove('viendo'));
+          card.classList.add('viendo');
+          // inicializar progreso si no existe
+          const p = loadProgress(ep.id) || { time:0, duration: (ep.durationSeconds||0), completed: false };
+          if(!p.duration && ep.durationSeconds) p.duration = ep.durationSeconds;
+          saveProgressObj(ep.id, p);
+          updateProgressUI(ep.id, p.time, p.duration, p.completed);
+        } else {
+          alert('No hay un link válido para este episodio: ' + ep.title);
+        }
+      });
+
+      container.appendChild(card);
+      // actualizar UI segun progreso guardado
+      updateProgressUI(ep.id, prog.time, prog.duration, prog.completed);
+    });
+
+    // escape helper
+    function escapeHtml(text){
+      if(!text) return '';
+      return String(text).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"})[m]; });
+    }
+  };
+
+  // Actualiza UI de barra
+  function updateProgressUI(epId, time, duration, completed){
+    const percent = (duration && duration>0) ? Math.min(100, Math.round((time / duration) * 100)) : 0;
+    const fill = document.querySelector(`.ep-progress-fill[data-epid="${epId}"]`);
+    const label = document.querySelector(`.ep-progress-label[data-epid="${epId}"]`);
+    const container = document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+    if(fill) fill.style.width = percent + '%';
+    if(label) label.textContent = completed ? 'Completado' : percent + '%';
+    if(container){
+      if(completed) container.classList.add('hidden'); else container.classList.remove('hidden');
+    }
+  }
+
+  // Vinculación con reproductor para actualizar progreso en tiempo real
+  (function bindPlayerProgress(){
+    const videoElement = document.querySelector('.vid1');
+    if(!videoElement) return;
+    let currentPlayingEpId = null;
+
+    function detectCurrentEpIdFromLast(){
+      const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+      return (ultimo && ultimo.id) ? ultimo.id : null;
+    }
+    currentPlayingEpId = detectCurrentEpIdFromLast();
+
+    // observar cambios en source src para deducir epId
+    const sourceEl = videoElement.querySelector('source');
+    if(sourceEl){
+      const mo = new MutationObserver(() => {
+        const src = sourceEl.getAttribute('src') || '';
+        for(const s of seasonsData || []){
+          const found = (s.episodes||[]).find(e => e.href === src);
+          if(found){ currentPlayingEpId = found.id; break; }
+        }
+      });
+      mo.observe(sourceEl, { attributes: true, attributeFilter: ['src'] });
+    }
+
+    // timeupdate -> actualizar progreso del episodio actual
+    videoElement.addEventListener('timeupdate', () => {
+      if(!currentPlayingEpId) currentPlayingEpId = detectCurrentEpIdFromLast();
+      if(!currentPlayingEpId) return;
+      const ep = findEpisodeById(currentPlayingEpId);
+      if(!ep) return;
+      const progObj = loadProgress(currentPlayingEpId) || { time:0, duration: (ep.durationSeconds||0), completed:false };
+      progObj.time = videoElement.currentTime;
+      if(!progObj.duration && ep.durationSeconds) progObj.duration = ep.durationSeconds;
+      // actualizar UI y guardar (si no completado)
+      if(!progObj.completed) {
+        saveProgressObj(currentPlayingEpId, progObj);
+        updateProgressUI(currentPlayingEpId, progObj.time, progObj.duration, progObj.completed);
+      }
+    });
+
+    // ended -> marcar completado y ocultar barra
+    videoElement.addEventListener('ended', () => {
+      if(!currentPlayingEpId) return;
+      const ep = findEpisodeById(currentPlayingEpId);
+      if(!ep) return;
+      const progObj = loadProgress(currentPlayingEpId) || { time:0, duration:(ep.durationSeconds||0), completed:false };
+      progObj.time = progObj.duration || videoElement.duration || progObj.time;
+      progObj.completed = true;
+      saveProgressObj(currentPlayingEpId, progObj);
+      updateProgressUI(currentPlayingEpId, progObj.time, progObj.duration, progObj.completed);
+    });
+
+    function findEpisodeById(id){
+      for(const s of seasonsData || []){
+        const f = (s.episodes||[]).find(e => e.id === id);
+        if(f) return f;
+      }
+      return null;
+    }
+  })();
+
+  // Si la página ya cargó, re-render de la temporada activa para reflejar cambios
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      // re-renderizar temporada activa (si existe selectSeason)
+      if (typeof selectSeason === 'function') {
+        selectSeason(activeSeasonIndex || 0);
+      } else {
+        // fallback: si no hay selectSeason, render primera temporada
+        if (seasonsData && seasonsData[0]) {
+          const seasonLabel = document.getElementById('season-label');
+          if(seasonLabel) seasonLabel.textContent = seasonsData[0].title;
+          window.renderEpisodes(seasonsData[0].episodes || []);
+        }
+      }
+    } catch(e){
+      console.error("Error al re-renderizar episodios:", e);
+    }
+  });
+
+  // CSS tweaks añadidos dinámicamente (barra rojo -> celeste, animaciones)
+  const extraStyles = `
+  .ep-thumb{ width:140px; height:84px; border-radius:8px; background-size:cover; background-position:center; flex-shrink:0; box-shadow: 0 12px 30px rgba(0,0,0,0.6); }
+  .ep-meta{ display:flex; flex-direction:column; gap:6px; min-width:0; flex:1; color:#fff; }
+  .ep-title{ font-weight:700; font-size:1rem; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ep-time{ color:#9fb8c8; font-size:0.9rem; font-weight:600; }
+  .ep-desc{ color:#bfcbd6; font-size:0.9rem; line-height:1.2; max-height:3.6em; overflow:hidden; text-overflow:ellipsis; }
+  .ep-actions{ display:flex; align-items:center; gap:8px; margin-left:8px; }
+  .ep-progress{ width:100%; height:10px; background: rgba(255,255,255,0.04); border-radius:999px; overflow:hidden; box-shadow: inset 0 -2px 10px rgba(0,0,0,0.4); transition:opacity .28s ease; }
+  .ep-progress.hidden{ opacity:0; height:0; margin:0; padding:0; overflow:hidden; }
+  .ep-progress-fill{ height:100%; width:0%; background: linear-gradient(90deg, #ff2d5b 0%, #00c6ff 100%); transition: width 0.2s linear; }
+  .ep-progress-label{ font-size:0.75rem; color:#9fb8c8; margin-left:8px; font-weight:700; }
+  @keyframes fadeInUp { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:translateY(0);} }
+  .episode-card{ animation: fadeInUp .28s ease both; display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px; background:var(--card); border:1px solid rgba(255,255,255,0.02); cursor:pointer; transition:transform .16s ease, box-shadow .16s; }
+  @media (max-width:480px){ .episode-card{ flex-direction:column; align-items:stretch;} .ep-thumb{ width:100%; height:180px;} }
+  `;
+  const styleTag = document.createElement('style'); styleTag.innerHTML = extraStyles; document.head.appendChild(styleTag);
+
+})();
+</script>
+<!-- ---------- FIN: Mejoras de episodios ---------- -->
+
+
+<!-- ---------- AJUSTES FINALES: thumb más pequeña a la izquierda y barra solo si hay progreso / replay ---------- -->
+<script>
+(function(){
+  // CSS tweaks: make thumb smaller left (Netflix-like)
+  const finalStyles = `
+  /* Netflix-like small thumb on the left */
+  .episode-card { align-items: flex-start; }
+  .ep-thumb { width: 110px !important; height: 62px !important; border-radius:6px; }
+  @media (max-width:480px){ .ep-thumb{ width:120px; height:72px; } .episode-card{ flex-direction:row; } .ep-meta{ padding-left:8px; } }
+  `;
+  const st = document.createElement('style'); st.innerHTML = finalStyles; document.head.appendChild(st);
+
+  // Helper to get replay flag stored in sessionStorage (temporary)
+  function getReplayFlag(epId){
+    try { return sessionStorage.getItem(`replay_${SERIES_KEY}_${epId}`) === '1'; }
+    catch(e){ return false; }
+  }
+  function setReplayFlag(epId, val){
+    try { if(val) sessionStorage.setItem(`replay_${SERIES_KEY}_${epId}`,'1'); else sessionStorage.removeItem(`replay_${SERIES_KEY}_${epId}`); }
+    catch(e){}
+  }
+
+  // Override updateProgressUI if exists - otherwise create one consistent with previous implementation
+  function updateProgressUI_override(epId, time, duration, completed){
+    // prefer the global function if available name collision
+    const percent = (duration && duration>0) ? Math.min(100, Math.round((time / duration) * 100)) : 0;
+    const fill = document.querySelector(`.ep-progress-fill[data-epid="${epId}"]`);
+    const label = document.querySelector(`.ep-progress-label[data-epid="${epId}"]`);
+    const container = document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+
+    // decide visibility: show only if (percent > 0 && !completed) OR if replay flag is set (user clicked play to rewatch)
+    const replay = getReplayFlag(epId);
+    const shouldShow = (!completed && (percent > 0 || replay));
+
+    if(fill) fill.style.width = percent + '%';
+    if(label) label.textContent = completed ? 'Completado' : percent + '%';
+    if(container){
+      if(shouldShow) container.classList.remove('hidden');
+      else container.classList.add('hidden');
+    }
+  }
+
+  // Replace existing updateProgressUI if present, else set new global
+  try {
+    window.updateProgressUI = updateProgressUI_override;
+  } catch(e){ window.updateProgressUI = updateProgressUI_override; }
+
+  // Event delegation: intercept play clicks to clear 'completed' and set replay flag so bar shows while rewatching
+  const grid = document.getElementById('episodes-grid');
+  if(grid){
+    grid.addEventListener('click', (ev) => {
+      const btn = ev.target.closest && ev.target.closest('.play-btn');
+      if(!btn) return;
+      const epId = btn.dataset.epid;
+      if(!epId) return;
+      // load prog
+      let prog = null;
+      try { prog = JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${epId}`) || 'null'); } catch(e){ prog = null; }
+      if(prog && prog.completed){
+        // user wants to rewatch: mark as not completed and set replay flag so bar will show even at 0%
+        prog.completed = false;
+        prog.time = 0;
+        try { localStorage.setItem(`prog_${SERIES_KEY}_${epId}`, JSON.stringify(prog)); } catch(e){}
+        setReplayFlag(epId, true);
+        // update UI immediately
+        window.updateProgressUI(epId, prog.time, prog.duration, prog.completed);
+      } else {
+        // ensure replay flag cleared for normal plays
+        setReplayFlag(epId, false);
+      }
+      // when user clicks play, clear the replay flag after a short timeout to allow UI to show
+      setTimeout(()=> setReplayFlag(epId, false), 60000); // clear after 60s as fallback
+    });
+  }
+
+  // Ensure that when video 'ended' resets replay flag (so completed state reinstated visually)
+  const video = document.querySelector('.vid1');
+  if(video){
+    video.addEventListener('ended', () => {
+      const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+      if(ultimo && ultimo.id){
+        // mark completed true (existing logic already does), also clear replay flag
+        try { sessionStorage.removeItem(`replay_${SERIES_KEY}_${ultimo.id}`); } catch(e) {}
+        // force UI update for that ep
+        const prog = JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${ultimo.id}`) || 'null');
+        if(prog) window.updateProgressUI(ultimo.id, prog.time, prog.duration, prog.completed);
+      }
+    });
+  }
+
+  // Also, on DOMContentLoaded ensure progress bars show only when >0 and not completed (apply to any existing ones)
+  document.addEventListener('DOMContentLoaded', () => {
+    const fills = document.querySelectorAll('.ep-progress-fill[data-epid]');
+    fills.forEach(f => {
+      const id = f.dataset.epid;
+      try {
+        const prog = JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${id}`) || 'null');
+        const duration = prog && prog.duration ? prog.duration : 0;
+        const time = prog && prog.time ? prog.time : 0;
+        const completed = prog && prog.completed ? true : false;
+        window.updateProgressUI(id, time, duration, completed);
+      } catch(e){}
+    });
+  });
+})();
+</script>
+<!-- ---------- FIN AJUSTES FINALES ---------- -->
+
+<!-- ---------- AJUSTE FINAL: Imagen izquierda (130x80), info derecha, progreso tiempo real ---------- -->
+<script>
+(function()
+  const st=document.createElement('style');st.innerHTML=css;document.head.appendChild(st);
+
+  // Re-render episodes layout
+  if(window.renderEpisodes){
+    const oldRender=window.renderEpisodes;
+    window.renderEpisodes=function(episodes){
+      const container=document.getElementById('episodes-grid');
+      if(!container) return oldRender(episodes);
+      container.innerHTML='';
+      if(!episodes||episodes.length===0){container.innerHTML='<div class="muted">No hay episodios disponibles.</div>';return;}
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      episodes.forEach(ep=>{
+        const prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${ep.id}`)||'null')||{time:0,duration:ep.durationSeconds||0,completed:false};
+        const percent=(prog.duration>0)?Math.min(100,Math.round((prog.time/prog.duration)*100)):0;
+        const card=document.createElement('article');
+        card.className='episode-card';
+        if(ultimo&&ultimo.id===ep.id)card.classList.add('viendo');
+        card.innerHTML=`
+          <div class="ep-thumb" style="background-image:url('${ep.thumb||''}');"></div>
+          <div class="ep-meta">
+            <div class="ep-title">${ep.title}</div>
+            <div class="ep-time">${ep.time||''}</div>
+            <div class="ep-progress ${percent>0&&!prog.completed?'':'hidden'}" data-epid="${ep.id}">
+              <div class="ep-progress-fill" style="width:${percent}%" data-epid="${ep.id}"></div>
+            </div>
+          </div>
+          <div class="ep-actions"><button class="play-btn" data-href="${ep.href||'#'}" data-epid="${ep.id}">▶ Reproducir</button></div>`;
+        container.appendChild(card);
+      });
+    }
+  }
+
+  // Actualiza progreso en tiempo real
+  const video=document.querySelector('.vid1');
+  if(video){
+    video.addEventListener('timeupdate',()=>{
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      if(!ultimo||!ultimo.id)return;
+      const epId=ultimo.id;
+      const ep=findEp(epId);
+      if(!ep)return;
+      let prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${epId}`)||'null')||{time:0,duration:ep.durationSeconds||video.duration||0,completed:false};
+      prog.time=video.currentTime;prog.duration=video.duration||prog.duration;
+      const percent=(prog.duration>0)?Math.min(100,Math.round((prog.time/prog.duration)*100)):0;
+      const fill=document.querySelector(`.ep-progress-fill[data-epid="${epId}"]`);
+      const container=document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+      if(fill){fill.style.width=percent+'%';}
+      if(container){if(percent>0&&!prog.completed)container.classList.remove('hidden');else container.classList.add('hidden');}
+      if(percent>=100){prog.completed=true;}
+      localStorage.setItem(`prog_${SERIES_KEY}_${epId}`,JSON.stringify(prog));
+    });
+    video.addEventListener('ended',()=>{
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      if(!ultimo)return;
+      const epId=ultimo.id;
+      let prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${epId}`)||'null');
+      if(prog){prog.completed=true;localStorage.setItem(`prog_${SERIES_KEY}_${epId}`,JSON.stringify(prog));}
+      const bar=document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+      if(bar)bar.classList.add('hidden');
+    });
+  }
+  function findEp(id){
+    for(const s of seasonsData||[]){const f=(s.episodes||[]).find(e=>e.id===id);if(f)return f;}
+    return null;
+  }
+})();
+</script>
+<!-- ---------- FIN AJUSTE FINAL ---------- -->
+
+<!-- ---------- AJUSTE FINAL: barra en tiempo real con porcentaje y botón más abajo ---------- -->
+<script>
+(function(){
+  const css = `
+  .ep-progress {
+  width: 150%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+  position: relative;
+  text-align: center;
+}
+
+.ep-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff2d5b, #00c6ff);
+  transition: width 0.25s linear;
+  position: relative;
+}
+
+.ep-percent {
+  position: absolute;
+  left: 55%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 0.5rem;
+  color: #fff; /* 🔹 texto blanco */
+  pointer-events: none;
+  user-select: none;
+}
+
+  .episode-card { display:flex; flex-direction:column; gap:10px; padding:14px; background:rgba(20,20,20,0.85); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.4); transition:transform .2s ease, box-shadow .2s; }
+  .episode-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,45,91,0.2); }
+  .ep-meta { display:flex; flex-direction:column; justify-content:center; gap:6px; color:#fff; }
+  .ep-title { font-weight:700; font-size:1rem; color:#fff; }
+  .ep-time { font-size:0.9rem; color:#9fb8c8; font-weight:600; }
+  .ep-desc { font-size:0.88rem; color:#bfcbd6; line-height:1.3; max-height:3.4em; overflow:hidden; text-overflow:ellipsis; }
+  .ep-progress.hidden { display:none!important; }
+  .ep-progress-label { position:absolute; right:8px; top:-20px; font-size:0.8rem; color:#00c6ff; font-weight:600; }
+  .ep-actions { margin-top:16px; }
+  .play-btn { padding:7px 12px; border:none; border-radius:6px; background:#ff2d5b; color:#fff; font-weight:600; cursor:pointer; transition:background .2s ease; }
+  .play-btn:hover { background:#ff476f; }
+  @media(max-width:480px){ .episode-card{ flex-direction:column; align-items:flex-start; } }
+  `;
+  const st=document.createElement('style');st.innerHTML=css;document.head.appendChild(st);
+
+  if(window.renderEpisodes){
+    const oldRender=window.renderEpisodes;
+    window.renderEpisodes=function(episodes){
+      const container=document.getElementById('episodes-grid');
+      if(!container) return oldRender(episodes);
+      container.innerHTML='';
+      if(!episodes||episodes.length===0){container.innerHTML='<div class="muted">No hay episodios disponibles.</div>';return;}
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      episodes.forEach(ep=>{
+        const prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${ep.id}`)||'null')||{time:0,duration:ep.durationSeconds||0,completed:false};
+        const percent=(prog.duration>0)?Math.min(100,Math.round((prog.time/prog.duration)*100)):0;
+        const card=document.createElement('article');
+        card.className='episode-card';
+        if(ultimo&&ultimo.id===ep.id)card.classList.add('viendo');
+        card.innerHTML=`
+          <div class="ep-meta">
+            <div class="ep-title">${ep.title}</div>
+            <div class="ep-time">${ep.time||''}</div>
+            <div class="ep-progress ${percent>0&&!prog.completed?'':'hidden'}" data-epid="${ep.id}">
+              <div class="ep-progress-fill" style="width:${percent}%" data-epid="${ep.id}"></div>
+              <div class="ep-progress-label" data-epid="${ep.id}">${percent}%</div>
+            </div>
+          </div>
+          <div class="ep-actions"><button class="play-btn" data-href="${ep.href||'#'}" data-epid="${ep.id}">▶ Reproducir</button></div>`;
+        container.appendChild(card);
+      });
+    }
+  }
+
+  const video=document.querySelector('.vid1');
+  if(video){
+    video.addEventListener('timeupdate',()=>{
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      if(!ultimo||!ultimo.id)return;
+      const epId=ultimo.id;
+      const ep=findEp(epId);
+      if(!ep)return;
+      let prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${epId}`)||'null')||{time:0,duration:ep.durationSeconds||video.duration||0,completed:false};
+      prog.time=video.currentTime;prog.duration=video.duration||prog.duration;
+      const percent=(prog.duration>0)?Math.min(100,Math.round((prog.time/prog.duration)*100)):0;
+      const fill=document.querySelector(`.ep-progress-fill[data-epid="${epId}"]`);
+      const label=document.querySelector(`.ep-progress-label[data-epid="${epId}"]`);
+      const container=document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+      if(fill){fill.style.width=percent+'%';}
+      if(label){label.textContent=percent+'%';}
+      if(container){
+        if(video.currentTime>=1&&!prog.completed)container.classList.remove('hidden');
+        else if(prog.completed)container.classList.add('hidden');
+      }
+      if(percent>=100){prog.completed=true;}
+      localStorage.setItem(`prog_${SERIES_KEY}_${epId}`,JSON.stringify(prog));
+    });
+    video.addEventListener('ended',()=>{
+      const ultimo=JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`)||'null');
+      if(!ultimo)return;
+      const epId=ultimo.id;
+      let prog=JSON.parse(localStorage.getItem(`prog_${SERIES_KEY}_${epId}`)||'null');
+      if(prog){prog.completed=true;localStorage.setItem(`prog_${SERIES_KEY}_${epId}`,JSON.stringify(prog));}
+      const bar=document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+      if(bar)bar.classList.add('hidden');
+    });
+  }
+  function findEp(id){
+    for(const s of seasonsData||[]){const f=(s.episodes||[]).find(e=>e.id===id);if(f)return f;}
+    return null;
+  }
+})();
+</script>
+<!-- ---------- FIN AJUSTE FINAL ---------- -->
+
+<!-- ---------- FIX: porcentaje fuera de la barra + arreglar play buttons y resume ---------- -->
+<script>
+(function(){
+  // CSS: percentage label to the right of bar
+  const css = `
+  .ep-progress {
+  width: 150%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+  position: relative;
+  text-align: center;
+}
+
+.ep-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff2d5b, #00c6ff);
+  transition: width 0.25s linear;
+  position: relative;
+}
+
+.ep-percent {
+  position: absolute;
+  left: 55%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 0.5rem;
+  color: #fff; /* 🔹 texto blanco */
+  pointer-events: none;
+  user-select: none;
+}
+
+  `;
+  const st=document.createElement('style'); st.innerHTML = css; document.head.appendChild(st);
+
+  // Helper functions
+  function progKey(epId){ return `prog_${SERIES_KEY}_${epId}`; }
+  function loadProg(epId){ try { return JSON.parse(localStorage.getItem(progKey(epId))||'null'); } catch(e){ return null; } }
+  function saveProg(epId, obj){ try{ localStorage.setItem(progKey(epId), JSON.stringify(obj)); }catch(e){} }
+
+  // Patch renderEpisodes to include progress-row with .ep-percent outside the bar
+  if(window.renderEpisodes){
+    const original = window.renderEpisodes;
+    window.renderEpisodes = function(episodes){
+      // Attempt to call original to preserve behavior, then re-render with our layout
+      const container = document.getElementById('episodes-grid');
+      if(!container) return original(episodes);
+      container.innerHTML = '';
+      if(!episodes || episodes.length === 0){ container.innerHTML = '<div class="muted">No hay episodios disponibles.</div>'; return; }
+      const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+      episodes.forEach(ep => {
+        const prog = loadProg(ep.id) || { time:0, duration: ep.durationSeconds||0, completed:false };
+        const percent = (prog.duration > 0) ? Math.min(100, Math.round((prog.time / prog.duration)*100)) : 0;
+        const card = document.createElement('article'); card.className = 'episode-card'; card.setAttribute('role','listitem');
+        if(ultimo && ultimo.id === ep.id) card.classList.add('viendo');
+
+        card.innerHTML = `
+          <div class="ep-meta">
+            <div class="ep-title">${escapeHtml(ep.title)}</div>
+            <div class="ep-time">${escapeHtml(ep.time||'')}</div>
+
+            <div class="progress-row">
+              <div class="ep-progress ${percent>0 && !prog.completed ? '' : 'hidden'}" data-epid="${ep.id}">
+                <div class="ep-progress-fill" style="width:${percent}%" data-epid="${ep.id}"></div>
+              </div>
+              <div class="ep-percent" data-epid="${ep.id}">${percent>0 && !prog.completed ? percent + '%' : ''}</div>
+            </div>
+          </div>
+          <div class="ep-actions"><button class="play-btn" data-href="${ep.href||'#'}" data-epid="${ep.id}">▶ Reproducir</button></div>
+        `;
+        container.appendChild(card);
+      });
+
+      // helpers
+      function escapeHtml(text){ if(!text) return ''; return String(text).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"})[m]); }
+    };
+  }
+
+  // Event delegation for play buttons so clicks always work
+  const grid = document.getElementById('episodes-grid');
+  const video = document.querySelector('.vid1');
+  if(grid && video){
+    grid.addEventListener('click', (ev) => {
+      const btn = ev.target.closest && ev.target.closest('.play-btn');
+      if(!btn) return;
+      const epId = btn.dataset.epid;
+      const href = btn.dataset.href;
+      if(!epId) return;
+      if(!href || href === '#'){ alert('No hay un link válido para este episodio.'); return; }
+
+      // find ep data
+      const ep = findEp(epId);
+      if(!ep) return;
+
+      // set source and load
+      const source = video.querySelector('source');
+      source.setAttribute('src', href);
+      video.load();
+
+      // Load saved prog for this ep
+      const prog = loadProg(epId) || { time:0, duration: ep.durationSeconds || 0, completed:false };
+
+      // When metadata is loaded, set currentTime to saved time (if > 0)
+      const onLoaded = function(){
+        try{
+          if(prog && prog.time && prog.time > 0){
+            // clamp to duration-1
+            const dur = video.duration || prog.duration || 0;
+            if(dur && prog.time < dur) video.currentTime = prog.time;
+          }
+        } catch(e){}
+        // start playback
+        video.play().catch(()=>{});
+        // cleanup
+        video.removeEventListener('loadedmetadata', onLoaded);
+      };
+      video.addEventListener('loadedmetadata', onLoaded);
+
+      // mark as ultimoEpisodio and UI updates
+      const episodioInfo = { temporada: seasonsData[activeSeasonIndex].title, episodio: ep.title, id: ep.id };
+      localStorage.setItem(`ultimoEpisodio_${SERIES_KEY}`, JSON.stringify(episodioInfo));
+      document.getElementById('episodio-actual').textContent = ` Viendo: ${episodioInfo.temporada} - ${episodioInfo.episodio}`;
+      // highlight visually
+      document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('viendo'));
+      const card = btn.closest('.episode-card'); if(card) card.classList.add('viendo');
+      // ensure progress object exists
+      if(!prog.duration && ep.durationSeconds) prog.duration = ep.durationSeconds;
+      saveProg(epId, prog);
+      // show progress UI if >0
+      updateProgressUI(epId, prog.time, prog.duration, prog.completed);
+      // close modal if available
+      try{ if(typeof closeModal === 'function') closeModal(); else document.getElementById('seasons-modal').setAttribute('aria-hidden','true'); } catch(e){}
+    });
+  }
+
+  // Update progress UI and percentage display
+  function updateProgressUI(epId, time, duration, completed){
+    const percent = (duration && duration>0) ? Math.min(100, Math.round((time/duration)*100)) : 0;
+    const fill = document.querySelector(`.ep-progress-fill[data-epid="${epId}"]`);
+    const bar = document.querySelector(`.ep-progress[data-epid="${epId}"]`);
+    const pct = document.querySelector(`.ep-percent[data-epid="${epId}"]`);
+    if(fill) fill.style.width = percent + '%';
+    if(pct) pct.textContent = (!completed && percent>0) ? percent + '%' : '';
+    if(bar){
+      if(!completed && (video.currentTime>=1 || percent>0)) bar.classList.remove('hidden');
+      else bar.classList.add('hidden');
+    }
+  }
+
+  // Bind to player timeupdate to save per-episode progress and update UI live
+  if(video){
+    video.addEventListener('timeupdate', () => {
+      const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+      if(!ultimo || !ultimo.id) return;
+      const epId = ultimo.id;
+      const ep = findEp(epId);
+      if(!ep) return;
+      const prog = loadProg(epId) || { time:0, duration: ep.durationSeconds || video.duration || 0, completed:false };
+      prog.time = video.currentTime;
+      prog.duration = video.duration || prog.duration;
+      const percent = (prog.duration>0) ? Math.min(100, Math.round((prog.time/prog.duration)*100)) : 0;
+      if(percent>=100) prog.completed = true;
+      saveProg(epId, prog);
+      updateProgressUI(epId, prog.time, prog.duration, prog.completed);
+    });
+    video.addEventListener('ended', () => {
+      const ultimo = JSON.parse(localStorage.getItem(`ultimoEpisodio_${SERIES_KEY}`) || 'null');
+      if(!ultimo || !ultimo.id) return;
+      const prog = loadProg(ultimo.id) || null;
+      if(prog){ prog.completed = true; prog.time = prog.duration || prog.time; saveProg(ultimo.id, prog); updateProgressUI(ultimo.id, prog.time, prog.duration, prog.completed); }
+    });
+  }
+
+  // utility to find episode by id
+  function findEp(id){
+    for(const s of seasonsData || []){
+      const f = (s.episodes || []).find(e => e.id === id);
+      if(f) return f;
+    }
+    return null;
+  }
+
+  // On load, refresh all percent labels/bars using stored progress
+  document.addEventListener('DOMContentLoaded', () => {
+    const fills = document.querySelectorAll('.ep-progress-fill[data-epid]');
+    fills.forEach(f => {
+      const id = f.dataset.epid;
+      const prog = loadProg(id) || { time:0, duration:0, completed:false };
+      updateProgressUI(id, prog.time, prog.duration, prog.completed);
+    });
+  });
+
+})();
+</script>
+<!-- ---------- FIN FIX ---------- -->
+
+
+</body>
+</html>
+
+

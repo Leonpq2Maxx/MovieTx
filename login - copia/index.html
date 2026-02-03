@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MovieTx - Inicio</title>
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff}
+.header{padding:18px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#0b0b0c,#111)}
+.logo{display:flex;align-items:center;gap:12px}
+.appicon{width:46px;height:46px;border-radius:8px;background:#222;display:flex;align-items:center;justify-content:center;font-weight:700}
+.container{padding:18px;text-align:center}
+button{padding:10px 14px;background:#e50914;border:0;border-radius:6px;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+      <div class="appicon">MT</div>
+      <div><strong>MovieTx</strong></div>
+  </div>
+  <div><button onclick="logout()">Cerrar sesión</button></div>
+</div>
+
+<div class="container">
+  <h1>Bienvenido a MovieTx</h1>
+  <p id="expire"></p>
+  <p>Contenido protegido. Solo usuarios activos pueden ver esto.</p>
+</div>
+
+<script>
+
+// ===============================
+// CARGAR USUARIO
+// ===============================
+const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+// ===============================
+// ACCESO DEL CREADOR (PRIMERO)
+// ===============================
+if (user && user.isCreator) {
+    console.log("Acceso del creador permitido.");
+    document.getElementById('expire').innerText = "Acceso ilimitado (Creador)";
+} 
+else {
+
+    // ===============================
+    // BLOQUEO DE USUARIOS NORMALES
+    // ===============================
+    if (!user || !user.active) {
+        location.href = 'pago.html?needpay=1';
+    }
+
+    if (Date.now() > user.expire) {
+        alert("Tu cuenta venció. Para seguir usando MovieTx debes pagar nuevamente.");
+        location.href = 'pago.html?needpay=1';
+    }
+
+    // ===============================
+    // MOSTRAR FECHA EN FORMATO REAL
+    // ===============================
+    const fecha = new Date(user.expire);
+    document.getElementById("expire").innerText =
+      "Tu cuenta vence el: " + fecha.toLocaleDateString();
+}
+
+// ===============================
+// CERRAR SESIÓN
+// ===============================
+function logout(){
+    localStorage.removeItem("user");
+    location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>

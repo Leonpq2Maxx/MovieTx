@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Pago - MovieTx</title>
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.wrap{width:420px;padding:20px;background:linear-gradient(180deg,#0b0b0c,#111);border-radius:10px}
+h2{margin:0 0 8px 0}
+.note{background:#111;padding:10px;border-radius:6px;color:#f5c542;margin-bottom:12px}
+input,textarea{width:100%;padding:10px;margin-top:8px;border-radius:6px;border:0;background:#121214;color:#fff}
+button{width:100%;padding:12px;margin-top:12px;border-radius:6px;border:0;background:#e50914;color:#fff;font-weight:700;cursor:pointer}
+.form-row{display:flex;gap:8px}
+.small{font-size:13px;color:#bbb;margin-top:8px;text-align:center}
+.ticket-preview{background:#0f0f10;padding:12px;border-radius:6px;margin-top:10px}
+img.preview{max-width:100%;border-radius:6px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>Pago Mensual - $3000 ARS</h2>
+  <div id="msg" class="note" style="display:none"></div>
+
+  <p>Tu pago lo podés hacer con Mercado Pago. Luego completa el formulario de comprobante para que lo verifiquemos.</p>
+
+  <button onclick="openMP()">Ir a Mercado Pago</button>
+
+  <h3 style="margin-top:16px">Enviar comprobante</h3>
+  <label>Ingrese ID de pago (referencia):</label>
+  <input id="payId" placeholder="Ej: 123456789" />
+
+  <label>Últimos 4 dígitos del CBU desde donde enviaste:</label>
+  <input id="last4" placeholder="Ej: 1823" maxlength="4"/>
+
+  <label>Subir captura del pago (imagen):</label>
+  <input id="file" type="file" accept="image/*" />
+
+  <div class="ticket-preview" id="previewArea" style="display:none"></div>
+
+  <button onclick="sendProof()">Enviar comprobante</button>
+
+  <div class="small"><a href="login.html" style="color:#fff">Volver</a></div>
+</div>
+
+<script>
+const MP_LINK = "TU_LINK_MERCADO_PAGO_AQUI"; // reemplaza con tu link real
+
+window.onload = () => {
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('needpay') === '1'){
+    document.getElementById('msg').style.display = 'block';
+    document.getElementById('msg').innerText = 'Debes realizar el pago para continuar usando MovieTx. Envía comprobante y espera verificación.';
+  }
+}
+
+function openMP(){
+  window.open(MP_LINK, '_blank');
+}
+
+document.getElementById('file').addEventListener('change', function(e){
+  const f = e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const data = ev.target.result;
+    const p = document.getElementById('previewArea');
+    p.style.display = 'block';
+    p.innerHTML = '<strong>Preview del comprobante:</strong><br><img class="preview" src="'+data+'"/>';
+    p.dataset.img = data;
+  }
+  reader.readAsDataURL(f);
+});
+
+function sendProof(){
+  const payId = document.getElementById('payId').value.trim();
+  const last4 = document.getElementById('last4').value.trim();
+  const preview = document.getElementById('previewArea');
+  if(!payId || !last4 || !preview.dataset.img) return alert('Completa ID, últimos 4 del CBU y sube la captura.');
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  if(!user) return alert('No hay usuario en sesión. Regístrate o inicia sesión primero.');
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const entry = {
+    id: 'v-' + Date.now(),
+    email: user.email,
+    name: user.name,
+    payId,
+    last4,
+    img: preview.dataset.img,
+    status: 'pending',
+    created: Date.now(),
+    code: null
+  };
+  verifications.push(entry);
+  localStorage.setItem('verifications', JSON.stringify(verifications));
+  alert('Comprobante enviado. Esperá la verificación manual.');
+  location.href = 'esperando.html';
+}
+
+</script>
+</body>
+</html>

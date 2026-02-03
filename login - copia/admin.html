@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin - MovieTx</title>
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff}
+.wrap{max-width:980px;margin:20px auto;padding:16px}
+.header{display:flex;align-items:center;justify-content:space-between}
+h2{margin:0}
+.loginBox{max-width:360px;background:#0b0b0c;padding:14px;border-radius:8px}
+input,button,textarea{width:100%;padding:10px;margin-top:8px;border-radius:6px;border:0;background:#121214;color:#fff}
+.table{width:100%;margin-top:12px;border-collapse:collapse}
+.card{background:#0f0f10;padding:12px;border-radius:8px;margin-top:10px}
+.actions button{margin-right:8px;padding:8px 10px;border-radius:6px;border:0;cursor:pointer}
+.approve{background:#2d8a2d;color:#fff}
+.reject{background:#b02d2d;color:#fff}
+.copy{background:#e5a600;color:#111}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.previewImg{max-width:160px;border-radius:6px}
+.small{font-size:13px;color:#bbb}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h2>Panel de administración - MovieTx</h2>
+    <div>
+      <div id="adminArea"></div>
+    </div>
+  </div>
+
+  <div id="loginArea" class="loginBox">
+    <strong>Ingresar como administrador</strong>
+    <input id="adminPass" placeholder="Contraseña admin" />
+    <button onclick="adminLogin()">Entrar</button>
+    <div class="small">Usa la contraseña segura que configuraste.</div>
+  </div>
+
+  <div id="panel" style="display:none">
+    <div class="card">
+      <strong>Verificaciones pendientes</strong>
+      <div id="list"></div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <strong>Generador manual de códigos</strong>
+      <div style="margin-top:8px">Usuario/email: <input id="genEmail" placeholder="email del usuario" /></div>
+      <div style="margin-top:8px">
+        <button onclick="genCode()">Generar código y aprobar</button>
+        <button onclick="logoutAdmin()" style="margin-left:8px;background:#444">Cerrar admin</button>
+      </div>
+      <div id="lastCode" class="small" style="margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "adminmovie53_HD";
+
+function adminLogin(){
+  const val = document.getElementById('adminPass').value;
+  if(val === ADMIN_PASSWORD){
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    loadList();
+    document.getElementById('adminArea').innerHTML = '<div class="small">Conectado como admin</div>';
+  } else {
+    alert('Contraseña incorrecta');
+  }
+}
+
+function loadList(){
+  const list = document.getElementById('list');
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+  if(!verifications.length) {
+    list.innerHTML = '<div class="small">No hay comprobantes pendientes.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  verifications.forEach(v => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="flex:1">
+          <strong>${v.name}</strong> <div class="small">${v.email}</div>
+          <div class="small">ID pago: ${v.payId} · Últimos4: ${v.last4} · Estado: ${v.status}</div>
+        </div>
+        <div>
+          <img src="${v.img}" class="previewImg" />
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div class="small">Creado: ${new Date(v.created).toLocaleString()}</div>
+        <div class="actions">
+          <button class="approve" onclick="approve('${v.id}')">Aprobar</button>
+          <button class="reject" onclick="reject('${v.id}')">Rechazar</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+function approve(id){
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const v = verifications.find(x => x.id === id);
+  if(!v) return alert('No encontrado.');
+  const code = 'MTX-' + Math.random().toString(36).substring(2,10).toUpperCase();
+  v.status = 'approved';
+  v.code = code;
+  localStorage.setItem('verifications', JSON.stringify(verifications));
+  loadList();
+  document.getElementById('lastCode').innerText = 'Código generado para ' + v.email + ': ' + code + ' (Cópialo y envíaselo al usuario)';
+  navigator.clipboard?.writeText(code);
+  alert('Comprobante aprobado. Código generado y copiado al portapapeles.');
+}
+
+function reject(id){
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const idx = verifications.findIndex(x => x.id === id);
+  if(idx === -1) return alert('No encontrado.');
+  verifications[idx].status = 'rejected';
+  localStorage.setItem('verifications', JSON.stringify(verifications));
+  loadList();
+  alert('Comprobante rechazado.');
+}
+
+function genCode(){
+  const email = document.getElementById('genEmail').value.trim();
+  if(!email) return alert('Ingresa email del usuario.');
+  const verifications = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const v = verifications.find(x => x.email === email && x.status === 'pending');
+  if(!v){
+    const code = 'MTX-' + Math.random().toString(36).substring(2,10).toUpperCase();
+    const entry = {
+      id: 'v-' + Date.now(),
+      email,
+      name: email.split('@')[0],
+      payId: 'manual',
+      last4: 'xxxx',
+      img: '',
+      status: 'approved',
+      created: Date.now(),
+      code
+    };
+    verifications.push(entry);
+    localStorage.setItem('verifications', JSON.stringify(verifications));
+    document.getElementById('lastCode').innerText = 'Código generado para ' + email + ': ' + code;
+    navigator.clipboard?.writeText(code);
+    loadList();
+    alert('Código generado manualmente y copiado.');
+    return;
+  }
+  const code = 'MTX-' + Math.random().toString(36).substring(2,10).toUpperCase();
+  v.status = 'approved';
+  v.code = code;
+  localStorage.setItem('verifications', JSON.stringify(verifications));
+  document.getElementById('lastCode').innerText = 'Código generado para ' + v.email + ': ' + code;
+  navigator.clipboard?.writeText(code);
+  loadList();
+  alert('Código generado y copiado al portapapeles.');
+}
+
+function logoutAdmin(){
+  document.getElementById('panel').style.display = 'none';
+  document.getElementById('loginArea').style.display = 'block';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminArea').innerHTML = '';
+}
+</script>
+</body>
+</html>

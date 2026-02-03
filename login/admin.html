@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin - MovieTx</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff}
+.wrap{max-width:980px;margin:20px auto;padding:16px}
+.header{display:flex;align-items:center;justify-content:space-between}
+h2{margin:0}
+.loginBox{max-width:360px;background:#0b0b0c;padding:14px;border-radius:8px}
+input,button{
+  padding:10px;margin-top:8px;border-radius:6px;border:0;
+  background:#121214;color:#fff
+}
+.small{font-size:13px;color:#bbb}
+
+/* tabla de comprobantes */
+.card{
+  background:#0f0f10;padding:12px;border-radius:8px;margin-top:10px;
+  border:1px solid #1f1f1f
+}
+.actions button{
+  margin-right:8px;padding:8px 10px;border-radius:6px;border:0;cursor:pointer
+}
+.approve{background:#2d8a2d;color:#fff}
+.reject{background:#b02d2d;color:#fff}
+.copy{background:#e5a600;color:#111}
+.previewImg{max-width:140px;border-radius:6px}
+.profileRound{
+  width:80px;height:80px;border-radius:50%;object-fit:cover;
+  border:3px solid #333;margin-bottom:6px
+}
+
+/* panel lateral */
+.panelBox{margin-top:22px;padding:14px;background:#0f0f10;border-radius:8px}
+
+/* móvil */
+@media(max-width:600px){
+  .previewImg{max-width:100%}
+}
+
+.exitAdminBtn{
+  width:100%;
+  padding:12px;
+  margin-top:14px;
+  background:#b02d2d;
+  color:#fff;
+  border:0;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+@media(max-width:480px){
+  .exitAdminBtn{
+    font-size:15px;
+    padding:12px;
+  }
+}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px;
+  background:#0b0b0c;
+  border-radius:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+/* Título del panel */
+.header h2{
+  margin:0;
+  font-size:22px;
+}
+
+/* Caja de login */
+.loginBox{
+  width:100%;
+  max-width:420px;
+  margin:auto;
+  background:#0f0f10;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 0 12px rgba(0,0,0,0.3);
+}
+
+.loginBox strong{
+  font-size:18px;
+}
+
+.loginBox input{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:6px;
+  background:#121214;
+  border:0;
+  color:#fff;
+  font-size:16px;
+}
+
+.loginBox button{
+  width:100%;
+  padding:12px;
+  margin-top:14px;
+  border-radius:6px;
+  border:0;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#adminPass{
+  font-size:16px;
+}
+
+/* Botón entrar */
+.loginBox button:nth-child(3){
+  background:#e50914;
+  color:#fff;
+}
+
+/* Botón salir del admin */
+.exitAdminBtn{
+  background:#333;
+  color:#fff;
+}
+
+/* Texto pequeño */
+.small{
+  margin-top:10px;
+  font-size:14px;
+  color:#bbb;
+  text-align:center;
+}
+
+/* ============================= */
+/*    RESPONSIVE BREAKPOINTS     */
+/* ============================= */
+
+/* Pantallas pequeñas (teléfonos 320–380px) */
+@media(max-width:380px){
+  .header{
+    flex-direction:column;
+    gap:6px;
+    text-align:center;
+  }
+  .header h2{
+    font-size:18px;
+  }
+
+  .loginBox{
+    padding:16px;
+  }
+
+  .loginBox strong{
+    font-size:16px;
+  }
+
+  .loginBox input,
+  .loginBox button{
+    font-size:14px;
+    padding:10px;
+  }
+
+  .exitAdminBtn{
+    font-size:14px;
+    padding:10px;
+  }
+}
+
+/* Teléfonos medianos (400–600px) */
+@media(min-width:400px) and (max-width:600px){
+  .header h2{
+    font-size:20px;
+  }
+
+  .loginBox{
+    max-width:420px;
+  }
+
+  .loginBox input,
+  .loginBox button{
+    font-size:15px;
+    padding:12px;
+  }
+}
+
+/* Tablets (600–900px) */
+@media(min-width:600px) and (max-width:900px){
+  .header h2{
+    font-size:24px;
+  }
+
+  .loginBox{
+    max-width:480px;
+    padding:24px;
+  }
+
+  .loginBox input,
+  .loginBox button{
+    font-size:17px;
+  }
+}
+
+/* Pantallas grandes (PC) */
+@media(min-width:900px){
+  .header h2{
+    font-size:26px;
+  }
+
+  .loginBox{
+    max-width:460px;
+    padding:26px;
+  }
+
+  .loginBox input,
+  .loginBox button{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h2>Panel de administración - MovieTx</h2>
+    <div id="adminArea"></div>
+  </div>
+
+  <!-- LOGIN ADMIN -->
+  <div id="loginArea" class="loginBox">
+    <strong>Ingresar como administrador</strong>
+    <input id="adminPass" placeholder="Contraseña admin" />
+    <button onclick="adminLogin()">Entrar</button>
+    <button onclick="exitAdmin()" class="exitAdminBtn">Salir del Admin</button>
+    <div class="small">Usa la contraseña segura.</div>
+  </div>
+
+  <!-- PANEL ADMIN -->
+  <div id="panel" style="display:none">
+
+
+    <!-- EDITAR USUARIO -->
+<div class="panelBox">
+  <strong>Editar usuario</strong><br>
+
+  <input id="editEmail" placeholder="Email del usuario a editar">
+
+  <label style="font-size:13px;color:#bbb;margin-top:6px;display:block;">Nueva contraseña:</label>
+  <input id="newPass" placeholder="Nueva contraseña">
+
+  <label style="font-size:13px;color:#bbb;margin-top:6px;display:block;">Cambiar foto de perfil:</label>
+  <input id="newPic" type="file" accept="image/*">
+
+  <button onclick="updateUser()">Guardar cambios</button>
+
+  <div id="editMsg" class="small" style="margin-top:8px"></div>
+
+  <button onclick="deleteUser()" style="background:#b02d2d;margin-top:10px;width:100%">
+  Eliminar usuario
+</button>
+
+</div>
+
+
+    <!-- BUSCADOR -->
+    <div class="panelBox">
+      <strong>Buscar usuario por email</strong>
+      <input id="searchEmail" placeholder="email del usuario" />
+      <button onclick="searchUser()">Buscar</button>
+      <div id="searchResult" class="small" style="margin-top:10px"></div>
+    </div>
+
+    <!-- FILTRO -->
+    <div class="panelBox">
+      <strong>Filtrar comprobantes</strong>
+      <select id="filter" onchange="loadList()">
+        <option value="all">Todos</option>
+        <option value="pending">Pendientes</option>
+        <option value="approved">Aprobados</option>
+        <option value="rejected">Rechazados</option>
+      </select>
+    </div>
+
+    <!-- LISTA DE VERIFICACIONES -->
+    <div class="panelBox">
+      <strong>Verificaciones</strong>
+      <div id="list"></div>
+    </div>
+
+    <!-- USUARIOS ACTIVOS -->
+    <div class="panelBox">
+      <strong>Usuarios activos</strong>
+      <div id="activeUsers"></div>
+    </div>
+
+    <!-- GENERADOR MANUAL -->
+    <div class="panelBox">
+      <strong>Generar código manual</strong>
+      <input id="genEmail" placeholder="email del usuario" />
+      <button onclick="genCode()">Generar</button>
+      <div id="lastCode" class="small"></div>
+    </div>
+
+    <button onclick="logoutAdmin()" style="background:#444;margin-top:16px;width:100%">Cerrar admin</button>
+
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "adminmovie53_HD";
+
+/* LOGIN */
+function adminLogin(){
+  const val = adminPass.value;
+  if(val === ADMIN_PASSWORD){
+    loginArea.style.display='none';
+    panel.style.display='block';
+    adminArea.innerHTML = '<div class="small">Admin conectado</div>';
+    loadList();
+    loadActiveUsers();
+  } else alert("Contraseña incorrecta");
+}
+
+/* BUSCAR USUARIO POR EMAIL */
+function searchUser(){
+  const email = searchEmail.value.trim().toLowerCase();
+  const msg = document.getElementById("searchResult");
+
+  let user = JSON.parse(localStorage.getItem("user") || "null");
+  const ver = JSON.parse(localStorage.getItem("verifications") || "[]");
+
+  msg.innerHTML = "Buscando...";
+
+  // Buscar en el usuario principal
+  if(user && user.email.toLowerCase() === email){
+    msg.innerHTML = `
+      <strong>${user.email}</strong><br>
+      Estado: ${user.active ? "Activo" : "Inactivo"}<br>
+      Vence: ${new Date(user.expire).toLocaleString()}<br>
+      <img src="${user.profilePic || ""}" style="width:80px;height:80px;border-radius:50%;margin-top:8px"><br>
+      <button onclick="forceOff()">Forzar desactivación</button>
+    `;
+    return;
+  }
+
+  // Buscar en todas las verificaciones
+  const found = ver.find(v => v.email.toLowerCase() === email);
+
+  if(found){
+    msg.innerHTML = `
+      <strong>${found.email}</strong><br>
+      Nombre: ${found.name}<br>
+      Estado último pago: ${found.status}<br>
+      <img src="${found.profilePic || ""}" style="width:80px;height:80px;border-radius:50%;margin-top:8px"><br>
+      <div style="margin-top:6px;font-size:12px;color:#aaa;">Este usuario existe en sus pagos, pero no está activo aún.</div>
+    `;
+    return;
+  }
+
+  msg.innerHTML = "❌ No se encontró ningún usuario.";
+}
+
+
+/* FORZAR DESACTIVACIÓN */
+function forceOff(){
+  let user = JSON.parse(localStorage.getItem("user"));
+  user.active = false;
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Usuario desactivado.");
+  loadActiveUsers();
+}
+
+/* FILTRAR + LISTA */
+function loadList(){
+  const list = document.getElementById('list');
+  const filter = document.getElementById('filter').value;
+
+  const ver = JSON.parse(localStorage.getItem('verifications') || '[]');
+  list.innerHTML = "";
+
+  let filtered = ver;
+  if(filter !== "all") filtered = ver.filter(v => v.status === filter);
+
+  if(!filtered.length){
+    list.innerHTML = '<div class="small">Sin resultados.</div>';
+    return;
+  }
+
+  filtered.forEach(v=>{
+    const el = document.createElement("div");
+    el.className="card";
+
+    el.innerHTML = `
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+
+        <div>
+          ${v.profilePic ? `<img class="profileRound" src="${v.profilePic}">` : "Sin foto"}
+        </div>
+
+        <div style="flex:1">
+          <strong>${v.name}</strong><br>
+          <span class="small">${v.email}</span><br>
+          <span class="small">ID: ${v.payId}</span><br>
+          <span class="small">4 dígitos: ${v.last4}</span><br>
+          <span class="small">Estado: ${v.status}</span>
+        </div>
+
+        <div>
+          <img class="previewImg" src="${v.img}">
+        </div>
+      </div>
+
+      <div style="margin-top:10px;display:flex;justify-content:space-between">
+        <span class="small">${new Date(v.created).toLocaleString()}</span>
+        <div>
+          <button class="approve" onclick="approve('${v.id}')">Aprobar</button>
+          <button class="reject" onclick="reject('${v.id}')">Rechazar</button>
+        </div>
+      </div>
+    `;
+
+    list.appendChild(el);
+  });
+}
+
+/* APROBAR */
+function approve(id){
+  const ver = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const v = ver.find(x=>x.id===id);
+  if(!v) return;
+
+  v.status = "approved";
+
+  /* GENERAR CÓDIGO */
+  const code = "MTX-" + Math.random().toString(36).substring(2,10).toUpperCase();
+  v.code = code;
+
+  /* ACTIVAR USUARIO */
+  if(user && user.email === v.email){
+    user.active = true;
+    user.expire = Date.now() + (30*24*60*60*1000);
+    user.profilePic = v.profilePic; // FOTO GUARDADA
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+
+  navigator.clipboard.writeText(code);
+  alert("Aprobado ✓ Código copiado");
+
+  localStorage.setItem("verifications", JSON.stringify(ver));
+  loadList();
+  loadActiveUsers();
+}
+
+/* RECHAZAR */
+function reject(id){
+  const ver = JSON.parse(localStorage.getItem('verifications') || '[]');
+  const v = ver.find(x=>x.id===id);
+  if(!v) return;
+
+  v.status="rejected";
+  localStorage.setItem("verifications", JSON.stringify(ver));
+  loadList();
+}
+
+/* PANEL USUARIOS ACTIVOS */
+function loadActiveUsers(){
+  const box = activeUsers;
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  if(!user || !user.active){
+    box.innerHTML = "<div class='small'>Ningún usuario activo.</div>";
+    return;
+  }
+
+  box.innerHTML = `
+    <strong>${user.email}</strong><br>
+    Vence el: ${new Date(user.expire).toLocaleString()}<br>
+    <button onclick="forceOff()">Forzar desactivación</button>
+  `;
+}
+
+/* GENERAR MANUAL */
+function genCode(){
+  const email = genEmail.value.trim();
+  const ver = JSON.parse(localStorage.getItem("verifications") || "[]");
+
+  const code = "MTX-"+Math.random().toString(36).substring(2,10).toUpperCase();
+
+  ver.push({
+    id:"manual-"+Date.now(),
+    email,
+    name:email.split("@")[0],
+    payId:"manual",
+    last4:"xxxx",
+    img:"",
+    profilePic:"",
+    status:"approved",
+    created:Date.now(),
+    code
+  });
+
+  localStorage.setItem("verifications", JSON.stringify(ver));
+  navigator.clipboard.writeText(code);
+
+  lastCode.innerHTML = "Código generado: "+code;
+  alert("Código copiado.");
+}
+
+/* CERRAR ADMIN */
+function logoutAdmin(){
+  panel.style.display='none';
+  loginArea.style.display='block';
+  adminPass.value="";
+  adminArea.innerHTML="";
+}
+</script>
+<script>
+  /* EDITAR USUARIO COMPLETO */
+function updateUser(){
+  const email = document.getElementById("editEmail").value.trim();
+  const newPass = document.getElementById("newPass").value.trim();
+  const newPicInput = document.getElementById("newPic");
+  const msg = document.getElementById("editMsg");
+
+  let user = JSON.parse(localStorage.getItem("user") || "null");
+
+  if(!user || user.email !== email){
+    msg.innerHTML = "❌ Usuario no encontrado.";
+    return;
+  }
+
+  /* CAMBIAR CONTRASEÑA */
+  if(newPass.length > 0){
+    user.pass = newPass;
+  }
+
+  /* CAMBIAR FOTO DE PERFIL */
+  if(newPicInput.files.length > 0){
+    const file = newPicInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = ev => {
+      user.profilePic = ev.target.result;
+      localStorage.setItem("user", JSON.stringify(user));
+      msg.innerHTML = "✔ Foto y contraseña actualizadas.";
+    };
+
+    reader.readAsDataURL(file);
+
+  } else {
+    localStorage.setItem("user", JSON.stringify(user));
+    msg.innerHTML = "✔ Contraseña actualizada.";
+  }
+}
+
+/* ELIMINAR USUARIO COMPLETO */
+function deleteUser(){
+  const email = document.getElementById("editEmail").value.trim().toLowerCase();
+  const msg = document.getElementById("editMsg");
+
+  if(!email){
+    msg.innerHTML = "❌ Ingresá el email del usuario.";
+    return;
+  }
+
+  // pedir confirmación
+  if(!confirm("¿Seguro que deseas ELIMINAR este usuario y todos sus datos?")){
+    return;
+  }
+
+  // eliminar usuario actual
+  let user = JSON.parse(localStorage.getItem("user") || "null");
+  if(user && user.email.toLowerCase() === email){
+    localStorage.removeItem("user");
+  }
+
+  // eliminar verificaciones del usuario
+  let ver = JSON.parse(localStorage.getItem("verifications") || "[]");
+  ver = ver.filter(v => v.email.toLowerCase() !== email);
+  localStorage.setItem("verifications", JSON.stringify(ver));
+
+  msg.innerHTML = "✔ Usuario eliminado correctamente.";
+  alert("Usuario eliminado ✓");
+}
+
+function exitAdmin(){
+  localStorage.removeItem("adminSession"); // por si quieres guardar sesión luego
+  alert("Sesión de administrador cerrada.");
+  location.href = "login.html";
+}
+
+</script>
+</body>
+</html>
