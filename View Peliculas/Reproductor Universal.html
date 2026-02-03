@@ -1061,8 +1061,281 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <script>
     const MOVIES_DB = {
+
+    /*Numeros*/
+
+    secenta_minutos: {
+    id: "secenta_minutos",
+    titulo: "60 Minutos",
+    video: "https://dl.dropbox.com/scl/fi/mb198ke9qzql2nmonx917/60-Minutos.mp4?rlkey=ci5hig86v3okgw54kyazo8o6j&st=",
+    poster: "https://image.tmdb.org/t/p/w780/unvtbkgxh47BewQ8pENvdOdme0r.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Desesperado por no perder la custodia de su hija, un luchador de artes marciales mixtas abandona una pelea y recorre Berlín a todo gas para verla el día de su cumpleaños. ",
+    anio: "2024",
+    duracion: "1h 29min",
+    calificacion: "82%",
+    genero: "Accion • MMA",
+    director: "Oliver Kienle",
+    reparto: "Emilio Sakraya, Dennis Mojen, Marie Mouroum",
+    estreno: "19/01/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "rendirse_jamas",
+        titulo: "Rendirse Jamas",
+        imagen: "https://image.tmdb.org/t/p/w300/nas9XShlxUZrNZCyBdf4AAXpRiq.jpg"
+      },
+      {
+        id: "boyka_invicto_4",
+        titulo: "Boyka: Invicto IV",
+        imagen: "https://image.tmdb.org/t/p/w300/yegOHiGUyHiUXNSFlMfFTEZboj7.jpg"
+      },
+      {
+        id: "sentencia_de_muerte",
+        titulo: "Beekeeper: Sentencia de muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg"
+      },
+      {
+        id: "dura_de_entrenar",
+        titulo: "Duro de entrenar",
+        imagen: "https://image.tmdb.org/t/p/w300/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg"
+      },
+      {
+        id: "deadpool_y_wolverine",
+        titulo: "Deadpool Y Wolverine",
+        imagen: "https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg"
+      },
+      {
+        id: "heroico",
+        titulo: "Heroíco",
+        imagen: "https://image.tmdb.org/t/p/w300/tRD18JW9iKqmwkQKvzPYDQetRoI.jpg"
+      }
+    ]
+  },
+
+  dias_365: {
+    id: "dias_365",
+    titulo: "365 Días",
+    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelisarregladas%2Fparte2%2FVer%20pel%C3%ADcula%20365%20d%C3%ADas%20online%20gratis%20en%20HD%20%E2%80%A2%20Gnula.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/e8b2F4eg6ansZhaQQN8iXfzZtz7.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Massimo es miembro de la mafia siciliana y Laura es una directora de ventas. Ella no espera que un viaje a Sicilia salve su relación, pero Massimo la secuestrará durante 365 días para que se enamore de él.",
+    anio: "2020",
+    duracion: "1h 54min",
+    calificacion: "86%",
+    genero: "Romance • Drama",
+    director: "Barbara Bialowas, Tomasz Mandes",
+    reparto: "Michele Morrone, Anna-Maria, Rebecca Casiraghi",
+    estreno: "07/02/2020",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dias_365_2",
+        titulo: "365 Días 2: Aquel dia",
+        imagen: "https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg"
+      },
+      {
+        id: "dias_365_3",
+        titulo: "365 Días 3: Más",
+        imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg"
+      },
+      {
+        id: "la_joven_y_el_mar",
+        titulo: "La joven y el mar",
+        imagen: "https://image.tmdb.org/t/p/w300/3YgGeJU0eU9XKVMooKldBU7zWLK.jpg"
+      },
+      {
+        id: "nahir",
+        titulo: "Nahir",
+        imagen: "https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg"
+      },
+      {
+        id: "nada_que_ver",
+        titulo: "Nada que ver",
+        imagen: "https://image.tmdb.org/t/p/w300/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg"
+      },
+      {
+        id: "La_mitad_de_Ana",
+        titulo: "La mitad de Ana",
+        imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"
+      }
+    ]
+  },
+
+  dias_365_2: {
+    id: "dias_2_365",
+    titulo: "365 Días 2: Aquel día",
+    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2FVer%20365%20dni-%20Ten%20dzie%C5%84%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/zBG5Mg29NH9xxpWMMG7BIvKwYhL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Laura y Massimo vuelven más fuertes que nunca, pero las ataduras familiares de Massimo y un misterioso hombre que quiere conquistar a Laura complican su relación.",
+    anio: "2022",
+    duracion: "1h 51min",
+    calificacion: "70%",
+    genero: "Romance • Drama",
+    director: "Barbara Bialowas, Tomasz Mandes",
+    reparto: "Michele Morrone, Natasza Urbańska, Rebecca Casiraghi",
+    estreno: "27/04/2022",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dias_365",
+        titulo: "365 Días",
+        imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"
+      },
+      {
+        id: "dias_365_3",
+        titulo: "365 Días 3: Más",
+        imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg"
+      },
+      {
+        id: "romper_el_circulo",
+        titulo: "Romper el circulo",
+        imagen: "https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg"
+      },
+      {
+        id: "el_es_asi",
+        titulo: "El es asi",
+        imagen: "https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg"
+      },
+      {
+        id: "un_ladron_romantico",
+        titulo: "Un ladrón romantiico",
+        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
+      },
+      {
+        id: "lecciones_para_canella",
+        titulo: "Lecciones para canalla",
+        imagen: "https://image.tmdb.org/t/p/w300/AP9kVisL0Xo4GNBQVNa8qv1yLo.jpg"
+      }
+    ]
+  },
+
+  dias_365_3: {
+    id: "dias_365_3",
+    titulo: "365 Días 3: Más",
+    video: "https://dl.dropbox.com/scl/fi/7i4ktk81fxyvhk66y73rr/365-Dias-3-Mas-2022.mp4?rlkey=bhnbxhi94hh6hw730kl8hqjfy&st=",
+    poster: "https://image.tmdb.org/t/p/w780/6cpRpfD3isvluFwXDGSiDVyibPJ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "La relación de Laura y Massimo pende de un hilo mientras intentan superar los problemas de confianza y los celos, mientras que un tenaz Nacho trabaja para separarlos.",
+    anio: "2022",
+    duracion: "1h 53min",
+    calificacion: "64%",
+    genero: "Romance • Drama",
+    director: "Barbara Bialowas, Tomasz Mandes",
+    reparto: "Anna-Maria Sieklucka, Michele Morrone",
+    estreno: "19/08/2022",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dias_365",
+        titulo: "365 Días",
+        imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"
+      },
+      {
+        id: "dias_365_2",
+        titulo: "365 Días 2: Aquel día",
+        imagen: "https://image.tmdb.org/t/p/w300/jBpqADo9XAKaecvI3f0J4hRAEyO.jpg"
+      },
+      {
+        id: "en_las_profundidasdes_del_sena",
+        titulo: "En las profundidasdes del sena",
+        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
+      },
+      {
+        id: "barbie",
+        titulo: "Barbie",
+        imagen: "https://image.tmdb.org/t/p/w300/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
+      },
+      {
+        id: "anora",
+        titulo: "Anora",
+        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
+      },
+      {
+        id: "corazon_delator",
+        titulo: "Corazón delator",
+        imagen: "https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg"
+      }
+    ]
+  },
+
+  argen_1978_a: {
+    id: "argen_1978_a",
+    titulo: "1978",
+    video: "https://dl.dropbox.com/scl/fi/h3y5ye6hfqifjsqolfg0w/1978.2025.1080P-Lat.mkv?rlkey=fbvfj844uowkaro7wi6y6ifqb&st=",
+    poster: "https://image.tmdb.org/t/p/w780/A81WfCAmydM880E9ZkULRjaX9QL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Durante la final del Mundial, en tiempos de dictadura militar, unos torturadores secuestran a un grupo de jóvenes. Lo que comienza como un interrogatorio inhumano se convierte en un verdadero tormento: han secuestrado a personas equivocadas. Eso no es todo, ya que pertenecen a una secta guiada por una fuerza desconocida y el centro clandestino de detención se convertirá en el mismísimo infierno.",
+    anio: "2025",
+    duracion: "1h 20min",
+    calificacion: "60%",
+    genero: "Terror",
+    director: "Nicolás y Luciano Onetti",
+    reparto: "Agustín Pardella, Carlos Portaluppi, Mario Alarcón",
+    estreno: "06/03/2025",
+    idioma: "Argentino 🇦🇷",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "annabelle_2014",
+        titulo: "Annabelle",
+        imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg"
+      },
+      {
+        id: "baghead_contacto_con_la_muerte",
+        titulo: "Baghead: Contacto con la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+      },
+      {
+        id: "el_conjuro",
+        titulo: "El conjuro",
+        imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"
+      },
+      {
+        id: "destino_final_6",
+        titulo: "Destino final 6: Lazos de sangre",
+        imagen: "https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"
+      },
+      {
+        id: "eliminar_amigo",
+        titulo: "Eliminar amigo",
+        imagen: "https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg"
+      },
+      {
+        id: "en_las_profundidades_del_sena",
+        titulo: "En las profundidades del sena",
+        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
+      }
+    ]
+  },
+  
       
-      /*A*/
+  /*A*/
 
   a_ganar: {
     id: "a_ganar",
@@ -1114,6 +1387,277 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "El_deseo_de_Ana",
         titulo: "El deseo de Ana",
         imagen: "https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg"
+      }
+    ]
+  },
+
+  abigail: {
+    id: "abigail",
+    titulo: "Abigail",
+    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmay24%2FVer%20Abigail%20online%20HD%20-%20Cuevana%202.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/uy0uipx90Su2WqOjDSazOJDryUj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kmB9grIf2fvpwwsDmNMN0XFz1tT.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "A una banda de delincuentes se les ha encargado secuestrar a Abigail, una bailarina de doce años hija de una poderosa figura del inframundo. Su misión requiere también vigilarla durante la noche para poder cobrar un rescate de 50 millones de dólares. En una mansión aislada, los captores comienzan a desaparecer, uno por uno, y descubren, para su creciente horror, que la pequeña niña con la que están encerrados no es normal y está mostrando su verdadera naturaleza.",
+    anio: "2024",
+    duracion: "1h 49min",
+    calificacion: "86%",
+    genero: "Terror",
+    director: "Matt Bettinelli-Olpin y Tyler Gillett",
+    reparto: "Melissa Barrera, Alisha Weir, Dan Stevens",
+    estreno: "21/04/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "Los extraños: Capitulo uno",
+        imagen: "https://image.tmdb.org/t/p/w300/za4jDcPQ5IV4p27UGcC5uEgsNGG.jpg"
+      },
+      {
+        id: "",
+        titulo: "El Exorcista de Georgetown",
+        imagen: "https://image.tmdb.org/t/p/w300/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg"
+      },
+      {
+        id: "",
+        titulo: "Hablame",
+        imagen: "https://image.tmdb.org/t/p/w300/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg"
+      },
+      {
+        id: "",
+        titulo: "La niña de la comunión",
+        imagen: "https://image.tmdb.org/t/p/w300/oV3R0E1GOXVrybojkEDvool22Bi.jpg"
+      },
+      {
+        id: "",
+        titulo: "Winnie The Pooh 2: Miel y sangre",
+        imagen: "https://image.tmdb.org/t/p/w300/2sADrLwMQof6yYmrJRSa04tFZuS.jpg"
+      },
+      {
+        id: "",
+        titulo: "Mal de ojo",
+        imagen: "https://image.tmdb.org/t/p/w300/lVRoLtpn4zq97YjTrCGsb5BlrW.jpg"
+      }
+    ]
+  },
+  
+  after_2019: {
+    id: "after_2019",
+    titulo: "After: Aquí empieza todo",
+    video: "https://dl.dropbox.com/scl/fi/my2rjwlpuunyzasp3d2fa/After.we.collided.2020.1080P-Dual-Lat.mp4?rlkey=pse9hjnqtt00l0m097dxv7sm7&st=",
+    poster: "https://image.tmdb.org/t/p/w780/2v7RA1nbYnaz0NPBw3fq4bOvLgN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "La joven Tessa Young cursa su primer año en la universidad. Acostumbrada a una vida estable y ordenada, su mundo cambia cuando conoce a Hardin Scott, un misterioso joven de oscuro pasado. Desde el primer momento se odian, porque pertenecen a dos mundos distintos y son completamente opuestos. Sin embargo, estos dos polos opuestos pronto se unirán y nada volverá a ser igual. Tessa y Hardin deberán enfrentarse a difíciles pruebas para estar juntos. La inocencia, el despertar a la vida, el descubrimiento sexual y las huellas de un amor tan poderoso como la fuerza del destino.",
+    anio: "2019",
+    duracion: "1h 45min",
+    calificacion: "84%",
+    genero: "Romance • Drama",
+    director: "Jenny Gage",
+    reparto: "Josefina Langford, Hero Fiennes Tiffin, Shane Paul McGhie",
+    estreno: "01/04/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "after_2",
+        titulo: "After 2: En mil pedazos",
+        imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg"
+      },
+      {
+        id: "after_3",
+        titulo: "After 3: Amor infinito",
+        imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg"
+      },
+      {
+        id: "after_4",
+        titulo: "After 4: Aquí acaba todo",
+        imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg"
+      },
+      {
+        id: "culpa_nuestra_3",
+        titulo: "Culpa nuestra 3",
+        imagen: "https://image.tmdb.org/t/p/w300/6kmi6vmp6iOn4KzI7WfnVtAeJhU.jpg"
+      },
+      {
+        id: "almas_marcadas",
+        titulo: "Almas marcadas: Rule + Shaw",
+        imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg"
+      },
+      {
+        id: "nada_que_ver",
+        titulo: "Nada qué ver",
+        imagen: "https://image.tmdb.org/t/p/w300/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg"
+      }
+    ]
+  },
+
+  after_2: {
+    id: "after_2",
+    titulo: "After 2: En mil pedazos",
+    video: "https://dl.dropbox.com/scl/fi/9ztayaphhu5khkh464ep4/After.we.fell.2021.1080P-Dual-Lat.mp4?rlkey=ei8fb4b80wcashrezwtjgab2f&st=",
+    poster: "https://image.tmdb.org/t/p/w780/6hgItrYQEG33y0I7yP2SRl2ei4w.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Ha pasado el tiempo y Hardin todavía no se sabe si es realmente el chico profundo y reflexivo del que Tessa se enamoró, o ha sido un extraño todo este tiempo. Ella quiere alejarse, pero no es tan fácil. Tessa se ha centrado en sus estudios y comienza a trabajar como becaria en Vance Publishing. Allí conoce a Trevor, un nuevo y atractivo compañero de trabajo que es exactamente el tipo de persona con la que debería estar. Pero Hardin sabe que cometió un error, posiblemente el más grande de su vida y quiere corregir sus errores y vencer a sus demonios.",
+    anio: "2020",
+    duracion: "1h 38min",
+    calificacion: "72%",
+    genero: "Drama • Romance",
+    director: "Roger Kumble",
+    reparto: "Josefina Langford, Hero Fiennes Tiffin, Luisa Lombard",
+    estreno: "04/09/2020",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "after_2019",
+        titulo: "After: Aquí empieza todo",
+        imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg"
+      },
+      {
+        id: "after_3",
+        titulo: "After 3: Amor infinito",
+        imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg"
+      },
+      {
+        id: "after_4",
+        titulo: "After 4: Aquí acaba todo",
+        imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg"
+      },
+      {
+        id: "dias_365_2",
+        titulo: "365 Dias 2: Aquel día",
+        imagen: "https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg"
+      },
+      {
+        id: "culpa_mia_2",
+        titulo: "Culpa Mia 2: Londres",
+        imagen: "https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg"
+      },
+      {
+        id: "un_ladron_romantico",
+        titulo: "Un ladrón romántico",
+        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
+      }
+    ]
+  },
+
+  after_3: {
+    id: "after_3",
+    titulo: "After 3: Amor infinito",
+    video: "https://dl.dropbox.com/scl/fi/1sxa7z40k8spgl169c9mr/After.Para.Siempre.2023.1080P-Dual-Lat.mp4?rlkey=ndpuunh4tejq42usn5dfgbaeq&st=",
+    poster: "https://image.tmdb.org/t/p/w780/rwgmDkIEv8VjAsWx25ottJrFvpO.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "El amor de Tessa y Hardin nunca ha sido fácil. Mientras él permanece en Londres después de la boda de su madre y se hunde cada vez más en su propia oscuridad, ella regresa a Seattle. Tessa es la única capaz de entenderle y calmarle... él la necesita, pero ella ya no es la chica buena y dulce que era cuando llegó a la universidad. Deberá plantearse si lo que debe hacer ahora es salvar a Hardin y su relación con él, o si ha llegado el momento de pensar solo en ella. Si quieren que su amor sobreviva, primero tendrán que trabajar en sí mismos. ¿Pero será su destino seguir estando juntos?",
+    anio: "2022",
+    duracion: "1h 33min",
+    calificacion: "77%",
+    genero: "Romance • Drama",
+    director: "Castille Landon",
+    reparto: "Josephine Langford, Hero Fiennes Tiffin, Louise Lombard",
+    estreno: "25/08/2022",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "after_2019",
+        titulo: "After: Aquí empieza todo",
+        imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg"
+      },
+      {
+        id: "after_2",
+        titulo: "After 2: En mil pedazos",
+        imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg"
+      },
+      {
+        id: "after]_4",
+        titulo: "After 4: Aquí acaba todo",
+        imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg"
+      },
+      {
+        id: "millers_girl",
+        titulo: "Miller's Girl",
+        imagen: "https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"
+      },
+      {
+        id: "Romper_el_circulo",
+        titulo: "Romper el circulo",
+        imagen: "https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg"
+      },
+      {
+        id: "Cincuenta_sombras_más_oscuras_2",
+        titulo: "Cincuenta sombras más oscuras 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jvBAQOg2ObZKYXZGxYSz3Fkr7Qt.jpg"
+      }
+    ]
+  },
+
+  after_4: {
+    id: "after_4",
+    titulo: "After 4: Aquí acaba todo",
+    video: "https://dl.dropbox.com/scl/fi/pvf8rt6u4k9a16wz4bnd6/After.Ever.Happy.2022.1080P-Dual-Lat.mp4?rlkey=pdgunohi7i4ljm49emvvz317t&st=",
+    poster: "https://image.tmdb.org/t/p/w780/fH7kYS9qEOkhFQZc0Dcoa9MFjje.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Hardin sigue luchando por seguir adelante. Agobiado por el bloqueo del escritor y la dolorosa ruptura con Tessa, Hardin viaja a Portugal en busca de una mujer a la que hizo daño en el pasado... y para encontrarse a sí mismo. Con la esperanza de recuperar a Tessa, se da cuenta de que necesita cambiar su forma de ser antes de poder comprometerse definitivamente.",
+    anio: "2023",
+    duracion: "1h 35min",
+    calificacion: "00%",
+    genero: "Romamce • Drama",
+    director: "Castille Landon",
+    reparto: "Hero Fiennes Tiffin, Josephine Langford, Mimi Keene",
+    estreno: "07/09/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "cantardesnuda",
+        titulo: "Solo Adultos",
+        imagen: "https://image.tmdb.org/t/p/w300/",
+        adulto: true
       }
     ]
   },
@@ -1431,7 +1975,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg"
       },
       {
-        id: "365_dias",
+        id: "dias_365",
         titulo: "365 Dias",
         imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"
       },
@@ -1480,12 +2024,12 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/1jvCVdlgInyItAUEvvvCakm1Yxz.jpg"
       },
       {
-        id: "365_dias_3",
+        id: "dias_365_3",
         titulo: "365 Dias 3: Mas",
         imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg"
       },
       {
-        id: "after_2023",
+        id: "after_4",
         titulo: "After 4: Aquí acaba todo",
         imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg"
       },
@@ -1503,7 +2047,7 @@ document.addEventListener('DOMContentLoaded', () => {
   },
 
   culpa_nuestra_3: {
-    id: "xulpa_nuestra_3",
+    id: "culpa_nuestra_3",
     titulo: "Culpa nuestra 3",
     video: "https://dl.dropbox.com/scl/fi/1mv1wem69f14nfr4l73eu/Culpa.Nuestra.2025.1080P-Dual-Lat.mkv?rlkey=pmlgufabviceovbib0264li54&st=",
     poster: "https://image.tmdb.org/t/p/w780/7QirCB1o80NEFpQGlQRZerZbQEp.jpg",
