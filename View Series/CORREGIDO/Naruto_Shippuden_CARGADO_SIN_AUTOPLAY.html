@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>MovieTx - Reproductor De Serie</title>
+    <!-- Responsive viewport -->
+    <meta content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' name='viewport'/>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css"/>
+    <style>
+      :root {
+        --plyr-color-main: #ff0000;
+        --plyr-video-control-color:rgb(255, 255, 255);
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+      }
+      
+      body {
+        background-color: #000;
+        font-family: 'PT Sans', sans-serif;
+        color: #fff;
+      }
+    
+      .video {
+        position: relative;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      
+      .video video,
+      .video iframe,
+      .video .plyr {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        border: 1px solid rgba(16, 235, 255, 0.461);
+        border-radius: 10px;
+        margin: 10px;
+        font-size: 14px;
+      }
+    
+      .info i {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    
+      .hd-tag {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+    
+      .hd-tag svg {
+        border-radius: 4px;
+      }
+    
+      .titulo, .sinopsis {
+        padding: 10px;
+      }
+    
+      .titulo h3, .titulo h4, .sinopsis h4 {
+        font-family: 'Kanit', sans-serif;
+        margin-bottom: 5px;   
+      }
+    
+      .recomendaciones {
+        padding: 10px;    
+      }
+    
+      .series-grid {
+        display: grid;     
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));     
+        gap: 15px;    
+        text-align: center;  
+      }
+    
+      .serie {      
+        display: flex;     
+        flex-direction: column;     
+        align-items: center;     
+        text-decoration: none;   
+        color: white;   
+      }
+    
+      .serie img {
+        width: 120px;
+        height: 180px;    
+        object-fit: cover;
+        border-radius: 10px; 
+      }
+    
+      .serie p {      
+        margin-top: 5px;   
+      }
+
+    
+      html { font-size: 100%; } 
+      body { font-size: 1rem; }   
+      h1 { font-size: 2rem; }   
+      h2 { font-size: 1.5rem; }   
+      h3, h4 { font-size: 1.2rem; }
+    
+      @media screen and (max-width: 768px) {      
+        body { font-size: 1.05rem; }      
+        h1 { font-size: 1.5rem; }      
+        h2 { font-size: 1.3rem; }      
+        h3, h4 { font-size: 1.1rem; }      
+        .info, .sinopsis p, .serie p {        
+          font-size: 0.80rem !important; /*estaba en 1rem*/     
+        }   
+      }
+
+      @media screen and (max-width: 480px) {
+        body { font-size: 1.1rem; }
+        h1 { font-size: 1.4rem; }
+        h2 { font-size: 1.2rem; }
+        h3, h4 { font-size: 0.80rem; } /*estaba en 1rem*/
+      }
+
+    
+      body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {    
+        font-style: italic;   
+      }
+ 
+      .info, .info *, .info span, .info i {   
+        font-style: normal !important;  
+      }
+    
+      #resume-msg {      
+        display: none;     
+        position: fixed;    
+        top: 20px;    
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.85);
+        padding: 10px 20px;
+        color: #0f0;
+        border-radius: 8px;
+        z-index: 9999;
+        font-weight: bold;
+        max-width: 90%;
+        font-size: 1rem;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+
+      #resume-msg.visible {      
+        display: block;
+        opacity: 1;
+      }
+
+      @media (max-width: 480px) {      
+        #resume-msg {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+      }
+
+    </style>
+    <link rel="stylesheet" href="" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    <div class="container">
+      <div class="main-video">
+        <div class="video">
+          <video class='js-player' poster="https://image.tmdb.org/t/p/w780/swFtS1S5556BFrQNJkwTTmyBFIT.jpg" controls muted preload="metadata"> <!--Aca te dejo la pagina para agregar el fondo https://www.themoviedb.org-->
+            <source src="https://www.udrop.com/file/6goa/1x1" type="application/x-mpegURL">
+          </video>
+          <!--<video src="" poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3r48KQZbrv_w2zeTpEMqrIE0BysJMnmdydw&usqp=CAU" controls muted autoplay></video>-->
+        </div>
+      </div>
+    </div>  
+    <div id="resume-msg">✅ Reanudando donde lo dejaste: Naruto Shippuden</div>
+  
+    <div class="info">
+      <i class="fal fa-calendar-alt"></i><span>2007</span> <!-- AÑO DE ESTRENO DE LA SERIE -->
+      <i class="fal fa-clock"></i><span>T5</span> <!-- LA CANTIDAD DE TEMPORADAS QUE TIENE EJEMPLO "T1 (SI TIENE UNA TEMPORADAS)" SI TIENE VARIAS AGREGAR "T4" SERIAN TEMPORADA 4--> 
+      <i class="fal fa-thumbs-up"></i><span>88%</span> <!-- LA CALIFICACION DE LA SERIE -->   
+      <div class="hd-tag">     
+        <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">      
+          <rect width="24" height="24" rx="4" fill="white" />       
+          <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>     
+        </svg>     
+        <span>1080P</span>   
+      </div>
+      <span>🇲🇽</span>
+    </div>
+  
+    <div class="titulo">
+      <h3>Naruto Shippuden</h3>
+    </div>
+  
+    <!-- Selector de Temporadas y Botones de Episodios -->
+     
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; flex-wrap: wrap;">
+      <div>
+        <select id="temporada-select" style="background: #1c1c1c; color: white; font-size: 1rem; padding: 5px 10px; border-radius: 5px; border: 1px solid #333;">
+          <option value="1" selected>Temporada 1</option>
+          <option value="2">Temporada 2</option>
+          <option value="3">Temporada 3</option>
+          <option value="4">Temporada 4</option>
+          <option value="5">Temporada 5</option>
+        </select>
+      </div>
+      <div id="episodio-count" style="color: #bbb; font-size: 0.95rem;">10 Capítulos</div>
+    </div>
+
+    <!-- Botones de episodios -->
+     <div id="episodios" style="
+     display: flex;
+     flex-wrap: nowrap;
+     gap: 10px;
+     padding: 10px;
+     overflow-x: auto;
+     white-space: nowrap;
+     scroll-snap-type: x mandatory;
+     -webkit-overflow-scrolling: touch;
+    "></div>
+    
+    <script>
+      const episodiosData = {
+        1: [
+          { titulo: "Episodio 1 - Vuelta a Casa", src: "https://pomf2.lain.la/f/c83t7eks.mp4" },
+          { titulo: "Episodio 2 - Akatsuki, empieza la acción", src: "https://pomf2.lain.la/f/0vb1fe2.mp4" },
+          { titulo: "Episodio 3 - Los Resultados del Entrenamiento", src: "https://pomf2.lain.la/f/3w27bltl.mp4" },
+          { titulo: "Episodio 4 - El Jinchūriki de la Arena", src: "https://pomf2.lain.la/f/xivm24it.mp4" },
+          { titulo: "Episodio 5 - ¡Como el Kazekage...!", src: "https://pomf2.lain.la/f/a2ebf8wm.mp4" },
+          { titulo: "Episodio 6 - Contingente despejado", src: "https://pomf2.lain.la/f/npn1q849.mp4" },
+          { titulo: "Episodio 7 - Corre, Kankuro", src: "https://pomf2.lain.la/f/bskcqavb.mp4" },
+          { titulo: "Episodio 8 - El equipo Kakashi ¡Desplegado!", src: "https://pomf2.lain.la/f/b1bpo6l.mp4" },
+          { titulo: "Episodio 340 - Edotensei: Liberacion", src: "https://pomf2.lain.la/f/ueryzymu.mp4" },
+          { titulo: "Episodio 341- El regreso de orochimaru", src: "https://pomf2.lain.la/f/178pgqsh.mp4" },
+          { titulo: "Episodio 342 - Secreto del Ninjutsu: Espacio-Tiempo", src: "https://pomf2.lain.la/f/8m19nanf.mp4" },
+          { titulo: "Episodio 343 - ¿Quien eres tu?", src: "https://pomf2.lain.la/f/edvsvkxm.mp4" },
+          { titulo: "Episodio 344 - Obito y Madara", src: "https://pomf2.lain.la/f/na0m9edc.mp4" }
+          // Agrega más si tienes
+        ],
+        2: [
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 10 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 20 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 30 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 40 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 50 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 60 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 70 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "#" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 80 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 90 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 100 - TITULO DE EPISODIO", src: "link de episodio" }
+          // Agrega más si tienes
+        ],
+        3: [
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 10 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 20 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 30 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 40 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 50 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 60 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 70 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 80 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 90 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 1 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 2 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 3 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 4 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 5 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 6 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 7 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 8 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 9 - TITULO DE EPISODIO", src: "link de episodio" },
+          { titulo: "Episodio 100 - TITULO DE EPISODIO", src: "link de episodio" }
+          // Agrega más si tienes
+        ],
+      };
+      const temporadaSelect = document.getElementById("temporada-select");
+      const episodiosContainer = document.getElementById("episodios");
+      const episodioCount = document.getElementById("episodio-count");
+      const mainVideo = document.querySelector('.main-video video');
+      const titleDiv = document.querySelector('.main-video .title');
+
+      function renderEpisodios(temporada) {
+        episodiosContainer.innerHTML = "";
+  
+        const episodios = episodiosData[temporada] || [];
+        const yearSpan = document.querySelector('.info span');
+        const yearBySeason = { 1: '2007', 2: '2025', 3: '2025' };  /*ACA HAY QUE CAMBIAR EL AÑO POR EJ: EL AÑO SE LA SERIE SE ESTRENO EN EL "2010" DEBES DE CAMBIAR 2023 Y PONER 2010 (ABAJO HAY OTRO DEBE HACER LO MISMO)*/
+        if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+        episodioCount.textContent = `${episodios.length} Capítulos`;
+        
+        episodios.forEach((ep, index) => {
+          const btn = document.createElement("button");
+          btn.textContent = index + 1;
+          btn.style.cssText = `
+          width: 40px; height: 40px;
+          background: #222; border: none; border-radius: 5px;
+          color: #ccc; font-size: 1rem; cursor: pointer;
+          `;
+          
+          btn.addEventListener("click", () => {
+            mainVideo.setAttribute("src", ep.src);
+            mainVideo.play();
+            if (titleDiv) {
+              titleDiv.innerHTML = ep.titulo;
+            }
+          });
+          episodiosContainer.appendChild(btn);
+        });
+  
+        // Marcar automáticamente el primer episodio
+        const firstBtn = document.querySelector('#episodios button');
+        if (firstBtn) {
+          firstBtn.classList.add('active');
+          firstBtn.style.background = 'red';
+          firstBtn.style.color = '#fff';
+        }
+      }
+
+      // Inicializar con la temporada por defecto
+      renderEpisodios(temporadaSelect.value);
+
+      // Cambiar temporada
+      temporadaSelect.addEventListener("change", () => {
+        renderEpisodios(temporadaSelect.value);
+      });
+    </script>
+    
+    <script>
+      let currentEpisodeIndex = 0;
+
+      function renderEpisodios(temporada) { 
+        episodiosContainer.innerHTML = "";
+        const episodios = episodiosData[temporada] || [];
+        const yearSpan = document.querySelector('.info span');
+        const yearBySeason = { 1: '2007', 2: '2024', 3: '2025' }; /*ACA HAY QUE CAMBIAR EL AÑO POR EJ: EL AÑO SE LA SERIE SE ESTRENO EN EL "2010" DEBES DE CAMBIAR 2023 Y PONER 2010*/
+        
+        if (yearSpan) yearSpan.textContent = yearBySeason[temporada] || '0000';
+  
+        episodioCount.textContent = `${episodios.length} Capítulos`;
+  
+        episodios.forEach((ep, index) => {
+          const btn = document.createElement("button");
+          btn.textContent = index + 1;
+          btn.style.cssText = `
+          width: 40px; height: 40px;
+          background: #222; border: none; border-radius: 5px;
+          color: #ccc; font-size: 1rem; cursor: pointer;
+          `;
+    
+          btn.addEventListener("click", () => {
+            playEpisode(ep.src, ep.titulo, index);
+          });
+          episodiosContainer.appendChild(btn);
+        });
+
+        // Marcar automáticamente el primer episodio
+        const firstBtn = document.querySelector('#episodios button');
+        if (firstBtn) {
+          firstBtn.classList.add('active');
+          firstBtn.style.background = 'red';
+          firstBtn.style.color = '#fff';
+        }
+      }
+
+      function playEpisode(src, titulo, index) {
+        currentEpisodeIndex = index;
+        mainVideo.src = src;
+        mainVideo.load(); // prepara el video sin reproducir //
+        mainVideo.pause();
+        mainVideo.currentTime = mainVideo.currentTime || 0; // asegúrate que se mantenga en el tiempo guardado si existe
+        mainVideo.play(); // forzar reproducción automática
+        if (titleDiv) titleDiv.innerHTML = titulo;
+
+  
+        // Desmarcar todos los botones
+        const buttons = document.querySelectorAll("#episodios button");
+        buttons.forEach(btn => {
+          btn.classList.remove("active");
+          btn.style.background = "#222";
+          btn.style.color = "#ccc";
+        });
+
+
+        // Marcar el botón actual en rojo
+  
+        buttons[index]?.classList.add("active");
+        buttons[index].style.background = "red";
+        buttons[index].style.color = "#fff";
+
+  
+        // Reanudar si hay guardado
+  
+        const msg = document.getElementById("resume-msg");
+        msg.textContent = `✅ ${titulo}`;
+        msg.classList.add("visible");
+        setTimeout(() => msg.classList.remove("visible"), 3000);
+  
+        localStorage.setItem("ultimo_episodio", JSON.stringify({
+          temporada: temporadaSelect.value,
+          index: index
+        }));
+      }
+
+      // Guardar tiempo cada 5s
+
+      setInterval(() => {
+        if (!mainVideo.paused && !mainVideo.ended) {
+          localStorage.setItem(`resume_${temporadaSelect.value}_${currentEpisodeIndex}`, mainVideo.currentTime);
+        }
+      }, 5000);
+
+
+      mainVideo.addEventListener("pause", () => {
+        if (autoNextPlaying && !mainVideo.ended) {
+          mainVideo.play();
+          autoNextPlaying = false;
+        }
+      });
+
+
+      // Auto-next al finalizar
+
+      mainVideo.addEventListener("ended", () => {
+        mainVideo.currentTime = 0;
+        const episodios = episodiosData[temporadaSelect.value] || [];
+        if (currentEpisodeIndex + 1 < episodios.length) {
+          const next = episodios[currentEpisodeIndex + 1];
+          playEpisode(next.src, next.titulo, currentEpisodeIndex + 1);
+        }
+      });
+
+      // Re-render al cambiar temporada
+
+      temporadaSelect.addEventListener("change", () => {
+        // Detener y reiniciar el video
+        mainVideo.pause();
+        mainVideo.removeAttribute("src");
+        mainVideo.load(); // reinicia el reproductor
+      });
+
+      // Limpiar título
+      if (titleDiv) titleDiv.innerHTML = "Selecciona un episodio";
+      // Limpiar botones marcados
+  
+      document.querySelectorAll("#episodios button").forEach(btn => {
+        btn.classList.remove("active");
+        btn.style.background = "#222";
+        btn.style.color = "#ccc";
+      });
+
+      // Inicial
+
+      const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "null");
+
+      if (ultimo && episodiosData[ultimo.temporada]) {
+        temporadaSelect.value = ultimo.temporada;
+        renderEpisodios(ultimo.temporada);
+        const ep = episodiosData[ultimo.temporada][ultimo.index];
+        if (ep) {
+    
+          currentEpisodeIndex = ultimo.index;
+          mainVideo.src = ep.src;
+          mainVideo.load(); // carga sin reproducir
+          mainVideo.pause();
+          if (titleDiv) titleDiv.innerHTML = ep.titulo;
+          const buttons = document.querySelectorAll("#episodios button");
+    
+          buttons.forEach(btn => {
+            btn.classList.remove("active");
+            btn.style.background = "#222";
+            btn.style.color = "#ccc";
+          });
+    
+          buttons[ultimo.index]?.classList.add("active");
+          buttons[ultimo.index].style.background = "red";
+          buttons[ultimo.index].style.color = "#fff";
+    
+          // Scroll automático centrado al botón del episodio guardado
+    
+          const targetBtn = buttons[ultimo.index];
+          if (targetBtn && episodiosContainer) {
+            setTimeout(() => {
+              const scrollLeft = targetBtn.offsetLeft - (episodiosContainer.offsetWidth / 2) + (targetBtn.offsetWidth / 2);
+              episodiosContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+            }, 100);
+          }
+
+          const msg = document.getElementById("resume-msg");
+          msg.textContent = `✅ ${ep.titulo} cargado`;
+          msg.classList.add("visible");
+          setTimeout(() => msg.classList.remove("visible"), 3000);
+        }
+      
+      } else {
+        renderEpisodios(temporadaSelect.value);
+        const ep = episodiosData[temporadaSelect.value][0];
+        mainVideo.src = ep.src;
+        mainVideo.load();
+        mainVideo.pause();
+  
+        if (titleDiv) titleDiv.innerHTML = ep.titulo;
+
+  
+        const buttons = document.querySelectorAll("#episodios button");
+        buttons[0]?.classList.add("active");
+        buttons[0].style.background = "red";
+        buttons[0].style.color = "#fff";
+      }
+    </script>
+    
+    <style>
+      #episodios button {
+    
+        min-width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+      }
+      
+      #episodios button.active {
+        background: red !important;
+        color: white !important;
+      }
+      
+      #episodios button {
+        scroll-snap-align: start;
+        flex: 0 0 auto;
+      }
+
+      #episodios::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      #episodios::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+      }
+      #episodios::-webkit-scrollbar-track {
+        background: #111;
+      }
+      
+      /* Personaliza el contenedor */
+
+      #temporada-select:focus {
+        outline: none;
+        border-color: #ff4444;
+        box-shadow: 0 0 6px #ff4444;
+      }
+    </style>
+    <div class="titulo">
+      <h4>Género: Animación/Accion/Aventura/Ciencia Ficcion/Fantasia/Anime</h4> <!--Aca va el genero de la serie-->
+    </div>
+  
+    <div class="sinopsis">
+      <h4>
+        Sinopsis: <!--Aca va la sinopsis en el <p>Sinopsis</<p> que esta debajo-->
+      </h4>
+      <p>
+        Los ninjas utilizan todo tipo de artes marciales desde la lucha cuerpo a cuerpo a ilusiones o técnicas secretas como por ejemplo la manipulación de elementos. El protagonista es un joven aspirante a ninja Uzumaki Naruto, un muchacho que sueña en convertirse algun dia en el líder de su aldea (Hokage). <!--ejemplo-->
+      </p>
+    </div>
+  
+    <div style="text-align: center; margin-top: 15px;">
+      <button id="btn-favorito" style="
+        background: #ff4444;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        ">
+        ⭐ Favoritos
+      </button>
+    </div>
+    <br>
+
+    <div class="recomendaciones">
+      <h4>Podría interesarte:</h4>
+      <br>
+      <div class="series-grid">
+        <a href="#" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt=""> <!--Aca va las imagenes de las series solo debes de agregar la ultima parte despues de la "/" ej: (https://image.tmdb.org/t/p/original/qZJt1XlRVbQhGV7MtZnbiR6vxPh.jpg) solo debes agregar esto (qZJt1XlRVbQhGV7MtZnbiR6vxPh.jpg)-->
+          <p>Nombre de serie</p>
+        </a>
+        <a href="#" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt="">
+          <p>Nombre de serie</p>
+        </a>
+        <a href="#" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt="">
+          <p>Nombre de serie</p>
+        </a>
+        <a href="#" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt="">
+          <p>Nombre de serie</p>
+        </a>
+        <a href="Dragon Ball Daima (2025).html" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt="">
+          <p>Nombre de serie</p>
+        </a>
+        <a href="#" class="serie">
+          <img loading="lazy" src="../img poster/Agregar peliculas.gif" alt="">
+          <p>Nombre de serie</p>
+        </a>
+      </div>
+    </div>
+    <br>
+
+    <!--COLOR DE BARRA DE SCROOL-->
+    
+    <style>
+      #episodios {
+        overflow-x: auto;
+        scrollbar-height: auto;
+        scrollbar-color: #ff4444 #111;
+      }
+
+      #episodios::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      #episodios::-webkit-scrollbar-thumb {
+        background-color: #ff4444;
+        border-radius: 10px;
+      }
+
+      #episodios::-webkit-scrollbar-track {
+        background: #111;
+        border-radius: 10px;
+      }
+      
+      @media (hover: none) and (pointer: coarse) {
+        #episodios {
+          padding-bottom: 20px;
+        }
+      }
+    </style>
+    
+    <!-- Historial -->
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const serieTitulo = "Naruto Shippuden";
+        const serieImagen = "https://image.tmdb.org/t/p/w300/3V7kzJX7hvF0H9CDJsgcWKXTSsR.jpg"; //Aca va la ultima parte de la imagen como hice el ej de arriba se agrega despues de la barra. esta de esta forma para que la imagen carge mas rapido
+        const archivoHTML = "../View Series/Naruto Shippuden (2007).html"; // ✅ Ruta relativa al historial
+        const progresoTexto = "Actualizado"; // Puedes cambiarlo dinámicamente
+
+        let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');    
+        const index = historial.findIndex(h => h.titulo === serieTitulo);
+    
+        if (index === -1) {
+          historial.unshift({
+            titulo: serieTitulo,
+            imagen: serieImagen,
+            progreso: progresoTexto,
+            archivo: archivoHTML,
+            tipo: "serie", // ✅ ya está
+            timestamp: Date.now() // ✅ IMPORTANTE
+          });
+          
+          if (historial.length > 20) historial.pop(); /* Limita a 20 */
+        }
+        else {
+          historial[index].progreso = progresoTexto;
+          historial[index].timestamp = Date.now(); // ✅ Actualiza orden
+        }
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      });
+    </script>
+    
+    <!--Aca va el mensaje de capitulo-->
+    
+    <div id="mensaje-confirmacion" style="
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      transition: opacity 0.5s ease;">
+    </div>
+    
+    <script>
+      function mostrarMensaje(texto) {
+        const mensaje = document.getElementById('mensaje-confirmacion');
+        mensaje.textContent = texto;
+        mensaje.style.display = 'block';
+        mensaje.style.opacity = '1';
+        setTimeout(() => {
+          mensaje.style.opacity = '0';
+          setTimeout(() => mensaje.style.display = 'none', 500);
+        }, 3000);
+      }
+    </script>
+
+    <!--animacion de favorito-->
+    
+    <style>
+      /* ACA ES LA ANIMACION DE FAVORITOS */
+      @keyframes pop {
+        0%   { transform: scale(1); }
+        50%  { transform: scale(1.3); }
+        100% { transform: scale(1); }
+      }
+    
+      #btn-favorito.animado {
+        animation: pop 0.3s ease;
+      }
+    </style>
+    <!-- FAVORITOS -->
+    <script>
+      document.getElementById('btn-favorito').addEventListener('click', () => {
+        const nuevaPelicula = {
+          titulo: "Naruto Shippuden",
+          imagen: "https://image.tmdb.org/t/p/w300/3V7kzJX7hvF0H9CDJsgcWKXTSsR.jpg",
+          genero: "Drama comedia", /* o "Serie", "Crimen/Serie", etc.*/
+          archivo: "../View Series/Naruto Shippuden (2007).html",
+          tipo: "serie", // ✅ identifica si es "serie" o "pelicula"
+          timestamp: Date.now() // opcional: para ordenar por fecha
+        };
+
+        /* animacion de favoritos */
+        const btn = document.getElementById('btn-favorito');
+        btn.classList.add('animado');
+        setTimeout(() => btn.classList.remove('animado'), 300);
+        mostrarMensaje("⭐ Agregado a Favoritos");
+  
+        let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+        if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
+          favoritos.push(nuevaPelicula);
+          localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+        }
+        window.location.href = "../View Peliculas/favoritos.html";
+      });
+    </script>
+    
+    <!-- Añadir Botones para .js-player: Reinicio al inicio (fa-step-backward), Retroceso (fa-undo) y Avance (fa-forward) -->
+     
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('.js-player').forEach(video => {
+          const controls = video.closest('.main-video')?.querySelector('.plyr__controls');
+    
+          if (controls && !controls.querySelector('#plyr-restart')) {
+            // 1️⃣ Crear botón de Reinicio al inicio (#plyr-restart) al EXTREMO IZQUIERDO
+      
+            const restartBtn = document.createElement("button");
+            restartBtn.className = "plyr__control";      
+            restartBtn.id = "plyr-restart";     
+            restartBtn.innerHTML = '<i class="fas fa-undo"></i><span class="plyr__sr-only">Reiniciar al inicio</span>';      
+            restartBtn.title = "Reiniciar al inicio (0s)";   
+            restartBtn.addEventListener("click", () => {
+              video.currentTime = 0;
+            });
+      
+            controls.insertBefore(restartBtn, controls.firstChild);
+      
+            // 2️⃣ Crear botón de Retroceso (#plyr-rewind) junto al de Reinicio
+      
+            const rewindBtn = document.createElement("button");
+      
+            rewindBtn.className = "plyr__control";
+            rewindBtn.id = "plyr-rewind";
+            rewindBtn.innerHTML = '<i class="fas fa-step-backward"></i><span class="plyr__sr-only">Retroceder 10 segundos</span>';
+            rewindBtn.title = "Retroceder 10s";
+            rewindBtn.addEventListener("click", () => {
+              video.currentTime = Math.max(video.currentTime - 10, 0);
+            });
+      
+            controls.insertBefore(rewindBtn, restartBtn.nextSibling);
+      
+            // 3️⃣ Crear botón de Avance (#plyr-fast-forward) estándar de Plyr
+      
+            const forwardBtn = document.createElement("button");
+      
+            forwardBtn.className = "plyr__control";
+            forwardBtn.id = "plyr-fast-forward";
+            forwardBtn.innerHTML = '<i class="fa fa-forward"></i><span class="plyr__sr-only">Avanzar 10 segundos</span>';
+            forwardBtn.title = "Avanzar 10s";
+      
+            const playButton = controls.querySelector('.plyr__control[data-plyr="play"]');
+            if (playButton) {
+              playButton.after(forwardBtn);
+            } else {
+              controls.appendChild(forwardBtn);
+            }
+            forwardBtn.addEventListener("click", () => {
+              video.currentTime = Math.min(video.currentTime + 10, video.duration);
+            });
+          }
+        });
+      });
+    </script>
+
+    <!-- Lógica para guardar posición y mostrar mensaje de reanudación por episodio -->
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => { 
+        const mainVideo = document.querySelector('.main-video video'); 
+        const resumeMsg = document.getElementById('resume-msg');
+        let currentEpisode = null;
+  
+        // Al hacer clic en un episodio
+        document.querySelectorAll('.video-list .vid').forEach(videoItem => {
+          videoItem.addEventListener('click', e => {
+            // Identificamos el episodio por posición en la lista
+            const episodeIndex = Array.from(document.querySelectorAll('.video-list .vid')).indexOf(videoItem);
+            currentEpisode = episodeIndex;
+      
+            // Cambiamos la fuente del video
+            const src = videoItem.querySelector('video').getAttribute('src');
+            mainVideo.setAttribute('src', src);
+
+            // Checamos si existe posición guardada para este episodio
+            const savedTime = localStorage.getItem(`pos_episodio_${episodeIndex}`);
+            if (savedTime && parseFloat(savedTime) > 10) {
+              mainVideo.currentTime = parseFloat(savedTime);
+              resumeMsg.textContent = `✅ Reanudando ${videoItem.querySelector('.title').textContent.trim()} donde lo dejaste`;
+              resumeMsg.classList.add('visible');
+              setTimeout(() => {
+                resumeMsg.classList.remove('visible');
+              }, 3000);
+            }
+          });
+        });
+  
+        // Guardamos posición cada 5 seg para cada episodio activo
+  
+        setInterval(() => {
+          if (!mainVideo.paused && !mainVideo.ended && currentEpisode !== null) {
+            localStorage.setItem(`pos_episodio_${currentEpisode}`, mainVideo.currentTime);
+          }
+        }, 5000);
+      });
+    </script>
+
+    <!-- ACELERAR VIDEO -->
+    <script>
+      const videoList = document.querySelectorAll('.video-list .vid');
+      const mainVideo = document.querySelector('.main-video video');
+
+      videoList.forEach(videoItem => {
+  
+        videoItem.addEventListener('click', e => {
+          videoList.forEach(v => v.classList.remove('active'));
+          videoItem.classList.add('active');
+    
+          const videoSrc = videoItem.getAttribute('data-url');
+          mainVideo.setAttribute('src', videoSrc);
+          mainVideo.play();
+        });
+      });
+    </script>
+
+    <!-- partial -->
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    
+    <script type="text/javascript">
+      let listVideo = document.querySelectorAll('.video-list .vid');
+      let mainVideo = document.querySelector('.main-video video');
+      let title = document.querySelector('.main-video .title');
+      
+      listVideo.forEach(video =>{
+        video.onclick = () =>{
+          listVideo.forEach(vid => vid.classList.remove('active'));
+          video.classList.add('active');
+          if(video.classList.contains('active')){
+            let src = video.children[0].getAttribute('src');
+            mainVideo.src = src;
+            let text = video.children[1].innerHTML;
+            title.innerHTML = text;
+          };
+        };
+      });
+    </script>
+    
+    <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+    <script>//<![CDATA[
+      const players = Array.from(document.querySelectorAll('.js-player')).map(player => new Plyr(player));
+      //]]>
+    </script>
+
+    <script>
+      const episodiosContainer = document.getElementById("episodios");
+      episodiosContainer.addEventListener("wheel", (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          episodiosContainer.scrollBy({
+            left: e.deltaY * 2, // Aumenta la sensibilidad horizontal
+            behavior: "smooth"
+          });
+        }
+      }, { passive: false });
+    </script>    
+    
+    <script>
+      const episodiosPorTemporada = JSON.parse(localStorage.getItem("episodios_temporada") || "{}");
+      
+      function guardarProgresoTemporada(temporada, index) {
+        episodiosPorTemporada[temporada] = index;
+        localStorage.setItem("episodios_temporada", JSON.stringify(episodiosPorTemporada));
+      }
+    
+      function obtenerProgresoTemporada(temporada) {
+        return episodiosPorTemporada[temporada] || 0;
+      }
+
+      // Modificar playEpisode para guardar por temporada
+    
+      const originalPlayEpisode = playEpisode;
+      playEpisode = function(src, titulo, index) {
+        guardarProgresoTemporada(temporadaSelect.value, index);
+        originalPlayEpisode(src, titulo, index);
+      }
+
+      // Modificar renderEpisodios para recuperar episodio anterior por temporada
+      const originalRenderEpisodios = renderEpisodios;
+      renderEpisodios = function(temporada) {
+        originalRenderEpisodios(temporada);
+        const savedIndex = obtenerProgresoTemporada(temporada);
+        const buttons = document.querySelectorAll("#episodios button");
+        if (buttons[savedIndex]) {
+          buttons[savedIndex].click();  // Auto reproducir
+          // Scroll centrado
+          setTimeout(() => {
+            const scrollLeft = buttons[savedIndex].offsetLeft - (episodiosContainer.offsetWidth / 2) + (buttons[savedIndex].offsetWidth / 2);
+            episodiosContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+          }, 200);
+        }
+      }
+    </script>
+    
+    <script>
+      const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return m + ":" + (s < 10 ? "0" + s : s);
+      };
+
+      const originalPlayEpisode = playEpisode;
+      playEpisode = function(src, titulo, index) {
+        const temporada = temporadaSelect.value;
+        const key = `resume_${temporada}_${index}`;
+        const savedTime = parseFloat(localStorage.getItem(key));
+
+        // Guardar episodio actual
+        localStorage.setItem("ultimo_episodio", JSON.stringify({ temporada, index }));
+
+    
+        // Limpiar contenedor y crear video manualmente sin autoplay
+    
+        const mainVideoContainer = document.querySelector(".main-video");
+        mainVideoContainer.innerHTML = "";
+ 
+        const video = document.createElement("video");
+        video.className = "js-player";
+        video.setAttribute("controls", "");
+        video.setAttribute("preload", "auto");
+        video.setAttribute("poster", "poster.jpg"); // puedes cambiar a un poster dinámico si deseas
+
+        const source = document.createElement("source");
+        source.src = src;
+        source.type = "video/mp4";  
+        video.appendChild(source);
+
+    
+        const wrapper = document.createElement("div"); 
+        wrapper.className = "video";
+        wrapper.appendChild(video);
+        mainVideoContainer.appendChild(wrapper);
+
+        if (titleDiv) titleDiv.innerHTML = titulo;
+
+        const buttons = document.querySelectorAll("#episodios button");
+        buttons.forEach(btn => {
+          btn.classList.remove("active");
+          btn.style.background = "#222";
+          btn.style.color = "#ccc";
+        });
+
+        buttons[index]?.classList.add("active");
+        buttons[index].style.background = "red";
+        buttons[index].style.color = "#fff";
+
+        const msg = document.getElementById("resume-msg");  
+        msg.textContent = `⏯ Episodio cargado en ${formatTime(savedTime || 0)}: ${titulo}`;
+        msg.classList.add("visible");
+        setTimeout(() => msg.classList.remove("visible"), 3000);
+
+        // Aplicar posición guardada sin reproducir
+        let retries = 0;
+        const maxRetries = 20;
+        const interval = setInterval(() => {
+          if (video.readyState >= 1 && !isNaN(savedTime)) {
+            video.currentTime = savedTime;
+            clearInterval(interval);
+          } else if (++retries >= maxRetries) {
+            clearInterval(interval);
+          }
+        }, 300);
+
+        // Guardar tiempo actual cada 5s
+    
+        setInterval(() => {
+          if (!video.paused && !video.ended) {
+            localStorage.setItem(key, video.currentTime);
+          }
+        }, 5000);
+
+    
+        // Reproducir siguiente episodio al finalizar
+    
+        video.addEventListener("ended", () => {
+          video.currentTime = 0;     
+          const episodios = episodiosData[temporada] || [];    
+          if (index + 1 < episodios.length) {      
+            const next = episodios[index + 1];      
+            playEpisode(next.src, next.titulo, index + 1);    
+          }  
+        }, { once: true });
+      };
+
+  
+      // Al cargar la página, cargar automáticamente episodio guardado sin reproducir
+  
+      window.addEventListener("DOMContentLoaded", () => {
+    
+        const ultimo = JSON.parse(localStorage.getItem("ultimo_episodio") || "{}");
+        if (ultimo.temporada && typeof ultimo.index === "number") {
+          const episodios = episodiosData[ultimo.temporada];
+          if (episodios && episodios[ultimo.index]) {
+            temporadaSelect.value = ultimo.temporada;
+            renderEpisodios(ultimo.temporada);
+            setTimeout(() => {
+              const ep = episodios[ultimo.index];
+              playEpisode(ep.src, ep.titulo, ultimo.index);
+            }, 300);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
