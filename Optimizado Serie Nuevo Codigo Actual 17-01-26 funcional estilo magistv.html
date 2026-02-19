@@ -110,7 +110,6 @@
   text-align: center;
 }
 
-
     html { font-size: 100%; }
     body { font-size: 1rem; }
     h1 { font-size: 2rem; }
@@ -1055,8 +1054,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span id="season-year">0000</span>
-    <i class="fal fa-thumbs-up"></i><span>00%</span>
+    <i class="fal fa-calendar-alt"></i><span id="season-year">2018</span>
+    <i class="fal fa-thumbs-up"></i><span>89%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -1328,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "Nombre_de_serie"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "nombre_de_serie"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1357,6 +1356,8 @@ const seasonList = document.getElementById("season-list");
 const episodesContainer = document.getElementById("episodes-container");
 const btnCloseModal = document.querySelector(".season-close");
 const episodesCounter = document.getElementById("episodes-counter");
+const seasonYearEl = document.getElementById("season-year");
+
 
 
 /* =====================================================
@@ -1372,7 +1373,8 @@ const seasonsData = [
       { id: "t1e2", number: 2, src: "" },
       { id: "t1e3", number: 3, src: "" },
       { id: "t1e4", number: 4, src: "" },
-      { id: "t1e5", number: 5, src: "" }
+      { id: "t1e5", number: 5, src: "" },
+      { id: "t1e6", number: 6, src: "" }
     ]
   },
   {
@@ -1382,7 +1384,9 @@ const seasonsData = [
     episodes: [
       { id: "t2e1", number: 1, src: "" },
       { id: "t2e2", number: 2, src: "" },
-      { id: "t2e3", number: 3, src: "" }
+      { id: "t2e3", number: 3, src: "" },
+      { id: "t2e4", number: 4, src: "" },
+      { id: "t2e5", number: 5, src: "" }
     ]
   }
 ];
@@ -1514,6 +1518,13 @@ btnPlay.textContent = "▶";
   currentSeasonId = seasonId;
   currentEpisodeId = episode.id;
   seasonEpisodeState[seasonId] = episode.id;
+
+  // 🔥 ACTUALIZAR AÑO DE TEMPORADA
+const seasonData = seasonsData.find(s => s.id === seasonId);
+if (seasonData && seasonYearEl) {
+  seasonYearEl.textContent = seasonData.year;
+}
+
 
   // 👉 AÑADIR ESTA LÍNEA
   saveCurrentEpisode(seasonId, episode.id);
@@ -2073,27 +2084,27 @@ renderSeasons();
     <div class="series-grid">
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+        <p></p>
       </a>
     </div>
   </div>
