@@ -1027,7 +1027,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playsinline
     webkit-playsinline
     preload="metadata"
-    poster="https://image.tmdb.org/t/p/w780/87mebbBtoWzHV0kILgV6M7yIfun.jpg"
+    poster="https://image.tmdb.org/t/p/w780/2fOKVDoc2O3eZmBZesWPuE5kgPN.jpg"
   >
   <source type="video/mp4">
   </video>
@@ -1054,8 +1054,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span id="season-year">2021</span>
-    <i class="fal fa-thumbs-up"></i><span>80%</span>
+    <i class="fal fa-calendar-alt"></i><span id="season-year">2025</span>
+    <i class="fal fa-thumbs-up"></i><span>89%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -1067,8 +1067,8 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   
   <div class="info-pelicula">
-    <h1>El juego del calamar</h1>
-    <span class="genero-badge">Accion • Drama • Crimen</span>
+    <h1>It: Bienvenidos a Derry</h1>
+    <span class="genero-badge">Terror • Misterio</span>
     <!-- BOTÓN TEMPORADAS -->
 <div class="series-ui">
   <button id="btn-open-seasons">Temporadas</button>
@@ -1089,13 +1089,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="episodes-container" class="episodes-scroll"></div>
   
     <p class="sinopsis">
-      Cientos de personas con problemas de dinero aceptan una invitación rarísima para competir en juegos infantiles. Dentro los esperan un tentador premio y desafíos letales.
+      En 1962, una pareja y su hijo se mudan a Derry, Maine, justo cuando un niño desaparece. Con su llegada, comienzan a suceder cosas muy malas en el pueblo.
     </p>
 
     <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
-      <p><strong>Director:</strong> Hwang Dong-hyuk</p>
-      <p><strong>Reparto:</strong> Lee Jung-jae, Wi Ha-jun, Lee Byung-hun</p>
-      <p><strong>Estreno:</strong> 17/08/2021 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
+      <p><strong>Director:</strong> Andy Muschietti</p>
+      <p><strong>Reparto:</strong> Taylou Paige, Jovan Adepo, James Remar</p>
+      <p><strong>Estreno:</strong> 26/10/2025 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
     </div>
 
     <br>
@@ -1327,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "El_juego_del_calamar_2021"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "it_bienvenido_a_derry"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1367,44 +1367,16 @@ const seasonsData = [
   {
     id: "t1",
     name: "Temporada 1",
-    year: 2021,
-    episodes: [
-      { id: "t1e1", number: 1, src: "https://pomf2.lain.la/f/ms1jmsqt.mp4" },
-      { id: "t1e2", number: 2, src: "https://pomf2.lain.la/f/qt4mljp.mp4" },
-      { id: "t1e3", number: 3, src: "https://pomf2.lain.la/f/l6nnuimm.mp4" },
-      { id: "t1e4", number: 4, src: "https://pomf2.lain.la/f/7b498vvh.mp4" },
-      { id: "t1e5", number: 5, src: "https://pomf2.lain.la/f/1qkw8fnl.mp4" },
-      { id: "t1e6", number: 6, src: "https://pomf2.lain.la/f/biuc9q09.mp4" },
-      { id: "t1e7", number: 7, src: "https://pomf2.lain.la/f/durwx8id.mp4" },
-      { id: "t1e8", number: 8, src: "https://pomf2.lain.la/f/lj8wulcj.mp4" },
-      { id: "t1e9", number: 9, src: "https://pomf2.lain.la/f/4wkb714z.mp4" }
-    ]
-  },
-  {
-    id: "t2",
-    name: "Temporada 2",
-    year: 2024,
-    episodes: [
-      { id: "t2e1", number: 1, src: "https://pomf2.lain.la/f/ms26sodv.mp4" },
-      { id: "t2e2", number: 2, src: "https://pomf2.lain.la/f/vh3a6css.mp4" },
-      { id: "t2e3", number: 3, src: "https://pomf2.lain.la/f/njqor1xp.mp4" },
-      { id: "t2e4", number: 4, src: "https://pomf2.lain.la/f/4wbmkpbu.mp4" },
-      { id: "t2e5", number: 5, src: "https://dl.dropboxusercontent.com/scl/fi/pulw5k1twd035wc9dkckr/El-Juego-Del-Calamar-T2-Cap5.mp4?rlkey=wbgasljxsqaa8jz31396bjzy3&st=" },
-      { id: "t2e6", number: 6, src: "https://pomf2.lain.la/f/yt14iy7u.mp4" },
-      { id: "t2e7", number: 7, src: "https://pomf2.lain.la/f/a7npytuo.mp4" }
-    ]
-  },
-  {
-    id: "t3",
-    name: "Temporada 3",
     year: 2025,
     episodes: [
-      { id: "t3e1", number: 1, src: "https://dl.dropbox.com/scl/fi/6vque8yn2d81v084pfqwv/El-juego-del-calamar-T3-C1-2025.mp4?rlkey=yp1jrx2x4ec489c63m6nyfo82&st=" },
-      { id: "t3e2", number: 2, src: "https://dl.dropbox.com/scl/fi/yknn3xevxuk43z9fdk8px/El-juego-del-calamar-T3-C2-2025.mp4?rlkey=e51mv72g3lvso172elh8tw1ts&st=" },
-      { id: "t3e3", number: 3, src: "https://dl.dropbox.com/scl/fi/ob63d7ent24jjqndac8lt/El-juego-del-calamar-T3-C3-2025.mp4?rlkey=1h841i5vpc67h6lyc4szrz1mo&st=" },
-      { id: "t3e4", number: 4, src: "https://dl.dropbox.com/scl/fi/k5fpwtfy4e37pmkqaw3ig/El-juego-del-calamar-T3-C4-2025.mp4?rlkey=siblgnbxzs7sj4nbqag8i5tji&st=" },
-      { id: "t3e5", number: 5, src: "https://dl.dropbox.com/scl/fi/ahh500o19r7jpz8j7fzaf/El-juego-del-calamar-T3-C5-2025.mp4?rlkey=p22znr5st1tj7ndzewi010iuz&st=" },
-      { id: "t3e6", number: 6, src: "https://dl.dropbox.com/scl/fi/0qq28soexzcb13fia17u3/El-juego-del-calamar-T3-C6-2025.mp4?rlkey=bnbwerj1jfd63vv5fcdu940c0&st=" }
+      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/y9l8yjg5fp3bqq3szksik/301880-cd79f023-f7e7-4a02-a405-5364c328960d-cgfc-2660727-streamwish.mp4?rlkey=zfcf9lahx4wk9yzw4q99m8314&st=" },
+      { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/crus6hguloppn8e0nbr87/It.Bienvenido.A.Derry.S01e02.2025.1080P-Dual-Lat.mkv?rlkey=3bxjupbgq7terofstyadw78l3&st=" },
+      { id: "t1e3", number: 3, src: "https://dl.dropbox.com/scl/fi/1gli63fuyiix8jk5vept3/It-Bienvenido-a-derry-T1E3.mp4?rlkey=ygvz6xgkz0rojupghwbyb9g3n&st=" },
+      { id: "t1e4", number: 4, src: "https://dl.dropbox.com/scl/fi/jav54823p6tvoxwo34gng/It-Bienvenido-a-derry-T1E4.mp4?rlkey=nl2qid8plx25nm6teitpwc1en&st=" },
+      { id: "t1e5", number: 5, src: "https://dl.dropbox.com/scl/fi/6su9nz6aw01yxag7yf508/It-Bienvenido-a-derry-T1E5.mp4?rlkey=j1lbiwtgbkmfr49ln0utkpoup&st=" },
+      { id: "t1e6", number: 6, src: "https://dl.dropbox.com/scl/fi/ze9rqfdib6y4bls91p5mt/It-Bienvenido-a-Derry-T1E6.mp4?rlkey=43j35kuemejwl1nrnuu9k3hwt&st=" },
+      { id: "t1e7", number: 7, src: "https://dl.dropbox.com/scl/fi/h6wpk6x418i79p5kzupio/It-Bienvenido-a-Derry-T1E7.mp4?rlkey=qae1icg0osuxu8qpu1rqf48ny&st=" },
+      { id: "t1e8", number: 8, src: "https://dl.dropbox.com/scl/fi/yt89fwfim0l8bxppz300i/It.Bienvenidos.A.Derry.S01e08.2025.1080p-dual-lat.mkv?rlkey=boag8vagzf96enahjk0s6h8hq&st=" }      
     ]
   }
 ];
@@ -1991,10 +1963,10 @@ renderSeasons();
   // 🔹 Botón "Agregar a Favoritos"
   document.getElementById('btn-favorito').addEventListener('click', () => {
     const nuevaSerie = {
-      titulo: "El juego del calamar",
-      imagen: "https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg",
-      genero: "Anime",
-      archivo: "../View Series/El Juego Del Calamar (2021).html",
+      titulo: "IT: Bienvenidos a Derry",
+      imagen: "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg",
+      genero: "terror • Drama",
+      archivo: "../View Series/IT Bienvenidos a Derry (2025).html",
       tipo: "serie",
       timestamp: Date.now()
     };
@@ -2100,29 +2072,29 @@ renderSeasons();
     <h4>Podría interesarte:</h4>
     <br/>
     <div class="series-grid">
-      <a href="html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/AvOcYB2lcqRFvhq3ybJlcXgpRRu.jpg" alt="">
-        <p>El juego del calamar: El desafío</p>
+      <a href="../View Peliculas/It (eso) 2014.html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/kI2c93Ybv8C8seSJunNSlpepFPX.jpg" alt="">
+        <p>It (Eso)</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>NOMBRE DE Serie</p>
+      <a href="../View Peliculas/It Capítulo 2 (2019).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/pxw6j2AwlUsw5iS4fCxPoCP0jPh.jpg" alt="">
+        <p>It: Capitulo 2</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>NOMBRE DE Serie</p>
+      <a href="../View Peliculas/El payaso del mal (2014).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/o4bNaBX6COOzgvWQGLSNuIbztvF.jpg" alt="">
+        <p>El payaso del mal</p>
       </a>
-      <a href="E" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>NOMBRE DE Serie</p>
+      <a href="../View Peliculas/Terrifier 3 Payaso (2024).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/ju10W5gl3PPK3b7TjEmVOZap51I.jpg" alt="">
+        <p>Terrifier</p>
       </a>
-      <a href="#" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt=""> <!--EN CASO DE NO SER PARA ADULTOS UTILICE ESTAS 6 ESTRUCTURAS DEL CODIGO, LA DE ABAJO ES PARA ADULTOS. SI NO CONTIENES SerieS DE ADULTOS UTILIZA LAS 6 QUE DEJARE MARCADA CON NUMEROS DEL (1 AL 6) EN CASO DE TENER PELICULA DE ADULTOS UTILIZA EL DE ABAJO-->
-        <p>Nombre de Serie</p>
+      <a href="../View Peliculas/Until Dawn Noche de terror (2025).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg" alt=""> <!--EN CASO DE NO SER PARA ADULTOS UTILICE ESTAS 6 ESTRUCTURAS DEL CODIGO, LA DE ABAJO ES PARA ADULTOS. SI NO CONTIENES PELICULAS DE ADULTOS UTILIZA LAS 6 QUE DEJARE MARCADA CON NUMEROS DEL (1 AL 6) EN CASO DE TENER PELICULA DE ADULTOS UTILIZA EL DE ABAJO-->
+        <p>Until Dawn: Noche de terror</p>
       </a>
-      <a href=".html" class="serie" > <!--data-href=".html" data-adulto="adulto" si es para adulto debes conservar estas etiquetas-->
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p>Nombre de serie</p>
+      <a href="../View Peliculas/Háblame (2023).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg" alt="">
+        <p>Háblame</p>
       </a>
     </div>
   </div>
@@ -2289,9 +2261,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoElement = document.getElementById('videoPlayer');
   if (!videoElement) return;
 
-  const historialTitulo = "El juego del calamar";
-  const historialImagen = "https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg";
-  const historialArchivo = "../View Series/El Juego Del Calamar (2021).html";
+  const historialTitulo = "IT: Bienvenidos a Derry";
+  const historialImagen = "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg";
+  const historialArchivo = "../View Series/IT Bienvenidos a Derry (2025).html";
 
   let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
   let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
