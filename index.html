@@ -845,12 +845,12 @@ window.addEventListener("DOMContentLoaded", () => {
 <div class="us_carousel_wrap" id="us_carousel_wrap" aria-label="Carrusel de imágenes">
   <div class="us_carousel" id="us_carousel">
     <div class="us_track" id="us_track">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/v8xHeTkIBOl51yRp0zcAu2VYhdZ.jpg" alt="Slide 1">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/kLHOkqTdxzxllm6Re3qHgFQZdlJ.jpg" alt="Slide 2">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/11wxL3MWMuwWSGG7AKdHXfVG9E5.jpg" alt="Slide 3">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/yQjO3CqZSbby6U7y3NfzrLB32rq.jpg" alt="Slide 4">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/gtHUAhRKXhCBo35fN6yA9kSMfg8.jpg" alt="Slide 5">
-      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/fAV8StFLcssURq6EYwoMAP5tKwF.jpg" alt="Slide 6">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/7rouRlEltLF6QehIFwO08g3zF3b.jpg" alt="Slide 1">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/4jrdU5p1K8H61Fgmk6pCHEb5LBf.jpg" alt="Slide 2">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/lcBdXVOXaZLFFDNEWZwPCVqS4Zt.jpg" alt="Slide 3">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/v8xHeTkIBOl51yRp0zcAu2VYhdZ.jpg" alt="Slide 4">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/kLHOkqTdxzxllm6Re3qHgFQZdlJ.jpg" alt="Slide 5">
+      <img class="us_slide" loading="lazy" src="https://image.tmdb.org/t/p/w780/11wxL3MWMuwWSGG7AKdHXfVG9E5.jpg" alt="Slide 6">
     </div>
     <div class="us_dots" id="us_dots" aria-hidden="false"></div>
   </div>
@@ -868,12 +868,12 @@ window.addEventListener("DOMContentLoaded", () => {
 (function(){
   // Mapeo: ajustar aquí los targets según tus alt exactos
   const mappingAltToUrl = {
-    "Slide 1": "View Series/En el barro (2025).html",
-    "Slide 2": "View Peliculas/Reproductor Universal.html?id=sonic_3",
-    "Slide 3": "View Peliculas/Reproductor Universal.html?id=lospitufos_2025",
-    "Slide 4": "View Peliculas/Baki (2018).htm",
-    "Slide 5": "View Peliculas/Five Nights at Freddy's 2 (2025).html",
-    "Slide 6": "View Peliculas/View Peliculas/Reproductor Universal.html?id=zootopia_2"
+    "Slide 1": "View Peliculas/Reproductor Universal.html?id=",
+    "Slide 2": "View Peliculas/Reproductor Universal.html?id=love_me_love_me",
+    "Slide 3": "View Peliculas/Reproductor Universal.html?id=la_empleada",
+    "Slide 4": "View Series/En el barro (2025).html",
+    "Slide 5": "View Peliculas/Reproductor Universal.html?id=sonic_3",
+    "Slide 6": "View Peliculas/Reproductor Universal.html?id=lospitufos_2025"
   };
 
   // Selector de slides - mantiene compatibilidad con tu carrusel
@@ -1153,6 +1153,41 @@ document.querySelectorAll('.card-link').forEach(link => {
   <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
 
   <div class="poster">
+    <h4 class="alignleft">2026</h4><a href="#"></a>
+  </div>
+
+  <div class="scrollmenu">
+    <br>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=la_conexion_sueca">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/snlnvSB232OZwPCuO8zkWYJ6P7j.jpg"/>
+        <i>El vínculo sueca</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=love_me_love_me">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jfwHKRHRE2X4NTexdzblaioHH51.jpg"/>
+        <i>Love me, Love me</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=la_empleada">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cFnGVbQQPhhq7wJsAczJt48MsiS.jpg"/>
+        <i>La empleada</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+  </div>
+
+  <br><br>
+
+  <div class="poster">
     <h4 class="alignleft">Series</h4><a href="#"></a>
   </div>
 
@@ -1217,6 +1252,22 @@ document.querySelectorAll('.card-link').forEach(link => {
 
   <div class="scrollmenu">
     <br>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=love_me_love_me">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jfwHKRHRE2X4NTexdzblaioHH51.jpg"/>
+        <i>Love me, Love me</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=la_empleada">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cFnGVbQQPhhq7wJsAczJt48MsiS.jpg"/>
+        <i>La empleada</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
 
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=pideme_lo_que_quieras">
       <div class="xplus">
@@ -1497,7 +1548,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Blancanieves (2025).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=blancanieves">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"/>
         <i>Blancanieves</i>
@@ -1513,7 +1564,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Cars 3 (2017).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=cars_3">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg"/>
         <i>Cars 3</i>
@@ -1668,7 +1719,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Turbo (2013).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=Turbo">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/ysNUm2zWPkJQKa3Op0N4EmqrZ0h.jpg"/>
         <i>Turbo</i>
@@ -2537,6 +2588,15 @@ const data = {
 
     <div class="scrollmenu">
       <br>
+
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=la_empleada">
+        <div class="xplus">
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cFnGVbQQPhhq7wJsAczJt48MsiS.jpg"/>
+          <i>La empleada</i>
+          <span class="lock-icon">🔒</span>
+        </div>
+      </a>
+    
       <a class="card-link" data-href="View Peliculas/El Maravilloso Mago de Oz (2025).html">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg"/>
@@ -2749,6 +2809,15 @@ const data = {
 
     <div class="scrollmenu">
       <br>
+
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=la_conexion_sueca">
+        <div class="xplus">
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/snlnvSB232OZwPCuO8zkWYJ6P7j.jpg"/>
+          <i>El vínculo sueca</i>
+          <span class="lock-icon">🔒</span>
+        </div>
+      </a>
+      
       <a class="card-link" data-href="View Peliculas/Contraataque (2025).html">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"/>
@@ -2955,6 +3024,15 @@ const data = {
 
     <div class="scrollmenu">
       <br>
+      
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=love_me_love_me">
+        <div class="xplus">
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jfwHKRHRE2X4NTexdzblaioHH51.jpg"/>
+          <i>Love me, Love me</i>
+          <span class="lock-icon">🔒</span>
+        </div>
+      </a>
+
       <a class="card-link" data-href="View Peliculas/Mi lista de deseos (2025).html">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/r6K6spYEWf7aDGsY4EdkScZW1Hl.jpg"/>
