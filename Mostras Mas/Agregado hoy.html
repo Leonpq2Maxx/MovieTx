@@ -339,6 +339,112 @@ if (window.performance && window.performance.navigation.type === 2) {
   align-items: center;
   pointer-events: none;
 }
+
+/* HEADER FLEX */
+.header-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* BOTON FILTRO */
+.btn-filtro{
+  background:transparent;
+  border:none;
+  font-size:1.4rem;
+  cursor:pointer;
+  color:#fff;
+  transition:0.3s;
+}
+.btn-filtro:hover{
+  transform:scale(1.2);
+  color:#ff007f;
+}
+
+/* MODAL */
+.modal-genero{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.modal-genero.activo{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal-contenido{
+  background:#111;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(255,0,128,0.4);
+  position:relative;
+}
+
+.cerrar-modal{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+/* BOTONES GENERO */
+.generos{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-top:15px;
+}
+
+.genero-btn{
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#222;
+  color:#fff;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.genero-btn:hover{
+  background:#ff007f;
+}
+
+.genero-btn.activo{
+  background:#ff007f;
+  box-shadow:0 0 10px #ff007f;
+}
+
+/* RESET */
+.reset-btn{
+  margin-top:20px;
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#444;
+  color:#fff;
+  cursor:pointer;
+}
+.reset-btn:hover{
+  background:#777;
+}
+
 </style>
 
 <script>
@@ -382,8 +488,38 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- 🔴 Fin pantalla de carga neón -->
 
   <header>
-    <h1>Agregados HOY <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span></h1>
-  </header>
+  <div class="header-container">
+    <h1 id="titulo-seccion">
+      Agregados HOY 
+      <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span>
+    </h1>
+
+    <button id="btnFiltro" class="btn-filtro">🎬</button>
+  </div>
+  <!-- MODAL FILTRO GENERO -->
+<div id="modalGenero" class="modal-genero">
+  <div class="modal-contenido">
+    
+    <button class="cerrar-modal" onclick="cerrarModal()">✖</button>
+    
+    <h2>Seleccionar Género</h2>
+
+    <div class="generos">
+      <button class="genero-btn" data-genero="accion">Acción</button>
+      <button class="genero-btn" data-genero="animacion">Animación</button>
+      <button class="genero-btn" data-genero="anime">Anime</button>
+      <button class="genero-btn" data-genero="comedia">Comedia</button>
+      <button class="genero-btn" data-genero="disney">Disney</button>
+      <button class="genero-btn" data-genero="terror">Terror</button>
+    </div>
+
+    <button class="reset-btn" onclick="resetGenero()">Quitar filtro</button>
+
+  </div>
+</div>
+
+</header>
+
 
   <div class="search-box">
     <input type="text" id="search-input" placeholder="Buscar por nombre, género o año..." oninput="filtrarPeliculas()"> <!--ESTABA PUESTO "Buscar por nombre, género o año..." -->
@@ -2314,6 +2450,61 @@ function showAlert(msg){
     }
     window.addEventListener("DOMContentLoaded", actualizarContadorPeliculas);
   </script>
+
+  <script>
+const btnFiltro = document.getElementById("btnFiltro");
+const modal = document.getElementById("modalGenero");
+const generoBtns = document.querySelectorAll(".genero-btn");
+const titulo = document.getElementById("titulo-seccion");
+const peliculas = document.querySelectorAll(".movie");
+
+let generoActivo = null;
+
+btnFiltro.addEventListener("click", () => {
+  modal.classList.add("activo");
+});
+
+function cerrarModal(){
+  modal.classList.remove("activo");
+}
+
+generoBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    generoBtns.forEach(b => b.classList.remove("activo"));
+    btn.classList.add("activo");
+
+    generoActivo = btn.dataset.genero;
+
+    titulo.innerHTML = `Agregados HOY - ${btn.textContent}`;
+
+    peliculas.forEach(p => {
+      const genero = p.dataset.genero || "";
+      if(genero.includes(generoActivo)){
+        p.style.display = "block";
+      } else {
+        p.style.display = "none";
+      }
+    });
+
+    cerrarModal();
+  });
+});
+
+function resetGenero(){
+  generoActivo = null;
+  titulo.innerHTML = `Agregados HOY`;
+
+  peliculas.forEach(p => {
+    p.style.display = "block";
+  });
+
+  generoBtns.forEach(b => b.classList.remove("activo"));
+
+  cerrarModal();
+}
+</script>
+
 
 
 </body>
