@@ -1,0 +1,2212 @@
+
+<!--COLORES DE BARRA-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MovieTx - Reproductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="../Logo Poster MovieTx PNG/Logo MovieTx.png">
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --plyr-color-main: #ff0000;
+      --plyr-video-control-color:rgb(255, 255, 255);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #000;
+      font-family: 'PT Sans', sans-serif;
+      color: #fff;
+    }
+
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(16, 235, 255, 0.461);
+      border-radius: 10px;
+      margin: 10px;
+      font-size: 14px;
+    }
+    .info i {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hd-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-tag svg {
+      border-radius: 4px;
+    }
+    .titulo, .sinopsis {
+      padding: 10px;
+    }
+    .recomendaciones {
+      padding: 10px;
+    }
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+    .serie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+
+    .serie img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .serie p {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.4;          /* más aire */
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  text-align: center;
+}
+
+
+    html { font-size: 100%; }
+    body { font-size: 1rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3, h4 { font-size: 1.2rem; }
+
+    @media screen and (max-width: 768px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      h3, h4 { font-size: 1.1rem; }
+      .info, .sinopsis p, .serie p {
+        font-size: 0.80rem !important; /*estaba en 1rem*/
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      body { font-size: 1.1rem; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.2rem; }
+      h3, h4 { font-size: 0.80rem; } /*estaba en 1rem*/
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, a, .titulo, .sinopsis, .recomendaciones, .serie {
+      font-style: italic;
+    }
+
+    .info, .info *, .info span, .info i {
+      font-style: normal !important;
+    }
+
+    #resume-msg {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 20px;
+      color: #0f0;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      max-width: 90%;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #resume-msg.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      #resume-msg {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+
+    #genero-texto.colapsado {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ACA ES LA ANIMACION DE FAVORITOS */
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    #btn-favorito.animado {
+      animation: pop 0.3s ease;
+    }
+    /* --- Mejor experiencia deslizable en móvil --- */
+    @media (max-width: 880px) {
+  
+      /* Lista de temporadas horizontal deslizable */
+  
+      .seasons-list {
+        display: flex;    
+        overflow-x: auto;   
+        gap: 12px;   
+        padding: 8px;   
+        -webkit-overflow-scrolling: touch; /* suavidad en iOS */   
+        scroll-snap-type: x mandatory;
+      }
+
+  
+      .seasons-list ul {
+        flex-direction: row;
+        gap: 12px;
+        width: max-content;
+      }
+
+      .seasons-list li {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        min-width: 160px;
+      }
+
+  
+      .seasons-list::-webkit-scrollbar {
+        display: none; /* oculta scrollbar en móviles */
+      }
+    }
+
+
+    @media (max-width: 768px) {
+      /* Episodios también deslizable si hay muchos */
+      .episodes-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 8px !important;
+        overflow-x: visible !important;
+        overflow-y: auto !important;
+      }
+
+      .episodes-grid::-webkit-scrollbar {
+        display: none;
+      }
+  
+      .episode-card {
+        flex: none !important;
+        width: 100% !important;
+        align-items: center !important;
+      }
+    }
+
+    /* Estilo para episodio en reproducción */
+
+    .episode-card.viendo {
+  
+      border: 2px solid var(--accent);
+  
+      background: rgba(255, 45, 91, 0.08);
+ 
+      box-shadow: 0 0 12px rgba(255,45,91,0.6);
+  
+      position: relative;
+
+    }
+
+    .episode-card.viendo::after {
+      content: "▶ Viendo ahora";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    #btn-favorito {
+      background: linear-gradient(135deg, #ff2d55, #ff5e7e);
+      color: white;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
+    }
+
+    #btn-favorito:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
+    }
+
+
+    #btn-favorito::after {
+      content: ""; 
+      position: absolute; 
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+      );
+      transform: rotate(25deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(25deg); }
+      50% { transform: translateX(100%) rotate(25deg); }
+      100% { transform: translateX(100%) rotate(25deg); }
+    }
+    .info-pelicula {
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+    }
+
+    .sinopsis {
+      font-size: 1rem;
+      color: #bbb;
+      max-width: 600px;
+      margin: 10px auto 20px;
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+
+    .play-btn {
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      color: white;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 20px rgba(29, 185, 84, 0.35);
+    }
+
+
+    .play-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(29, 185, 84, 0.55);
+    }
+
+
+    #btn-favorito {
+      background: linear-gradient(135deg, #ff2d55, #ff5e7e);
+      color: white;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
+    }
+
+
+    #btn-favorito:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
+    }
+
+
+    #btn-favorito::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+      );
+      transform: rotate(25deg);  
+      animation: shine 3s infinite;
+    }
+
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(25deg); } 
+      50% { transform: translateX(100%) rotate(25deg); }
+      100% { transform: translateX(100%) rotate(25deg); }
+
+    }
+  
+    .season-episode-tag {
+      display: inline-block;
+      margin-top: 8px;
+      margin-bottom: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #9ad0ff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    }
+
+
+
+    /* 💎 Barra de progreso estilo "Neón líquido celeste" */
+
+
+    @keyframes neonFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+  </style>
+</head>
+
+<body ondragstart="return false;" ondrop="return false;">
+  
+<script>
+// 🔹 Evita volver a la página anterior
+// y manda directo a index.html al presionar atrás
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
+  // Redirige directamente al index y reemplaza el historial
+  window.location.replace("../index.html");
+});
+
+// 🔹 Limpia el historial para que no se pueda regresar desde index
+if (window.performance && window.performance.navigation.type === 2) {
+  // Si se intenta volver con cache, redirige igual
+  window.location.replace("../index.html");
+}
+</script>
+
+<div id="loader-screen">
+  <div class="loader-content">
+    <div class="loader-circle">
+      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
+    </div>
+
+    <h1 class="loader-title">MovieTx</h1>
+    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
+    <p class="loader-msg">Por favor, espere</p>
+
+    <!-- 🔥 Nueva barra de carga profesional -->
+    <div class="loading-bar">
+      <div class="loading-fill" id="loading-fill"></div>
+      <div class="loading-percent" id="loading-percent">0%</div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+#loader-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10000;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loader-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.loader-content { text-align: center; }
+
+.loader-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top: 6px solid #00aaff;
+  border-bottom: 6px solid #ff007f;
+  animation: spin 2s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+}
+
+.loader-logo { width: 100px; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff1a8c, 0 0 40px #ff007f;
+  font-weight: bold;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.loader-sub { font-size: 1.2rem; color: #ccc; }
+.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
+
+/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
+.loading-bar {
+  width: 75%;
+  height: 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  margin: 22px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00aaff, #ff007f);
+  transition: width 0.3s ease;
+}
+
+.loading-percent {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loader = document.getElementById('loader-screen');
+  const bar = document.getElementById('loading-fill');
+  const percent = document.getElementById('loading-percent');
+
+  let totalImages = document.images.length;
+  let loaded = 0;
+
+  if (totalImages === 0) {
+    totalImages = 1;
+    loaded = 1;
+  }
+
+  function updateLoader() {
+    loaded++;
+    let p = Math.floor((loaded / totalImages) * 100);
+
+    bar.style.width = p + "%";
+    percent.textContent = p + "%";
+
+    if (p >= 100) {
+      setTimeout(() => {
+        loader.classList.add("hidden");
+      }, 600);
+    }
+  }
+
+  for (let img of document.images) {
+    if (img.complete) updateLoader();
+    else {
+      img.addEventListener("load", updateLoader);
+      img.addEventListener("error", updateLoader);
+    }
+  }
+});
+</script>
+<!-- 🔴 Fin pantalla de carga neón -->
+  
+ <style>
+#video-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#player-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  border-radius: 8px;
+}
+
+.player-spinner {
+  width: 43px; /*circulo de carga de reproductor estaba en 60*/
+  height: 43px; /*circulo de carga de reproductor estaba en 60*/
+  border: 5px solid #222;
+  border-top: 5px solid #ff007f;
+  border-bottom: 5px solid #00aaff;
+  border-radius: 50%;
+  animation: spin 1.3s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.player-loading-text {
+  font-size: 0.80rem; /*agrandar o achicar letra de cargando en el reproductor (estaba en 1.2)*/
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+}
+
+.dots::after {
+  content: '';
+  animation: dotPulse 1.5s infinite steps(4);
+}
+
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+.age-tag {
+  border: 1px solid #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+/*
+.mobile-player {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 14px;
+
+  🔥 ESTO ES LO QUE FALTABA 
+  min-height: 200px;
+}
+
+
+
+.mobile-player {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;   
+  background: black;
+  overflow: hidden;
+}
+*/
+
+/* ===== REPRODUCTOR (PC por defecto) ===== */
+.mobile-player {
+  position: relative;     /* ⬅ PC: NO sticky */
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: black;
+  overflow: hidden;
+}
+
+/* 📱 MÓVIL: reproductor fijo arriba */
+@media (max-width: 768px) {
+  .mobile-player {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+}
+
+
+.mobile-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 👈 respeta proporción del video */
+  background: black;
+}
+
+
+/* OVERLAY */
+.player-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.15),
+    rgba(0,0,0,.55)
+  );
+  pointer-events: auto;
+  transition: opacity .3s;
+}
+
+
+/* CENTER */
+.overlay-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+
+  pointer-events: none;
+}
+
+.overlay-center button {
+  pointer-events: auto;
+}
+
+/* BOTTOM */
+.overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  z-index: 6;
+}
+
+.overlay-bottom-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overlay-bottom-controls #progressBar {
+  flex: 1;
+}
+
+.overlay-bottom input[type="range"] {
+  width: 100%;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc;
+}
+
+/* HIDE */
+.player-overlay.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.seek-btn,
+.play-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+}
+
+/* PLAY */
+.play-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  border: none;
+  font-size: 28px;
+}
+
+.seek-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.7);
+  background: rgba(255, 255, 255, 0.45);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+/* ===============================
+   PROGRESS BAR MULTICOLOR
+   Azul • Celeste • Blanco • Rosa
+   Compatible PC + Móvil
+================================ */
+
+/* ===== PROGRESS BAR ===== */
+#progressBar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #007bff, #00cfff, #ffffff, #ff4fa3);
+  cursor: pointer;
+}
+
+/* Track Firefox */
+#progressBar::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #007bff, #00cfff, #ffffff, #ff4fa3);
+}
+
+/* 🎯 THUMB PC – más chico */
+#progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;      /* ⬅ más chico */
+  height: 14px;     /* ⬅ más chico */
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #00cfff;
+  box-shadow: 0 0 6px rgba(0, 200, 255, 0.8);
+  margin-top: -4px; /* ⬅ centrado */
+}
+
+/* Firefox */
+#progressBar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #00cfff;
+  box-shadow: 0 0 6px rgba(0, 200, 255, 0.8);
+}
+
+/* 📱 MÓVIL */
+@media (max-width: 768px) {
+  #progressBar {
+    height: 8px;
+  }
+
+  #progressBar::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: -2px; /* sigue centrado */
+  }
+
+  #progressBar::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+
+
+.fullscreen-btn {
+  align-self: flex-end;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0,0,0,.6);
+  color: white;
+  font-size: 18px;
+}
+
+
+.overlay-bottom .time {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.mobile-player:fullscreen .overlay-bottom {
+  padding: 18px;
+}
+
+
+/* FULLSCREEN FIX */
+.mobile-player:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  background: black;
+}
+
+.mobile-player:fullscreen .player-overlay {
+  height: 100%;
+}
+
+.mobile-player:fullscreen video {
+  object-fit: contain;
+}
+.mobile-player:fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+
+.mobile-player.fake-fullscreen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mobile-player.fake-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  border-radius: 0;
+}
+
+.mobile-player.fake-fullscreen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+  
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const video = document.getElementById('videoPlayer');
+  const loader = document.getElementById('player-loader');
+
+  if (!video || !loader) return;
+
+  const showLoader = () => {
+    loader.style.display = 'flex';
+  };
+
+  const hideLoader = () => {
+    loader.style.display = 'none';
+  };
+
+  // 🔄 Cargando video
+  video.addEventListener('loadstart', showLoader);
+  video.addEventListener('waiting', showLoader);
+  video.addEventListener('stalled', showLoader);
+
+  // ▶️ Listo / reproduciendo
+  video.addEventListener('canplay', hideLoader);
+  video.addEventListener('playing', hideLoader);
+
+  // ⏸️ Pausa o fin → no mostrar loader
+  video.addEventListener('pause', hideLoader);
+  video.addEventListener('ended', hideLoader);
+});
+</script>
+
+
+<div class="mobile-player" id="mobilePlayer">
+  <!-- 🔄 Loader del reproductor -->
+  <div id="player-loader">
+    <div class="player-spinner"></div>
+    <div class="player-loading-text">
+      Cargando<span class="dots"></span>
+    </div>
+  </div>
+  <video
+    id="videoPlayer"
+    playsinline
+    webkit-playsinline
+    preload="metadata"
+    poster="https://image.tmdb.org/t/p/w780/"
+  >
+  </video>
+
+  <div class="player-overlay" id="playerOverlay">
+
+    <div class="overlay-center">
+      <button id="btnRewind" class="seek-btn">10</button>
+      <button id="btnPlay" class="play-btn">▶</button>
+      <button id="btnForward" class="seek-btn">10</button>
+    </div>
+
+    <div class="overlay-bottom">
+      <div class="time">
+        <span id="currentTime">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+      <div class="overlay-bottom-controls">
+        <input type="range" id="progressBar" value="0">
+        <button id="btnFullscreen" class="fullscreen-btn">⛶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="info">
+    <i class="fal fa-calendar-alt"></i><span>0000</span> <!--Aca va el año de estreno de pelicula-->
+    <i class="fal fa-clock"></i><span>0h 00min</span> <!--aca va cuanto dura-->
+    <i class="fal fa-thumbs-up"></i><span>00%</span> <!--aca va la calificacion-->
+    <div class="hd-tag"></div>
+
+  </div>
+  
+  <div class="info-pelicula">
+    <h1><!--Nombre de pelicula--></h1>
+    <span class="genero-badge"><!--Genero • Genero--></span>
+  
+    <p class="sinopsis">
+      <!--Sinopsis-->
+    </p>
+
+    <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
+      <p><strong>Director:</strong> </p>
+      <p><strong>Reparto:</strong> </p>
+      <p><strong>Estreno:</strong>  | <strong>Idioma:</strong> </p>
+    </div>
+
+    <br>
+
+    <div class="acciones">
+      <button id="btn-favorito">⭐ Agregar a Favoritos</button>
+    </div>
+  </div>
+
+  <script>
+    const MOVIES_DB = {
+
+    /*Numeros*/
+
+    baki_dou_el_samurai: {
+    id: "baki_dou_el_samurai",
+    titulo: "Baki-Dou: El samurái invencible",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/1M8uW8o6fdDaa3zqmBD2UUKu0VZ.jpg",
+    imagen: "https://imgs.search.brave.com/wL_zD4jMSbWlQUzFzIXV4WnXFsX6aYf9kV_1d1xiM74/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3dp/a2ktZG9ibGFqZS1l/c3BhbmEvaW1hZ2Vz/LzkvOWUvQmFraS1E/b3VfLV9FbF9TYW11/ciVDMyVBMWlfSW52/ZW5jaWJsZV8tX1Bv/c3Rlci5qcGcvcmV2/aXNpb24vbGF0ZXN0/L3NjYWxlLXRvLXdp/ZHRoLWRvd24vMjY4/P2NiPTIwMjYwMjA0/MjAyNTM3JnBhdGgt/cHJlZml4PWVz",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Baki y los luchadores más fuertes del Estadio clandestino se enfrentan a una amenaza de proporciones históricas: el resucitado Musashi Miyamoto, el samurái más famoso de Japón.",
+    anio: "2026",
+    duracion: "2min 30s",
+    calificacion: "92%",
+    genero: "Anime • Animacion • Accion",
+    reparto: "Nobunaga Shimazaki,Naoya Uchida, , Akio Otsuka",
+    estreno: "13/02/2026",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  bombre: {
+    id: "bombre",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "1996",
+    duracion: "1h 19min",
+    calificacion: "92%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+
+};
+
+  </script>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+const movieId = params.get("id");
+
+const movie = MOVIES_DB[movieId];
+function cargarDatosPelicula() {
+
+  const video = document.getElementById("videoPlayer");
+
+  // Texto
+  document.querySelector(".info-pelicula h1").textContent = movie.titulo;
+
+  document.querySelector(".sinopsis").textContent = movie.sinopsis;
+  document.querySelector(".genero-badge").textContent = movie.genero;
+
+  // Ficha técnica
+  document.querySelector(".ficha-tecnica").innerHTML = `
+    <p><strong>Director:</strong> ${movie.director}</p>
+    <p><strong>Reparto:</strong> ${movie.reparto}</p>
+    <p><strong>Estreno:</strong> ${movie.estreno} | <strong>Idioma:</strong> ${movie.idioma}</p>
+  `;
+
+  // Info superior
+  document.querySelector(".info span:nth-child(2)").textContent = movie.anio;
+  document.querySelector(".info span:nth-child(4)").textContent = movie.duracion;
+  document.querySelector(".info span:nth-child(6)").textContent = movie.calificacion;
+  const hdTag = document.querySelector(".hd-tag");
+hdTag.innerHTML = ""; // limpiar etiquetas viejas
+
+  // 🔹 Calidad
+if (movie.calidad) {
+  hdTag.innerHTML += `
+    <div style="display:flex;align-items:center;gap:6px;">
+      <!-- Ícono SVG -->
+      <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="4" fill="white" />
+        <text x="4" y="17" fill="black" font-size="12" font-family="Arial, sans-serif" font-style="italic" font-weight="bold">HD</text>
+      </svg>
+
+      <span>${movie.calidad}</span>
+    </div>
+  `;
+}
+
+// 🔹 CAM
+if (movie.cam) {
+  hdTag.innerHTML += `
+    <div style="display:flex;align-items:center;gap:6px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+        <path d="M20 5H16.83L15 3H9L7.17 5H4C2.9 5 2 5.9 2 7V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V7C22 5.9 21.1 5 20 5ZM12 17C9.79 17 8 15.21 8 13C8 10.79 9.79 9 12 9C14.21 9 16 10.79 16 13C16 15.21 14.21 17 12 17Z"/>
+      </svg>
+      <span>CAM</span>
+    </div>
+  `;
+}
+
+// 🔹 Adulto +18
+if (movie.adulto) {
+  hdTag.innerHTML += `<span class="age-tag">+18</span>`;
+}
+
+  // Poster
+  video.poster = movie.poster;
+}
+
+if (!movie) {
+  alert("Película no encontrada");
+  window.location.href = "../index.html";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ================= CONFIG ================= */
+  const MOVIE_KEY = movie.id;
+const STORAGE_KEY = `resume_${MOVIE_KEY}`;
+const VIDEO_SRC = movie.video;
+
+
+  /* ================= ELEMENTOS ================= */
+  const player = document.getElementById("mobilePlayer");
+  const video = document.getElementById("videoPlayer");
+  const overlay = document.getElementById("playerOverlay");
+  const btnPlay = document.getElementById("btnPlay");
+  const btnRewind = document.getElementById("btnRewind");
+const btnForward = document.getElementById("btnForward");
+const btnFullscreen = document.getElementById("btnFullscreen");
+
+
+  const progress = document.getElementById("progressBar");
+  const currentTimeEl = document.getElementById("currentTime");
+  const durationEl = document.getElementById("duration");
+
+  let isSeeking = false;
+  let wasPlayingBeforeSeek = false;
+  let resumeApplied = false;
+  let videoLoaded = false;
+  let overlayTimeout = null;
+
+  
+
+function enterFullscreen() {
+  try {
+    const isFake = player.classList.contains("fake-fullscreen");
+
+    // iOS → fullscreen falso
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      if (isFake) {
+        player.classList.remove("fake-fullscreen");
+        hidePageInfo(false);
+      } else {
+        player.classList.add("fake-fullscreen");
+        hidePageInfo(true);
+      }
+      return;
+    }
+
+    // Android / Desktop
+    if (!document.fullscreenElement) {
+      player.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+
+  } catch (e) {
+    console.warn("Fullscreen no disponible", e);
+  }
+}
+
+
+btnFullscreen.onclick = (e) => {
+  e.stopPropagation(); // evita que se oculte el overlay
+  enterFullscreen();
+};
+
+
+
+function hidePageInfo(hide) {
+  document.querySelector(".info")?.classList.toggle("hide", hide);
+  document.querySelector(".info-pelicula")?.classList.toggle("hide", hide);
+}
+
+document.addEventListener("fullscreenchange", () => {
+  hidePageInfo(!!document.fullscreenElement);
+});
+
+
+
+  /* ================= UTIL ================= */
+  function formatTime(seconds) {
+  if (!seconds || isNaN(seconds)) return "0:00";
+
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  if (h > 0) {
+    return `${h}:${m.toString().padStart(2, "0")}:${s
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+function updateProgressUI(percent) {
+  progress.value = percent;
+
+  progress.style.background = `
+    linear-gradient(
+      90deg,
+      #007bff 0%,
+      #00cfff ${percent * 0.4}%,
+      #ffffff ${percent * 0.7}%,
+      #ff4fa3 ${percent}%,
+      rgba(255,255,255,0.25) ${percent}%,
+      rgba(255,255,255,0.25) 100%
+    )
+  `;
+}
+
+
+  function hideOverlayAuto() {
+    clearTimeout(overlayTimeout);
+    overlayTimeout = setTimeout(() => {
+      overlay.classList.add("hide");
+    }, 3000);
+  }
+  function showOverlay() {
+  overlay.classList.remove("hide");
+  hideOverlayAuto();
+}
+
+
+  /* ================= PLAY ================= */
+  btnPlay.onclick = () => {
+
+    // 🔥 CARGA REAL DEL VIDEO SOLO AL PRESIONAR PLAY
+    if (!videoLoaded) {
+      video.src = VIDEO_SRC;
+      video.load();
+      videoLoaded = true;
+    }
+
+    if (video.paused) {
+      video.play();
+      btnPlay.textContent = "❚❚";
+      overlay.classList.add("hide");
+    } else {
+      video.pause();
+      btnPlay.textContent = "▶";
+      overlay.classList.remove("hide");
+    }
+  };
+
+  /* ================= SEEK ================= */
+btnRewind.onclick = (e) => {
+  e.stopPropagation();
+  if (!videoLoaded || !video.duration) return;
+
+  showOverlay(); // 👈 MOSTRAR CONTROLES
+  video.currentTime = Math.max(0, video.currentTime - 10);
+};
+
+btnForward.onclick = (e) => {
+  e.stopPropagation();
+  if (!videoLoaded || !video.duration) return;
+
+  showOverlay(); // 👈 MOSTRAR CONTROLES
+  video.currentTime = Math.min(video.duration, video.currentTime + 10);
+};
+
+
+  /* ================= REANUDAR (CORRECTO) ================= */
+video.addEventListener("loadedmetadata", () => {
+  if (resumeApplied) return;
+
+  const savedTime = parseFloat(localStorage.getItem(STORAGE_KEY));
+  if (!savedTime || savedTime < 5) return;
+
+  if (savedTime < video.duration - 5) {
+    video.currentTime = savedTime;
+  }
+
+  resumeApplied = true;
+});
+
+
+  /* ================= PROGRESO (SIN PAUSA) ================= */
+/* ================= PROGRESO + GUARDADO ================= */
+let lastSavedTime = 0;
+
+video.addEventListener("timeupdate", () => {
+  if (!video.duration || isSeeking) return;
+
+  const percent = (video.currentTime / video.duration) * 100;
+  updateProgressUI(percent);
+
+  currentTimeEl.textContent = formatTime(video.currentTime);
+  durationEl.textContent = formatTime(video.duration);
+
+  // 💾 guardar cada 5 segundos
+  if (!video.paused && !video.ended) {
+    if (Math.abs(video.currentTime - lastSavedTime) >= 5) {
+      localStorage.setItem(STORAGE_KEY, video.currentTime);
+      lastSavedTime = video.currentTime;
+    }
+  }
+});
+
+
+
+// empieza a arrastrar
+progress.addEventListener("mousedown", () => {
+  isSeeking = true;
+  wasPlayingBeforeSeek = !video.paused;
+});
+
+progress.addEventListener("touchstart", () => {
+  isSeeking = true;
+  wasPlayingBeforeSeek = !video.paused;
+});
+
+// mientras arrastra (solo UI, NO corta el video)
+progress.addEventListener("input", () => {
+  if (!video.duration) return;
+
+  showOverlay();
+
+  const percent = progress.value;
+  const previewTime = (percent / 100) * video.duration;
+
+  // 🔥 sincroniza color + circulito en tiempo real
+  updateProgressUI(percent);
+
+  // solo preview del tiempo (no mueve el video aún)
+  currentTimeEl.textContent = formatTime(previewTime);
+});
+
+
+
+// suelta → recién ahí mover el video
+progress.addEventListener("mouseup", applySeek);
+progress.addEventListener("touchend", applySeek);
+
+function applySeek() {
+  if (!video.duration) return;
+
+  const newTime = (progress.value / 100) * video.duration;
+  video.currentTime = newTime;
+
+  isSeeking = false;
+
+  if (wasPlayingBeforeSeek) {
+    video.play(); // 🔥 continúa sin corte
+  }
+}
+
+
+  /* ================= FINAL ================= */
+  video.addEventListener("ended", () => {
+  localStorage.removeItem(STORAGE_KEY);
+  resumeApplied = false;
+  lastSavedTime = 0;
+
+  video.pause();
+  video.currentTime = 0;
+  video.removeAttribute("src");
+  video.load();
+
+  videoLoaded = false;
+  btnPlay.textContent = "▶";
+  overlay.classList.remove("hide");
+});
+
+  /* ================= TOQUE EN PANTALLA ================= */
+  player.addEventListener("click", (e) => {
+    if (e.target.tagName === "BUTTON" || e.target.type === "range") return;
+    overlay.classList.toggle("hide");
+    hideOverlayAuto();
+  });
+
+});
+
+function cargarRecomendaciones() {
+
+  const grid = document.querySelector(".series-grid");
+  if (!movie.recomendaciones || !grid) return;
+
+  grid.innerHTML = "";
+
+  movie.recomendaciones.forEach(rec => {
+
+    const a = document.createElement("a");
+    a.className = "serie";
+
+    // 🔹 CASO 1: abrir archivo externo
+    if (rec.href) {
+      a.href = `../${rec.href}`;
+    }
+
+    // 🔹 CASO 2: usar reproductor universal
+    else if (rec.id) {
+
+      if (rec.adulto) {
+        a.setAttribute("data-href", `Reproductor Universal.html?id=${rec.id}`);
+        a.setAttribute("data-adulto", "adulto");
+        a.addEventListener("click", handleAdultLinkClick);
+      } else {
+        a.href = `Reproductor Universal.html?id=${rec.id}`;
+      }
+    }
+
+    a.innerHTML = `
+      <img loading="lazy" src="${rec.imagen}">
+      <p>${rec.titulo}</p>
+    `;
+
+    grid.appendChild(a);
+  });
+}
+
+
+
+
+</script>
+  <br>
+
+  <!-- 🔔 MODAL UNIFICADO DE FAVORITOS (para ambos mensajes) -->
+<div id="modal-favoritos" class="modal-fav" aria-hidden="true">
+  <div class="modal-fav-backdrop"></div>
+  <div class="modal-fav-box">
+    <h3 id="modal-fav-texto">Mensaje aquí</h3>
+    <button id="modal-fav-aceptar">Aceptar</button>
+  </div>
+</div>
+
+<style>
+  .modal-fav {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  }
+  .modal-fav[aria-hidden="false"] {
+    display: flex;
+    animation: fadeIn 0.4s ease forwards;
+  }
+  .modal-fav-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+  }
+  .modal-fav-box {
+    position: relative;
+    background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+    border: 2px solid #ff2d5b;
+    border-radius: 14px;
+    padding: 25px 30px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 0 25px rgba(255,45,91,0.5);
+    max-width: 90%;
+    width: 380px;
+    z-index: 10;
+    animation: scaleUp 0.3s ease forwards;
+  }
+  .modal-fav-box h3 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  #modal-fav-aceptar {
+    background: linear-gradient(135deg, #ff2d5b, #ff5e7e);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    animation: bounceIn 0.6s ease;
+  }
+  #modal-fav-aceptar:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 15px rgba(255,45,91,0.8);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scaleUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  // 🔹 Función general para mostrar el modal
+  function mostrarModalFavoritos(mensaje) {
+    const modal = document.getElementById('modal-favoritos');
+    const texto = document.getElementById('modal-fav-texto');
+    const btnAceptar = document.getElementById('modal-fav-aceptar');
+    texto.textContent = mensaje;
+    modal.setAttribute('aria-hidden', 'false');
+
+    let cerrarTimeout = setTimeout(() => cerrarModal(), 15000);
+
+    function cerrarModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      clearTimeout(cerrarTimeout);
+    }
+
+    btnAceptar.onclick = cerrarModal;
+    modal.querySelector('.modal-fav-backdrop').onclick = cerrarModal;
+  }
+
+  // 🔹 Botón "Agregar a Favoritos"
+  document.getElementById('btn-favorito').addEventListener('click', () => {
+    const nuevaSerie = {
+  titulo: movie.titulo,
+  imagen: movie.imagen,
+  genero: movie.genero,
+  archivo: `Reproductor Universal.html?id=${movie.id.toLowerCase()}`,
+  tipo: "serie",
+  timestamp: Date.now()
+};
+
+
+    const btn = document.getElementById('btn-favorito');
+    btn.classList.add('animado');
+    setTimeout(() => btn.classList.remove('animado'), 300);
+
+    let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
+
+    if (!favoritos.some(f => f.titulo === nuevaSerie.titulo)) {
+      favoritos.push(nuevaSerie);
+      localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
+      mostrarModalFavoritos(" Serie agregada a favoritos");
+      setTimeout(() => window.location.href = "favoritos.html", 1800);
+    } else {
+      mostrarModalFavoritos(" Esta Serie ya está agregada en favoritos");
+    }
+  });
+</script>
+
+
+<script>
+  function mostrarModalFavoritoExistente() {
+    const modal = document.getElementById('modal-ya-favorito');
+    const btnAceptar = document.getElementById('btn-fav-aceptar');
+    modal.setAttribute('aria-hidden', 'false');
+
+    let cerrarTimeout = setTimeout(() => cerrarModal(), 15000); // auto cierre 15s
+
+    function cerrarModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      clearTimeout(cerrarTimeout);
+    }
+
+    btnAceptar.onclick = cerrarModal;
+    modal.querySelector('.modal-fav-backdrop').onclick = cerrarModal;
+  }
+</script>
+
+  <style>
+    .titulo-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .genero-badge {
+      padding: 4px 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 0, 81, 1);
+      border: 1px solid rgba(255, 0, 81, 1);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 135px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+
+    .titulo {
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 200px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+
+  </style>
+
+  <style>
+    .titulo-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .genero-badge {
+      padding: 4px 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 0, 81, 1);
+      border: 1px solid rgba(255, 0, 81, 1);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-style: normal;
+      max-width: 135px;          /* Limita el ancho máximo */
+      white-space: nowrap;       /* No saltar de línea */
+      overflow: hidden;          /* Oculta el exceso */
+      text-overflow: ellipsis;   /* Agrega los ... */
+    }
+    
+  </style>
+
+  <div class="recomendaciones">
+    <h4>Podría interesarte:</h4>
+    <br/>
+    <div class="series-grid">
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>Nombre de pelicula</p>
+      </a>
+      <a class="serie" data-href=".html" data-adulto="adulto"> <!--data-href=".html" data-adulto="adulto" si es para adulto debes conservar estas etiquetas-->
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p>SI PARA MAYORES DE EDAD UTILICE ESTE</p>
+      </a>
+    </div>
+  </div>
+
+  <script>
+function esperarFinLoader(callback) {
+  const loader = document.getElementById("loader-screen");
+
+  const check = setInterval(() => {
+    if (loader.classList.contains("hidden")) {
+      clearInterval(check);
+      callback();
+    }
+  }, 100);
+}
+esperarFinLoader(() => {
+  cargarDatosPelicula();
+  cargarRecomendaciones();
+});
+
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const videoElement = document.getElementById('videoPlayer');
+  if (!videoElement) return;
+
+  const historialTitulo = movie.titulo;
+  const historialImagen = movie.imagen;
+  const historialArchivo =`Reproductor Universal.html?id=${movie.id.toLowerCase()}`;
+
+
+  let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+  let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+  if (indexHist === -1) {
+
+    historial.push({
+      titulo: historialTitulo,
+      imagen: historialImagen,
+      progreso: "Asistido 0 min",
+      archivo: historialArchivo,
+      tipo: "serie",
+      timestamp: Date.now()
+    });
+
+    localStorage.setItem("historial_usuarios", JSON.stringify(historial));
+
+    // ⏳ ESPERAR a que termine el loader
+    esperarFinLoader(() => {
+      mostrarModalFavoritos("✅ Agregado al historial");
+    });
+  }
+
+  // ⏱️ Guardar progreso
+  setInterval(() => {
+    if (!videoElement.paused && !videoElement.ended) {
+
+      const minutos = Math.floor(videoElement.currentTime / 60);
+      let historial = JSON.parse(localStorage.getItem('historial_usuarios') || '[]');
+      let indexHist = historial.findIndex(item => item.titulo === historialTitulo);
+
+      if (indexHist !== -1) {
+        historial[indexHist].progreso = `Asistido ${minutos} min`;
+        historial[indexHist].timestamp = Date.now();
+        localStorage.setItem('historial_usuarios', JSON.stringify(historial));
+      }
+    }
+  }, 10000);
+
+});
+
+</script>
+
+  <!-- ¡¡¡NO BORRAR ESTE SCRIPT ES DE FAVORITOS Y SI LO BORRAN AFECTARAN EL FUNCIONAMIENTO DE REPRODUCTOR Y FAVORITOS!!! -->
+
+  <!-- Modal flotante de edad + clave -->
+<div id="ageModal" class="age-modal hidden">
+  <div class="age-modal-content">
+    <span class="close-button" onclick="closeModal()">×</span>
+
+    <h2>Verificación de Edad</h2>
+
+    <label for="birthyear">Año de nacimiento:</label>
+<input type="number" id="birthyear">
+
+<label for="age">Edad:</label>
+<input type="number" id="age">
+
+<label for="claveInput">Clave:</label>
+<input type="password" id="claveInput">
+
+<button id="resetClaveBtn" style="background:#444;margin-top:10px;">
+      Olvidé mi clave
+    </button>
+
+<button id="confirmAgeBtn">Validar</button>
+<p id="result-message"></p>
+
+  </div>
+</div>
+
+<!-- MODAL RESET CLAVE -->
+<div id="resetModal" class="modal">
+  <div class="modal-content">
+    <h2>Restablecer clave</h2>
+    <p>¿Deseás borrar tu clave y crear una nueva?</p>
+    <div class="modal-buttons">
+      <button id="cancelReset">Cancelar</button>
+      <button id="confirmReset">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALERTA -->
+<div id="alertModal" class="modal">
+  <div class="modal-content">
+    <p id="alertTexto"></p>
+    <br>
+    <button id="closeAlert">Aceptar</button>
+  </div>
+</div>
+
+<style>
+
+/*MODAL DE VLAVE*/
+
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content {
+  background:#121212;
+  color:#fff;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
+  box-shadow:0 0 15px rgba(0,0,0,.5);
+}
+
+.modal-buttons {
+  margin-top:15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.modal-buttons button,
+#closeAlert {
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#333;
+  color:#fff;
+}
+
+#confirmReset {
+  background:#d63030;
+}
+
+.modal-buttons button:hover,
+#closeAlert:hover {
+  opacity:.85;
+}
+
+
+/*FIN*/
+
+  .age-modal {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInBg 0.4s ease;
+  }
+
+  .age-modal-content {
+    width: 320px;
+    background: #141414;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255,0,0,0.25);
+    color: white;
+    position: relative;
+    animation: popup 0.35s ease;
+  }
+
+  @keyframes popup {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes fadeInBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .age-modal-content h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #ff3c3c;
+  }
+
+  .age-modal-content label {
+    text-align: left;
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .age-modal-content input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: white;
+    outline: none;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+
+  .age-modal-content input:focus {
+    border-color: #ff3c3c;
+    box-shadow: 0 0 5px rgba(255,60,60,0.6);
+  }
+
+  .age-modal-content button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: #ff3c3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s ease;
+  }
+
+  .age-modal-content button:hover {
+    background: #ff5555;
+    transform: scale(1.03);
+  }
+
+  .close-button {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #bbb;
+  }
+
+  .close-button:hover {
+    color: white;
+  }
+
+  #result-message {
+    margin-top: 12px;
+    font-size: 14px;
+    min-height: 20px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+  
+  <script>
+let pendingRedirect = null;
+let claveGuardada = localStorage.getItem("claveAdultos");
+
+function handleAdultLinkClick(e){
+  e.preventDefault();
+  pendingRedirect = e.currentTarget.getAttribute("data-href");
+  abrirModalEdad();
+}
+
+function abrirModalEdad(){
+  ageModal.classList.remove("hidden");
+  resultMessage.textContent = "";
+  birthyear.value = "";
+  age.value = "";
+  claveInput.value = "";
+}
+
+function closeModal(){
+  ageModal.classList.add("hidden");
+  pendingRedirect = null;
+}
+
+const ageModal = document.getElementById("ageModal");
+const birthyear = document.getElementById("birthyear");
+const age = document.getElementById("age");
+const claveInput = document.getElementById("claveInput");
+const resultMessage = document.getElementById("result-message");
+
+document.getElementById("confirmAgeBtn").addEventListener("click", () => {
+
+  let birth = parseInt(birthyear.value);
+  let edad = parseInt(age.value);
+  let clave = claveInput.value;
+  let actual = new Date().getFullYear();
+  let calculada = actual - birth;
+
+  if(!birth || !edad || !clave){
+    resultMessage.textContent = "Completa todos los campos.";
+    return;
+  }
+
+  if(edad !== calculada){
+    resultMessage.textContent = "Edad no coincide.";
+    return;
+  }
+
+  if(edad < 18){
+    resultMessage.textContent = "Debes ser mayor de edad.";
+    return;
+  }
+
+  // ✅ Crear clave si no existe
+  if(!claveGuardada){
+    localStorage.setItem("claveAdultos", clave);
+    claveGuardada = clave;
+    resultMessage.style.color="lime";
+    resultMessage.textContent = "Clave creada. Acceso autorizado.";
+    setTimeout(()=>location.href=pendingRedirect,1200);
+    return;
+  }
+
+  // ✅ Validar clave existente
+  if(clave !== claveGuardada){
+    resultMessage.textContent="Clave incorrecta.";
+    return;
+  }
+
+  // ✅ Acceso permitido
+  resultMessage.style.color="lime";
+  resultMessage.textContent="Acceso autorizado.";
+  setTimeout(()=>location.href=pendingRedirect,1200);
+});
+
+document.querySelectorAll('[data-adulto="adulto"]').forEach(link=>{
+  link.addEventListener("click", handleAdultLinkClick);
+});
+</script>
+
+<script>
+const resetModal = document.getElementById("resetModal");
+const alertModal = document.getElementById("alertModal");
+const alertTexto = document.getElementById("alertTexto");
+
+document.getElementById("resetClaveBtn").addEventListener("click", () => {
+  resetModal.style.display = "flex";
+});
+
+document.getElementById("cancelReset").addEventListener("click", () => {
+  resetModal.style.display = "none";
+});
+
+document.getElementById("confirmReset").addEventListener("click", () => {
+  localStorage.removeItem("claveAdultos");
+  claveGuardada = null;
+
+  resetModal.style.display = "none";
+  showAlert("Clave eliminada. Ahora puedes crear una nueva.");
+  abrirModalEdad();
+});
+
+document.getElementById("closeAlert").addEventListener("click", () => {
+  alertModal.style.display = "none";
+});
+
+function showAlert(msg){
+  alertTexto.textContent = msg;
+  alertModal.style.display = "flex";
+}
+</script>
+
+  <!--FIN DE LA VERIFICACION PARA ADULTOS.-->
+
+
+  <script>
+    function mostrarMensaje(texto) {
+      const mensaje = document.getElementById('mensaje-confirmacion');
+      mensaje.textContent = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.opacity = '1';
+      setTimeout(() => {
+        mensaje.style.opacity = '0';
+        setTimeout(() => mensaje.style.display = 'none', 500);
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
