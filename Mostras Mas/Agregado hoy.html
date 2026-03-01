@@ -2260,17 +2260,45 @@ document.addEventListener("DOMContentLoaded", () => {
 </style>
   
   <script>
+/* =====================================================
+   VARIABLES GLOBALES
+===================================================== */
 let pendingRedirect = null;
 let claveGuardada = localStorage.getItem("claveAdultos");
+let generoActivo = null;
+let textoBusqueda = "";
+
+/* =====================================================
+   ELEMENTOS DOM
+===================================================== */
+const ageModal = document.getElementById("ageModal");
+const birthyear = document.getElementById("birthyear");
+const age = document.getElementById("age");
+const claveInput = document.getElementById("claveInput");
+const resultMessage = document.getElementById("result-message");
+
+const resetModal = document.getElementById("resetModal");
+const alertModal = document.getElementById("alertModal");
+const alertTexto = document.getElementById("alertTexto");
+
+const btnFiltro = document.getElementById("btnFiltro");
+const modalGenero = document.getElementById("modalGenero");
+const generoBtns = document.querySelectorAll(".genero-btn");
+
+const peliculas = document.querySelectorAll(".movie");
+const contador = document.getElementById("contador");
+const searchInput = document.getElementById("search-input");
+
+/* =====================================================
+   ======== VERIFICACION CONTENIDO ADULTO ============
+===================================================== */
 
 function handleAdultLinkClick(e){
   e.preventDefault();
-  e.stopImmediatePropagation(); // 🔥 CLAVE
+  e.stopImmediatePropagation();
   pendingRedirect = e.currentTarget.dataset.html;
   abrirModalEdad();
 }
-
-
 
 function abrirModalEdad(){
   ageModal.classList.remove("hidden");
@@ -2285,13 +2313,7 @@ function closeModal(){
   pendingRedirect = null;
 }
 
-const ageModal = document.getElementById("ageModal");
-const birthyear = document.getElementById("birthyear");
-const age = document.getElementById("age");
-const claveInput = document.getElementById("claveInput");
-const resultMessage = document.getElementById("result-message");
-
-document.getElementById("confirmAgeBtn").addEventListener("click", () => {
+document.getElementById("confirmAgeBtn")?.addEventListener("click", () => {
 
   let birth = parseInt(birthyear.value);
   let edad = parseInt(age.value);
@@ -2314,7 +2336,6 @@ document.getElementById("confirmAgeBtn").addEventListener("click", () => {
     return;
   }
 
-  // ✅ Crear clave si no existe
   if(!claveGuardada){
     localStorage.setItem("claveAdultos", clave);
     claveGuardada = clave;
@@ -2324,13 +2345,11 @@ document.getElementById("confirmAgeBtn").addEventListener("click", () => {
     return;
   }
 
-  // ✅ Validar clave existente
   if(clave !== claveGuardada){
     resultMessage.textContent="Clave incorrecta.";
     return;
   }
 
-  // ✅ Acceso permitido
   resultMessage.style.color="lime";
   resultMessage.textContent="Acceso autorizado.";
   setTimeout(()=>location.href=pendingRedirect,1200);
@@ -2339,31 +2358,28 @@ document.getElementById("confirmAgeBtn").addEventListener("click", () => {
 document.querySelectorAll('.movie[data-adulto="true"]').forEach(card => {
   card.addEventListener("click", handleAdultLinkClick);
 });
-</script>
 
-<script>
-const resetModal = document.getElementById("resetModal");
-const alertModal = document.getElementById("alertModal");
-const alertTexto = document.getElementById("alertTexto");
+/* =====================================================
+   ======== RESET CLAVE ADULTOS =======================
+===================================================== */
 
-document.getElementById("resetClaveBtn").addEventListener("click", () => {
+document.getElementById("resetClaveBtn")?.addEventListener("click", () => {
   resetModal.style.display = "flex";
 });
 
-document.getElementById("cancelReset").addEventListener("click", () => {
+document.getElementById("cancelReset")?.addEventListener("click", () => {
   resetModal.style.display = "none";
 });
 
-document.getElementById("confirmReset").addEventListener("click", () => {
+document.getElementById("confirmReset")?.addEventListener("click", () => {
   localStorage.removeItem("claveAdultos");
   claveGuardada = null;
-
   resetModal.style.display = "none";
   showAlert("Clave eliminada. Ahora puedes crear una nueva.");
   abrirModalEdad();
 });
 
-document.getElementById("closeAlert").addEventListener("click", () => {
+document.getElementById("closeAlert")?.addEventListener("click", () => {
   alertModal.style.display = "none";
 });
 
@@ -2371,101 +2387,67 @@ function showAlert(msg){
   alertTexto.textContent = msg;
   alertModal.style.display = "flex";
 }
-</script>
 
-  <!--FIN DE LA VERIFICACION PARA ADULTOS.-->
-  
-  <script>
-    function filtrarPeliculas() {
-  const input = document.getElementById("search-input");
-  const texto = input.value.toLowerCase().trim();
+/* =====================================================
+   ======== FILTRO UNIFICADO (BUSCADOR + GENERO) =====
+===================================================== */
 
-  localStorage.setItem("ultimaBusqueda", texto);
+function filtrarPeliculas() {
 
-  const palabras = texto.split(" ").filter(p => p.length > 0); // separa palabras
-  const peliculas = document.querySelectorAll(".movie");
+  textoBusqueda = searchInput.value.toLowerCase().trim();
+  localStorage.setItem("ultimaBusqueda", textoBusqueda);
+
+  const palabras = textoBusqueda.split(" ").filter(p => p.length > 0);
   let visibles = 0;
 
   peliculas.forEach(peli => {
+
     const titulo = (peli.dataset.titulo || "").toLowerCase();
     const genero = (peli.dataset.genero || "").toLowerCase();
     const anio = (peli.dataset.anio || "").toLowerCase();
     const tipo = (peli.dataset.tipo || "").toLowerCase();
 
-    // unir todo
     const contenido = `${titulo} ${genero} ${anio} ${tipo}`;
 
-    // comprobar que TODAS las palabras coincidan
-    const visible = palabras.every(palabra => contenido.includes(palabra));
+    const coincideBusqueda = palabras.every(p =>
+      contenido.includes(p)
+    );
+
+    const coincideGenero =
+      !generoActivo || genero.includes(generoActivo);
+
+    const visible = coincideBusqueda && coincideGenero;
 
     peli.style.display = visible ? "block" : "none";
+
     if (visible) visibles++;
   });
 
-  document.getElementById("no-results").style.display = visibles === 0 ? "block" : "none";
+  document.getElementById("no-results").style.display =
+    visibles === 0 ? "block" : "none";
 
-  actualizarContadorPeliculas();
+  actualizarContador();
 }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const ultima = localStorage.getItem("ultimaBusqueda");
-      const scroll = localStorage.getItem("scrollY");
-      const input = document.getElementById("search-input");
-      if (ultima && input) { input.value = ultima; filtrarPeliculas(); }
-      if (scroll) window.scrollTo(0, parseInt(scroll));
-      localStorage.removeItem("ultimaBusqueda");
-      localStorage.removeItem("scrollY");
-    });
-    document.querySelectorAll(".movie").forEach(peli => {
-      const htmlFile = peli.dataset.html;
-      if (htmlFile && htmlFile.trim() !== "") {
-        peli.classList.remove("locked");
-        const lockIcon = peli.querySelector(".lock-icon");
-        if (lockIcon) lockIcon.remove();
-        peli.addEventListener("click", () => {
-          localStorage.setItem("ultimaBusqueda", document.getElementById("search-input").value);
-          localStorage.setItem("scrollY", window.scrollY);
-          window.location.href = htmlFile;
-        });
-      }
-    });
-    document.querySelectorAll(".movie").forEach(peli => {
-      const fecha = peli.dataset.fecha;
-      if (fecha) {
-        const fechaCreacion = new Date(fecha);
-        const hoy = new Date();
-        const diasDiferencia = (hoy - fechaCreacion) / (1000 * 60 * 60 * 24);
-        if (diasDiferencia <= 5) {
-          const recien = document.createElement("span");
-          recien.className = "recien-tag";
-          recien.textContent = "Recién agregado";
-          peli.appendChild(recien);
-        }
-      }
-    });
-    function actualizarContadorPeliculas() {
-      const peliculasVisibles = document.querySelectorAll(".movie-grid .movie:not([style*='display: none'])").length;
-      const contador = document.getElementById("contador");
-      if (contador) contador.textContent = `(${peliculasVisibles})`;
-    }
-    window.addEventListener("DOMContentLoaded", actualizarContadorPeliculas);
-  </script>
+/* =====================================================
+   ======== CONTADOR DINAMICO =========================
+===================================================== */
 
-  <script>
-const btnFiltro = document.getElementById("btnFiltro");
-const modal = document.getElementById("modalGenero");
-const generoBtns = document.querySelectorAll(".genero-btn");
-const titulo = document.getElementById("titulo-seccion");
-const peliculas = document.querySelectorAll(".movie");
+function actualizarContador(){
+  const visibles = document.querySelectorAll(".movie:not([style*='display: none'])").length;
+  contador.textContent = `(${visibles})`;
+}
 
-let generoActivo = null;
+/* =====================================================
+   ======== FILTRO POR GENERO =========================
+===================================================== */
 
-btnFiltro.addEventListener("click", () => {
-  modal.classList.add("activo");
+btnFiltro?.addEventListener("click", () => {
+  modalGenero.classList.add("activo");
 });
 
-function cerrarModal(){
-  modal.classList.remove("activo");
+function cerrarModalGenero(){
+  modalGenero.classList.remove("activo");
 }
 
 generoBtns.forEach(btn => {
@@ -2476,34 +2458,89 @@ generoBtns.forEach(btn => {
 
     generoActivo = btn.dataset.genero;
 
-    titulo.innerHTML = `Agregados HOY - ${btn.textContent}`;
+    document.querySelector("header h1").childNodes[0].nodeValue =
+      `Agregados HOY - ${btn.textContent} `;
 
-    peliculas.forEach(p => {
-      const genero = p.dataset.genero || "";
-      if(genero.includes(generoActivo)){
-        p.style.display = "block";
-      } else {
-        p.style.display = "none";
-      }
-    });
-
-    cerrarModal();
+    filtrarPeliculas();
+    cerrarModalGenero();
   });
 });
 
 function resetGenero(){
-  generoActivo = null;
-  titulo.innerHTML = `Agregados HOY`;
 
-  peliculas.forEach(p => {
-    p.style.display = "block";
-  });
+  generoActivo = null;
+
+  document.querySelector("header h1").childNodes[0].nodeValue =
+    `Agregados HOY `;
 
   generoBtns.forEach(b => b.classList.remove("activo"));
 
-  cerrarModal();
+  filtrarPeliculas();
+  cerrarModalGenero();
 }
+
+/* =====================================================
+   ======== BUSCADOR INPUT ============================
+===================================================== */
+
+searchInput?.addEventListener("input", filtrarPeliculas);
+
+/* =====================================================
+   ======== RECIEN AGREGADO ===========================
+===================================================== */
+
+peliculas.forEach(peli => {
+  const fecha = peli.dataset.fecha;
+  if (fecha) {
+    const fechaCreacion = new Date(fecha);
+    const hoy = new Date();
+    const dias = (hoy - fechaCreacion) / (1000 * 60 * 60 * 24);
+    if (dias <= 5) {
+      const recien = document.createElement("span");
+      recien.className = "recien-tag";
+      recien.textContent = "Recién agregado";
+      peli.appendChild(recien);
+    }
+  }
+});
+
+/* =====================================================
+   ======== GUARDAR BUSQUEDA Y SCROLL =================
+===================================================== */
+
+window.addEventListener("DOMContentLoaded", () => {
+
+  const ultima = localStorage.getItem("ultimaBusqueda");
+  const scroll = localStorage.getItem("scrollY");
+
+  if (ultima) {
+    searchInput.value = ultima;
+    filtrarPeliculas();
+  }
+
+  if (scroll) window.scrollTo(0, parseInt(scroll));
+
+  actualizarContador();
+});
+
+peliculas.forEach(peli => {
+
+  const htmlFile = peli.dataset.html;
+
+  if (htmlFile && htmlFile.trim() !== "" && !peli.dataset.adulto) {
+
+    peli.addEventListener("click", () => {
+
+      localStorage.setItem("ultimaBusqueda", searchInput.value);
+      localStorage.setItem("scrollY", window.scrollY);
+      window.location.href = htmlFile;
+
+    });
+  }
+
+});
 </script>
+
 
 
 
