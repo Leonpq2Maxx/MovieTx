@@ -339,6 +339,123 @@ if (window.performance && window.performance.navigation.type === 2) {
   align-items: center;
   pointer-events: none;
 }
+
+/* HEADER FLEX */
+.header-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* BOTON FILTRO */
+.btn-filtro{
+  background:transparent;
+  border:none;
+  font-size:1.4rem;
+  cursor:pointer;
+  color:#fff;
+  transition:0.3s;
+}
+.btn-filtro:hover{
+  transform:scale(1.2);
+  color:#ff007f;
+}
+
+/* MODAL */
+.modal-genero{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.modal-genero.activo{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal-contenido{
+  background:#111;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(255,0,128,0.4);
+  position:relative;
+}
+
+.cerrar-modal{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+/* BOTONES GENERO */
+.generos{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:15px;
+  max-height:250px;
+  overflow-y:auto;
+}
+
+.genero-btn{
+  width:100%;
+  text-align:left;
+  padding:10px 14px;
+  border:none;
+  border-radius:6px;
+  background:#1a1a1a;
+  color:#fff;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:0.9rem;
+}
+
+.genero-btn:hover{
+  background:#ff007f;
+}
+
+.genero-btn.activo{
+  background:#ff007f;
+  box-shadow:0 0 10px #ff007f;
+}
+
+/* RESET */
+.reset-btn{
+  margin-top:20px;
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#444;
+  color:#fff;
+  cursor:pointer;
+}
+.reset-btn:hover{
+  background:#777;
+}
+
+.btn-filtro svg {
+  display: block;        /* 🔥 evita línea fantasma inline */
+}
+
+.btn-filtro {
+  line-height: 0;        /* 🔥 elimina espacio vertical invisible */
+}
 </style>
 
 <script>
@@ -382,15 +499,59 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- 🔴 Fin pantalla de carga neón -->
 
   <header>
-    <h1>Buscador <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span></h1>
-  </header>
+  <div class="header-container">
+    <h1 id="titulo-seccion">
+      Agregados HOY 
+      <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span>
+    </h1>
+    <button class="btn-filtro" id="abrirModal" title="Filtrar por género">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="4" y1="6" x2="20" y2="6"/>
+    <circle cx="10" cy="6" r="2"/>
+    <line x1="4" y1="12" x2="20" y2="12"/>
+    <circle cx="14" cy="12" r="2"/>
+    <line x1="4" y1="18" x2="20" y2="18"/>
+    <circle cx="8" cy="18" r="2"/>
+  </svg>
+</button>
+
+  </div>
+
+</header>
+
+<div class="modal-genero" id="modalGenero">
+  <div class="modal-contenido">
+
+    <button class="cerrar-modal" id="cerrarModal">✖</button>
+
+    <h2>Seleccionar género</h2>
+
+    <div class="generos">
+      <button class="genero-btn">Accion</button>
+      <button class="genero-btn">Animación</button>
+      <button class="genero-btn">Anime</button>
+      <button class="genero-btn">Comedia</button>
+      <button class="genero-btn">Disney</button>
+      <button class="genero-btn">Terror</button>
+      <button class="genero-btn">Romance</button>
+      <button class="genero-btn">Drama</button>
+    </div>
+
+    <button class="reset-btn" id="resetGenero">
+      Quitar filtro
+    </button>
+
+  </div>
+</div>
+
+
 
   <div class="search-box">
     <input type="text" id="search-input" placeholder="Buscar por nombre, género o año..." oninput="filtrarPeliculas()"> <!--ESTABA PUESTO "Buscar por nombre, género o año..." -->
   </div>
 
   <div class="movie-grid" id="movie-grid">
-
+  
     <!--
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="uf solo amigos" data-genero="romance comedia" data-anio="2026" data-html="../View Peliculas/" data-fecha="2026-02-24">
@@ -448,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Love me, Love me</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romaance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=la_empleada" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=la_empleada" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -1536,7 +1697,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El Asesino</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="freestyle" data-genero="crimen acción suspenso musical" data-anio="2023" data-html="../View Peliculas/Freestyle (2023).html" data-fecha="2025-12-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="freestyle" data-genero="crimen accion suspenso musical" data-anio="2023" data-html="../View Peliculas/Freestyle (2023).html" data-fecha="2025-12-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -2730,7 +2891,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dulce venganza</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="Acción Ciencia ficción Marvel" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=iron_man_2" data-fecha="2026-02-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion ciencia ficcion marvel" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=iron_man_2" data-fecha="2026-02-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2010</span>
       <span class="year-tegg">HD</span>
@@ -3314,7 +3475,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p></p>
     </div>
-
     
   </div>
   <div id="no-results" class="no-results">Pelicula o serie no encontrada</div> <!--ESTABA PUESTO "No se encontraron resultados 😕"-->
@@ -3642,29 +3802,35 @@ function showAlert(msg){
   <!--FIN DE LA VERIFICACION PARA ADULTOS.-->
   
   <script>
+    let generoActivo = null;
     function filtrarPeliculas() {
+
   const input = document.getElementById("search-input");
   const texto = input.value.toLowerCase().trim();
+  const palabras = texto.split(" ").filter(p => p.length > 0);
 
-  localStorage.setItem("ultimaBusqueda", texto);
-
-  const palabras = texto.split(" ").filter(p => p.length > 0); // separa palabras
   const peliculas = document.querySelectorAll(".movie");
   let visibles = 0;
 
   peliculas.forEach(peli => {
+
     const titulo = (peli.dataset.titulo || "").toLowerCase();
     const genero = (peli.dataset.genero || "").toLowerCase();
     const anio = (peli.dataset.anio || "").toLowerCase();
     const tipo = (peli.dataset.tipo || "").toLowerCase();
 
-    // unir todo
     const contenido = `${titulo} ${genero} ${anio} ${tipo}`;
 
-    // comprobar que TODAS las palabras coincidan
-    const visible = palabras.every(palabra => contenido.includes(palabra));
+    // 🔹 FILTRO POR TEXTO
+    const coincideBusqueda = palabras.every(p => contenido.includes(p));
+
+    // 🔹 FILTRO POR GÉNERO
+    const coincideGenero = !generoActivo || genero.includes(generoActivo.toLowerCase());
+
+    const visible = coincideBusqueda && coincideGenero;
 
     peli.style.display = visible ? "block" : "none";
+
     if (visible) visibles++;
   });
 
@@ -3672,6 +3838,7 @@ function showAlert(msg){
 
   actualizarContadorPeliculas();
 }
+
 
     window.addEventListener("DOMContentLoaded", () => {
       const ultima = localStorage.getItem("ultimaBusqueda");
@@ -3716,6 +3883,73 @@ function showAlert(msg){
     }
     window.addEventListener("DOMContentLoaded", actualizarContadorPeliculas);
   </script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("modalGenero");
+  const abrir = document.getElementById("abrirModal");
+  const cerrar = document.getElementById("cerrarModal");
+  const reset = document.getElementById("resetGenero");
+  const botonesGenero = document.querySelectorAll(".genero-btn");
+  const titulo = document.getElementById("titulo-seccion");
+  const peliculas = document.querySelectorAll(".movie");
+
+  filtrarPeliculas();
+
+
+  abrir.addEventListener("click", () => {
+    modal.classList.add("activo");
+  });
+
+  cerrar.addEventListener("click", () => {
+    modal.classList.remove("activo");
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("activo");
+    }
+  });
+
+  botonesGenero.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+      botonesGenero.forEach(b => b.classList.remove("activo"));
+      btn.classList.add("activo");
+
+      generoActivo = btn.textContent.trim();
+
+      titulo.innerHTML = `
+        ${generoActivo.toUpperCase()}
+        <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
+      `;
+
+      filtrarPeliculas();
+
+      modal.classList.remove("activo");
+    });
+  });
+
+  reset.addEventListener("click", () => {
+
+    generoActivo = null;
+
+    botonesGenero.forEach(b => b.classList.remove("activo"));
+
+    titulo.innerHTML = `
+      Agregados HOY
+      <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
+    `;
+
+    filtrarPeliculas();
+
+    modal.classList.remove("activo");
+  });
+
+});
+</script>
 
 
 </body>
