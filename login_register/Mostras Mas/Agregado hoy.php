@@ -840,6 +840,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El astronauta</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el mono" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_mono" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El mono</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el planeta de los simios 4 un nuevo reino" data-genero="accion ciencia ficcion suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_4" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El planeta de los simios 4: Un nuevo reino</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="el arca de noe" data-genero="animacion musical familia niño infantil" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_arca_de_noe" data-fecha="2025-12-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
@@ -1164,6 +1182,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El Asesino</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el gato con botas 2 el ultimo deseo" data-genero="animacion comedia aventura fantasia familia infantil" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El gato con botas 2: El último deseo</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="after 4 aquí acaba todo" data-genero="romance drama" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=after_4" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
@@ -1216,15 +1243,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/z5mkvXYNRauSzHdZgxAj6MzrLTY.jpg">
       <span class="lock-icon">🔒</span>
       <p>Blue Beetle</p>
-    </div>
-
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el gato con botas 2 el ultimo deseo" data-genero="animacion comedia aventura fantasia familia infantil" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2_ultimo_deseo" data-fecha="2026-03-15">
-      <span class="pelicula">Pelicula</span>
-      <span class="year-tag">2023</span>
-      <span class="year-tegg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/">
-      <span class="lock-icon">🔒</span>
-      <p>El gato con botas 2: El último deseo</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="anna nicole smith tu no me conoces" data-genero="documentacion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=anna_nicole_smith" data-fecha="2025-30-10">
@@ -1605,6 +1623,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Annabelle 2: La creación</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el planeta de los simios 3 la guerra" data-genero="accion ciencia ficcion suspenso" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_3" data-fecha="2025-12-17">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2017</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El planeta de los simios 3: La guerra</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="el bebe jefaso un jefe bebe" data-genero="animacion disney familia aventura" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=un_jefe_en_pañales" data-fecha="2025-12-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
@@ -1785,6 +1812,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Capitán América 2: El soldado de invierno</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el planeta de los simios 2 confrontacion" data-genero="accion ciencia ficcion suspenso" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_2" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2014</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El planeta de los simios 2: Confrontacion</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="donde esta el fantasma 2" data-genero="comedia terror" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=donde_esta_el_fantasma_2" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2014</span>
@@ -1875,6 +1911,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Mi villano favorito 2</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el origen de los guardianes" data-genero="animacion aventura fantasia" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=el_origen_de_los_guardianes" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El origen de los guardianes</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el gato con botas" data-genero="animacion comedia aventura fantasia familia infantil" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=el_gato_con_botas" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El gato con botas</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="cars 2" data-genero="animacion disney familia aventura" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=cars_2" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
@@ -1882,6 +1936,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg">
       <span class="lock-icon">🔒</span>
       <p>Cars 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el planeta de los simios evolucion" data-genero="accion ciencia ficcion suspenso" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El planeta de los simios: [R] Evolucion</p>
     </div>
 
     <div class="movie locked" data-titulo="dragon ball z episodio de bardock " data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_episodio_de_bardock" data-fecha="2025-12-07">

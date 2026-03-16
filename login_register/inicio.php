@@ -177,14 +177,14 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
     }
 
     // Crear carpeta si no existe
-    if (!is_dir("uploads/usuarios")) {
-        mkdir("uploads/usuarios", 0755, true);
+    if (!is_dir("uploads/usuarios/")) {
+        mkdir("uploads/usuarios/", 0755, true);
     }
 
     // Nombre seguro
     $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
     $nombreArchivo = uniqid() . "." . $extension;
-    $rutaDestino = "uploads/usuarios" . $nombreArchivo;
+    $rutaDestino = "uploads/usuarios/" . $nombreArchivo;
 
     move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
 
@@ -1578,10 +1578,66 @@ document.querySelectorAll('.card-link').forEach(link => {
 
     -->
 
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2_ultimo_deseo">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg"/>
-        <i>El Gato con Botas 2...</i>
+        <i>El gato con botas: El último deseo</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_mono">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"/>
+        <i>El mono</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_origen_de_los_guardianes">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg"/>
+        <i>El origen de los guardianes</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_4">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg"/>
+        <i>El planeta de los simios 4...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_3">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg"/>
+        <i>El planeta de los simios 3...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg"/>
+        <i>El planeta de los simios 2...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg"/>
+        <i>El planeta de los simios...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_gato_con_botas">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"/>
+        <i>El gato con botas</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
@@ -4671,6 +4727,7 @@ activarCandados();
   display: inline;
 }
 </style>
+
 
 <!--VERIFICACION DE EDAD-->
 

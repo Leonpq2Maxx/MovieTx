@@ -17,6 +17,26 @@ $adminId    = (int)$_SESSION['id'];
 $adminName  = $_SESSION['name'];
 $adminLevel = $_SESSION['admin_level']; //super | normal
 
+// =====================
+// CUPOS DE ADMIN AYUDANTE
+// =====================
+
+$quota = null;
+
+if ($adminLevel === 'normal') {
+
+    $quotaData = $conn->query("
+        SELECT user_quota 
+        FROM users 
+        WHERE id=$adminId
+    ")->fetch_assoc();
+
+    $quota = isset($quotaData['user_quota']) 
+    ? (int)$quotaData['user_quota'] 
+    : 0;
+}
+
+
 // Obtener foto del admin logueado
 $adminFoto = null;
 
@@ -113,41 +133,45 @@ if (isset($_POST['create_helper']) && $adminLevel === 'super') {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $quota = (int)$_POST['quota']; // NUEVO
 
     $rutaFoto = null;
 
-    // carpeta
     $carpeta = "uploads/admins/";
     if (!is_dir($carpeta)) {
         mkdir($carpeta, 0777, true);
     }
 
-    // subir imagen
     if (!empty($_FILES['foto']['name'])) {
         $nombreArchivo = time() . "_" . basename($_FILES['foto']['name']);
         $rutaFoto = $carpeta . $nombreArchivo;
         move_uploaded_file($_FILES['foto']['tmp_name'], $rutaFoto);
     }
 
-    $check = $conn->query("SELECT id FROM users WHERE email='$email'");
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email=?");
+$stmt->bind_param("s",$email);
+$stmt->execute();
+$check = $stmt->get_result();
 
     if ($check->num_rows === 0) {
+
         $stmt = $conn->prepare("
             INSERT INTO users
-            (name,email,password,role,admin_level,status,created_by,created_by_admin,created_at,foto)
-            VALUES (?, ?, ?, 'admin', 'normal', 'active', 'admin', ?, NOW(), ?)
+            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto)
+            VALUES (?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
         ");
 
-        $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
+        $stmt->bind_param("sssiss", $name, $email, $pass, $quota, $adminId, $rutaFoto);
         $stmt->execute();
     }
 
-    $_SESSION['msg'] = "Usuario registrado con éxito";
-$_SESSION['msg_type'] = "success";
-header("Location: admin_page.php");
-exit();
+    $_SESSION['msg'] = "Administrador ayudante creado con cupos asignados";
+    $_SESSION['msg_type'] = "success";
 
+    header("Location: admin_page.php");
+    exit();
 }
+
 
 
 // =====================
@@ -174,65 +198,81 @@ if (isset($_POST['create_user'])) {
         move_uploaded_file($_FILES['foto']['tmp_name'], $rutaFoto);
     }
 
-    if ($check->num_rows === 0) {
-
-    // ... creación real ...
-
-    $_SESSION['msg'] = "Usuario creado con éxito";
-    $_SESSION['msg_type'] = "success";
-
-} else {
-
-    $_SESSION['msg'] = "El correo ya está registrado";
-    $_SESSION['msg_type'] = "error";
-}
-
-
-
-    // Verificar email duplicado
+    // 🔎 Verificar email duplicado
     $check = $conn->query("SELECT id FROM users WHERE email='$email'");
 
-    if ($check->num_rows === 0) {
+    if ($check->num_rows > 0) {
 
-        // 🔹 Si es admin ayudante → usuario pendiente
-        if ($adminLevel === 'normal') {
+        $_SESSION['msg'] = "El correo ya está registrado";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
-            $stmt = $conn->prepare("
-                INSERT INTO users
-                (name,email,password,role,status,created_by,created_by_admin,created_at,foto)
-                VALUES (?, ?, ?, 'user', 'pending', 'admin', ?, NOW(), ?)
-            ");
+    // ==========================
+    // ADMIN AYUDANTE
+    // ==========================
+    if ($adminLevel === 'normal') {
 
-            $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
-            $stmt->execute();
+        if ($quota <= 0) {
 
-            $newUserId = $stmt->insert_id;
-
-            // 🔔 Crear solicitud automática para el admin principal
-            $conn->query("
-                INSERT INTO admin_requests (user_id, action, requested_by)
-                VALUES ($newUserId, 'create', $adminId)
-            ");
+            $_SESSION['msg'] = "No tienes cupos disponibles para crear usuarios";
+            $_SESSION['msg_type'] = "error";
+            header("Location: admin_page.php");
+            exit();
         }
 
-        // 🔹 Si es admin principal → activo directo
-        else {
+        $stmt = $conn->prepare("
+            INSERT INTO users
+            (name,email,password,role,status,created_by,created_by_admin,created_at,foto)
+            VALUES (?, ?, ?, 'user', 'pending', 'admin', ?, NOW(), ?)
+        ");
 
-            $stmt = $conn->prepare("
-                INSERT INTO users
-                (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto)
-                VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(),
-                        DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?)
-            ");
+        $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
+        $stmt->execute();
 
-            $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
-            $stmt->execute();
-        }
+        $newUserId = $stmt->insert_id;
+
+        // 🔔 Crear solicitud automática
+        $conn->query("
+            INSERT INTO admin_requests (user_id, action, requested_by)
+            VALUES ($newUserId, 'create', $adminId)
+        ");
+
+        // ➖ Descontar cupo
+        $conn->query("
+            UPDATE users
+            SET user_quota = user_quota - 1
+            WHERE id=$adminId
+        ");
+
+        $_SESSION['msg'] = "Usuario creado y enviado para aprobación";
+        $_SESSION['msg_type'] = "success";
+    }
+
+    // ==========================
+    // ADMIN PRINCIPAL
+    // ==========================
+    else {
+
+        $stmt = $conn->prepare("
+            INSERT INTO users
+            (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto)
+            VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(),
+                    DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?)
+        ");
+
+        $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
+        $stmt->execute();
+
+        $_SESSION['msg'] = "Usuario creado con éxito";
+        $_SESSION['msg_type'] = "success";
     }
 
     header("Location: admin_page.php");
     exit();
 }
+
 
 
 
@@ -303,6 +343,61 @@ exit();
 }
 
 // =====================
+// CAMBIAR CONTRASEÑA ADMIN AYUDANTE
+// =====================
+if (isset($_POST['change_helper_password']) && $adminLevel === 'super') {
+
+    $helperId = (int)$_POST['helper_id'];
+    $newPass  = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+
+    $conn->query("
+        UPDATE users
+        SET password='$newPass'
+        WHERE id=$helperId AND admin_level='normal'
+    ");
+
+    $_SESSION['msg'] = "Contraseña del ayudante actualizada";
+    $_SESSION['msg_type'] = "success";
+
+    header("Location: admin_page.php");
+    exit();
+}
+
+// =====================
+// SUSPENDER / ACTIVAR ADMIN AYUDANTE
+// =====================
+if (isset($_POST['toggle_helper']) && $adminLevel === 'super') {
+
+    $helperId = (int)$_POST['helper_id'];
+
+    $current = $conn->query("
+        SELECT status FROM users
+        WHERE id=$helperId AND admin_level='normal'
+    ")->fetch_assoc();
+
+    if ($current['status'] === 'active') {
+
+        $conn->query("
+            UPDATE users
+            SET status='suspended'
+            WHERE id=$helperId
+        ");
+
+    } else {
+
+        $conn->query("
+            UPDATE users
+            SET status='active'
+            WHERE id=$helperId
+        ");
+    }
+
+    header("Location: admin_page.php");
+    exit();
+}
+
+
+// =====================
 // BORRAR USUARIO
 // =====================
 if (isset($_POST['delete_user']) && $adminLevel === 'super') {
@@ -313,6 +408,70 @@ if (isset($_POST['delete_user']) && $adminLevel === 'super') {
 }
 
 // =====================
+// AGREGAR CUPOS A AYUDANTE
+// =====================
+if (isset($_POST['add_quota']) && $adminLevel === 'super') {
+
+    $helperId = (int)$_POST['helper_id'];
+    $extraQuota = (int)$_POST['extra_quota'];
+
+    if ($extraQuota > 0) {
+
+        $conn->query("
+            UPDATE users
+            SET user_quota = user_quota + $extraQuota
+            WHERE id = $helperId
+        ");
+
+        $_SESSION['msg'] = "Cupos agregados correctamente";
+        $_SESSION['msg_type'] = "success";
+    }
+
+    header("Location: admin_page.php");
+    exit();
+}
+
+// =====================
+// QUITAR CUPOS A AYUDANTE
+// =====================
+if (isset($_POST['remove_quota']) && $adminLevel === 'super') {
+
+    $helperId = (int)$_POST['helper_id'];
+    $removeQuota = (int)$_POST['quota_value'];
+
+    if ($removeQuota > 0) {
+
+        // Obtener cupos actuales
+        $current = $conn->query("
+            SELECT user_quota 
+            FROM users 
+            WHERE id=$helperId
+        ")->fetch_assoc();
+
+        $currentQuota = (int)$current['user_quota'];
+
+        // Evitar números negativos
+        if ($currentQuota < $removeQuota) {
+            $removeQuota = $currentQuota;
+        }
+
+        $conn->query("
+            UPDATE users
+            SET user_quota = user_quota - $removeQuota
+            WHERE id = $helperId
+        ");
+
+        $_SESSION['msg'] = "Cupos descontados correctamente";
+        $_SESSION['msg_type'] = "success";
+    }
+
+    header("Location: admin_page.php");
+    exit();
+}
+
+
+
+// =====================
 // BORRAR AYUDANTE
 // =====================
 if (isset($_POST['delete_helper']) && $adminLevel === 'super') {
@@ -321,6 +480,7 @@ if (isset($_POST['delete_helper']) && $adminLevel === 'super') {
     header("Location: admin_page.php");
     exit();
 }
+
 
 /* =====================
    CONSULTAS
@@ -424,7 +584,7 @@ if ($adminLevel === 'super' && $selectedHelper) {
 // =====================
 // ACTUALIZAR FOTO ADMIN PRINCIPAL
 // =====================
-if (isset($_POST['update_admin_photo']) && $adminLevel === 'super') {
+if (isset($_POST['update_admin_photo'])) {
 
     if (!empty($_FILES['foto_admin']['name'])) {
 
@@ -607,6 +767,7 @@ th{
     color:white;
     padding:14px;
     font-size:14px;
+    text-align:center;
 }
 
 td{
@@ -614,7 +775,22 @@ td{
     border-bottom:1px solid #e5e7eb;
     font-size:14px;
     vertical-align:middle;
+    text-align:center;
+    word-break:break-word;
 }
+
+th:nth-child(1){width:160px;}
+th:nth-child(2){width:240px;}
+th:nth-child(3){width:80px;}
+th:nth-child(4){width:80px;}
+th:nth-child(5){width:100px;}
+th:nth-child(6){width:120px;}
+
+td form{
+    display:flex;
+    justify-content:center;
+}
+
 
 tr:hover{
     background:#f8fafc;
@@ -779,6 +955,21 @@ tr:hover{
 }
 
 
+/* ===== FORMULARIOS PANEL ===== */
+.form-panel{
+    width:100%;
+    max-width:420px;
+    margin:auto;
+}
+
+/* en móviles ocupar todo el ancho */
+@media (max-width:768px){
+    .form-panel{
+        max-width:100%;
+    }
+}
+
+
 /* ===== TOAST MENSAJES ===== */
 .toast{
     position:fixed;
@@ -810,28 +1001,74 @@ tr:hover{
     100%{ opacity:0; top:0; }
 }
 
+/* ===== MENU TITLE ===== */
+.menu-title{
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+/* ===== MENU DIVIDER ===== */
+.menu-divider{
+    border:none;
+    height:1px;
+    background:#374151;
+    margin:14px 0;
+}
+
+/* ===== MENU SECTION ===== */
+.menu-section{
+    font-size:12px;
+    text-transform:uppercase;
+    color:#9ca3af;
+    margin-top:16px;
+    margin-bottom:6px;
+    letter-spacing:1px;
+}
+
+/* ===== MENU LINKS ===== */
 .menu-link{
-    display:block;
-    padding:16px;
-    margin:10px 0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+    margin:6px 0;
     background:#1e293b;
-    border-radius:14px;
+    border-radius:12px;
     color:white;
     text-decoration:none;
+    font-size:14px;
+    transition:0.25s;
+    border:1px solid transparent;
 }
 
-/* ===== OVERLAY ===== */
-.menu-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:none;
-    z-index:9997;
+/* hover */
+.menu-link:hover{
+    background:#2563eb;
+    transform:translateX(4px);
+    border-color:#3b82f6;
 }
 
-.menu-overlay.show{
-    display:block;
+/* active click */
+.menu-link:active{
+    transform:scale(.96);
 }
+
+/* refresh button */
+.refresh-btn{
+    background:#1e90ff;
+}
+
+/* logout */
+.logout-btn{
+    background:#dc2626;
+}
+
+.logout-btn:hover{
+    background:#ef4444;
+}
+
 
 /* ===== PANELS ===== */
 .section-panel{
@@ -944,7 +1181,7 @@ endif;
 
     <div class="admin-header">
 
-<?php if ($adminLevel === 'super'): ?>
+<?php if ($adminLevel === 'super' || $adminLevel === 'normal'): ?>
 <form method="POST" enctype="multipart/form-data" id="formFotoAdmin">
 
 <input
@@ -991,6 +1228,13 @@ class="admin-logo"
         <?= htmlspecialchars($adminName) ?>
     </p>
 
+    <?php if ($adminLevel === 'normal'): ?>
+<p style="margin:4px 0;color:#2563eb;font-weight:bold;">
+Cupos disponibles: <?= $quota ?>
+</p>
+<?php endif; ?>
+
+
     <?php if ($adminLevel === 'super'): ?>
         <p style="margin:0;font-size:18px;color:#d3097b;">
             <?= htmlspecialchars($_SESSION['email']) ?>
@@ -1007,34 +1251,71 @@ class="admin-logo"
 <!-- MENÚ LATERAL -->
 <div class="side-menu" id="sideMenu">
 
-    <h3>Menú</h3>
-    <br>
-    <hr style="border-color:#374151;margin:12px 0;">
+<h3 class="menu-title">Panel</h3>
 
-    <?php if ($adminLevel === 'super'): ?>
-        <button class="menu-link" onclick="showSection('crearAdmin')">Crear Administrador</button>
-    <?php endif; ?>
+<hr class="menu-divider">
 
-    <!-- SUPER y AYUDANTE pueden crear usuarios -->
-    <button class="menu-link" onclick="showSection('crearUser')">Crear usuario</button>
+<?php if ($adminLevel === 'super'): ?>
+<button class="menu-link" onclick="showSection('crearAdmin')">
+👤 Crear administrador
+</button>
+<?php endif; ?>
 
-    <?php if ($adminLevel === 'super'): ?>
-        <button class="menu-link" onclick="showSection('admins')">Administradores ayudantes</button>
-        <button class="menu-link" onclick="showSection('usersSuper')">Usuarios del principal</button>
-        <button class="menu-link" onclick="showSection('usersHelpers')">Usuarios de ayudantes</button>
-        <button class="menu-link" onclick="showSection('requests')">Solicitudes pendientes</button>
-    <?php endif; ?>
+<button class="menu-link" onclick="showSection('crearUser')">
+➕ Crear usuario
+</button>
 
-    <button class="menu-link" onclick="showSection('allUsers')">Todos los usuarios</button>
+<?php if ($adminLevel === 'super'): ?>
 
-    <button class="menu-link" onclick="window.location.href=window.location.pathname" style="background:#1e90ff;">
-        🔄 Refrescar página
-    </button>
+<div class="menu-section">Administración</div>
 
-    <a href="logout.php" class="menu-link" style="background:#dc2626;">
-        🔓 Cerrar sesión
-    </a>
+<button class="menu-link" onclick="showSection('addQuota')">
+📊 Administrar cupos
+</button>
+
+<button class="menu-link" onclick="showSection('admins')">
+🛠 Administradores ayudantes
+</button>
+
+<button class="menu-link" onclick="showSection('usersSuper')">
+👑 Usuarios del principal
+</button>
+
+<button class="menu-link" onclick="showSection('usersHelpers')">
+👥 Usuarios de ayudantes
+</button>
+
+<button class="menu-link" onclick="showSection('changeUserPass')">
+🔑 Cambiar contraseña usuarios
+</button>
+
+<button class="menu-link" onclick="showSection('changeAdminPass')">
+🔐 Cambiar contraseña admin
+</button>
+
+<button class="menu-link" onclick="showSection('requests')">
+📩 Solicitudes pendientes
+</button>
+
+<?php endif; ?>
+
+<div class="menu-section">Sistema</div>
+
+<button class="menu-link" onclick="showSection('allUsers')">
+📋 Todos los usuarios
+</button>
+
+<button class="menu-link refresh-btn"
+onclick="window.location.href=window.location.pathname">
+🔄 Refrescar panel
+</button>
+
+<a href="logout.php" class="menu-link logout-btn">
+🚪 Cerrar sesión
+</a>
+
 </div>
+
 
 
 
@@ -1051,6 +1332,9 @@ class="admin-logo"
 
 <input type="password" name="password" placeholder="Contraseña">
 <div class="error-text">Ingrese una contraseña</div>
+
+<input type="number" name="quota" placeholder="Cupos de usuarios que podrá crear" min="0">
+<div class="error-text">Ingrese cantidad de cupos</div>
 
 <label>Foto del administrador:</label>
 <input type="file" name="foto" accept="image/*">
@@ -1091,6 +1375,7 @@ class="admin-logo"
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Cupos</th>
 <th>Usuarios</th>
 <th>Comisión</th>
 <th>Acción</th>
@@ -1113,13 +1398,34 @@ $count = $conn->query("
 </td>
 
 <td data-label="Email"><?=htmlspecialchars($h['email'])?></td>
+<td data-label="Cupos"><?= $h['user_quota'] ?></td>
 <td data-label="Usuarios"><?= $count ?></td>
 <td data-label="Comisión">$<?= $count * 200 ?></td>
-<td data-label="Acción">
+<td data-label="Acciones">
+
+<div class="actions">
+
+<form method="post">
+<input type="hidden" name="helper_id" value="<?=$h['id']?>">
+
+<button class="gray" name="toggle_helper">
+<?= $h['status']==='active' ? 'Suspender' : 'Activar' ?>
+</button>
+
+</form>
+
+
 <form method="post">
 <input type="hidden" name="helper_id" value="<?=$h['id']?>">
 <button class="red" name="delete_helper">Borrar</button>
 </form>
+
+</div>
+</td>
+</tr>
+
+</div>
+
 </td>
 </tr>
 <?php endwhile; ?>
@@ -1127,6 +1433,175 @@ $count = $conn->query("
 </div>
 </div>
 <?php endif; ?>
+
+<?php if ($adminLevel === 'super'): ?>
+<div class="box section-panel" id="addQuota">
+
+<h3>Administrar cupos de ayudantes</h3>
+
+<form method="post" class="form-panel">
+
+<label>Seleccionar administrador ayudante</label>
+
+<select name="helper_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
+
+<option value="">Seleccionar</option>
+
+<?php
+$helpersList = $conn->query("
+SELECT id,name,email,user_quota
+FROM users
+WHERE role='admin' AND admin_level='normal'
+ORDER BY name
+");
+
+while($h=$helpersList->fetch_assoc()):
+?>
+
+<option value="<?=$h['id']?>">
+<?=htmlspecialchars($h['name'])?> 
+(<?=htmlspecialchars($h['email'])?>)
+- Cupos actuales: <?=$h['user_quota']?>
+</option>
+
+<?php endwhile; ?>
+
+</select>
+
+<label>Cantidad</label>
+
+<input
+type="number"
+name="quota_value"
+min="1"
+placeholder="Ej: 5"
+required
+>
+
+<div style="display:flex;gap:10px;margin-top:10px">
+
+<button class="green" name="add_quota">
+➕ Agregar cupos
+</button>
+
+<button class="red" name="remove_quota">
+➖ Quitar cupos
+</button>
+
+</div>
+
+</form>
+
+</div>
+<?php endif; ?>
+
+
+
+<?php if ($adminLevel === 'super'): ?>
+<div class="box section-panel" id="changeUserPass">
+
+<h3>Cambiar contraseña de usuarios</h3>
+
+<form method="post" style="max-width:420px">
+
+<label>Seleccionar usuario</label>
+
+<select name="user_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
+
+<option value="">Seleccionar</option>
+
+<?php
+$listUsers = $conn->query("
+SELECT id,name,email
+FROM users
+WHERE role='user'
+ORDER BY name
+");
+
+while($u=$listUsers->fetch_assoc()):
+?>
+
+<option value="<?=$u['id']?>">
+<?=htmlspecialchars($u['name'])?> 
+(<?=htmlspecialchars($u['email'])?>)
+</option>
+
+<?php endwhile; ?>
+
+</select>
+
+<label>Nueva contraseña</label>
+
+<input
+type="password"
+name="new_password"
+placeholder="Nueva contraseña"
+required
+>
+
+<button name="change_password" class="green">
+Actualizar contraseña
+</button>
+
+</form>
+
+</div>
+<?php endif; ?>
+
+
+<?php if ($adminLevel === 'super'): ?>
+<div class="box section-panel" id="changeAdminPass">
+
+<h3>Cambiar contraseña de administradores ayudantes</h3>
+
+<form method="post" style="max-width:420px">
+
+<label>Seleccionar administrador</label>
+
+<select name="helper_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
+
+<option value="">Seleccionar</option>
+
+<?php
+$listAdmins = $conn->query("
+SELECT id,name,email
+FROM users
+WHERE role='admin' AND admin_level='normal'
+ORDER BY name
+");
+
+while($a=$listAdmins->fetch_assoc()):
+?>
+
+<option value="<?=$a['id']?>">
+<?=htmlspecialchars($a['name'])?> 
+(<?=htmlspecialchars($a['email'])?>)
+</option>
+
+<?php endwhile; ?>
+
+</select>
+
+<label>Nueva contraseña</label>
+
+<input
+type="password"
+name="new_password"
+placeholder="Nueva contraseña"
+required
+>
+
+<button name="change_helper_password" class="green">
+Actualizar contraseña
+</button>
+
+</form>
+
+</div>
+<?php endif; ?>
+
+
+
 
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="usersSuper">
@@ -1138,7 +1613,6 @@ $count = $conn->query("
 <th>Email</th>
 <th>Estado</th>
 <th>Expira</th>
-<th>Actualizar contraseña</th>
 <th>Acciones</th>
 </tr>
 
@@ -1150,14 +1624,6 @@ $count = $conn->query("
 <?= $u['status'] ?>
 </td>
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
-
-<td data-label="Actualizar contraseña">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<input type="password" name="new_password" required>
-<button name="change_password">Actualizar</button>
-</form>
-</td>
 
 <td data-label="Acciones">
 <form method="post">
@@ -1352,7 +1818,6 @@ $count = $conn->query("
 <?php if ($adminLevel==='super'): ?><th>Creado por</th><?php endif; ?>
 <th>Estado</th>
 <th>Expira</th>
-<th>Actualizar contraseña</th>
 <th>Acciones</th>
 </tr>
 
@@ -1370,14 +1835,6 @@ $count = $conn->query("
 </td>
 
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
-
-<td data-label="Actualizar contraseña">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<input type="password" name="new_password" placeholder="Nueva contraseña" required>
-<button name="change_password">Actualizar</button>
-</form>
-</td>
 
 <td data-label="Acciones">
 <form method="post">

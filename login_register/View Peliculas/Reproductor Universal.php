@@ -8473,7 +8473,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "un_lugar_en_silencio_3",
-        titulo: "Un lugar en silencio: Día uno",
+        titulo: "Un lugar en silencio 3: Día uno",
         imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
       },
       {
@@ -9193,31 +9193,31 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  el_gato_con_botas_2_ultimo_deseo: {
-    id: "el_gato_con_botas_2_ultimo_deseo",
-    titulo: "El Gato con Botas 2: El último deseo",
+  el_gato_con_botas: {
+    id: "el_gato_con_botas",
+    titulo: "El gato con botas",
     video: "https://dl.dropbox.com/scl/fi/sv3tgf0v42tyqgij9ww7l/Gato.Con.Botas.2011.1080P-Dual-Lat.mkv?rlkey=samzxrq49zbdkr47jjrzxi5gr&st=",
-    poster: "https://image.tmdb.org/t/p/w780/b1Y8SUb12gPHCSSSNlbX4nB3IKy.jpg",
-    imagen: "https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg",
+    poster: "https://image.tmdb.org/t/p/w780/9Jf5uqvxGfpd0lXUB71iglugrjM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "El Gato con Botas se embarca en un viaje épico para encontrar al mítico Último Deseo y recuperar sus nueve vidas.",
-    anio: "2023",
-    duracion: "0h 008min",
+    sinopsis: "Mucho antes de que conociera a Shrek, el conocido espadachín, amante y fuera de la ley Gato con Botas se convierte en un héroe al emprender una aventura junto a la dura y espabilada Kitty Zarpassuaves y el astuto Humpty Dumpty para salvar a su pueblo. Complicándoles las cosas por el camino están los infames forajidos Jack y Jill, que harán cualquier cosa para que Gato y su banda no lo consigan.",
+    anio: "2011",
+    duracion: "1h 31min",
     calificacion: "85%",
     genero: "Animación • Aventura • Fantasía • Comedia • Familia",
-    director: "Joel Crawford",
-    reparto: "Antonio Banderas, Salma Hayek Pinault, Harvey Guillén",
-    estreno: "05/01/2023",
+    director: "Chris Miller",
+    reparto: "Antonio Banderas, Salma Hayek Pinault, Zach Galifianakis",
+    estreno: "08/12/2011",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "el_gato_con_botas",
-        titulo: "El gato con botas",
-        imagen: "https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"
+        id: "el_gato_con_botas_2",
+        titulo: "El gato con botas 2: El último deseo",
+        imagen: "https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg"
       },
       {
         id: "shrek_2",
@@ -9226,7 +9226,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "vivo",
-        titulo: "Vivo",
+        titulo: "VIVO",
         imagen: "https://image.tmdb.org/t/p/w300/yzZFLQQnjJCgG8iYfcF4JqmdBMo.jpg"
       },
       {
@@ -9243,6 +9243,330 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "red",
         titulo: "Red",
         imagen: "https://image.tmdb.org/t/p/w300/djM4COTksd5YRIdd9uEl8eA3iaa.jpg"
+      }
+    ]
+  },
+
+  el_gato_con_botas_2: {
+    id: "el_gato_con_botas_2",
+    titulo: "El gato con botas: El último deseo",
+    video: "https://dl.dropbox.com/scl/fi/xxwt7vsy5dr0ibzmzalxq/Gato.Con.Botas-.El.-ltimo.Deseo.2022.1080P-Dual-Lat.mp4?rlkey=hg39kqdjdze54mpi3d07nu3th&st=",
+    poster: "https://image.tmdb.org/t/p/w780/jNyZcfBd10rIChqZ5aqFJMpWA0n.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "El Gato con Botas se embarca en un viaje épico para encontrar al mítico Último Deseo y recuperar sus nueve vidas.",
+    anio: "2023",
+    duracion: "0h 008min",
+    calificacion: "84%",
+    genero: "Animación • Aventura • Fantasía • Comedia • Familia",
+    director: "Joel Crawford",
+    reparto: "Antonio Banderas, Salma Hayek Pinault, Harvey Guillén",
+    estreno: "05/01/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_gato_con_botas",
+        titulo: "El gato con botas",
+        imagen: "https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"
+      },
+      {
+        id: "la_era_de_hielo_#",
+        titulo: "La era de hielo 3",
+        imagen: "https://image.tmdb.org/t/p/w300/pKQAvnsf6eIL9EGEI2lAgvI94zQ.jpg"
+      },
+      {
+        id: "los_minions",
+        titulo: "Los  minions",
+        imagen: "https://image.tmdb.org/t/p/w300/nmqLwaTfgyWLQWbYd82w159cAqJ.jpg"
+      },
+      {
+        id: "los_tipos_malos",
+        titulo: "Los tipos malos",
+        imagen: "https://image.tmdb.org/t/p/w300/czxHSOXyKd6zEvIOvUTxAwqOjcK.jpg"
+      },
+      {
+        id: "zootopia_2",
+        titulo: "Zootopia 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jy3FeyNUNYIwylzapjtRx0eQw1P.jpg"
+      },
+      {
+        id: "moana_2",
+        titulo: "Moana 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
+      }
+    ]
+  },
+
+  el_planeta_de_los_simios: {
+    id: "el_planeta_de_los_simios",
+    titulo: "El planeta de los simios: [R] Evolucion",
+    video: "https://dl.dropbox.com/scl/fi/s7wdlhn2o2vr4r8t8rwge/Rise.of.the.planet.of.the.apes.2011.1080p-dual-lat.mp4?rlkey=1cudv5381fhlyhwulzc955bts&st=",
+    poster: "https://image.tmdb.org/t/p/w780/xDpa4rl47if5ixG1VRmzHErzy8h.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Will Rodman es un joven científico que está investigando con monos para obtener un tratamiento contra el alzheimer, una enfermedad que afecta a su padre. Uno de esos primates, al que llaman César, experimenta una evolución en su inteligencia tan notable que el protagonista decide llevárselo a su casa para protegerlo. Le ayudará una bella primatóloga llamada Caroline.",
+    anio: "2011",
+    duracion: "1h 45min",
+    calificacion: "85,9%",
+    genero: "Acción • Ciencia ficción • Suspenso",
+    director: "Rupert Wyatt",
+    reparto: "Andy Serkis, James Franco, Freida Pinto",
+    estreno: "05/08/2011",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_planeta_de_los_simios_2",
+        titulo: "El planeta de los simios 2: Confrontacion",
+        imagen: "https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios_3",
+        titulo: "El planeta de los simios 3: La guerra",
+        imagen: "https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios_4",
+        titulo: "El Planeta De Los Simios 4: Un nuevo reino",
+        imagen: "https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg"
+      },
+      {
+        id: "kong_la_isla_calavera",
+        titulo: "Kong: la Isla Calavera",
+        imagen: "https://image.tmdb.org/t/p/w300/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg"
+      },
+      {
+        id: "damsel",
+        titulo: "Damsel",
+        imagen: "https://image.tmdb.org/t/p/w300/gh7oa9IKlu5yMveemyJkzLfopuB.jpg"
+      },
+      {
+        id: "frente_al_Tornado",
+        titulo: "Frente al tornado",
+        imagen: "https://image.tmdb.org/t/p/w300/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg"
+      }
+    ]
+  },
+
+  el_planeta_de_los_simios_2: {
+    id: "el_planeta_de_los_simios_2",
+    titulo: "El planeta de los simios 2: Confrontación",
+    video: "https://dl.dropbox.com/scl/fi/73jw0bwu0qkzj1iqyiup5/Dawn.of.the.planet.of.the.apes.2014.1080p-dual-lat.mp4?rlkey=d5ryregqrjsguowlu2az28lmi&st=",
+    poster: "https://image.tmdb.org/t/p/w780/zlU8BIkgY7E6SMfD3USTWC6bchL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Un grupo de simios con grandes cualidades para la supervivencia toma las calles, liderado por César, un simio dotado de una inteligencia y unos instintos superiores para cualquier primate. Ante la necesidad de libertad, esta raza animal decide no doblegarse ante los humanos. Tendrá que luchar contra un grupo de humanos que han sobrevivido a una fuerte epidemia, desatada en la década anterior. Ambas partes han establecido una tregua, pero se verá interrumpida.",
+    anio: "2014",
+    duracion: "2h 10min",
+    calificacion: "80,3%",
+    genero: "Acción • Ciencia ficción • Suspenso",
+    director: "Matt Reeves",
+    reparto: "Andy Serkis, Jason Clarke, Toby Kebbell",
+    estreno: "16/07/2014",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_planeta_de_los_simios",
+        titulo: "El planeta de los simios: [R] Evolucion",
+        imagen: "https://image.tmdb.org/t/p/w300/ztJVSZSmTh6YHtJpMKffrPJM0DI.jp"
+      },
+      {
+        id: "el_planeta_de_los_simios_3",
+        titulo: "El planeta de los simios 3: La guerra",
+        imagen: "https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios_4",
+        titulo: "El Planeta De Los Simios 4: Un nuevo reino",
+        imagen: "https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg"
+      },
+      {
+        id: "capitan_america_3",
+        titulo: "Capitán América 3: Civil war",
+        imagen: "https://image.tmdb.org/t/p/w300/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg"
+      },
+      {
+        id: "deadpool_y_wolverine",
+        titulo: "Deadpool Y Wolverine",
+        imagen: "https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg"
+      },
+      {
+        id: "el_hoyo_2",
+        titulo: "El hoyo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"
+      }
+    ]
+  },
+
+  el_planeta_de_los_simios_3: {
+    id: "el_planeta_de_los_simios_3",
+    titulo: "El planeta de los simios 3: La guerra",
+    video: "https://dl.dropbox.com/scl/fi/frq9iu4id74n1l28rnytp/War.for.the.planet.of.the.apes.2017.1080p-dual-lat.mp4?rlkey=oclamavp01zvvh98kqkyo9ssl&st=",
+    poster: "https://image.tmdb.org/t/p/w780/ulMscezy9YX0bhknvJbZoUgQxO5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "César y sus monos son forzados a encarar un conflicto mortal contra un ejército de humanos liderado por un brutal coronel. Después de sufrir pérdidas enormes, César lucha con sus instintos más oscuros en una búsqueda por vengar a su especie. Cuando finalmente se encuentren, Cesar y el Coronel protagonizarán una batalla que pondrá en juego el futuro de ambas especies y el del mismo planeta. Tercera película de la nueva saga de El Planeta de los Simios.",
+    anio: "2017",
+    duracion: "2h 20min",
+    calificacion: "78%",
+    genero: "Acción • Ciencia ficción • Suspenso",
+    director: "Matt Reeves",
+    reparto: "Andy Serkis, Woody Harrelson, Karin Konoval",
+    estreno: "03/08/2017",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_planeta_de_los_simios",
+        titulo: "El planeta de los simios: [R] Evolucion",
+        imagen: "https://image.tmdb.org/t/p/w300/ztJVSZSmTh6YHtJpMKffrPJM0DI.jp"
+      },
+      {
+        id: "el_planeta_de_los_simios_2",
+        titulo: "El planeta de los simios 2: Confrontacion",
+        imagen: "https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios_4",
+        titulo: "El Planeta De Los Simios 4: Un nuevo reino",
+        imagen: "https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg"
+      },
+      {
+        id: "godzilla_y_kong_el_nuevo_imperio",
+        titulo: "Godzilla y Kong: El nuevo imperio",
+        imagen: "https://image.tmdb.org/t/p/w300/rRLqnazAys1CQGNX5BpXN0Gbowy.jpg"
+      },
+      {
+        id: "bad_boys_4",
+        titulo: "Bad boys 4: Hasta la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg"
+      },
+      {
+        id: "el_contratista",
+        titulo: "El contratista",
+        imagen: "https://image.tmdb.org/t/p/w300/uboar85WH92Q5Ct2Y0B2YEdYRNF.jpg"
+      }
+    ]
+  },
+
+  el_planeta_de_los_simios_4: {
+    id: "el_planeta_de_los_simios_4",
+    titulo: "El planeta de los simios 4: Un nuevo reino",
+    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20El%20planeta%20de%20los%20simios-%20Nuevo%20reino%20online%20HD%20-%20Cuevana%202.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/f3sGWbkJ2xDDdXsXps6CRpNnPD3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Ambientada varias generaciones en el futuro tras el reinado de César, en la que los simios son la especie dominante que vive en armonía y los humanos se han visto reducidos a vivir en la sombra. Mientras un nuevo y tiránico líder simio construye su imperio, un joven simio emprende un angustioso viaje que le llevará a cuestionarse todo lo que sabe sobre el pasado y a tomar decisiones que definirán el futuro de simios y humanos por igual.",
+    anio: "2024",
+    duracion: "2h 24min",
+    calificacion: "84%",
+    genero: "Acción • Ciencia ficción • Suspenso",
+    director: "Wes Ball",
+    reparto: "Owen Teague, Freya Allan, Kevin Durand",
+    estreno: "02/08/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_planeta_de_los_simios",
+        titulo: "El planeta de los simios: [R] Evolucion",
+        imagen: "https://image.tmdb.org/t/p/w300/ztJVSZSmTh6YHtJpMKffrPJM0DI.jp"
+      },
+      {
+        id: "el_planeta_de_los_simios_2",
+        titulo: "El planeta de los simios 2: Confrontacion",
+        imagen: "https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios_3",
+        titulo: "El planeta de los simios 3: La guerra",
+        imagen: "https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg"
+      },
+      {
+        id: "godzilla_vs_kong",
+        titulo: "Godzilla vs Kong",
+        imagen: "https://image.tmdb.org/t/p/w300/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg"
+      },
+      {
+        id: "kong_la_isla_calavera",
+        titulo: "Kong: La isla calavera",
+        imagen: "https://image.tmdb.org/t/p/w300/s6gT3P9Zenp2e0udMP6BYNnw18o.jpg"
+      },
+      {
+        id: "lift_el_robo_de_primera",
+        titulo: "Lift: El robo de primera",
+        imagen: "https://image.tmdb.org/t/p/w300/gma8o1jWa6m0K1iJ9TzHIiFyTtI.jpg"
+      }
+    ]
+  },
+
+  el_origen_de_los_guardianes: {
+    id: "el_origen_de_los_guardianes",
+    titulo: "El origen de los guardianes",
+    video: "https://dl.dropbox.com/scl/fi/sqjmg32yafdg3myp6kkhk/Rise.of.the.Guardians.2012.1080P-Dual-Lat.mkv?rlkey=257p5zh984mb9gz23ifdacxlj&st=",
+    poster: "https://image.tmdb.org/t/p/w780/46IGtYNjpIvQYRIQlb2X493Wh8x.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Una aventura épica y mágica que cuenta la historia de Santa Claus, el Conejo de Pascua, el Hada de los Dientes y Jack Escarcha; personajes legendarios con desconocidas habilidades extraordinarias. Cuando un espíritu maligno, conocido como Sombra, decide inundar de miedo los corazones de los niños, los Guardianes inmortales unen sus fuerzas para proteger los deseos, las creencias y la imaginación de los niños.  ",
+    anio: "2012",
+    duracion: "1h 37min",
+    calificacion: "76%",
+    genero: "Animación • Familia • Fantasía",
+    director: "Peter Ramsey",
+    reparto: "Chris Pine, Alec Baldwin, Jude Law",
+    estreno: "22/11/2012",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "Mr Peabody y Sherman",
+        imagen: "https://image.tmdb.org/t/p/w300/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg"
+      },
+      {
+        id: "la_sirenita",
+        titulo: "La sirenita",
+        imagen: "https://image.tmdb.org/t/p/w300/mdszPVnIY7cWgbgJ8zbwu1PiU5V.jpg"
+      },
+      {
+        id: "garfield_fuera_de_casa",
+        titulo: "Garfield: Fuera de casa",
+        imagen: "https://image.tmdb.org/t/p/w300/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg"
+      },
+      {
+        id: "leo",
+        titulo: "Leo",
+        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
+      },
+      {
+        id: "las_momias_y_el_anillo_perdido",
+        titulo: "Las momias y el anillo perdido",
+        imagen: "https://image.tmdb.org/t/p/w300/nqt0jrqBG2zEScNkTuuRAd11Unc.jpg"
+      },
+      {
+        id: "minions_el_origen_De_gru",
+        titulo: "Minions: El origen de Gru",
+        imagen: "https://image.tmdb.org/t/p/w300/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg"
       }
     ]
   },
@@ -9301,56 +9625,56 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/w300/",
+  el_mono: {
+    id: "el_mono",
+    titulo: "El mono",
+    video: "https://dl.dropbox.com/scl/fi/zmxx4i4o9g0wullrcyjzt/El-mono-2025.mp4?rlkey=1h28dios3l8rxvc3gfs09tp18&st=",
+    poster: "https://image.tmdb.org/t/p/w780/25CY0FggI3YXy7AS4xIfVBcRaMq.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    sinopsis: "Cuando dos hermanos gemelos encuentran un misterioso mono de cuerda, una serie de muertes atroces separan a su familia. Veinticinco años después, el mono comienza una nueva matanza que obliga a los hermanos a enfrentarse al juguete maldito.",
+    anio: "2025",
+    duracion: "1h 38min",
+    calificacion: "60%",
+    genero: "Terror",
+    director: "Osgood Perkins",
+    reparto: "Theo James, Tatiana Maslany, Christian Convery",
+    estreno: "20/02/2025",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "Destino_final_6",
+        titulo: "Destino final 6: Lazos de sangre",
+        imagen: "https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "un_lugar_en_silencio_3",
+        titulo: "Un lugar en silencio 3: Día uno",
+        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "tarot_de_la_muerte",
+        titulo: "Tarot de la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "la_primera_profecia",
+        titulo: "La Primera profecia",
+        imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "el_conjuro_2",
+        titulo: "El Conjuro 2: El caso Enfield",
+        imagen: "https://image.tmdb.org/t/p/w300/eYWH6pGsX102DUIjWpeybkDZfqA.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "baghead_contacto_con_la_muerte",
+        titulo: "Baghead: Contacto con la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
       }
     ]
   },
@@ -11626,7 +11950,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "un_lugar_en_silencio_3",
-        titulo: "Un lugar en silencio: Día uno",
+        titulo: "Un lugar en silencio 3: Día uno",
         imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
       },
       {
@@ -12724,7 +13048,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "un_lugar_en_silencio_3",
-        titulo: "Un lugar en silencio: Día uno",
+        titulo: "Un lugar en silencio 3: Día uno",
         imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
       }
     ]
