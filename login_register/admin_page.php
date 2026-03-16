@@ -413,7 +413,7 @@ if (isset($_POST['delete_user']) && $adminLevel === 'super') {
 if (isset($_POST['add_quota']) && $adminLevel === 'super') {
 
     $helperId = (int)$_POST['helper_id'];
-    $extraQuota = (int)$_POST['extra_quota'];
+    $extraQuota = (int)$_POST['quota_value'];
 
     if ($extraQuota > 0) {
 
@@ -430,6 +430,7 @@ if (isset($_POST['add_quota']) && $adminLevel === 'super') {
     header("Location: admin_page.php");
     exit();
 }
+
 
 // =====================
 // QUITAR CUPOS A AYUDANTE
@@ -1419,8 +1420,6 @@ $count = $conn->query("
 <input type="hidden" name="helper_id" value="<?=$h['id']?>">
 <button class="red" name="delete_helper">Borrar</button>
 </form>
-
-</div>
 </td>
 </tr>
 
@@ -1818,6 +1817,7 @@ Actualizar contraseña
 <?php if ($adminLevel==='super'): ?><th>Creado por</th><?php endif; ?>
 <th>Estado</th>
 <th>Expira</th>
+<th>Actualizar contraseña</th>
 <th>Acciones</th>
 </tr>
 
@@ -1835,6 +1835,14 @@ Actualizar contraseña
 </td>
 
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
+
+<td data-label="Actualizar contraseña">
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+<input type="password" name="new_password" placeholder="Nueva contraseña" required>
+<button name="change_password">Actualizar</button>
+</form>
+</td>
 
 <td data-label="Acciones">
 <form method="post">
