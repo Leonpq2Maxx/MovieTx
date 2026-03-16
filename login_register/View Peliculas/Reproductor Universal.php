@@ -2155,7 +2155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg"
       },
       {
-        id: "la_bala_perdida_3",
+        id: "bala_perdida_3",
         titulo: "La bala perdida 3",
         imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"
       }
@@ -3651,7 +3651,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "la_bala_perdida_3",
+        id: "bala_perdida_3",
         titulo: "La bala perdida 3",
         imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"
       },
@@ -4714,7 +4714,7 @@ document.addEventListener('DOMContentLoaded', () => {
   },
   
   capitan_america4: {
-    id: "capitanamerica4",
+    id: "capitan_america4",
     titulo: "Capitán América 4: Un nuevo mundo",
     video: "https://dl.dropbox.com/scl/fi/e5x75pq9aciu61908fdll/Capitan.America.Un.Nuevo.Mundo.2025.1080P-Dual-Lat.mkv?rlkey=7i2hthiznmol3xfyrysv037dj&st=",
     poster: "https://image.tmdb.org/t/p/w780/8eifdha9GQeZAkexgtD45546XKx.jpg",
@@ -5191,7 +5191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg"
       },
       {
-        id: "Tiempo_de_guerra",
+        id: "warfare_tiempo_de_guerra",
         titulo: "Warfare. Tiempo de guerra",
         imagen: "https://image.tmdb.org/t/p/w300/fkVpNJugieKeTu7Se8uQRqRag2M.jpg"
       },
@@ -6800,7 +6800,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/gh7oa9IKlu5yMveemyJkzLfopuB.jpg"
       },
       {
-        id: "la_bala_perdida_3",
+        id: "bala_perdida_3",
         titulo: "La bala perdida 3",
         imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"
       },
@@ -10713,7 +10713,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg"
       },
       {
-        id: "la_bala_perdida_3",
+        id: "bala_perdida_3",
         titulo: "La bala perdida 3",
         imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"
       },
@@ -12220,7 +12220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
+        id: "juguete_diabolico_imaginario",
         titulo: "Imaginario: Juguete diabolico",
         imagen: "https://image.tmdb.org/t/p/w300/s3SNMGwZ7TiiZJDQEOJ1Z4e5WeX.jpg"
       },
@@ -13151,7 +13151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
       },
       {
-        id: "La_calle_del_terror",
+        id: "la_calle_del_terror",
         titulo: "La calle del terror: La reina del baile",
         imagen: "https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg"
       },
@@ -13756,7 +13756,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"
       },
       {
-        id: "Tiempo_de_guerra",
+        id: "warfare_tiempo_de_guerra",
         titulo: "Warfare. Tiempo de guerra",
         imagen: "https://image.tmdb.org/t/p/w300/fkVpNJugieKeTu7Se8uQRqRag2M.jpg"
       },

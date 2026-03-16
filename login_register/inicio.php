@@ -960,14 +960,15 @@ document.addEventListener('DOMContentLoaded', () => {
 <!--MENU SUPERIOR-->
 <div class="top-scroll-menu">
   <a class="menu-item" id="inicio" href="#">Inicio</a>
-  <a class="menu-item" id="2025" href="#">2025</a>
+  
   <!--
+  <a class="menu-item" id="2025" href="#">2025</a>
   <a class="menu-item" id="2024" href="#">2024</a>
   <a class="menu-item" id="populares" href="#">Populares</a>
+  <a class="menu-item" id="pronto" href="#">Pronto</a>
   -->
   <a class="menu-item" id="peliculas" href="#">Peliculas</a>
   <a class="menu-item" id="series" href="#">Series</a>
-  <a class="menu-item" id="pronto" href="#">Pronto</a>
   <a class="menu-item" id="trailers" href="#">Trailers</a>
   
 </div>
@@ -1093,7 +1094,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Mapeo: ajustar aquí los targets según tus alt exactos
   const mappingAltToUrl = {
     "Slide 1": "View Peliculas/Reproductor Universal.php?id=spiderman_man_cruzando_el_multi_verso_2",
-    "Slide 2": "View Peliculas/eproductor Universal.php?id=depredador_tierras_salvajes",
+    "Slide 2": "View Peliculas/Reproductor Universal.php?id=depredador_tierras_salvajes",
     "Slide 3": "View Peliculas/Reproductor Universal.php?id=encerrado_2025",
     "Slide 4": "View Peliculas/Reproductor Universal.php?id=la_conexion_sueca",
     "Slide 5": "View Peliculas/Reproductor Universal.php?id=love_me_love_me",
@@ -1375,41 +1376,6 @@ document.querySelectorAll('.card-link').forEach(link => {
 <div id="contenido-orig">
 
   <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
-
-  <div class="poster">
-    <h4 class="alignleft">Historial</h4><a href="#"></a>
-  </div>
-
-  <div class="scrollmenu">
-    <br>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/"/>
-        <i></i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/"/>
-        <i></i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/"/>
-        <i></i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-  </div>
-
-  <br><br>
 
   <div class="poster">
     <h4 class="alignleft">2026</h4><a href="#"></a>
@@ -1921,27 +1887,15 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Los Croods 1 (2013).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=los_croods">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/27zvjVOtOi5ped1HSlJKNsKXkFH.jpg"/>
         <i>Los Croods</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
-    
-    <!--
 
-    <a class="card-link" data-href="View Peliculas/">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/"/>
-        <i></i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    -->
-
-    <a class="card-link" data-href="View Peliculas/Tarzan 1 (1999).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=tarzan">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/u9WgwjFpBWc3eQxddUFSicH2K6p.jpg"/>
         <i>Tarzan</i>
@@ -1960,7 +1914,7 @@ document.querySelectorAll('.card-link').forEach(link => {
   <div class="scrollmenu">
     <br>
 
-    <a class="card-link" data-href="View Peliculas/Naruto Shippuden The last (2014).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=naruto_the_last">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/p7cf5jz1BQ8OdwUMKN8q8uWpi3J.jpg"/>
         <i>Naruto The Last: La...</i>
@@ -2052,7 +2006,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Hotel Transylvania (2012).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=hotel_transylvania">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg"/>
         <i>Hotel Transylvania</i>
@@ -2095,7 +2049,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Five Nights at Freddy's 2 (2025).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=five_night_at_freddys">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
         <i>Five nights at Freddy's 2</i>
@@ -2103,7 +2057,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/El Conjuro 4 El ultimo rito (2025).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro_4">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg"/>
         <i>El Conjuro 4: El ulti...</i>
@@ -2111,7 +2065,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Imaginario Juguete diabólico (2024).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=juguete_diabolico_imaginario">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg"/>
         <i>Imaginario: Juguete...</i>
@@ -2119,7 +2073,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Háblame (2023).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=hablame">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg"/>
         <i>Háblame</i>
@@ -2135,7 +2089,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Winnie the Pooh Sangre y miel 1 (2023).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=winnie_the_pooh">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cUXqVDrHaOGEJD1clvVd7ucAHdt.jpg"/>
         <i>Winnie the Pooh: San...</i>
@@ -2143,7 +2097,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Guerra Mundial Z.html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=guerra_mundial_z">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/9Sd2zBbi8hlcc6p6hGV3Qfj39jl.jpg"/>
         <i>Guerra mundial z</i>
@@ -2151,7 +2105,7 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Martyrs (2008).html">
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=martyrs">
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5IG3StXtcMDP1hrMFACeEpNVPbt.jpg"/>
         <i>Martyrs</i>
@@ -2205,7 +2159,7 @@ const data = {
     <div class="scrollmenu">
       <br>
 
-      <a class="card-link" data-href="View Peliculas/Five Nights at Freddy's 2 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=five_nigth_at_freddys_2">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
           <i>Five nights at Freddy's 2</i>
@@ -2213,7 +2167,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Cómo entrenar a tu dragón (2025.html)">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fTpbUIwdsfyIldzYvzQi2K4Icws.jpg"/>
           <i>Cómo entrenar a tu...</i>
@@ -2221,7 +2175,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Megan 2 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=megan_2">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fBgyUqyu3ioTSQjJJE5RFs2EG3B.jpg"/>
           <i>M3GAN 2.0</i>
@@ -2229,7 +2183,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Karate Kid 4 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=karate_kid_legends">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg"/>
           <i>Karate Kid: Legends</i>
@@ -2237,7 +2191,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Thunderbolts (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=thunderbolts">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hBH50Mkcrc4m8x73CovLmY7vBx1.jpg"/>
           <i>Thunderbolts*</i>
@@ -2245,7 +2199,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Echo Valley (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=echo_valley">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/1E4WCgTodyS7zo8pSp1gZlPO0th.jpg"/>
           <i>Echo Valley</i>
@@ -2253,7 +2207,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/1978 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=argen_1978_a">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg"/>
           <i>1978</i>
@@ -2261,15 +2215,15 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Amateur (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=amateur">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xzM5pMCIyp8jkGtsFBGcPlRhVBc.jpg"/>
-          <i>El amateur</i>
+          <i>Amateur</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El ladrón de joyas (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_ladron_de_joyas">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg"/>
           <i>El ladron de joyas</i>
@@ -2277,7 +2231,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/El Maravilloso Mago de Oz (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_maravilloso_mago_de_oz">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg"/>
           <i>El maravilloso ma...</i>
@@ -2285,7 +2239,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Estragos (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=estragos">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg"/>
           <i>Estragos</i>
@@ -2293,7 +2247,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/G20 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=g20">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg"/>
           <i>G20</i>
@@ -2301,7 +2255,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Novocaine (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=novocaine">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg"/>
           <i>Novocaine: Sin dolor</i>
@@ -2309,7 +2263,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/La Leyenda de Ochi (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_leyenda_de_ochi">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg"/>
           <i>La leyenda de ochi</i>
@@ -2317,7 +2271,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Otro pequeño favor (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=otro_pequeño_favor">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pZr2QCUbsekpiLnZ7788twcLpSn.jpg"/>
           <i>Otro pequeño favor</i>
@@ -2325,7 +2279,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Poseída (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=poseida">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"/>
           <i>Poseida</i>
@@ -2350,7 +2304,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Karate Kid 4 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=karate_kid_4">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg"/>
           <i>Karate Kid: Legends</i>
@@ -2358,7 +2312,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Novocaine (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=novocaine">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg"/>
           <i>Novocaine: Sin dolor</i>
@@ -2366,7 +2320,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/G20 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=g20">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg"/>
           <i>G20</i>
@@ -2374,7 +2328,7 @@ const data = {
         </div>
       </a> 
 
-      <a class="card-link" data-href="View Peliculas/Pecadores (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=pecadores">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gL6puhup6PXqrKqItWbGA8LF529.jpg"/>
           <i>Los pecadores</i>
@@ -2382,7 +2336,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/K.O. (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=k.o">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg"/>
           <i>K.O</i>
@@ -2390,7 +2344,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Alarum Código Letal (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=alarum_codigo_letal">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg"/>
           <i>Código letal</i>
@@ -2398,7 +2352,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/La fuente de la eterna juventud (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_fuente_de_la_eterna_juventud">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"/>
           <i>La fuente de la ju...</i>
@@ -2406,7 +2360,7 @@ const data = {
         </div>
       </a> 
 
-      <a class="card-link" data-href="View Peliculas/Karate Kid 4 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=karate_kid_$">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/qU6SAj6arAaEgnrtn4WgIL2l3LS.jpg"/>
           <i>Karate Kid 4: Legends</i>
@@ -2414,7 +2368,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Bala perdida 3 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=bala_perdida_3">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"/>
           <i>Bala perdida 3</i>
@@ -2422,7 +2376,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Extraterritorial (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=extraterritorial">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg"/>
           <i>Extraterritorial</i>
@@ -2430,7 +2384,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Bad Boys 4 Hasta La Muerte.(2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=bad_boys_4">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg"/>
           <i>Bad Boys 4: Hasta la...</i>
@@ -2438,7 +2392,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Detonante (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=detonantes">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg"/>
           <i>Detonantes</i>
@@ -2446,7 +2400,7 @@ const data = {
         </div>
       </a> 
 
-      <a class="card-link" data-href="View Peliculas/El Planeta De Los Simios 4 (2024).htm">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_planeta_de_los_simios_4">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/8lfjj21m4vsFbuVrx8y49WNdHR0.jpg"/>
           <i>El planeta de los...</i>
@@ -2462,7 +2416,7 @@ const data = {
         </div>
       </a> 
 
-      <a class="card-link" data-href="View Peliculas/60 Minutos (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=secenta_minutos">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg"/>
           <i>60 Minutos</i>
@@ -2470,7 +2424,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="View Peliculas/Uncharted (2022).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=uncharted">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/77dlklwA1VJOLCqIhhmkmS39BLH.jpg"/>
           <i>Uncharted: Fuera del...</i>
@@ -2545,7 +2499,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/Cómo entrenar a tu dragón 3 (2019).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_3">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rBQ9RVg6Zpo5aasWWOWmjET5Hah.jpg"/>
           <i>Cómo entrenar a tu...</i>
@@ -2553,7 +2507,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Trollhunters (2021).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=trollhunters_el_despertar_de_los_titanes">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg"/>
           <i>Trollhunters: El des...</i>
@@ -2561,7 +2515,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/La rosa de Versalles (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_rosa_de_versalles">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg"/>
           <i>La rosa de Versalles</i>
@@ -2569,7 +2523,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Lo que le falta a esta estrella (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=lo_que_le_falta_a_esta_estrella">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg"/>
           <i>Lo que le falta a esta...</i>
@@ -2577,7 +2531,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Predator Asesino de asesinos (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=depredador_tierras_salvajes">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/qHDsrBZJRx6ZCO4tocFh3gnbosU.jpg"/>
           <i>predator: Asesino...</i>
@@ -2585,7 +2539,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Lilo y Stitch (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=lilo_y_stitch_2025">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"/>
           <i>Lilo y Stitch</i>
@@ -2593,7 +2547,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Sonic 3 La Peliculas (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=sonic_3">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"/>
           <i>Sonic 3: La Pelicula</i>
@@ -2617,7 +2571,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Moana 2 (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=moana_2">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"/>
           <i>Moana 2</i>
@@ -2633,7 +2587,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Turbo (2013).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=turbo">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rJPEcuMyjjKd9Tg3mO1K4a9iAi9.jpg"/>
           <i>Turbo</i>
@@ -2666,7 +2620,7 @@ const data = {
         <span class="lock-icon">🔒</span>
       </div>
     </a>
-      <a class="card-link" data-href="View Peliculas/Baki Hanma vs. Kengan Ashura (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=baki_hanma_vs_kengan_ashura">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"/>
           <i>Baki Hanma vs Ken...</i>
@@ -2674,7 +2628,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Naruto Shippuden The last (2014).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=naruto_the_last">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/1C9RkmyRAwP9IXOtIWM5O4h0Qk9.jpg"/>
           <i>Naruto The Last: La pelicula</i>
@@ -2690,7 +2644,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Boruto 2015.html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=boruto_2015">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg"/>
           <i>Boruto: La pelicula</i>
@@ -2698,7 +2652,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Dragon Ball Super Broly.html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_super_broly">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5vx8zZ7fDsA8KMO6fiVs3pZmNWQ.jpg"/>
           <i>Dragon Ball Super: Broly</i>
@@ -2706,7 +2660,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Dragon Ball Super Super Hero (2022).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_super_super_hero">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/amSIghYUItDQBlVm8TyFK7YaBje.jpg"/>
           <i>Dragon ball super: Hero</i>
@@ -2714,7 +2668,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Dragon Ball Z La resurreccion de Freezer (2015).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_resurreccion_de_freezer">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6QUqAk7quyFIOZoFJmRp14eiorv.jpg"/>
           <i>Dragon ball z: La...</i>
@@ -2722,7 +2676,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Dragon Ball Z La Batalla De Los Dioses.html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_batalla_de_los_dioses">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg"/>
           <i>Dragon ball z: La...</i>
@@ -2730,7 +2684,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Steven Universe (2019).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=steven_universe_la_pelicula">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iVa7A7priXkDMspXAIFVsHbL016.jpg"/>
           <i>Steven Universe</i>
@@ -2751,37 +2705,21 @@ const data = {
 
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=minecraft">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/rZYYmjgyF5UP1AVsvhzzDOFLCwG.jpg"/>
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rZYYmjgyF5UP1AVsvhzzDOFLCwG.jpg"/>
           <i>Minecraft: La pelicula</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/La rosa de Versalles (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_rosa_de_versalles">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6YsEHhqgT6c8nJlS1TL1Zyrxwgw.jpg"/>
           <i>Nonnas</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
-
-      <a class="card-link" data-href="View Peliculas/Viaje de fin de curso Mallorca (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/A8E8EqXqETV8ggPiOkHjaBU8H9N.jpg"/>
-          <i>Viaje de fin de curso</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jCerTXgMp5iiSoJofwkKskp2w45.jpg"/>
-          <i>Chicas malas</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
     
-      <a class="card-link" data-href="View Peliculas/Ricky Stanicky El impostor (2024) .html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=ricky_el_impostor">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg"/>
           <i>Rick Stanicky: El im...</i>
@@ -2789,7 +2727,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Diario de mi vagina (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=diario_de_mi_vagina">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hyFKdAN5Dl93mt2JHfcfvIyf38g.jpg"/>
           <i>Diario de mi vagina</i>
@@ -2797,7 +2735,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Barbie (2023).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=barbie">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"/>
           <i>Barbie</i>
@@ -2829,7 +2767,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Mi abuelo es un peligro (2016).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=mi_abuelo_es_un_peligro">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/7r9pn1g3lY95DjiwzxpmNqlJzeO.jpg"/>
           <i>Mi abuelo es un peligro</i>
@@ -2837,7 +2775,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Donde esta el fantasma (2013).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=onde_esta_el_fantasma">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pAVGfrADDvKMgoZnJLSCiLBCCiG.jpg"/>
           <i>¿Donde esta el fantasma?</i>
@@ -2855,7 +2793,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/Rehén (2025).HTML">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=rehen">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"/>
           <i>¡Rehén!</i>
@@ -2863,7 +2801,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El guason 2 (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_guason_2">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"/>
           <i>El Guasón 2</i>
@@ -2871,7 +2809,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Asesino serial (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=asesino_serial">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"/>
           <i>Asesino serial</i>
@@ -2879,7 +2817,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Mara (2018).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=mara">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg"/>
           <i>Mara</i>
@@ -2895,7 +2833,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El guason (2019).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_guason">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg"/>
           <i>El Guasón</i>
@@ -2913,7 +2851,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/¡A Ganar! (2018).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=a_ganar">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg"/>
           <i>¡A Ganar!</i>
@@ -2921,7 +2859,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Yo, Tonya (2017).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=yo_tonya">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg"/>
           <i>Yo, Tonya</i>
@@ -2947,7 +2885,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/El Maravilloso Mago de Oz (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_maravilloso_mago_de_oz">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg"/>
           <i>El maravilloso ma...</i>
@@ -2955,7 +2893,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Harta (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=harta">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"/>
           <i>Harta</i>
@@ -2963,7 +2901,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Rehén (2025).HTML">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=rehen">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"/>
           <i>¡Rehén!</i>
@@ -2971,10 +2909,10 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Tierra Baja (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=tierra_baja">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/7c6HPcnw0oaO8H2vBwSLqTtFYx9.jpg"/>
-          <i>Tierra Baja</i>
+          <i>Tierra baja</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
@@ -2987,7 +2925,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Mala influencia (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=mala_influencia">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg"/>
           <i>Mala influencia</i>
@@ -2995,7 +2933,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Desaparecidos en la noche (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=desaparecidos_en_la_noche">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg"/>
           <i>Desaparecidos en...</i>
@@ -3003,7 +2941,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Todo bien (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=todo_bien">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/mKdRfCpWkcH0wEEg6yO4a8ES4TX.jpg"/>
           <i>¿Todo bien?</i>
@@ -3011,7 +2949,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/La joven y el mar (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_joven_y_el_mar">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/n3KE8fbiOCr6qktIpE52wWErBMi.jpg"/>
           <i>La joven y el mar</i>
@@ -3019,15 +2957,15 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Miller's Girl (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=millers_girl">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"/>
-          <i>Miller's Girl</i>
+          <i>Miller's girl</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Nahir (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=nahir">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg"/>
           <i>Nahir</i>
@@ -3035,7 +2973,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="Reproductor Universal.php?id=gran_turismo">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cCHhhS8mYPlp4AQUSpdiZPGOiwR.jpg"/>
           <i>Gran turismo</i>
@@ -3053,7 +2991,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/Blancanieves (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=blancanieves">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"/>
           <i>Blancanieves</i>
@@ -3069,7 +3007,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/Peter Pan (1953).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=peter_pan">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg"/>
           <i>Peter pan</i>
@@ -3077,7 +3015,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Toy Story 4 (2019).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=toy_story_4">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg"/>
           <i>Toy Story 4</i>
@@ -3101,7 +3039,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Encanto (2021).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=encanto">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/ybXzCBc9x9bcM1ukmwhErutRiLO.jpg"/>
           <i>Encanto</i>
@@ -3109,9 +3047,9 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Belleza Negra (2020).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=belleza_negra">
         <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3wE2OAmWsuuE4IOp6i8iSeRYy4.jpg"/>
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/d3wE2OAmWsuuE4IOp6i8iSeRYy4.jpg"/>
           <i>Belleza negra</i>
           <span class="lock-icon">🔒</span>
         </div>
@@ -3120,7 +3058,7 @@ const data = {
       <a class="card-link" data-href="">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fuKMIP50VbVwZWFuO49iqvMk9v0.jpg"/>
-          <i>La dama y el vaga..</i>
+          <i>La dama y el vaga...</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
@@ -3140,10 +3078,11 @@ const data = {
           <span class="lock-icon">🔒</span>
         </div>
       </a>
+
     
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=tierra_de_osos_2">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" data-src="https://image.tmdb.org/t/p/w300/iiRaRi7SFCawo6lieWi3Ntcy936.jpg"/>
+          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iiRaRi7SFCawo6lieWi3Ntcy936.jpg"/>
           <i>Tierra de osos 2</i>
           <span class="lock-icon">🔒</span>
         </div>
@@ -3151,7 +3090,7 @@ const data = {
 
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=tierra_de_osos">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" data-src="https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg"/>
+          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6kGf1Nm99GKtyOCrxmNs6thHmdW.jpg"/>
           <i>Tierra de osos</i>
           <span class="lock-icon">🔒</span>
         </div>
@@ -3176,7 +3115,7 @@ const data = {
         </div>
       </a>
       
-      <a class="card-link" data-href="View Peliculas/Contraataque (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=contraataque">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"/>
           <i>Contraataque</i>
@@ -3184,7 +3123,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Warfare. Tiempo de guerra (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=warfare_tiempo_de_guerra">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fkVpNJugieKeTu7Se8uQRqRag2M.jpg"/>
           <i>Tiempo de guerra</i>
@@ -3192,7 +3131,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Heroico (2023).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=heroico">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tRD18JW9iKqmwkQKvzPYDQetRoI.jpg"/>
           <i>Heroico</i>
@@ -3208,7 +3147,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Corazones de acero (2016).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=corazones_de_acero">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg"/>
           <i>Corazones de...</i>
@@ -3257,7 +3196,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Capitan america el nuevo mundo (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=capitan_america4">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg"/>
           <i>Capitan America: El...</i>
@@ -3273,9 +3212,9 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=venom3">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id="venom3">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/wWTxMbNpAILRYQXw7orNMpmJmui.jpg"/>
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/wWTxMbNpAILRYQXw7orNMpmJmui.jpg"/>
           <i>Venom 3: El último baile</i>
           <span class="lock-icon">🔒</span>
         </div>
@@ -3283,7 +3222,7 @@ const data = {
 
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=venom2">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg"/>
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg"/>
           <i>Venom 2: Carnage liberado</i>
           <span class="lock-icon">🔒</span>
         </div>
@@ -3291,13 +3230,13 @@ const data = {
 
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=venom">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/bURIWlkMbzT8RdpemzCmQECo2Uh.jpg"/>
+          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/bURIWlkMbzT8RdpemzCmQECo2Uh.jpg"/>
           <i>Venom</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=viuda_negra">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tvl0OXmNQtLrPk7fJ8UHvLrD37R.jpg"/>
           <i>Viuda negra</i>
@@ -3305,7 +3244,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Thor 4 Amor y Trueno (2022).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=thor_4">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pASJkJfb5tPXn3AW2aAFLMn6Afu.jpg"/>
           <i>Thor 4: Amor y trueno</i>
@@ -3313,7 +3252,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Doctor Strange en el multiverso de la locura (2022).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=doctor_strange2">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xu0RftYPT4crY4ZSf9SMa5UM8dr.jpg"/>
           <i>Doctor Strange: Mul...</i>
@@ -3321,7 +3260,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Spider-Man 3 Sin camino a casa (2021).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=spider_man3">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rkLhaNa37IwzWis8rzWMAYTCdIK.jpg"/>
           <i>Spider-Man 3: Sin cami...</i>
@@ -3329,15 +3268,15 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Los vengadores endgame (2019).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=los_vengadores_endgame">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/br6krBFpaYmCSglLBWRuhui7tPc.jpg"/>
-          <i>Avengers: Endgame</i>
+          <i>Los vengadores endgame</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="Reproductor Universal.php?id=doctor_strange">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/zdZ2ZykDKGkUuGgOszqrt1fn3cx.jpg"/>
           <i>Doctor Strange</i>
@@ -3355,7 +3294,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/Banger (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=banger">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/x2pegSby27ebOwW361GJb1aKcxa.jpg"/>
           <i>Banger</i>
@@ -3363,7 +3302,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Karol G Mañana fue muy bonito (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=karol_g">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5aXoQYwaQ7JJVUWclHAEXJgiS2M.jpg"/>
           <i>Karol G</i>
@@ -3380,7 +3319,7 @@ const data = {
       </a>
 
 
-      <a class="card-link" data-href="View Peliculas/Freestyle (2023).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=freestyle">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg"/>
           <i>Freestyle</i>
@@ -3388,7 +3327,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/CATO (2021).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=cato">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/lTCsGvAjqBbqp7T5ziK28SeDfVT.jpg"/>
           <i>CATO</i>
@@ -3415,7 +3354,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Mi lista de deseos (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=mi_lista_de_deseos">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/r6K6spYEWf7aDGsY4EdkScZW1Hl.jpg"/>
           <i>Mi lista de deseos</i>
@@ -3423,7 +3362,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Corazón delator (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=corazon_delator">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg"/>
           <i>Corazón delator</i>
@@ -3431,15 +3370,15 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Tierra Baja (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=tierra_baja">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/7c6HPcnw0oaO8H2vBwSLqTtFYx9.jpg"/>
-          <i>Tierra Baja</i>
+          <i>Tierra baja</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Pideme lo que quieras (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=pideme_lo_que_quieras">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg"/>
           <i>Pídeme lo que quieras</i>
@@ -3447,23 +3386,23 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Almas marcadas Rule + Shaw (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=almas_marcadas">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg"/>
-          <i>Almas Marcadas</i>
+          <i>Almas marcadas</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Mala influencia (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=mala_influencia">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg"/>
-          <i>Mala Influencia</i>
+          <i>Mala influencia</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Anora (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=anora">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"/>
           <i>Anora</i>
@@ -3471,10 +3410,10 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Suggar Baby (2024).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=suggar_baby">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uLbDZIDAbN6SIiBr7Z2eMZ9212S.jpg"/>
-          <i>Suggar Baby</i>
+          <i>Suggar baby</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
@@ -3482,12 +3421,12 @@ const data = {
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=desafiante_rivales">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg"/>
-          <i>Desafiante Rivales</i>
+          <i>Desafiante rivales</i>
           <span class="lock-icon">🔒</span>
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/After 1 Aquí empieza todo (2019).HTML">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=after_2019">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg"/>
           <i>After: Aqui empieza...</i>
@@ -3495,15 +3434,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Eva (2021).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/bXZ3j3kQgCRZj7KD4Q5F9m5ABaQ.jpg"/>
-          <i>Eva</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="Reproductor Universal.php?id=dias_365">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"/>
           <i>365 Dias</i>
@@ -3521,7 +3452,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Peliculas/Amateur (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=amateur">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xzM5pMCIyp8jkGtsFBGcPlRhVBc.jpg"/>
           <i>El amateur</i>
@@ -3529,7 +3460,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Estragos (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=estragos">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg"/>
           <i>Estragos</i>
@@ -3537,7 +3468,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El ladrón de joyas (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_ladron_de_joyas">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg"/>
           <i>El ladron de joyas</i>
@@ -3545,7 +3476,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Otro pequeño favor (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=otro_pequeño_favor">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pZr2QCUbsekpiLnZ7788twcLpSn.jpg"/>
           <i>Otro pequeño favor</i>
@@ -3553,7 +3484,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/La viuda negra (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_viuda_negra">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg"/>
           <i>La viuda negra</i>
@@ -3561,7 +3492,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El último respiro 2025.html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_ultimo_respiro">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/lhRLEa7xMw8yy4JDTQthQMFij93.jpg"/>
           <i>El último respiro</i>
@@ -3569,7 +3500,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Contraataque (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=contraataque">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"/>
           <i>Contraataque</i>
@@ -3582,7 +3513,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft">  Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
+      <h4 class="alignleft">Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3604,7 +3535,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=five_night_at_freddys_2">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vMU4TTPcnwtbJMFKfAEkDcDXb3l.jpg"/>
           <i>Five nights at Freddy's 2</i>
@@ -3612,7 +3543,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Megan 2 (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=megan_2">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fBgyUqyu3ioTSQjJJE5RFs2EG3B.jpg"/>
           <i>M3GAN 2.0</i>
@@ -3628,7 +3559,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Poseída (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=Poseída">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"/>
           <i>Poseida</i>
@@ -3636,7 +3567,7 @@ const data = {
         </div>
       </a>
     
-      <a class="card-link" data-href="View Peliculas/La calle del terror La reina del baile (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=la_calle_del_terror">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg"/>
           <i>La calle del terror: La...</i>
@@ -3644,446 +3575,8 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=until_dawn_noche_de_terror">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg"/>
-          <i>Until Dawn: Noche...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Destino Final Lazos De Sangre (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"/>
-          <i>Destino Final 6: La...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/La Acompañante (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg"/>
-          <i>La acompañante</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Presencia (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg"/>
-          <i>Presencia</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/El Mono (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"/>
-          <i>El mono</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/Terrifier 3 Payaso (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/63xYQj1BwRFielxsBDXvHIJyXVm.jpg"/>
-          <i>Terrifier 3</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Baghead contacto con la muerte (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"/>
-          <i>Baghead: contacto...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/Mientras duermes (2011).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/aDi56oSNirZStVwgl8R12nkQrIk.jpg"/>
-          <i>Mientras duermes</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/El hoyo 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"/>
-          <i>EL HOYO 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Turno nocturno (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg"/>
-          <i>Turno nocturno</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Tarot (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/sS9ePS66VV2HMUPk4pyA5qAyhII.jpg"/>
-          <i>Tarot</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/La primera profecia (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"/>
-          <i>La primera profecia</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Martyrs (2008).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5kymocKK0SfyEEV0ohNEBz1lxNx.jpg"/>
-          <i>Martyrs</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Mara (2018).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg"/>
-          <i>Mara</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/No estarás sola (2022).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/moBrEYoOxLRc1LsFl8IXeilYwtq.jpg"/>
-          <i>No estaras sola</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-  `,
-  "2025": `
-    <div class="poster">
-      <h4 class="alignleft">2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      
-      <a class="card-link" data-href="View Peliculas/Five Nights at Freddy's 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
-          <i>Five nights at Freddy's 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Zootopia 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg"/>
-          <i>Zootopia 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg"/>
-          <i>Demon Slayer: Kimetsu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-    
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Peliculas 2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=avatar_3">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vHtH4xdcTbaCVftGwaeGFHfOB3p.jpg"/>
-          <i>Avatar 3: fuegos y Ceniza</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="View Peliculas/Como entrenar a tu dragon (2025)">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fTpbUIwdsfyIldzYvzQi2K4Icws.jpg"/>
-          <i>Cómo entrenar a tu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Megan 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fBgyUqyu3ioTSQjJJE5RFs2EG3B.jpg"/>
-          <i>M3GAN 2.0</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Karate Kid 4 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg"/>
-          <i>Karate Kid: Legends</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Thunderbolts (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hBH50Mkcrc4m8x73CovLmY7vBx1.jpg"/>
-          <i>Thunderbolts*</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/Destino Final Lazos De Sangre (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"/>
-          <i>Destino Final 6: Lazos...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/1E4WCgTodyS7zo8pSp1gZlPO0th.jpg"/>
-          <i>Echo Valley</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Lilo y Stitch (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg"/>
-          <i>Lilo y Stitch</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/1978 (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg"/>
-          <i>1978</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Pecadores (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gL6puhup6PXqrKqItWbGA8LF529.jpg"/>
-          <i>Los pecadores</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/La rosa de Versalles (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg"/>
-          <i>La rosa de Versalles</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Estragos (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg"/>
-          <i>Estragos</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/K.O. (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg"/>
-          <i>K.O</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/Harta (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"/>
-          <i>Harta</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Corazón delator (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg"/>
-          <i>Corazón delator</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/El último respiro 2025.html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/lhRLEa7xMw8yy4JDTQthQMFij93.jpg"/>
-          <i>El último respiro</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Poseída (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"/>
-          <i>Poseida</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/La calle del terror La reina del baile (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg"/>
-          <i>La calle del terror: La...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/Rehén (2025).HTML">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"/>
-          <i>¡Rehén!</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/La viuda negra (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg"/>
-          <i>La viuda negra</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
   `,
 
-  "2024": `
-    <div class="poster">
-      <h4 class="alignleft">2024</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="View Peliculas/Azrael (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"/>
-          <i>Azrael</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/El guason 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"/>
-          <i>El Guasón 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/El hoyo 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"/>
-          <i>EL HOYO 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/La primera profecia (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"/>
-          <i>La primera Profecia</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Baki Hanma vs. Kengan Ashura (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"/>
-          <i>Baki Hanma vs Ken...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/Turno nocturno (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg"/>
-          <i>Turno nocturno</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Todo bien (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/mKdRfCpWkcH0wEEg6yO4a8ES4TX.jpg"/>
-          <i>¿Todo bien?</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Mufasa El rey león (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"/>
-          <i>Múfasa: El rey León</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/Bad Boys 4 Hasta La Muerte.(2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg"/>
-          <i>Bad Boys 4: Hasta...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Moana 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"/>
-          <i>Moana 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Baghead contacto con la muerte (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"/>
-          <i>Baghead: Contacto...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    
-      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=deadpool_y_wolverine">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg"/>
-          <i>Deadpool y Wolverine</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/Desaparecidos en la noche (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg"/>
-          <i>Desaparecidos en...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    </div>
-
-  `,
   "series": `
     <div class="poster">
       <h4 class="alignleft">Disponible</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
@@ -4091,7 +3584,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Series/El Juego Del Calamar (2021).html">
+      <a class="card-link" data-href="">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy"  src="https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg"/>
           <i>El juego Del calamar</i>
@@ -4170,7 +3663,7 @@ const data = {
           <span class="lock-icon">🔒</span>
         </div>
       </a>
-      <a class="card-link" data-href="View Series/Moises y los diez mandamientos (2015).php">
+      <a class="card-link" data-href="">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"/>
           <i>Moisés y los Diez Man...</i>
@@ -4187,7 +3680,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="View Series/View Series/En el barro (2025).html">
+      <a class="card-link" data-href="">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kKi1YdzQNM87Mcz7WxxclHbevwr.jpg"/>
           <i>En el barro</i>
@@ -4256,7 +3749,7 @@ const data = {
 
     <div class="scrollmenu">
       <br>
-       <a class="card-link" data-href="View Series/IT Bienvenidos a Derry (2025).html">
+       <a class="card-link" data-href="">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg"/>
           <i>It: Bienvenidos a Derry</i>
@@ -4279,143 +3772,6 @@ const data = {
           <span class="lock-icon">🔒</span>
         </div>
       </a>
-    </div>
-
-  `,
-
-  "pronto": `
-    <div class="poster">
-      <h4 class="alignleft">2024</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg"/>
-          <i>Demon Slayer: Kimetsu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fbcs5AxrdXwyj1b8bGGMgC9kXrM.jpg"/>
-          <i>Gladiador II</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/sO8kPwslPK5iXWDS1RKZvXkO95T.jpg"/>
-          <i>El llanto</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/iCOQUVVaPqRuR3JqF71akguf6Mj.jpg"/>
-          <i>Guerra Civil</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oV3R0E1GOXVrybojkEDvool22Bi.jpg"/>
-          <i>La niña de la comunión</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg"/>
-          <i>Háblame</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/k6VBhNc66CdGTEdw7sR7GBt7AFY.jpg"/>
-          <i>El hombre lobo</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/o410zKXtZYy2vVBcQJPxzOc9KYc.jpg"/>
-          <i>La huella del mal</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/qDyJuHpn0Sh19fMv52vRTwGBx4g.jpg"/>
-          <i>Pánico en el tren...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/njqLGG2djaHCe4bAG0ZhN9Z4x4t.jpg"/>
-          <i>El contador 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/99XUkLH31ArJYf4fqGmu9pmA00u.jpg"/>
-          <i>La partida de go</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/mYK7OYW4w2ZujE8B8GGnVYZWHYD.jpg"/>
-          <i>Rosario: Herencia Mal...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/haOjJGUV00dKlZaJWgjM1UD1cJV.jpg"/>
-          <i>Misión: Imposible...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3ZMGC839jsKNAweGeQDBZDmu6ka.jpg"/>
-          <i>Mickey 17</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/lpMXvcdOnEg4rvsIjWEImhHI1aH.jpg"/>
-          <i>Algo embarazada</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/2Xkdb7J3juzcLe8IrOheNkDgklZ.jpg"/>
-          <i>Divorcio en negro...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>  
     </div>
 
   `,
@@ -4610,7 +3966,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="View Peliculas/El Conjuro 4 El ultimo rito (2025).html">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro_4">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg"/>
           <i>El Conjuro 4: El ulti...</i>
@@ -5816,8 +5172,9 @@ function cerrarSesion(){
 
 
 <nav class="menu-inferior">
-  <a href="Menus Peliculas Series/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
-  <a href="Mostras Mas/Busqueda.html"><i class="fas fa-search"></i><span>Buscar</span></a>
+    <!--   -->
+  <a href="Menus Precios/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="Mostras Mas/Busqueda.php"><i class="fas fa-search"></i><span>Buscar</span></a>
   <!-- NUEVO BOTÓN AJUSTES -->
   <a href="#" id="btnAjustes">
     <i class="fas fa-cog"></i>
