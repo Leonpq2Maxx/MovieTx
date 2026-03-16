@@ -908,13 +908,26 @@ tr:hover{
     top:0;
     right:-340px;
     width:320px;
-    height:100%;
+    height:100vh;
     background:linear-gradient(180deg,#020617,#0f172a);
     color:white;
     padding:26px;
     transition:.35s;
     z-index:9998;
+
+    overflow-y:auto;      /* 🔥 ACTIVA SCROLL */
+    -webkit-overflow-scrolling:touch; /* mejor scroll en móviles */
 }
+
+.side-menu::-webkit-scrollbar{
+    width:6px;
+}
+
+.side-menu::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:10px;
+}
+
 
 .side-menu.open{
     right:0;
