@@ -39,13 +39,27 @@ $fotoNombre = "default.png";
 
 if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0){
 
-$ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+    // 🔥 NORMALIZAR EXTENSION
+    $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
 
-$fotoNombre = "perfil_".$userId."_".time().".".$ext;
+    // 🔥 SI NO TIENE EXTENSION
+    if(empty($ext)){
+        $ext = "png";
+    }
 
-$ruta = $carpeta.$fotoNombre;
+    $fotoNombre = "perfil_".$userId."_".time().".".$ext;
 
-move_uploaded_file($_FILES['foto']['tmp_name'],$ruta);
+    $ruta = $carpeta.$fotoNombre;
+
+    // 🔥 VERIFICAR QUE EL TEMPORAL EXISTA
+    if(!is_uploaded_file($_FILES['foto']['tmp_name'])){
+        die("Error: archivo no válido");
+    }
+
+    // 🔥 MOVER ARCHIVO (AHORA CONTROLADO)
+    if(!move_uploaded_file($_FILES['foto']['tmp_name'],$ruta)){
+        die("Error al guardar la imagen en carpeta");
+    }
 
 }
 

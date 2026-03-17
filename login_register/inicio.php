@@ -65,6 +65,34 @@ if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
 $nombre = $user['name'] ?? 'Usuario';
 $email  = $user['email'] ?? '';
 $foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   PERFIL SELECCIONADO
+========================= */
+
+// 🔥 PERFIL ACTIVO
+if(isset($_SESSION['perfil_id'])){
+
+    $perfilId = $_SESSION['perfil_id'];
+
+    $stmtPerfil = $conn->prepare("SELECT nombre, foto FROM perfiles WHERE id=? AND user_id=?");
+    $stmtPerfil->bind_param("ii", $perfilId, $userId);
+    $stmtPerfil->execute();
+    $resPerfil = $stmtPerfil->get_result();
+
+    if($resPerfil->num_rows > 0){
+        $perfil = $resPerfil->fetch_assoc();
+        $nombre = $perfil['nombre'];
+        $foto   = "uploads/perfiles/".$perfil['foto'];
+    } else {
+        // 🔥 si el perfil no existe más
+        unset($_SESSION['perfil_id']);
+    }
+
+}
+
+
 /* =========================
    VERIFICACIÓN AJAX
 ========================= */
@@ -162,36 +190,80 @@ if (isset($_POST['delete_account'])) {
 
 
 /* =========================
-   ACTUALIZAR FOTO
+   ACTUALIZAR FOTO (PRO)
 ========================= */
 
 if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
 
-    $fotoActual = $user['foto'] ?? '';
-
-    // Borrar foto anterior si no es la default
-    if (!empty($fotoActual) && $fotoActual !== 'Logo Poster MovieTx PNG/Logo MovieTx.png') {
-        if (file_exists($fotoActual)) {
-            unlink($fotoActual);
-        }
-    }
-
-    // Crear carpeta si no existe
-    if (!is_dir("uploads/usuarios/")) {
-        mkdir("uploads/usuarios/", 0755, true);
-    }
-
-    // Nombre seguro
-    $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+    $extension = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
     $nombreArchivo = uniqid() . "." . $extension;
-    $rutaDestino = "uploads/usuarios/" . $nombreArchivo;
 
-    move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
+    /* =========================
+       🔥 SI ES PERFIL
+    ========================= */
+    if (isset($_SESSION['perfil_id'])) {
 
-    // Actualizar en base
-    $stmt = $conn->prepare("UPDATE users SET foto=? WHERE id=?");
-    $stmt->bind_param("si", $rutaDestino, $userId);
-    $stmt->execute();
+        $perfilId = $_SESSION['perfil_id'];
+
+        // Obtener foto actual del perfil
+        $stmt = $conn->prepare("SELECT foto FROM perfiles WHERE id=? AND user_id=?");
+        $stmt->bind_param("ii", $perfilId, $userId);
+        $stmt->execute();
+        $perfil = $stmt->get_result()->fetch_assoc();
+
+        if ($perfil) {
+
+            $fotoActual = "uploads/perfiles/" . $perfil['foto'];
+
+            // Borrar foto anterior
+            if (!empty($perfil['foto']) && file_exists($fotoActual)) {
+                unlink($fotoActual);
+            }
+
+            // Crear carpeta si no existe
+            if (!is_dir("uploads/perfiles/")) {
+                mkdir("uploads/perfiles/", 0755, true);
+            }
+
+            $rutaDestino = "uploads/perfiles/" . $nombreArchivo;
+
+            move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
+
+            // Guardar SOLO el nombre en BD
+            $stmt = $conn->prepare("UPDATE perfiles SET foto=? WHERE id=? AND user_id=?");
+            $stmt->bind_param("sii", $nombreArchivo, $perfilId, $userId);
+            $stmt->execute();
+        }
+
+    } else {
+
+        /* =========================
+           🔥 USUARIO PRINCIPAL
+        ========================= */
+
+        $fotoActual = $user['foto'] ?? '';
+
+        // Borrar si no es default
+        if (!empty($fotoActual) && $fotoActual !== 'Logo Poster MovieTx PNG/Logo MovieTx.png') {
+            if (file_exists($fotoActual)) {
+                unlink($fotoActual);
+            }
+        }
+
+        // Crear carpeta
+        if (!is_dir("uploads/usuarios/")) {
+            mkdir("uploads/usuarios/", 0755, true);
+        }
+
+        $rutaDestino = "uploads/usuarios/" . $nombreArchivo;
+
+        move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
+
+        // Guardar ruta completa
+        $stmt = $conn->prepare("UPDATE users SET foto=? WHERE id=?");
+        $stmt->bind_param("si", $rutaDestino, $userId);
+        $stmt->execute();
+    }
 
     header("Location: inicio.php");
     exit();
@@ -1547,7 +1619,7 @@ document.querySelectorAll('.card-link').forEach(link => {
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg"/>
-        <i>El gato con botas: El último deseo</i>
+        <i>El gato con botas 2...</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
@@ -1563,7 +1635,7 @@ document.querySelectorAll('.card-link').forEach(link => {
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_origen_de_los_guardianes">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg"/>
-        <i>El origen de los guardianes</i>
+        <i>El origen de los guardi...</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
@@ -4682,6 +4754,10 @@ function handleAdultLinkClick(e) {
 
     <!-- OPCIONES DEL USUARIO -->
     <div class="opciones-ajustes">
+
+      <button onclick="location.href='Menus Peliculas Series/Compartir.html'">
+        <i class="fas fa-share-alt"></i> Perfiles
+      </button>
       
       <button onclick="location.href='View Peliculas/favoritos.php'">
         <i class="fas fa-heart"></i> Favoritos

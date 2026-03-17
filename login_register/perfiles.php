@@ -9,6 +9,31 @@ if(!isset($_SESSION['id'])){
 
 $userId = $_SESSION['id'];
 
+/* SELECCIONAR PERFIL */
+if(isset($_GET['perfil_id'])){
+    $perfilId = intval($_GET['perfil_id']);
+
+    // 🔥 PERFIL PRINCIPAL (usuario)
+    if($perfilId === 0){
+        unset($_SESSION['perfil_id']);
+        header("Location: inicio.php");
+        exit;
+    }
+
+    // 🔒 VERIFICAR QUE EL PERFIL SEA DEL USUARIO
+    $stmtPerfil = $conn->prepare("SELECT id FROM perfiles WHERE id=? AND user_id=?");
+    $stmtPerfil->bind_param("ii", $perfilId, $userId);
+    $stmtPerfil->execute();
+    $resPerfil = $stmtPerfil->get_result();
+
+    if($resPerfil->num_rows > 0){
+        $_SESSION['perfil_id'] = $perfilId;
+    }
+
+    header("Location: inicio.php");
+    exit;
+}
+
 /* OBTENER FOTO Y NOMBRE DEL USUARIO */
 
 $stmtUser = $conn->prepare("SELECT foto, name FROM users WHERE id=?");
@@ -249,7 +274,7 @@ Cerrar sesión
 <div class="perfiles-grid">
 
 <!-- USUARIO PRINCIPAL -->
-<div class="perfil-card" onclick="location.href='inicio.php'">
+<div class="perfil-card" onclick="location.href='perfiles.php?perfil_id=0'">
 <img src="<?php echo $fotoUsuario; ?>">
 <p><?php echo $nombreUsuario; ?></p>
 </div>
@@ -257,7 +282,7 @@ Cerrar sesión
 <!-- PERFILES -->
 <?php while($perfil = $result->fetch_assoc()){ ?>
 
-<div class="perfil-card">
+<div class="perfil-card" onclick="location.href='perfiles.php?perfil_id=<?php echo $perfil['id']; ?>'">
 <img src="uploads/perfiles/<?php echo $perfil['foto']; ?>">
 <p><?php echo $perfil['nombre']; ?></p>
 </div>
