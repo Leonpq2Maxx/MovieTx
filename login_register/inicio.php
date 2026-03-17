@@ -5173,7 +5173,7 @@ function cerrarSesion(){
 
 <nav class="menu-inferior">
     <!--   -->
-  <a href="Menus Precios/Precio.html"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
+  <a href="Menus Precios/Precio.php"><i class="fas fa-dollar-sign"></i><span>Precio</span></a>
   <a href="Mostras Mas/Busqueda.php"><i class="fas fa-search"></i><span>Buscar</span></a>
   <!-- NUEVO BOTÓN AJUSTES -->
   <a href="#" id="btnAjustes">

@@ -165,18 +165,27 @@ $_SESSION['login_message'] = null;
 $_SESSION['login_type'] = null;
 
 
-    /* -------- REDIRECCIÓN -------- */
-    if ($user['role'] === 'admin') {
-        header("Location: admin_page.php");
-    } else {
-        header("Location: inicio.php");
-    }
+   /* -------- REDIRECCIÓN -------- */
+
+if ($user['role'] === 'admin') {
+
+    header("Location: admin_page.php");
     exit();
+
+} else {
+
+    // Usuario normal → pantalla de perfiles
+    header("Location: perfiles.php");
+    exit();
+
 }
+
+} // ← ESTA LLAVE CIERRA if (isset($_POST['login']))
 
 /* ======================================================
    SEGURIDAD
 ====================================================== */
+
 header("Location: index.php");
 exit();
 

@@ -133,6 +133,23 @@ if (isset($_POST['create_helper']) && $adminLevel === 'super') {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    // 🔒 VALIDAR MAX PERFILES
+if (!isset($_POST['max_perfiles']) || $_POST['max_perfiles'] === '') {
+
+    $_SESSION['msg'] = "Debes ingresar la cantidad de perfiles";
+    $_SESSION['msg_type'] = "error";
+    header("Location: admin_page.php");
+    exit();
+}
+
+$maxPerfiles = (int)$_POST['max_perfiles'];
+
+if ($maxPerfiles < 1) {
+    $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
+    $_SESSION['msg_type'] = "error";
+    header("Location: admin_page.php");
+    exit();
+}
     $quota = (int)$_POST['quota']; // NUEVO
 
     $rutaFoto = null;
@@ -157,11 +174,11 @@ $check = $stmt->get_result();
 
         $stmt = $conn->prepare("
             INSERT INTO users
-            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto)
+            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto,max_perfiles)
             VALUES (?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
         ");
 
-        $stmt->bind_param("sssiss", $name, $email, $pass, $quota, $adminId, $rutaFoto);
+        $stmt->bind_param("sssiss", $name, $email, $pass, $quota, $adminId, $rutaFoto, $maxPerfiles);
         $stmt->execute();
     }
 
@@ -182,6 +199,23 @@ if (isset($_POST['create_user'])) {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    // 🔒 VALIDAR MAX PERFILES
+if (!isset($_POST['max_perfiles']) || $_POST['max_perfiles'] === '') {
+
+    $_SESSION['msg'] = "Debes ingresar la cantidad de perfiles";
+    $_SESSION['msg_type'] = "error";
+    header("Location: admin_page.php");
+    exit();
+}
+
+$maxPerfiles = (int)$_POST['max_perfiles'];
+
+if ($maxPerfiles < 1) {
+    $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
+    $_SESSION['msg_type'] = "error";
+    header("Location: admin_page.php");
+    exit();
+}
 
     $rutaFoto = null;
 
@@ -223,12 +257,13 @@ if (isset($_POST['create_user'])) {
         }
 
         $stmt = $conn->prepare("
-            INSERT INTO users
-            (name,email,password,role,status,created_by,created_by_admin,created_at,foto)
-            VALUES (?, ?, ?, 'user', 'pending', 'admin', ?, NOW(), ?)
-        ");
+    INSERT INTO users
+    (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto,max_perfiles)
+    VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(),
+            DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?, ?)
+");
 
-        $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
+$stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfiles);
         $stmt->execute();
 
         $newUserId = $stmt->insert_id;
@@ -256,13 +291,12 @@ if (isset($_POST['create_user'])) {
     else {
 
         $stmt = $conn->prepare("
-            INSERT INTO users
-            (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto)
-            VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(),
-                    DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?)
-        ");
+    INSERT INTO users
+    (name,email,password,role,status,created_by,created_by_admin,created_at,foto,max_perfiles)
+    VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(), ?, ?)
+");
 
-        $stmt->bind_param("sssis", $name, $email, $pass, $adminId, $rutaFoto);
+$stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfiles);
         $stmt->execute();
 
         $_SESSION['msg'] = "Usuario creado con éxito";
@@ -1372,6 +1406,9 @@ onclick="window.location.href=window.location.pathname">
   <input type="password" name="password" placeholder="Contraseña">
   <div class="error-text">Ingrese una contraseña</div>
 
+  <input type="number" name="max_perfiles" placeholder="Cantidad de perfiles (ej: 1,2,3,5)" min="1" max="5" required>
+<div class="error-text">Ingrese cantidad de perfiles</div>
+
   <label>Foto del usuario:</label>
   <input type="file" name="foto" accept="image/*">
   <div class="error-text">Debe subir una foto</div>
@@ -1674,7 +1711,6 @@ Actualizar contraseña
 <th>Creado por</th>
 <th>Estado</th>
 <th>Expira</th>
-<th>Actualizar contraseña</th>
 <th>Acciones</th>
 </tr>
 
@@ -1689,14 +1725,6 @@ Actualizar contraseña
 </td>
 
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
-
-<td data-label="Actualizar contraseña">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<input type="password" name="new_password" required>
-<button name="change_password">Actualizar</button>
-</form>
-</td>
 
 <td data-label="Acciones">
 <form method="post">
@@ -1830,7 +1858,6 @@ Actualizar contraseña
 <?php if ($adminLevel==='super'): ?><th>Creado por</th><?php endif; ?>
 <th>Estado</th>
 <th>Expira</th>
-<th>Actualizar contraseña</th>
 <th>Acciones</th>
 </tr>
 
@@ -1848,14 +1875,6 @@ Actualizar contraseña
 </td>
 
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
-
-<td data-label="Actualizar contraseña">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<input type="password" name="new_password" placeholder="Nueva contraseña" required>
-<button name="change_password">Actualizar</button>
-</form>
-</td>
 
 <td data-label="Acciones">
 <form method="post">
@@ -1895,7 +1914,7 @@ function validarFormulario(formId){
 
         let valido = true;
 
-        const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='password'], input[type='file']");
+        const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='password'], input[type='file'], input[type='number']");
 
         inputs.forEach(input => {
 
@@ -1905,15 +1924,25 @@ function validarFormulario(formId){
             input.classList.remove("input-error");
             if(error) error.classList.remove("show");
 
-            // validar vacío
+            // ❌ VACÍO
             if(!input.value){
                 valido = false;
                 input.classList.add("input-error");
                 if(error) error.classList.add("show");
+                return;
             }
 
-            // validar email
-            if(input.type === "email" && input.value){
+            // 🔢 NUMBER (clave)
+            if(input.type === "number"){
+                if(parseInt(input.value) < 1){
+                    valido = false;
+                    input.classList.add("input-error");
+                    if(error) error.classList.add("show");
+                }
+            }
+
+            // 📧 EMAIL
+            if(input.type === "email"){
                 const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if(!regex.test(input.value)){
                     valido = false;
@@ -1921,6 +1950,7 @@ function validarFormulario(formId){
                     if(error) error.classList.add("show");
                 }
             }
+
         });
 
         if(!valido){
@@ -1929,7 +1959,7 @@ function validarFormulario(formId){
     });
 }
 
-// aplicar a ambos formularios
+// aplicar
 validarFormulario("formCreateUser");
 validarFormulario("formCreateAdmin");
 </script>
