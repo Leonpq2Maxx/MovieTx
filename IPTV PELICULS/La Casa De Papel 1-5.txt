@@ -1,0 +1,249 @@
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://es.web.img3.acsta.net/pictures/22/06/16/12/54/0504030.jpg",Gato con botas el último deseo 2022
+https://ia904704.us.archive.org/10/items/6at-0-c-0n-b-0t-452023/6at0%20c0n%20b0t452023.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://i0.wp.com/elgeneracionalpost.com/wp-content/uploads/2023/01/megan.jpg?fit=660%2C930&ssl=1",MEGAN 2022
+https://ia904705.us.archive.org/33/items/m-3ga-7-2023/m3ga7%202023.MP4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://mx.web.img2.acsta.net/c_310_420/pictures/22/11/03/18/56/4871575.jpg",Avatar camino del agua 2022
+https://ia904702.us.archive.org/25/items/ava1a62023/ava1a62023.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://image.tmdb.org/t/p/w185_and_h278_bestv2/bv9dy8mnwftdY2j6gG39gCfSFpV.jpg",Blacklight
+https://cdn.jwplayer.com/manifests/SA2nRf7T.m3u8
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://upload.wikimedia.org/wikipedia/en/2/24/Scream2022film.jpeg",Scream 2022
+https://content.jwplatform.com/videos/5W4GFI9b-Lta170q0.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://www.mediafire.com/convkey/da9c/89gxa74mj30vefs7g.jpg",La matanza de Texas
+https://content.jwplatform.com/videos/A6MUNG9U-BdC7xvt6.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://www.mediafire.com/convkey/bb0b/bbfz8e5edthy0qg7g.jpg",Hotel Transilvania: Transformanía
+https://content.jwplatform.com/videos/Xddmv9W5-Lta170q0.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://ver.cuevana3.cc/wp-content/uploads/2022/02/kRpKJstAW7DsoPAEBW2Kk1uD9Q6-185x278.jpg",Clean
+https://content.jwplatform.com/videos/fHC87g2R-iWuHa5Ga.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://www.mediafire.com/convkey/262d/nrkwmy2dav38hwhzg.jpg?size_id=b",Sharkwater
+https://content.jwplatform.com/videos/lcU2a84J-iWuHa5Ga.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://pics.filmaffinity.com/Eternals-412741873-large.jpg",Eternals
+https://content.jwplatform.com/videos/95a2xT9o-iWuHa5Ga.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://media.airedesantafe.com.ar/p/9a47902715ad3677e971d493ea912a85/adjuntos/268/imagenes/003/363/0003363073/1200x0/smart/iabw_character_banner_cne_lasjpg.jpg",Era del Hielo: las aventuras de Buck
+https://content.jwplatform.com/videos/VcbHviep-FE6qHA9l.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/es-211214-hp-returntohogwarts-4x5-1-1639651160.jpg?resize=480:*",Harry Potter: Regreso a Hogwarts
+https://content.jwplatform.com/videos/NgT4WJdk-FE6qHA9l.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://www.ecartelera.com/carteles/15100/15123/003_m.jpg",Cazafantasmas: Más allá
+https://content.jwplatform.com/videos/NTdBFdUo-FE6qHA9l.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://www.ecartelera.com/carteles/14400/14491/004_m.jpg",The King's Man: La Primera Misión
+https://content.jwplatform.com/videos/7GCMtBm9-iWuHa5Ga.mp4
+
+#EXTINF:0 group-title="ESTRENOS" tvg-logo="https://static.cinepolis.com/resources/mx/movies/posters/414x603/38036-743190-20211214045222.jpg",Spider man sin camino a casa
+https://content.jwplatform.com/videos/2pn2Vcse-iWuHa5Ga.mp4
+
+#EXTINF:-0 group-title="ESTRENOS" tvg-logo="https://m.media-amazon.com/images/M/MV5BMGJkNDJlZWUtOGM1Ny00YjNkLThiM2QtY2ZjMzQxMTIxNWNmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_UX320_AL_.jpg",Matrix Resurrecciones 2021
+https://cdn.jwplayer.com/manifests/Fx5yLn0o.m3u8
+
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 1 
+https://content.jwplatform.com/videos/jVMLwZRA-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 2  
+https://content.jwplatform.com/videos/6nBJnGkk-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 3  
+https://content.jwplatform.com/videos/WviMzGB0-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 4  
+https://content.jwplatform.com/videos/0RH2VnTg-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 5
+https://content.jwplatform.com/videos/g2CMVWWJ-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 6  
+https://content.jwplatform.com/videos/fCvjGBRA-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 7  
+https://content.jwplatform.com/videos/jiQj46ke-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 8
+https://content.jwplatform.com/videos/P0u76pIw-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 9
+https://content.jwplatform.com/videos/2zC4qO2r-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 10  
+https://content.jwplatform.com/videos/gOmCFOv5-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 11  
+https://cdn.jwplayer.com/videos/D7sMhWEg-OpqQhwm0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 12
+https://content.jwplatform.com/videos/1uBhNWZ9-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 13  
+https://content.jwplatform.com/videos/9jSYiWXj-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 14  
+https://content.jwplatform.com/videos/LnfcoXru-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/0b08/t59elem5t46ihup7g.jpg",La casa de papel temp 1  CAPITULO 15
+https://content.jwplatform.com/videos/DFckmPsv-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 1 
+https://cdn.jwplayer.com/videos/t6W8exop-OpqQhwm0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 2  
+https://cdn.jwplayer.com/videos/UVV5dOIa-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 3  
+https://cdn.jwplayer.com/videos/jNM0OMLm-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 4  
+https://cdn.jwplayer.com/videos/Gr8H7pf5-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 5
+https://cdn.jwplayer.com/videos/U6UDsPpB-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 6  
+https://cdn.jwplayer.com/videos/E2BQwEBP-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 7  
+https://cdn.jwplayer.com/videos/tjAhZmL9-OpqQhwm0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 8
+https://cdn.jwplayer.com/videos/cQpJnYLB-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/fd10/hg94iewkryie1rx7g.jpg",La casa de papel temp 2  CAPITULO 9
+https://cdn.jwplayer.com/videos/DxL9H35B-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X1 
+https://content.jwplatform.com/videos/zCgdhjiC-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X2  
+https://content.jwplatform.com/videos/3qx2S075-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X3  
+https://content.jwplatform.com/videos/kBmsX4p5-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X4  
+https://content.jwplatform.com/videos/LegKYcBf-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X5
+https://content.jwplatform.com/videos/A9xnaP8n-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X6  
+https://content.jwplatform.com/videos/AjFJkBgM-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X7  
+https://content.jwplatform.com/videos/5Vwd0aXz-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/aaf3/z6byw9mkkgl786c7g.jpg",La casa de papel temp 3  CAPITULO 3X8
+https://content.jwplatform.com/videos/YpSxsPv0-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X1 
+https://content.jwplatform.com/videos/XipZLoVt-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X2  
+https://content.jwplatform.com/videos/S21YwMfQ-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X3  
+https://content.jwplatform.com/videos/dDcmOujS-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X4  
+https://content.jwplatform.com/videos/hihDHyw8-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X5
+https://content.jwplatform.com/videos/ajSar7Ej-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X6  
+https://content.jwplatform.com/videos/qr2x14yV-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X7  
+https://content.jwplatform.com/videos/83xNEKiK-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/d736/psj56ikwc6lilrx7g.jpg",La casa de papel temp 4  CAPITULO 4X8 
+https://content.jwplatform.com/videos/AjoRHPnT-TxJXBUMG.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/b3c6/wekorzq5ysbciuw7g.jpg",La casa de papel temp 5 Vol 1  CAPITULO 5X1 
+https://content.jwplatform.com/videos/Tgt2NigA-Lta170q0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/b3c6/wekorzq5ysbciuw7g.jpg",La casa de papel temp 5 Vol 1  CAPITULO 5X2  
+https://content.jwplatform.com/videos/FGstVMe0-Lta170q0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/b3c6/wekorzq5ysbciuw7g.jpg",La casa de papel temp 5 Vol 1  CAPITULO 5X3  
+https://content.jwplatform.com/videos/HK7YgVkt-BdC7xvt6.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/b3c6/wekorzq5ysbciuw7g.jpg",La casa de papel temp 5 Vol 1  CAPITULO 5X4  
+https://content.jwplatform.com/videos/P5A8pyCj-BdC7xvt6.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/b3c6/wekorzq5ysbciuw7g.jpg",La casa de papel temp 5 Vol 1  CAPITULO 5X5  
+https://content.jwplatform.com/videos/sJjkeZOX-Lta170q0.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/9a62/7nkuy5c9dqeki8o7g.jpg",La casa de papel temp 5 Vol 2  CAPITULO 5X6 (2021) 
+https://cdn.jwplayer.com/videos/FqsEcCdS-x7cWI5nC.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/9a62/7nkuy5c9dqeki8o7g.jpg",La casa de papel temp 5 Vol 2  CAPITULO 5X7 (2021) 
+https://cdn.jwplayer.com/videos/qgg0IMHV-x7cWI5nC.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/9a62/7nkuy5c9dqeki8o7g.jpg",La casa de papel temp 5 Vol 2  CAPITULO 5X8 (2021) 
+https://cdn.jwplayer.com/videos/uxyvbLsK-x7cWI5nC.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/9a62/7nkuy5c9dqeki8o7g.jpg",La casa de papel temp 5 Vol 2  CAPITULO 5X9 (2021) 
+https://cdn.jwplayer.com/videos/6Awl7LQx-x7cWI5nC.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/9a62/7nkuy5c9dqeki8o7g.jpg",La casa de papel temp 5 Vol 2  CAPITULO 5X10 (2021) 
+https://cdn.jwplayer.com/videos/Qiw0qOHI-x7cWI5nC.mp4
+
+#EXTINF:-0 group-title="AVENTURA" tvg-logo="https://es.web.img2.acsta.net/pictures/21/08/31/16/41/4145554.jpg",Venom 2: Habrá Matanza
+https://cdn.jwplayer.com/videos/IjE3YLiS-BYHQVrD7.mp4
+
+#EXTINF:-0 group-title="AVENTURA" tvg-logo="https://www.ecartelera.com/carteles/12600/12608/003_m.jpg",Escuadron Suicida 2 (2021)
+https://cdn.jwplayer.com/videos/ZZwcpOy3-sVZCnhNi.mp4
+
+#EXTINF:-0 group-title="ACCION" tvg-logo="https://mx.web.img3.acsta.net/pictures/21/04/14/17/28/5059871.jpg",Rapido y furioso 9 (2021)
+https://cdn.jwplayer.com/videos/oLTNoatP-fK9dDsAj.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/i6E8fx8lAEI0PGGCUlaA2Ap1gWi.jpg",Space Jam: Nuevas Leyendas (2021) 1080P
+https://cdn.jwplayer.com/videos/GmQpzrWH-sVZCnhNi.mp4
+
+#EXTINF:-0 group-title="AVENTURA" tvg-logo="https://www.mediafire.com/convkey/fee4/flfzmyishn47d5i7g.jpg",Jungle Cruise (2021) OPCION 1
+https://content.jwplatform.com/videos/dhDdoZjJ-sVZCnhNi.mp4
+
+#EXTINF:-0 group-title="AVENTURA" tvg-logo="https://www.mediafire.com/convkey/fee4/flfzmyishn47d5i7g.jpg",Jungle Cruise (2021) OPCION 2
+https://dl.dropboxusercontent.com/s/rwutw7odfkntes5/JungleCruise.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://es.web.img3.acsta.net/pictures/21/04/29/11/03/3538359.jpg",Luca (2021) 
+https://cdn.jwplayer.com/videos/r0M8WtQG-Fe7AHLRU.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://es.web.img3.acsta.net/pictures/21/04/29/11/03/3538359.jpg",Luca (2021) 
+https://cdn.jwplayer.com/videos/r0M8WtQG-Fe7AHLRU.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://es.web.img2.acsta.net/pictures/14/04/29/09/43/568750.jpg",X Men 1
+https://cdn.jwplayer.com/videos/z5qLQwDK-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://http2.mlstatic.com/D_NQ_NP_18442-MLA20155843664_092014-O.jpg",X Men 2
+https://cdn.jwplayer.com/videos/cel3tvKJ-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://i.pinimg.com/originals/07/e3/af/07e3af45ff9c780c739e8cedfc148031.jpg",X Men 3
+https://cdn.jwplayer.com/videos/E4yRtA6b-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://es.web.img3.acsta.net/medias/nmedia/18/67/59/00/20290523.jpg",X Men  Wolverine Origenes
+https://cdn.jwplayer.com/videos/h76YtY37-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://m.media-amazon.com/images/I/91XViseGbrL._SL1500_.jpg",X Men Prmera Generación
+https://cdn.jwplayer.com/videos/WkuPvqzM-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://m.media-amazon.com/images/I/81IIXszLTzL._SL1500_.jpg",X Men Wolverine Inmortal
+https://cdn.jwplayer.com/videos/WcDVUM4c-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="X MEN" tvg-logo="https://www.cultture.com/pics/2018/07/captura_de_pantalla_2018-07-04_a_las_19.31.42.png",X Men Dark Fenix
+https://cdn.jwplayer.com/videos/rC642lup-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 1
+https://content.jwplatform.com/videos/gt1bBO5E-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 2
+https://content.jwplatform.com/videos/PgoYcyhG-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 3
+https://content.jwplatform.com/videos/tM22WhOp-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 4
+https://content.jwplatform.com/videos/KVnBovvF-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 5
+https://content.jwplatform.com/videos/PhJ7SKTo-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 6
+https://content.jwplatform.com/videos/NC7atOxu-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 7
+https://content.jwplatform.com/videos/ypkIGBp2-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 8
+https://content.jwplatform.com/videos/1ijTzb1E-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 9
+https://content.jwplatform.com/videos/kfO4Wrnh-v1MhnHFd.mp4
+
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 1 (2021) 
+https://cdn.jwplayer.com/videos/L4hCaaF2-Fe7AHLRU.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 2 (2021) 
+https://cdn.jwplayer.com/videos/RSbfwpaF-Fe7AHLRU.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 3 (2021) 
+https://cdn.jwplayer.com/videos/N4x0emng-Fe7AHLRU.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 4 (2021) 
+https://cdn.jwplayer.com/videos/cGNaf1OT-sVZCnhNi.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 5 (2021) 
+https://cdn.jwplayer.com/videos/Bz1N4yt7-sVZCnhNi.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.covercaratulas.com/ode/mini/carteles-40362.jpg",Loki cap 6 (2021) 
+https://cdn.jwplayer.com/videos/v7crntdV-sVZCnhNi.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://www.mediafire.com/convkey/6687/28uieiwjfmm30s67g.jpg",El Rey Leon 1
+https://cdn.jwplayer.com/videos/aw8Ub3eX-1GW3tOq6.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://es.web.img2.acsta.net/pictures/15/06/11/11/59/479737.jpg",El Rey Leon 2
+https://cdn.jwplayer.com/videos/vvBfrfGj-BGEmYQjw.mp4
+
+#EXTINF:-0 group-title="INFANTIL" tvg-logo="https://elfinalde.s3-accelerate.amazonaws.com/2017/10/vptKDSQ2XpKO5kcxYdz2yLQw58u-721x1024.jpg",El Rey Leon 3
+https://cdn.jwplayer.com/videos/BtpM24XM-Fe7AHLRU.mp4
+
+#EXTINF:-0 group-title="VIRUS Y PANDEMIAS" tvg-logo="https://i.pinimg.com/originals/f4/4d/a2/f44da2cffb40649ddecc628621fe64e1.jpg",Virus Flu
+https://cdn.jwplayer.com/videos/QyWsQDVm-V7oPJplq.mp4
+
+#EXTINF:-0 group-title="VIRUS Y PANDEMIAS" tvg-logo="https://www.mediafire.com/convkey/d486/fk3cevya6nkdy1i7g.jpg",Soy Leyenda
+https://cdn.jwplayer.com/videos/okW6gkcQ-V7oPJplq.mp4
+
+#EXTINF:-0 group-title="ACCION" tvg-logo="https://www.mediafire.com/convkey/7a0d/037s1p5qlsapouh7g.jpg",Greyhound: En la mira del enemigo
+https://cdn.jwplayer.com/videos/jWKDVhbT-1Hg5NvTI.mp4
+
+#EXTINF:-0 group-title="CINE MEXICANO" tvg-logo="https://i.pinimg.com/736x/b2/cd/c3/b2cdc397f32b07417e711e6b6de1b6bb.jpg",Tres lancheros muy picudos
+https://cdn.jwplayer.com/videos/xTCeHPfZ-OpqQhwm0.mp4
+
+#EXTINF:-0 group-title="TERROR" tvg-logo="https://www.mediafire.com/convkey/13a5/bz3txkdlkkh16vgzg.jpg",El demonio Jeepers Creepers 1
+https://content.jwplatform.com/videos/oYFz0rUx-tEdjA9Pr.mp4

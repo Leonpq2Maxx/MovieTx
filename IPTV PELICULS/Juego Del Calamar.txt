@@ -1,0 +1,19 @@
+#EXTM3U
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 1
+https://content.jwplatform.com/videos/gt1bBO5E-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 2
+https://content.jwplatform.com/videos/PgoYcyhG-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 3
+https://content.jwplatform.com/videos/tM22WhOp-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 4
+https://content.jwplatform.com/videos/KVnBovvF-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 5
+https://content.jwplatform.com/videos/PhJ7SKTo-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 6
+https://content.jwplatform.com/videos/NC7atOxu-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 7
+https://content.jwplatform.com/videos/ypkIGBp2-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 8
+https://content.jwplatform.com/videos/1ijTzb1E-v1MhnHFd.mp4
+#EXTINF:-0 group-title="SERIES" tvg-logo="https://www.mediafire.com/convkey/5d47/y7m6d930rc5oh4h7g.jpg",El juego del calamar cap 9
+https://content.jwplatform.com/videos/kfO4Wrnh-v1MhnHFd.mp4
