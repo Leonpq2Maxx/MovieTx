@@ -4755,8 +4755,12 @@ function handleAdultLinkClick(e) {
     <!-- OPCIONES DEL USUARIO -->
     <div class="opciones-ajustes">
 
-      <button onclick="location.href='Menus Peliculas Series/Compartir.html'">
-        <i class="fas fa-share-alt"></i> Cuenta
+      <button onclick="location.href='cuentas.php'">
+        <i class="fas fa-user"></i> Cuenta
+      </button>
+
+      <button onclick="location.href='perfiles.php'">
+        <i class="fas fa-user-friends"></i> Perfiles
       </button>
       
       <button onclick="location.href='View Peliculas/favoritos.php'">
@@ -4769,10 +4773,6 @@ function handleAdultLinkClick(e) {
 
       <button onclick="location.href='Menus Peliculas Series/Compartir.html'">
         <i class="fas fa-share-alt"></i> Compartir
-      </button>
-
-      <button onclick="solicitarCambioPass()">
-        <i class="fas fa-key"></i> Cambiar contraseña
       </button>
 
       <button class="danger" onclick="darDeBaja()">
