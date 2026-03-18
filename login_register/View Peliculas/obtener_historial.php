@@ -10,33 +10,28 @@ if(!isset($_SESSION['email'])){
 }
 
 $email = $_SESSION['email'];
+$perfilId = isset($_SESSION['perfil_id']) ? intval($_SESSION['perfil_id']) : 0;
 
 $stmt = $conn->prepare("
 SELECT movie_id, titulo, tipo, imagen, progreso, visto_en, archivo
 FROM historial
-WHERE user_email=?
+WHERE user_email=? AND perfil_id=?
 ORDER BY visto_en DESC
 ");
-
-$stmt->bind_param("s",$email);
+$stmt->bind_param("si",$email,$perfilId);
 $stmt->execute();
-
 $result = $stmt->get_result();
 
 $historial = [];
 
 while($row = $result->fetch_assoc()){
-
     $titulo = $row['titulo'];
     $tipo = $row['tipo'];
-
-    /* seguridad si algo viene vacío */
 
     if(!$titulo || $titulo == "undefined"){
         $titulo = str_replace("_"," ",$row['movie_id']);
         $titulo = ucwords($titulo);
     }
-
     if(!$tipo || $tipo == "undefined"){
         $tipo = "pelicula";
     }
