@@ -13,6 +13,11 @@ if(!isset($_SESSION['email'])){
 $email = $_SESSION['email'];
 
 /* =========================
+   🔥 DETECTAR PERFIL
+========================= */
+$esPerfil = isset($_SESSION['perfil_id']);
+
+/* =========================
    USUARIO
 ========================= */
 $stmt = $conn->prepare("
@@ -47,6 +52,13 @@ $expira = !empty($user['paid_until'])
    ELIMINAR PERFIL
 ========================= */
 if(isset($_POST['delete_perfil'])){
+
+    // 🔒 BLOQUEAR SI ES PERFIL
+    if($esPerfil){
+        echo "no_autorizado";
+        exit;
+    }
+
     $idEliminar = intval($_POST['delete_perfil']);
 
     $del = $conn->prepare("DELETE FROM perfiles WHERE id=? AND user_id=?");
@@ -56,10 +68,18 @@ if(isset($_POST['delete_perfil'])){
     exit;
 }
 
+
 /* =========================
-   CAMBIAR CONTRASEÑA
+   CAMBIAR CONTRASEÑA (PROTEGIDO)
 ========================= */
 if(isset($_POST['cambiar_pass'])){
+
+    // 🔒 BLOQUEAR SI ES PERFIL
+    if($esPerfil){
+        echo "no_autorizado";
+        exit;
+    }
+
     $correoInput = $_POST['correo'];
     $passActual = $_POST['pass_actual'];
     $passNueva = $_POST['pass_nueva'];
@@ -69,15 +89,14 @@ if(isset($_POST['cambiar_pass'])){
     }
 
     if(!password_verify($passActual, $user['password'])){
-    echo "pass_incorrecta"; 
-    exit;
-}
+        echo "pass_incorrecta"; 
+        exit;
+    }
 
     $hashNueva = password_hash($passNueva, PASSWORD_DEFAULT);
 
-$upd = $conn->prepare("UPDATE users SET password=? WHERE id=?");
-$upd->bind_param("si",$hashNueva,$userId);
-
+    $upd = $conn->prepare("UPDATE users SET password=? WHERE id=?");
+    $upd->bind_param("si",$hashNueva,$userId);
 
     echo $upd->execute() ? "ok_pass" : "error";
     exit;
@@ -93,11 +112,9 @@ $stmtP->execute();
 $perfiles = $stmtP->get_result()->fetch_all(MYSQLI_ASSOC);
 $totalReal = count($perfiles) + 1;
 
-if(isset($_GET['sec'])){
-    $_SESSION['sec'] = $_GET['sec'];
-}
-$seccion = $_SESSION['sec'] ?? "cuenta";
+$seccion = $_GET['sec'] ?? "cuenta";
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -293,9 +310,19 @@ input{
 <body>
 
 <div class="nav">
-<button class="<?= $seccion=='cuenta'?'active':'' ?>" onclick="location.href='?sec=cuenta'">Cuenta</button>
-<button class="<?= $seccion=='plan'?'active':'' ?>" onclick="location.href='?sec=plan'">Plan</button>
+<button 
+class="<?= $seccion=='cuenta'?'active':'' ?>" 
+onclick="cambiarSeccion('cuenta')">
+Cuenta
+</button>
+
+<button 
+class="<?= $seccion=='plan'?'active':'' ?>" 
+onclick="cambiarSeccion('plan')">
+Plan
+</button>
 </div>
+
 
 <div class="container">
 
@@ -335,7 +362,9 @@ $fotoPerfil = !empty($p['foto'])
 <span><?= htmlspecialchars($p['nombre']) ?></span>
 </div>
 
+<?php if(!$esPerfil): ?>
 <button class="btn" onclick="eliminarPerfil(<?= $p['id'] ?>)">Eliminar</button>
+<?php endif; ?>
 </div>
 
 <?php endforeach; ?>
@@ -360,9 +389,12 @@ $fotoPerfil = !empty($p['foto'])
 <p><b><?= htmlspecialchars($nombre) ?></b></p>
 <small><?= htmlspecialchars($email) ?></small>
 </div>
+<?php if(!$esPerfil): ?>
 <button class="btn" style="margin-top:15px;" onclick="mostrarCambioPass()">
 Cambiar contraseña
 </button>
+<?php endif; ?>
+
 
 <p><b>Límite perfiles:</b> <?= $maxPerfiles ?></p>
 <p><b>Expira:</b> <?= $expira ?></p>
@@ -429,10 +461,23 @@ Cambiar contraseña
 
 
 <script>
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
-    location.href = 'inicio.php';
-};
+// 🔥 FORZAR HISTORIAL CONTROLADO
+(function () {
+    // Crear un estado falso extra
+    history.pushState(null, null, location.href);
+    history.pushState(null, null, location.href);
+
+    window.onpopstate = function () {
+        // 🚨 SIEMPRE ir a inicio
+        window.location.replace('inicio.php');
+    };
+})();
+
+// ⚡ CAMBIAR SECCIÓN SIN ROMPER EL FIX
+function cambiarSeccion(sec){
+    window.location.href = 'cuentas.php?sec=' + sec;
+}
+
 
 /* =========================
    ELIMINAR PERFIL (FIX)
@@ -473,6 +518,7 @@ document.getElementById("btnOk").onclick = function(){
     });
 };
 
+
 /* =========================
    MODAL PASSWORD
 ========================= */
@@ -480,11 +526,9 @@ function mostrarCambioPass(){
 
     document.getElementById("modalPass").style.display="flex";
 
-    // ✅ LIMPIAR AL ABRIR
     document.getElementById("pass_actual").value = "";
     document.getElementById("pass_nueva").value = "";
 
-    // ✅ FOCO AUTOMÁTICO
     document.getElementById("pass_actual").focus();
 }
 
@@ -497,8 +541,9 @@ function togglePass(id){
     input.type = input.type === "password" ? "text" : "password";
 }
 
+
 /* =========================
-   CAMBIAR PASSWORD
+   CAMBIAR PASSWORD (FIX BUG)
 ========================= */
 function cambiarPass(){
 
@@ -518,7 +563,6 @@ function cambiarPass(){
 
             mostrarMensaje("✔ Contraseña actualizada correctamente");
 
-            // ✅ LIMPIAR DESPUÉS DE GUARDAR
             document.getElementById("pass_actual").value = "";
             document.getElementById("pass_nueva").value = "";
 
@@ -530,12 +574,16 @@ function cambiarPass(){
         }else if(res.trim()==="pass_incorrecta"){
             mostrarMensaje("La contraseña actual es incorrecta");
 
+        }else if(res.trim()==="no_autorizado"){
+            mostrarMensaje("No tenés permiso para cambiar la contraseña");
+
         }else{
             mostrarMensaje("Ocurrió un error");
         }
 
     });
 }
+
 
 /* =========================
    MENSAJES
@@ -549,6 +597,7 @@ function cerrarMsg(){
     document.getElementById("modalMsg").style.display = "none";
 }
 </script>
+
 
 
 
