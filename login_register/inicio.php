@@ -4756,7 +4756,7 @@ function handleAdultLinkClick(e) {
     <div class="opciones-ajustes">
 
       <button onclick="location.href='Menus Peliculas Series/Compartir.html'">
-        <i class="fas fa-share-alt"></i> Perfiles
+        <i class="fas fa-share-alt"></i> Cuenta
       </button>
       
       <button onclick="location.href='View Peliculas/favoritos.php'">
