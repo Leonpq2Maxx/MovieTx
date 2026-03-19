@@ -134,12 +134,11 @@ hr { margin:15px 0; }
 
 <button type="submit" name="login">Ingresar</button>
 
-<!--QUITAR ESTO PAR EL REGISTRO FUNCIONE
+
 <p>
 Dont have an account?
-<a href="#" onclick="showForm('register-form')">Registrarse</a>
+<a href="registro.php" onclick="showForm('register-form')">Registrarse</a>
 </p>
--->
 
 <button type="button" onclick="showForm('admin-login-form')">
 Administrador

@@ -133,24 +133,24 @@ if (isset($_POST['create_helper']) && $adminLevel === 'super') {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    // 🔒 VALIDAR MAX PERFILES
-if (!isset($_POST['max_perfiles']) || $_POST['max_perfiles'] === '') {
 
-    $_SESSION['msg'] = "Debes ingresar la cantidad de perfiles";
-    $_SESSION['msg_type'] = "error";
-    header("Location: admin_page.php");
-    exit();
-}
+    // ✅ SOLO VALIDAR CUPOS (NO PERFILES)
+    if (!isset($_POST['quota']) || $_POST['quota'] === '') {
 
-$maxPerfiles = (int)$_POST['max_perfiles'];
+        $_SESSION['msg'] = "Debes ingresar la cantidad de cupos";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
-if ($maxPerfiles < 1) {
-    $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
-    $_SESSION['msg_type'] = "error";
-    header("Location: admin_page.php");
-    exit();
-}
-    $quota = (int)$_POST['quota']; // NUEVO
+    $quota = (int)$_POST['quota'];
+
+    if ($quota < 0) {
+        $_SESSION['msg'] = "Los cupos no pueden ser negativos";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
     $rutaFoto = null;
 
@@ -165,20 +165,22 @@ if ($maxPerfiles < 1) {
         move_uploaded_file($_FILES['foto']['tmp_name'], $rutaFoto);
     }
 
+    // 🔎 Verificar email existente
     $stmt = $conn->prepare("SELECT id FROM users WHERE email=?");
-$stmt->bind_param("s",$email);
-$stmt->execute();
-$check = $stmt->get_result();
+    $stmt->bind_param("s",$email);
+    $stmt->execute();
+    $check = $stmt->get_result();
 
     if ($check->num_rows === 0) {
 
         $stmt = $conn->prepare("
             INSERT INTO users
-            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto,max_perfiles)
-            VALUES (?, ?, ?, 'admin', 'normal', 'pending', ?, 'admin', ?, NOW(), ?)
+            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto)
+            VALUES (?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
         ");
 
-        $stmt->bind_param("sssiss", $name, $email, $pass, $quota, $adminId, $rutaFoto, $maxPerfiles);
+        // ✅ CORREGIDO (6 parámetros reales)
+        $stmt->bind_param("sssiis", $name, $email, $pass, $quota, $adminId, $rutaFoto);
         $stmt->execute();
     }
 
@@ -259,7 +261,7 @@ if ($maxPerfiles < 1) {
         $stmt = $conn->prepare("
     INSERT INTO users
     (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto,max_perfiles)
-    VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(),
+    VALUES (?, ?, ?, 'user', 'pending', 'admin', ?, NOW(),
             DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?, ?)
 ");
 
