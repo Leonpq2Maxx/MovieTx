@@ -175,7 +175,7 @@ $check = $stmt->get_result();
         $stmt = $conn->prepare("
             INSERT INTO users
             (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto,max_perfiles)
-            VALUES (?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
+            VALUES (?, ?, ?, 'admin', 'normal', 'pending', ?, 'admin', ?, NOW(), ?)
         ");
 
         $stmt->bind_param("sssiss", $name, $email, $pass, $quota, $adminId, $rutaFoto, $maxPerfiles);
@@ -1660,6 +1660,7 @@ Actualizar contraseña
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Perfiles</th>
 <th>Estado</th>
 <th>Expira</th>
 <th>Acciones</th>
@@ -1669,6 +1670,7 @@ Actualizar contraseña
 <tr>
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
 <?= $u['status'] ?>
 </td>
@@ -1708,6 +1710,7 @@ Actualizar contraseña
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Perfiles</th>
 <th>Creado por</th>
 <th>Estado</th>
 <th>Expira</th>
@@ -1718,6 +1721,7 @@ Actualizar contraseña
 <tr>
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 <td data-label="Creado por"><?=htmlspecialchars($u['admin_name'])?></td>
 
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
@@ -1792,6 +1796,7 @@ Actualizar contraseña
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Perfiles</th>
 <th>Estado</th>
 <th>Expira</th>
 <th>Actualizar contraseña</th>
@@ -1802,6 +1807,7 @@ Actualizar contraseña
 <tr>
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
 <?= $u['status'] ?>

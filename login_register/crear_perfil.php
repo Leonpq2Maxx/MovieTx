@@ -94,7 +94,7 @@ if (isset($_GET['check_status'])) {
 }
 ?>
 
-<?php require_once "../auth.php"; ?>
+<?php require_once "auth.php"; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -523,10 +523,10 @@ fetch("guardar_perfil.php",{
 .then(res=>res.text())
 .then(res=>{
     if(res.trim()==="ok"){
-        window.location.href="cuentas.php";
-    }else{
-        alert("Error al crear perfil");
-    }
+    window.location.href="perfiles.php";
+}else{
+    alert("Error al crear perfil: " + res);
+}
 });
 
 });
