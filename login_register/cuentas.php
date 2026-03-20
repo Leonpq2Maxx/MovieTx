@@ -61,12 +61,33 @@ if(isset($_POST['delete_perfil'])){
 
     $idEliminar = intval($_POST['delete_perfil']);
 
-    $del = $conn->prepare("DELETE FROM perfiles WHERE id=? AND user_id=?");
-    $del->bind_param("ii",$idEliminar,$userId);
+    // 🔍 OBTENER FOTO DEL PERFIL
+    $stmtFoto = $conn->prepare("SELECT foto FROM perfiles WHERE id=? AND user_id=?");
+    $stmtFoto->bind_param("ii", $idEliminar, $userId);
+    $stmtFoto->execute();
+    $resFoto = $stmtFoto->get_result()->fetch_assoc();
 
-    echo $del->execute() ? "ok" : "error";
+    if($resFoto){
+
+        $rutaFoto = "uploads/perfiles/" . $resFoto['foto'];
+
+        // 🗑️ BORRAR ARCHIVO SI EXISTE Y NO ES DEFAULT
+        if(!empty($resFoto['foto']) && $resFoto['foto'] !== "default.png" && file_exists($rutaFoto)){
+            unlink($rutaFoto);
+        }
+
+        // 🗑️ BORRAR PERFIL
+        $del = $conn->prepare("DELETE FROM perfiles WHERE id=? AND user_id=?");
+        $del->bind_param("ii",$idEliminar,$userId);
+
+        echo $del->execute() ? "ok" : "error";
+    } else {
+        echo "error";
+    }
+
     exit;
 }
+
 
 
 /* =========================

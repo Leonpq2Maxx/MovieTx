@@ -186,6 +186,15 @@ if (isset($_POST['create_helper']) && $adminLevel === 'super') {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $telefono = trim($_POST['telefono']);
+
+    // 🔒 VALIDAR TELÉFONO
+    if (empty($telefono) || !preg_match('/^[0-9]{10}$/', $telefono)) {
+        $_SESSION['msg'] = "Teléfono inválido (10 números)";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
     // ✅ SOLO VALIDAR CUPOS (NO PERFILES)
     if (!isset($_POST['quota']) || $_POST['quota'] === '') {
@@ -228,12 +237,12 @@ if (isset($_POST['create_helper']) && $adminLevel === 'super') {
 
         $stmt = $conn->prepare("
             INSERT INTO users
-            (name,email,password,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto)
-            VALUES (?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
+            (name,email,password,telefono,role,admin_level,status,user_quota,created_by,created_by_admin,created_at,foto)
+            VALUES (?, ?, ?, ?, 'admin', 'normal', 'active', ?, 'admin', ?, NOW(), ?)
         ");
 
-        // ✅ CORREGIDO (6 parámetros reales)
-        $stmt->bind_param("sssiis", $name, $email, $pass, $quota, $adminId, $rutaFoto);
+        // 🔥 CORRECTO (7 parámetros reales)
+        $stmt->bind_param("ssssiss", $name, $email, $pass, $telefono, $quota, $adminId, $rutaFoto);
         $stmt->execute();
     }
 
@@ -254,23 +263,33 @@ if (isset($_POST['create_user'])) {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $telefono = trim($_POST['telefono']);
+
+    // 🔒 VALIDAR TELÉFONO
+    if (empty($telefono) || !preg_match('/^[0-9]{10}$/', $telefono)) {
+        $_SESSION['msg'] = "Teléfono inválido (10 números)";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
+
     // 🔒 VALIDAR MAX PERFILES
-if (!isset($_POST['max_perfiles']) || $_POST['max_perfiles'] === '') {
+    if (!isset($_POST['max_perfiles']) || $_POST['max_perfiles'] === '') {
 
-    $_SESSION['msg'] = "Debes ingresar la cantidad de perfiles";
-    $_SESSION['msg_type'] = "error";
-    header("Location: admin_page.php");
-    exit();
-}
+        $_SESSION['msg'] = "Debes ingresar la cantidad de perfiles";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
-$maxPerfiles = (int)$_POST['max_perfiles'];
+    $maxPerfiles = (int)$_POST['max_perfiles'];
 
-if ($maxPerfiles < 1) {
-    $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
-    $_SESSION['msg_type'] = "error";
-    header("Location: admin_page.php");
-    exit();
-}
+    if ($maxPerfiles < 1) {
+        $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
+        $_SESSION['msg_type'] = "error";
+        header("Location: admin_page.php");
+        exit();
+    }
 
     $rutaFoto = null;
 
@@ -312,13 +331,14 @@ if ($maxPerfiles < 1) {
         }
 
         $stmt = $conn->prepare("
-    INSERT INTO users
-    (name,email,password,role,status,created_by,created_by_admin,created_at,paid_until,foto,max_perfiles)
-    VALUES (?, ?, ?, 'user', 'pending', 'admin', ?, NOW(),
-            DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?, ?)
-");
+            INSERT INTO users
+            (name,email,password,telefono,role,status,created_by,created_by_admin,created_at,paid_until,foto,max_perfiles)
+            VALUES (?, ?, ?, ?, 'user', 'pending', 'admin', ?, NOW(),
+                    DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?, ?)
+        ");
 
-$stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfiles);
+        // 🔥 CORRECTO (7 parámetros)
+        $stmt->bind_param("ssssisi", $name, $email, $pass, $telefono, $adminId, $rutaFoto, $maxPerfiles);
         $stmt->execute();
 
         $newUserId = $stmt->insert_id;
@@ -346,12 +366,13 @@ $stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfi
     else {
 
         $stmt = $conn->prepare("
-    INSERT INTO users
-    (name,email,password,role,status,created_by,created_by_admin,created_at,foto,max_perfiles)
-    VALUES (?, ?, ?, 'user', 'active', 'admin', ?, NOW(), ?, ?)
-");
+            INSERT INTO users
+            (name,email,password,telefono,role,status,created_by,created_by_admin,created_at,foto,max_perfiles)
+            VALUES (?, ?, ?, ?, 'user', 'active', 'admin', ?, NOW(), ?, ?)
+        ");
 
-$stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfiles);
+        // 🔥 CORRECTO (7 parámetros)
+        $stmt->bind_param("ssssisi", $name, $email, $pass, $telefono, $adminId, $rutaFoto, $maxPerfiles);
         $stmt->execute();
 
         $_SESSION['msg'] = "Usuario creado con éxito";
@@ -361,7 +382,6 @@ $stmt->bind_param("sssisi", $name, $email, $pass, $adminId, $rutaFoto, $maxPerfi
     header("Location: admin_page.php");
     exit();
 }
-
 
 
 
@@ -1456,6 +1476,9 @@ onclick="window.location.href=window.location.pathname">
 <input type="number" name="quota" placeholder="Cupos de usuarios que podrá crear" min="0">
 <div class="error-text">Ingrese cantidad de cupos</div>
 
+<input type="text" name="telefono" placeholder="Teléfono (ej: 1123456789)" maxlength="10">
+<div class="error-text">Ingrese un teléfono válido</div>
+
 <label>Foto del administrador:</label>
 <input type="file" name="foto" accept="image/*">
 <div class="error-text">Debe subir una foto</div>
@@ -1480,6 +1503,10 @@ onclick="window.location.href=window.location.pathname">
 
   <input type="number" name="max_perfiles" placeholder="Cantidad de perfiles (ej: 1,2,3,5)" min="1" max="5" required>
 <div class="error-text">Ingrese cantidad de perfiles</div>
+
+<input type="text" name="telefono" placeholder="Teléfono (ej: 1123456789)" maxlength="10">
+<div class="error-text">Ingrese un teléfono válido</div>
+
 
   <label>Foto del usuario:</label>
   <input type="file" name="foto" accept="image/*">
@@ -1711,6 +1738,43 @@ name="toggle_status"
         width:100%;
     }
 }
+
+/* 📐 Ajuste de tabla en PC */
+.table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; /* 🔥 IMPORTANTE */
+}
+
+/* 📱 Columna teléfono más cómoda */
+.col-telefono {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+/* 🔗 Estilo tipo WhatsApp */
+.telefono-link {
+    color: #25D366;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.telefono-link:hover {
+    text-decoration: underline;
+}
+
+/* 💻 En pantallas grandes, dar más aire */
+@media (min-width: 1024px) {
+    .table-wrap table th,
+    .table-wrap table td {
+        padding: 12px 14px;
+    }
+
+    .col-telefono {
+        min-width: 180px;
+    }
+}
+
 </style>
 
 
@@ -1725,6 +1789,7 @@ name="toggle_status"
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Teléfono</th> <!-- ✅ NUEVO -->
 <th>Cupos</th>
 <th>Usuarios</th>
 <th>Comisión</th>
@@ -1751,6 +1816,22 @@ $count = $conn->query("
 </td>
 
 <td data-label="Email"><?=htmlspecialchars($h['email'])?></td>
+
+<td data-label="Teléfono" class="col-telefono">
+
+<?php if (!empty($h['telefono'])): 
+    $tel = preg_replace('/[^0-9]/', '', $h['telefono']); // limpia el número
+?>
+<a href="https://wa.me/<?=$tel?>" target="_blank" class="telefono-link">
+    📱 <?=htmlspecialchars($h['telefono'])?>
+</a>
+<?php else: ?>
+—
+<?php endif; ?>
+
+</td>
+
+
 <td data-label="Cupos"><?= $h['user_quota'] ?></td>
 <td data-label="Usuarios"><?= $count ?></td>
 <td data-label="Comisión">$<?= $count * 200 ?></td>
@@ -1785,6 +1866,7 @@ $count = $conn->query("
 </div>
 <?php endif; ?>
 
+
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="addQuota">
 
@@ -1794,8 +1876,8 @@ $count = $conn->query("
 
 <label>Seleccionar administrador ayudante</label>
 
-<select name="helper_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
-
+<!-- SELECT REAL (OCULTO) -->
+<select name="helper_id" id="realHelperSelect" required class="hidden-select">
 <option value="">Seleccionar</option>
 
 <?php
@@ -1812,12 +1894,44 @@ while($h=$helpersList->fetch_assoc()):
 <option value="<?=$h['id']?>">
 <?=htmlspecialchars($h['name'])?> 
 (<?=htmlspecialchars($h['email'])?>)
-- Cupos actuales: <?=$h['user_quota']?>
+- Cupos: <?=$h['user_quota']?>
 </option>
 
 <?php endwhile; ?>
-
 </select>
+
+<!-- SELECT MODERNO -->
+<div class="custom-select">
+
+<input 
+type="text" 
+placeholder="Buscar administrador..." 
+class="select-search"
+onclick="toggleHelperDropdown()"
+onkeyup="filterHelpers()"
+id="searchHelperInput"
+>
+
+<div class="select-dropdown" id="helperDropdown">
+
+<?php
+$helpersList->data_seek(0);
+while($h=$helpersList->fetch_assoc()):
+?>
+
+<div class="select-option" 
+onclick="selectHelper(
+'<?=$h['id']?>',
+'<?=htmlspecialchars($h['name'])?> (<?=htmlspecialchars($h['email'])?>) - Cupos: <?=$h['user_quota']?>'
+)">
+<?=htmlspecialchars($h['name'])?> (<?=htmlspecialchars($h['email'])?>)
+- Cupos: <?=$h['user_quota']?>
+</div>
+
+<?php endwhile; ?>
+
+</div>
+</div>
 
 <label>Cantidad</label>
 
@@ -1827,6 +1941,7 @@ name="quota_value"
 min="1"
 placeholder="Ej: 5"
 required
+class="input-modern"
 >
 
 <div style="display:flex;gap:10px;margin-top:10px">
@@ -1846,6 +1961,35 @@ required
 </div>
 <?php endif; ?>
 
+<script>
+function toggleHelperDropdown(){
+    document.getElementById("helperDropdown").style.display = "block";
+}
+
+function selectHelper(id, text){
+    document.getElementById("realHelperSelect").value = id;
+    document.getElementById("searchHelperInput").value = text;
+    document.getElementById("helperDropdown").style.display = "none";
+}
+
+function filterHelpers(){
+    let input = document.getElementById("searchHelperInput").value.toLowerCase();
+    let options = document.querySelectorAll("#helperDropdown .select-option");
+
+    options.forEach(opt => {
+        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+
+/* cerrar al hacer click afuera */
+document.addEventListener("click", function(e){
+    if(!e.target.closest("#addQuota .custom-select")){
+        let dd = document.getElementById("helperDropdown");
+        if(dd) dd.style.display = "none";
+    }
+});
+</script>
+
 
 <div class="box section-panel" id="allUsers">
 <h3>Usuarios</h3>
@@ -1857,6 +2001,7 @@ required
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Teléfono</th> <!-- ✅ NUEVO -->
 <th>Perfiles</th>
 
 <?php if ($adminLevel==='super'): ?>
@@ -1874,7 +2019,22 @@ required
 <tr>
 
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
+
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+
+<!-- 📱 TELÉFONO CON WHATSAPP -->
+<td data-label="Teléfono" class="col-telefono">
+<?php if (!empty($u['telefono'])): 
+    $tel = preg_replace('/[^0-9]/', '', $u['telefono']);
+?>
+<a href="https://wa.me/<?=$tel?>" target="_blank" class="telefono-link">
+    📱 <?=htmlspecialchars($u['telefono'])?>
+</a>
+<?php else: ?>
+—
+<?php endif; ?>
+</td>
+
 <td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 
 <?php if ($adminLevel==='super'): ?>
@@ -1937,7 +2097,9 @@ required
 </div>
 </div>
 
+
 <?php if ($adminLevel === 'super'): ?>
+
 <div class="box section-panel" id="requests">
 
 <h3>Solicitudes pendientes</h3>
@@ -1950,6 +2112,7 @@ required
 <th>Usuario</th>
 <th>Acción</th>
 <th>Solicitado por</th>
+<th>Teléfono</th> <!-- ✅ NUEVO -->
 <th>Fecha</th>
 <th>Acciones</th>
 </tr>
@@ -1979,6 +2142,19 @@ switch($r['action']){
 <small><?= htmlspecialchars($r['admin_email']) ?></small>
 </td>
 
+<!-- 📱 TELÉFONO -->
+<td data-label="Teléfono" class="col-telefono">
+<?php if (!empty($r['telefono'])): 
+    $tel = preg_replace('/[^0-9]/', '', $r['telefono']);
+?>
+<a href="https://wa.me/<?=$tel?>" target="_blank" class="telefono-link">
+    📱 <?=htmlspecialchars($r['telefono'])?>
+</a>
+<?php else: ?>
+—
+<?php endif; ?>
+</td>
+
 <td data-label="Fecha"><?= $r['created_at'] ?></td>
 
 <td data-label="Acciones">
@@ -2002,9 +2178,8 @@ switch($r['action']){
 
 <?php else: ?>
 
-<tr>
 <tr class="no-data">
-<td colspan="5">
+<td colspan="6">
 No hay solicitudes pendientes
 </td>
 </tr>
@@ -2015,7 +2190,9 @@ No hay solicitudes pendientes
 </table>
 </div>
 </div>
+
 <?php endif; ?>
+
 
 
 <?php if ($adminLevel === 'super' || $adminLevel === 'normal'): ?>
@@ -2023,12 +2200,12 @@ No hay solicitudes pendientes
 
 <h3>Cambiar contraseña de usuarios</h3>
 
-<form method="post" style="max-width:420px">
+<form method="post" class="form-modern">
 
 <label>Seleccionar usuario</label>
 
-<select name="user_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
-
+<!-- SELECT ORIGINAL (OCULTO PERO FUNCIONAL) -->
+<select name="user_id" id="realSelect" required class="hidden-select">
 <option value="">Seleccionar</option>
 
 <?php
@@ -2052,13 +2229,41 @@ while($u=$listUsers->fetch_assoc()):
 ?>
 
 <option value="<?=$u['id']?>">
-<?=htmlspecialchars($u['name'])?> 
-(<?=htmlspecialchars($u['email'])?>)
+<?=htmlspecialchars($u['name'])?> (<?=htmlspecialchars($u['email'])?>)
 </option>
 
 <?php endwhile; ?>
-
 </select>
+
+<!-- SELECT MODERNO -->
+<div class="custom-select">
+
+<input 
+type="text" 
+placeholder="Buscar usuario..." 
+class="select-search"
+onclick="toggleDropdown()"
+onkeyup="filterUsers()"
+id="searchInput"
+>
+
+<div class="select-dropdown" id="dropdown">
+
+<?php
+// volvemos a recorrer (solo visual)
+$listUsers->data_seek(0);
+while($u=$listUsers->fetch_assoc()):
+?>
+
+<div class="select-option" 
+onclick="selectUser('<?=$u['id']?>','<?=htmlspecialchars($u['name'])?> (<?=htmlspecialchars($u['email'])?>)')">
+<?=htmlspecialchars($u['name'])?> (<?=htmlspecialchars($u['email'])?>)
+</div>
+
+<?php endwhile; ?>
+
+</div>
+</div>
 
 <label>Nueva contraseña</label>
 
@@ -2067,9 +2272,10 @@ type="password"
 name="new_password"
 placeholder="Nueva contraseña"
 required
+class="input-modern"
 >
 
-<button name="change_password" class="green">
+<button name="change_password" class="btn-main">
 Actualizar contraseña
 </button>
 
@@ -2078,18 +2284,128 @@ Actualizar contraseña
 </div>
 <?php endif; ?>
 
+<style>
+    /* ocultar select real */
+.hidden-select{
+    display:none;
+}
+
+/* contenedor */
+.custom-select{
+    position:relative;
+}
+
+/* input buscador */
+.select-search{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #e5e7eb;
+    cursor:pointer;
+}
+
+/* dropdown */
+.select-dropdown{
+    display:none;
+    position:absolute;
+    width:100%;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+    max-height:220px;
+    overflow-y:auto;
+    margin-top:6px;
+    z-index:10;
+}
+
+/* opciones */
+.select-option{
+    padding:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.select-option:hover{
+    background:#f3f4f6;
+}
+
+/* input y form */
+.form-modern{
+    max-width:420px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.input-modern{
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #e5e7eb;
+}
+
+/* botón */
+.btn-main{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:12px;
+    font-weight:bold;
+}
+
+/* 📱 mobile */
+@media (max-width:768px){
+    .form-modern{
+        max-width:100%;
+    }
+
+    .select-search{
+        font-size:16px;
+    }
+}
+</style>
+
+<script>
+function toggleDropdown(){
+    document.getElementById("dropdown").style.display = "block";
+}
+
+function selectUser(id, text){
+    document.getElementById("realSelect").value = id;
+    document.getElementById("searchInput").value = text;
+    document.getElementById("dropdown").style.display = "none";
+}
+
+function filterUsers(){
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let options = document.querySelectorAll(".select-option");
+
+    options.forEach(opt => {
+        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+
+/* cerrar si hace click afuera */
+document.addEventListener("click", function(e){
+    if(!e.target.closest(".custom-select")){
+        document.getElementById("dropdown").style.display = "none";
+    }
+});
+</script>
+
 
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="changeAdminPass">
 
 <h3>Cambiar contraseña de administradores ayudantes</h3>
 
-<form method="post" style="max-width:420px">
+<form method="post" class="form-modern">
 
 <label>Seleccionar administrador</label>
 
-<select name="helper_id" required style="width:100%;padding:12px;border-radius:10px;margin-bottom:12px">
-
+<!-- SELECT REAL (OCULTO) -->
+<select name="helper_id" id="realAdminSelect" required class="hidden-select">
 <option value="">Seleccionar</option>
 
 <?php
@@ -2104,13 +2420,41 @@ while($a=$listAdmins->fetch_assoc()):
 ?>
 
 <option value="<?=$a['id']?>">
-<?=htmlspecialchars($a['name'])?> 
-(<?=htmlspecialchars($a['email'])?>)
+<?=htmlspecialchars($a['name'])?> (<?=htmlspecialchars($a['email'])?>)
 </option>
 
 <?php endwhile; ?>
 
 </select>
+
+<!-- SELECT MODERNO -->
+<div class="custom-select">
+
+<input 
+type="text" 
+placeholder="Buscar administrador..." 
+class="select-search"
+onclick="toggleAdminDropdown()"
+onkeyup="filterAdmins()"
+id="searchAdminInput"
+>
+
+<div class="select-dropdown" id="adminDropdown">
+
+<?php
+$listAdmins->data_seek(0);
+while($a=$listAdmins->fetch_assoc()):
+?>
+
+<div class="select-option" 
+onclick="selectAdmin('<?=$a['id']?>','<?=htmlspecialchars($a['name'])?> (<?=htmlspecialchars($a['email'])?>)')">
+<?=htmlspecialchars($a['name'])?> (<?=htmlspecialchars($a['email'])?>)
+</div>
+
+<?php endwhile; ?>
+
+</div>
+</div>
 
 <label>Nueva contraseña</label>
 
@@ -2119,9 +2463,10 @@ type="password"
 name="new_password"
 placeholder="Nueva contraseña"
 required
+class="input-modern"
 >
 
-<button name="change_helper_password" class="green">
+<button name="change_helper_password" class="btn-main">
 Actualizar contraseña
 </button>
 
@@ -2144,6 +2489,7 @@ Actualizar contraseña
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Teléfono</th> <!-- ✅ NUEVO -->
 <th>Perfiles</th>
 <th>Estado</th>
 <th>Expira</th>
@@ -2156,7 +2502,22 @@ Actualizar contraseña
 <tr>
 
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
+
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+
+<!-- 📱 TELÉFONO CON WHATSAPP -->
+<td data-label="Teléfono" class="col-telefono">
+<?php if (!empty($u['telefono'])): 
+    $tel = preg_replace('/[^0-9]/', '', $u['telefono']);
+?>
+<a href="https://wa.me/<?=$tel?>" target="_blank" class="telefono-link">
+    📱 <?=htmlspecialchars($u['telefono'])?>
+</a>
+<?php else: ?>
+—
+<?php endif; ?>
+</td>
+
 <td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
@@ -2205,7 +2566,9 @@ Actualizar contraseña
 <?php endif; ?>
 
 
+
 <?php if ($adminLevel === 'super'): ?>
+
 <div class="box section-panel" id="usersHelpers">
 <h3>Usuarios creados por Administradores Ayudantes</h3>
 
@@ -2216,6 +2579,7 @@ Actualizar contraseña
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Teléfono</th> <!-- ✅ NUEVO -->
 <th>Perfiles</th>
 <th>Creado por</th>
 <th>Estado</th>
@@ -2229,8 +2593,24 @@ Actualizar contraseña
 <tr>
 
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
+
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+
+<!-- 📱 TELÉFONO -->
+<td data-label="Teléfono" class="col-telefono">
+<?php if (!empty($u['telefono'])): 
+    $tel = preg_replace('/[^0-9]/', '', $u['telefono']);
+?>
+<a href="https://wa.me/<?=$tel?>" target="_blank" class="telefono-link">
+    📱 <?=htmlspecialchars($u['telefono'])?>
+</a>
+<?php else: ?>
+—
+<?php endif; ?>
+</td>
+
 <td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
+
 <td data-label="Creado por"><?=htmlspecialchars($u['admin_name'])?></td>
 
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
@@ -2276,7 +2656,9 @@ Actualizar contraseña
 </table>
 </div>
 </div>
+
 <?php endif; ?>
+
 
 <?php if ($adminLevel === 'super' && $selectedHelper): ?>
 <div class="box section-panel">
@@ -2347,6 +2729,34 @@ Actualizar contraseña
 <?php endif; ?>
 
 
+<script>
+function toggleAdminDropdown(){
+    document.getElementById("adminDropdown").style.display = "block";
+}
+
+function selectAdmin(id, text){
+    document.getElementById("realAdminSelect").value = id;
+    document.getElementById("searchAdminInput").value = text;
+    document.getElementById("adminDropdown").style.display = "none";
+}
+
+function filterAdmins(){
+    let input = document.getElementById("searchAdminInput").value.toLowerCase();
+    let options = document.querySelectorAll("#adminDropdown .select-option");
+
+    options.forEach(opt => {
+        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+
+/* cerrar al hacer click afuera */
+document.addEventListener("click", function(e){
+    if(!e.target.closest("#changeAdminPass .custom-select")){
+        let dd = document.getElementById("adminDropdown");
+        if(dd) dd.style.display = "none";
+    }
+});
+</script>
 
 
 <script>
