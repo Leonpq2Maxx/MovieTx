@@ -37,13 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Crear usuario
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("
-        INSERT INTO users 
-        (name,email,password,telefono,role,status,created_by)
-        VALUES (?,?,?,?, 'user','pending','self')
-    ");
+    $createdByAdmin = 1; // ID del admin principal
 
-    $stmt->bind_param("ssss", $name, $email, $hash, $telefono);
+$stmt = $conn->prepare("
+INSERT INTO users 
+(name,email,password,telefono,role,status,created_by,created_by_admin,created_at)
+VALUES (?,?,?,?, 'user','pending','self', ?, NOW())
+");
+
+$stmt->bind_param("ssssi", $name, $email, $hash, $telefono, $createdByAdmin);
 
     if ($stmt->execute()) {
 

@@ -676,6 +676,7 @@ if ($adminLevel === 'super' && $selectedHelper) {
     ");
 }
 
+
 // =====================
 // ACTUALIZAR FOTO ADMIN PRINCIPAL
 // =====================
@@ -713,6 +714,8 @@ if (isset($_POST['update_admin_photo'])) {
     header("Location: admin_page.php");
     exit();
 }
+
+
 
 
 ?>
@@ -1382,6 +1385,10 @@ Cupos disponibles: <?= $quota ?>
 📊 Administrar cupos
 </button>
 
+<button onclick="showSection('usersWeb')">
+👥 Registro usuario
+</button>
+
 <button class="menu-link" onclick="showSection('admins')">
 🛠 Administradores ayudantes
 </button>
@@ -1482,12 +1489,239 @@ onclick="window.location.href=window.location.pathname">
 </form>
 </div>
 
+<div class="box section-panel" id="usersWeb">
+<h3>Usuarios registrados desde la web</h3>
+
+<div class="table-wrap">
+<table>
+
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Email</th>
+<th>Teléfono</th>
+<th>Estado</th>
+<th>Accion</th>
+</tr>
+</thead>
+
+<tbody>
+<?php
+$webUsers = $conn->query("
+SELECT * FROM users
+WHERE created_by='self'
+ORDER BY created_at DESC
+");
+
+while($u = $webUsers->fetch_assoc()):
+?>
+
+<tr>
+<td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
+<td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Teléfono"><?=htmlspecialchars($u['telefono'])?></td>
+
+<td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
+<?= $u['status'] ?>
+</td>
+
+<td data-label="Accion">
+<div class="action-box">
+<div class="action-title">Acción</div>
+<div class="actions">
+
+<!-- ACTIVAR / SUSPENDER -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+
+<button 
+class="<?= $u['status']==='active' ? 'btn-suspend' : 'btn-activate' ?>" 
+name="toggle_status"
+>
+<?= $u['status']==='active' ? '⛔ Suspender' : '✅ Activar' ?>
+</button>
+
+</form>
+
+<!-- RECHAZAR / ELIMINAR -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+
+<button class="btn-delete" name="delete_user">
+⛔ Rechazar
+</button>
+
+</form>
+
+</div>
+</td>
+
+</tr>
+
+<?php endwhile; ?>
+</tbody>
+
+</table>
+</div>
+</div>
+
+<style>
+
+    /* ===== MENSAJE SIN DATOS ===== */
+.no-data td{
+    text-align:center;
+    padding:20px;
+    font-weight:bold;
+    color:#6b7280;
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width:768px){
+    .no-data td{
+        display:block;
+        text-align:center;
+        justify-content:center;
+        align-items:center;
+        width:100%;
+    }
+
+    .no-data td::before{
+        display:none; /* 🔥 elimina "Usuario:" etc */
+    }
+}
+    
+    .btn-delete{
+    background:linear-gradient(135deg,#6b7280,#374151);
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:bold;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-delete:hover{
+    transform:scale(1.05);
+    box-shadow:0 6px 14px rgba(0,0,0,.3);
+}
+
+    /* ===== BOTONES MODERNOS ===== */
+.btn-activate{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:bold;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-activate:hover{
+    transform:scale(1.05);
+    box-shadow:0 6px 14px rgba(34,197,94,.4);
+}
+
+.btn-suspend{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:bold;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-suspend:hover{
+    transform:scale(1.05);
+    box-shadow:0 6px 14px rgba(239,68,68,.4);
+}
+
+.actions{
+        width:100%;
+        justify-content:center;
+    }
+
+/* MOBILE ajuste */
+@media (max-width:768px){
+    .btn-activate,
+    .btn-suspend{
+        width:100%;
+        font-size:13px;
+        padding:12px;
+    }
+}
+    /* ===== TABLA RESPONSIVE MOBILE ===== */
+@media (max-width:768px){
+
+    table, thead, tbody, th, td, tr{
+        display:block;
+        width:100%;
+    }
+
+    thead{
+        display:none; /* ocultar encabezado */
+    }
+
+    tr{
+        background:white;
+        margin-bottom:14px;
+        border-radius:14px;
+        box-shadow:0 6px 18px rgba(0,0,0,.08);
+        padding:10px;
+    }
+
+    td{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:10px;
+        border:none;
+        border-bottom:1px solid #eee;
+        text-align:left;
+    }
+
+    td:last-child{
+        border-bottom:none;
+    }
+
+    td::before{
+        content:attr(data-label);
+        font-weight:bold;
+        color:#6b7280;
+        font-size:13px;
+    }
+
+    /* acciones centradas */
+    td[data-label="Acciones"]{
+        justify-content:center;
+    }
+
+    .actions{
+        width:100%;
+        justify-content:right;
+    }
+
+    .actions button{
+        width:100%;
+    }
+}
+</style>
+
 
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="admins">
 <h3>Administradores Ayudantes</h3>
+
 <div class="table-wrap">
 <table>
+
+<thead>
 <tr>
 <th>Nombre</th>
 <th>Email</th>
@@ -1496,6 +1730,9 @@ onclick="window.location.href=window.location.pathname">
 <th>Comisión</th>
 <th>Acción</th>
 </tr>
+</thead>
+
+<tbody>
 <?php while($h=$helpers->fetch_assoc()):
 $count = $conn->query("
     SELECT COUNT(*) total 
@@ -1504,8 +1741,8 @@ $count = $conn->query("
       AND created_by_admin={$h['id']}
       AND status='active'
 ")->fetch_assoc()['total'];
-
 ?>
+
 <tr>
 <td data-label="Nombre">
 <a href="?helper_id=<?=$h['id']?>" style="color:#2563eb;font-weight:bold;text-decoration:none">
@@ -1517,32 +1754,32 @@ $count = $conn->query("
 <td data-label="Cupos"><?= $h['user_quota'] ?></td>
 <td data-label="Usuarios"><?= $count ?></td>
 <td data-label="Comisión">$<?= $count * 200 ?></td>
-<td data-label="Acciones">
 
+<td data-label="Acción">
 <div class="actions">
 
 <form method="post">
 <input type="hidden" name="helper_id" value="<?=$h['id']?>">
-
-<button class="gray" name="toggle_helper">
-<?= $h['status']==='active' ? 'Suspender' : 'Activar' ?>
+<button class="btn-suspend" name="toggle_helper">
+<?= $h['status']==='active' ? '⛔ Suspender' : '✅ Activar' ?>
 </button>
-
 </form>
-
 
 <form method="post">
 <input type="hidden" name="helper_id" value="<?=$h['id']?>">
-<button class="red" name="delete_helper">Borrar</button>
+<button class="btn-delete" name="delete_helper">
+🗑️ Borrar
+</button>
 </form>
-</td>
-</tr>
 
 </div>
-
 </td>
+
 </tr>
+
 <?php endwhile; ?>
+</tbody>
+
 </table>
 </div>
 </div>
@@ -1615,9 +1852,12 @@ required
 
 <div class="table-wrap">
 <table>
+
+<thead>
 <tr>
 <th>Nombre</th>
 <th>Email</th>
+<th>Perfiles</th>
 
 <?php if ($adminLevel==='super'): ?>
 <th>Creado por</th>
@@ -1627,73 +1867,62 @@ required
 <th>Expira</th>
 <th>Acciones</th>
 </tr>
+</thead>
 
+<tbody>
 <?php while($u=$users->fetch_assoc()): ?>
 <tr>
 
-<td><?=htmlspecialchars($u['name'])?></td>
-<td><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
+<td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
+<td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
 
 <?php if ($adminLevel==='super'): ?>
-<td><?=htmlspecialchars($u['admin_name'] ?? 'Principal')?></td>
+<td data-label="Creado por"><?=htmlspecialchars($u['admin_name'] ?? 'Principal')?></td>
 <?php endif; ?>
 
-<td class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
+<td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
 <?= $u['status'] ?>
 </td>
 
-<td><?= $u['paid_until'] ?? '-' ?></td>
+<td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
 
-<td>
+<td data-label="Acciones">
 <div class="actions">
 
-<!-- =========================
-     ACTUALIZAR
-========================= -->
+<!-- ACTUALIZAR -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
 
 <?php if ($adminLevel==='super'): ?>
-
-<button class="green" name="update_account">Actualizar</button>
-
+<button class="btn-activate" name="update_account">🔄 Actualizar</button>
 <?php else: ?>
-
-<button class="green" name="request_update">Solicitar Actualizar</button>
-
+<button class="btn-activate" name="request_update">🔄 Solicitar</button>
 <?php endif; ?>
 
 </form>
 
-<!-- =========================
-     ACTIVAR / SUSPENDER
-========================= -->
+<!-- ACTIVAR / SUSPENDER -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
 
 <?php if ($adminLevel==='super'): ?>
-
-<button class="gray" name="toggle_status">
-<?= $u['status']==='active'?'Suspender':'Activar' ?>
+<button class="<?= $u['status']==='active' ? 'btn-suspend' : 'btn-activate' ?>" name="toggle_status">
+<?= $u['status']==='active' ? '⛔ Suspender' : '✅ Activar' ?>
 </button>
-
 <?php else: ?>
-
-<button class="gray" name="request_toggle">
-<?= $u['status']==='active'?'Solicitar suspensión':'Solicitar activación' ?>
+<button class="btn-suspend" name="request_toggle">
+<?= $u['status']==='active'?'⛔ Solicitar suspensión':'✅ Solicitar activación' ?>
 </button>
-
 <?php endif; ?>
 
 </form>
 
-<!-- =========================
-     BORRAR (SOLO SUPER)
-========================= -->
+<!-- BORRAR -->
 <?php if ($adminLevel==='super'): ?>
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="red" name="delete_user">Borrar</button>
+<button class="btn-delete" name="delete_user">🗑️ Borrar</button>
 </form>
 <?php endif; ?>
 
@@ -1702,6 +1931,7 @@ required
 
 </tr>
 <?php endwhile; ?>
+</tbody>
 
 </table>
 </div>
@@ -1714,6 +1944,8 @@ required
 
 <div class="table-wrap">
 <table>
+
+<thead>
 <tr>
 <th>Usuario</th>
 <th>Acción</th>
@@ -1721,15 +1953,17 @@ required
 <th>Fecha</th>
 <th>Acciones</th>
 </tr>
+</thead>
 
+<tbody>
 <?php if ($requests && $requests->num_rows > 0): ?>
 
 <?php while($r = $requests->fetch_assoc()): ?>
 <tr>
 
-<td><?= htmlspecialchars($r['user_name']) ?></td>
+<td data-label="Usuario"><?= htmlspecialchars($r['user_name']) ?></td>
 
-<td>
+<td data-label="Acción">
 <?php
 switch($r['action']){
     case 'create': echo 'Crear usuario'; break;
@@ -1740,24 +1974,24 @@ switch($r['action']){
 ?>
 </td>
 
-<td>
+<td data-label="Solicitado por">
 <?= htmlspecialchars($r['admin_name']) ?><br>
 <small><?= htmlspecialchars($r['admin_email']) ?></small>
 </td>
 
-<td><?= $r['created_at'] ?></td>
+<td data-label="Fecha"><?= $r['created_at'] ?></td>
 
-<td>
+<td data-label="Acciones">
 <div class="actions">
 
 <form method="post">
 <input type="hidden" name="request_id" value="<?= $r['id'] ?>">
-<button class="green" name="approve_request">Aprobar</button>
+<button class="btn-activate" name="approve_request">✅ Aprobar</button>
 </form>
 
 <form method="post">
 <input type="hidden" name="request_id" value="<?= $r['id'] ?>">
-<button class="red" name="reject_request">Rechazar</button>
+<button class="btn-suspend" name="reject_request">⛔ Rechazar</button>
 </form>
 
 </div>
@@ -1769,10 +2003,14 @@ switch($r['action']){
 <?php else: ?>
 
 <tr>
-<td colspan="5">No hay solicitudes pendientes</td>
+<tr class="no-data">
+<td colspan="5">
+No hay solicitudes pendientes
+</td>
 </tr>
 
 <?php endif; ?>
+</tbody>
 
 </table>
 </div>
@@ -1898,8 +2136,11 @@ Actualizar contraseña
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="usersSuper">
 <h3>Usuarios creados por el Administrador Principal</h3>
+
 <div class="table-wrap">
 <table>
+
+<thead>
 <tr>
 <th>Nombre</th>
 <th>Email</th>
@@ -1908,37 +2149,56 @@ Actualizar contraseña
 <th>Expira</th>
 <th>Acciones</th>
 </tr>
+</thead>
 
+<tbody>
 <?php while($u = $usersBySuper->fetch_assoc()): ?>
 <tr>
+
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
 <td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
+
 <td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
 <?= $u['status'] ?>
 </td>
+
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
 
 <td data-label="Acciones">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="green" name="update_account">Actualizar</button>
-</form>
+<div class="actions">
 
+<!-- ACTUALIZAR -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="gray" name="toggle_status">
-<?= $u['status']==='active'?'Suspender':'Activar' ?>
+<button class="btn-activate" name="update_account">
+🔄 Actualizar
 </button>
 </form>
 
+<!-- ACTIVAR / SUSPENDER -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="red" name="delete_user">Borrar</button>
+<button class="<?= $u['status']==='active' ? 'btn-suspend' : 'btn-activate' ?>" name="toggle_status">
+<?= $u['status']==='active' ? '⛔ Suspender' : '✅ Activar' ?>
+</button>
 </form>
+
+<!-- BORRAR -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+<button class="btn-delete" name="delete_user">
+🗑️ Borrar
+</button>
+</form>
+
+</div>
 </td>
+
 </tr>
 <?php endwhile; ?>
+</tbody>
+
 </table>
 </div>
 </div>
@@ -1948,8 +2208,11 @@ Actualizar contraseña
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="usersHelpers">
 <h3>Usuarios creados por Administradores Ayudantes</h3>
+
 <div class="table-wrap">
 <table>
+
+<thead>
 <tr>
 <th>Nombre</th>
 <th>Email</th>
@@ -1959,9 +2222,12 @@ Actualizar contraseña
 <th>Expira</th>
 <th>Acciones</th>
 </tr>
+</thead>
 
+<tbody>
 <?php while($u = $usersByHelpers->fetch_assoc()): ?>
 <tr>
+
 <td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
 <td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
 <td data-label="Perfiles"><?= $u['max_perfiles'] ?? 0 ?></td>
@@ -1974,25 +2240,39 @@ Actualizar contraseña
 <td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
 
 <td data-label="Acciones">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="green" name="update_account">Actualizar</button>
-</form>
+<div class="actions">
 
+<!-- ACTUALIZAR -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="gray" name="toggle_status">
-<?= $u['status']==='active'?'Suspender':'Activar' ?>
+<button class="btn-activate" name="update_account">
+🔄 Actualizar
 </button>
 </form>
 
+<!-- ACTIVAR / SUSPENDER -->
 <form method="post">
 <input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="red" name="delete_user">Borrar</button>
+<button class="<?= $u['status']==='active' ? 'btn-suspend' : 'btn-activate' ?>" name="toggle_status">
+<?= $u['status']==='active' ? '⛔ Suspender' : '✅ Activar' ?>
+</button>
 </form>
+
+<!-- BORRAR -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+<button class="btn-delete" name="delete_user">
+🗑️ Borrar
+</button>
+</form>
+
+</div>
 </td>
+
 </tr>
 <?php endwhile; ?>
+</tbody>
+
 </table>
 </div>
 </div>
