@@ -51,78 +51,131 @@ if (!empty($res['foto'])) {
 
 
 /* =====================
-   ACCIONES
-===================== */
-
-// =====================
-// SOLICITUDES AYUDANTE
-// =====================
-if ($adminLevel === 'normal') {
-
-    if (isset($_POST['update_account'])) {
-        $uid = (int)$_POST['user_id'];
-        $conn->query("
-            INSERT INTO admin_requests (user_id, action, requested_by)
-            VALUES ($uid, 'update', $adminId)
-        ");
-        header("Location: admin_page.php");
-        exit();
-    }
-
-    if (isset($_POST['reactivate_account'])) {
-        $uid = (int)$_POST['user_id'];
-        $conn->query("
-            INSERT INTO admin_requests (user_id, action, requested_by)
-            VALUES ($uid, 'reactivate', $adminId)
-        ");
-        header("Location: admin_page.php");
-        exit();
-    }
-}
-
-/* =====================
    APROBACIONES SUPER
 ===================== */
 if ($adminLevel === 'super') {
 
     if (isset($_POST['approve_request'])) {
+
         $rid = (int)$_POST['request_id'];
 
-        $req = $conn->query("
+        $stmt = $conn->prepare("
             SELECT * FROM admin_requests 
-            WHERE id=$rid AND status='pending'
-        ")->fetch_assoc();
+            WHERE id=? AND status='pending'
+        ");
+        $stmt->bind_param("i", $rid);
+        $stmt->execute();
+        $req = $stmt->get_result()->fetch_assoc();
 
         if ($req) {
-            $uid = $req['user_id'];
 
-            $conn->query("
-                UPDATE users
-                SET status='active',
-                    paid_until=DATE_ADD(CURDATE(), INTERVAL 30 DAY)
-                WHERE id=$uid
-            ");
+            $uid = (int)$req['user_id'];
 
+            // 👉 ACCIONES SEGÚN TIPO
+            switch ($req['action']) {
+
+                case 'create':
+                    $conn->query("
+                        UPDATE users
+                        SET status='active',
+                            paid_until = DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+                        WHERE id=$uid
+                    ");
+                break;
+
+                case 'suspend':
+                    $conn->query("
+                        UPDATE users
+                        SET status='suspended'
+                        WHERE id=$uid
+                    ");
+                break;
+
+                case 'activate':
+                    $conn->query("
+                        UPDATE users
+                        SET status='active',
+                            paid_until = DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+                        WHERE id=$uid
+                    ");
+                break;
+
+                case 'update':
+                    // aquí puedes manejar cambios futuros
+                break;
+            }
+
+            // ✅ IMPORTANTE: eliminar o marcar como aprobado
             $conn->query("
                 UPDATE admin_requests 
-                SET status='approved' 
+                SET status='approved'
                 WHERE id=$rid
             ");
         }
+
         header("Location: admin_page.php");
         exit();
     }
 
     if (isset($_POST['reject_request'])) {
+
         $rid = (int)$_POST['request_id'];
+
         $conn->query("
             UPDATE admin_requests 
-            SET status='rejected' 
+            SET status='rejected'
             WHERE id=$rid
         ");
+
         header("Location: admin_page.php");
         exit();
     }
+}
+
+// =====================
+// SOLICITUDES DE AYUDANTE
+// =====================
+
+// 🔹 Solicitar actualización
+if (isset($_POST['request_update']) && $adminLevel === 'normal') {
+
+    $uid = (int)$_POST['user_id'];
+
+    $conn->query("
+        INSERT INTO admin_requests (user_id, action, requested_by)
+        VALUES ($uid, 'update', $adminId)
+    ");
+
+    $_SESSION['msg'] = "Solicitud de actualización enviada";
+    $_SESSION['msg_type'] = "success";
+
+    header("Location: admin_page.php");
+    exit();
+}
+
+
+// 🔹 Solicitar activar / suspender
+if (isset($_POST['request_toggle']) && $adminLevel === 'normal') {
+
+    $uid = (int)$_POST['user_id'];
+
+    // ver estado actual
+    $current = $conn->query("
+        SELECT status FROM users WHERE id=$uid
+    ")->fetch_assoc();
+
+    $action = ($current['status'] === 'active') ? 'suspend' : 'activate';
+
+    $conn->query("
+        INSERT INTO admin_requests (user_id, action, requested_by)
+        VALUES ($uid, '$action', $adminId)
+    ");
+
+    $_SESSION['msg'] = "Solicitud enviada al administrador principal";
+    $_SESSION['msg_type'] = "success";
+
+    header("Location: admin_page.php");
+    exit();
 }
 
 // =====================
@@ -586,12 +639,17 @@ if ($adminLevel === 'super') {
 
     if ($checkTable && $checkTable->num_rows > 0) {
         $requests = $conn->query("
-            SELECT r.*, u.name AS user_name
-            FROM admin_requests r
-            JOIN users u ON u.id = r.user_id
-            WHERE r.status='pending'
-            ORDER BY r.created_at DESC
-        ");
+    SELECT 
+        r.*, 
+        u.name AS user_name,
+        a.name AS admin_name,
+        a.email AS admin_email
+    FROM admin_requests r
+    JOIN users u ON u.id = r.user_id
+    LEFT JOIN users a ON a.id = r.requested_by
+    WHERE r.status='pending'
+    ORDER BY r.created_at DESC
+");
     } else {
         $requests = false;
     }
@@ -1315,6 +1373,7 @@ Cupos disponibles: <?= $quota ?>
 ➕ Crear usuario
 </button>
 
+
 <?php if ($adminLevel === 'super'): ?>
 
 <div class="menu-section">Administración</div>
@@ -1349,6 +1408,12 @@ Cupos disponibles: <?= $quota ?>
 
 <?php endif; ?>
 
+<?php if ($adminLevel === 'normal'): ?>
+<button class="menu-link" onclick="showSection('changeUserPass')">
+🔑 Cambiar contraseña usuarios
+</button>
+<?php endif; ?>
+
 <div class="menu-section">Sistema</div>
 
 <button class="menu-link" onclick="showSection('allUsers')">
@@ -1365,8 +1430,6 @@ onclick="window.location.href=window.location.pathname">
 </a>
 
 </div>
-
-
 
 
 <?php if ($adminLevel === 'super'): ?>
@@ -1547,8 +1610,177 @@ required
 <?php endif; ?>
 
 
+<div class="box section-panel" id="allUsers">
+<h3>Usuarios</h3>
+
+<div class="table-wrap">
+<table>
+<tr>
+<th>Nombre</th>
+<th>Email</th>
+
+<?php if ($adminLevel==='super'): ?>
+<th>Creado por</th>
+<?php endif; ?>
+
+<th>Estado</th>
+<th>Expira</th>
+<th>Acciones</th>
+</tr>
+
+<?php while($u=$users->fetch_assoc()): ?>
+<tr>
+
+<td><?=htmlspecialchars($u['name'])?></td>
+<td><?=htmlspecialchars($u['email'])?></td>
+
+<?php if ($adminLevel==='super'): ?>
+<td><?=htmlspecialchars($u['admin_name'] ?? 'Principal')?></td>
+<?php endif; ?>
+
+<td class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
+<?= $u['status'] ?>
+</td>
+
+<td><?= $u['paid_until'] ?? '-' ?></td>
+
+<td>
+<div class="actions">
+
+<!-- =========================
+     ACTUALIZAR
+========================= -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+
+<?php if ($adminLevel==='super'): ?>
+
+<button class="green" name="update_account">Actualizar</button>
+
+<?php else: ?>
+
+<button class="green" name="request_update">Solicitar Actualizar</button>
+
+<?php endif; ?>
+
+</form>
+
+<!-- =========================
+     ACTIVAR / SUSPENDER
+========================= -->
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+
+<?php if ($adminLevel==='super'): ?>
+
+<button class="gray" name="toggle_status">
+<?= $u['status']==='active'?'Suspender':'Activar' ?>
+</button>
+
+<?php else: ?>
+
+<button class="gray" name="request_toggle">
+<?= $u['status']==='active'?'Solicitar suspensión':'Solicitar activación' ?>
+</button>
+
+<?php endif; ?>
+
+</form>
+
+<!-- =========================
+     BORRAR (SOLO SUPER)
+========================= -->
+<?php if ($adminLevel==='super'): ?>
+<form method="post">
+<input type="hidden" name="user_id" value="<?=$u['id']?>">
+<button class="red" name="delete_user">Borrar</button>
+</form>
+<?php endif; ?>
+
+</div>
+</td>
+
+</tr>
+<?php endwhile; ?>
+
+</table>
+</div>
+</div>
 
 <?php if ($adminLevel === 'super'): ?>
+<div class="box section-panel" id="requests">
+
+<h3>Solicitudes pendientes</h3>
+
+<div class="table-wrap">
+<table>
+<tr>
+<th>Usuario</th>
+<th>Acción</th>
+<th>Solicitado por</th>
+<th>Fecha</th>
+<th>Acciones</th>
+</tr>
+
+<?php if ($requests && $requests->num_rows > 0): ?>
+
+<?php while($r = $requests->fetch_assoc()): ?>
+<tr>
+
+<td><?= htmlspecialchars($r['user_name']) ?></td>
+
+<td>
+<?php
+switch($r['action']){
+    case 'create': echo 'Crear usuario'; break;
+    case 'suspend': echo 'Suspender'; break;
+    case 'activate': echo 'Activar'; break;
+    case 'update': echo 'Actualizar'; break;
+}
+?>
+</td>
+
+<td>
+<?= htmlspecialchars($r['admin_name']) ?><br>
+<small><?= htmlspecialchars($r['admin_email']) ?></small>
+</td>
+
+<td><?= $r['created_at'] ?></td>
+
+<td>
+<div class="actions">
+
+<form method="post">
+<input type="hidden" name="request_id" value="<?= $r['id'] ?>">
+<button class="green" name="approve_request">Aprobar</button>
+</form>
+
+<form method="post">
+<input type="hidden" name="request_id" value="<?= $r['id'] ?>">
+<button class="red" name="reject_request">Rechazar</button>
+</form>
+
+</div>
+</td>
+
+</tr>
+<?php endwhile; ?>
+
+<?php else: ?>
+
+<tr>
+<td colspan="5">No hay solicitudes pendientes</td>
+</tr>
+
+<?php endif; ?>
+
+</table>
+</div>
+</div>
+<?php endif; ?>
+
+
+<?php if ($adminLevel === 'super' || $adminLevel === 'normal'): ?>
 <div class="box section-panel" id="changeUserPass">
 
 <h3>Cambiar contraseña de usuarios</h3>
@@ -1562,12 +1794,21 @@ required
 <option value="">Seleccionar</option>
 
 <?php
-$listUsers = $conn->query("
-SELECT id,name,email
-FROM users
-WHERE role='user'
-ORDER BY name
-");
+if ($adminLevel === 'super') {
+    $listUsers = $conn->query("
+        SELECT id,name,email
+        FROM users
+        WHERE role='user'
+        ORDER BY name
+    ");
+} else {
+    $listUsers = $conn->query("
+        SELECT id,name,email
+        FROM users
+        WHERE role='user' AND created_by_admin=$adminId
+        ORDER BY name
+    ");
+}
 
 while($u=$listUsers->fetch_assoc()):
 ?>
@@ -1757,36 +1998,6 @@ Actualizar contraseña
 </div>
 <?php endif; ?>
 
-
-<?php if ($adminLevel==='super'): ?>
-<div class="box section-panel" id="requests">
-<h3>Solicitudes pendientes</h3>
-<table>
-<tr>
-<th>Usuario</th>
-<th>Acción</th>
-<th>Fecha</th>
-<th>Opciones</th>
-</tr>
-
-<?php while($r=$requests->fetch_assoc()): ?>
-<tr>
-<td><?=$r['user_name']?></td>
-<td><?=$r['action']?></td>
-<td><?=$r['created_at']?></td>
-<td>
-<form method="post">
-<input type="hidden" name="request_id" value="<?=$r['id']?>">
-<button class="green" name="approve_request">Aceptar</button>
-<button class="red" name="reject_request">Rechazar</button>
-</form>
-</td>
-</tr>
-<?php endwhile; ?>
-</table>
-</div>
-<?php endif; ?>
-
 <?php if ($adminLevel === 'super' && $selectedHelper): ?>
 <div class="box section-panel">
 <h3>Usuarios creados por <?= htmlspecialchars(
@@ -1856,62 +2067,7 @@ Actualizar contraseña
 <?php endif; ?>
 
 
-<div class="box section-panel" id="allUsers">
-<h3>Usuarios</h3>
-<div class="table-wrap">
-<table>
-<tr>
-<th>Nombre</th>
-<th>Email</th>
-<?php if ($adminLevel==='super'): ?><th>Creado por</th><?php endif; ?>
-<th>Estado</th>
-<th>Expira</th>
-<th>Acciones</th>
-</tr>
 
-<?php while($u=$users->fetch_assoc()): ?>
-<tr>
-<td data-label="Nombre"><?=htmlspecialchars($u['name'])?></td>
-<td data-label="Email"><?=htmlspecialchars($u['email'])?></td>
-
-<?php if ($adminLevel==='super'): ?>
-<td data-label="Creado por"><?=htmlspecialchars($u['admin_name'] ?? 'Principal')?></td>
-<?php endif; ?>
-
-<td data-label="Estado" class="<?= $u['status']==='active'?'green-text':'red-text' ?>">
-<?= $u['status'] ?>
-</td>
-
-<td data-label="Expira"><?= $u['paid_until'] ?? '-' ?></td>
-
-<td data-label="Acciones">
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="green" name="update_account">Actualizar</button>
-</form>
-
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="gray" name="toggle_status">
-<?= $u['status']==='active'?'Suspender':'Activar' ?>
-</button>
-</form>
-
-<?php if ($adminLevel==='super'): ?>
-<form method="post">
-<input type="hidden" name="user_id" value="<?=$u['id']?>">
-<button class="red" name="delete_user">Borrar</button>
-</form>
-<?php endif; ?>
-</td>
-</tr>
-<?php endwhile; ?>
-</table>
-</div>
-</div>
-
-
-</div>
 
 <script>
 function validarFormulario(formId){
