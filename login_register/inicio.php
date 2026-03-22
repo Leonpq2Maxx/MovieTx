@@ -92,7 +92,6 @@ if(isset($_SESSION['perfil_id'])){
 
 }
 
-
 /* =========================
    VERIFICACIÓN AJAX
 ========================= */
