@@ -1368,24 +1368,21 @@ const seasonsData = [
     name: "Temporada 1",
     year: 2026,
     episodes: [
-      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/9qu6sutxqx2hma3z341x8/From.S01e05.1080P-Dual-Lat.mp4?rlkey=6ftx15dc93wastublk1uw4xrh&st=" },
+      { id: "t1e1", number: 1, src: "" },
       { id: "t1e2", number: 2, src: "" },
       { id: "t1e3", number: 3, src: "" },
       { id: "t1e4", number: 4, src: "" },
       { id: "t1e5", number: 5, src: "" },
-      { id: "t1e6", number: 6, src: "" }
-    ]
-  },
-  {
-    id: "t2",
-    name: "Temporada 2",
-    year: 2019,
-    episodes: [
-      { id: "t2e1", number: 1, src: "" },
-      { id: "t2e2", number: 2, src: "" },
-      { id: "t2e3", number: 3, src: "" },
-      { id: "t2e4", number: 4, src: "" },
-      { id: "t2e5", number: 5, src: "" }
+      { id: "t1e6", number: 6, src: "" },
+      { id: "t1e7", number: 7, src: "" },
+      { id: "t1e8", number: 8, src: "" },
+      { id: "t1e9", number: 9, src: "" },
+      { id: "t1e10", number: 10, src: "" },
+      { id: "t1e11", number: 11, src: "" },
+      { id: "t1e12", number: 12, src: "" },
+      { id: "t1e13", number: 13, src: "" },
+      { id: "t1e14", number: 14, src: "" },
+      { id: "t1e15", number: 15, src: "" }
     ]
   }
 ];
@@ -2141,17 +2138,17 @@ document.addEventListener("DOMContentLoaded", function () {
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg" alt="">
         <p>Baki Hanma VS Kengan Ashura</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="Dragon Ball Z (1986).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/8PT42NbjTZzYzCnPzg4NZzSW97n.jpg" alt="">
+        <p>Dragon Ball Z</p>
+      </a>
+      <a href="hajime no ippo (2000).html" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/i3U3J2MWovIBZBnZYYiOLBXqNJZ.jpg" alt="">
+        <p>Hajime no ippo</p>
       </a>
       <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
-      </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/3V7kzJX7hvF0H9CDJsgcWKXTSsR.jpg" alt="">
+        <p>Naruto Shippuden</p>
       </a>
     </div>
   </div>

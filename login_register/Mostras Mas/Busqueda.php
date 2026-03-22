@@ -221,13 +221,13 @@
 window.history.pushState(null, null, window.location.href);
 window.addEventListener('popstate', function () {
   // Redirige directamente al index y reemplaza el historial
-  window.location.replace("../index.html");
+  window.location.replace("../inicio.php");
 });
 
 // 🔹 Limpia el historial para que no se pueda regresar desde index
 if (window.performance && window.performance.navigation.type === 2) {
   // Si se intenta volver con cache, redirige igual
-  window.location.replace("../index.html");
+  window.location.replace("../inicio.php");
 }
 </script>
 

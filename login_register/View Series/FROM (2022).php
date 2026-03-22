@@ -1378,19 +1378,42 @@ const seasonsData = [
       { id: "t1e7", number: 7, src: "https://dl.dropbox.com/scl/fi/kaq6aqtrqrj7zbic8th86/From.S01e07.1080P-Dual-Lat.mp4?rlkey=t8y9xltacd4yvw45nilgb8n29&st=" },
       { id: "t1e8", number: 8, src: "https://dl.dropbox.com/scl/fi/eo4p185ynqaaop33evx3q/From.S01e08.1080P-Dual-Lat.mp4?rlkey=hr43yfk9mml6d5yh3jjyngfiv&st=" },
       { id: "t1e9", number: 9, src: "https://dl.dropbox.com/scl/fi/b88wyvrui5fz18wuserr3/From.S01e09.1080P-Dual-Lat.mp4?rlkey=eze1kjpwmzijqrw7ph0fozhwh&st=" },
-      { id: "t1e10", number: 10, src: "" }
+      { id: "t1e10", number: 10, src: "https://dl.dropbox.com/scl/fi/53zitzye7vusdsyqcq2a6/From.S01e10.1080P-Dual-Lat.mp4?rlkey=ljtwc3r1kay6xqbc9dn11ag3d&st=" }
     ]
   },
   {
     id: "t2",
     name: "Temporada 2",
-    year: 2019,
+    year: 2023,
     episodes: [
-      { id: "t2e1", number: 1, src: "" },
-      { id: "t2e2", number: 2, src: "" },
-      { id: "t2e3", number: 3, src: "" },
-      { id: "t2e4", number: 4, src: "" },
-      { id: "t2e5", number: 5, src: "" }
+      { id: "t2e1", number: 1, src: "https://dl.dropbox.com/scl/fi/ao0mr4hq9iuytw05qfg65/From.S02e01.2023.1080P-Dual-Lat.mp4?rlkey=nvw5vdc16t7glv6m8frbv2wz4&st=" },
+      { id: "t2e2", number: 2, src: "https://dl.dropbox.com/scl/fi/lwe6xlztbv05jum04mk9e/From.S02e02.2023.1080P-Dual-Lat.mkv?rlkey=c29hi7k0ktwmq7k7soqrfi0hi&st=" },
+      { id: "t2e3", number: 3, src: "https://dl.dropbox.com/scl/fi/0ib1k2dbt2u01ewjd01rh/From.S02e03.2023.1080P-Dual-Lat.mkv?rlkey=leg8q8t655u9efgqo3pykhm0r&st=" },
+      { id: "t2e4", number: 4, src: "https://dl.dropbox.com/scl/fi/ix8w2qfpq7xq5rra9t6rr/From.S02e04.2023.1080P-Dual-Lat.mkv?rlkey=ulzltvr5f2ohzfqrktq44cwbe&st=" },
+      { id: "t2e5", number: 5, src: "https://dl.dropbox.com/scl/fi/861rh8rpimtlp0o040eui/From.S02e05.2023.1080P-Dual-Lat.mkv?rlkey=unjrt38rqn0h3rnpljl8e7ysd&st=" },
+      { id: "t2e6", number: 6, src: "https://dl.dropbox.com/scl/fi/rrcjt3drrza3sex7nu86u/From.S02e06.2023.1080P-Dual-Lat.mkv?rlkey=erxz6r7xjt0l0i5i08y36ahra&st=" },
+      { id: "t2e7", number: 7, src: "https://dl.dropbox.com/scl/fi/popm735v60o0k8tbqbksx/From.S02e07.2023.1080P-Dual-Lat.mkv?rlkey=kz21sspa2rt9lme6d6yerddgr&st=" },
+      { id: "t2e8", number: 8, src: "" },
+      { id: "t2e9", number: 9, src: "" },
+      { id: "t2e10", number: 10, src: "" },
+    ]
+  }
+  ,
+  {
+    id: "t3",
+    name: "Temporada 3",
+    year: 2024,
+    episodes: [
+      { id: "t3e1", number: 1, src: "" },
+      { id: "t3e2", number: 2, src: "" },
+      { id: "t3e3", number: 3, src: "" },
+      { id: "t3e4", number: 4, src: "" },
+      { id: "t3e5", number: 5, src: "" },
+      { id: "t3e6", number: 6, src: "" },
+      { id: "t3e7", number: 7, src: "" },
+      { id: "t3e8", number: 8, src: "" },
+      { id: "t3e9", number: 9, src: "" },
+      { id: "t3e10", number: 10, src: "" },
     ]
   }
 ];
@@ -2134,29 +2157,29 @@ document.addEventListener("DOMContentLoaded", function () {
     <h4>Podría interesarte:</h4>
     <br/>
     <div class="series-grid">
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="The Walking Dead (2010).php" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/9iYinsg30olSCuDoH8VxtRN5gZx.jpg" alt="">
+        <p>The Walking Dead</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="chespirito: Sin querer queriendo (2025).php" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/bLyhzXAWvOn0L17NbCYP2aZ4sPt.jpg" alt="">
+        <p>Chespirito: Sin querer queriendo</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="La maldicion de Hill House (2018).php" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/y4D0MkSEYeEgAIqQK9GjQtiUZXH.jpg" alt="">
+        <p>La maldición de Hill House</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="Chucky (2021).php" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/sdCJbGkvnIsIKLxaFQrviriODVq.jpg" alt="">
+        <p>Chucky</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="Archivo 81 (2022).php" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/rLgOasUfugmhshlhURKKULDEdrB.jpg" alt="">
+        <p>Archivo 81</p>
       </a>
-      <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
-        <p></p>
+      <a href="Marianne (2019)" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/9ycFxQF8bwK2ZkHlBdzea0aoQEU.jpg" alt="">
+        <p>Marianne</p>
       </a>
     </div>
   </div>

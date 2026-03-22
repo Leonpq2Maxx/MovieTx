@@ -74,44 +74,84 @@ $stmt->bind_param("ssssi", $name, $email, $hash, $telefono, $createdByAdmin);
 <style>
 body{
     font-family:'Segoe UI',Arial;
-    background:#0b0b0b;
+    background:linear-gradient(135deg,#0b0b0b,#111);
     color:#fff;
     display:flex;
     justify-content:center;
     align-items:center;
     min-height:100vh;
+    padding:15px;
 }
 
+/* CAJA */
 .box{
     background:#141414;
-    padding:30px;
+    padding:25px;
     border-radius:20px;
     width:100%;
     max-width:420px;
     text-align:center;
     box-shadow:0 10px 40px rgba(0,0,0,0.8);
+    animation:fadeIn 0.5s ease;
 }
 
+/* ANIMACIÓN */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* LOGO */
 .logo{
-    width:100px;
-    height:100px;
+    width:90px;
+    height:90px;
     border-radius:50%;
     margin-bottom:10px;
     border:2px solid #333;
 }
 
+/* TITULO */
 h2{
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
+/* INFO PLAN */
+.info-plan{
+    background:#1c1c1c;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-size:14px;
+    border:1px solid #2a2a2a;
+}
+
+.precio{
+    font-size:18px;
+    font-weight:bold;
+    color:#e50914;
+}
+
+.pago{
+    margin-top:8px;
+    color:#ccc;
+}
+
+.nota{
+    margin-top:10px;
+    font-size:13px;
+    color:#aaa;
+}
+
+/* INPUTS */
 input{
     width:100%;
     padding:14px;
-    margin:10px 0;
+    margin:8px 0;
     border:none;
     border-radius:10px;
     background:#222;
     color:white;
+    font-size:15px;
 }
 
 input:focus{
@@ -119,6 +159,7 @@ input:focus{
     box-shadow:0 0 0 2px #e50914;
 }
 
+/* BOTON */
 button{
     width:100%;
     padding:14px;
@@ -128,12 +169,16 @@ button{
     color:white;
     font-weight:bold;
     cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
 }
 
 button:hover{
     background:#ff1f1f;
+    transform:scale(1.02);
 }
 
+/* MENSAJES */
 .msg{
     margin:10px 0;
     font-size:14px;
@@ -143,9 +188,51 @@ button:hover{
     color:#ff4d4d;
 }
 
+/* LINK */
 a{
     color:#aaa;
     font-size:14px;
+}
+
+/* 📱 MOBILE */
+@media (max-width:480px){
+
+    .box{
+        padding:20px;
+        border-radius:15px;
+    }
+
+    .logo{
+        width:70px;
+        height:70px;
+    }
+
+    .precio{
+        font-size:16px;
+    }
+
+    input{
+        padding:12px;
+    }
+
+    button{
+        padding:12px;
+        font-size:15px;
+    }
+}
+
+/* 💻 TABLET */
+@media (min-width:481px) and (max-width:900px){
+    .box{
+        max-width:500px;
+    }
+}
+
+/* 🖥️ PC */
+@media (min-width:901px){
+    .box{
+        max-width:420px;
+    }
 }
 </style>
 </head>
@@ -157,6 +244,20 @@ a{
 <img src="Logo Poster MovieTx PNG/Logo MovieTx.png" class="logo">
 
 <h2>Crear cuenta</h2>
+
+<div class="info-plan">
+    <p class="precio">💳 Precio: $2500 / mes</p>
+
+    <p class="pago">
+        Formas de pago:<br>
+        Mercado Pago • Naranja X • Transferencia
+    </p>
+
+    <p class="nota">
+        ⚠️ Una vez registrado, el administrador se comunicará con vos.<br>
+        Deberás enviar el comprobante de pago para activar tu cuenta.
+    </p>
+</div>
 
 <?php if(isset($_SESSION['register_error'])): ?>
 <div class="msg error"><?= $_SESSION['register_error'] ?></div>

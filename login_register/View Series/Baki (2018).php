@@ -2164,7 +2164,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </a>
       <a href="Baki-Dou El samurái invencible (2026).php" class="serie">
         <img loading="lazy" src="https://imgs.search.brave.com/wL_zD4jMSbWlQUzFzIXV4WnXFsX6aYf9kV_1d1xiM74/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3dp/a2ktZG9ibGFqZS1l/c3BhbmEvaW1hZ2Vz/LzkvOWUvQmFraS1E/b3VfLV9FbF9TYW11/ciVDMyVBMWlfSW52/ZW5jaWJsZV8tX1Bv/c3Rlci5qcGcvcmV2/aXNpb24vbGF0ZXN0/L3NjYWxlLXRvLXdp/ZHRoLWRvd24vMjY4/P2NiPTIwMjYwMjA0/MjAyNTM3JnBhdGgt/cHJlZml4PWVz" alt="">
-        <p>Baki-Dou El samurái invencible</p>
+        <p>Baki-Dou: El samurái invencible</p>
       </a>
       <a href="../View Peliculas/Baki Hanma vs. Kengan Ashura (2024).html" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg" alt="">

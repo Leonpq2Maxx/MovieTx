@@ -115,28 +115,6 @@ if (isset($_GET['check_status'])) {
     exit();
 }
 
-/* =========================
-   VERIFICACIÓN AJAX
-========================= */
-
-if (isset($_GET['check_status'])) {
-
-    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $data = $stmt->get_result()->fetch_assoc();
-
-    if (!$data || $data['status'] !== 'active') {
-        session_unset();
-        session_destroy();
-        echo "logout";
-    } else {
-        echo "ok";
-    }
-
-    exit();
-}
-
 
 
 /* =========================
@@ -1448,6 +1426,33 @@ document.querySelectorAll('.card-link').forEach(link => {
 <div id="contenido-orig">
 
   <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
+
+  <div class="poster">
+    <h4 class="alignleft">Series Completas</h4><a href="#"></a>
+  </div>
+
+  <div class="scrollmenu">
+    <br>
+    
+    <a class="card-link" data-href="View Series/FROM (2022).php">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg"/>
+        <i>FROM</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Series/Baki (2018).php">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/j4bL0G8h8k49MuXKYfZqhXqk2rI.jpg"/>
+        <i>Baki</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+  </div>
+
+  <br><br>
 
   <div class="poster">
     <h4 class="alignleft">2026</h4><a href="#"></a>
