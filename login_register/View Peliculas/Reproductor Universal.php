@@ -9042,6 +9042,170 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  el_guason: {
+    id: "el_guason",
+    titulo: "El guasón",
+    video: "https://dl.dropbox.com/scl/fi/p7zrohbsmy9x8me9eijg5/Guas-n.2019.1080p-dual-lat.mkv?rlkey=54dx7pk331dxbai3dgxw8j93x&st=",
+    poster: "https://image.tmdb.org/t/p/w780/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
+    imagen: "https://image.tmdb.org/t/p/w3002cta3k9kgsgweUTY2LvMSFjuB6e.jpg/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Arthur Fleck es un hombre ignorado por la sociedad, cuya motivación en la vida es hacer reír. Pero una serie de trágicos acontecimientos le llevarán a ver el mundo de otra forma. Película basada en Joker, el popular personaje de DC Comics y archivillano de Batman, pero que en este film toma un cariz más realista y oscuro.",
+    anio: "2019",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "Crimen • Suspenso • Drama",
+    director: "Todd Phillips",
+    reparto: "Joaquin Phoenix, Robert De Niro, Zazie Beetz",
+    estreno: "03/10/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "El guasón 2",
+        imagen: "https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"
+      },
+      {
+        id: "",
+        titulo: "Sombras de un crimen",
+        imagen: "https://image.tmdb.org/t/p/w300/vjAMj81oYBryzGBhJk4gcK0M636.jpg"
+      },
+      {
+        id: "",
+        titulo: "El asesino",
+        imagen: "https://image.tmdb.org/t/p/w300/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg"
+      },
+      {
+        id: "",
+        titulo: "Asesino serial",
+        imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"
+      },
+      {
+        id: "",
+        titulo: "Novocaine: Sin dolor",
+        imagen: "https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg"
+      },
+      {
+        id: "",
+        titulo: "Finestkind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "cantardesnuda",
+        titulo: "Solo Adultos",
+        imagen: "https://image.tmdb.org/t/p/w300/",
+        adulto: true
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "cantardesnuda",
+        titulo: "Solo Adultos",
+        imagen: "https://image.tmdb.org/t/p/w300/",
+        adulto: true
+      }
+    ]
+  },
+
   el_arca_de_noe: {
     id: "el_arca_de_noe",
     titulo: "El arca de Noé",

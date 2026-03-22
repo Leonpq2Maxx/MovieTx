@@ -1434,6 +1434,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bad boys 3: Para siempre</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el guasón" data-genero="crimen suspenso" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=el_guason" data-fecha="2026-03-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El guasón</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="aventura disney comedia fantasia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin_2019" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>

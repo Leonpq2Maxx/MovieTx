@@ -1393,9 +1393,9 @@ const seasonsData = [
       { id: "t2e5", number: 5, src: "https://dl.dropbox.com/scl/fi/861rh8rpimtlp0o040eui/From.S02e05.2023.1080P-Dual-Lat.mkv?rlkey=unjrt38rqn0h3rnpljl8e7ysd&st=" },
       { id: "t2e6", number: 6, src: "https://dl.dropbox.com/scl/fi/rrcjt3drrza3sex7nu86u/From.S02e06.2023.1080P-Dual-Lat.mkv?rlkey=erxz6r7xjt0l0i5i08y36ahra&st=" },
       { id: "t2e7", number: 7, src: "https://dl.dropbox.com/scl/fi/popm735v60o0k8tbqbksx/From.S02e07.2023.1080P-Dual-Lat.mkv?rlkey=kz21sspa2rt9lme6d6yerddgr&st=" },
-      { id: "t2e8", number: 8, src: "https://www.dropbox.com/scl/fi/n8zqgi2mtm5qg8kk3f926/From.S02e08.2023.1080P-Dual-Lat.mkv?rlkey=v3t7qy6fumydegrvhnm11yw8u&st=g3d5tt52&dl=0" },
-      { id: "t2e9", number: 9, src: "https://www.dropbox.com/scl/fi/d8df3b4oszir99nx3586s/From.S02e09.2023.1080P-Dual-Lat.mkv?rlkey=2dxva5cs0hi8b86m4dyb6zloo&st=8kj89sr3&dl=0" },
-      { id: "t2e10", number: 10, src: "" },
+      { id: "t2e8", number: 8, src: "https://dl.dropbox.com/scl/fi/n8zqgi2mtm5qg8kk3f926/From.S02e08.2023.1080P-Dual-Lat.mkv?rlkey=v3t7qy6fumydegrvhnm11yw8u&st=" },
+      { id: "t2e9", number: 9, src: "https://dl.dropbox.com/scl/fi/d8df3b4oszir99nx3586s/From.S02e09.2023.1080P-Dual-Lat.mkv?rlkey=2dxva5cs0hi8b86m4dyb6zloo&st=" },
+      { id: "t2e10", number: 10, src: "https://dl.dropbox.com/scl/fi/dkz0103byxtpx1rckuwug/From.S02e10.2023.1080P-Dual-Lat.mkv?rlkey=cmr5y26mzsm2bv5me1i9irjbz&st=" },
     ]
   }
   ,
@@ -1404,9 +1404,9 @@ const seasonsData = [
     name: "Temporada 3",
     year: 2024,
     episodes: [
-      { id: "t3e1", number: 1, src: "" },
-      { id: "t3e2", number: 2, src: "" },
-      { id: "t3e3", number: 3, src: "" },
+      { id: "t3e1", number: 1, src: "https://dl.dropbox.com/scl/fi/lba89efzw6ndt0n30c28a/Frmf14jh651dfgvbn32l3x1.mkv?rlkey=z01krawde1adky9c374zee8zf&st=" },
+      { id: "t3e2", number: 2, src: "https://dl.dropbox.com/scl/fi/v4q71kuxqb64xnn5gtjml/Frmf14jh651dfgvbn32l3x2.mkv?rlkey=vz8xy31mg5l0v6v5d2hwcxz1d&st=" },
+      { id: "t3e3", number: 3, src: "https://dl.dropbox.com/scl/fi/0sqzpql016w7ecexnj9ps/Frmf14jh651dfgvbn32l3x3.mkv?rlkey=r5kcq3yx77hpqg6zwda3zp3y8&st=" },
       { id: "t3e4", number: 4, src: "" },
       { id: "t3e5", number: 5, src: "" },
       { id: "t3e6", number: 6, src: "" },

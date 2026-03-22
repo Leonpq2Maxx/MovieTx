@@ -1620,6 +1620,14 @@ document.querySelectorAll('.card-link').forEach(link => {
 
     -->
 
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_guason">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg"/>
+        <i>El guasón</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg"/>

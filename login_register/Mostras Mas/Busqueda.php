@@ -2142,13 +2142,13 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El rey león</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el guasón" data-genero="crimen suspenso" data-anio="2019" data-html="../View Peliculas/El guason (2019).html" data-fecha="2025-12-17">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el guasón" data-genero="crimen suspenso" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=el_guason" data-fecha="2026-03-22">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
       <img src="https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg">
       <span class="lock-icon">🔒</span>
-      <p>El Guasón</p>
+      <p>El guasón</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 4" data-genero="animacion disney familia comedia aventura" data-anio="1888" data-html="../View Peliculas/Reproductor Universal.html?id=toy_story_4" data-fecha="2026-02-15">
