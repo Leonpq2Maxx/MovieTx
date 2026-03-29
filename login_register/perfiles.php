@@ -220,32 +220,32 @@ color:#aaa;
 @media (max-width:600px){
 
 .perfiles-grid{
-grid-template-columns:repeat(2, 1fr); /* 2 columnas */
-gap:30px;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 140px));
+    justify-content:center; /* 🔥 centra TODO */
+    gap:30px;
 }
 
 .perfil-card img{
-width:150px;
-height:150px;
+    width:140px;
+    height:140px;
 }
 
 .add-profile{
-width:150px;
-height:150px;
-font-size:60px;
+    width:140px;
+    height:140px;
+    font-size:60px;
 }
 
 .perfil-card p{
-font-size:15px;
+    font-size:15px;
 }
 
 h1{
-font-size:24px;
-margin-bottom:40px;
+    font-size:24px;
+    margin-bottom:40px;
 }
 
 }
-
 </style>
 
 </head>

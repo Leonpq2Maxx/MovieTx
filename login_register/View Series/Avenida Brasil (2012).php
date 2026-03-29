@@ -1,3 +1,101 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -451,6 +549,31 @@
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  setInterval(() => {
+  fetch("auth.php?check_status=1")
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "logout") {
+        alert("Tu sesión fue cerrada");
+        window.location.href = "index.php";
+      }
+    })
+    .catch(() => {
+      console.warn("Error verificando sesión");
+    });
+}, 10000);
+
+}) 
+
+</script>
+
+<!-- FIN -->
   
 <script>
 // 🔹 Evita volver a la página anterior
@@ -1027,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playsinline
     webkit-playsinline
     preload="metadata"
-    poster="https://image.tmdb.org/t/p/w780/seddLBvNOW9QK3j8uaJT0CSkVhI.jpg"
+    poster="https://image.tmdb.org/t/p/w780/5ssgDp28z1Nif6hR8OFrNQUspd4.jpg"
   >
   <source type="video/mp4">
   </video>
@@ -1054,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span id="season-year">2022</span>
+    <i class="fal fa-calendar-alt"></i><span id="season-year">2018</span>
     <i class="fal fa-thumbs-up"></i><span>89%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1067,8 +1190,8 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   
   <div class="info-pelicula">
-    <h1>FROM</h1>
-    <span class="genero-badge">Drama • Misterio • Fantasía</span>
+    <h1>Avenida Brasil</h1>
+    <span class="genero-badge">Drama • Misterio • Crimen</span>
     <!-- BOTÓN TEMPORADAS -->
 <div class="series-ui">
   <button id="btn-open-seasons">Temporadas</button>
@@ -1089,13 +1212,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="episodes-container" class="episodes-scroll"></div>
   
     <p class="sinopsis">
-      Desvela el misterio de un pueblo de pesadilla en el centro de Norteamérica que atrapa a todos los que entran. Mientras los residentes involuntarios luchan por mantener una sensación de normalidad y buscan una salida, también deben sobrevivir a las amenazas del bosque circundante, incluidas las aterradoras criaturas que salen cuando se pone el sol.
+      Esta es la dramática historia de Rita, que lucha por recuperar parte de la vida que su terrible madrastra, Carmina, le robó cuando todavía era solo una niña. Pero ella tendrá que enfrentarse a su pasado y decidir hasta dónde está dispuesta a llegar para vengarse de los que más le hicieron daño.
     </p>
 
     <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
-      <p><strong>Director:</strong> John Griffin</p>
-      <p><strong>Reparto:</strong> Harold Perrineau, Eion Bailey, Pegah Ghafoori</p>
-      <p><strong>Estreno:</strong> 00/00/0000 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
+      <p><strong>Director:</strong> João Emanuel Carneiro</p>
+      <p><strong>Reparto:</strong> Débora Falabella, Adriana Esteves, Cauã Reymond</p>
+      <p><strong>Estreno:</strong> 26/03/2012 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
     </div>
 
     <br>
@@ -1327,7 +1450,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "from_2022"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "avenida_brasil"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1367,53 +1490,26 @@ const seasonsData = [
   {
     id: "t1",
     name: "Temporada 1",
-    year: 2022,
+    year: 2012,
     episodes: [
-      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/u27blh0lj225x8v3zjliw/From.S01e01.1080P-Dual-Lat.mp4?rlkey=xlab17yk6uq20hh6b3x4ledrr&st=" },
-      { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/heqwhfg02c1uz472hduap/From.S01e02.1080P-Dual-Lat.mp4?rlkey=slfg2xusd3l6ldehqfosdtkuk&st=" },
-      { id: "t1e3", number: 3, src: "https://dl.dropbox.com/scl/fi/ymocsm45sgasnri5ln4d5/From.S01e03.1080P-Dual-Lat.mp4?rlkey=og1okqettbgsee2un4tuc4z6k&st=" },
-      { id: "t1e4", number: 4, src: "https://dl.dropbox.com/scl/fi/u127d55py3a0mj123zhto/From.S01e04.1080P-Dual-Lat.mp4?rlkey=fzs8zywhpsg6tuuo7walb0j62&st=" },
-      { id: "t1e5", number: 5, src: "https://dl.dropbox.com/scl/fi/9qu6sutxqx2hma3z341x8/From.S01e05.1080P-Dual-Lat.mp4?rlkey=6ftx15dc93wastublk1uw4xrh&st=" },
-      { id: "t1e6", number: 6, src: "https://dl.dropbox.com/scl/fi/2v55xe8e043yfk77z8i5o/From.S01e06.1080P-Dual-Lat.mp4?rlkey=vhmc7ib8177vgr8soi3b1u0im&st=" },
-      { id: "t1e7", number: 7, src: "https://dl.dropbox.com/scl/fi/kaq6aqtrqrj7zbic8th86/From.S01e07.1080P-Dual-Lat.mp4?rlkey=t8y9xltacd4yvw45nilgb8n29&st=" },
-      { id: "t1e8", number: 8, src: "https://dl.dropbox.com/scl/fi/eo4p185ynqaaop33evx3q/From.S01e08.1080P-Dual-Lat.mp4?rlkey=hr43yfk9mml6d5yh3jjyngfiv&st=" },
-      { id: "t1e9", number: 9, src: "https://dl.dropbox.com/scl/fi/b88wyvrui5fz18wuserr3/From.S01e09.1080P-Dual-Lat.mp4?rlkey=eze1kjpwmzijqrw7ph0fozhwh&st=" },
-      { id: "t1e10", number: 10, src: "https://dl.dropbox.com/scl/fi/53zitzye7vusdsyqcq2a6/From.S01e10.1080P-Dual-Lat.mp4?rlkey=ljtwc3r1kay6xqbc9dn11ag3d&st=" }
+      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/yzecvh6g06fdm6sxmk4lw/Avenidad-Brasil-1080p-Capitulo-01.mp4?rlkey=k910lbvco10en9hybd2j7azhr&st=" },
+      { id: "t1e2", number: 2, src: "" },
+      { id: "t1e3", number: 3, src: "" },
+      { id: "t1e4", number: 4, src: "" },
+      { id: "t1e5", number: 5, src: "" },
+      { id: "t1e6", number: 6, src: "" }
     ]
   },
   {
     id: "t2",
     name: "Temporada 2",
-    year: 2023,
+    year: 2019,
     episodes: [
-      { id: "t2e1", number: 1, src: "https://dl.dropbox.com/scl/fi/ao0mr4hq9iuytw05qfg65/From.S02e01.2023.1080P-Dual-Lat.mp4?rlkey=nvw5vdc16t7glv6m8frbv2wz4&st=" },
-      { id: "t2e2", number: 2, src: "https://dl.dropbox.com/scl/fi/lwe6xlztbv05jum04mk9e/From.S02e02.2023.1080P-Dual-Lat.mkv?rlkey=c29hi7k0ktwmq7k7soqrfi0hi&st=" },
-      { id: "t2e3", number: 3, src: "https://dl.dropbox.com/scl/fi/0ib1k2dbt2u01ewjd01rh/From.S02e03.2023.1080P-Dual-Lat.mkv?rlkey=leg8q8t655u9efgqo3pykhm0r&st=" },
-      { id: "t2e4", number: 4, src: "https://dl.dropbox.com/scl/fi/ix8w2qfpq7xq5rra9t6rr/From.S02e04.2023.1080P-Dual-Lat.mkv?rlkey=ulzltvr5f2ohzfqrktq44cwbe&st=" },
-      { id: "t2e5", number: 5, src: "https://dl.dropbox.com/scl/fi/861rh8rpimtlp0o040eui/From.S02e05.2023.1080P-Dual-Lat.mkv?rlkey=unjrt38rqn0h3rnpljl8e7ysd&st=" },
-      { id: "t2e6", number: 6, src: "https://dl.dropbox.com/scl/fi/rrcjt3drrza3sex7nu86u/From.S02e06.2023.1080P-Dual-Lat.mkv?rlkey=erxz6r7xjt0l0i5i08y36ahra&st=" },
-      { id: "t2e7", number: 7, src: "https://dl.dropbox.com/scl/fi/popm735v60o0k8tbqbksx/From.S02e07.2023.1080P-Dual-Lat.mkv?rlkey=kz21sspa2rt9lme6d6yerddgr&st=" },
-      { id: "t2e8", number: 8, src: "https://dl.dropbox.com/scl/fi/n8zqgi2mtm5qg8kk3f926/From.S02e08.2023.1080P-Dual-Lat.mkv?rlkey=v3t7qy6fumydegrvhnm11yw8u&st=" },
-      { id: "t2e9", number: 9, src: "https://dl.dropbox.com/scl/fi/d8df3b4oszir99nx3586s/From.S02e09.2023.1080P-Dual-Lat.mkv?rlkey=2dxva5cs0hi8b86m4dyb6zloo&st=" },
-      { id: "t2e10", number: 10, src: "https://dl.dropbox.com/scl/fi/dkz0103byxtpx1rckuwug/From.S02e10.2023.1080P-Dual-Lat.mkv?rlkey=cmr5y26mzsm2bv5me1i9irjbz&st=" },
-    ]
-  }
-  ,
-  {
-    id: "t3",
-    name: "Temporada 3",
-    year: 2024,
-    episodes: [
-      { id: "t3e1", number: 1, src: "https://dl.dropbox.com/scl/fi/lba89efzw6ndt0n30c28a/Frmf14jh651dfgvbn32l3x1.mkv?rlkey=z01krawde1adky9c374zee8zf&st=" },
-      { id: "t3e2", number: 2, src: "https://dl.dropbox.com/scl/fi/v4q71kuxqb64xnn5gtjml/Frmf14jh651dfgvbn32l3x2.mkv?rlkey=vz8xy31mg5l0v6v5d2hwcxz1d&st=" },
-      { id: "t3e3", number: 3, src: "https://dl.dropbox.com/scl/fi/0sqzpql016w7ecexnj9ps/Frmf14jh651dfgvbn32l3x3.mkv?rlkey=r5kcq3yx77hpqg6zwda3zp3y8&st=" },
-      { id: "t3e4", number: 4, src: "https://dl.dropbox.com/scl/fi/zwyr5cu5bjkhqbdvg6am4/Frmf14jh651dfgvbn32l3x4.mkv?rlkey=qg8vgs0wg5wei89gd3qhyg9tv&st=" },
-      { id: "t3e5", number: 5, src: "https://dl.dropbox.com/scl/fi/qex4ud3kcye7rejz9myrg/Frmf14jh651dfgvbn32l3x5.mkv?rlkey=d3br8o0wqnxgzulr20nrg3zf7&st=" },
-      { id: "t3e6", number: 6, src: "https://dl.dropbox.com/scl/fi/b0nj0a2mia8x7ofsjd6hy/Frmf14jh651dfgvbn32l3x6.mkv?rlkey=2n110g93zzeoh0r7q05g5a90r&st=" },
-      { id: "t3e7", number: 7, src: "https://dl.dropbox.com/scl/fi/jrsjxsku8a10fq3sts1kd/Frmf14jh651dfgvbn32l3x7.mkv?rlkey=kniw5h9qmjro4lunt9nh020cm&st=" },
-      { id: "t3e8", number: 8, src: "https://dl.dropbox.com/scl/fi/39ee8sbbx680lt7pdyxlh/Frmf14jh651dfgvbn32l3x8.mkv?rlkey=gw8f6nkumt7labwm4ewzfzpvu&st=" },
-      { id: "t3e9", number: 9, src: "https://dl.dropbox.com/scl/fi/bmswjxfup4cyhvg3nma3u/Frmf14jh651dfgvbn32l3x9.mkv?rlkey=76rzrtjv21z7tngfcbg85wgj3&st=" },
-      { id: "t3e10", number: 10, src: "https://dl.dropbox.com/scl/fi/b43p6tmff0welp5xa9qdq/Frmf14jh651dfgvbn32l3x10.mkv?rlkey=vvf4wd330ldhh4jmi3zae401s&st=" },
+      { id: "t2e1", number: 1, src: "" },
+      { id: "t2e2", number: 2, src: "" },
+      { id: "t2e3", number: 3, src: "" },
+      { id: "t2e4", number: 4, src: "" },
+      { id: "t2e5", number: 5, src: "" }
     ]
   }
 ];
@@ -2008,9 +2104,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   btn.addEventListener("click",function(){
 
-    const titulo = "FROM";
-    const movie_id = "from_2022";
-    const imagen = "https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg";
+    const titulo = "Avenida Brasil";
+    const movie_id = "avenida_brasil";
+    const imagen = "https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg";
     const tipo = "serie"; // 🔹 SOLUCIÓN
 
     btn.classList.add("animado");
@@ -2157,29 +2253,29 @@ document.addEventListener("DOMContentLoaded", function () {
     <h4>Podría interesarte:</h4>
     <br/>
     <div class="series-grid">
-      <a href="The Walking Dead (2010).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/9iYinsg30olSCuDoH8VxtRN5gZx.jpg" alt="">
-        <p>The Walking Dead</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
-      <a href="chespirito: Sin querer queriendo (2025).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/bLyhzXAWvOn0L17NbCYP2aZ4sPt.jpg" alt="">
-        <p>Chespirito: Sin querer queriendo</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
-      <a href="La maldicion de Hill House (2018).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/y4D0MkSEYeEgAIqQK9GjQtiUZXH.jpg" alt="">
-        <p>La maldición de Hill House</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
-      <a href="Chucky (2021).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/sdCJbGkvnIsIKLxaFQrviriODVq.jpg" alt="">
-        <p>Chucky</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
-      <a href="Archivo 81 (2022).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/rLgOasUfugmhshlhURKKULDEdrB.jpg" alt="">
-        <p>Archivo 81</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
-      <a href="Marianne (2019)" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/9ycFxQF8bwK2ZkHlBdzea0aoQEU.jpg" alt="">
-        <p>Marianne</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
     </div>
   </div>
@@ -2350,11 +2446,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const titulo = "FROM";
-  const movieId = "from_2022";
-  const imagen = "https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg";
+  const titulo = "Avenida Brasil";
+  const movieId = "avenida_brasil";
   const tipo = "serie";
-  const archivo = "../View Series/FROM (2022).php";
+  const archivo = "../View Series/Avenida Brasil (2012).php";
+  const imagen = "https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg";
 
   /* ------------------------------
      MODAL (USA TU MODAL ACTUAL)

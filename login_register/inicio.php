@@ -1427,11 +1427,19 @@ document.querySelectorAll('.card-link').forEach(link => {
   <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
 
   <div class="poster">
-    <h4 class="alignleft">Series Completas</h4><a href="#"></a>
+    <h4 class="alignleft">Series Completas</h4><a href="Mostras Mas/Series.php"><h4 class="alignright">Ver Todo</h4></a>
   </div>
 
   <div class="scrollmenu">
     <br>
+
+    <a class="card-link" data-href="View Series/En el barro (2025).php">
+      <div class="xplus">
+        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
+        <i>En el barro</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
     
     <a class="card-link" data-href="View Series/FROM (2022).php">
       <div class="xplus">
@@ -1489,7 +1497,7 @@ document.querySelectorAll('.card-link').forEach(link => {
   <br><br>
 
   <div class="poster">
-    <h4 class="alignleft">Series</h4><a href="#"></a>
+    <h4 class="alignleft">Series Incompletas</h4><a href="#"></a>
   </div>
 
   <div class="scrollmenu">
@@ -1499,6 +1507,14 @@ document.querySelectorAll('.card-link').forEach(link => {
       <div class="xplus">
         <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg"/>
         <i>FROM</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg"/>
+        <i>Avenida Brasil</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
@@ -1514,14 +1530,6 @@ document.querySelectorAll('.card-link').forEach(link => {
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"/>
         <i>Moisés y los Diez...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Series/En el barro (2025).php">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>
@@ -1602,14 +1610,6 @@ document.querySelectorAll('.card-link').forEach(link => {
       </div>
     </a>
 
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=gato_con_botas">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"/>
-        <i>El gato con botas</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/"/>
@@ -1619,6 +1619,166 @@ document.querySelectorAll('.card-link').forEach(link => {
     </a>
 
     -->
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=frozen_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg"/>
+        <i>Frozen 2</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=five_night_at_freddy_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
+        <i>Five Nights at Freddy's 2</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=five_night_at_freddy">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg"/>
+        <i>Five Nights at Freddy's</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=evil_dead_el_despertar">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/yrx8cBjVTS5Z0KpCy40nV53XmsJ.jpg"/>
+        <i>Evil Dead: El despertar</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=en_las_profundidades_del_sena">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"/>
+        <i>En las profundidades del...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=encanto">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg"/>
+        <i>Encanto</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=eliminar_amigos">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg"/>
+        <i>Eliminar amigos</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=elemental">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"/>
+        <i>Elemental</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_rey_leon_2019">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg"/>
+        <i>El rey león</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_mono">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"/>
+        <i>El mono</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_sorprendente_hombre_araña_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/6swE941NH3PQIpD7it6K5LUKIDM.jpg"/>
+        <i>El sorprendente hombre...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_ultimo_respiro">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg"/>
+        <i>El último respiro</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_es_asi">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg"/>
+        <i>El es asi</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_pajaro_loco_se_va_de_campamento">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/x7QXH6T8oTKlUbKt8TD1rPimzCr.jpg"/>
+        <i>El pájaro loco ¡Lío...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_maravilloso_mago_de_oz">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg"/>
+        <i>El maravilloso ma...</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_ladron_de_joyas">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg"/>
+        <i>El ladrón de joyas</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_hoyo_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"/>
+        <i>El hoyo 2</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_hoyo">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/yVPear63M3MRiDyrSf6wsFgzN3A.jpg"/>
+        <i>El hoyo</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_deseo_de_ana">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg"/>
+        <i>El deseo de ana</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
+
+    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_guason_2">
+      <div class="xplus">
+        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"/>
+        <i>El guasón 2</i>
+        <span class="lock-icon">🔒</span>
+      </div>
+    </a>
 
     <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_guason">
       <div class="xplus">
@@ -1688,150 +1848,6 @@ document.querySelectorAll('.card-link').forEach(link => {
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"/>
         <i>El gato con botas</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_bosque_de_los_suicidios">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg"/>
-        <i>El bosque de los suicidios</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_asesino">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg"/>
-        <i>El asesino</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_astronauta">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg"/>
-        <i>El astronauta</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=un_jefe_en_pañales">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg"/>
-        <i>El bebé jefazo</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_arca_de_noe">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/fRaBjht3S1HU6lJrz2SoFwwOZQM.jpg"/>
-        <i>El arca de Noé</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=echo_valley">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/1E4WCgTodyS7zo8pSp1gZlPO0th.jpg"/>
-        <i>Echo Valley</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=duro_de_entrenar">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/lXkS6kSA0W3c0zVr3QrCBseaNgc.jpg"/>
-        <i>Duro de entrenar</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_bufon">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg"/>
-        <i>El bufón</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro_4">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg"/>
-        <i>El conjuro 4: El ulti...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro_3">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/79QjdRiT9zTLkrOq9FltoIxClma.jpg"/>
-        <i>El conjuro 3: El diablo...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro_2">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/eYWH6pGsX102DUIjWpeybkDZfqA.jpg"/>
-        <i>El conjuro 2: El ca...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=el_conjuro">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"/>
-        <i>El conjuro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dulce_venganza_2">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"/>
-        <i>dulce_venganza_2</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_plan_erradicar">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/qPv8avE1joxywziPMd49k6yINJp.jpg"/>
-        <i>Dragon Ball Z: Plan pa...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_tres_grendes_guerreros_saiyajin">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg"/>
-        <i>Dragon Ball Z: Los tres...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_rivales_mas_poderosos">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/uqTSXqjaSgSAT2lCv3GyZeodQPG.jpg"/>
-        <i>Dragon Ball Z: Los ri...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_guerreros_del_futuro">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/x0FCkSSdOGTA3gC99QayGJH0Dqx.jpg"/>
-        <i>Dragon Ball Z: Los dos...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_super_batalla">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg"/>
-        <i>Dragon Ball Z: La su...</i>
         <span class="lock-icon">🔒</span>
       </div>
     </a>

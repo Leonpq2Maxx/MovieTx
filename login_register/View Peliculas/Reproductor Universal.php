@@ -647,43 +647,63 @@ if (window.performance && window.performance.navigation.type === 2) {
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+const loader = document.getElementById('loader-screen');
+const bar = document.getElementById('loading-fill');
+const percent = document.getElementById('loading-percent');
 
-  const loader = document.getElementById('loader-screen');
-  const bar = document.getElementById('loading-fill');
-  const percent = document.getElementById('loading-percent');
+let progreso = 0;
+let terminado = false;
 
-  let totalImages = document.images.length;
-  let loaded = 0;
-
-  if (totalImages === 0) {
-    totalImages = 1;
-    loaded = 1;
+// 🔥 Animación falsa fluida (no depende de imágenes)
+let anim = setInterval(() => {
+  if (progreso < 90) {
+    progreso += 2;
+    actualizar();
   }
+}, 80);
 
-  function updateLoader() {
-    loaded++;
-    let p = Math.floor((loaded / totalImages) * 100);
+function actualizar() {
+  if (bar) bar.style.width = progreso + "%";
+  if (percent) percent.textContent = progreso + "%";
+}
 
-    bar.style.width = p + "%";
-    percent.textContent = p + "%";
+function finalizar() {
+  if (terminado) return;
+  terminado = true;
 
-    if (p >= 100) {
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 600);
-    }
-  }
+  progreso = 100;
+  actualizar();
 
-  for (let img of document.images) {
-    if (img.complete) updateLoader();
-    else {
-      img.addEventListener("load", updateLoader);
-      img.addEventListener("error", updateLoader);
-    }
+  clearInterval(anim);
+
+  setTimeout(() => {
+    if (loader) loader.classList.add("hidden");
+  }, 500);
+}
+
+// 🔥 CUANDO TODO CARGA
+window.addEventListener("load", () => {
+  setTimeout(finalizar, 300);
+});
+
+// 🔥 FALLBACK (EVITA BLOQUEO)
+setTimeout(() => {
+  finalizar();
+}, 2500);
+
+// 🔥 SI HAY ERROR
+window.onerror = function () {
+  finalizar();
+};
+
+// 🔥 SI EL USUARIO SALE Y VUELVE
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    finalizar();
   }
 });
 </script>
+
 <!-- 🔴 Fin pantalla de carga neón -->
   
  <style>
@@ -1561,7 +1581,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"
       },
       {
-        id: "El_deseo_de_Ana",
+        id: "el_deseo_de_ana",
         titulo: "El deseo de Ana",
         imagen: "https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg"
       }
@@ -3221,7 +3241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
       },
       {
-        id: "",
+        id: "evil_dead_el_despertar",
         titulo: "Evil dead: El despertar",
         imagen: "https://image.tmdb.org/t/p/w300/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg"
       },
@@ -4337,7 +4357,7 @@ document.addEventListener('DOMContentLoaded', () => {
   el_conjuro_4: {
     id: "nombredepelicula",
     titulo: "El conjuro 4: El ultimo rito",
-    video: "https://www.dropbox.com/scl/fi/ims8wuaqas1egdbuxkb07/The.conjuring.last.rites.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=xii0kollzql7x0e4denj7a5ls&st=",
+    video: "https://dl.dropbox.com/scl/fi/ims8wuaqas1egdbuxkb07/The.conjuring.last.rites.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=xii0kollzql7x0e4denj7a5ls&st=",
     poster: "https://image.tmdb.org/t/p/w780/fJXqP9S9llRUy9tuccuwvIYFBA4.jpg",
     imagen: "https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
@@ -4346,7 +4366,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sinopsis: "Los investigadores de lo paranormal Ed y Lorraine Warren se enfrentan a un último caso aterrador en el que están implicadas entidades misteriosas a las que deben enfrentarse.",
     anio: "2025",
     duracion: "2h 15min",
-    calificacion: "00%",
+    calificacion: "87%",
     genero: "Terror",
     director: "Michael Chaves",
     reparto: "Patrick Wilson, Vera Farmiga, Mia Tomlinson",
@@ -4388,56 +4408,56 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/w300/",
+  el_ultimo_respiro: {
+    id: "el_ultimo_respiro",
+    titulo: "El último respiro",
+    video: "https://dl.dropbox.com/scl/fi/3h6h5ail7550oawb0xzrw/Last.breath2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=qrmg04fqw2q3hp20pbjxp8rpe&st=",
+    poster: "https://image.tmdb.org/t/p/w780/tFNnex0vvGqqGVU4NQzUh1AF1Cq.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    sinopsis: "La increíble historia real de Chris Lemons (Finn Cole), un buzo profesional que, tras un extraño accidente, queda atrapado en el fondo del Mar del Norte. Con tan solo 10 minutos de oxígeno de emergencia y a más de media hora de cualquier esperanza de rescate, esta es la lucha imposible de un hombre por sobrevivir a 90 metros de profundidad.",
+    anio: "2025",
+    duracion: "1h 33min",
+    calificacion: "80%",
+    genero: "Drama • Suspenso",
+    director: "Alex Parkinson",
+    reparto: "Woody Harrelson, Simu Liu, Simu Liu",
+    estreno: "28/02/2025",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "terror_en_el_rio",
+        titulo: "Terror en el rio",
+        imagen: "https://image.tmdb.org/t/p/w300/kIO7eVOivYH9LptLxdXio5KRor.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "tarot",
+        titulo: "Tarot de la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "contraataque",
+        titulo: "Contraataque",
+        imagen: "https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "poseida",
+        titulo: "Poseída",
+        imagen: "https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "temporada_de_huracanes",
+        titulo: "Temporada de huracanes",
+        imagen: "https://image.tmdb.org/t/p/w300/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "presencia",
+        titulo: "Presencia",
+        imagen: "https://image.tmdb.org/t/p/w300/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg"
       }
     ]
   },
@@ -4496,62 +4516,494 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/w300/",
+  el_sorprendente_hombre_araña_2: {
+    id: "el_sorprendente_hombre_araña_2",
+    titulo: "El sorprendente hombre araña 2: El poder de Electro",
+    video: "https://dl.dropbox.com/scl/fi/ndaxtlx0wqlfodlipur10/The.amazing.spider-man.2.2014.1080p-dual-lat.mp4?rlkey=syfk92sm5bn0r6umr24ia7d3n&st=",
+    poster: "https://image.tmdb.org/t/p/w780/u7SeO6Y42P7VCTWLhpnL96cyOqd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6swE941NH3PQIpD7it6K5LUKIDM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
+    sinopsis: "Peter Parker lleva una vida muy ocupada, compaginando su tiempo entre su papel como Spider-Man, acabando con los malos, y en el instituto con la persona a la que quiere, Gwen. Peter no ve el momento de graduarse. No ha olvidado la promesa que le hizo al padre de Gwen de protegerla, manteniéndose lejos de ella, pero es una promesa que simplemente no puede cumplir. Las cosas cambiarán para Peter cuando aparece un nuevo villano, Electro, y un viejo amigo, Harry Osborn, regresa, al tiempo que descubre nuevas pistas sobre su pasado.",
+    anio: "2014",
+    duracion: "2h 21min",
     calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    genero: "Acción • Ciencia ficción • Marvel",
+    director: "Marc Webb",
+    reparto: "Andrew Garfield, Emma Stone, Felicity Jones",
+    estreno: "01/05/2014",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "el_sorprendente_hombre_araña",
+        titulo: "El sorprendente hombre araña",
+        imagen: "https://image.tmdb.org/t/p/w300/9MsCANWyLJmz2MAEqiy9vKMpyc8.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "el_hombre_araña",
+        titulo: "El hombre araña",
+        imagen: "https://image.tmdb.org/t/p/w300/gh4cZbhZxyTbgxQPxD0dOudNPTn.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "pantera_negra",
+        titulo: "Pantera negra",
+        imagen: "https://image.tmdb.org/t/p/w300/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "spider_man3",
+        titulo: "Spider-Man 3: Sin camino a casa",
+        imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "thor_4",
+        titulo: "Thor 4: Amor y trueno",
+        imagen: "https://image.tmdb.org/t/p/w300/qTdnMVkjoP3b1ocwYyW0qrsEabc.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "los_vengadores_endgame",
+        titulo: "Los vengadores: Endgame",
+        imagen: "https://image.tmdb.org/t/p/w300/br6krBFpaYmCSglLBWRuhui7tPc.jpg"
       }
     ]
   },
   
+  el_rey_leon_2019: {
+    id: "el_rey_leon_2019",
+    titulo: "El rey león",
+    video: "https://dl.dropbox.com/scl/fi/gv76z0opad048f2lz29r6/The.lion.king.2019.1080P-Dual-Lat.mp4?rlkey=lkxy6x02y53qcnnyp9mep2kiv&st=",
+    poster: "https://image.tmdb.org/t/p/w780/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Simba es el hijo del rey de los leones, Mufasa, y heredero de todo el reino. Pero cuando su padre es brutalmente asesinado por su tío Scar, decidirá huir, dejando vía libre para que su tío tome el puesto de su padre como líder de la manada. En su camino, Simba se encuentra con el suricato Timón y el jabalí Pumba, que le enseñarán a vivir la vida sin preocupaciones. Pero el joven león se verá obligado a decidir entre su vida libre de problemas o su destino como rey. ",
+    anio: "2019",
+    duracion: "1h 58min",
+    calificacion: "74%",
+    genero: "Animación • Aventura • Familia • Disney",
+    director: "Jon Favreau",
+    reparto: "Chiwetel Ejiofor, John Oliver, Donald Glover",
+    estreno: "17/07/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "mufasa_rl_rey",
+        titulo: "Mufasa: El rey león",
+        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
+      },
+      {
+        id: "el_rey_leon1",
+        titulo: "El rey león",
+        imagen: "https://image.tmdb.org/t/p/w300/b0MxU37dNmMwKtoPVYPKOZSIrIn.jpg"
+      },
+      {
+        id: "el_rey_leon2",
+        titulo: "El rey león 2: El tesoro de Simba",
+        imagen: "https://image.tmdb.org/t/p/w300/zdD5VcvTD43p048ueswYdgLJZh.jpg"
+      },
+      {
+        id: "el_rey_leon3",
+        titulo: "El rey león 3: Hakuna Matata",
+        imagen: "https://image.tmdb.org/t/p/w300/x2SAEOXURbKDgKfdHdZ49VhPGrB.jpg"
+      },
+      {
+        id: "la_sirenita",
+        titulo: "La sirenita",
+        imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
+      },
+      {
+        id: "los_pingüinos_de_madagascar",
+        titulo: "Los pingüinos de Madagascar",
+        imagen: "https://image.tmdb.org/t/p/w300/dXbpNrPDZDMEbujFoOxmMNQVMHa.jpg"
+      }
+    ]
+  },
+
+  elemental: {
+    id: "elemental",
+    titulo: "Elemental",
+    video: "https://dl.dropbox.com/scl/fi/o9mpa0axrdk159m8ql3yt/elemental.dual2023.mkv?rlkey=htqenp9zy7qpqilaw68bs2xi8&st=",
+    poster: "https://image.tmdb.org/t/p/w780/onsgifD7XFWnA40StTn9fnQwC84.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "En una ciudad donde los residentes del fuego, el agua, la tierra y el aire viven juntos, una joven apasionada y un chico que se deja llevar por la corriente descubrirán algo elemental: cuánto tienen en común.",
+    anio: "2023",
+    duracion: "1h 41min",
+    calificacion: "87%",
+    genero: "Animacion • Disney • Comedia •  Familia • Fantasía • Romance",
+    director: "Peter Sohn",
+    reparto: "Leah Lewis, Mamoudou Athie, Ronnie del Carmen",
+    estreno: "15/06/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "lightyear",
+        titulo: "Lightyear",
+        imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
+      },
+      {
+        id: "coco",
+        titulo: "Coco",
+        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
+      },
+      {
+        id: "encanto",
+        titulo: "Encanto",
+        imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg"
+      },
+      {
+        id: "intensamente_2",
+        titulo: "Intensamente 2",
+        imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
+      },
+      {
+        id: "lilo_y_stich_2025",
+        titulo: "Lilo y Stitch",
+        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
+      },
+      {
+        id: "moana_2",
+        titulo: "Moana 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
+      }
+    ]
+  },
+
+  eliminar_amigos: {
+    id: "eliminar_amigos",
+    titulo: "Eliminar amigos",
+    video: "https://dl.dropbox.com/scl/fi/km3jf0ogcm4d95rv127eg/Eliminar.amigo.2014.1080p-dual-lat.mp4?rlkey=mkeyoeyyer2ftf1q15rd7adz2&st=",
+    poster: "https://image.tmdb.org/t/p/w780/5RtOlnBnXx54umgY8DXSNAKCFBp.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Mientras están chateando una noche, seis amigos reciben por Skype un mensaje de Laura Barns, una joven estudiante que se había suicidado un año antes tras ser humillada en Internet por un video sexual en el que aparecía borracha una noche. Al principio los amigos piensan que es una broma, pero cuando la persona con la que chatean comienza a revelar sus secretos más íntimos, se dan cuenta de que el asunto es grave.",
+    anio: "2014",
+    duracion: "1h 22min",
+    calificacion: "72%",
+    genero: "Terror • Misterio • Suspenso",
+    director: "Levan Gabriadze",
+    reparto: "Shelley Hennig, Heather Sossaman, Renee Olstead",
+    estreno: "17/04/2014",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "eliminado",
+        titulo: "Elminado: Dark Web",
+        imagen: "https://image.tmdb.org/t/p/w300/dQM2LDOmolIGt7WzcHl6ZSUAdci.jpg"
+      },
+      {
+        id: "el_mono",
+        titulo: "El mono",
+        imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
+      },
+      {
+        id: "el_exorcista_creyente",
+        titulo: "El exorcista creyentes",
+        imagen: "https://image.tmdb.org/t/p/w300/aNoNB5jWIzqcBqHEYzW232B2ktx.jpg"
+      },
+      {
+        id: "el_exorcismo_de_georgetown",
+        titulo: "El exorcista de Georgetown",
+        imagen: "https://image.tmdb.org/t/p/w300/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg"
+      },
+      {
+        id: "five_night_at_freddy",
+        titulo: "Five night at Freddy´s",
+        imagen: "https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg"
+      },
+      {
+        id: "hablame",
+        titulo: "Háblame",
+        imagen: "https://image.tmdb.org/t/p/w300/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg"
+      }
+    ]
+  },
+
+  encanto: {
+    id: "encanto",
+    titulo: "Encanto",
+    video: "https://dl.dropboxusercontent.com/scl/fi/r9fjyel691mtibdxl4qux/Encanto-Espa-ol-Latino-2021.mp4?rlkey=554uu7mwjn9l9zk5ze2yy03mo&st=",
+    poster: "https://image.tmdb.org/t/p/w780/fst9hM26nIJMF4FTkFLasUwmBC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Los Madrigal son una familia extraordinaria que vive en una casa mágica de un pueblo vibrante en las montañas de Colombia, escondidas en un 'Encanto'. La magia ha bendecido a cada niño de la familia con un don único, desde la superfuerza hasta el poder de sanar. A todos, excepto Mirabel, quien desea ser tan especial como el resto de su familia. Pero cuando la magia que rodea al Encanto está en peligro, Mirabel decide que ella, la única Madrigal sin ningún tipo de don único, puede ser la única esperanza de su excepcional familia.",
+    anio: "2021",
+    duracion: "1h 42min",
+    calificacion: "85%",
+    genero: "Animación • Disney • Comedia • Familia • Fantasía",
+    director: "Jared Bush y Bron Howard",
+    reparto: "Stephanie Beatriz, María Cecilia Botero, John Leguizamo",
+    estreno: "24/11/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "luck_suerte",
+        titulo: "Luck: Suerte",
+        imagen: "https://image.tmdb.org/t/p/w300/cQDqNCtq7j5xaCXGeLsLZK90RuR.jpg"
+      },
+      {
+        id: "super_mario_bros",
+        titulo: "Super Mario Bros: La película",
+        imagen: "https://image.tmdb.org/t/p/w300/7k4fOuxA4vhblSSa5cTDRLlR7jU.jpg"
+      },
+      {
+        id: "alvil_y_las_ardillas_2",
+        titulo: "Alvin y las ardillas 2",
+        imagen: "https://image.tmdb.org/t/p/w300/1DqgIFHVJwjlaIITCcYtobrirfd.jpg"
+      },
+      {
+        id: "wish_el_poder_de_los_deseos",
+        titulo: "Wish: El poder de los deseos",
+        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
+      },
+      {
+        id: "leo",
+        titulo: "Leo",
+        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
+      },
+      {
+        id: "peabody_y_sherman",
+        titulo: "Mr Peabody y Sherman",
+        imagen: "https://image.tmdb.org/t/p/w300/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg"
+      },
+    ]
+  },
+
+  en_las_profundidades_del_sena: {
+    id: "en_las_profundidades_del_sena",
+    titulo: "En las profundidades del sena",
+    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjun24%2FVer%20En%20las%20profundidades%20del%20Sena%20online%20HD%20-%20Cuevana%202.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/hliXekHv7xc2cgXnMBLlp4Eihq8.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "La científica Sophie se ve obligada a enfrentarse a su trágico pasado para salvar París de un baño de sangre cuando un tiburón gigante aparece en el Sena.",
+    anio: "2024",
+    duracion: "1h 44min",
+    calificacion: "78%",
+    genero: "Terror • Suspenso",
+    director: "Xavier Gens",
+    reparto: "Bérénice Bejo, Nassim Lyes, Léa Léviant",
+    estreno: "05/06/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "abigail",
+        titulo: "Abigail",
+        imagen: "https://image.tmdb.org/t/p/w300/5Uq8P6MPj9Ppsns5t82AiCiUaWE.jpg"
+      },
+      {
+        id: "annabelle_2014",
+        titulo: "Annabelle",
+        imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg"
+      },
+      {
+        id: "winnie_the_pooh",
+        titulo: "Winnie the pooh: Miel y sangre",
+        imagen: "https://image.tmdb.org/t/p/w300/lfetuG7lq3MVRt6jb1kfX7Va2H.jpg"
+      },
+      {
+        id: "juguete_diabolico_imaginario",
+        titulo: "Imaginario: Juguete diabolico",
+        imagen: "https://image.tmdb.org/t/p/w300/s3SNMGwZ7TiiZJDQEOJ1Z4e5WeX.jpg"
+      },
+      {
+        id: "dulce_venganza_2",
+        titulo: "Dulce venganza 2",
+        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
+      },
+      {
+        id: "el_conjuro_3",
+        titulo: "El conjuro 3: El diablo me obligo hacerlo",
+        imagen: "https://image.tmdb.org/t/p/w300/79QjdRiT9zTLkrOq9FltoIxClma.jpg"
+      }
+    ]
+  },
+
+  evil_dead_el_despertar: {
+    id: "evil_dead_el_despertar",
+    titulo: "Evil dead: El despertar",
+    video: "https://dl.dropboxusercontent.com/scl/fi/ute400529yhsikmcvp0au/Evil.Dead.El.Despertar.2023.1080P-Dual-Lat.mp4?rlkey=rh7y5ubuz7qqg1mhy5eocrqvm&st=",
+    poster: "https://image.tmdb.org/t/p/w780/aAgGrfBwna1nO4M2USxwFgK5O0t.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yrx8cBjVTS5Z0KpCy40nV53XmsJ.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Historia de dos hermanas separadas cuyo reencuentro se ve interrumpido por el surgimiento de demonios poseedores de carne, empujándolos a una batalla por la supervivencia mientras se enfrentan a la versión de familia más aterradora que se pueda imaginar. Secuela de la trilogía original de 'Evil Dead'.",
+    anio: "2023",
+    duracion: "1h 36min",
+    calificacion: "88%",
+    genero: "Terror • Suspenso",
+    director: "Lee Cronin",
+    reparto: "Lily Sullivan, Alyssa Sutherland, Morgan Davies",
+    estreno: "20/04/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      { 
+        id: "el_bosque_de_los_suicidios",
+        titulo: "El bosque de los suicidios",
+        imagen: "https://image.tmdb.org/t/p/w300/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg"
+      },
+      {
+        id: "el_exorcista_del_papa",
+        titulo: "El exorcista del papa",
+        imagen: "https://image.tmdb.org/t/p/w300/4n7HJ322ARRWytwxLKEZi0mIrYE.jpg"
+      },
+      {
+        id: "en_las_profundidades_del_sena",
+        titulo: "En las profundidades del sena",
+        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
+      },
+      {
+        id: "el_hoyo_2",
+        titulo: "El hoyo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"
+      },
+      {
+        id: "un_lugar_en_silencio",
+        titulo: "Un lugar en silencio",
+        imagen: "https://image.tmdb.org/t/p/w300/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg"
+      },
+      {
+        id: "la_monja",
+        titulo: "La Monja",
+        imagen: "https://image.tmdb.org/t/p/w300/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
   capitan_america1: {
-    id: "capitanamerica1",
+    id: "capitan_america1",
     titulo: "Capitán América: El primer vengador",
     video: "https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.avenger.2011.1080P-Dual-Lat.mp4?rlkey=s1qalyvhze89mwmh6f3pf9z0i&st=",
     poster: "https://image.tmdb.org/t/p/w780/yFuKvT4Vm3sKHdFY4eG6I4ldAnn.jpg",
@@ -4651,7 +5103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg"
       },
       {
-        id: "spiderman_3",
+        id: "spider_man3",
         titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       }
@@ -9047,14 +9499,14 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El guasón",
     video: "https://dl.dropbox.com/scl/fi/p7zrohbsmy9x8me9eijg5/Guas-n.2019.1080p-dual-lat.mkv?rlkey=54dx7pk331dxbai3dgxw8j93x&st=",
     poster: "https://image.tmdb.org/t/p/w780/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
-    imagen: "https://image.tmdb.org/t/p/w3002cta3k9kgsgweUTY2LvMSFjuB6e.jpg/",
+    imagen: "https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
     sinopsis: "Arthur Fleck es un hombre ignorado por la sociedad, cuya motivación en la vida es hacer reír. Pero una serie de trágicos acontecimientos le llevarán a ver el mundo de otra forma. Película basada en Joker, el popular personaje de DC Comics y archivillano de Batman, pero que en este film toma un cariz más realista y oscuro.",
     anio: "2019",
-    duracion: "0h 008min",
-    calificacion: "00%",
+    duracion: "2h 01min",
+    calificacion: "86%",
     genero: "Crimen • Suspenso • Drama",
     director: "Todd Phillips",
     reparto: "Joaquin Phoenix, Robert De Niro, Zazie Beetz",
@@ -9064,33 +9516,465 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
+        id: "el_guason_2",
         titulo: "El guasón 2",
         imagen: "https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"
       },
       {
-        id: "",
-        titulo: "Sombras de un crimen",
-        imagen: "https://image.tmdb.org/t/p/w300/vjAMj81oYBryzGBhJk4gcK0M636.jpg"
+        id: "detonantes",
+        titulo: "Detonantes",
+        imagen: "https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg"
       },
       {
-        id: "",
+        id: "el_asesino",
         titulo: "El asesino",
         imagen: "https://image.tmdb.org/t/p/w300/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg"
       },
       {
-        id: "",
+        id: "asesino_serial",
         titulo: "Asesino serial",
         imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"
       },
       {
-        id: "",
+        id: "novocaine",
         titulo: "Novocaine: Sin dolor",
         imagen: "https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg"
       },
       {
-        id: "",
+        id: "finestkind",
         titulo: "Finestkind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
+      }
+    ]
+  },
+
+  el_guason_2: {
+    id: "el_guason_2",
+    titulo: "El guasón 2",
+    video: "https://dl.dropbox.com/scl/fi/zfqmde64wncaxym3hkyzu/Guason.2.Folie.a.Deux.2024.720p-Dual-Lat.mkv?rlkey=rrqmyax4tucckgd3j0ifl6z7y&st=",
+    poster: "https://image.tmdb.org/t/p/w780/AVWlQpVhpudyFsSh3OQIieHHYf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Tras crear el caos, Arthur Fleck ha sido internado en Arkham a la espera de juicio por sus crímenes como Joker. Mientras lidia con su doble identidad, Arthur no sólo se topa con el amor verdadero, sino que también descubre la música que siempre ha estado dentro de él.",
+    anio: "2024",
+    duracion: "2h 18min",
+    calificacion: "60%",
+    genero: "Crimen • Drama • Suspenso",
+    director: "Todd Phillips",
+    reparto: "Joaquin Phoenix, Lady Gaga, Brandan Gleeson",
+    estreno: "04/10/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_guason_2",
+        titulo: "El Guasón",
+        imagen: "https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg"
+      },
+      {
+        id: "Fineskind",
+        titulo: "Fineskind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
+      },
+      {
+        id: "g20",
+        titulo: "G20",
+        imagen: "https://image.tmdb.org/t/p/w300/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg"
+      },
+      {
+        id: "godzilla_y_kong_el_nuevo_imperio",
+        titulo: "Godzilla y Kong: El nuevo imperio",
+        imagen: "https://image.tmdb.org/t/p/w300/rRLqnazAys1CQGNX5BpXN0Gbowy.jpg"
+      },
+      {
+        id: "almas_marcadas",
+        titulo: "Almas marcadas: Rule + Shaw",
+        imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg"
+      },
+      {
+        id: "corazon_delator",
+        titulo: "Corazón delator",
+        imagen: "https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg"
+      }
+    ]
+  },
+
+  el_deseo_de_ana: {
+    id: "el_deseo_de_ana",
+    titulo: "El deseo de Ana",
+    video: "https://dl.dropbox.com/scl/fi/6w4e9ida6ysczi35rs9o0/El.deseo.de.Ana.2019.WEBRip.1080p.AVC.AAC.mkv?rlkey=2x0jqac63srgzck370q5kqp5k&st=",
+    poster: "https://resizing.flixster.com/6dRWSUInI3_Fxd80JL7Fr9563ds=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p18726202_v_h8_aa.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "l inesperado reencuentro de Ana y Juan desata recuerdos que amenazan con cambiar para siempre sus vidas.",
+    anio: "2021",
+    duracion: "1h 19min",
+    calificacion: "63%",
+    genero: "Drama • Romance",
+    director: "Emilio Santoyo",
+    reparto: "Laura Agorreca, David Calderón León, Simone Bucio",
+    estreno: "30/12/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "almas_marcadas",
+        titulo: "Almas marcadas: Rule + Shaw",
+        imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg"
+      },
+      {
+        id: "anora",
+        titulo: "Anora",
+        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
+      },
+      {
+        id: "sugar_baby",
+        titulo: "Sugar Baby",
+        imagen: "https://image.tmdb.org/t/p/w300/uLbDZIDAbN6SIiBr7Z2eMZ9212S.jpg"
+      },
+      {
+        id: "pideme_lo_que_quieras",
+        titulo: "Pídeme lo que quieras",
+        imagen: "https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg"
+      },
+      {
+        id: "millers_girl",
+        titulo: "Miller's Girl",
+        imagen: "https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"
+      },
+      {
+        id: "desafiante_rivales",
+        titulo: "Desafiante Rivales",
+        imagen: "https://image.tmdb.org/t/p/w300/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg"
+      }
+    ]
+  },
+
+  el_hoyo: {
+    id: "el_hoyo",
+    titulo: "El hoyo",
+    video: "https://dl.dropbox.com/scl/fi/4vysj42n5pb0gkevn4eok/El.hoyo.2019.1080p-cast-cinecalidad.is.mp4?rlkey=z1q6wchrg85tfakk43ut3da7x&st=",
+    poster: "https://image.tmdb.org/t/p/w780/1w75Cpnxi8iRQDgxQeRudwl8r2g.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yVPear63M3MRiDyrSf6wsFgzN3A.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Un lugar misterioso, una prisión indescriptible, un agujero muy profundo. Un número desconocido de niveles. Dos reclusos viviendo en cada nivel. Una plataforma descendente que contiene alimentos para todos ellos. Una lucha inhumana por la supervivencia, pero también una oportunidad para ser solidario.",
+    anio: "2019",
+    duracion: "1h 35min",
+    calificacion: "00%",
+    genero: "Drama • Ciencia ficción",
+    director: "David Desola",
+    reparto: "Ivan Massagué, Antinua San Juan, Zorion Eguileor",
+    estreno: "20/03/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_hoyo_2",
+        titulo: "El hoyo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"
+      },
+      {
+        id: "argen_1978_a",
+        titulo: "1978",
+        imagen: "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg"
+      },
+      {
+        id: "azrael",
+        titulo: "Azrael",
+        imagen: "https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"
+      },
+      {
+        id: "annabelle_2014",
+        titulo: "Annabelle",
+        imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg"
+      },
+      {
+        id: "cementerio_de_animales",
+        titulo: "Cementerio de Animales",
+        imagen: "https://image.tmdb.org/t/p/w300/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg"
+      },
+      {
+        id: "Insidiuos_puerta_roja",
+        titulo: "Insidiuos: puerta roja",
+        imagen: "https://image.tmdb.org/t/p/w300/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg"
+      }
+    ]
+  },
+
+  el_hoyo_2: {
+    id: "el_hoyo_2",
+    titulo: "El hoyo 2",
+    video: "https://dl.dropbox.com/scl/fi/ct567ncw4dw2p3leg1vyk/El.Hoyo.2.2024.1080P-Cast.mkv?rlkey=2oa6joh47fd251b7i48wmcgwz&st=",
+    poster: "https://image.tmdb.org/t/p/w780/3m0j3hCS8kMAaP9El6Vy5Lqnyft.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Un misterioso líder ha impuesto su ley en un brutal sistema de celdas verticales, pero la llegada de una residente desafía su dudoso método de distribución de comida.",
+    anio: "2024",
+    duracion: "1h 40min",
+    calificacion: "00%",
+    genero: "Drama • Terror • Suspenso • Crimen",
+    director: "Galder Gaztelu-Urrucia",
+    reparto: "Milena Smit, Hovik Keuchkerian, Natalia Tena",
+    estreno: "04/10/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "el_hoyo",
+        titulo: "El hoyo",
+        imagen: "https://image.tmdb.org/t/p/w300/yVPear63M3MRiDyrSf6wsFgzN3A.jpg"
+      },
+      {
+        id: "el_mono",
+        titulo: "El mono",
+        imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
+      },
+      {
+        id: "azrael",
+        titulo: "Azrael",
+        imagen: "https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"
+      },
+      {
+        id: "la_primera_profecia",
+        titulo: "La Primera profecia",
+        imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
+      },
+      {
+        id: "baghead_contacto_con_la_muerte",
+        titulo: "Baghead: Contacto con la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+      },
+      {
+        id: "en_las_profundidades_del_sena",
+        titulo: "En las profundidades del sena",
+        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
+      }
+    ]
+  },
+
+  el_ladron_de_joyas: {
+    id: "el_ladron_de_joyas",
+    titulo: "El ladrón de joyas",
+    video: "https://dl.dropbox.com/scl/fi/1ey016vsad4n98d3paqls/El.Ladron.De.Joyas.2025.1080P-Dual-Lat.mkv?rlkey=7mue4uuxobatx0ztt4q48m8zr&st=",
+    poster: "https://image.tmdb.org/t/p/w780/7fz867yEiEwNShKC4T7zl91ZyRI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "En este explosivo duelo de astucia y estrategia, el hábil estafador Rehan planifica un robo de diamantes mientras trata de burlar a Rajan, su despiadado adversario.",
+    anio: "2025",
+    duracion: "1h 58min",
+    calificacion: "70%",
+    genero: "Acción • Suspenso",
+    director: "Eobby Grewal",
+    reparto: "Saif Ali Khan, Jaideep Ahlawat, Nikita Dutta",
+    estreno: "25/04/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "un_ladron_romantico",
+        titulo: "Un ladrón romántico",
+        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
+      },
+      {
+        id: "pideme_lo_que_quieras",
+        titulo: "Pídeme lo que quieras",
+        imagen: "https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg"
+      },
+      {
+        id: "finestkind",
+        titulo: "Finestkind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
+      },
+      {
+        id: "anora",
+        titulo: "Anora",
+        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
+      },
+      {
+        id: "la_fuente_de_la_eterna_juventud",
+        titulo: "La fuente de la eterna juventud",
+        imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"
+      },
+      {
+        id: "sentencia_de_muerte",
+        titulo: "Beekeeper: Sentencia de muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg"
+      }
+    ]
+  },
+
+  el_maravilloso_mago_de_oz: {
+    id: "el_maravilloso_mago_de_oz",
+    titulo: "El maravilloso mago de Oz",
+    video: "https://dl.dropbox.com/scl/fi/sf5m6m4ijzg2y5ap7jxzu/El-Maravilloso.Mago.De.Oz.2025.Dual.1080p.Latino.mkv?rlkey=lb25ktgofttxhqu9nn74e8kxl&st=",
+    poster: "https://image.tmdb.org/t/p/w780/1t3YfNmAZeWIFEctgh43pL10gdQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Ellie vive en una ciudad lejana. Un día, la malvada bruja Gingema conjuró un huracán que llevó a Ellie y su perro Toto al país de los Munchkins. Para regresar a casa, Ellie y sus amigos el Espantapájaros, el Leñador de Hojalata y el León Cobarde emprenderán el camino de amarillos hacia la Ciudad Esmeralda en busca del Mago que les concederá sus preciados deseos.",
+    anio: "2025",
+    duracion: "1h 44min",
+    calificacion: "73%",
+    genero: "Fantasia • Aventura • Musical • Infantil",
+    director: "Igor Voloshin",
+    reparto: "Ekaterina Chervova, Yuri Kolokolnikov, Artur Vakha",
+    estreno: "30/01/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "los_descendientes_corazón_rebelde",
+        titulo: "Los descendientes: Corazón rebelde",
+        imagen: "https://image.tmdb.org/t/p/w300/57XarHzHxeDouUyjAb6BpVxIkC0.jpg"
+      },
+      {
+        id: "blancanieves",
+        titulo: "Blancanieves",
+        imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"
+      },
+      {
+        id: "pinocho_2022",
+        titulo: "Pinocho",
+        imagen: "https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg"
+      },
+      {
+        id: "amateur",
+        titulo: "Amateur",
+        imagen: "https://image.tmdb.org/t/p/w300/xzM5pMCIyp8jkGtsFBGcPlRhVBc.jpg"
+      },
+      {
+        id: "contraataque",
+        titulo: "Contraataque",
+        imagen: "https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"
+      },
+      {
+        id: "la_fuente_de_la_eterna_juventud",
+        titulo: "La fuente de la eterna juventud",
+        imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"
+      }
+    ]
+  },
+
+  el_pajaro_loco_se_va_de_campamento: {
+    id: "el_pajaro_loco_se_va_de_campamento",
+    titulo: "El pájaro loco ¡Lío en el campamento!",
+    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fabr24%2FVer%20El%20P%C3%A1jaro%20Loco% 20se%20va%20de%20campamento%20online%20HD%20-%20Cuevana%202.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/w5g4Vaicw66Lh7m0TIChhKZ9fbj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/x7QXH6T8oTKlUbKt8TD1rPimzCr.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Tras su expulsión del bosque, Woody cree haber encontrado un nuevo hogar en el Campamento Woo Hoo, hasta que un inspector amenaza con cerrarlo.",
+    anio: "2024",
+    duracion: "1h 48min",
+    calificacion: "72%",
+    genero: "Animación • Comedia • Familia",
+    director: "Jonathan A. Rosenbaum",
+    reparto: "Eric Bauza, Tom Kenny, Mary-Louise Parker",
+    estreno: "12/04/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "bob_esponja_2",
+        titulo: "Bob Esponja 2: Un héroe fuera del agua",
+        imagen: "https://image.tmdb.org/t/p/w300/z5aphafm6OEcAq4jwOs5Ml9F384.jpg"
+      },
+      {
+        id: "los_croods",
+        titulo: "Los Croods",
+        imagen: "https://image.tmdb.org/t/p/w300/p7lJkqHlK01nr0zNacunUFI5Qxy.jpg"
+      },
+      {
+        id: "madagascar",
+        titulo: "Madagascar",
+        imagen: "https://image.tmdb.org/t/p/w300/zrV5GnfCcLWzyjrFgYTpjQPRMfl.jpg"
+      },
+      {
+        id: "mi_villano_favorito",
+        titulo: "Mi villano favorito",
+        imagen: "https://image.tmdb.org/t/p/w300/7ml02WwUzz4jlZJdiEI4ZIYHj1J.jpg"
+      },
+      {
+        id: "minecraft",
+        titulo: "Minecraft",
+        imagen: "https://image.tmdb.org/t/p/w300/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg"
+      },
+      {
+        id: "robot_salvaje",
+        titulo: "Robot salvaje",
+        imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"
+      }
+    ]
+  },
+
+  el_es_asi: {
+    id: "el_es_asi",
+    titulo: "El es así",
+    video: "https://dl.dropbox.com/scl/fi/64sx39b00xrvhxokofds3/El-Es-Asi-Espa-ol-Latino-720p-2021.mp4?rlkey=1o1chyn7d6412cktdfb0cqomg&st=",
+    poster: "https://image.tmdb.org/t/p/w780/wsztJfJvJW5nXxn5n0DIMzH2TDM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Una influencer especializada en cambios de imagen apuesta que puede transformar a un alumno poco popular en el rey del baile.",
+    anio: "2021",
+    duracion: "1h 38min",
+    calificacion: "83%",
+    genero: "Romance • Drama",
+    director: "Mark Waters",
+    reparto: "Addison Rae, Tanner Buchanan, Madison Pettis",
+    estreno: "27/08/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dias_365",
+        titulo: "365 Dias",
+        imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg"
+      },
+      {
+        id: "romper_el_circulo",
+        titulo: "Romper el circulo",
+        imagen: "https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg"
+      },
+      {
+        id: "un_ladron_romantico",
+        titulo: "Un ladrón romantiico",
+        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
+      },
+      {
+        id: "nyad",
+        titulo: "Nyad",
+        imagen: "https://image.tmdb.org/t/p/w300/eh1IjDZfDRjgv5NzMBkjN1GzKgy.jpg"
+      },
+      {
+        id: "hablame_de_ti",
+        titulo: "Háblame de ti",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "Fineskind",
+        titulo: "Fineskind: Entre hermanos",
         imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       }
     ]
@@ -9143,10 +10027,9 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "cantardesnuda",
-        titulo: "Solo Adultos",
-        imagen: "https://image.tmdb.org/t/p/w300/",
-        adulto: true
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       }
     ]
   },
@@ -9198,10 +10081,117 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "cantardesnuda",
-        titulo: "Solo Adultos",
-        imagen: "https://image.tmdb.org/t/p/w300/",
-        adulto: true
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       }
     ]
   },
@@ -9541,7 +10531,7 @@ document.addEventListener('DOMContentLoaded', () => {
     adulto: false,      // true si es +18
     sinopsis: "El Gato con Botas se embarca en un viaje épico para encontrar al mítico Último Deseo y recuperar sus nueve vidas.",
     anio: "2023",
-    duracion: "0h 008min",
+    duracion: "1h 42min",
     calificacion: "84%",
     genero: "Animación • Aventura • Fantasía • Comedia • Familia",
     director: "Joel Crawford",
@@ -9822,7 +10812,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
+        id: "peabody_y_sherman",
         titulo: "Mr Peabody y Sherman",
         imagen: "https://image.tmdb.org/t/p/w300/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg"
       },
@@ -9940,7 +10930,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
       },
       {
-        id: "tarot_de_la_muerte",
+        id: "tarot",
         titulo: "Tarot de la muerte",
         imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
       },
@@ -9958,6 +10948,224 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "baghead_contacto_con_la_muerte",
         titulo: "Baghead: Contacto con la muerte",
         imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+      }
+    ]
+  },
+
+  /*F*/
+
+  five_night_at_freddy: {
+    id: "five_night_at_freddy",
+    titulo: "Five Nights at Freddy's",
+    video: "https://dl.dropbox.com/scl/fi/gilmfstcxzc0h7fllvybx/Five.nights.at.freddys.2023.1080p-dual-lat-cinecalidad.re.mp4?rlkey=hsdvcv3uwl36e0kqnetknbxxq&st=",
+    poster: "https://image.tmdb.org/t/p/w780/7NRGAtu8E4343NSKwhkgmVRDINw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Un guardia de seguridad con problemas comienza a trabajar en Freddy Fazbear's Pizza. Mientras pasa su primera noche en el trabajo, se da cuenta de que el turno de noche en Freddy's no será tan fácil de superar.",
+    anio: "2023",
+    duracion: "1h 49min",
+    calificacion: "84%",
+    genero: "Terror • Suspenso • Misterio",
+    director: "Emma Tammi",
+    reparto: "Josh Hutcherson, Piper Rubio, Elizabeth Lail",
+    estreno: "26/10/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "five_night_at_freddy_2",
+        titulo: "Five nights at freddy's 2",
+        imagen: "https://image.tmdb.org/t/p/w300/vMU4TTPcnwtbJMFKfAEkDcDXb3l.jpg"
+      },
+      {
+        id: "la_llorona",
+        titulo: "La llorona",
+        imagen: "https://image.tmdb.org/t/p/w300/yVsINl4Aa9vvQ9lE2LF77qNj7AP.jpg"
+      },
+      {
+        id: "la_primera_profecia",
+        titulo: "La primera profecia",
+        imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
+      },
+      {
+        id: "presencia",
+        titulo: "Presencia",
+        imagen: "https://image.tmdb.org/t/p/w300/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg"
+      },
+      {
+        id: "la_calle_del_terror",
+        titulo: "La calle del terror: La reina del baile",
+        imagen: "https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg"
+      },
+      {
+        id: "juguete_diabolico_imaginario",
+        titulo: "Imaginario: Juguete diabolico",
+        imagen: "https://image.tmdb.org/t/p/w300/s3SNMGwZ7TiiZJDQEOJ1Z4e5WeX.jpg"
+      }
+    ]
+  },
+
+  five_night_at_freddy_2: {
+    id: "five_night_at_freddy_2",
+    titulo: "Five Nights at Freddy's 2",
+    video: "https://dl.dropbox.com/scl/fi/su2b8i6ln2qzez3xpbio8/Five.nights.at.freddys.2.2025.1080p-dual-lat.mp4?rlkey=evymipj4q94cwd7p5qp8nzjag&st=",
+    poster: "https://image.tmdb.org/t/p/w780/bZlismAr366jWFiZNKzY3x3AN5X.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Un año después de la pesadilla sobrenatural en Freddy Fazbear's Pizza, las historias sobre lo ocurrido allí se han convertido en una leyenda local extravagante, inspirando el primer Fazfest del pueblo.",
+    anio: "2025",
+    duracion: "1h 44min",
+    calificacion: "88%",
+    genero: "Terror",
+    director: "Emma Tammi",
+    reparto: "Josh Hutcherson, Piper Rubio, Elizabeth Lail",
+    estreno: "04/12/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "five_night_at_freddy",
+        titulo: "Five night at Freddy´s",
+        imagen: "https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg"
+      },
+      {
+        id: "no_me_sigas",
+        titulo: "No me sigas",
+        imagen: "https://image.tmdb.org/t/p/w300/gop4DwcBeb9T3JTaxwDEHdJNqSq.jpg"
+      },
+      {
+        id: "regalo_maldito",
+        titulo: "Regalo maldito",
+        imagen: "https://image.tmdb.org/t/p/w300/qYCA7XkLRUNS1DC7c8ehtj6W4XM.jpg"
+      },
+      {
+        id: "el_hoyo_2",
+        titulo: "El hoyo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"
+      },
+      {
+        id: "tarot",
+        titulo: "Tarot de la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
+      },
+      {
+        id: "terrifier_3",
+        titulo: "Terrifier 3",
+        imagen: "https://image.tmdb.org/t/p/w300/63xYQj1BwRFielxsBDXvHIJyXVm.jpg"
+      }
+    ]
+  },
+
+  frozen_2: {
+    id: "frozen_2",
+    titulo: "Frozen 2",
+    video: "https://dl.dropbox.com/scl/fi/019rxqf6iiu2y4lkf06sa/Frozen.ii.2019.1080P-Dual-Lat.mp4?rlkey=t41kc1mhesnbjwir8c5bu9qio&st=",
+    poster: "https://image.tmdb.org/t/p/w780/xD7yQyIZTU56OhzIjEa6FhD66Pe.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "¿Por qué nació Elsa con poderes mágicos? La respuesta le está llamando y amenaza su reino. Junto con Anna, Kristoff, Olaf y Sven emprenderá un viaje peligroso e inolvidable. En 'Frozen: El Reino del Hielo', Elsa temía que sus poderes fueran demasiado para el mundo. En 'Frozen 2', deseará que sean suficientes.",
+    anio: "2019",
+    duracion: "1h 43min",
+    calificacion: "85%",
+    genero: "Animación • Aventura • Disney • Comedia • Fantasía • Familia",
+    director: "Jennifer Lee y Chris Buck",
+    reparto: "Idina Menzel, Kristen Bell, Josh Gad",
+    estreno: "02/01/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "frozen",
+        titulo: "Frozen",
+        imagen: "https://image.tmdb.org/t/p/w300/hAKhrHvzQDUHQP5zd5HFeqF2BCN.jpg"
+      },
+      {
+        id: "el_rey_leon_2019",
+        titulo: "El Rey León",
+        imagen: "https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg"
+      },
+      {
+        id: "elemental",
+        titulo: "Elemental",
+        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
+      },
+      {
+        id: "moana",
+        titulo: "Moana",
+        imagen: "https://image.tmdb.org/t/p/w300/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg"
+      },
+      {
+        id: "minecraft",
+        titulo: "Minecraft",
+        imagen: "https://image.tmdb.org/t/p/w300/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg"
+      },
+      {
+        id: "minions_el_origen_de_gru",
+        titulo: "Minions: El origen de Gru",
+        imagen: "https://image.tmdb.org/t/p/w300/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg"
+      }
+    ]
+  },
+
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       }
     ]
   },
@@ -12345,7 +13553,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/6f7EZ60KwDfjCv0KGKPIQk5QdJ5.jpg"
       },
       {
-        id: "tarot_de_la_muerte",
+        id: "tarot",
         titulo: "Tarot de la muerte",
         imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
       },
@@ -13472,7 +14680,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "tarot_de_la_muerte",
+        id: "tarot",
         titulo: "Tarot de la muerte",
         imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
       },

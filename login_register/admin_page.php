@@ -383,6 +383,57 @@ if (isset($_POST['create_user'])) {
     exit();
 }
 
+if (isset($_POST['add_profiles'])) {
+
+    $userId = (int)$_POST['user_id'];
+    $value  = (int)$_POST['profile_value'];
+
+    if ($value > 0) {
+        $conn->query("
+            UPDATE users
+            SET max_perfiles = max_perfiles + $value
+            WHERE id = $userId
+        ");
+    }
+
+    $_SESSION['msg'] = "Perfiles agregados correctamente";
+    $_SESSION['msg_type'] = "success";
+
+    header("Location: admin_page.php");
+    exit();
+}
+if (isset($_POST['remove_profiles'])) {
+
+    $userId = (int)$_POST['user_id'];
+    $value  = (int)$_POST['profile_value'];
+
+    if ($value > 0) {
+
+        $current = $conn->query("
+            SELECT max_perfiles 
+            FROM users 
+            WHERE id=$userId
+        ")->fetch_assoc();
+
+        $currentProfiles = (int)$current['max_perfiles'];
+
+        if ($currentProfiles < $value) {
+            $value = $currentProfiles;
+        }
+
+        $conn->query("
+            UPDATE users
+            SET max_perfiles = max_perfiles - $value
+            WHERE id = $userId
+        ");
+    }
+
+    $_SESSION['msg'] = "Perfiles reducidos correctamente";
+    $_SESSION['msg_type'] = "success";
+
+    header("Location: admin_page.php");
+    exit();
+}
 
 
 // =====================
@@ -1404,6 +1455,9 @@ Cupos disponibles: <?= $quota ?>
 <button class="menu-link" onclick="showSection('addQuota')">
 📊 Administrar cupos
 </button>
+<button class="menu-link" onclick="showSection('manageProfiles')">
+👤 Administrar perfiles
+</button>
 
 <button onclick="showSection('usersWeb')">
 👥 Registro usuario
@@ -1590,6 +1644,97 @@ name="toggle_status"
 
 </table>
 </div>
+</div>
+
+<div class="box section-panel" id="manageProfiles">
+
+<h3>Administrar perfiles de usuarios</h3>
+
+<form method="post" class="form-panel">
+
+<label>Seleccionar usuario</label>
+
+<!-- SELECT REAL -->
+<select name="user_id" id="realUserProfileSelect" required class="hidden-select">
+<option value="">Seleccionar</option>
+
+<?php
+$listUsersProfiles = $conn->query("
+    SELECT id,name,email,max_perfiles
+    FROM users
+    WHERE role='user'
+    ORDER BY name
+");
+
+while($u=$listUsersProfiles->fetch_assoc()):
+?>
+
+<option value="<?=$u['id']?>">
+<?=htmlspecialchars($u['name'])?> 
+(<?=htmlspecialchars($u['email'])?>)
+- Perfiles: <?=$u['max_perfiles']?>
+</option>
+
+<?php endwhile; ?>
+</select>
+
+<!-- SELECT MODERNO -->
+<div class="custom-select">
+
+<input 
+type="text" 
+placeholder="Buscar usuario..." 
+class="select-search"
+onclick="toggleUserProfileDropdown()"
+onkeyup="filterUserProfiles()"
+id="searchUserProfileInput"
+>
+
+<div class="select-dropdown" id="userProfileDropdown">
+
+<?php
+$listUsersProfiles->data_seek(0);
+while($u=$listUsersProfiles->fetch_assoc()):
+?>
+
+<div class="select-option" 
+onclick="selectUserProfile(
+'<?=$u['id']?>',
+'<?=htmlspecialchars($u['name'])?> (<?=htmlspecialchars($u['email'])?>) - Perfiles: <?=$u['max_perfiles']?>'
+)">
+<?=htmlspecialchars($u['name'])?> (<?=htmlspecialchars($u['email'])?>)
+- Perfiles: <?=$u['max_perfiles']?>
+</div>
+
+<?php endwhile; ?>
+
+</div>
+</div>
+
+<label>Cantidad</label>
+
+<input
+type="number"
+name="profile_value"
+min="1"
+placeholder="Ej: 1"
+required
+>
+
+<div style="display:flex;gap:10px;margin-top:10px">
+
+<button class="green" name="add_profiles">
+➕ Agregar perfiles
+</button>
+
+<button class="red" name="remove_profiles">
+➖ Quitar perfiles
+</button>
+
+</div>
+
+</form>
+
 </div>
 
 <style>
@@ -2818,7 +2963,26 @@ validarFormulario("formCreateUser");
 validarFormulario("formCreateAdmin");
 </script>
 
+<script>
+    function toggleUserProfileDropdown(){
+    document.getElementById("userProfileDropdown").style.display = "block";
+}
 
+function selectUserProfile(id, text){
+    document.getElementById("realUserProfileSelect").value = id;
+    document.getElementById("searchUserProfileInput").value = text;
+    document.getElementById("userProfileDropdown").style.display = "none";
+}
+
+function filterUserProfiles(){
+    let input = document.getElementById("searchUserProfileInput").value.toLowerCase();
+    let options = document.querySelectorAll("#userProfileDropdown .select-option");
+
+    options.forEach(opt => {
+        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+</script>
 
 <script>
 function toggleMenu(){
