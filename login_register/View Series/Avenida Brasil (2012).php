@@ -549,31 +549,6 @@ if (isset($_GET['check_status'])) {
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
-
-<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
-
-<script>
-  setInterval(() => {
-
-  setInterval(() => {
-  fetch("auth.php?check_status=1")
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "logout") {
-        alert("Tu sesión fue cerrada");
-        window.location.href = "index.php";
-      }
-    })
-    .catch(() => {
-      console.warn("Error verificando sesión");
-    });
-}, 10000);
-
-}) 
-
-</script>
-
-<!-- FIN -->
   
 <script>
 // 🔹 Evita volver a la página anterior
@@ -705,50 +680,62 @@ if (window.performance && window.performance.navigation.type === 2) {
 document.addEventListener("DOMContentLoaded", () => {
 
   const loader = document.getElementById('loader-screen');
-  const continueModal = document.getElementById('continue-modal');
-  if (continueModal) continueModal.style.display = 'none';
   const bar = document.getElementById('loading-fill');
   const percent = document.getElementById('loading-percent');
 
-  let totalImages = document.images.length;
-  let loaded = 0;
+  // 🔒 Si no existe el loader, no rompe nada
+  if (!loader || !bar || !percent) return;
 
-  if (totalImages === 0) {
-    totalImages = 1;
-    loaded = 1;
-  }
+  let progreso = 0;
+  let terminado = false;
 
-  function updateLoader() {
-    loaded++;
-    let p = Math.floor((loaded / totalImages) * 100);
-
-    bar.style.width = p + "%";
-    percent.textContent = p + "%";
-
-    if (p >= 100) {
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 600);
+  // 🔥 Animación controlada
+  const anim = setInterval(() => {
+    if (progreso < 90) {
+      progreso += 1.5; // más suave
+      actualizar();
     }
+  }, 60);
+
+  function actualizar() {
+    if (!bar || !percent) return;
+
+    progreso = Math.min(progreso, 100);
+    bar.style.width = progreso + "%";
+    percent.textContent = Math.floor(progreso) + "%";
   }
 
-   window.addEventListener('load', () => {
-    // Pequeño retardo opcional de 1 segundo para suavizar
-    setTimeout(() => {
-      loader.classList.add('hidden');
-      setTimeout(() => {
-        if (continueModal) continueModal.style.display = '';
-      }, 700); /*1200*/
-    }, 200); /*1000*/
+  function finalizar() {
+    if (terminado) return;
+    terminado = true;
+
+    clearInterval(anim);
+
+    // 🔥 subida final limpia
+    const finalAnim = setInterval(() => {
+      if (progreso < 100) {
+        progreso += 2;
+        actualizar();
+      } else {
+        clearInterval(finalAnim);
+
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 300);
+      }
+    }, 20);
+  }
+
+  // ✅ SOLO cuando todo cargó
+  window.addEventListener("load", () => {
+    setTimeout(finalizar, 200);
   });
 
-  for (let img of document.images) {
-    if (img.complete) updateLoader();
-    else {
-      img.addEventListener("load", updateLoader);
-      img.addEventListener("error", updateLoader);
-    }
-  }
+  // ✅ fallback seguro (por si algo falla)
+  setTimeout(() => {
+    finalizar();
+  }, 3500);
+
 });
 </script>
 <!-- 🔴 Fin pantalla de carga neón -->
@@ -1212,13 +1199,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="episodes-container" class="episodes-scroll"></div>
   
     <p class="sinopsis">
-      Esta es la dramática historia de Rita, que lucha por recuperar parte de la vida que su terrible madrastra, Carmina, le robó cuando todavía era solo una niña. Pero ella tendrá que enfrentarse a su pasado y decidir hasta dónde está dispuesta a llegar para vengarse de los que más le hicieron daño.
+     Esta es la dramática historia de Rita, que lucha por recuperar parte de la vida que su terrible madrastra, Carmina, le robó cuando todavía era solo una niña. Pero ella tendrá que enfrentarse a su pasado y decidir hasta dónde está dispuesta a llegar para vengarse de los que más le hicieron daño.
     </p>
 
     <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
       <p><strong>Director:</strong> João Emanuel Carneiro</p>
-      <p><strong>Reparto:</strong> Débora Falabella, Adriana Esteves, Cauã Reymond</p>
-      <p><strong>Estreno:</strong> 26/03/2012 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
+      <p><strong>Reparto:</strong> Débora Falabella, Adriana Esteves, Murilo Benício</p>
+      <p><strong>Estreno:</strong> 28/03/2012 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
     </div>
 
     <br>
@@ -1442,6 +1429,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
+
 
 
 <script>
@@ -1450,7 +1458,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "avenida_brasil"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "avenida_brasil_2012"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1484,35 +1492,35 @@ const seasonYearEl = document.getElementById("season-year");
 
 
 /* =====================================================
-   DATA (TU seasonsData, SIN CAMBIOS)
+   DATA (TU seasonsData, SIN CAMBIOS)      { id: "t1e11", number: 11, src: "" },
 ===================================================== */
 const seasonsData = [
   {
     id: "t1",
     name: "Temporada 1",
-    year: 2012,
+    year: 2018,
     episodes: [
       { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/yzecvh6g06fdm6sxmk4lw/Avenidad-Brasil-1080p-Capitulo-01.mp4?rlkey=k910lbvco10en9hybd2j7azhr&st=" },
-      { id: "t1e2", number: 2, src: "" },
-      { id: "t1e3", number: 3, src: "" },
-      { id: "t1e4", number: 4, src: "" },
-      { id: "t1e5", number: 5, src: "" },
-      { id: "t1e6", number: 6, src: "" }
-    ]
-  },
-  {
-    id: "t2",
-    name: "Temporada 2",
-    year: 2019,
-    episodes: [
-      { id: "t2e1", number: 1, src: "" },
-      { id: "t2e2", number: 2, src: "" },
-      { id: "t2e3", number: 3, src: "" },
-      { id: "t2e4", number: 4, src: "" },
-      { id: "t2e5", number: 5, src: "" }
+      { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/nndg4k8ca8lgszz9j9im9/Avenidad-Brasil-1080p-Capitulo-02.mp4?rlkey=hxrng86rnati7bdmieurorw8z&st=" },
+      { id: "t1e3", number: 3, src: "https://dl.dropbox.com/scl/fi/4z4hywwa2qou7bw6cz73j/Avenidad-Brasil-1080p-Capitulo-03.mp4?rlkey=m4nv2au0uvm4wxni40w0o31ya&st=" },
+      { id: "t1e4", number: 4, src: "https://dl.dropbox.com/scl/fi/zky1lsadvk71gg4x1icnh/Avenidad-Brasil-1080p-Capitulo-04.mp4?rlkey=azus6ridnribslceatxvcd9va&st=" },
+      { id: "t1e5", number: 5, src: "https://dl.dropbox.com/scl/fi/nb4hhc7lgvwsserqhjs8l/Avenidad-Brasil-1080p-Capitulo-05.mp4?rlkey=x8k0lk635prkenkaxntwgl5o2&st=" },
+      { id: "t1e6", number: 6, src: "https://dl.dropbox.com/scl/fi/sk6ojgux4ublgxqkqt3e3/Avenidad-Brasil-1080p-Capitulo-06.mp4?rlkey=950jtxl42h25gjxtewf6rr7xi&st=" },
+      { id: "t1e7", number: 7, src: "https://dl.dropbox.com/scl/fi/2pross26f5sjyiat0gb31/Avenidad-Brasil-1080p-Capitulo-07.mp4?rlkey=ca948wmf7yn2bsef9f14mqohn&st=" },
+      { id: "t1e8", number: 8, src: "https://dl.dropbox.com/scl/fi/80q6vzq866gn9yh39jm2c/Avenidad-Brasil-1080p-Capitulo-08.mp4?rlkey=jyfkd2pc4nce4h6gtqfxfyqd2&st=" },
+      { id: "t1e9", number: 9, src: "https://dl.dropbox.com/scl/fi/rz8mj7rh1zu4jvd6wvpiz/Avenidad-Brasil-1080p-Capitulo-09.mp4?rlkey=jq4m2oxzji650detbfo11f1v2&st=" },
+      { id: "t1e10", number: 10, src: "https://dl.dropbox.com/scl/fi/uet3nmuhdij50s8y5i3re/Avenidad-Brasil-1080p-Capitulo-10.mp4?rlkey=9699p5g53i7u5c45opil3s3dm&st=" },
+      { id: "t1e11", number: 11, src: "https://dl.dropbox.com/scl/fi/31jgtbp6ty307tucfd9sv/Avenidad-Brasil-1080p-Capitulo-11.mp4?rlkey=rigo1ft1aqvqnwmoho7407g6c&st=" },
+      { id: "t1e12", number: 12, src: "https://dl.dropbox.com/scl/fi/7l2s27aciduus9wtgfoz7/Avenidad-Brasil-1080p-Capitulo-12.mp4?rlkey=n6yxlfrs2xkjss23qlnngp3gs&st=" },
+      { id: "t1e13", number: 13, src: "https://dl.dropbox.com/scl/fi/ezud5pk434f0wq4gr3uy7/Avenidad-Brasil-1080p-Capitulo-13.mp4?rlkey=v0srumlxkzazdzs8ivh4cmnzf&st=" },
+      { id: "t1e14", number: 14, src: "https://dl.dropbox.com/scl/fi/dxcm67erb9vzsd7e4l4o2/Avenidad-Brasil-1080p-Capitulo-14.mp4?rlkey=n1vbvrk7xmqh0z2npaamu70f2&st=" },
+      { id: "t1e15", number: 15, src: "https://dl.dropbox.com/scl/fi/l4pkra8uniqkcqwn6a7ul/Avenidad-Brasil-1080p-Capitulo-15.mp4?rlkey=eql2aag5c1b3owbj3fi0p98rw&st=" },
+      { id: "t1e16", number: 16, src: "https://dl.dropbox.com/scl/fi/vt2cgm0nrt21ii8r5122z/Avenidad-Brasil-1080p-Capitulo-16.mp4?rlkey=kqicf3c3p9juxdtf1htoxbs89&st=" },
+      { id: "t1e17", number: 17, src: "https://dl.dropbox.com/scl/fi/yigrk15scrzyf064qvqpi/Avenidad-Brasil-1080p-Capitulo-17.mp4?rlkey=6al4tgl3fb5npsbydku2ya85e&st=" }
     ]
   }
 ];
+
 
 /* =====================================================
    ESTADO
@@ -2108,6 +2116,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const movie_id = "avenida_brasil";
     const imagen = "https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg";
     const tipo = "serie"; // 🔹 SOLUCIÓN
+    
 
     btn.classList.add("animado");
     setTimeout(()=>btn.classList.remove("animado"),300);
@@ -2273,6 +2282,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p></p>
       </a>
+      
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
         <p></p>
@@ -2437,6 +2447,92 @@ function esperarFinLoader(callback) {
 
 <script>
 
+/* =========================
+   DATOS DE LA SERIE
+========================= */
+const titulo = "Avenida Brasil";
+  const movieId = "avenida_brasil";
+  const tipo = "serie";
+  const archivo = "../View Series/Avenida Brasil (2012).php";
+  const imagen = "https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg";
+
+/* =========================
+   MODAL
+========================= */
+function mostrarModal(mensaje){
+
+  const modal = document.getElementById("modal-favoritos");
+  const texto = document.getElementById("modal-fav-texto");
+  const boton = document.getElementById("modal-fav-aceptar");
+
+  if(!modal || !texto){
+    alert(mensaje);
+    return;
+  }
+
+  texto.textContent = mensaje;
+  modal.setAttribute("aria-hidden","false");
+
+  boton.onclick = () => {
+    modal.setAttribute("aria-hidden","true");
+  };
+
+  setTimeout(()=>{
+    modal.setAttribute("aria-hidden","true");
+  },2000);
+}
+
+/* =========================
+   GUARDAR HISTORIAL
+========================= */
+function guardarHistorial(){
+
+  fetch("../View Peliculas/guardar_historial.php",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/x-www-form-urlencoded"
+    },
+    body:
+      "movie_id="+encodeURIComponent(movieId)+
+      "&titulo="+encodeURIComponent(titulo)+
+      "&tipo="+encodeURIComponent(tipo)+
+      "&imagen="+encodeURIComponent(imagen)+
+      "&progreso="+encodeURIComponent("Asistido 0 min")+
+      "&archivo="+encodeURIComponent(archivo)
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    console.log("Historial:",data);
+
+    if(data.status === "new"){
+      mostrarModal("Serie agregada al historial");
+    }
+  })
+  .catch(error=>{
+    console.error("Error historial:",error);
+  });
+}
+
+/* =========================
+   CUANDO TERMINA EL LOADER
+========================= */
+window.addEventListener('load', () => {
+
+  setTimeout(() => {
+
+    const loader = document.getElementById('loader-screen');
+    if(loader) loader.classList.add('hidden');
+
+    // 🔥 AHORA SÍ: después del loader
+    guardarHistorial();
+
+  }, 200);
+
+});
+
+/* =========================
+   CUANDO EL DOM ESTÁ LISTO
+========================= */
 document.addEventListener("DOMContentLoaded", function () {
 
   const videoElement = document.getElementById("videoPlayer");
@@ -2446,107 +2542,27 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const titulo = "Avenida Brasil";
-  const movieId = "avenida_brasil";
-  const tipo = "serie";
-  const archivo = "../View Series/Avenida Brasil (2012).php";
-  const imagen = "https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg";
-
-  /* ------------------------------
-     MODAL (USA TU MODAL ACTUAL)
-  ------------------------------ */
-
-  function mostrarModal(mensaje){
-
-    const modal = document.getElementById("modal-favoritos");
-    const texto = document.getElementById("modal-fav-texto");
-    const boton = document.getElementById("modal-fav-aceptar");
-
-    if(!modal || !texto){
-      alert(mensaje);
-      return;
-    }
-
-    texto.textContent = mensaje;
-
-    modal.setAttribute("aria-hidden","false");
-
-    boton.onclick = () => {
-      modal.setAttribute("aria-hidden","true");
-    };
-
-    setTimeout(()=>{
-      modal.setAttribute("aria-hidden","true");
-    },2000);
-
-  }
-
-  /* ------------------------------
-     GUARDAR HISTORIAL
-  ------------------------------ */
-
-  fetch("../View Peliculas/guardar_historial.php",{
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":"application/x-www-form-urlencoded"
-    },
-
-    body:
-      "movie_id="+encodeURIComponent(movieId)+
-      "&titulo="+encodeURIComponent(titulo)+
-      "&tipo="+encodeURIComponent(tipo)+
-      "&imagen="+encodeURIComponent(imagen)+
-      "&progreso="+encodeURIComponent("Asistido 0 min")+
-      "&archivo="+encodeURIComponent(archivo)
-
-  })
-
-  .then(res=>res.json())
-
-  .then(data=>{
-
-    console.log("Historial:",data);
-
-    if(data.status === "new"){
-      mostrarModal(" Serie agregada al historial");
-    }
-
-  })
-
-  .catch(error=>{
-    console.error("Error historial:",error);
-  });
-
-
-  /* ------------------------------
+  /* =========================
      ACTUALIZAR PROGRESO
-  ------------------------------ */
-
+  ========================= */
   setInterval(()=>{
 
     if(!videoElement.paused && !videoElement.ended){
 
       const minutos = Math.floor(videoElement.currentTime / 60);
-
       const progreso = "Asistido "+minutos+" min";
 
       fetch("../View Peliculas/guardar_historial.php",{
-
         method:"POST",
-
         headers:{
           "Content-Type":"application/x-www-form-urlencoded"
         },
-
         body:
           "movie_id="+encodeURIComponent(movieId)+
           "&titulo="+encodeURIComponent(titulo)+
           "&tipo="+encodeURIComponent(tipo)+
           "&imagen="+encodeURIComponent(imagen)+
           "&progreso="+encodeURIComponent(progreso)
-
       })
       .catch(error=>{
         console.error("Error actualizando progreso:",error);
@@ -2559,6 +2575,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+
   
 </body>
 </html>

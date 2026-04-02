@@ -1128,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playsinline
     webkit-playsinline
     preload="metadata"
-    poster="https://image.tmdb.org/t/p/w780/1M8uW8o6fdDaa3zqmBD2UUKu0VZ.jpg"
+    poster="https://image.tmdb.org/t/p/w780/tYLXJW1sZQU09VWY1BhSVPKGIwc.jpg"
   >
   <source type="video/mp4">
   </video>
@@ -1155,8 +1155,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
   <div class="info">
-    <i class="fal fa-calendar-alt"></i><span id="season-year">2026</span>
-    <i class="fal fa-thumbs-up"></i><span>97%</span>
+    <i class="fal fa-calendar-alt"></i><span id="season-year">2024</span>
+    <i class="fal fa-thumbs-up"></i><span>80%</span>
     <div class="hd-tag">
       <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect width="24" height="24" rx="4" fill="white" />
@@ -1168,8 +1168,8 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   
   <div class="info-pelicula">
-    <h1>Baki-Dou: El samurái invencible</h1>
-    <span class="genero-badge">Acciónn • Anime • Animación • Fantasía</span>
+    <h1>Agatha ¿Quien si no?</h1>
+    <span class="genero-badge">Accion • Marvel • Drama</span>
     <!-- BOTÓN TEMPORADAS -->
 <div class="series-ui">
   <button id="btn-open-seasons">Temporadas</button>
@@ -1190,12 +1190,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="episodes-container" class="episodes-scroll"></div>
   
     <p class="sinopsis">
-      Baki y los luchadores más fuertes del Estadio clandestino se enfrentan a una amenaza de proporciones históricas: el resucitado Musashi Miyamoto, el samurái más famoso de Japón.
+      Agatha Harkness reúne un aquelarre de brujas y parte hacia la Senda de las Brujas.
     </p>
 
     <div class="ficha-tecnica" style="text-align:center;margin-top:20px;font-size:0.9rem;color:#ccc;">
-      <p><strong>Reparto:</strong> Nobunaga Shimazaki, Naoya Uchida, Akio Otsuka</p>
-      <p><strong>Estreno:</strong> 26/02/2026 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
+      <p><strong>Director:</strong> Jac Schaeffer</p>
+      <p><strong>Reparto:</strong> Kathryn Hahn, Joe Locke, Sasheer Zamata</p>
+      <p><strong>Estreno:</strong> 18/09/2024 | <strong>Idioma:</strong> Español Latino 🇲🇽</p>
     </div>
 
     <br>
@@ -1448,7 +1449,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "baki_dou_2026"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "agatha_quien_sino"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1482,33 +1483,22 @@ const seasonYearEl = document.getElementById("season-year");
 
 
 /* =====================================================
-   DATA (TU seasonsData, SIN CAMBIOS)      { id: "t1e11", number: 11, src: "" },
+   DATA (TU seasonsData, SIN CAMBIOS)      
 ===================================================== */
 const seasonsData = [
   {
     id: "t1",
     name: "Temporada 1",
-    year: 2026,
+    year: 2024,
     episodes: [
-      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/8byf64ikzur5psubjxthp/Baki-Dou_El_samur-i_invencible_Latino_01.mp4?rlkey=x9w7a0b4uu8dahbeghhhv8smk&st=" },
-      { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/0g33klcwcsza6nngmgpzb/Baki-Dou-El-samur-i-invencible-Latino-02.mp4?rlkey=50a1vqia9brfz5kqfdfsqpa1l&st=" },
-      { id: "t1e3", number: 3, src: "https://dl.dropbox.com/scl/fi/f861vz5em9kuxuqfre2j6/Baki-Dou_El_samur-i_invencible_Latino_03.mp4?rlkey=xj1lsxw8txr2ft9vbcpow7biw&st=" },
-      { id: "t1e4", number: 4, src: "https://dl.dropbox.com/scl/fi/qy651anpt00b6ghzbxfz8/Baki-Dou_El_samur-i_invencible_Latino_04.mp4?rlkey=jct6hg31sib1c8pwnroh37507&st=" },
-      { id: "t1e5", number: 5, src: "https://dl.dropbox.com/scl/fi/y63zh1gjje0t34aiew3qu/Baki-Dou_El_samur-i_invencible_Latino_05.mp4?rlkey=24wyi9u88fge4i71bzcm87cyx&st=" },
-      { id: "t1e6", number: 6, src: "" },
-      { id: "t1e7", number: 7, src: "" },
-      { id: "t1e8", number: 8, src: "" },
-      { id: "t1e9", number: 9, src: "" },
-      { id: "t1e10", number: 10, src: "" },
-      { id: "t1e11", number: 11, src: "" },
-      { id: "t1e12", number: 12, src: "" },
-      { id: "t1e13", number: 13, src: "" },
-      { id: "t1e14", number: 14, src: "" },
-      { id: "t1e15", number: 15, src: "" }
+      { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/ykcfjdlbo89p91oiw9un8/Agatha-1.mp4?rlkey=tcr55mm5wj4pu63d68lzibmky&st=" },
+      { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/5q17bickl0pv3ifff0ejg/Agatha-2.mp4?rlkey=24zg3mwzaqs9himwswhb3y2rr&st=" },
+      { id: "t1e3", number: 3, src: "https://dl.dropbox.com/scl/fi/2p3i4yg83hm806220d4jp/Agatha-3.mp4?rlkey=xdpcf2gmlqit2nzbtue722iox&st=" },
+      { id: "t1e4", number: 4, src: "" },
+      { id: "t1e5", number: 5, src: "" }
     ]
   }
 ];
-
 
 /* =====================================================
    ESTADO
@@ -2100,9 +2090,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   btn.addEventListener("click",function(){
 
-    const titulo = "Baki-Dou: El samurái invencible";
-    const movie_id = "baki_dou_el_samurai_invencible";
-    const imagen = "https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg";
+    const titulo = "Agatha ¿Quien si no?";
+    const movie_id = "agatha_quien_sino";
+    const imagen = "https://image.tmdb.org/t/p/w300/nbkbguUUNWQZygVJKjODyELBQk9.jpg";
     const tipo = "serie"; // 🔹 SOLUCIÓN
 
     btn.classList.add("animado");
@@ -2249,29 +2239,30 @@ document.addEventListener("DOMContentLoaded", function () {
     <h4>Podría interesarte:</h4>
     <br/>
     <div class="series-grid">
-      <a href="Baki (2018).php" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/j4bL0G8h8k49MuXKYfZqhXqk2rI.jpg" alt="">
-        <p>Baki</p>
-      </a>
-      <a href="Baki Hanma (2021).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/x145FSI9xJ6UbkxfabUsY2SFbu3.jpg" alt="">
-        <p>Baki Hanma</p>
-      </a>
-      <a href="../View Peliculas/Reproductor Universal.php?id=baki_hanma_vs_kengan_ashura" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg" alt="">
-        <p>Baki Hanma VS Kengan Ashura</p>
-      </a>
-      <a href="Dragon Ball Z (1986).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/8PT42NbjTZzYzCnPzg4NZzSW97n.jpg" alt="">
-        <p>Dragon Ball Z</p>
-      </a>
-      <a href="hajime no ippo (2000).html" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/i3U3J2MWovIBZBnZYYiOLBXqNJZ.jpg" alt="">
-        <p>Hajime no ippo</p>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
       <a href="" class="serie">
-        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/3V7kzJX7hvF0H9CDJsgcWKXTSsR.jpg" alt="">
-        <p>Naruto Shippuden</p>
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
+      </a>
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
+      </a>
+      
+      <a href="" class="serie">
+        <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">
+        <p></p>
       </a>
     </div>
   </div>
@@ -2436,11 +2427,11 @@ function esperarFinLoader(callback) {
 /* =========================
    DATOS DE LA SERIE
 ========================= */
- const titulo = "Baki-Dou: El samurái invencible";
-  const movieId = "baki_dou_el_samurai_invensible";
-  const tipo = "serie";
-  const archivo = "../View Series/Baki-Dou El samurái invencible (2026).php";
-  const imagen = "https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg";
+const titulo = "Agatha ¿Quien si no?";
+const movieId = "agatha_quien_sino";
+const tipo = "serie";
+const archivo = "../View Series/Agatha (2024).php";
+const imagen = "https://image.tmdb.org/t/p/w300/nbkbguUUNWQZygVJKjODyELBQk9.jpg";
 
 /* =========================
    MODAL

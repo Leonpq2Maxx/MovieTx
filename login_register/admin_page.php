@@ -1372,7 +1372,7 @@ name="foto_admin"
 id="inputFotoAdmin"
 accept="image/*"
 style="display:none"
-onchange="document.getElementById('formFotoAdmin').submit()"
+onchange="previewImage(event)"
 >
 
 <img
@@ -1534,7 +1534,7 @@ onclick="window.location.href=window.location.pathname">
 <div class="error-text">Ingrese un teléfono válido</div>
 
 <label>Foto del administrador:</label>
-<input type="file" name="foto" accept="image/*">
+<input type="file" id="inputFotoAdmin" name="foto" accept="image/*" onchange="previewImage(event)">
 <div class="error-text">Debe subir una foto</div>
 
 <button name="create_helper">Crear Administrador</button>
@@ -1563,8 +1563,8 @@ onclick="window.location.href=window.location.pathname">
 
 
   <label>Foto del usuario:</label>
-  <input type="file" name="foto" accept="image/*">
-  <div class="error-text">Debe subir una foto</div>
+<input type="file" id="inputFotoUsuario" name="foto" accept="image/*" onchange="previewImage(event)">
+<div class="error-text">Debe subir una foto</div>
 
   <button type="submit" name="create_user">Crear cuenta</button>
 </form>
@@ -2873,6 +2873,200 @@ Actualizar contraseña
 </div>
 <?php endif; ?>
 
+<!-- =========================
+MODAL CROPPER PRO
+========================= -->
+<div id="cropModal">
+
+<div class="crop-header">
+<button type="button" onclick="cerrarCrop()">Cancelar</button>
+<h3>Ajustar foto</h3>
+<button onclick="recortarImagen()">Guardar</button>
+</div>
+
+<div class="crop-container">
+<img id="imageToCrop">
+</div>
+
+<div class="crop-footer">
+<button onclick="zoomOut()">−</button>
+<button onclick="zoomIn()">+</button>
+</div>
+
+</div>
+
+<link href="https://unpkg.com/cropperjs@1.6.1/dist/cropper.min.css" rel="stylesheet"/>
+<script src="https://unpkg.com/cropperjs@1.6.1/dist/cropper.min.js"></script>
+
+<style>
+    #cropModal{
+position:fixed;
+inset:0;
+background:#000;
+z-index:99999;
+display:none;
+flex-direction:column;
+}
+
+/* HEADER */
+.crop-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px;
+color:white;
+background:rgba(0,0,0,0.6);
+}
+
+.crop-header button{
+background:none;
+border:none;
+color:#00d4ff;
+font-size:16px;
+}
+
+/* CONTENEDOR */
+.crop-container{
+flex:1;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.crop-container img{
+max-width:100%;
+max-height:100%;
+}
+
+/* FOOTER */
+.crop-footer{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:12px;
+background:rgba(0,0,0,0.6);
+}
+
+.crop-footer button{
+background:#111;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+font-size:18px;
+}
+</style>
+<script>
+
+let cropper;
+let imagenFinalBlob = null;
+let inputActual = null;
+
+/* =========================
+ABRIR CROPPER
+========================= */
+function previewImage(event){
+
+const file = event.target.files[0];
+if(!file) return;
+
+inputActual = event.target;
+
+const reader = new FileReader();
+
+reader.onload = function(){
+
+document.getElementById("imageToCrop").src = reader.result;
+document.getElementById("cropModal").style.display = "flex";
+
+if(cropper){
+    cropper.destroy();
+}
+
+cropper = new Cropper(document.getElementById("imageToCrop"),{
+    aspectRatio:1,
+    viewMode:1,
+    dragMode:'move',
+    autoCropArea:1,
+    movable:true,
+    zoomable:true,
+    scalable:true,
+    responsive:true,
+    background:false,
+
+    /* 🔥 MOBILE PRO */
+    touchDragZoom:true,
+    zoomOnTouch:true,
+    zoomOnWheel:false,
+    minCropBoxWidth:150,
+    minCropBoxHeight:150
+});
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+/* =========================
+ZOOM
+========================= */
+function zoomIn(){
+if(cropper) cropper.zoom(0.1);
+}
+
+function zoomOut(){
+if(cropper) cropper.zoom(-0.1);
+}
+
+/* =========================
+RECORTAR
+========================= */
+function recortarImagen(){
+
+    if(!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas({
+        width:400,
+        height:400
+    });
+
+    canvas.toBlob(function(blob){
+
+        imagenFinalBlob = blob;
+
+        const file = new File([blob], "perfil.png", {type:"image/png"});
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        inputActual.files = dataTransfer.files;
+
+        // 👉 SI ES ADMIN → enviar form
+        if(inputActual.id === "inputFotoAdmin"){
+            document.getElementById("formFotoAdmin").submit();
+        }
+
+    });
+
+    cerrarCrop();
+}
+
+function cerrarCrop(){
+
+    document.getElementById("cropModal").style.display = "none";
+
+    // 🔥 limpiar cropper
+    if(cropper){
+        cropper.destroy();
+        cropper = null;
+    }
+
+    
+}
+
+</script>
 
 <script>
 function toggleAdminDropdown(){
@@ -2901,8 +3095,7 @@ document.addEventListener("click", function(e){
         if(dd) dd.style.display = "none";
     }
 });
-</script>
-
+</script> 
 
 <script>
 function validarFormulario(formId){

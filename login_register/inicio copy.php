@@ -1308,10 +1308,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <!-- MENU PRO -->
 <div class="menu-pro">
-  <a class="menu-pro-item active" id="inicio" href="#"><span>Inicio</span></a>
-  <a class="menu-pro-item" id="peliculas" href="#"><span>Peliculas</span></a>
-  <a class="menu-pro-item" id="series" href="#"><span>Series</span></a>
-  <a class="menu-pro-item" id="trailers" href="#"><span>Trailers</span></a>
+  <a class="menu-pro-item active" id="inicio" href="#">Inicio</a>
+  <a class="menu-pro-item" id="peliculas" href="#">Peliculas</a>
+  <a class="menu-pro-item" id="series" href="#">Series</a>
+  <a class="menu-pro-item" id="trailers" href="#">Trailers</a>
 </div>
 <!--MENU SUPERIOR COLORES Y-->
 <style>
@@ -1352,14 +1352,11 @@ body.red {
 }
 
 .menu-pro-item {
-  position: relative;
   color: var(--text);
   text-decoration: none;
   padding: 7px 14px;
   border-radius: 20px;
   transition: 0.25s;
-  overflow: hidden;
-  z-index: 1;
 }
 
 .menu-pro-item:hover {
@@ -1394,70 +1391,13 @@ body.red {
   --accent-text: #fff;
 }
 
-.menu-pro-item {
-  position: relative;
-  color: var(--text);
-  text-decoration: none;
-  padding: 7px 14px;
-  border-radius: 20px;
-  transition: 0.25s;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* TEXTO ENCIMA */
-.menu-pro-item span {
-  position: relative;
-  z-index: 2;
-}
-
-/* ITEM ACTIVO */
 .menu-pro-item.active {
-  color: var(--text);
+  background: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
-}
 
-/* 🌈 BORDE ARCOIRIS */
-.menu-pro-item.active::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 20px;
-
-  background: conic-gradient(
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00f7ff,
-    #0066ff,
-    #a200ff,
-    #ff0000
-  );
-
-  animation: giroMenu 6s linear infinite;
-  z-index: 0;
-}
-
-/* FONDO INTERNO */
-.menu-pro-item.active::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: var(--card);
-  border-radius: 18px;
-  z-index: 1;
-}
-
-/* HOVER NORMAL */
-.menu-pro-item:hover {
-  transform: scale(1.05);
-}
-
-/* ANIMACIÓN */
-@keyframes giroMenu {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  /* 🔥 sombra para que destaque */
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
 }
 
 
@@ -1961,7 +1901,7 @@ document.querySelectorAll('.card-link').forEach(link => {
   <br><br>
 
   <div class="poster">
-    <h4 class="alignleft"><span>Series Incompletas</span></h4><a href="#"></a>
+    <h4 class="alignleft"><span>Series Inompletas</span></h4><a href="#"></a>
   </div>
 
   <div class="scrollmenu">
@@ -2078,7 +2018,7 @@ document.querySelectorAll('.card-link').forEach(link => {
 
     -->
 
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=frozen_2">
+    <a class="card-link" href="View Peliculas/Reproductor Universal.php?id=frozen_2">
       <div class="xplus">
         <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg"/>
         <i>Frozen 2</i>
@@ -2711,7 +2651,7 @@ const data = {
   "peliculas": `
 
     <div class="poster">
-      <h4 class="alignleft"><span>Peliculas <br/>Agregadas</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Peliculas <br/>Agregadas</h4><a href="Mostras Mas/Peliculas Agregadas.html"><h4 class="alignright">Ver Todo</h4></a></div>
     </div>
 
     <div class="scrollmenu">
@@ -2849,12 +2789,12 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Acción</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Accion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
       <br>
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=avatar_3">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vHtH4xdcTbaCVftGwaeGFHfOB3p.jpg"/>
           <i>Avatar 3: fuegos y Ceniza</i>
@@ -2862,7 +2802,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=karate_kid_4">
         <div class="xplus">
           <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg"/>
           <i>Karate Kid: Legends</i>
@@ -2870,7 +2810,7 @@ const data = {
         </div>
       </a>
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=novocaine">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg"/>
           <i>Novocaine: Sin dolor</i>
@@ -2878,7 +2818,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=g20">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/xihssRPgRDZ7xwIjx3xuPTnqPfU.jpg"/>
           <i>G20</i>
@@ -2886,7 +2826,7 @@ const data = {
         </div>
       </a> 
 
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=pecadores">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/gL6puhup6PXqrKqItWbGA8LF529.jpg"/>
           <i>Los pecadores</i>
@@ -2894,7 +2834,7 @@ const data = {
         </div>
       </a> 
     
-      <a class="card-link" data-href="">
+      <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=k.o">
         <div class="xplus">
           <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg"/>
           <i>K.O</i>
@@ -2994,7 +2934,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Artes-Marciales</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Artes-Marciales</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3052,7 +2992,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Animación</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Animacion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3166,7 +3106,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Anime Pelicula</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Anime Peliculas</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3255,7 +3195,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Comedia</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Comedia</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3346,7 +3286,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Crimen</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Crimen</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3404,7 +3344,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Deporte</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Deportes</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3429,7 +3369,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Drama</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Drama</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3544,7 +3484,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Disney</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Disney</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3659,7 +3599,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Guerra</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Guerra</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3741,7 +3681,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Marvel</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Marvel</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3847,7 +3787,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Musica</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Musica</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -3898,7 +3838,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Romance</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Romance</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4005,7 +3945,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Suspenso</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Suspenso</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4070,8 +4010,8 @@ const data = {
 
     <br><br>
 
-   <div class="poster">
-      <h4 class="alignleft"><span>Terror</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+    <div class="poster">
+      <h4 class="alignleft">Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4141,7 +4081,7 @@ const data = {
 
   "series": `
     <div class="poster">
-      <h4 class="alignleft"><span>Disponible</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Disponible</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4158,7 +4098,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Animes</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Anime</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4196,7 +4136,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Acción</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Accion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4213,7 +4153,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Biblico</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Biblico</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4237,7 +4177,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Drama</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Drama</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4282,7 +4222,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Marvel</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Marvel</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4306,7 +4246,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Terror</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4342,7 +4282,7 @@ const data = {
 
   "trailers": `
     <div class="poster">
-      <h4 class="alignleft"><span>2025</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4424,7 +4364,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Acción</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Accion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4465,7 +4405,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Animación</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Animacion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4482,7 +4422,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Series</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Serie</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4499,7 +4439,7 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Marvel</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Marvel</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
@@ -4516,15 +4456,15 @@ const data = {
     <br><br>
 
     <div class="poster">
-      <h4 class="alignleft"><span>Terror</span></h4><a href="Mostras Mas/Agregado hoy.php"><h4 class="alignright"><span>Ver Todo</span></h4></a>
+      <h4 class="alignleft">Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
     </div>
 
     <div class="scrollmenu">
       <br>
-    
+
       <a class="card-link" data-href="View Peliculas/Reproductor Universal.php?id=terrifier_3">
         <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/63xYQj1BwRFielxsBDXvHIJyXVm.jpg"/>
+          <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/63xYQj1BwRFielxsBDXvHIJyXVm.jpg"/>
           <i>Terrifier 3</i>
           <span class="lock-icon">🔒</span>
         </div>

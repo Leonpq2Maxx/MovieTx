@@ -1,3 +1,101 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -530,13 +628,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div class="generos">
       <button class="genero-btn">Accion</button>
-      <button class="genero-btn">Animación</button>
+      <button class="genero-btn">Animacion</button>
       <button class="genero-btn">Anime</button>
       <button class="genero-btn">Comedia</button>
-      <button class="genero-btn">Disney</button>
-      <button class="genero-btn">Terror</button>
-      <button class="genero-btn">Romance</button>
+      <button class="genero-btn">Crimen</button>
       <button class="genero-btn">Drama</button>
+      <button class="genero-btn">Documental</button>
+      <button class="genero-btn">Disney</button>
+      <button class="genero-btn">Marvel</button>
+      <button class="genero-btn">Musical</button>
+      <button class="genero-btn">Romance</button>
+      <button class="genero-btn">Terror</button>
     </div>
 
     <button class="reset-btn" id="resetGenero">
@@ -554,7 +656,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <div class="movie-grid" id="movie-grid">
 
-    <!--SERIE-->
+  <div class="movie locked" data-tipo="serie" data-titulo="baki dou el samurai invencible" data-tipo="serie" data-genero="anime animacion pelea accion" data-anio="2026" data-html="../View Series/.html" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2026</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Baki-Dou: El samurái invencible</p>
+    </div>
+
     <div class="movie locked" data-tipo="serie" data-titulo="en el barro" data-tipo="serie" data-genero="drama suspenso novela" data-anio="2025" data-html="../View Series/En el barro (2025).php" data-fecha="2026-01-">
       <span class="SerieHd">Serie</span>
       <span class="year-tog">2025</span>
@@ -563,9 +673,25 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>En el barro</p>
     </div>
-    <!--FIN-->
 
-    <!--SERIE-->
+    <div class="movie locked" data-tipo="serie" data-titulo="it bienvenido a derry" data-tipo="serie" data-genero="terror misterio" data-anio="2025" data-html="../View Series/IT Bienvenidos a Derry (2025).php" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2025</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>It: Bienvenido a Derry</p>
+    </div>
+
+    <div class="movie locked" data-tipo="serie" data-titulo="agatha quien si no" data-tipo="serie" data-genero="marvel drama misterio accion" data-anio="2024" data-html="../View Series/Agatha (2024).php" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2024</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/nbkbguUUNWQZygVJKjODyELBQk9.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Agatha ¿Quien si no?</p>
+    </div>
+    
     <div class="movie locked" data-tipo="serie" data-titulo="from" data-tipo="serie" data-genero="suspenso terror misterio" data-anio="2022" data-html="../View Series/FROM (2022).php" data-fecha="2026-01-">
       <span class="SerieHd">Serie</span>
       <span class="year-tog">2022</span>
@@ -574,9 +700,25 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>FROM</p>
     </div>
-    <!--FIN-->
 
-    <!--SERIE-->
+    <div class="movie locked" data-tipo="serie" data-titulo="blue lock" data-tipo="serie" data-genero="anime animacion futbol" data-anio="2022" data-html="../View Series/Blue Lock (2022).php" data-fecha="2026-04-01-">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2022</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1DFhWgHKzzlzAvrmK8ZzLx4XcTY.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Blue Lock</p>
+    </div>
+
+    <div class="movie locked" data-tipo="serie" data-titulo="el juego del calamar" data-tipo="serie" data-genero="drama misterio crimen" data-anio="2021" data-html="../View Series/.html" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2021</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El juego del calamar</p>
+    </div>
+
     <div class="movie locked" data-tipo="serie" data-titulo="baki" data-tipo="serie" data-genero="accion pelea animacion anime" data-anio="2018" data-html="../View Series/Baki (2018).php" data-fecha="2026-03-23">
       <span class="SerieHd">Serie</span>
       <span class="year-tog">2018</span>
@@ -585,6 +727,34 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p> Baki</p>
     </div>
+
+    <div class="movie locked" data-tipo="serie" data-titulo="moises y los diez mandamientos" data-tipo="serie" data-genero="drama biblico" data-anio="2015" data-html="../View Series/Moises y los diez mandamientos (2015).php" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2015</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Moises y los diez mandamientos</p>
+    </div>
+
+    <div class="movie locked" data-tipo="serie" data-titulo="avenida brasil" data-tipo="serie" data-genero="drama crimen misterio" data-anio="2012" data-html="../View Series/Avenida Brasil (2012).php" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2012</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Avenida Brasil</p>
+    </div>
+
+    <div class="movie locked" data-tipo="serie" data-titulo="the walking dead" data-tipo="serie" data-genero="drama apocalipsis zombie terror" data-anio="2010" data-html="../View Series/The Walking Dead (2010).php" data-fecha="2026-04-01">
+      <span class="SerieHd">Serie</span>
+      <span class="year-tog">2010</span>
+      <span class="year-tagg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/9iYinsg30olSCuDoH8VxtRN5gZx.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>The Walking Dead</p>
+    </div>
+
     <!--FIN-->
 
     <!--SERIE
@@ -606,7 +776,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p></p>
     </div>
-    <!--FIN-->
+    FIN-->
     
   </div>
   <div id="no-results" class="no-results">Pelicula o serie no encontrada</div> <!--ESTABA PUESTO "No se encontraron resultados 😕"-->
@@ -657,6 +827,27 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="closeAlert">Aceptar</button>
   </div>
 </div>
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
 
 <style>
 

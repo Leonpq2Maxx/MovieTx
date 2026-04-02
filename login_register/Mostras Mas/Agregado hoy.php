@@ -1,3 +1,101 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -597,7 +695,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sidelined 2: Interceptado</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="five nights at freddys 2" data-genero="terror misterio suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=five_night_at_freddy_2" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="five nights at freddys 2" data-genero="terror misterio suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=five_night_at_freddy_2" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -850,7 +948,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cantar desnuda</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el ladron romantico" data-genero="drama crimen romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=el_ladron_de_joyas" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el ladron romantico" data-genero="drama crimen romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=el_ladron_de_joyas" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -886,7 +984,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El astronauta</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo 2" data-genero="drama terror suspenso crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=el_hoyo_2" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo 2" data-genero="drama terror suspenso crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_hoyo_2" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1453,7 +1551,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>365 Dias 2: Aquel dia</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.html?id=encanto" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=encanto" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2021</span>
       <span class="year-tegg">HD</span>
@@ -1598,7 +1696,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Aladdin</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo" data-genero="drama terror suspenso crimen" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=el_hoyo" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo" data-genero="drama terror suspenso crimen" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=el_hoyo" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2674,6 +2772,27 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="closeAlert">Aceptar</button>
   </div>
 </div>
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
 
 <style>
 

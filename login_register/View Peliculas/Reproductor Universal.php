@@ -128,17 +128,59 @@ if (isset($_GET['check_status'])) {
     }
 
     .info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      border: 1px solid rgba(16, 235, 255, 0.461);
-      border-radius: 10px;
-      margin: 10px;
-      font-size: 14px;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 12px;
+  margin: 10px;
+  font-size: 14px;
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* 🌈 BORDE ARCOIRIS CONTENEDOR */
+.info::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+
+  background: conic-gradient(
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00f7ff,
+    #0066ff,
+    #a200ff,
+    #ff0000
+  );
+
+  animation: giroInfo 8s linear infinite;
+  z-index: 0;
+}
+
+/* FONDO INTERNO */
+.info::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #000; /* mantiene tu fondo */
+  border-radius: 10px;
+  z-index: 1;
+}
+
+/* CONTENIDO ENCIMA */
+.info * {
+  position: relative;
+  z-index: 2;
+}
+
     .info i {
       display: flex;
       align-items: center;
@@ -158,6 +200,56 @@ if (isset($_GET['check_status'])) {
     .recomendaciones {
       padding: 10px;
     }
+    .recomendaciones h4 {
+  position: relative;
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 12px;
+  color: #fff;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.recomendaciones h4::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+
+  background: conic-gradient(
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00f7ff,
+    #0066ff,
+    #a200ff,
+    #ff0000
+  );
+
+  animation: giroInfo 8s linear infinite;
+  z-index: 0;
+}
+
+.recomendaciones h4::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #000;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.recomendaciones h4 span {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes giroInfo {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
     .series-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -647,60 +739,65 @@ if (window.performance && window.performance.navigation.type === 2) {
 </style>
 
 <script>
-const loader = document.getElementById('loader-screen');
-const bar = document.getElementById('loading-fill');
-const percent = document.getElementById('loading-percent');
+document.addEventListener("DOMContentLoaded", () => {
 
-let progreso = 0;
-let terminado = false;
+  const loader = document.getElementById('loader-screen');
+  const bar = document.getElementById('loading-fill');
+  const percent = document.getElementById('loading-percent');
 
-// 🔥 Animación falsa fluida (no depende de imágenes)
-let anim = setInterval(() => {
-  if (progreso < 90) {
-    progreso += 2;
-    actualizar();
+  // 🔒 Si no existe el loader, no rompe nada
+  if (!loader || !bar || !percent) return;
+
+  let progreso = 0;
+  let terminado = false;
+
+  // 🔥 Animación controlada
+  const anim = setInterval(() => {
+    if (progreso < 90) {
+      progreso += 1.5; // más suave
+      actualizar();
+    }
+  }, 60);
+
+  function actualizar() {
+    if (!bar || !percent) return;
+
+    progreso = Math.min(progreso, 100);
+    bar.style.width = progreso + "%";
+    percent.textContent = Math.floor(progreso) + "%";
   }
-}, 80);
 
-function actualizar() {
-  if (bar) bar.style.width = progreso + "%";
-  if (percent) percent.textContent = progreso + "%";
-}
+  function finalizar() {
+    if (terminado) return;
+    terminado = true;
 
-function finalizar() {
-  if (terminado) return;
-  terminado = true;
+    clearInterval(anim);
 
-  progreso = 100;
-  actualizar();
+    // 🔥 subida final limpia
+    const finalAnim = setInterval(() => {
+      if (progreso < 100) {
+        progreso += 2;
+        actualizar();
+      } else {
+        clearInterval(finalAnim);
 
-  clearInterval(anim);
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 300);
+      }
+    }, 20);
+  }
 
+  // ✅ SOLO cuando todo cargó
+  window.addEventListener("load", () => {
+    setTimeout(finalizar, 200);
+  });
+
+  // ✅ fallback seguro (por si algo falla)
   setTimeout(() => {
-    if (loader) loader.classList.add("hidden");
-  }, 500);
-}
-
-// 🔥 CUANDO TODO CARGA
-window.addEventListener("load", () => {
-  setTimeout(finalizar, 300);
-});
-
-// 🔥 FALLBACK (EVITA BLOQUEO)
-setTimeout(() => {
-  finalizar();
-}, 2500);
-
-// 🔥 SI HAY ERROR
-window.onerror = function () {
-  finalizar();
-};
-
-// 🔥 SI EL USUARIO SALE Y VUELVE
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") {
     finalizar();
-  }
+  }, 3500);
+
 });
 </script>
 
@@ -1183,7 +1280,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   <div class="info-pelicula">
     <h1><!--Nombre de pelicula--></h1>
-    <span class="genero-badge"><!--Genero • Genero--></span>
+    <span class="genero-badge">
+  <span id="genero-texto"></span>
+</span>
   
     <p class="sinopsis">
       <!--Sinopsis-->
@@ -5612,7 +5711,7 @@ document.addEventListener('DOMContentLoaded', () => {
     adulto: false,      // true si es +18
     sinopsis: "Cato, un artista de hip-hop que justo cuando su carrera está a punto de despegar, se mete en problemas con la ley y una red organizada violentamente de hooligans del fútbol argentino.",
     anio: "2021",
-    duracion: "0h 008min",
+    duracion: "1h 54min",
     calificacion: "85%",
     genero: "Musica • Drama",
     director: "Peta Rivero Y Hornos",
@@ -11031,7 +11130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recomendaciones: [
       {
         id: "five_night_at_freddy",
-        titulo: "Five night at Freddy´s",
+        titulo: "Five nights at Freddy´s",
         imagen: "https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg"
       },
       {
@@ -15277,7 +15376,7 @@ function cargarDatosPelicula() {
   document.querySelector(".info-pelicula h1").textContent = movie.titulo;
 
   document.querySelector(".sinopsis").textContent = movie.sinopsis;
-  document.querySelector(".genero-badge").textContent = movie.genero;
+  document.getElementById("genero-texto").textContent = movie.genero;
 
   // Ficha técnica
   document.querySelector(".ficha-tecnica").innerHTML = `
@@ -15835,18 +15934,63 @@ const tipo = movie.tipo || "pelicula";
     }
 
     .genero-badge {
-      padding: 4px 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: rgba(255, 0, 81, 1);
-      border: 1px solid rgba(255, 0, 81, 1);
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-style: normal;
-      max-width: 135px;          /* Limita el ancho máximo */
-      white-space: nowrap;       /* No saltar de línea */
-      overflow: hidden;          /* Oculta el exceso */
-      text-overflow: ellipsis;   /* Agrega los ... */
-    }
+  position: relative;
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 12px;
+  margin: 10px;
+  overflow: hidden;
+
+  color: white;
+  font-weight: 600;
+
+  z-index: 1;
+}
+
+.genero-badge::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+
+  background: conic-gradient(
+    red,
+    orange,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    violet,
+    red
+  );
+
+  animation: giroInfo 8s linear infinite;
+  z-index: 0;
+}
+.genero-badge::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #000;
+  border-radius: 10px;
+  z-index: 0; /* 🔥 BAJAMOS */
+}
+
+.genero-badge span {
+  position: relative;
+  z-index: 1;
+  color: white;
+
+  font-size: 12px;      /* 🔥 más chico */
+  letter-spacing: 0.5px; /* 🔥 más fino */
+}
+
+
+.genero-badge {
+  position: relative;
+  z-index: 2;
+}
+
 
     .titulo {
       font-size: 0.7rem;
@@ -15868,26 +16012,12 @@ const tipo = movie.tipo || "pelicula";
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    .genero-badge {
-      padding: 4px 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: rgba(255, 0, 81, 1);
-      border: 1px solid rgba(255, 0, 81, 1);
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-style: normal;
-      max-width: 135px;          /* Limita el ancho máximo */
-      white-space: nowrap;       /* No saltar de línea */
-      overflow: hidden;          /* Oculta el exceso */
-      text-overflow: ellipsis;   /* Agrega los ... */
-    }
     
   </style>
 
   <div class="recomendaciones">
-    <h4>Podría interesarte:</h4>
-    <br/>
+    <h4><span>Podría interesarte:</span></h4>
+    <br><br>
     <div class="series-grid">
       <a href="" class="serie">
         <img loading="lazy" src="https://image.tmdb.org/t/p/w300/" alt="">

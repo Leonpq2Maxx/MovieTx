@@ -1,3 +1,101 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -597,7 +695,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
   
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el vinculo sueca" data-genero="drama guerra historia" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=la_conexion_sueca" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el vinculo sueca" data-genero="drama guerra historia" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=la_conexion_sueca" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -606,7 +704,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El vínculo sueca</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="love me love me" data-genero="romance drama" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=love_me_love_me" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="love me love me" data-genero="romance drama" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=love_me_love_me" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -615,7 +713,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Love me, Love me</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=la_empleada" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=la_empleada" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -624,7 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>La empleada</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sidelined 2" data-genero="comedia romance" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.html?id=sidelined_2" data-fecha="2026-02-19">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sidelined 2" data-genero="comedia romance" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=sidelined_2" data-fecha="2026-02-19">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -633,7 +731,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sidelined 2: Interceptado</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi año en oxford" data-genero="romance comedia drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=mi_año_en_oxford" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi año en oxford" data-genero="romance comedia drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=mi_año_en_oxford" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -642,7 +740,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Mi año en Oxford</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="depredador tierras salvajes" data-genero="accion ciencia ficcion aventura" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=depredador_tierras_salvajes" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="depredador tierras salvajes" data-genero="accion ciencia ficcion aventura" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=depredador_tierras_salvajes" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -651,7 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Depredador: Tierras salvajes</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="encerrado" data-genero="terror suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=encerrado_2025" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="encerrado" data-genero="terror suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=encerrado_2025" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -660,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Encerrado</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="ojala estuvieras aqui" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=ojala_estuvieras_aqui" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="ojala estuvieras aqui" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=ojala_estuvieras_aqui" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -669,7 +767,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Ojala estuvieras aqui</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="minecraft" data-genero="accion aventura comedia fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=minecraft" data-fecha="2026-02-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="minecraft" data-genero="accion aventura comedia fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=minecraft" data-fecha="2026-02-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -680,7 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <!-- 
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="avatar 3 fuego y cenizas" data-genero="ciencia ficcion aventura accion fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=bob_esponja_4_en_busca_de_los_pantalones_Cuadrados" data-fecha="2026-01-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="avatar 3 fuego y cenizas" data-genero="ciencia ficcion aventura accion fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_4_en_busca_de_los_pantalones_Cuadrados" data-fecha="2026-01-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -689,7 +787,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Avtar 3: Fuego y ceniza</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 4 en busca de los pantalones cuadrados" data-genero="animacion aventura familia niños comedia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=bob_esponja_4_en_busca_de_los_pantalones_Cuadrados" data-fecha="2026-01-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 4 en busca de los pantalones cuadrados" data-genero="animacion aventura familia niños comedia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_4_en_busca_de_los_pantalones_Cuadrados" data-fecha="2026-01-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -700,7 +798,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="los pitufos" data-genero="animacion aventura fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=lospitufos_2025" data-fecha="2026-01-20">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los pitufos" data-genero="animacion aventura fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lospitufos_2025" data-fecha="2026-01-20">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -709,7 +807,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Los Pitulos</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="five nights at freddys 2" data-genero="terror misterio suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=five_night_at_freddy_2" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="five nights at freddys 2" data-genero="terror misterio suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=five_night_at_freddy_2" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -739,7 +837,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="poseida" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=poseida" data-fecha="2026-01-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="poseida" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=poseida" data-fecha="2026-01-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -748,7 +846,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Poseída</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sonic 3" data-genero="animacion comedia ciencia ficcion familiar" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=sonic_3" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sonic 3" data-genero="animacion comedia ciencia ficcion familiar" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=sonic_3" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -757,7 +855,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sonic 3: La pelicula</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="zootopia 2" data-genero="animacion aventura comedia familia infantil niños disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=zootopia_2" data-fecha="2025-12-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="zootopia 2" data-genero="animacion aventura comedia familia infantil niños disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=zootopia_2" data-fecha="2025-12-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -777,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Demon Slayer: Kimetsu no Yaiba – Castillo Infinito</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="until dawn noche de terror" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=until_dawn_noche_de_terror" data-fecha="2025-12-29">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="until dawn noche de terror" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=until_dawn_noche_de_terror" data-fecha="2025-12-29">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -906,7 +1004,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Extraterritorial</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 6 lazos de sangre" data-genero="terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final_6" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 6 lazos de sangre" data-genero="terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final_6" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -915,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Destino final 6: Lazos de sangre</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 4 un nuevo mundo" data-genero="heroes marvel ciencia ficcion accion" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=capitan_america4" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 4 un nuevo mundo" data-genero="heroes marvel ciencia ficcion accion" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=capitan_america4" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -924,7 +1022,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Capitán América 4: Un nuevo mundo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="almas marcadas rule + shaw" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=almas_marcadas" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="almas marcadas rule + shaw" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=almas_marcadas" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -933,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Almas marcadas: Rule + Shaw</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa nuestra" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=culpa_nuestra_3" data-fecha="2025-11-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa nuestra" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=culpa_nuestra_3" data-fecha="2025-11-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -942,7 +1040,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Culpa nuestra</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon" data-genero="aventura ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=como_entrenar_a_tu_dragon" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon" data-genero="aventura ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -978,7 +1076,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Karol G: Mañana fue muy bonito</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-tipo="pelicula" data-genero="animacion fantasia familia disney princesas" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=blancanieves" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-tipo="pelicula" data-genero="animacion fantasia familia disney princesas" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=blancanieves" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -987,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Blancanieves</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa mia londres 2" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=culpa_mia_2" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa mia londres 2" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=culpa_mia_2" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -996,7 +1094,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Culpa mia: Londres</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="corazon delator" data-genero="drama romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=corazon_delator" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="corazon delator" data-genero="drama romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=corazon_delator" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1005,7 +1103,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Corazón delator</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="contraataque" data-genero="accion suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=contraataque" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="contraataque" data-genero="accion suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=contraataque" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1014,7 +1112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Contraataque</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bala perdida 3" data-genero="accion suspenso crimen" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=bala_perdida_3" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bala perdida 3" data-genero="accion suspenso crimen" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=bala_perdida_3" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1023,7 +1121,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bala perdida 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="1978 argentina" data-genero="terror argentina" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=argen_1978_a" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="1978 argentina" data-genero="terror argentina" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=argen_1978_a" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1041,7 +1139,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Echo valley</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el ladron romantico" data-genero="drama crimen romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=el_ladron_de_joyas" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el ladron romantico" data-genero="drama crimen romance" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=el_ladron_de_joyas" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1050,7 +1148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El ladron romantico</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="amateur" data-genero="accion suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=amateur" data-fecha="2025-30-10">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="amateur" data-genero="accion suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=amateur" data-fecha="2025-30-10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1059,7 +1157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Amateur</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cantar desnuda" data-adulto="true" data-genero="musica adulto porno documental" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=cantar_desnuda" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cantar desnuda" data-adulto="true" data-genero="musica adulto porno documental" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=cantar_desnuda" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1068,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cantar desnuda</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="banger" data-genero="musical comedia pelicula" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=banger" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="banger" data-genero="musical comedia pelicula" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=banger" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1077,7 +1175,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Banger</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="pideme lo que quieras" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=pideme_lo_que_quieras" data-fecha="2026-02-22">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pideme lo que quieras" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=pideme_lo_que_quieras" data-fecha="2026-02-22">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1086,7 +1184,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Pideme lo que quieras</p>
     </div>
     
-    <div class="movie locked" data-tipo="pelicula" data-titulo="kung fu panda 4" data-genero="animacion aventura fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=kung_fu_panda_4" data-fecha="2026-01-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="kung fu panda 4" data-genero="animacion aventura fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=kung_fu_panda_4" data-fecha="2026-01-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1113,7 +1211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El mono</p>
     </div>
     
-    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente 2" data-genero="animacion drama aventura fantasia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=intensamente_2" data-fecha="2026-01-20">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente 2" data-genero="animacion drama aventura fantasia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=intensamente_2" data-fecha="2026-01-20">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1122,7 +1220,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Intensamente 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="alarum codigo letal" data-genero="accion suspenso crimen" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.html?id=alarum_codigo_letal" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alarum codigo letal" data-genero="accion suspenso crimen" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=alarum_codigo_letal" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
@@ -1131,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Alarum: Código letal</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="moana 2" data-genero="animacion aventura disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=moana_2" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="moana 2" data-genero="animacion aventura disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=moana_2" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1140,7 +1238,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Moana 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bambi una vida en el bosque" data-genero="aventura documental familia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=bambi_una_vida_en_el_bosque_2024" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bambi una vida en el bosque" data-genero="aventura documental familia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=bambi_una_vida_en_el_bosque_2024" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1158,7 +1256,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El Arca De Noé</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool 3 y wolverine" data-genero="accion heroes marvel ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=deadpool_y_wolverine" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool 3 y wolverine" data-genero="accion heroes marvel ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=deadpool_y_wolverine" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1167,7 +1265,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Deadpool y Wolverine</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="baki hanma vs kengan ashura" data-genero="animacion anime fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=baki_hanma_vs_kengan_ashura" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="baki hanma vs kengan ashura" data-genero="animacion anime fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=baki_hanma_vs_kengan_ashura" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1176,7 +1274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Baki Hanma VS Kengan Ashura</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="azrael" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=azrael" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="azrael" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=azrael" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1185,7 +1283,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Azrael</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas" data-genero="drama comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=chicas_malas_2024" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas" data-genero="drama comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=chicas_malas_2024" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1194,7 +1292,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Chicas malas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="babygirl deseo prohibido" data-genero="romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=babygirls" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="babygirl deseo prohibido" data-genero="romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=babygirls" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1203,7 +1301,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Babygirl: Deseo prohibido</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="beekeeper sentencia de muerte" data-genero="accion crimen suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=sentencia_de_muerte" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="beekeeper sentencia de muerte" data-genero="accion crimen suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=sentencia_de_muerte" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1212,7 +1310,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Beekeeper: Sentencia de muerte</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="anora" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=anora" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="anora" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=anora" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1221,7 +1319,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Anora</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="damsel" data-genero="drama accion fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=damsel" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="damsel" data-genero="drama accion fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=damsel" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1230,7 +1328,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Damsel</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="atrapados en lo profundo del mar atrapados en el abismo" data-genero="terror suspenso tiburones" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=atrapados_en_lo_profundo" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="atrapados en lo profundo del mar atrapados en el abismo" data-genero="terror suspenso tiburones" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=atrapados_en_lo_profundo" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1239,7 +1337,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Atrapados en lo Profundo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="asesino serial" data-genero="crimen suspenso terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=asesino_serial" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="asesino serial" data-genero="crimen suspenso terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=asesino_serial" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1248,7 +1346,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Asesino serial</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="diario de mi vagina" data-genero="drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=diario_de_mi_vagina" data-fecha="2025-11-30">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="diario de mi vagina" data-genero="drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=diario_de_mi_vagina" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1275,7 +1373,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Godzilla y Kong: El nuevo imperio</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="60 minutos" data-genero="accion mma peleas " data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=secenta_minutos" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="60 minutos" data-genero="accion mma peleas " data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=secenta_minutos" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1284,7 +1382,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>60 Minutos acechados por el mal</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="Detonantes" data-genero="accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=detonantes" data-fecha="2025-11-30">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="Detonantes" data-genero="accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=detonantes" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1293,7 +1391,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Detonantes</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa tuya 1" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=culpa_tuya" data-fecha="2025-10-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="culpa tuya 1" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=culpa_tuya" data-fecha="2025-10-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1302,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Culpa tuya</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="codigo 8 parte 2" data-genero="accion crimen ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=codigo_8_parte_2" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="codigo 8 parte 2" data-genero="accion crimen ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=codigo_8_parte_2" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1311,7 +1409,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Codigo 8: Parte 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="desaparecidos en la noche" data-genero="drama misterio suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=desaparecidos_en_la_noche" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="desaparecidos en la noche" data-genero="drama misterio suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=desaparecidos_en_la_noche" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1320,7 +1418,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Desaparecidos en la noche</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="abigail" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=abigail" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="abigail" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=abigail" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1340,7 +1438,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <!--
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 4" data-genero="animacion aventura comedia familia accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=mi_villano_favorito_4" data-fecha="2026-02-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 4" data-genero="animacion aventura comedia familia accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito_4" data-fecha="2026-02-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1377,7 +1475,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Frida</p>
     </div>
 
-    <div class="movie locked"  data-tipo="pelicula"data-titulo="Al rescate de fondo de Bikini bob esponja" data-genero="animacion aventura comedia familia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=al_rescate_de_fondo_de_bikini_la_película_de_arenita_mejillas" data-fecha="2025-10-12">
+    <div class="movie locked"  data-tipo="pelicula"data-titulo="Al rescate de fondo de Bikini bob esponja" data-genero="animacion aventura comedia familia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=al_rescate_de_fondo_de_bikini_la_película_de_arenita_mejillas" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1435,7 +1533,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="desafiantes rivales" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=desafiante_rivales" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="desafiantes rivales" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=desafiante_rivales" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1444,7 +1542,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Desafiantes Rivales</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="Winnie the pooh 2 el bosque sangriento" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=winnie_the_pooh_2" data-fecha="2026-02-29">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="Winnie the pooh 2 el bosque sangriento" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=winnie_the_pooh_2" data-fecha="2026-02-29">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1462,7 +1560,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El planeta de los simios 4: Un nuevo reino</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sonrie 2" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=sonrie_2" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sonrie 2" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=sonrie_2" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1471,7 +1569,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sonrie 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sugar baby" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=sugar_baby" data-fecha="2026-02-13">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sugar baby" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=sugar_baby" data-fecha="2026-02-13">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1480,7 +1578,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sugar baby</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo 2" data-genero="drama terror suspenso crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=el_hoyo_2" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo 2" data-genero="drama terror suspenso crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_hoyo_2" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1489,7 +1587,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El hoyo 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 4 hasta la muerte" data-genero="comedia accion crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=bad_boys_4" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 4 hasta la muerte" data-genero="comedia accion crimen" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=bad_boys_4" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1498,7 +1596,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bad boys 4: Hasta la muerte</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier 3" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=terrifier_3" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier 3" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=terrifier_3" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1536,7 +1634,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="millers girl" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=millers_girl" data-fecha="2026-02-13">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="millers girl" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=millers_girl" data-fecha="2026-02-13">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1545,7 +1643,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Miller's Girl</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="venom 3 el ultimo baile" data-genero="marvel accion ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=venom_3" data-fecha="2026-01-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="venom 3 el ultimo baile" data-genero="marvel accion ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=venom_3" data-fecha="2026-01-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1554,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Venom 3: El último baile</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="baghead contacto con la muerte" data-genero="terror suspenso misterio" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.html?id=baghead_contacto_con_la_muerte" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="baghead contacto con la muerte" data-genero="terror suspenso misterio" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=baghead_contacto_con_la_muerte" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
       <span class="year-tegg">HD</span>
@@ -1563,7 +1661,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Baghead: Contacto con la muerte</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man cruzando el multiverso spider man 2" data-genero="accion aventura animacion marvel" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=spiderman_man_cruzando_el_multi_verso_2" data-fecha="2026-01-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man cruzando el multiverso spider man 2" data-genero="accion aventura animacion marvel" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=spiderman_man_cruzando_el_multi_verso_2" data-fecha="2026-01-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1572,7 +1670,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Spider-Man: Cruzando el Multi-Verso</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="after 4 aquí acaba todo" data-genero="romance drama" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=after_4" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="after 4 aquí acaba todo" data-genero="romance drama" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=after_4" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1619,7 +1717,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Evil Dead: El despertar</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como matar a mama" data-genero="comedia drama" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=como_matar_a_mama" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como matar a mama" data-genero="comedia drama" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=como_matar_a_mama" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1637,7 +1735,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Five nights at freddy´s</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="blue Beetle" data-genero="accion heroe ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=blue_beetle" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="blue Beetle" data-genero="accion heroe ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=blue_beetle" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1664,7 +1762,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Elemental</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="anna nicole smith tu no me conoces" data-genero="documentacion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=anna_nicole_smith" data-fecha="2025-30-10">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="anna nicole smith tu no me conoces" data-genero="documentacion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=anna_nicole_smith" data-fecha="2025-30-10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1694,7 +1792,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cementerio de animales 2" data-genero="terror misterio sobrentural" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=cementerio_de_animales_2" data-fecha="2025-11-17">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cementerio de animales 2" data-genero="terror misterio sobrentural" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=cementerio_de_animales_2" data-fecha="2025-11-17">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1721,7 +1819,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Freestyle</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="crater un viaje inolvidable" data-genero="accion disney aventura fantasia ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=crater_un_viaje_inolvidable" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="crater un viaje inolvidable" data-genero="accion disney aventura fantasia ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=crater_un_viaje_inolvidable" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1785,7 +1883,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Gran turismo de jugador a corredor</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="winnie the pooh miel y sangre" data-genero="terror suspenso" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=winnie_the_pooh" data-fecha="2026-02-29">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="winnie the pooh miel y sangre" data-genero="terror suspenso" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=winnie_the_pooh" data-fecha="2026-02-29">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1794,7 +1892,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Winnie the Pooh: Miel y sangre</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="barbie" data-genero="comedia aventura musical" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=barbie" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="barbie" data-genero="comedia aventura musical" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=barbie" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -1803,7 +1901,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Barbie</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion fantasia disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.html?id=pinocho_2022" data-fecha="2026-02-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion fantasia disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho_2022" data-fecha="2026-02-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1940</span>
       <span class="year-tegg">HD</span>
@@ -1812,7 +1910,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Pinocho</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier 2" data-genero="terror" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=terrifier_2" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier 2" data-genero="terror" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=terrifier_2" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1821,7 +1919,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Terrifier 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z dragon ball super super hero" data-genero="animacion anime accion ciencia ficcion" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_super_super_hero" data-fecha="2026-02-27">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z dragon ball super super hero" data-genero="animacion anime accion ciencia ficcion" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_super_super_hero" data-fecha="2026-02-27">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1830,7 +1928,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Super: Super hero</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="after 3 amor infinito" data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=after_3" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="after 3 amor infinito" data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=after_3" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1839,7 +1937,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>After 3: Amor infinito</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 3 mas" data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=dias_365_3" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 3 mas" data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=dias_365_3" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1848,7 +1946,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>365 Dias 3: Mas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="lightyear" data-genero="animacion aventura familia disney toy story" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=lightyear" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lightyear" data-genero="animacion aventura familia disney toy story" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=lightyear" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1866,7 +1964,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Hotel Transylvania 4: Transformania</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sonrie" data-genero="terror" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=sonrie" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sonrie" data-genero="terror" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=sonrie" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1923,7 +2021,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
     
-    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 2 aquel dia " data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.html?id=dias_365_2" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 2 aquel dia " data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=dias_365_2" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
@@ -1941,7 +2039,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El conjuro 3: El diablo me obligo hacerlo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.html?id=encanto" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=encanto" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2021</span>
       <span class="year-tegg">HD</span>
@@ -1950,7 +2048,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Encanto</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cato" data-genero="musical drama" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.html?id=cato" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cato" data-genero="musical drama" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=cato" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2021</span>
       <span class="year-tegg">HD</span>
@@ -1986,7 +2084,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El juego del calamar</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sing 2 cantar" data-genero="animacion musical fantasia familia niños" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.html?id=sing_cantar_2" data-fecha="2026-01-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sing 2 cantar" data-genero="animacion musical fantasia familia niños" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=sing_cantar_2" data-fecha="2026-01-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2021</span>
       <span class="year-tegg">HD</span>
@@ -2035,7 +2133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="scooby ¡scooby!" data-genero="animacion aventura" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=scooby_2020" data-fecha="2025-10-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="scooby ¡scooby!" data-genero="animacion aventura" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=scooby_2020" data-fecha="2025-10-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2044,7 +2142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>¡Scooby!</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 3 un heroe al rescate" data-genero="animacion aventura fantasia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=bob_esponja_3" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 3 un heroe al rescate" data-genero="animacion aventura fantasia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_3" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2053,7 +2151,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bob Esponja 3: Un héroe al rescate</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="after 2 en mil pedazos" data-genero="romance drama" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=after_2" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="after 2 en mil pedazos" data-genero="romance drama" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=after_2" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2062,7 +2160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>After 2: En mil pedazos</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 1" data-genero="romance drama" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=dias_365" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 1" data-genero="romance drama" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=dias_365" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2071,7 +2169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>365 Dias</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="belleza negra" data-genero="drama caballo disney" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=belleza_negra" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="belleza negra" data-genero="drama caballo disney" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=belleza_negra" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2080,7 +2178,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Belleza negra</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 3 para siempre" data-genero="comedia accion crimen" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.html?id=bad_boys_3" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 3 para siempre" data-genero="comedia accion crimen" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=bad_boys_3" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2020</span>
       <span class="year-tegg">HD</span>
@@ -2089,7 +2187,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bad boys 3: Para siempre</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo" data-genero="drama terror suspenso crimen" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=el_hoyo" data-fecha="2026-03-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el hoyo" data-genero="drama terror suspenso crimen" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=el_hoyo" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2098,7 +2196,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El hoyo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="aventura disney comedia fantasia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=aladdin_2019" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="aventura disney comedia fantasia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin_2019" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2107,7 +2205,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Aladdin</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 3" data-genero="animacion aventura fantasia familia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=como_entrenar_a_tu_dragon_3" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 3" data-genero="animacion aventura fantasia familia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_3" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2116,7 +2214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cómo entrenar a tu dragón 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cementerio de animales 1" data-genero="terror misterio sobrentural" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=cementerio_de_animales" data-fecha="2025-11-17">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cementerio de animales 1" data-genero="terror misterio sobrentural" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=cementerio_de_animales" data-fecha="2025-11-17">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2125,7 +2223,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cementerio de animales</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="codigo 8 parte 1" data-genero="accion crimen ciencia ficcion" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=codigo_8" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="codigo 8 parte 1" data-genero="accion crimen ciencia ficcion" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=codigo_8" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2152,7 +2250,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El guasón</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 4" data-genero="animacion disney familia comedia aventura" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=toy_story_4" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 4" data-genero="animacion disney familia comedia aventura" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_4" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2161,7 +2259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Toy story 4</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="after 1 aqui empieza todo" data-genero="romance drama" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=after_2019" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="after 1 aqui empieza todo" data-genero="romance drama" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=after_2019" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2170,7 +2268,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>After: Aqui empieza todo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="anabelle annabelle 3 vuelve a casa" data-genero="terror" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.html?id=annabelle_3" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="anabelle annabelle 3 vuelve a casa" data-genero="terror" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=annabelle_3" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2019</span>
       <span class="year-tegg">HD</span>
@@ -2208,7 +2306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mara" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=mara" data-fecha="2026-02-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mara" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=mara" data-fecha="2026-02-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2226,7 +2324,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Hotel Transylvania 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man un nuevo universo" data-genero="accion aventura animacion marvel ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.html?id=spider_man_un_nuevo_universo" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man un nuevo universo" data-genero="accion aventura animacion marvel ciencia ficcion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=spider_man_un_nuevo_universo" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
@@ -2235,7 +2333,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Spider-Man: Un nuevo universo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="los vengadores infinity war" data-genero="accion marvel ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=los_vengadores_infinity_war" data-fecha="2026-01-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los vengadores infinity war" data-genero="accion marvel ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_vengadores_infinity_war" data-fecha="2026-01-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2244,7 +2342,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Los Vengadores: Infinity War</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier el inicio" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=terrifier" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier el inicio" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=terrifier" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2253,7 +2351,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Terrifier: El inicio</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z super broly" data-genero="animacion anime ciencia ficcion accion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_super_broly" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z super broly" data-genero="animacion anime ciencia ficcion accion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_super_broly" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2262,7 +2360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Super: Broly</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="yo tonya" data-genero="drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=yo_tonya" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="yo tonya" data-genero="drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=yo_tonya" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2271,7 +2369,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Yo, Tonya</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool 2" data-genero="accion marvel comedia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=deadpool_2" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool 2" data-genero="accion marvel comedia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=deadpool_2" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2280,7 +2378,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Deadpool 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="a ganar" data-genero="drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=a_ganar" data-fecha="2025-10-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="a ganar" data-genero="drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=a_ganar" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2302,7 +2400,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="moana" data-genero="animacion aventura disney" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=moana" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="moana" data-genero="animacion aventura disney" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=moana" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2311,7 +2409,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Moana</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey 3 liberadas" data-genero="romance drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=cincuenta_sombra_liberadas_3" data-fecha="2025-11-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey 3 liberadas" data-genero="romance drama" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=cincuenta_sombra_liberadas_3" data-fecha="2025-11-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2320,7 +2418,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cincuentas sombras 3: Liberadas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="steven universe la pelicula" data-genero="animacion ciencia ficcion aventura musical fantasia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=steven_universe_la_pelicula" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="steven universe la pelicula" data-genero="animacion ciencia ficcion aventura musical fantasia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=steven_universe_la_pelicula" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2329,7 +2427,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Steven Universe: La pelicula</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="venom " data-genero="marvel accion ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.html?id=venom" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="venom " data-genero="marvel accion ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=venom" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
       <span class="year-tegg">HD</span>
@@ -2338,7 +2436,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Venom</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 3" data-genero="animacion disney familia aventura" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=cars_3" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 3" data-genero="animacion disney familia aventura" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=cars_3" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2347,7 +2445,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cars 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="anabelle annabelle 2 la creacion" data-genero="terror" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=annabelle_2" data-fecha="2025-11-01">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="anabelle annabelle 2 la creacion" data-genero="terror" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=annabelle_2" data-fecha="2025-11-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2356,7 +2454,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Annabelle 2: La creación</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="thor 3 ragnarok" data-genero="accion marvel comedia ciencia ficcion" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=thor_3" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="thor 3 ragnarok" data-genero="accion marvel comedia ciencia ficcion" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=thor_3" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2365,7 +2463,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Thor 3: Ragnarok</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="coco" data-genero="animacion disney familia aventura musical" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=coco" data-fecha="2025-11-34">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="coco" data-genero="animacion disney familia aventura musical" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=coco" data-fecha="2025-11-34">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2383,7 +2481,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El planeta de los simios 3: La guerra</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 3" data-genero="animacion aventura comedia familia accion" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=mi_villano_favorito_3" data-fecha="2026-02-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 3" data-genero="animacion aventura comedia familia accion" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito_3" data-fecha="2026-02-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2403,7 +2501,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey 2 mas oscuras" data-genero="romance drama" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.html?id=cincuenta_sombras_más_oscuras_2" data-fecha="2025-11-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey 2 mas oscuras" data-genero="romance drama" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=cincuenta_sombras_más_oscuras_2" data-fecha="2025-11-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2017</span>
       <span class="year-tegg">HD</span>
@@ -2421,7 +2519,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El bebé jefazo</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 3 civil war" data-genero="heroes marvel accion ciencia ficcion" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.html?id=capitan_america3" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 3 civil war" data-genero="heroes marvel accion ciencia ficcion" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=capitan_america3" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
       <span class="year-tegg">HD</span>
@@ -2430,7 +2528,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Capitán América 3: Civil War</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi abuelo es un peligro" data-genero="comedia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.html?id=mi_abuelo_es_un_peligro" data-fecha="2026-02-13">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi abuelo es un peligro" data-genero="comedia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=mi_abuelo_es_un_peligro" data-fecha="2026-02-13">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
       <span class="year-tegg">HD</span>
@@ -2448,7 +2546,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El conjuro 2: El caso enfield</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="doctor strange el hechicero supremo" data-genero="accion marvel" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.html?id=doctor_strange" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="doctor strange el hechicero supremo" data-genero="accion marvel" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=doctor_strange" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
       <span class="year-tegg">HD</span>
@@ -2466,7 +2564,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El bosque de los suicidios</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="sing cantar" data-genero="animacion musical fantasia familia niños" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.html?id=sing_cantar" data-fecha="2026-01-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sing cantar" data-genero="animacion musical fantasia familia niños" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=sing_cantar" data-fecha="2026-01-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
       <span class="year-tegg">HD</span>
@@ -2475,7 +2573,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sing: Cantar</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool" data-genero="accion marvel comedia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.html?id=deadpool" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool" data-genero="accion marvel comedia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=deadpool" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
       <span class="year-tegg">HD</span>
@@ -2484,7 +2582,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Deadpool</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="boruto uzumaki naruto shippuden" data-tipo="pelicula" data-genero="animacion anime accion" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=boruto_2015" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="boruto uzumaki naruto shippuden" data-tipo="pelicula" data-genero="animacion anime accion" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=boruto_2015" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2493,7 +2591,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Boruto: La Película</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="corazones de acero" data-genero="accion guerra belica" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=corazones_de_acero" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="corazones de acero" data-genero="accion guerra belica" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=corazones_de_acero" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2502,7 +2600,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Corazones de acero</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas fiesta sobre ruedas" data-genero="animacion comedia aventura musical" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=alvin_y_las_ardillas_4" data-fecha="2025-30-10">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas fiesta sobre ruedas" data-genero="animacion comedia aventura musical" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_4" data-fecha="2025-30-10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2511,7 +2609,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Alvin y las ardillas: Fiesta sobre ruedas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bob Esponja 2 un heroe fuera del agua" data-genero="animacion aventura comedia familia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=bob_esponja_2" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob Esponja 2 un heroe fuera del agua" data-genero="animacion aventura comedia familia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_2" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2520,7 +2618,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bob Esponja 2: Un héroe fuera del agua</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey" data-genero="romance drama" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=cincuentas_sombras_de_grey_1" data-fecha="2025-11-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cincuenta sombras de grey" data-genero="romance drama" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=cincuentas_sombras_de_grey_1" data-fecha="2025-11-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2557,7 +2655,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente" data-genero="animacion drama aventura fantasia disney" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.html?id=intensamente" data-fecha="2026-01-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente" data-genero="animacion drama aventura fantasia disney" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=intensamente" data-fecha="2026-01-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
       <span class="year-tegg">HD</span>
@@ -2613,7 +2711,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan America 2 el soldado de invierno" data-genero="accion heroes marvel ciencia ficcion" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.html?id=capitan_america2" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan America 2 el soldado de invierno" data-genero="accion heroes marvel ciencia ficcion" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=capitan_america2" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2014</span>
       <span class="year-tegg">HD</span>
@@ -2631,7 +2729,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Hijo de dios</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="donde esta el fantasma 2" data-genero="comedia terror" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.html?id=donde_esta_el_fantasma_2" data-fecha="2025-11-30">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="donde esta el fantasma 2" data-genero="comedia terror" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=donde_esta_el_fantasma_2" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2014</span>
       <span class="year-tegg">HD</span>
@@ -2651,7 +2749,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 2" data-genero="animacion aventura fantasia familia" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.html?id=como_entrenar_a_tu_dragon_2" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 2" data-genero="animacion aventura fantasia familia" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_2" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2014</span>
       <span class="year-tegg">HD</span>
@@ -2696,7 +2794,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El planeta de los simios 2: Confrontacion</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="annabelle anabel" data-genero="terror" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.html?id=annabelle_2014" data-fecha="2025-30-10">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="annabelle anabel" data-genero="terror" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=annabelle_2014" data-fecha="2025-30-10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2014</span>
       <span class="year-tegg">HD</span>
@@ -2705,7 +2803,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Annabelle</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="thor 2 el mundo oscuro" data-genero="accion marvel comedia ciencia ficcion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.html?id=thor_2" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="thor 2 el mundo oscuro" data-genero="accion marvel comedia ciencia ficcion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=thor_2" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2013</span>
       <span class="year-tegg">HD</span>
@@ -2723,7 +2821,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: La batalla de los dioses</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="turbo" data-genero="animacion aventura" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.html?id=turbo" data-fecha="2026-01-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="turbo" data-genero="animacion aventura" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=turbo" data-fecha="2026-01-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2013</span>
       <span class="year-tegg">HD</span>
@@ -2768,7 +2866,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Los Croods</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="donde esta el fantasma" data-genero="comedia terror" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.html?id=donde_esta_el_fantasma" data-fecha="2025-11-30">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="donde esta el fantasma" data-genero="comedia terror" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=donde_esta_el_fantasma" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2013</span>
       <span class="year-tegg">HD</span>
@@ -2786,7 +2884,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Hotel Transylvania</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 2" data-genero="animacion aventura comedia familia accion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.html?id=mi_villano_favorito_2" data-fecha="2026-02-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 2" data-genero="animacion aventura comedia familia accion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito_2" data-fecha="2026-02-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2013</span>
       <span class="year-tegg">HD</span>
@@ -2804,7 +2902,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El origen de los guardianes</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 2" data-genero="animacion disney familia aventura" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=cars_2" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 2" data-genero="animacion disney familia aventura" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=cars_2" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2822,7 +2920,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El gato con botas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="thor" data-genero="accion marvel comedia ciencia ficcion" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=thor" data-fecha="2026-01-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="thor" data-genero="accion marvel comedia ciencia ficcion" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=thor" data-fecha="2026-01-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2842,7 +2940,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 3" data-genero="animacion comedia aventura musical" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=alvin_y_las_ardillas_3" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 3" data-genero="animacion comedia aventura musical" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_3" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2851,7 +2949,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Alvin y las ardillas 3</p>
     </div>
     <!--
-    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas 2" data-genero="comedia" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=chicas_malas_2" data-fecha="2025-11-">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas 2" data-genero="comedia" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=chicas_malas_2" data-fecha="2025-11-">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2879,7 +2977,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El planeta de los simios: [R] Evolucion</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 5" data-genero="terror" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final_5" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 5" data-genero="terror" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final_5" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2897,7 +2995,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: Episodio de Bardock</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 1 el primer vengador" data-genero="accion heroes marvel" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.html?id=capitan_america1" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 1 el primer vengador" data-genero="accion heroes marvel" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=capitan_america1" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2011</span>
       <span class="year-tegg">HD</span>
@@ -2915,7 +3013,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dulce venganza</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion ciencia ficcion marvel" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=iron_man_2" data-fecha="2026-02-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion ciencia ficcion marvel" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=iron_man_2" data-fecha="2026-02-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2010</span>
       <span class="year-tegg">HD</span>
@@ -2924,7 +3022,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Iron-Man 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 1" data-genero="animacion aventura ciencia ficcion familia" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=como_entrenar_a_tu_dragon_1" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 1" data-genero="animacion aventura ciencia ficcion familia" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_1" data-fecha="2025-11-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2010</span>
       <span class="year-tegg">HD</span>
@@ -2933,7 +3031,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cómo entrenar a tu dragón</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito" data-genero="animacion aventura comedia familia accion" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=mi_villano_favorito" data-fecha="2026-02-14">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito" data-genero="animacion aventura comedia familia accion" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito" data-fecha="2026-02-14">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2010</span>
       <span class="year-tegg">HD</span>
@@ -2951,7 +3049,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: Plan para erradicar a los Super Saiyans</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 3" data-genero="animacion disney familia comedia aventura" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.html?id=toy_story_3" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 3" data-genero="animacion disney familia comedia aventura" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_3" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2010</span>
       <span class="year-tegg">HD</span>
@@ -2960,7 +3058,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Toy story 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 4" data-genero="terror" data-anio="2009" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final_4" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 4" data-genero="terror" data-anio="2009" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final_4" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2009</span>
       <span class="year-tegg">HD</span>
@@ -2969,7 +3067,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Destino final 4</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 2" data-genero="animacion comedia aventura musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.html?id=alvin_y_las_ardillas_2" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 2" data-genero="animacion comedia aventura musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_2" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2009</span>
       <span class="year-tegg">HD</span>
@@ -3009,7 +3107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Martyrs</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion marvel comedia ciencia ficcion" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.html?id=iron_man_1" data-fecha="2026-01-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion marvel comedia ciencia ficcion" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=iron_man_1" data-fecha="2026-01-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2008</span>
       <span class="year-tegg">HD</span>
@@ -3018,7 +3116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Iron-Man</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas" data-genero="animacion aventura comedia musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.html?id=alvin_y_las_ardillas" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas" data-genero="animacion aventura comedia musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2007</span>
       <span class="year-tegg">HD</span>
@@ -3027,7 +3125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Alvin y las ardillas</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 3" data-genero="terror" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final_3" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 3" data-genero="terror" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final_3" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2006</span>
       <span class="year-tegg">HD</span>
@@ -3036,7 +3134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Destino final 3</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 1" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.html?id=cars" data-fecha="2025-11-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 1" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=cars" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2006</span>
       <span class="year-tegg">HD</span>
@@ -3045,7 +3143,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cars</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos 2" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.html?id=tierra_de_osos_2" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos 2" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos_2" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2006</span>
       <span class="year-tegg">HD</span>
@@ -3065,7 +3163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar" data-genero="animacion aventura familia animales" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.html?id=madagascar" data-fecha="2026-02-16">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar" data-genero="animacion aventura familia animales" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar" data-fecha="2026-02-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2005</span>
       <span class="year-tegg">HD</span>
@@ -3074,7 +3172,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Madagascar</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="la novia cadaver" data-genero="animacion romance fantasia" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.html?id=la_novia_cadaver" data-fecha="2026-03-09">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la novia cadaver" data-genero="animacion romance fantasia" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=la_novia_cadaver" data-fecha="2026-03-09">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2005</span>
       <span class="year-tegg">HD</span>
@@ -3083,7 +3181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>La novia cadáver</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan 2" data-genero="animacion aventura familia disney" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.html?id=tarzan_2" data-fecha="2025-01-20">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan 2" data-genero="animacion aventura familia disney" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=tarzan_2" data-fecha="2025-01-20">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2005</span>
       <span class="year-tegg">HD</span>
@@ -3092,7 +3190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Tarzan 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 1" data-tipo="pelicula" data-genero="animacion aventura niños infantil familia" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.html?id=bob_esponja_1" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 1" data-tipo="pelicula" data-genero="animacion aventura niños infantil familia" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_1" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2004</span>
       <span class="year-tegg">HD</span>
@@ -3101,7 +3199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bob Esponja: La película</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas" data-tipo="pelicula" data-genero="drama comedia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.html?id=chicas_malas_2004" data-fecha="2025-11-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas" data-tipo="pelicula" data-genero="drama comedia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=chicas_malas_2004" data-fecha="2025-11-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2003</span>
       <span class="year-tegg">HD</span>
@@ -3110,7 +3208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Chicas malas</p>
     </div>
     
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 2" data-genero="terror" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final_2" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final 2" data-genero="terror" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final_2" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2003</span>
       <span class="year-tegg">HD</span>
@@ -3119,7 +3217,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Destino final 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 2 dos policías rebeldes" data-genero="accion crimen comedia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.html?id=bad_boys_2" data-fecha="2025-11-02">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 2 dos policías rebeldes" data-genero="accion crimen comedia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=bad_boys_2" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2003</span>
       <span class="year-tegg">HD</span>
@@ -3128,7 +3226,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bad boys 2: Dos policías rebeldes</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos" data-genero="animacion disney familia aventura" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.html?id=tierra_de_osos" data-fecha="2026-02-28">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos" data-genero="animacion disney familia aventura" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2003</span>
       <span class="year-tegg">HD</span>
@@ -3148,7 +3246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     -->
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final" data-genero="terror" data-anio="2000" data-html="../View Peliculas/Reproductor Universal.html?id=destino_final" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="destino final" data-genero="terror" data-anio="2000" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2000</span>
       <span class="year-tegg">HD</span>
@@ -3157,7 +3255,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Destino final</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan" data-genero="animacion aventura familia disney" data-anio="1999" data-html="../View Peliculas/Reproductor Universal.html?id=tarzan" data-fecha="2025-01-20">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan" data-genero="animacion aventura familia disney" data-anio="1999" data-html="../View Peliculas/Reproductor Universal.php?id=tarzan" data-fecha="2025-01-20">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1999</span>
       <span class="year-tegg">HD</span>
@@ -3166,7 +3264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Tarzan</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 2" data-genero="animacion disney familia comedia aventura" data-anio="1888" data-html="../View Peliculas/Reproductor Universal.html?id=toy_story_2" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 2" data-genero="animacion disney familia comedia aventura" data-anio="1888" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_2" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1888</span>
       <span class="year-tegg">HD</span>
@@ -3175,7 +3273,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Toy story 2</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z una gran aventura mistica" data-genero="animacion anime accion" data-anio="1998" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_gran_aventura_mistica" data-fecha="2026-02-27">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z una gran aventura mistica" data-genero="animacion anime accion" data-anio="1998" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_gran_aventura_mistica" data-fecha="2026-02-27">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1998</span>
       <span class="year-tegg">HD</span>
@@ -3193,7 +3291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Hercules</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 3 el rey de los ladrones" data-genero="animacion aventura disney romance fantasia " data-anio="1986" data-html="../View Peliculas/Reproductor Universal.html?id=aladdim_3" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 3 el rey de los ladrones" data-genero="animacion aventura disney romance fantasia " data-anio="1986" data-html="../View Peliculas/Reproductor Universal.php?id=aladdim_3" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1996</span>
       <span class="year-tegg">HD</span>
@@ -3202,7 +3300,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Aladdin 3: El rey de los ladrones</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z el camino hacia el poder" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_el_camino_hacia_el_poder" data-fecha="2025-11-26">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z el camino hacia el poder" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_el_camino_hacia_el_poder" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1996</span>
       <span class="year-tegg">HD</span>
@@ -3211,7 +3309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball: El camino hacia el poder</p>
     </div>
 
-    <div class="movie locked" data-titulo="dragon ball dragon ball z  gt 100 años despues" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_gt_despues_de_100_años" data-fecha="2025-11-30">
+    <div class="movie locked" data-titulo="dragon ball dragon ball z  gt 100 años despues" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_gt_despues_de_100_años" data-fecha="2025-11-30">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1996</span>
       <span class="year-tegg">HD</span>
@@ -3220,7 +3318,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball GT: Después 100 años </p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 1 dos policías rebeldes" data-genero="accion crimen comedia" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.html?id=bad_boys_1" data-fecha="2025-07-11">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bad boys 1 dos policías rebeldes" data-genero="accion crimen comedia" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=bad_boys_1" data-fecha="2025-07-11">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1995</span>
       <span class="year-tegg">HD</span>
@@ -3238,7 +3336,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: La fusión de Goku y Vegeta</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story" data-genero="animacion disney familia comedia aventura" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.html?id=toy_story" data-fecha="2026-02-15">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story" data-genero="animacion disney familia comedia aventura" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story" data-fecha="2026-02-15">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1995</span>
       <span class="year-tegg">HD</span>
@@ -3256,7 +3354,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: El ataque del dragon</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 2 el retorno de fafar" data-genero="animacion aventura disney romance fantasia " data-anio="1994" data-html="../View Peliculas/Reproductor Universal.html?id=aladdin_2" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 2 el retorno de fafar" data-genero="animacion aventura disney romance fantasia " data-anio="1994" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin_2" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1994</span>
       <span class="year-tegg">HD</span>
@@ -3283,7 +3381,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: El regreso del guerrero legendario</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="animacion aventura disney fantasia musical familia" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.html?id=aladdin" data-fecha="2025-10-12">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="animacion aventura disney fantasia musical familia" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1993</span>
       <span class="year-tegg">HD</span>
@@ -3310,7 +3408,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: Los dos guerreros del futuro</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z la galaxia corre peligro" data-genero="animacion anime accion ciencia ficcion" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_z_la_galaxia_corre_peligro" data-fecha="2025-12-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z la galaxia corre peligro" data-genero="animacion anime accion ciencia ficcion" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_galaxia_corre_peligro" data-fecha="2025-12-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1993</span>
       <span class="year-tegg">HD</span>
@@ -3391,7 +3489,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: Devuelveme a mi Gohan</p>
     </div>
 
-    <div class="movie locked" data-titulo="dragon ball dragon ball z  la princesa durmiente del castillo del mal" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1987" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_la_princesa_durmiente" data-fecha="2025-12-01">
+    <div class="movie locked" data-titulo="dragon ball dragon ball z  la princesa durmiente del castillo del mal" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1987" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_la_princesa_durmiente" data-fecha="2025-12-01">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1987</span>
       <span class="year-tegg">HD</span>
@@ -3400,7 +3498,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball: La princesa durmiente del castillo del mal</p>
     </div>
 
-    <div class="movie locked" data-titulo="dragon ball dragon ball z la leyenda del dragon shenron" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1986" data-html="../View Peliculas/Reproductor Universal.html?id=dragon_ball_la_leyenda_de_shenron" data-fecha="2026-02-27">
+    <div class="movie locked" data-titulo="dragon ball dragon ball z la leyenda del dragon shenron" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1986" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_la_leyenda_de_shenron" data-fecha="2026-02-27">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1986</span>
       <span class="year-tegg">HD</span>
@@ -3409,7 +3507,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball: La leyenda del dragón Shenron</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.html?id=pinocho" data-fecha="2026-02-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho" data-fecha="2026-02-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1940</span>
       <span class="year-tegg">HD</span>
@@ -3418,7 +3516,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Pinocho</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-genero="animacion disney princesas" data-anio="1938" data-html="../View Peliculas/Reproductor Universal.html?id=blancanieves_y_los_siete_enanitos" data-fecha="2025-11-08">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-genero="animacion disney princesas" data-anio="1938" data-html="../View Peliculas/Reproductor Universal.php?id=blancanieves_y_los_siete_enanitos" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1938</span>
       <span class="year-tegg">HD</span>
@@ -3558,6 +3656,27 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="closeAlert">Aceptar</button>
   </div>
 </div>
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
 
 <style>
 

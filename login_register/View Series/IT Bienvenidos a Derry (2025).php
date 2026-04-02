@@ -1,3 +1,101 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -610,14 +708,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
    window.addEventListener('load', () => {
-    // Pequeño retardo opcional de 1 segundo para suavizar
-    setTimeout(() => {
-      loader.classList.add('hidden');
-      setTimeout(() => {
-        if (continueModal) continueModal.style.display = '';
-      }, 700); /*1200*/
-    }, 200); /*1000*/
-  });
+
+  setTimeout(() => {
+    loader.classList.add('hidden');
+
+    // 🔥 ESTE ES EL CAMBIO IMPORTANTE
+    guardarHistorial();
+
+  }, 200);
+
+});
+
 
   for (let img of document.images) {
     if (img.complete) updateLoader();
@@ -1319,6 +1420,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
+
 
 
 <script>
@@ -1327,7 +1449,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "it_bienvenidos_a_derry"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "it_bienvenido_a_derry_2025"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1361,7 +1483,7 @@ const seasonYearEl = document.getElementById("season-year");
 
 
 /* =====================================================
-   DATA (TU seasonsData, SIN CAMBIOS)
+   DATA (TU seasonsData, SIN CAMBIOS)      { id: "t1e11", number: 11, src: "" },
 ===================================================== */
 const seasonsData = [
   {
@@ -1380,6 +1502,7 @@ const seasonsData = [
     ]
   }
 ];
+
 
 /* =====================================================
    ESTADO
@@ -2304,6 +2427,92 @@ function esperarFinLoader(callback) {
 
 <script>
 
+/* =========================
+   DATOS DE LA SERIE
+========================= */
+const titulo = "It: Bienvenidos a Derry";
+  const movieId = "it_bienvenidos_a_derry";
+  const tipo = "serie";
+  const archivo = "../View Series/IT Bienvenidos a Derry (2025).php";
+  const imagen = "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg";
+
+/* =========================
+   MODAL
+========================= */
+function mostrarModal(mensaje){
+
+  const modal = document.getElementById("modal-favoritos");
+  const texto = document.getElementById("modal-fav-texto");
+  const boton = document.getElementById("modal-fav-aceptar");
+
+  if(!modal || !texto){
+    alert(mensaje);
+    return;
+  }
+
+  texto.textContent = mensaje;
+  modal.setAttribute("aria-hidden","false");
+
+  boton.onclick = () => {
+    modal.setAttribute("aria-hidden","true");
+  };
+
+  setTimeout(()=>{
+    modal.setAttribute("aria-hidden","true");
+  },2000);
+}
+
+/* =========================
+   GUARDAR HISTORIAL
+========================= */
+function guardarHistorial(){
+
+  fetch("../View Peliculas/guardar_historial.php",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/x-www-form-urlencoded"
+    },
+    body:
+      "movie_id="+encodeURIComponent(movieId)+
+      "&titulo="+encodeURIComponent(titulo)+
+      "&tipo="+encodeURIComponent(tipo)+
+      "&imagen="+encodeURIComponent(imagen)+
+      "&progreso="+encodeURIComponent("Asistido 0 min")+
+      "&archivo="+encodeURIComponent(archivo)
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    console.log("Historial:",data);
+
+    if(data.status === "new"){
+      mostrarModal("Serie agregada al historial");
+    }
+  })
+  .catch(error=>{
+    console.error("Error historial:",error);
+  });
+}
+
+/* =========================
+   CUANDO TERMINA EL LOADER
+========================= */
+window.addEventListener('load', () => {
+
+  setTimeout(() => {
+
+    const loader = document.getElementById('loader-screen');
+    if(loader) loader.classList.add('hidden');
+
+    // 🔥 AHORA SÍ: después del loader
+    guardarHistorial();
+
+  }, 200);
+
+});
+
+/* =========================
+   CUANDO EL DOM ESTÁ LISTO
+========================= */
 document.addEventListener("DOMContentLoaded", function () {
 
   const videoElement = document.getElementById("videoPlayer");
@@ -2313,107 +2522,27 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const titulo = "It: Bienvenidos a Derry";
-  const movieId = "it_bienvenidos_a_derry";
-  const tipo = "serie";
-  const archivo = "../View Series/IT Bienvenidos a Derry (2025).php";
-  const imagen = "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg";
-
-  /* ------------------------------
-     MODAL (USA TU MODAL ACTUAL)
-  ------------------------------ */
-
-  function mostrarModal(mensaje){
-
-    const modal = document.getElementById("modal-favoritos");
-    const texto = document.getElementById("modal-fav-texto");
-    const boton = document.getElementById("modal-fav-aceptar");
-
-    if(!modal || !texto){
-      alert(mensaje);
-      return;
-    }
-
-    texto.textContent = mensaje;
-
-    modal.setAttribute("aria-hidden","false");
-
-    boton.onclick = () => {
-      modal.setAttribute("aria-hidden","true");
-    };
-
-    setTimeout(()=>{
-      modal.setAttribute("aria-hidden","true");
-    },2000);
-
-  }
-
-  /* ------------------------------
-     GUARDAR HISTORIAL
-  ------------------------------ */
-
-  fetch("../View Peliculas/guardar_historial.php",{
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":"application/x-www-form-urlencoded"
-    },
-
-    body:
-      "movie_id="+encodeURIComponent(movieId)+
-      "&titulo="+encodeURIComponent(titulo)+
-      "&tipo="+encodeURIComponent(tipo)+
-      "&imagen="+encodeURIComponent(imagen)+
-      "&progreso="+encodeURIComponent("Asistido 0 min")+
-      "&archivo="+encodeURIComponent(archivo)
-
-  })
-
-  .then(res=>res.json())
-
-  .then(data=>{
-
-    console.log("Historial:",data);
-
-    if(data.status === "new"){
-      mostrarModal(" Serie agregada al historial");
-    }
-
-  })
-
-  .catch(error=>{
-    console.error("Error historial:",error);
-  });
-
-
-  /* ------------------------------
+  /* =========================
      ACTUALIZAR PROGRESO
-  ------------------------------ */
-
+  ========================= */
   setInterval(()=>{
 
     if(!videoElement.paused && !videoElement.ended){
 
       const minutos = Math.floor(videoElement.currentTime / 60);
-
       const progreso = "Asistido "+minutos+" min";
 
       fetch("../View Peliculas/guardar_historial.php",{
-
         method:"POST",
-
         headers:{
           "Content-Type":"application/x-www-form-urlencoded"
         },
-
         body:
           "movie_id="+encodeURIComponent(movieId)+
           "&titulo="+encodeURIComponent(titulo)+
           "&tipo="+encodeURIComponent(tipo)+
           "&imagen="+encodeURIComponent(imagen)+
           "&progreso="+encodeURIComponent(progreso)
-
       })
       .catch(error=>{
         console.error("Error actualizando progreso:",error);
@@ -2426,6 +2555,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+
   
 </body>
 </html>
