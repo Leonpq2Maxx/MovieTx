@@ -228,7 +228,7 @@ if (isset($_GET['check_status'])) {
     .selector {
       position: absolute;
       top: 5px;
-      left: 5px;
+      right: 5px; /* 👈 mismo lugar que la X */
       width: 20px;
       height: 20px;
       border-radius: 4px;
@@ -527,11 +527,6 @@ body {
 /* ✅ MODO SELECCIÓN ACTIVO */
 /* ========================= */
 
-/* Cuando está activado el modo selector múltiple */
-.multi-select-active .category-badge {
-  top: 32px;
-  transition: top 0.2s ease;
-}
 
 /* Escritorio */
 @media (min-width: 768px) {
@@ -879,6 +874,15 @@ document.addEventListener("DOMContentLoaded", () => {
     animation: fadeInBg 0.4s ease;
   }
 
+  .multi-select-active .selector {
+  display: block !important;
+}
+
+/* ❌ Ocultar la X en modo selección múltiple */
+.multi-select-active .delete-btn {
+  display: none !important;
+}
+
   .age-modal-content {
     width: 320px;
     background: #141414;
@@ -1205,6 +1209,7 @@ div.innerHTML = `
 
 
       div.onclick = (e) => {
+        if (longPressActivo) return; // 🔥 evita doble acción
         if (multiMode) {
           div.classList.toggle("selected");
           if (div.classList.contains("selected")) seleccionados.push(index);
@@ -1214,10 +1219,40 @@ div.innerHTML = `
         }
       };
 
-      div.oncontextmenu = (e) => {
-        e.preventDefault();
-        activarSeleccionMultiple();
-      };
+      let pressTimer;
+let longPressActivo = false;
+
+div.addEventListener("touchstart", (e) => {
+  longPressActivo = false;
+
+  pressTimer = setTimeout(() => {
+  longPressActivo = true;
+
+  activarSeleccionMultiple();
+
+  // ✅ seleccionar automáticamente la card
+  div.classList.add("selected");
+
+  if (!seleccionados.includes(index)) {
+    seleccionados.push(index);
+  }
+
+}, 400);
+});
+
+div.addEventListener("touchend", (e) => {
+  clearTimeout(pressTimer);
+
+  // 🚫 si fue long press, bloquear el click
+  if (longPressActivo) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+
+div.addEventListener("touchmove", () => {
+  clearTimeout(pressTimer);
+});
 
       container.appendChild(div);
     });

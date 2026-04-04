@@ -179,21 +179,28 @@ if (isset($_GET['check_status'])) {
     }
 
     .selector {
-      position:absolute;
-      top:5px;
-      left:5px;
-      width:20px;
-      height:20px;
-      border-radius:4px;
-      background:#000a;
-      border:1px solid #fff;
-      display:none;
-    }
+  position:absolute;
+  top:5px;
+  right:5px; /* 🔥 ahora ocupa lugar de la X */
+  width:20px;
+  height:20px;
+  border-radius:4px;
+  background:#000a;
+  border:1px solid #fff;
+  display:none;
+}
+
+.multi-select-active .delete-btn {
+  display: none;
+}
+
+.multi-select-active .selector {
+  display: block;
+}
 
     .item.selected .selector {
-      background:#00ff99;
-      display:block;
-    }
+  background:#00ff99;
+}
 
     .modal-order {
       display:none;
@@ -287,8 +294,6 @@ if (isset($_GET['check_status'])) {
 
     .category-pelicula { background:#e50914; }
     .category-serie { background:#1db954; }
-
-    .multi-select-active .category-badge { top:32px; }
 
     #multiDeleteBtn, #cancelSelectBtn {
       display:none;
@@ -790,6 +795,23 @@ document.addEventListener("DOMContentLoaded", () => {
     position: relative;
     animation: popup 0.35s ease;
   }
+  
+  .item::after {
+  content: "▶ Ver";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:.3s;
+  font-size: 14px;
+}
+
+.item:hover::after {
+  opacity:1;
+}
 
   @keyframes popup {
     from { transform: scale(0.85); opacity: 0; }
@@ -1127,24 +1149,65 @@ function renderHistorial(){
       <button class="delete-btn" onclick="event.stopPropagation();eliminarItem(${i})">×</button>
     `;
 
+let pressTimer;
+let isLongPress = false;
+
+div.addEventListener("touchstart", (e) => {
+  isLongPress = false;
+
+  pressTimer = setTimeout(() => {
+    isLongPress = true;
+
+    if (!multiMode) activarMulti();
+
+    div.classList.add("selected");
+
+    if (!seleccionados.includes(i)) {
+      seleccionados.push(i);
+    }
+
+    navigator.vibrate?.(50);
+  }, 350);
+});
+
+div.addEventListener("touchend", (e) => {
+  clearTimeout(pressTimer);
+
+  if (isLongPress) {
+    e.preventDefault();
+    e.stopPropagation(); // 🔥 CLAVE
+  }
+});
+
+div.addEventListener("touchmove", () => {
+  clearTimeout(pressTimer);
+});
+
+div.addEventListener("touchend", () => {
+  clearTimeout(pressTimer);
+});
+
     div.onclick = () => {
 
-      if(multiMode){
+  if (isLongPress) return;
 
-        div.classList.toggle("selected");
+  if (multiMode) {
+    div.classList.toggle("selected");
 
-        if(div.classList.contains("selected"))
-          seleccionados.push(i);
-        else
-          seleccionados = seleccionados.filter(x=>x!==i);
+    if (div.classList.contains("selected")) {
+      seleccionados.push(i);
+    } else {
+      seleccionados = seleccionados.filter(x => x !== i);
+    }
 
-      }
-
-      else{
-        abrirItemHistorial(item);
-      }
-
-    };
+  } else {
+    abrirItemHistorial(item);
+  }
+};
+div.addEventListener("touchend", () => {
+  clearTimeout(pressTimer);
+  setTimeout(() => isLongPress = false, 50);
+});
 
     div.oncontextmenu=e=>{
       e.preventDefault();
