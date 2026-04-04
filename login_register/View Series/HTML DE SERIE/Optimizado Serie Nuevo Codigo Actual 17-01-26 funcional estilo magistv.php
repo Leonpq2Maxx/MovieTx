@@ -1552,15 +1552,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <!-- FIN -->
 
-
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   
 /* =====================================================
    IDENTIDAD ÚNICA DE LA SERIE
 ===================================================== */
-const SERIES_KEY = "blue_lock"; // 🔑 ÚNICA POR SERIE
+const SERIES_KEY = "blue_lock_2022"; // 🔑 ÚNICA POR SERIE
 
 
 /* =====================================================
@@ -1600,7 +1598,7 @@ const seasonsData = [
   {
     id: "t1",
     name: "Temporada 1",
-    year: 2018,
+    year: 2022,
     episodes: [
       { id: "t1e1", number: 1, src: "https://dl.dropbox.com/scl/fi/cmtqvydawmzvu7c25uu7h/AnimeOnlineNinja-_Blue_Lock_BD_Latino_01.mp4?rlkey=9ffnbkh4ri6bz26fccwxyk8ib&st=" },
       { id: "t1e2", number: 2, src: "https://dl.dropbox.com/scl/fi/j4npboobqyt7molvia54d/AnimeOnlineNinja-_Blue_Lock_BD_Latino_02.mp4?rlkey=69czpk8tu8ll2jkawz48c1yes&st=" },
@@ -1617,7 +1615,6 @@ const seasonsData = [
     ]
   }
 ];
-
 
 /* =====================================================
    ESTADO
@@ -2092,8 +2089,6 @@ renderSeasons();
 
 });
 </script>
-
-
 
   <!-- FIN -->
   
