@@ -2440,13 +2440,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.addEventListener('DOMContentLoaded', () => {
-      // ❌ Evita reanudar desde el tiempo guardado
-  // if (savedTime && parseFloat(savedTime) > 10) {
-  //   const msg = document.getElementById('resume-msg');
-  //   msg.classList.add('visible');
-  //   setTimeout(() => msg.classList.remove('visible'), 5000);
-  // }
-
       const controls = document.querySelector('.plyr__controls');
   if (controls && !document.getElementById('custom-rewind')) {
     const rewindBtn = document.createElement('button');
@@ -2465,25 +2458,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!videoElement.paused && !videoElement.ended) {
       }
     }, 5000);
-    
-    /* ACA VA LA NOMBRE, IMAGEN, GENERO, ARCHIVO DONDE GUARDAN SU HTML DE PELICULA Y EL TIEMPO */
-    document.getElementById('btn-favorito').addEventListener('click', () => {
-
-      /* animacion de favoritos */
-      const btn = document.getElementById('btn-favorito');
-      btn.classList.add('animado');
-      setTimeout(() => btn.classList.remove('animado'), 300);
-
-      let favoritos = JSON.parse(localStorage.getItem('favoritos_detalles') || '[]');
-      if (!favoritos.some(f => f.titulo === nuevaPelicula.titulo)) {
-  favoritos.push(nuevaPelicula);
-  localStorage.setItem('favoritos_detalles', JSON.stringify(favoritos));
-  window.location.href = "../View Peliculas/favoritos.html";
-} else {
-  mostrarModalFavoritoExistente();
-}
-
-    });
   </script>
 
 <!--Recie agregado.-->
