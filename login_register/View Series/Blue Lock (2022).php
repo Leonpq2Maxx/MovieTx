@@ -698,7 +698,10 @@ if (window.performance && window.performance.navigation.type === 2) {
 #loader-screen {
   position: fixed;
   inset: 0;
-  background: #000;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
+    #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -710,24 +713,98 @@ if (window.performance && window.performance.navigation.type === 2) {
   opacity: 0;
   visibility: hidden;
 }
-.loader-content { text-align: center; }
+
+.loader-content {
+  text-align: center;
+  animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .loader-circle {
+  position: relative;
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  border: 6px solid transparent;
-  border-top: 6px solid #00aaff;
-  border-bottom: 6px solid #ff007f;
-  animation: spin 2s linear infinite;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+  margin-bottom: 25px;
 }
 
-.loader-logo { width: 100px; }
+/* 🔥 ARO GIRATORIO */
+.loader-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00aaff,
+    #00ffcc,
+    #ff00aa,
+    #ff3c3c,
+    #00aaff
+  );
+  animation: spin 2s linear infinite;
+  z-index: 0;
+  filter: blur(2px);
+}
+
+/* 🔥 BORDE INTERNO NEGRO (para efecto limpio) */
+.loader-circle::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #000;
+  z-index: 1;
+}
+
+/* 🔥 IMAGEN CENTRADA (NO GIRA) */
+.loader-logo {
+  width: 100px;
+  z-index: 2;
+  position: relative;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* 🔄 ROTACIÓN SOLO DEL ARO */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00aaff,
+    #00ffcc,
+    #ff00aa,
+    #ff3c3c,
+    #ffaa00,
+    #00aaff
+  );
+  animation: spin 2s linear infinite;
+  z-index: 0;
+  filter: blur(3px);
+}
 
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -735,12 +812,41 @@ if (window.performance && window.performance.navigation.type === 2) {
 }
 
 .loader-title {
-  font-size: 2.5rem;
-  color: #fff;
-  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff1a8c, 0 0 40px #ff007f;
-  font-weight: bold;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9900,
+    #ffee00,
+    #00ff99,
+    #00aaff,
+    #7a00ff,
+    #ff00aa,
+    #ff0000
+  );
+
+  background-size: 300%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: rainbowMove 6s linear infinite;
+
+  /* 🔥 glow suave */
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.1),
+    0 0 15px rgba(255,0,120,0.2);
+}
+@keyframes rainbowMove {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 300%;
+  }
 }
 
 .loader-sub { font-size: 1.2rem; color: #ccc; }
@@ -769,7 +875,25 @@ if (window.performance && window.performance.navigation.type === 2) {
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg, #00aaff, #ff007f);
-  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* brillo que se mueve */
+.loading-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  100% { left: 120%; }
 }
 
 .loading-percent {

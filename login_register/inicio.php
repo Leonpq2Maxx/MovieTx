@@ -639,7 +639,11 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
 <div id="loader-container">
   <div class="loader-content">
 
+  <div class="logo-wrapper">
+  <div class="logo-circle">
     <img src="Logo Poster MovieTx PNG/Logo MovieTx.png" class="logo-movietx" alt="MovieTx">
+  </div>
+</div>
 
     <h1 class="titulo-movietx">MovieTx</h1>
 
@@ -661,6 +665,80 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
 /* BLOQUEAR SCROLL MIENTRAS CARGA */
 body.loading {
   overflow: hidden;
+}
+
+/* 🔥 CONTENEDOR DEL LOGO */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* 🔥 CÍRCULO */
+.logo-circle {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 🔥 IMPORTANTE */
+}
+
+/* 🌈 ARO ARCOÍRIS GIRANDO */
+.logo-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+
+  background: conic-gradient(
+    #ff0000,
+    #ff9900,
+    #ffee00,
+    #00ff99,
+    #00aaff,
+    #7a00ff,
+    #ff00aa,
+    #ff0000
+  );
+
+  animation: spin 2.5s linear infinite;
+  z-index: 0;
+
+  filter: blur(2px);
+}
+
+/* 🔥 CENTRO NEGRO LIMPIO */
+.logo-circle::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #000;
+  z-index: 1;
+}
+
+/* 🔥 LOGO (CENTRADO REAL) */
+.logo-movietx {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+
+  /* 🔥 AJUSTE FINO VISUAL */
+  transform: translateY(2px); /* podés ajustar entre 1px y 5px */
+  
+  filter: drop-shadow(0 0 10px rgba(0,191,255,0.6));
+}
+
+/* 🔄 ANIMACIÓN */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Pantalla completa */
@@ -694,13 +772,49 @@ body.loading {
 
 /* Título */
 .titulo-movietx {
-  font-size: 2.4em;
-  font-weight: bold;
+  font-size: 2.6em;
+  font-weight: 800;
   margin: 10px 0 25px;
-  background: linear-gradient(90deg, #fff, #00bfff, #fff);
+  letter-spacing: 2px;
+
+  display: inline-block;
+
+  /* 🌈 ARCOÍRIS */
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9900,
+    #ffee00,
+    #00ff99,
+    #00aaff,
+    #7a00ff,
+    #ff00aa,
+    #ff0000
+  );
+
+  background-size: 300%;
+
+  /* 🔥 CLAVE: el color va dentro del texto */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: brilloTexto 3s linear infinite;
+
+  /* animación */
+  animation: rainbowMove 4s linear infinite;
+
+  /* glow opcional */
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.2),
+    0 0 20px rgba(0,191,255,0.3);
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0%; }
+  100% { background-position: 200%; }
+}
+
+@keyframes rainbowReflect {
+  0% { background-position: -150%; }
+  100% { background-position: 150%; }
 }
 
 /* Animación texto */
@@ -711,13 +825,6 @@ body.loading {
 @keyframes fadeOpacity {
   0% { opacity: 0; }
   100% { opacity: 1; }
-}
-
-.logo-movietx {
-  width: 160px;
-  margin: 0 auto 10px auto; /* CENTRO SIN MOVIMIENTO */
-  display: block;
-  filter: drop-shadow(0 0 12px #008cff);
 }
 
 
@@ -767,6 +874,78 @@ body.loading {
 
 </style>
 
+<script id="loader-fix">
+document.addEventListener("DOMContentLoaded", () => {
+
+let loader = document.getElementById("loader-container");
+let barra = document.getElementById("barra");
+let porcentajeTexto = document.getElementById("porcentaje");
+
+if(!loader || !barra || !porcentajeTexto) return;
+
+document.body.classList.add("loading");
+
+let progreso = 0;
+let terminado = false;
+
+// ============================
+// ACTUALIZAR BARRA
+// ============================
+function actualizar(valor){
+    progreso = Math.min(100, valor);
+    barra.style.width = progreso + "%";
+    porcentajeTexto.textContent = Math.floor(progreso) + "%";
+}
+
+// ============================
+// FINALIZAR LOADER
+// ============================
+function cerrarLoader(){
+    if(terminado) return;
+    terminado = true;
+
+    actualizar(100);
+
+    setTimeout(() => {
+        loader.style.opacity = "0";
+
+        setTimeout(() => {
+            loader.remove();
+            document.body.classList.remove("loading");
+        }, 600);
+
+    }, 300);
+}
+
+// ============================
+// PROGRESO AUTOMÁTICO SUAVE
+// ============================
+let intervalo = setInterval(() => {
+    if(progreso < 85){
+        actualizar(progreso + 1.5);
+    }
+}, 80);
+
+// ============================
+// ESPERAR CARGA REAL
+// ============================
+window.addEventListener("load", () => {
+    clearInterval(intervalo);
+    cerrarLoader();
+});
+
+// ============================
+// FALLBACK (EVITA BLOQUEOS)
+// ============================
+setTimeout(() => {
+    clearInterval(intervalo);
+    cerrarLoader();
+}, 3500);
+
+});
+</script>
+
+
 <script>
 
 setInterval(function(){
@@ -788,78 +967,6 @@ window.location.href = "index.php";
 }, 5000); // revisa cada 5 segundos
 
 </script>
-
-<script>
-(function(){
-
-let loader = document.getElementById("loader-container");
-let barra = document.getElementById("barra");
-let porcentajeTexto = document.getElementById("porcentaje");
-
-if(!loader || !barra || !porcentajeTexto) return;
-
-document.body.classList.add("loading");
-
-let progreso = 0;
-let terminado = false;
-
-// ============================
-// ACTUALIZAR BARRA
-// ============================
-function actualizar(valor){
-    progreso = Math.min(100, valor);
-    barra.style.width = progreso + "%";
-    porcentajeTexto.textContent = progreso + "%";
-}
-
-// ============================
-// FINALIZAR LOADER
-// ============================
-function cerrarLoader(){
-    if(terminado) return;
-    terminado = true;
-
-    actualizar(100);
-
-    setTimeout(() => {
-        loader.style.opacity = "0";
-
-        setTimeout(() => {
-            if(loader) loader.remove();
-            document.body.classList.remove("loading");
-        }, 600);
-
-    }, 300);
-}
-
-// ============================
-// PROGRESO AUTOMÁTICO SUAVE
-// ============================
-let intervalo = setInterval(() => {
-    if(progreso < 85){
-        actualizar(progreso + 2);
-    }
-}, 100);
-
-// ============================
-// ESPERAR CARGA REAL
-// ============================
-window.addEventListener("load", () => {
-    clearInterval(intervalo);
-    cerrarLoader();
-});
-
-// ============================
-// FALLBACK (EVITA BLOQUEOS)
-// ============================
-setTimeout(() => {
-    clearInterval(intervalo);
-    cerrarLoader();
-}, 3000); // máximo 3 segundos
-
-})();
-</script>
-
 
 
 
@@ -1027,6 +1134,22 @@ body.dark {
   --bg:#0a0a0a;
   --card:#141414;
   --text:#ffffff;
+}
+
+.theme-box h3 {
+  color: var(--text); /* ahora seguirá el tema */
+}
+.close-btn {
+  background: var(--text);
+  color: var(--bg);
+}
+.theme-btn {
+  outline: none;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.theme-btn.active {
+  border-color: var(--text);
 }
 
 body.blue {
