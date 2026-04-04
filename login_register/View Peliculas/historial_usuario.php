@@ -795,23 +795,6 @@ document.addEventListener("DOMContentLoaded", () => {
     position: relative;
     animation: popup 0.35s ease;
   }
-  
-  .item::after {
-  content: "▶ Ver";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  transition:.3s;
-  font-size: 14px;
-}
-
-.item:hover::after {
-  opacity:1;
-}
 
   @keyframes popup {
     from { transform: scale(0.85); opacity: 0; }
