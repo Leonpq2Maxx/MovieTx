@@ -148,7 +148,7 @@ if (isset($_GET['check_status'])) {
 
     .item img {
       width: 100%;
-      height: 190px;
+      height: 220px;
       object-fit: cover;
       border-radius: 8px;
     }
@@ -232,53 +232,248 @@ if (isset($_GET['check_status'])) {
       color:white;
     }
 
-    .delete-modal {
-      position:fixed;
-      inset:0;
-      display:none;
-      justify-content:center;
-      align-items:center;
-      background:rgba(0,0,0,.75);
-      z-index:99999;
-    }
+    /* =========================
+   🔥 MODAL OVERLAY
+========================= */
+.delete-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
 
-    .delete-box {
-    background: #151515;
-    padding: 25px;
-    border-radius: 14px;
-    text-align: center;
-    width: 75%;
-    max-width: 350px;
-    border: 2px solid #ff2d5b;
-    box-shadow: 0 0 22px rgba(255, 45, 91, 0.5);
-    position: relative;
+  background:rgba(0,0,0,.85);
+  backdrop-filter: blur(8px);
+
+  z-index:99999;
+  padding:15px;
 }
 
-    .delete-img {
-      width:90%;
-      border-radius:8px;
-      margin-bottom:12px;
-    }
+/* =========================
+   💎 CAJA PRINCIPAL
+========================= */
+.delete-box{
+  width:100%;
+  max-width:420px;
 
-    .btn-delete {
-      background:linear-gradient(135deg,#ff2d55,#ff5e7e);
-      border:none;
-      padding:10px;
-      color:#fff;
-      border-radius:999px;
-      width:100%;
-    }
+  background:linear-gradient(180deg,#111,#0a0a0a);
+  border-radius:18px;
 
-    .close-delete {
-      position:absolute;
-      top:6px;
-      right:8px;
-      background:#444;
-      color:#fff;
-      border:none;
-      padding:4px 8px;
-      border-radius:6px;
-    }
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.9),
+    0 0 20px rgba(255,0,80,.15);
+
+  animation:modalShow .25s ease;
+}
+
+@keyframes modalShow{
+  from{
+    transform:scale(.85);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+/* =========================
+   🖼️ CONTENEDOR IMAGEN
+========================= */
+.delete-media{
+  width:92%;
+  padding:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  /* 🔥 evita que rompa */
+  max-height:65vh;
+  overflow:hidden;
+}
+
+/* 🔥 IMAGEN PERFECTA */
+.delete-img{
+  width:100%;
+  height:auto;
+
+  max-height:60vh;
+
+  object-fit:contain;
+
+  border-radius:12px;
+
+  /* efecto suave */
+  transition:transform .3s ease;
+}
+
+.delete-box:hover .delete-img{
+  transform:scale(1.03);
+}
+
+/* =========================
+   📝 INFO
+========================= */
+.delete-info{
+  padding:15px;
+  text-align:center;
+}
+
+.delete-title{
+  font-size:1.05rem;
+  font-weight:600;
+  margin-bottom:6px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.delete-text{
+  font-size:.85rem;
+  color:#aaa;
+}
+
+/* =========================
+   🔘 BOTONES
+========================= */
+.delete-actions{
+  display:flex;
+  gap:10px;
+  padding:15px;
+}
+
+.btn-delete{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+
+  background:linear-gradient(135deg,#ff2d55,#ff004c);
+  color:white;
+  font-weight:bold;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-delete:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(255,0,80,.6);
+}
+
+.btn-cancel{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+
+  background:#2a2a2a;
+  color:#ddd;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-cancel:hover{
+  background:#3a3a3a;
+}
+
+/* =========================
+   ❌ BOTÓN CERRAR
+========================= */
+.close-delete{
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  width:34px;
+  height:34px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(0,0,0,.65);
+  color:#fff;
+
+  cursor:pointer;
+  z-index:10;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:16px;
+
+  transition:.25s;
+}
+
+.close-delete:hover{
+  background:#ff2d55;
+  transform:rotate(90deg);
+}
+
+/* =========================
+   📱 MÓVILES
+========================= */
+@media(max-width:480px){
+
+  .delete-box{
+    max-width:95%;
+    border-radius:16px;
+  }
+
+  .delete-title{
+    font-size:.95rem;
+  }
+
+  .delete-text{
+    font-size:.8rem;
+  }
+
+  .delete-actions{
+    flex-direction:column;
+  }
+
+  .btn-delete,
+  .btn-cancel{
+    width:100%;
+  }
+}
+
+/* =========================
+   📲 TABLETS
+========================= */
+@media(min-width:481px) and (max-width:900px){
+
+  .delete-box{
+    max-width:380px;
+  }
+
+}
+
+/* =========================
+   💻 PC
+========================= */
+@media(min-width:901px){
+
+  .delete-box{
+    max-width:440px;
+  }
+
+  .delete-title{
+    font-size:1.2rem;
+  }
+
+  .delete-text{
+    font-size:.9rem;
+  }
+}
 
     .category-badge {
       position:absolute;
@@ -342,9 +537,7 @@ if (isset($_GET['check_status'])) {
 }
 
 /* ========================= */
-/* 📱 CELULARES GRANDES */
-/* ========================= */
-@media (max-width: 480px) {
+/* 📱 CELULARES GRANDES @media (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -360,6 +553,154 @@ if (isset($_GET['check_status'])) {
   .item-info {
     font-size: 0.5rem;
   }
+  
+}
+*/
+/* ========================= */
+
+/* ========================= */ 
+/* 📱 CELULARES GRANDES */
+/* ========================= */
+@media (max-width: 480px) {
+
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* 🔥 GRID */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 0 6px;
+  }
+
+  .item img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+  }
+
+  .item-title {
+    font-size: 0.6rem;
+  }
+
+  .item-info {
+    font-size: 0.5rem;
+  }
+
+  /* ========================= */
+  /* 🔥 DELETE MODAL */
+  /* ========================= */
+
+  .delete-box {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  /* 🔥 ARCOIRIS BORDE */
+  .delete-box::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+
+    background: conic-gradient(
+      from var(--angle),
+      red,
+      orange,
+      yellow,
+      lime,
+      cyan,
+      blue,
+      violet,
+      red
+    );
+
+    animation: rotateBorder 3s linear infinite;
+
+    z-index: 0;
+  }
+
+  /* 🔥 FONDO INTERNO */
+  .delete-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 18px;
+
+    background: linear-gradient(180deg, #111, #0a0a0a);
+
+    z-index: 1;
+  }
+
+  /* 🔥 CONTENIDO */
+  .delete-box > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ========================= */
+  /* 🖼️ IMAGEN CENTRADA SIN CORTE */
+  /* ========================= */
+
+  .delete-box .img-container {
+    width: 100%;
+    max-height: 180px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .delete-box img {
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain; /* 🔥 NO recorta */
+    display: block;
+  }
+
+}
+
+/* 🔥 soporte animación */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* 🔄 animación arcoiris */
+@keyframes rotateBorder {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+
+/* 🔄 animación REAL del borde  */
+@keyframes rotateBorder {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
+/* 🔄 animación */
+@keyframes borderSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ========================= */
@@ -401,7 +742,7 @@ if (isset($_GET['check_status'])) {
   }
 
   .item img {
-    height: 240px;
+    height: 280px;
   }
 
   .item-title {
@@ -417,18 +758,74 @@ if (isset($_GET['check_status'])) {
 /* 💻 MODAL ELIMINAR EN PC */
 /* ========================= */
 @media (min-width: 1024px) {
+
+  /* 🔥 VARIABLE PARA ROTACIÓN */
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* 🌈 BORDE ARCOIRIS ANIMADO */
   .delete-box {
-    max-width: 200px;
-    width: 40%;
-    padding: 30px;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* 🔥 capa arcoiris */
+  .delete-box::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+
+    background: conic-gradient(
+      from var(--angle),
+      red,
+      orange,
+      yellow,
+      lime,
+      cyan,
+      blue,
+      violet,
+      red
+    );
+
+    animation: rotateBorder 3s linear infinite;
+
+    z-index: 0;
+  }
+
+  /* 🔥 capa interna */
+  .delete-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
     border-radius: 18px;
+
+    background: linear-gradient(180deg,#111,#0a0a0a);
+
+    z-index: 1;
+  }
+
+  /* 🔥 CONTENIDO ENCIMA */
+  .delete-box > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* 🔄 animación REAL continua */
+  @keyframes rotateBorder {
+    0% { --angle: 0deg; }
+    100% { --angle: 360deg; }
   }
 
   .delete-img {
-      width: 80%;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
+    width: 80%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
 
   .delete-title {
     font-size: 1.4rem;
@@ -493,18 +890,27 @@ if (isset($_GET['check_status'])) {
 </div>
 
 <style>
+/* =========================
+   🔥 LOADER BASE CENTRADO
+========================= */
 #loader-screen {
   position: fixed;
   inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background:
     radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
     radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
     #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+
   z-index: 10000;
+
+  padding: 20px;
+  box-sizing: border-box;
+
   transition: opacity 1s ease, visibility 1s ease;
 }
 #loader-screen.hidden {
@@ -513,7 +919,15 @@ if (isset($_GET['check_status'])) {
 }
 
 .loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+
   animation: fadeUp 0.8s ease;
 }
 
@@ -528,36 +942,46 @@ if (isset($_GET['check_status'])) {
   }
 }
 
+/* =========================
+   🔥 CÍRCULO ARCOIRIS
+========================= */
 .loader-circle {
   position: relative;
-  width: 180px;
-  height: 180px;
+
+  width: 160px;
+  height: 160px;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+
+  margin-bottom: 20px;
 }
 
-/* 🔥 ARO GIRATORIO */
+/* 🌈 ARO GIRATORIO */
 .loader-circle::before {
   content: "";
   position: absolute;
   inset: -6px;
   border-radius: 50%;
+
   background: conic-gradient(
     #00aaff,
     #00ffcc,
     #ff00aa,
     #ff3c3c,
+    #ffaa00,
     #00aaff
   );
+
   animation: spin 2s linear infinite;
   z-index: 0;
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
-/* 🔥 BORDE INTERNO NEGRO (para efecto limpio) */
+/* 🔥 CENTRO NEGRO */
 .loader-circle::after {
   content: "";
   position: absolute;
@@ -567,19 +991,20 @@ if (isset($_GET['check_status'])) {
   z-index: 1;
 }
 
-/* 🔥 IMAGEN CENTRADA (NO GIRA) */
+/* 🔥 LOGO CENTRADO PERFECTO */
 .loader-logo {
   position: absolute;
   top: 50%;
   left: 50%;
 
-  width: 100px;
+  width: 90px;
 
-  transform: translate(-50%, -50%); /* 🔥 CENTRADO REAL */
-
+  transform: translate(-50%, -50%);
   z-index: 2;
+
   animation: pulse 2.5s ease-in-out infinite;
 }
+
 @keyframes pulse {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
@@ -589,35 +1014,15 @@ if (isset($_GET['check_status'])) {
   }
 }
 
-/* 🔄 ROTACIÓN SOLO DEL ARO */
+/* 🔄 ROTACIÓN */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.loader-circle::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #00aaff,
-    #00ffcc,
-    #ff00aa,
-    #ff3c3c,
-    #ffaa00,
-    #00aaff
-  );
-  animation: spin 2s linear infinite;
-  z-index: 0;
-  filter: blur(3px);
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
+/* =========================
+   🌈 TEXTO MOVIETX ARCOIRIS
+========================= */
 .loader-title {
   font-size: 2.6rem;
   font-weight: 800;
@@ -642,22 +1047,22 @@ if (isset($_GET['check_status'])) {
 
   animation: rainbowMove 6s linear infinite;
 
-  /* 🔥 glow suave */
   text-shadow:
     0 0 8px rgba(255,255,255,0.1),
     0 0 15px rgba(255,0,120,0.2);
 }
+
 @keyframes rainbowMove {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 300%;
-  }
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
 }
 
+/* =========================
+   TEXTO
+========================= */
 .loader-sub { font-size: 1.2rem; color: #ccc; }
 .loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+
 @keyframes dotPulse {
   0% { content: ''; }
   25% { content: '.'; }
@@ -665,9 +1070,12 @@ if (isset($_GET['check_status'])) {
   75% { content: '...'; }
   100% { content: ''; }
 }
+
 .loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
 
-/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
+/* =========================
+   🔥 BARRA DE CARGA
+========================= */
 .loading-bar {
   width: 75%;
   height: 16px;
@@ -686,7 +1094,6 @@ if (isset($_GET['check_status'])) {
   overflow: hidden;
 }
 
-/* brillo que se mueve */
 .loading-fill::after {
   content: "";
   position: absolute;
@@ -712,7 +1119,56 @@ if (isset($_GET['check_status'])) {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+/* 📱 CELULARES */
+/* 📱 CELULARES */
+@media (max-width: 480px) {
+
+  .loader-circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* 🔥 logo más grande */
+  .loader-logo {
+    width: 85px;
+  }
+
+  .loader-title {
+    font-size: 2rem;
+  }
+
+  /* 🔥 barra más corta y prolija */
+  .loading-bar {
+    width: 65%;
+    height: 12px;
+  }
+
+  .loading-percent {
+    font-size: 10px;
+  }
+
+}
+
+/* 💻 PC */
+@media (min-width: 1024px) {
+  .loader-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loader-logo {
+    width: 110px;
+  }
+
+  .loader-title {
+    font-size: 3rem;
+  }
 }
 </style>
 
@@ -800,13 +1256,27 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <div id="deleteModal" class="delete-modal">
+
   <div class="delete-box">
-    <button class="close-delete" id="cancelDelete">✖</button>
-    <img id="deleteImg" class="delete-img">
-    <h3 id="deleteTitle"></h3>
-    <p>¿Deseas eliminar este historial?</p>
-    <button id="confirmDelete" class="btn-delete">Eliminar</button>
+
+    <div class="delete-media">
+      <img id="deleteImg" class="delete-img" loading="lazy">
+    </div>
+
+    <div class="delete-info">
+      <h3 id="deleteTitle" class="delete-title"></h3>
+      <p class="delete-text">
+        ¿Estas segur@ que quieres borrarlo del historial?
+      </p>
+    </div>
+
+    <div class="delete-actions">
+      <button id="confirmDelete" class="btn-delete">Eliminar</button>
+      <button id="cancelDelete2" class="btn-cancel">Cancelar</button>
+    </div>
+
   </div>
+
 </div>
 
 <!-- Modal flotante de edad + clave -->
@@ -1065,8 +1535,6 @@ function showAlert(msg) {
   alertTexto.textContent = msg;
   alertModal.style.display = "flex";
 }
-
-
 </script>
 
 <script>
@@ -1091,7 +1559,6 @@ function openModal() {
   document.getElementById("age").value = "";
   document.getElementById("clave").value = "";
 
-  // Si ya existe clave → cambia texto del label
   if (claveGuardada) {
     document.querySelector("label[for='clave']").innerText = "Ingresa tu clave:";
     document.getElementById("clave").placeholder = "Clave guardada";
@@ -1131,7 +1598,6 @@ document.getElementById("confirmAgeBtn").addEventListener("click", function () {
     return;
   }
 
-  // 🔐 Si NO hay clave guardada ⇒ Crear clave nueva
   if (!claveGuardada) {
     localStorage.setItem("claveAdultos", claveIngresada);
     claveGuardada = claveIngresada;
@@ -1145,13 +1611,11 @@ document.getElementById("confirmAgeBtn").addEventListener("click", function () {
     return;
   }
 
-  // 🔐 Si SÍ existe clave ⇒ Comprobar
   if (claveIngresada !== claveGuardada) {
     result.textContent = "Clave incorrecta.";
     return;
   }
 
-  // ✔ Clave correcta y edad OK → entra
   result.style.color = "lime";
   result.textContent = "Acceso autorizado. Entrando...";
 
@@ -1162,20 +1626,13 @@ document.getElementById("confirmAgeBtn").addEventListener("click", function () {
 </script>
 
 <script>
-  /* ================================
-   🔞 VERIFICACIÓN DE EDAD INTEGRADA
-================================== */
-
 function abrirItemHistorial(item) {
   if (item.adulto === true) {
-    // REQUIERE VERIFICAR EDAD
     verificarAcceso(item.archivo, true);
   } else {
-    // ENTRA NORMAL
     location.href = item.archivo;
   }
 }
-
 </script>
 
 <script>
@@ -1186,24 +1643,30 @@ function normalizar(str){
 
 let historial = [];
 
+/* 🔥 NUEVO: marcar "Más recientes" por defecto */
+document.addEventListener("DOMContentLoaded", () => {
+  const btnDefault = document.querySelector('.order-option[data-value="recientes"]');
+  if (btnDefault) {
+    btnDefault.classList.add("active");
+  }
+});
+
 async function cargarHistorial(){
 
   const res = await fetch("obtener_historial.php");
   const data = await res.json();
 
-  /* 🔧 NORMALIZAR DATOS DEL SERVIDOR */
-
   historial = data.map(item => {
 
-    /* titulo seguro */
     let titulo = item.titulo;
     if(!titulo || titulo === "undefined"){
       titulo = item.movie_id.replace(/_/g," ");
       titulo = titulo.replace(/\b\w/g,l=>l.toUpperCase());
     }
 
-    /* tipo seguro */
     let tipo = (item.tipo || "").toLowerCase();
+
+    if(tipo === "series") tipo = "serie";
 
     if(tipo !== "serie" && tipo !== "pelicula"){
       if(item.movie_id.includes("s01") || item.movie_id.includes("s02")){
@@ -1213,7 +1676,6 @@ async function cargarHistorial(){
       }
     }
 
-    /* timestamp desde visto_en */
     let timestamp = item.timestamp;
 
     if(!timestamp && item.visto_en){
@@ -1244,22 +1706,31 @@ let indexAEliminar = null;
 
 function renderHistorial(){
 
-  if(openOrderMenu.innerText.includes("recientes")){
-    historial.sort((a,b)=>b.timestamp-a.timestamp);
+  const container = document.getElementById("historial-container");
+  const noResults = document.getElementById("noResultsMsg");
+
+  container.innerHTML = "";
+  let filtrados = historial;
+
+  if (openOrderMenu.innerText.includes("recientes")) {
+    filtrados.sort((a,b)=>b.timestamp-a.timestamp);
   } else {
-    historial.sort((a,b)=>a.timestamp-b.timestamp);
+    filtrados.sort((a,b)=>a.timestamp-b.timestamp);
   }
 
-  const c = document.getElementById("historial-container");
-  c.innerHTML="";
+  if (filtrados.length === 0) {
+    noResults.style.display = "block";
+    return;
+  } else {
+    noResults.style.display = "none";
+  }
 
-  historial.forEach((item,i)=>{
+  filtrados.forEach((item,index)=>{
 
     const ahora = Date.now();
     const edad = ahora - item.timestamp;
 
     let tiempo = "";
-
     if(edad < 86400000) tiempo = "Hoy";
     else if(edad < 172800000) tiempo = "Ayer";
     else tiempo = Math.floor(edad / 86400000) + " días";
@@ -1267,7 +1738,7 @@ function renderHistorial(){
     const tipo = item.tipo;
 
     const div = document.createElement("div");
-    div.className="item";
+    div.className = "item";
 
     div.innerHTML = `
       <div class="selector"></div>
@@ -1278,192 +1749,192 @@ function renderHistorial(){
         ${tipo.toUpperCase()}
       </div>
 
-      <div class="item-title">
-        ${item.titulo}
-      </div>
+      <div class="item-title">${item.titulo}</div>
+      <div class="item-info">${tiempo}</div>
 
-      <div class="item-info">
-        ${tiempo}
-      </div>
-
-      <button class="delete-btn" onclick="event.stopPropagation();eliminarItem(${i})">×</button>
+      <button class="delete-btn"
+        onclick="event.stopPropagation(); eliminarItem(${index})">×</button>
     `;
 
-let pressTimer;
-let isLongPress = false;
+    // 🔥 CLICK NORMAL
+    div.onclick = (e) => {
+      if (longPressActivo) return;
 
-div.addEventListener("touchstart", (e) => {
-  isLongPress = false;
+      if (multiMode) {
+        div.classList.toggle("selected");
 
-  pressTimer = setTimeout(() => {
-    isLongPress = true;
+        if (div.classList.contains("selected")) {
+          seleccionados.push(index);
+        } else {
+          seleccionados = seleccionados.filter(i => i !== index);
+        }
 
-    if (!multiMode) activarMulti();
-
-    div.classList.add("selected");
-
-    if (!seleccionados.includes(i)) {
-      seleccionados.push(i);
-    }
-
-    navigator.vibrate?.(50);
-  }, 350);
-});
-
-div.addEventListener("touchend", (e) => {
-  clearTimeout(pressTimer);
-
-  if (isLongPress) {
-    e.preventDefault();
-    e.stopPropagation(); // 🔥 CLAVE
-  }
-});
-
-div.addEventListener("touchmove", () => {
-  clearTimeout(pressTimer);
-});
-
-div.addEventListener("touchend", () => {
-  clearTimeout(pressTimer);
-});
-
-    div.onclick = () => {
-
-  if (isLongPress) return;
-
-  if (multiMode) {
-    div.classList.toggle("selected");
-
-    if (div.classList.contains("selected")) {
-      seleccionados.push(i);
-    } else {
-      seleccionados = seleccionados.filter(x => x !== i);
-    }
-
-  } else {
-    abrirItemHistorial(item);
-  }
-};
-div.addEventListener("touchend", () => {
-  clearTimeout(pressTimer);
-  setTimeout(() => isLongPress = false, 50);
-});
-
-    div.oncontextmenu=e=>{
-      e.preventDefault();
-      activarMulti();
+      } else {
+        abrirItemHistorial(item);
+      }
     };
 
-    c.appendChild(div);
+    // =========================
+    // 🔥 LONG PRESS COMO FAVORITOS
+    // =========================
+    let pressTimer;
+    let longPressActivo = false;
+
+    div.addEventListener("touchstart", () => {
+
+      longPressActivo = false;
+
+      pressTimer = setTimeout(() => {
+
+        longPressActivo = true;
+
+        activarSeleccionMultiple();
+
+        div.classList.add("selected");
+
+        if (!seleccionados.includes(index)) {
+          seleccionados.push(index);
+        }
+
+      }, 400);
+
+    });
+
+    div.addEventListener("touchend", (e) => {
+      clearTimeout(pressTimer);
+
+      if (longPressActivo) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+    div.addEventListener("touchmove", () => {
+      clearTimeout(pressTimer);
+    });
+
+    container.appendChild(div);
 
   });
 
 }
 
-function activarMulti(){
-  multiMode=true;
+// 🔥 BUSCADOR IGUAL A FAVORITOS
+document.getElementById("buscar").oninput = e => {
+
+  const term = normalizar(e.target.value);
+  let visibles = 0;
+
+  document.querySelectorAll("#historial-container .item").forEach(card => {
+
+    const title = normalizar(
+      card.querySelector(".item-title").innerText
+    );
+
+    if (title.includes(term)) {
+      card.style.display = "";
+      visibles++;
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+
+  document.getElementById("noResultsMsg").style.display =
+    visibles === 0 ? "block" : "none";
+
+};
+
+function activarSeleccionMultiple() {
+
+  multiMode = true;
+  seleccionados = [];
 
   document.body.classList.add("multi-select-active");
 
-  document.querySelectorAll(".selector")
-  .forEach(x=>x.style.display="block");
+  document.querySelectorAll(".item").forEach(item => {
+    item.classList.remove("selected");
+  });
 
-  multiDeleteBtn.style.display="inline-block";
-  cancelSelectBtn.style.display="inline-block";
+  document.querySelectorAll(".selector").forEach(s => {
+    s.style.display = "block";
+  });
+
+  document.getElementById("multiDeleteBtn").style.display = "inline-block";
+  document.getElementById("cancelSelectBtn").style.display = "inline-block";
 }
 
-cancelSelectBtn.onclick = () => {
+document.getElementById("cancelSelectBtn").onclick = () => {
 
   multiMode = false;
   seleccionados = [];
 
   document.body.classList.remove("multi-select-active");
 
-  document.querySelectorAll(".item")
-  .forEach(card => card.classList.remove("selected"));
+  document.querySelectorAll(".item").forEach(item => {
+    item.classList.remove("selected");
+  });
 
-  document.querySelectorAll(".selector")
-  .forEach(x => x.style.display = "none");
+  document.querySelectorAll(".selector").forEach(s => {
+    s.style.display = "none";
+  });
 
-  multiDeleteBtn.style.display = "none";
-  cancelSelectBtn.style.display = "none";
+  document.getElementById("multiDeleteBtn").style.display = "none";
+  document.getElementById("cancelSelectBtn").style.display = "none";
 };
 
-multiDeleteBtn.onclick = async () => {
+multiDeleteBtn.onclick = () => {
 
-  for (let i of seleccionados) {
+  let promesas = [];
 
-    const item = historial[i];
+  seleccionados.forEach(i => {
 
-    await fetch("eliminar_historial.php", {
-      method: "POST",
-      headers: {"Content-Type":"application/x-www-form-urlencoded"},
-      body: "movie_id=" + encodeURIComponent(item.movie_id)
-    });
+    const movieId = historial[i].movie_id;
+const tipo = historial[i].tipo;
 
-  }
+promesas.push(
+  fetch("eliminar_historial.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body:
+      "movie_id=" + encodeURIComponent(movieId) +
+      "&tipo=" + encodeURIComponent(tipo)
+  })
+);
 
-  historial = historial.filter((_,i)=>!seleccionados.includes(i));
 
-  cancelSelectBtn.onclick();
-  renderHistorial();
+  });
+
+  Promise.all(promesas).then(() => {
+
+    historial = historial.filter((_, i) => !seleccionados.includes(i));
+
+    seleccionados = [];
+    multiMode = false;
+
+    document.body.classList.remove("multi-select-active");
+
+    document.getElementById("multiDeleteBtn").style.display = "none";
+    document.getElementById("cancelSelectBtn").style.display = "none";
+
+    renderHistorial();
+
+  });
 
 };
 
 function eliminarItem(i){
 
-  indexAEliminar=i;
+  indexAEliminar = i;
 
-  deleteImg.src=historial[i].imagen;
-  deleteTitle.innerText=historial[i].titulo;
+  deleteImg.src = historial[i].imagen;
+  deleteTitle.innerText = historial[i].titulo;
 
-  deleteModal.style.display="flex";
+  deleteModal.style.display = "flex";
 
 }
-
-cancelDelete.onclick=()=>deleteModal.style.display="none";
-
-confirmDelete.onclick = async () => {
-
-  const item = historial[indexAEliminar];
-
-  await fetch("eliminar_historial.php", {
-    method:"POST",
-    headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:"movie_id="+encodeURIComponent(item.movie_id)
-  });
-
-  historial.splice(indexAEliminar,1);
-
-  deleteModal.style.display="none";
-
-  renderHistorial();
-
-};
-
-buscar.oninput=e=>{
-
-  const term=normalizar(e.target.value);
-
-  let vis=0;
-
-  document.querySelectorAll(".item").forEach(card=>{
-
-    const t=normalizar(card.querySelector(".item-title").innerText);
-
-    if(t.includes(term)){
-      card.style.display="";
-      vis++;
-    }
-    else{
-      card.style.display="none";
-    }
-
-  });
-
-  noResultsMsg.style.display=vis===0?"block":"none";
-
-};
 
 openOrderMenu.onclick=()=>orderModal.style.display="flex";
 
@@ -1488,6 +1959,67 @@ document.querySelectorAll(".order-option").forEach(b=>{
   };
 
 });
+
+</script>
+
+<script>
+
+// 🔥 ELEMENTOS DEL MODAL
+const deleteModal = document.getElementById("deleteModal");
+const confirmDelete = document.getElementById("confirmDelete");
+const cancelDeleteBtn = document.getElementById("cancelDelete2");
+const closeDeleteBtn = document.querySelector(".close-delete");
+
+// ✅ CANCELAR
+cancelDeleteBtn.onclick = () => {
+  deleteModal.style.display = "none";
+};
+
+// ✅ BOTÓN X (esto es lo que te faltaba)
+if(closeDeleteBtn){
+  closeDeleteBtn.onclick = () => {
+    deleteModal.style.display = "none";
+  };
+}
+
+// ✅ CLICK FUERA
+deleteModal.addEventListener("click", (e) => {
+  if (e.target === deleteModal) {
+    deleteModal.style.display = "none";
+  }
+});
+
+// ✅ ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    deleteModal.style.display = "none";
+  }
+});
+
+// 🔥 CONFIRMAR ELIMINAR (ESTO ES CLAVE)
+confirmDelete.onclick = async () => {
+
+  const item = historial[indexAEliminar];
+
+  await fetch("eliminar_historial.php", {
+    method:"POST",
+    headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:
+  "movie_id=" + encodeURIComponent(item.movie_id) +
+  "&tipo=" + encodeURIComponent(item.tipo)
+
+  });
+
+  // 🔥 BORRAR PROGRESO LOCAL
+  localStorage.removeItem(`season_progress_${item.movie_id}`);
+
+  historial.splice(indexAEliminar,1);
+
+  deleteModal.style.display="none";
+
+  renderHistorial();
+
+};
 
 </script>
 

@@ -8,7 +8,10 @@ if(!isset($_SESSION['email'])){
 
 $email = $_SESSION['email'];
 
-$sql = "SELECT movie_id, titulo, imagen, tipo FROM favoritos WHERE user_email=?";
+$sql = "SELECT movie_id, titulo, imagen, tipo, fecha 
+        FROM favoritos 
+        WHERE user_email=? 
+        ORDER BY fecha DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s",$email);
 $stmt->execute();
@@ -21,7 +24,8 @@ while($row = $result->fetch_assoc()){
   "id" => $row['movie_id'],
   "titulo" => $row['titulo'],
   "imagen" => $row['imagen'],
-  "tipo" => $row['tipo']
+  "tipo" => $row['tipo'],
+  "fecha" => strtotime($row['fecha']) * 1000 // 🔥 clave
 ];
 }
 ?>
@@ -144,8 +148,8 @@ if (isset($_GET['check_status'])) {
       font-family: sans-serif;
     }
 
-    /* Buscador */
-    .search-box {
+    .search-box,
+    .order-box {
       width: 90%;
       margin: 15px auto;
       display: block;
@@ -156,18 +160,8 @@ if (isset($_GET['check_status'])) {
       color: white;
     }
 
-    /* Ordenador */
-    .order-box {
-      width: 90%;
-      margin: 0 auto 15px;
-      display: block;
-      padding: 10px;
-      border-radius: 10px;
-      background: #111;
-      color: white;
-    }
+    .order-box { background:#111; }
 
-    /* Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -176,7 +170,6 @@ if (isset($_GET['check_status'])) {
       margin-top: 25px;
     }
 
-    /* Tarjetas */
     .item {
       background: #000;
       border-radius: 10px;
@@ -187,10 +180,7 @@ if (isset($_GET['check_status'])) {
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      to { opacity:1; transform:scale(1); }
     }
 
     .item img {
@@ -207,183 +197,355 @@ if (isset($_GET['check_status'])) {
     }
 
     .item-info {
-      font-size: 0.55rem;
-      text-align: center;
-      color: #bbb;
-      padding-bottom: 6px;
+      font-size:.55rem;
+      text-align:center;
+      color:#bbb;
+      padding-bottom:6px;
     }
 
     .delete-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: crimson;
-      border: none;
-      color: #fff;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
+      position:absolute;
+      top:5px;
+      right:5px;
+      background:crimson;
+      border:none;
+      color:#fff;
+      width:22px;
+      height:22px;
+      border-radius:50%;
     }
 
     .selector {
-      position: absolute;
-      top: 5px;
-      right: 5px; /* 👈 mismo lugar que la X */
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      background: #000a;
-      border: 1px solid #fff;
-      display: none;
-    }
+  position:absolute;
+  top:5px;
+  right:5px; /* 🔥 ahora ocupa lugar de la X */
+  width:20px;
+  height:20px;
+  border-radius:4px;
+  background:#000a;
+  border:1px solid #fff;
+  display:none;
+}
+
+.multi-select-active .delete-btn {
+  display: none;
+}
+
+.multi-select-active .selector {
+  display: block;
+}
 
     .item.selected .selector {
-      background: #00ff99;
-      display: block;
-    }
+  background:#00ff99;
+}
 
-    /* Modal ordenar */
     .modal-order {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.7);
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
     }
 
     .order-box-modal {
-      background: #111;
-      padding: 20px;
-      width: 90%;
-      max-width: 350px;
-      border-radius: 15px;
-      text-align: center;
-      animation: fadeUp .25s ease;
+      background:#111;
+      padding:20px;
+      width:90%;
+      max-width:350px;
+      border-radius:15px;
+      text-align:center;
     }
 
-    @keyframes fadeUp {
-      from {
-        transform: translateY(40px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .order-option {
-      width: 100%;
-      background: #222;
-      color: white;
-      padding: 12px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-
-    .order-option:hover {
-      background: #333;
-    }
-
+    .order-option,
     .close-order {
-      background: #444;
-      color: white;
-      width: 100%;
-      margin-top: 10px;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      margin:8px 0;
+      background:#222;
+      color:white;
     }
 
-    /* Modal eliminar */
-    .delete-modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0,0,0,0.75);
-      z-index: 99999;
-    }
+    /* =========================
+   🔥 MODAL OVERLAY
+========================= */
+.delete-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
 
-    .delete-box {
-      background: #151515;
-      padding: 25px;
-      border-radius: 14px;
-      text-align: center;
-      width: 75%;
-      max-width: 350px;
-      border: 2px solid #ff2d5b;
-      box-shadow: 0 0 22px rgba(255,45,91,0.5);
-      position: relative;
-    }
+  background:rgba(0,0,0,.85);
+  backdrop-filter: blur(8px);
 
-    .close-delete {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
+  z-index:99999;
+  padding:15px;
+}
 
-    .delete-img {
-      width: 90%;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
+/* =========================
+   💎 CAJA PRINCIPAL
+========================= */
+.delete-box{
+  width:100%;
+  max-width:420px;
 
-    .delete-title {
-      margin: 0;
-      font-size: 1.1rem;
-    }
+  background:linear-gradient(180deg,#111,#0a0a0a);
+  border-radius:18px;
 
-    .delete-text {
-      color: #ccc;
-      margin: 12px 0 20px;
-    }
+  overflow:hidden;
 
-    .btn-delete {
-      background: linear-gradient(135deg, #ff2d55, #ff5e7e);
-      border: none;
-      padding: 10px 18px;
-      color: #fff;
-      border-radius: 999px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-    }
+  border:1px solid rgba(255,255,255,0.05);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.9),
+    0 0 20px rgba(255,0,80,.15);
+
+  animation:modalShow .25s ease;
+}
+
+@keyframes modalShow{
+  from{
+    transform:scale(.85);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+/* =========================
+   🖼️ CONTENEDOR IMAGEN
+========================= */
+.delete-media{
+  width:92%;
+  padding:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  /* 🔥 evita que rompa */
+  max-height:65vh;
+  overflow:hidden;
+}
+
+/* 🔥 IMAGEN PERFECTA */
+.delete-img{
+  width:100%;
+  height:auto;
+
+  max-height:60vh;
+
+  object-fit:contain;
+
+  border-radius:12px;
+
+  /* efecto suave */
+  transition:transform .3s ease;
+}
+
+.delete-box:hover .delete-img{
+  transform:scale(1.03);
+}
+
+/* =========================
+   📝 INFO
+========================= */
+.delete-info{
+  padding:15px;
+  text-align:center;
+}
+
+.delete-title{
+  font-size:1.05rem;
+  font-weight:600;
+  margin-bottom:6px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.delete-text{
+  font-size:.85rem;
+  color:#aaa;
+}
+
+/* =========================
+   🔘 BOTONES
+========================= */
+.delete-actions{
+  display:flex;
+  gap:10px;
+  padding:15px;
+}
+
+.btn-delete{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+
+  background:linear-gradient(135deg,#ff2d55,#ff004c);
+  color:white;
+  font-weight:bold;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-delete:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(255,0,80,.6);
+}
+
+.btn-cancel{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+
+  background:#2a2a2a;
+  color:#ddd;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-cancel:hover{
+  background:#3a3a3a;
+}
+
+/* =========================
+   ❌ BOTÓN CERRAR
+========================= */
+.close-delete{
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  width:34px;
+  height:34px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(0,0,0,.65);
+  color:#fff;
+
+  cursor:pointer;
+  z-index:10;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:16px;
+
+  transition:.25s;
+}
+
+.close-delete:hover{
+  background:#ff2d55;
+  transform:rotate(90deg);
+}
+
+/* =========================
+   📱 MÓVILES
+========================= */
+@media(max-width:480px){
+
+  .delete-box{
+    max-width:95%;
+    border-radius:16px;
+  }
+
+  .delete-title{
+    font-size:.95rem;
+  }
+
+  .delete-text{
+    font-size:.8rem;
+  }
+
+  .delete-actions{
+    flex-direction:column;
+  }
+
+  .btn-delete,
+  .btn-cancel{
+    width:100%;
+  }
+}
+
+/* =========================
+   📲 TABLETS
+========================= */
+@media(min-width:481px) and (max-width:900px){
+
+  .delete-box{
+    max-width:380px;
+  }
+
+}
+
+/* =========================
+   💻 PC
+========================= */
+@media(min-width:901px){
+
+  .delete-box{
+    max-width:440px;
+  }
+
+  .delete-title{
+    font-size:1.2rem;
+  }
+
+  .delete-text{
+    font-size:.9rem;
+  }
+}
+
     .category-badge {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  z-index: 5;
-  background: rgba(0,0,0,0.75);
-  padding: 3px 6px;
-  font-size: .55rem;
-  border-radius: 6px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-}
+      position:absolute;
+      top:6px;
+      left:6px;
+      background:rgba(0,0,0,.75);
+      padding:3px 6px;
+      font-size:.55rem;
+      border-radius:6px;
+      font-weight:bold;
+      text-transform:uppercase;
+    }
 
+    .category-pelicula { background:#e50914; }
+    .category-serie { background:#1db954; }
 
-.category-pelicula {
-  background: #e50914;
-}
+    #multiDeleteBtn, #cancelSelectBtn {
+      display:none;
+      margin:10px;
+      padding:10px;
+      border:none;
+      border-radius:8px;
+      color:white;
+    }
 
-.category-serie {
-  background: #1db954;
-}
+    #multiDeleteBtn { background:#ff007f; }
+    #cancelSelectBtn { background:#333; }
 
-/* ========================= */
+    #noResultsMsg {
+      display:none;
+      text-align:center;
+      color:#aaa;
+      margin-top:20px;
+    }
+    /* ========================= */
 /* 📱 CELULARES PEQUEÑOS */
 /* ========================= */
 @media (max-width: 360px) {
@@ -412,9 +574,7 @@ if (isset($_GET['check_status'])) {
 }
 
 /* ========================= */
-/* 📱 CELULARES GRANDES */
-/* ========================= */
-@media (max-width: 480px) {
+/* 📱 CELULARES GRANDES @media (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -430,6 +590,154 @@ if (isset($_GET['check_status'])) {
   .item-info {
     font-size: 0.5rem;
   }
+  
+}
+*/
+/* ========================= */
+
+/* ========================= */ 
+/* 📱 CELULARES GRANDES */
+/* ========================= */
+@media (max-width: 480px) {
+
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* 🔥 GRID */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 0 6px;
+  }
+
+  .item img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+  }
+
+  .item-title {
+    font-size: 0.6rem;
+  }
+
+  .item-info {
+    font-size: 0.5rem;
+  }
+
+  /* ========================= */
+  /* 🔥 DELETE MODAL */
+  /* ========================= */
+
+  .delete-box {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  /* 🔥 ARCOIRIS BORDE */
+  .delete-box::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+
+    background: conic-gradient(
+      from var(--angle),
+      red,
+      orange,
+      yellow,
+      lime,
+      cyan,
+      blue,
+      violet,
+      red
+    );
+
+    animation: rotateBorder 3s linear infinite;
+
+    z-index: 0;
+  }
+
+  /* 🔥 FONDO INTERNO */
+  .delete-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 18px;
+
+    background: linear-gradient(180deg, #111, #0a0a0a);
+
+    z-index: 1;
+  }
+
+  /* 🔥 CONTENIDO */
+  .delete-box > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ========================= */
+  /* 🖼️ IMAGEN CENTRADA SIN CORTE */
+  /* ========================= */
+
+  .delete-box .img-container {
+    width: 100%;
+    max-height: 180px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .delete-box img {
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain; /* 🔥 NO recorta */
+    display: block;
+  }
+
+}
+
+/* 🔥 soporte animación */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* 🔄 animación arcoiris */
+@keyframes rotateBorder {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+
+/* 🔄 animación REAL del borde  */
+@keyframes rotateBorder {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
+/* 🔄 animación */
+@keyframes borderSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ========================= */
@@ -471,7 +779,7 @@ if (isset($_GET['check_status'])) {
   }
 
   .item img {
-    height: 240px;
+    height: 280px;
   }
 
   .item-title {
@@ -487,18 +795,72 @@ if (isset($_GET['check_status'])) {
 /* 💻 MODAL ELIMINAR EN PC */
 /* ========================= */
 @media (min-width: 1024px) {
+
+  /* 🔥 VARIABLE PARA ROTACIÓN */
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* 🌈 BORDE ARCOIRIS ANIMADO */
   .delete-box {
-    max-width: 200px;
-    width: 40%;
-    padding: 30px;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* 🔥 capa arcoiris */
+  .delete-box::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+
+    background: conic-gradient(
+      from var(--angle),
+      red,
+      orange,
+      yellow,
+      lime,
+      cyan,
+      blue,
+      violet,
+      red
+    );
+
+    animation: rotateBorder 3s linear infinite;
+    z-index: 0;
+  }
+
+  /* 🔥 capa interna */
+  .delete-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
     border-radius: 18px;
+
+    background: linear-gradient(180deg,#111,#0a0a0a);
+    z-index: 1;
+  }
+
+  /* 🔥 CONTENIDO ENCIMA */
+  .delete-box > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* 🔄 animación REAL continua */
+  @keyframes rotateBorder {
+    0% { --angle: 0deg; }
+    100% { --angle: 360deg; }
   }
 
   .delete-img {
-      width: 80%;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
+    width: 80%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
 
   .delete-title {
     font-size: 1.4rem;
@@ -519,26 +881,21 @@ if (isset($_GET['check_status'])) {
   }
 }
 
-
-body {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-/* ========================= */
-/* ✅ MODO SELECCIÓN ACTIVO */
-/* ========================= */
-
-
-/* Escritorio */
-@media (min-width: 768px) {
-  .multi-select-active .category-badge {
-    top: 38px;
-  }
+/* 🔥 HOVER para las opciones de orden */
+.order-option {
+  transition: 0.25s ease;
 }
 
-/* 🔥 Estilo para opción seleccionada */
+.order-option:hover {
+  background: #ff0033;
+  color: #fff;
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(255, 0, 51, 0.7);
+}
+/* 🔥 Opción seleccionada */
 .order-option.active {
   background: #ff0033 !important;
-  color: white !important;
+  color: #fff !important;
   transform: scale(1.03);
   box-shadow: 0 0 12px rgba(255, 0, 51, 0.7);
 }
@@ -547,7 +904,6 @@ body {
 </head>
 
 <body>
-
 <!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
 
 <script>
@@ -588,18 +944,27 @@ body {
 </div>
 
 <style>
+/* =========================
+   🔥 LOADER BASE CENTRADO
+========================= */
 #loader-screen {
   position: fixed;
   inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background:
     radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
     radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
     #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+
   z-index: 10000;
+
+  padding: 20px;
+  box-sizing: border-box;
+
   transition: opacity 1s ease, visibility 1s ease;
 }
 #loader-screen.hidden {
@@ -608,7 +973,15 @@ body {
 }
 
 .loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+
   animation: fadeUp 0.8s ease;
 }
 
@@ -623,36 +996,46 @@ body {
   }
 }
 
+/* =========================
+   🔥 CÍRCULO ARCOIRIS
+========================= */
 .loader-circle {
   position: relative;
-  width: 180px;
-  height: 180px;
+
+  width: 160px;
+  height: 160px;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+
+  margin-bottom: 20px;
 }
 
-/* 🔥 ARO GIRATORIO */
+/* 🌈 ARO GIRATORIO */
 .loader-circle::before {
   content: "";
   position: absolute;
   inset: -6px;
   border-radius: 50%;
+
   background: conic-gradient(
     #00aaff,
     #00ffcc,
     #ff00aa,
     #ff3c3c,
+    #ffaa00,
     #00aaff
   );
+
   animation: spin 2s linear infinite;
   z-index: 0;
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
-/* 🔥 BORDE INTERNO NEGRO (para efecto limpio) */
+/* 🔥 CENTRO NEGRO */
 .loader-circle::after {
   content: "";
   position: absolute;
@@ -662,19 +1045,20 @@ body {
   z-index: 1;
 }
 
-/* 🔥 IMAGEN CENTRADA (NO GIRA) */
+/* 🔥 LOGO CENTRADO PERFECTO */
 .loader-logo {
   position: absolute;
   top: 50%;
   left: 50%;
 
-  width: 100px;
+  width: 90px;
 
-  transform: translate(-50%, -50%); /* 🔥 CENTRADO REAL */
-
+  transform: translate(-50%, -50%);
   z-index: 2;
+
   animation: pulse 2.5s ease-in-out infinite;
 }
+
 @keyframes pulse {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
@@ -684,35 +1068,15 @@ body {
   }
 }
 
-/* 🔄 ROTACIÓN SOLO DEL ARO */
+/* 🔄 ROTACIÓN */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.loader-circle::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #00aaff,
-    #00ffcc,
-    #ff00aa,
-    #ff3c3c,
-    #ffaa00,
-    #00aaff
-  );
-  animation: spin 2s linear infinite;
-  z-index: 0;
-  filter: blur(3px);
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
+/* =========================
+   🌈 TEXTO MOVIETX ARCOIRIS
+========================= */
 .loader-title {
   font-size: 2.6rem;
   font-weight: 800;
@@ -737,22 +1101,22 @@ body {
 
   animation: rainbowMove 6s linear infinite;
 
-  /* 🔥 glow suave */
   text-shadow:
     0 0 8px rgba(255,255,255,0.1),
     0 0 15px rgba(255,0,120,0.2);
 }
+
 @keyframes rainbowMove {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 300%;
-  }
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
 }
 
+/* =========================
+   TEXTO
+========================= */
 .loader-sub { font-size: 1.2rem; color: #ccc; }
 .loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+
 @keyframes dotPulse {
   0% { content: ''; }
   25% { content: '.'; }
@@ -760,9 +1124,12 @@ body {
   75% { content: '...'; }
   100% { content: ''; }
 }
+
 .loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
 
-/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
+/* =========================
+   🔥 BARRA DE CARGA
+========================= */
 .loading-bar {
   width: 75%;
   height: 16px;
@@ -781,7 +1148,6 @@ body {
   overflow: hidden;
 }
 
-/* brillo que se mueve */
 .loading-fill::after {
   content: "";
   position: absolute;
@@ -807,7 +1173,56 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+/* 📱 CELULARES */
+/* 📱 CELULARES */
+@media (max-width: 480px) {
+
+  .loader-circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* 🔥 logo más grande */
+  .loader-logo {
+    width: 85px;
+  }
+
+  .loader-title {
+    font-size: 2rem;
+  }
+
+  /* 🔥 barra más corta y prolija */
+  .loading-bar {
+    width: 65%;
+    height: 12px;
+  }
+
+  .loading-percent {
+    font-size: 10px;
+  }
+
+}
+
+/* 💻 PC */
+@media (min-width: 1024px) {
+  .loader-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loader-logo {
+    width: 110px;
+  }
+
+  .loader-title {
+    font-size: 3rem;
+  }
 }
 </style>
 
@@ -908,14 +1323,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <!-- Modal eliminar -->
   <div id="deleteModal" class="delete-modal">
-    <div class="delete-box">
-      <button class="close-delete" id="cancelDelete">✖</button>
-      <img id="deleteImg" class="delete-img">
-      <h3 id="deleteTitle" class="delete-title"></h3>
-      <p class="delete-text">¿Deseas eliminar este favorito?</p>
-      <button id="confirmDelete" class="btn-delete">Eliminar</button>
+
+  <div class="delete-box">
+
+    <div class="delete-media">
+      <img id="deleteImg" class="delete-img" loading="lazy">
     </div>
+
+    <div class="delete-info">
+      <h3 id="deleteTitle" class="delete-title"></h3>
+      <p class="delete-text">
+        ¿Deseas eliminar este favorito?
+      </p>
+    </div>
+
+    <div class="delete-actions">
+      <button id="confirmDelete" class="btn-delete">Eliminar</button>
+      <button id="cancelDelete2" class="btn-cancel">Cancelar</button>
+    </div>
+
   </div>
+
+</div>
 
   <!-- Modal flotante de edad + clave -->
 <div id="ageModal" class="age-modal hidden">
@@ -1131,6 +1560,10 @@ document.addEventListener("DOMContentLoaded", () => {
   .hidden {
     display: none;
   }
+  .category-series {
+  background: #1db954;
+}
+
 </style>
 
 <script>
@@ -1281,9 +1714,12 @@ if(!titulo || titulo === "undefined"){
       id: id,
       titulo: titulo,
       imagen: item.imagen,
-      archivo: "Reproductor Universal.php?id=" + id,
+      archivo: (item.tipo && item.tipo.toLowerCase() === "series")
+  ? "Reproductor Universal Series.php?id=" + id
+  : "Reproductor Universal.php?id=" + id,
+
       tipo: item.tipo,
-      timestamp: Date.now() - index * 1000
+      timestamp: item.fecha
     });
 
   }
@@ -1471,12 +1907,12 @@ div.addEventListener("touchmove", () => {
     deleteModal.style.display = "flex";
   }
 
-  cancelDelete.onclick = () => {
-    indexAEliminar = null;
-    deleteModal.style.display = "none";
-  };
+  document.getElementById("cancelDelete2").onclick = () => {
+  indexAEliminar = null;
+  deleteModal.style.display = "none";
+};
 
-  confirmDelete.onclick = () => {
+  document.getElementById("confirmDelete").onclick = () => {
 
   if (indexAEliminar !== null) {
 

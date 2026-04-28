@@ -1,0 +1,2641 @@
+<?php
+session_start();
+require_once "../config.php";
+
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$userId = (int) $_SESSION['id'];
+
+/* =========================
+   OBTENER USUARIO
+========================= */
+
+$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+
+/* =========================
+   SI NO EXISTE → LOGOUT
+========================= */
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI ADMIN SUSPENDIÓ
+========================= */
+
+if ($user['status'] !== "active") {
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
+}
+
+/* =========================
+   SI CUENTA EXPIRÓ
+========================= */
+
+if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+
+    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php?expired=1");
+    exit();
+}
+
+/* =========================
+   DATOS DEL USUARIO
+========================= */
+
+$nombre = $user['name'] ?? 'Usuario';
+$email  = $user['email'] ?? '';
+$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+
+/* =========================
+   VERIFICACIÓN AJAX
+   (para detectar suspensión en vivo)
+========================= */
+
+if (isset($_GET['check_status'])) {
+
+    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data || $data['status'] !== 'active') {
+        session_unset();
+        session_destroy();
+        echo "logout";
+    } else {
+        echo "ok";
+    }
+
+    exit();
+}
+?>
+
+<?php require_once "../auth.php"; ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 Movie</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #000000;
+      color: #fff;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #000000;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+    }
+    h1 { margin: 0; font-size: 1rem; }
+    .search-box {
+      text-align: center;
+      padding: 15px 0;
+    }
+    .search-box input {
+      width: 90%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #1c1c1c;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .search-box input:focus {
+      outline: none;
+      background: #222;
+      box-shadow: 0 0 8px rgba(255, 32, 143, 0.5);
+    }
+    input::placeholder {
+      color: #aaa;
+      font-weight: 500;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      padding: 10px;
+    }
+    @media (max-width: 600px) {
+      .movie-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (orientation: landscape) and (min-width: 700px) {
+      .movie-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (orientation: landscape) and (min-width: 1024px) {
+      .movie-grid { grid-template-columns: repeat(8, 1fr); }
+    }
+
+    .movie {
+      background: #000000;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .movie:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 32, 143, 0.6);
+    }
+    .movie img {
+  width: 100%;
+  height: 180px;       /* 🔥 MISMO LARGO PARA TODAS */
+  object-fit: contain;   /* 🔥 NO RECORTA */
+  display: block;
+}
+
+.movie p {
+  margin: 6px 4px 8px;
+  text-align: center;
+  font-size: 0.6rem;
+  color: #f5f5f5;
+  line-height: 1.2;
+}
+
+    
+    .movie:hover img { filter: brightness(1.1); }
+    .movie.locked img { filter: brightness(0.5); }
+    .movie p {
+      margin: 8px;
+      text-align: center;
+      font-size: 0.6rem;
+      color: #f5f5f5;
+    }
+
+    /*PELICULA*/
+    .movie .pelicula, .movie .year-tag {
+      position: absolute;
+      z-index: 2;
+      color: rgba(255, 32, 143, 0.838);
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.838);
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      border-radius: 3px;
+    }
+
+    .movie .year-tegg {
+      position: absolute;
+      z-index: 2;
+      color: rgb(255, 32, 143);
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.838);
+      padding: 2px 6px;
+      font-size: 0.6rem;
+      border-radius: 3px;
+    }
+    .movie .pelicula { top: 5px; left: 5px; }
+    .movie .year-tag { top: 25px; left: 5px; }
+    .movie .year-tegg { top: 47px; left: 5px; }
+    .movie .lock-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 28px;
+      height: 28px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: white;
+      animation: bounce 1s infinite;
+    }
+    /*FIN*/
+
+    /*Serie*/
+    .movie .SerieHd, .movie .year-tog {
+      position: absolute;
+      z-index: 2;
+      color: rgba(255, 255, 255, 0.838);
+      font-weight: bold;
+      background: rgba(255, 0, 136, 0.838);
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      border-radius: 3px;
+    }
+
+    .movie .year-tagg {
+      position: absolute;
+      z-index: 2;
+      color: rgba(255, 255, 255, 0.838);
+      font-weight: bold;
+      background: rgba(255, 0, 136, 0.838);
+      padding: 2px 6px;
+      font-size: 0.6rem;
+      border-radius: 3px;
+    }
+
+    .movie .SerieHd { top: 5px; left: 5px; }
+    .movie .year-tog { top: 25px; left: 5px; }
+    .movie .year-tagg { top: 47px; left: 5px; }
+    .movie .lock-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 28px;
+      height: 28px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: white;
+      animation: bounce 1s infinite;
+    }
+
+    /*FIN*/
+
+
+    
+    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);} }
+    .movie .recien-tag {
+      position: absolute;
+      top: 160px;
+      left: 5px;
+      background: rgb(255, 32, 143);
+      color: white;
+      font-weight: bold;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 3px;
+      z-index: 3;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.8;transform:scale(1.1);}}
+    .no-results {
+      text-align: center;
+      padding: 20px;
+      font-size: 1rem;
+      color: #bbb;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+// 🔹 Evita volver a la página anterior
+// y manda directo a index.html al presionar atrás
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
+  // Redirige directamente al index y reemplaza el historial
+  window.location.replace("../inicio.php");
+});
+
+// 🔹 Limpia el historial para que no se pueda regresar desde index
+if (window.performance && window.performance.navigation.type === 2) {
+  // Si se intenta volver con cache, redirige igual
+  window.location.replace("../inicio.php");
+}
+</script>
+
+<div id="loader-screen">
+  <div class="loader-content">
+    <div class="loader-circle">
+      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
+    </div>
+
+    <h1 class="loader-title">MovieTx</h1>
+    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
+    <p class="loader-msg">Por favor, espere</p>
+
+    <!-- 🔥 Nueva barra de carga profesional -->
+    <div class="loading-bar">
+      <div class="loading-fill" id="loading-fill"></div>
+      <div class="loading-percent" id="loading-percent">0%</div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* =========================
+   🔥 LOADER BASE CENTRADO
+========================= */
+#loader-screen {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
+    #000;
+
+  z-index: 10000;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loader-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+
+  animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   🔥 CÍRCULO ARCOIRIS
+========================= */
+.loader-circle {
+  position: relative;
+
+  width: 160px;
+  height: 160px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}
+
+/* 🌈 ARO GIRATORIO */
+.loader-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+
+  background: conic-gradient(
+    #00aaff,
+    #00ffcc,
+    #ff00aa,
+    #ff3c3c,
+    #ffaa00,
+    #00aaff
+  );
+
+  animation: spin 2s linear infinite;
+  z-index: 0;
+  filter: blur(3px);
+}
+
+/* 🔥 CENTRO NEGRO */
+.loader-circle::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #000;
+  z-index: 1;
+}
+
+/* 🔥 LOGO CENTRADO PERFECTO */
+.loader-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 90px;
+
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+/* 🔄 ROTACIÓN */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =========================
+   🌈 TEXTO MOVIETX ARCOIRIS
+========================= */
+.loader-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9900,
+    #ffee00,
+    #00ff99,
+    #00aaff,
+    #7a00ff,
+    #ff00aa,
+    #ff0000
+  );
+
+  background-size: 300%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: rainbowMove 6s linear infinite;
+
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.1),
+    0 0 15px rgba(255,0,120,0.2);
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
+}
+
+/* =========================
+   TEXTO
+========================= */
+.loader-sub { font-size: 1.2rem; color: #ccc; }
+.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+
+@keyframes dotPulse {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
+
+/* =========================
+   🔥 BARRA DE CARGA
+========================= */
+.loading-bar {
+  width: 75%;
+  height: 16px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  margin: 22px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00aaff, #ff007f);
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  100% { left: 120%; }
+}
+
+.loading-percent {
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+/* 📱 CELULARES */
+/* 📱 CELULARES */
+@media (max-width: 480px) {
+
+  .loader-circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* 🔥 logo más grande */
+  .loader-logo {
+    width: 85px;
+  }
+
+  .loader-title {
+    font-size: 2rem;
+  }
+
+  /* 🔥 barra más corta y prolija */
+  .loading-bar {
+    width: 65%;
+    height: 12px;
+  }
+
+  .loading-percent {
+    font-size: 10px;
+  }
+
+}
+
+/* 💻 PC */
+@media (min-width: 1024px) {
+  .loader-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loader-logo {
+    width: 110px;
+  }
+
+  .loader-title {
+    font-size: 3rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loader = document.getElementById('loader-screen');
+  const bar = document.getElementById('loading-fill');
+  const percent = document.getElementById('loading-percent');
+
+  // 🔒 Si no existe el loader, no rompe nada
+  if (!loader || !bar || !percent) return;
+
+  let progreso = 0;
+  let terminado = false;
+
+  // 🔥 Animación controlada
+  const anim = setInterval(() => {
+    if (progreso < 90) {
+      progreso += 1.5; // más suave
+      actualizar();
+    }
+  }, 60);
+
+  function actualizar() {
+    if (!bar || !percent) return;
+
+    progreso = Math.min(progreso, 100);
+    bar.style.width = progreso + "%";
+    percent.textContent = Math.floor(progreso) + "%";
+  }
+
+  function finalizar() {
+    if (terminado) return;
+    terminado = true;
+
+    clearInterval(anim);
+
+    // 🔥 subida final limpia
+    const finalAnim = setInterval(() => {
+      if (progreso < 100) {
+        progreso += 2;
+        actualizar();
+      } else {
+        clearInterval(finalAnim);
+
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 300);
+      }
+    }, 20);
+  }
+
+  // ✅ SOLO cuando todo cargó
+  window.addEventListener("load", () => {
+    setTimeout(finalizar, 200);
+  });
+
+  // ✅ fallback seguro (por si algo falla)
+  setTimeout(() => {
+    finalizar();
+  }, 3500);
+
+});
+</script>
+
+<style>
+
+/* HEADER FLEX */
+.header-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* BOTON FILTRO */
+.btn-filtro{
+  background:transparent;
+  border:none;
+  font-size:1.4rem;
+  cursor:pointer;
+  color:#fff;
+  transition:0.3s;
+}
+.btn-filtro:hover{
+  transform:scale(1.2);
+  color:#ff007f;
+}
+
+/* MODAL */
+.modal-genero{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.modal-genero.activo{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal-contenido{
+  background:#111;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(255,0,128,0.4);
+  position:relative;
+}
+
+.cerrar-modal{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+/* BOTONES GENERO */
+.generos{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:15px;
+  max-height:250px;
+  overflow-y:auto;
+}
+
+.genero-btn{
+  width:100%;
+  text-align:left;
+  padding:10px 14px;
+  border:none;
+  border-radius:6px;
+  background:#1a1a1a;
+  color:#fff;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:0.9rem;
+}
+
+.genero-btn:hover{
+  background:#ff007f;
+}
+
+.genero-btn.activo{
+  background:#ff007f;
+  box-shadow:0 0 10px #ff007f;
+}
+
+/* RESET */
+.reset-btn{
+  margin-top:20px;
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#444;
+  color:#fff;
+  cursor:pointer;
+}
+.reset-btn:hover{
+  background:#777;
+}
+
+.btn-filtro svg {
+  display: block;        /* 🔥 evita línea fantasma inline */
+}
+
+.btn-filtro {
+  line-height: 0;        /* 🔥 elimina espacio vertical invisible */
+}
+
+</style>
+<!-- 🔴 Fin pantalla de carga neón -->
+
+  <header>
+  <div class="header-container">
+    <h1 id="titulo-seccion">
+      Agregados HOY 
+      <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span>
+    </h1>
+    <button class="btn-filtro" id="abrirModal" title="Filtrar por género">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="4" y1="6" x2="20" y2="6"/>
+    <circle cx="10" cy="6" r="2"/>
+    <line x1="4" y1="12" x2="20" y2="12"/>
+    <circle cx="14" cy="12" r="2"/>
+    <line x1="4" y1="18" x2="20" y2="18"/>
+    <circle cx="8" cy="18" r="2"/>
+  </svg>
+</button>
+
+  </div>
+
+</header>
+
+<div class="modal-genero" id="modalGenero">
+  <div class="modal-contenido">
+
+    <button class="cerrar-modal" id="cerrarModal">✖</button>
+
+    <h2>Seleccionar género</h2>
+
+    <div class="generos">
+      <button class="genero-btn">Accion</button>
+      <button class="genero-btn">Animacion</button>
+      <button class="genero-btn">Anime</button>
+      <button class="genero-btn">Comedia</button>
+      <button class="genero-btn">Crimen</button>
+      <button class="genero-btn">Drama</button>
+      <button class="genero-btn">Documental</button>
+      <button class="genero-btn">Disney</button>
+      <button class="genero-btn">Marvel</button>
+      <button class="genero-btn">Musical</button>
+      <button class="genero-btn">Suspenso</button>
+      <button class="genero-btn">Romance</button>
+      <button class="genero-btn">Peleas</button>
+      <button class="genero-btn">Terror</button>
+      <button class="genero-btn">Vengaza</button>
+    </div>
+
+    <button class="reset-btn" id="resetGenero">
+      Quitar filtro
+    </button>
+
+  </div>
+</div>
+
+
+
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Buscar por nombre, género o año..." oninput="filtrarPeliculas()"> <!--ESTABA PUESTO "Buscar por nombre, género o año..." -->
+  </div>
+
+  <div class="movie-grid" id="movie-grid">
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="super mario bros 2 galaxy la pelicula" data-genero="animacion aventura fantasia comedia familiar" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=super_mario_bros_2" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2026</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Super Mario Bros 2: Galaxy</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="plankton bob esponja" data-genero="animacion aventura accion comedia ciencia ficcion" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=plankton" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Plankton: La pelicula</p>
+    </div>
+
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los pitufos" data-genero="animacion aventura fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lospitufos_2025" data-fecha="2026-01-20">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/zBdQclxQnEDOhDOjkKgKPW6jEHh.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Pitulos</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="Lo que le falta a esta estrella" data-genero="animacion romance ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lo_que_le_falta_a_esta_estrella" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lo que le falta a esta estrella</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="La rosa de versalles" data-genero="animacion romance historia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_rosa_de_versalles" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La rosa de Versalles</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch action" data-genero="animacion aventura disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch_2025" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mufasa el rey leon" data-genero="animacion disney aventura familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=mufasa_el_rey_leon" data-fecha="2026-04-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mufasa: El rey león</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sonic 3" data-genero="animacion comedia ciencia ficcion familiar" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=sonic_3" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/vlAXtzNWQ3VSZtIinhHqcPXS1Oc.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Sonic 3: La pelicula</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="zootopia 2" data-genero="animacion aventura comedia familia infantil niños disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=zootopia_2" data-fecha="2025-12-02">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Zootopia 2</p>
+    </div>
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon" data-genero="aventura ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon" data-fecha="2025-11-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/xLsMLfE0t0eyc8km2hAeSayUBa3.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Como entrenar a tu dragón</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-tipo="pelicula" data-genero="animacion fantasia familia disney princesas" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=blancanieves" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Blancanieves</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el maravilloso mago de oz" data-genero="fantasia aventura musical infantil" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=el_maravilloso_mago_de_oz" data-fecha="2026-03-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El maravilloso mago de Oz</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="liga de la justicia crisis en tierras infinitas parte 2" data-genero="accion animacion ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=liga_de_la_justicia_crisis_en_tierras_infinitas_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/aOT8n3YOOkInZ5VHJN4FffHrm43.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Liga de la Justicia: Crisis en Tierras Infinitas - Parte 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="garfield fuera de casa" data-genero="familia comedia aventura animacion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=garfield_fuera_de_casa" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6QR2FOCQr41gSduN70WulRIhJb7.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Garfield: Fuera de casa</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el arca de noe" data-genero="animacion musical familia niño infantil" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_arca_de_noe" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fRaBjht3S1HU6lJrz2SoFwwOZQM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El Arca De Noé</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="kung fu panda 4" data-genero="animacion aventura fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=kung_fu_panda_4" data-fecha="2026-01-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Kung fu panda 4</p>
+    </div>
+    
+    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente 2" data-genero="animacion drama aventura fantasia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=intensamente_2" data-fecha="2026-01-20">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Intensamente 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="moana 2" data-genero="animacion aventura disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=moana_2" data-fecha="2025-11-26">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Moana 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bambi una vida en el bosque" data-genero="aventura documental familia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=bambi_una_vida_en_el_bosque_2024" data-fecha="2025-11-02">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Bambi: Una vida en el bosque</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="baki hanma vs kengan ashura" data-genero="animacion anime fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=baki_hanma_vs_kengan_ashura" data-fecha="2025-11-02">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Baki Hanma VS Kengan Ashura</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el pájaro loco lío en el campamento" data-genero="animacion aventura familia comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=el_pajaro_loco_se_va_de_campamento" data-fecha="2026-03-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/x7QXH6T8oTKlUbKt8TD1rPimzCr.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El pájaro loco ¡Lío en el campamento!</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="robot salvaje" data-genero="animacion aventura animales familia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=robot_salvaje" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Robot salvaje</p>
+    </div>
+
+    <div class="movie locked"  data-tipo="pelicula"data-titulo="Al rescate de fondo de Bikini bob esponja" data-genero="animacion aventura comedia familia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=al_rescate_de_fondo_de_bikini_la_película_de_arenita_mejillas" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Al rescate de fondo de Bikini: La película de Arenita Mejillas</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="megamente 2 contra el sindicato del mal" data-genero="animacion ciencia ficcion comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=megamente_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/jdXLCBv0oFjWbTtQTuoJFXVPsbd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Megamente 2: Contra el sindicato del mal</p>
+    </div>
+
+    <div class="movie locked" data-titulo="elemental" data-genero="animacion musical disney aventura romance" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=elemental" data-fecha="2026-03-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Elemental</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="super mario bros la pelicula" data-genero="animacion aventura fantasia comedia familiar" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=super_mario_bros" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/k36QyeVsy851npTUQL08jO8hqip.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Super Mario Bros: La pelicula</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man cruzando el multiverso spider man 2" data-genero="accion aventura animacion marvel" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=spiderman_man_cruzando_el_multi_verso_2" data-fecha="2026-01-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Spider-Man: Cruzando el Multi-Verso</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el gato con botas 2 el ultimo deseo" data-genero="animacion comedia aventura fantasia familia infantil" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=el_gato_con_botas_2" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El gato con botas 2: El último deseo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="barbie" data-genero="comedia aventura musical" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=barbie" data-fecha="2025-11-02">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Barbie</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 4 transformania" data-genero="animacion comedia aventura fantasia" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_4" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 4: Transformania</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion fantasia disney aventura" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho_2022" data-fecha="2026-02-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pinocho</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="minions el origen de gru" data-genero="animacion accion aventura comedia ciencia ficcion familia" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=minions_el_origen_de_gru" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Minions: El origen de Gru</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z dragon ball super super hero" data-genero="animacion anime accion ciencia ficcion" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_super_super_hero" data-fecha="2026-02-27">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/wFYXVMKWLAoazjWTBNQ4IiQSKJg.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Super: Super hero</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lightyear" data-genero="animacion aventura familia disney toy story" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=lightyear" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lightyear</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales el rencor de edimburgo parte 1" data-genero="animacion aventura anime accion" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_el_rencor_1" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: El rencor de Edimburgo - Parte 1</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales la maldicion de la luz" data-genero="animacion accion aventura anime" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_la_maldicion_de_la_luz" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: La maldición de la luz</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=encanto" data-fecha="2026-03-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Encanto</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un jefe en pañales 2 negocios de familia" data-genero="animacion musical familiar aventura" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=un_jefe_en_pañales_2" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kv2Qk9MKFFQo4WQPaYta599HkJP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Un jefe en pañales 2: Negocios de familia</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trollhunters el despertar de los titanes" data-genero="animacion fantasia familia accion aventura" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trollhunters: El despertar de los titanes</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sing 2 cantar" data-genero="animacion musical fantasia familia niños" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=sing_cantar_2" data-fecha="2026-01-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Sing 2: Cantar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los croods 2 una nueva era" data-genero="animacion aventura comedia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=los_croods_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5uMWKEmegf5aTJnp1u98JF4QerP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Croods 2: Una nueva era</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="scooby ¡scooby!" data-genero="animacion aventura" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=scooby_2020" data-fecha="2025-10-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>¡Scooby!</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 3 un heroe al rescate" data-genero="animacion aventura fantasia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_3" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Bob Esponja 3: Un héroe al rescate</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trolls 2 gira mundial" data-genero="animacion musical aventura familia fantasia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=trolls_2" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trolls 2: Gira mundial</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="frozen 2" data-genero="animacion aventura musical disney" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=frozen_2" data-fecha="2026_03_25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Frozen 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el rey león" data-genero="animación aventura familia disney" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=el_rey_leon_2019" data-fecha="2026-03-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El rey león</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="aventura disney comedia fantasia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin_2019" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fv9c5fsdxqUzkullgMB4cZja29y.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Aladdin</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 3" data-genero="animacion aventura fantasia familia" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_3" data-fecha="2025-11-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/rBQ9RVg6Zpo5aasWWOWmjET5Hah.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cómo entrenar a tu dragón 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 4" data-genero="animacion disney familia comedia aventura" data-anio="2019" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_4" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2019</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Toy story 4</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los Increibles 2" data-genero="animacion disney accion aventura" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_increibles_2" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/bJjc0217DuipdwJ0wyi3I4j6soR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Increíbles 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales prisioneros del cielo" data-genero="animacion accion aventura anime" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_prisioneros_del_cielo" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: Prisioneros del cielo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 3" data-genero="animacion comedia aventura fantasia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="spider man un nuevo universo" data-genero="accion aventura animacion marvel ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=spider_man_un_nuevo_universo" data-fecha="2026-02-28">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xRMZikjAHNFebD1FLRqgDZeGV4a.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Spider-Man: Un nuevo universo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z super broly" data-genero="animacion anime ciencia ficcion accion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_super_broly" data-fecha="2026-02-28">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Super: Broly</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="moana" data-genero="animacion aventura disney" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=moana" data-fecha="2025-11-26">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/a4Jj3Tk2AZvmUYWx0H92HGfktKo.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Moana</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="steven universe la pelicula" data-genero="animacion ciencia ficcion aventura musical fantasia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=steven_universe_la_pelicula" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/bewhxwbmWTMe16dEQa8ICGe9Y1Y.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Steven Universe: La pelicula</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 3" data-genero="animacion disney familia aventura" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=cars_3" data-fecha="2025-11-16">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2017</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cars 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un bebe en pañales" data-genero="animacion disney familia aventura" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=un_jefe_en_pañales" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2017</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Un jefe en pañales</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="coco" data-genero="animacion disney familia aventura musical" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=coco" data-fecha="2025-11-34">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2017</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/yAvisTUocxmXQZQJZ521dL9a36p.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Coco</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 3" data-genero="animacion aventura comedia familia accion" data-anio="2017" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito_3" data-fecha="2026-02-14">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2017</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mi villano favorito 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trolls" data-genero="animacion musical aventura familia fantasia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=trolls" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2016</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5nDbnZ9UssqVoVRggQOb2icL9Pb.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trolls</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="sing cantar" data-genero="animacion musical fantasia familia niños" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=sing_cantar" data-fecha="2026-01-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2016</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/sMCdqRia4H5WNZe9jgf37ZnUDlw.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Sing: Cantar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z la resurreccion de freezer" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_resurreccion_de_freezer" data-fecha="2025-11-06">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: La resurreccion de Freezer</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 2" data-genero="animacion comedia aventura fantasia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="boruto uzumaki naruto shippuden" data-tipo="pelicula" data-genero="animacion anime accion" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=boruto_2015" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Boruto: La Película</p>
+    </div>
+
+    <!--
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un gran dinosaurio" data-genero="animacion aventura disney musical" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=un_gran_dinosaurio" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/">
+      <span class="lock-icon">🔒</span>
+      <p>Un gran dinosaurio</p>
+    </div>
+    -->
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas fiesta sobre ruedas" data-genero="animacion comedia aventura musical" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_4" data-fecha="2025-30-10">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/isz4uh337srL6PIYiKXTS5Htssq.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Alvin y las ardillas: Fiesta sobre ruedas</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob Esponja 2 un heroe fuera del agua" data-genero="animacion aventura comedia familia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_2" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Bob Esponja 2: Un héroe fuera del agua</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="intensamente" data-genero="animacion drama aventura fantasia disney" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=intensamente" data-fecha="2026-01-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ewEX6VcVohyrQ52usZb1XovN1Bj.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Intensamente</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 2" data-genero="animacion aventura fantasia familia" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_2" data-fecha="2025-11-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2014</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ettHoubPw8byYfpV1vomGnyfBnp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cómo entrenar a tu dragón 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los croods" data-genero="animacion aventura comedia familia" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=los_croods" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3X3qtBTgKt5mCB30RJwbIjgjzdw.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los croods</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania" data-genero="animacion comedia aventura fantasia" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="turbo" data-genero="animacion aventura" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=turbo" data-fecha="2026-01-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ysNUm2zWPkJQKa3Op0N4EmqrZ0h.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Turbo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z la batalla de los dioses" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_batalla_de_los_dioses" data-fecha="2025-11-06">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: La batalla de los dioses</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito 2" data-genero="animacion aventura comedia familia accion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito_2" data-fecha="2026-02-14">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ikz6zymN62kqSFioVWAqn8mPufM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mi villano favorito 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar 3 de marcha por europa" data-genero="animacion aventura animales ciencia ficion" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar_3" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/l7d5JCkwvGrqiQcppobohXYnjxt.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Madagascar 3: De marcha por Europa</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el origen de los guardianes" data-genero="animacion aventura fantasia" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=el_origen_de_los_guardianes" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El origen de los guardianes</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="el gato con botas" data-genero="animacion comedia aventura fantasia familia infantil" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=el_gato_con_botas" data-fecha="2026-03-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>El gato con botas</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 2" data-genero="animacion disney familia aventura" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=cars_2" data-fecha="2025-11-16">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cars 2</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z episodio de bardock " data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_episodio_de_bardock" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Episodio de Bardock</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 3" data-genero="animacion comedia aventura musical" data-anio="2011" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_3" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2011</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/a52ebjlDqvrjcKtFGDtQgNQLaGH.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Alvin y las ardillas 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z plan para erradicar a los Super Saiyans" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_plan_erradicar" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2010</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/qPv8avE1joxywziPMd49k6yINJp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Plan para erradicar a los Super Saiyans</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon 1" data-genero="animacion aventura ciencia ficcion familia" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon_1" data-fecha="2025-11-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2010</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/8ekxsUORMAsfmSc8GzHmG8gWPbp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cómo entrenar a tu dragón</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi villano favorito" data-genero="animacion aventura comedia familia accion" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=mi_villano_favorito" data-fecha="2026-02-14">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2010</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/pgDbf2DPNWVz5D8PvgsCoI21k7j.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mi villano favorito</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 3" data-genero="animacion disney familia comedia aventura" data-anio="2010" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_3" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2010</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Toy story 3</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas 2" data-genero="animacion comedia aventura musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas_2" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2009</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Alvin y las ardillas 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar 2" data-genero="animacion aventura animales ciencia ficcion" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar_2" data-fecha="2025-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2008</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Madagascar 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita 3 los comienzos de ariel" data-genero="animacion aventura disney musical fantasia" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2008</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/oP09KA2lP5SluKVf8AmRsf38X7q.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita 3: Los comienzos de Ariel</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta 3 qué pasaría si…" data-genero="animacion disney musical familia aventura" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2007</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta 3: Qué pasaría si…</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas" data-genero="animacion aventura comedia musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2007</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Alvin y las ardillas</p>
+    </div>
+    
+    <div class="movie locked" data-tipo="pelicula" data-titulo="leroy y stitch" data-genero="animacion disney aventura familia" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=leroy_y_stitch" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2006</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1RjvpZMAFZlnbLvrRYWEb2tzEyC.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Leroy y Stitch</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos 2" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos_2" data-fecha="2026-02-28">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2006</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Tierra de osos 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="cars 1" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=cars" data-fecha="2025-11-16">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2006</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/abW5AzHDaIK1n9C36VdAeOwORRA.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Cars</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch 2 el efecto del defecto" data-genero="animacion aventura disney familia" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2005</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch 2: El efecto del defecto</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar" data-genero="animacion aventura familia animales" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar" data-fecha="2026-02-16">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2005</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/v6bFSYpmAREGriQiMJvvO9TiapM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Madagascar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la novia cadaver" data-genero="animacion romance fantasia" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=la_novia_cadaver" data-fecha="2026-03-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2005</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3ALM0VeZjGUryAqWo6pqohzbLDh.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La novia cadáver</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan 2" data-genero="animacion aventura familia disney" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=tarzan_2" data-fecha="2025-01-20">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2005</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5KRnGepv2b1daJ2WM8ZGnPS64nl.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Tarzan 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mickey, donald y goofy los tres mosqueteros" data-genero="animacion disney aventura" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=mickey_donald_y_goofy_los_tres_mosqueteros" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2004</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/gknRvWOe1vypDJfFA4jnprCoK0T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mickey, Donald y Goofy: Los tres mosqueteros</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 1" data-tipo="pelicula" data-genero="animacion aventura niños infantil familia" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_1" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2004</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Bob Esponja: La película</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los Increibles" data-genero="animacion disney accion aventura" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=los_increibles" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2004</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1Clex17991DCM7uRkAClq52UULM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Increíbles</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos" data-genero="animacion disney familia aventura" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos" data-fecha="2026-02-28">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2003</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Tierra de osos</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan la gran aventura" data-genero="animacion aventura familia disney fantasia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan_la_gran_aventura" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2003</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter Pan: La gran aventura</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan 2 en regreso al País de nunca jamas" data-genero="animacion aventura familia disney fantasia" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kkFeLiMeih9jgXatztoloOyGSbc.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter Pan 2: En Regreso al País de Nunca Jamás</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta 2 la magia no termina a media noche" data-genero="animacion disney musical familia aventura" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/2EoH5WWtDYuQLYVLHeJxfvbSRyK.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta 2: ¡La magia no termina a media noche!</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch" data-genero="animacion aventura disney familia" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="shrek" data-genero="animacion aventura fantasia familia" data-anio="2001" data-html="../View Peliculas/Reproductor Universal.php?id=shrek" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2001</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Shrek</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita 2 regreso al mar" data-genero="animacion aventura disney musical fantasia" data-anio="2000" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita_2" data-fecha="2025-07-11">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2000</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fresAluIWfBRwdQOaVcM4i5uGsP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita 2: Regreso al mar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan" data-genero="animacion aventura familia disney" data-anio="1999" data-html="../View Peliculas/Reproductor Universal.php?id=tarzan" data-fecha="2025-01-20">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1999</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/u9WgwjFpBWc3eQxddUFSicH2K6p.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Tarzan</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story 2" data-genero="animacion disney familia comedia aventura" data-anio="1888" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story_2" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1888</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Toy story 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z una gran aventura mistica" data-genero="animacion anime accion" data-anio="1998" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_gran_aventura_mistica" data-fecha="2026-02-27">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1998</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/f2BipTKswrdpqoCc1xJDyL35rJy.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball: Gran aventura mística</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pocahontas 2 vuaje a un nuevo mundo" data-genero="animacion aventura disney familia romance" data-anio="1998" data-html="../View Peliculas/Reproductor Universal.php?id=pocahontas_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1998</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pocahontas 2: Viaje a un nuevo mundo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hercules" data-genero="animacion aventura disney fantasia" data-anio="1997" data-html="../View Peliculas/Reproductor Universal.php?id=hercules" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1997</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hdOS8bvta2DmDF8NHcgKWQDx0OX.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hercules</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 3 el rey de los ladrones" data-genero="animacion aventura disney romance fantasia " data-anio="1986" data-html="../View Peliculas/Reproductor Universal.php?id=aladdim_3" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1996</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/abWvjyJz4kcp1xDn28RwyXjoIds.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Aladdin 3: El rey de los ladrones</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball dragon ball z el camino hacia el poder" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_el_camino_hacia_el_poder" data-fecha="2025-11-26">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1996</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball: El camino hacia el poder</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball dragon ball z  gt 100 años despues" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1996" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_gt_despues_de_100_años" data-fecha="2025-11-30">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1996</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/izZaeWcWDir9PvuSwaITV1E1rA8.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball GT: Después 100 años </p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pocahontas" data-genero="animacion aventura disney familia romance" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=pocahontas" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1995</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pocahontas</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z el ataque del dragon" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_ataque_del_dragon" data-fecha="2026-03-10">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1995</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/7uRu9EA3nie0n2mlVDDLlTI3IzC.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El ataque del dragon</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="toy story" data-genero="animacion disney familia comedia aventura" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=toy_story" data-fecha="2026-02-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1995</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/koUNJtRB1iRKhST9s4itGTzU6lp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Toy story</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z el combate final" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1994" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_combate_final" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1994</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/gYcZAjYdTUGVf5oyqO2CawwuBla.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El combate final</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 2 el retorno de fafar" data-genero="animacion aventura disney romance fantasia " data-anio="1994" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin_2" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1994</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tC54XTUu4NVsMeWdSofja2uye9c.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Aladdin 2: El retorno de Jafar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="Ddragon ball z el regreso del guerrero legendario" data-genero="animacion anime accion ciencia ficcion" data-anio="1994" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_regreso_de_broly" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1994</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/iwvMmddNNf6DVLq3CBe8hhpHUgE.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El regreso del guerrero legendario</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin" data-genero="animacion aventura disney fantasia musical familia" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.php?id=aladdin" data-fecha="2025-10-12">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1993</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Aladdín</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z el poder invensible" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1993" data-html="../View Peliculas/dReproductor Universal.php?id=ragon_ball_z_el_poder_invencible" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1993</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/qanX5FNg7w7DfjLqwGHZJtiF0Ri.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El poder invensible</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z la galaxia corre peligro" data-genero="animacion anime accion ciencia ficcion" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_galaxia_corre_peligro" data-fecha="2025-12-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1993</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/oAUr61gawC5q4LlxtmfrIwKeGco.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: La galaxia corre peligro</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z los dos guerreros del futuro" data-genero="animacion anime accion ciencia ficcion" data-anio="1993" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_guerreros_del_futuro" data-fecha="2025-12-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1993</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/x0FCkSSdOGTA3gC99QayGJH0Dqx.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Los dos guerreros del futuro</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z el regreso de cooler" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1992" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_regreso_de_cooler" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1992</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/zJn14ySh0NTZCOIReQZiWE1fkje.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El regreso de cooler</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z ños tres grandes Super Saiyans" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1992" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_tres_grendes_guerreros_saiyajin" data-fecha="2025-12-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1992</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Los tres grandes Super Saiyans</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z los rivales mas poderosos" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1991" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_los_rivales_mas_poderosos" data-fecha="2025-12-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1991</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/uqTSXqjaSgSAT2lCv3GyZeodQPG.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Los rivales mas poderosos</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z el super saiyajin son goku" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1991" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_super_saiyayin_son_goku" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1991</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/usMb0DzjnMkekizU3ZKkTHQ4x40.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El super saiyajin Son Goku</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z la super batalla" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1990" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_la_super_batalla" data-fecha="2025-12-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1990</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: La super batalla</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z la pelea de bardock vs freezer" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1990" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_bardock_vs_freezer" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1990</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/mnFEyVcDlSshzl65hEdWoYXtnm3.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: La pelea de Bardock vs Freezer</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball z el mas fuerte del mundo" data-tipo="pelicula" data-genero="animacion anime accion ciencia fiscion" data-anio="1990" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_mas_fuerte_del_mundo" data-fecha="2025-12-07">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1990</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5elbm3iLgGQ6nA5vqUmi9vIojbF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: El mas fuerte del mundo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita" data-genero="animacion disney musical aventura familia" data-anio="1989" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1989</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/muTcgTmuyvXQldGNnCzen9FgDfW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z devuelveme a mi gohan" data-genero="anime animacion accion ciencia ficcion" data-anio="1989" data-html="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_devuelveme_a_mi_gohan" data-fecha="2026/03/10">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1989</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/koo5d4CdZd0sxcxxTgxXUHMSY10.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball Z: Devuelveme a mi Gohan</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball dragon ball z  la princesa durmiente del castillo del mal" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1987" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_la_princesa_durmiente" data-fecha="2025-12-01">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1987</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/sTTQ3efvJeW4VDheKvyoLgFAgku.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball: La princesa durmiente del castillo del mal</p>
+    </div>
+
+    <div class="movie locked" data-titulo="dragon ball dragon ball z la leyenda del dragon shenron" data-tipo="pelicula" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1986" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_la_leyenda_de_shenron" data-fecha="2026-02-27">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1986</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Dragon Ball: La leyenda del dragón Shenron</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan" data-genero="animacion aventura familia disney fantasia" data-anio="1953" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1953</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter pan</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta" data-genero="animacion disney musical familia aventura" data-anio="1951" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1951</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/doN9cNyfpcX1DPBNmjJW8eBgcAf.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho" data-fecha="2026-02-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1940</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/nsnyd6MFznuFSaHk1iveAdWc3nI.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pinocho</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-genero="animacion disney princesas" data-anio="1938" data-html="../View Peliculas/Reproductor Universal.php?id=blancanieves_y_los_siete_enanitos" data-fecha="2025-11-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1938</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Blancanieves y los siete enanitos</p>
+    </div>
+    
+  </div>
+  <div id="no-results" class="no-results">Pelicula o serie no encontrada</div> <!--ESTABA PUESTO "No se encontraron resultados 😕"-->
+
+    <!-- Modal flotante de edad + clave -->
+<div id="ageModal" class="age-modal hidden">
+  <div class="age-modal-content">
+    <span class="close-button" onclick="closeModal()">×</span>
+
+    <h2>Verificación de Edad</h2>
+
+    <label for="birthyear">Año de nacimiento:</label>
+<input type="number" id="birthyear">
+
+<label for="age">Edad:</label>
+<input type="number" id="age">
+
+<label for="claveInput">Clave:</label>
+<input type="password" id="claveInput">
+
+<button id="resetClaveBtn" style="background:#444;margin-top:10px;">
+      Olvidé mi clave
+    </button>
+
+<button id="confirmAgeBtn">Validar</button>
+<p id="result-message"></p>
+
+  </div>
+</div>
+
+<!-- MODAL RESET CLAVE -->
+<div id="resetModal" class="modal">
+  <div class="modal-content">
+    <h2>Restablecer clave</h2>
+    <p>¿Deseás borrar tu clave y crear una nueva?</p>
+    <div class="modal-buttons">
+      <button id="cancelReset">Cancelar</button>
+      <button id="confirmReset">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALERTA -->
+<div id="alertModal" class="modal">
+  <div class="modal-content">
+    <p id="alertTexto"></p>
+    <br>
+    <button id="closeAlert">Aceptar</button>
+  </div>
+</div>
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+
+<script>
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
+</script>
+
+<!-- FIN -->
+
+<style>
+
+/*MODAL DE VLAVE*/
+
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content {
+  background:#121212;
+  color:#fff;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
+  box-shadow:0 0 15px rgba(0,0,0,.5);
+}
+
+.modal-buttons {
+  margin-top:15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.modal-buttons button,
+#closeAlert {
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#333;
+  color:#fff;
+}
+
+#confirmReset {
+  background:#d63030;
+}
+
+.modal-buttons button:hover,
+#closeAlert:hover {
+  opacity:.85;
+}
+
+
+/*FIN*/
+
+  .age-modal {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInBg 0.4s ease;
+  }
+
+  .age-modal-content {
+    width: 320px;
+    background: #141414;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255,0,0,0.25);
+    color: white;
+    position: relative;
+    animation: popup 0.35s ease;
+  }
+
+  @keyframes popup {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes fadeInBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .age-modal-content h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #ff3c3c;
+  }
+
+  .age-modal-content label {
+    text-align: left;
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .age-modal-content input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: white;
+    outline: none;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+
+  .age-modal-content input:focus {
+    border-color: #ff3c3c;
+    box-shadow: 0 0 5px rgba(255,60,60,0.6);
+  }
+
+  .age-modal-content button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: #ff3c3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s ease;
+  }
+
+  .age-modal-content button:hover {
+    background: #ff5555;
+    transform: scale(1.03);
+  }
+
+  .close-button {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #bbb;
+  }
+
+  .close-button:hover {
+    color: white;
+  }
+
+  #result-message {
+    margin-top: 12px;
+    font-size: 14px;
+    min-height: 20px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+  
+  <script>
+let pendingRedirect = null;
+let claveGuardada = localStorage.getItem("claveAdultos");
+
+function handleAdultLinkClick(e){
+  e.preventDefault();
+  e.stopImmediatePropagation(); // 🔥 CLAVE
+  pendingRedirect = e.currentTarget.dataset.html;
+  abrirModalEdad();
+}
+
+
+
+function abrirModalEdad(){
+  ageModal.classList.remove("hidden");
+  resultMessage.textContent = "";
+  birthyear.value = "";
+  age.value = "";
+  claveInput.value = "";
+}
+
+function closeModal(){
+  ageModal.classList.add("hidden");
+  pendingRedirect = null;
+}
+
+const ageModal = document.getElementById("ageModal");
+const birthyear = document.getElementById("birthyear");
+const age = document.getElementById("age");
+const claveInput = document.getElementById("claveInput");
+const resultMessage = document.getElementById("result-message");
+
+document.getElementById("confirmAgeBtn").addEventListener("click", () => {
+
+  let birth = parseInt(birthyear.value);
+  let edad = parseInt(age.value);
+  let clave = claveInput.value;
+  let actual = new Date().getFullYear();
+  let calculada = actual - birth;
+
+  if(!birth || !edad || !clave){
+    resultMessage.textContent = "Completa todos los campos.";
+    return;
+  }
+
+  if(edad !== calculada){
+    resultMessage.textContent = "Edad no coincide.";
+    return;
+  }
+
+  if(edad < 18){
+    resultMessage.textContent = "Debes ser mayor de edad.";
+    return;
+  }
+
+  // ✅ Crear clave si no existe
+  if(!claveGuardada){
+    localStorage.setItem("claveAdultos", clave);
+    claveGuardada = clave;
+    resultMessage.style.color="lime";
+    resultMessage.textContent = "Clave creada. Acceso autorizado.";
+    setTimeout(()=>location.href=pendingRedirect,1200);
+    return;
+  }
+
+  // ✅ Validar clave existente
+  if(clave !== claveGuardada){
+    resultMessage.textContent="Clave incorrecta.";
+    return;
+  }
+
+  // ✅ Acceso permitido
+  resultMessage.style.color="lime";
+  resultMessage.textContent="Acceso autorizado.";
+  setTimeout(()=>location.href=pendingRedirect,1200);
+});
+
+document.querySelectorAll('.movie[data-adulto="true"]').forEach(card => {
+  card.addEventListener("click", handleAdultLinkClick);
+});
+</script>
+
+<script>
+const resetModal = document.getElementById("resetModal");
+const alertModal = document.getElementById("alertModal");
+const alertTexto = document.getElementById("alertTexto");
+
+document.getElementById("resetClaveBtn").addEventListener("click", () => {
+  resetModal.style.display = "flex";
+});
+
+document.getElementById("cancelReset").addEventListener("click", () => {
+  resetModal.style.display = "none";
+});
+
+document.getElementById("confirmReset").addEventListener("click", () => {
+  localStorage.removeItem("claveAdultos");
+  claveGuardada = null;
+
+  resetModal.style.display = "none";
+  showAlert("Clave eliminada. Ahora puedes crear una nueva.");
+  abrirModalEdad();
+});
+
+document.getElementById("closeAlert").addEventListener("click", () => {
+  alertModal.style.display = "none";
+});
+
+function showAlert(msg){
+  alertTexto.textContent = msg;
+  alertModal.style.display = "flex";
+}
+</script>
+
+  <!--FIN DE LA VERIFICACION PARA ADULTOS.-->
+  
+  <script>
+    let generoActivo = null;
+    function filtrarPeliculas() {
+
+  const input = document.getElementById("search-input");
+  const texto = input.value.toLowerCase().trim();
+  const palabras = texto.split(" ").filter(p => p.length > 0);
+
+  const peliculas = document.querySelectorAll(".movie");
+  let visibles = 0;
+
+  peliculas.forEach(peli => {
+
+    const titulo = (peli.dataset.titulo || "").toLowerCase();
+    const genero = (peli.dataset.genero || "").toLowerCase();
+    const anio = (peli.dataset.anio || "").toLowerCase();
+    const tipo = (peli.dataset.tipo || "").toLowerCase();
+
+    const contenido = `${titulo} ${genero} ${anio} ${tipo}`;
+
+    // 🔹 FILTRO POR TEXTO
+    const coincideBusqueda = palabras.every(p => contenido.includes(p));
+
+    // 🔹 FILTRO POR GÉNERO
+    const coincideGenero = !generoActivo || genero.includes(generoActivo.toLowerCase());
+
+    const visible = coincideBusqueda && coincideGenero;
+
+    peli.style.display = visible ? "block" : "none";
+
+    if (visible) visibles++;
+  });
+
+  document.getElementById("no-results").style.display = visibles === 0 ? "block" : "none";
+
+  actualizarContadorPeliculas();
+}
+
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const ultima = localStorage.getItem("ultimaBusqueda");
+      const scroll = localStorage.getItem("scrollY");
+      const input = document.getElementById("search-input");
+      if (ultima && input) { input.value = ultima; filtrarPeliculas(); }
+      if (scroll) window.scrollTo(0, parseInt(scroll));
+      localStorage.removeItem("ultimaBusqueda");
+      localStorage.removeItem("scrollY");
+    });
+    document.querySelectorAll(".movie").forEach(peli => {
+      const htmlFile = peli.dataset.html;
+      if (htmlFile && htmlFile.trim() !== "") {
+        peli.classList.remove("locked");
+        const lockIcon = peli.querySelector(".lock-icon");
+        if (lockIcon) lockIcon.remove();
+        peli.addEventListener("click", () => {
+          localStorage.setItem("ultimaBusqueda", document.getElementById("search-input").value);
+          localStorage.setItem("scrollY", window.scrollY);
+          window.location.href = htmlFile;
+        });
+      }
+    });
+    document.querySelectorAll(".movie").forEach(peli => {
+      const fecha = peli.dataset.fecha;
+      if (fecha) {
+        const fechaCreacion = new Date(fecha);
+        const hoy = new Date();
+        const diasDiferencia = (hoy - fechaCreacion) / (1000 * 60 * 60 * 24);
+        if (diasDiferencia <= 5) {
+          const recien = document.createElement("span");
+          recien.className = "recien-tag";
+          recien.textContent = "Recién agregado";
+          peli.appendChild(recien);
+        }
+      }
+    });
+    function actualizarContadorPeliculas() {
+      const peliculasVisibles = document.querySelectorAll(".movie-grid .movie:not([style*='display: none'])").length;
+      const contador = document.getElementById("contador");
+      if (contador) contador.textContent = `(${peliculasVisibles})`;
+    }
+    window.addEventListener("DOMContentLoaded", actualizarContadorPeliculas);
+  </script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("modalGenero");
+  const abrir = document.getElementById("abrirModal");
+  const cerrar = document.getElementById("cerrarModal");
+  const reset = document.getElementById("resetGenero");
+  const botonesGenero = document.querySelectorAll(".genero-btn");
+  const titulo = document.getElementById("titulo-seccion");
+  const peliculas = document.querySelectorAll(".movie");
+
+  filtrarPeliculas();
+
+
+  abrir.addEventListener("click", () => {
+    modal.classList.add("activo");
+  });
+
+  cerrar.addEventListener("click", () => {
+    modal.classList.remove("activo");
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("activo");
+    }
+  });
+
+  botonesGenero.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+      botonesGenero.forEach(b => b.classList.remove("activo"));
+      btn.classList.add("activo");
+
+      generoActivo = btn.textContent.trim();
+
+      titulo.innerHTML = `
+        ${generoActivo.toUpperCase()}
+        <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
+      `;
+
+      filtrarPeliculas();
+
+      modal.classList.remove("activo");
+    });
+  });
+
+  reset.addEventListener("click", () => {
+
+    generoActivo = null;
+
+    botonesGenero.forEach(b => b.classList.remove("activo"));
+
+    titulo.innerHTML = `
+      Agregados HOY
+      <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
+    `;
+
+    filtrarPeliculas();
+
+    modal.classList.remove("activo");
+  });
+
+});
+</script>
+
+
+</body>
+</html>

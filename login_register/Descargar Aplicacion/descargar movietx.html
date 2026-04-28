@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../Logo/Logo MovieTx.png">
+<title>Descargar • MovieTx</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 50px;
+  background:#000;
+  position:sticky;
+  top:0;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  color:#e50914;
+}
+
+/* HERO */
+.hero{
+  height:90vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(to top, #0b0b0b, transparent),
+  url('https://thefrisky.com/wp-content/uploads/2019/02/movie-streaming.png') center/cover;
+}
+
+.hero h1{
+  font-size:50px;
+  margin-bottom:20px;
+}
+
+.hero p{
+  font-size:18px;
+  max-width:600px;
+  margin-bottom:30px;
+  color:#ccc;
+}
+
+/* BOTON */
+.btn-download{
+  background:#e50914;
+  padding:15px 40px;
+  font-size:18px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn-download:hover{
+  background:#ff1e2d;
+}
+
+/* SECCIONES */
+.section{
+  padding:60px 40px;
+  text-align:center;
+}
+
+.section h2{
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.section p{
+  max-width:700px;
+  margin:auto;
+  color:#bbb;
+}
+
+/* CARDS */
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  margin-top:30px;
+}
+
+.card{
+  background:#141414;
+  padding:20px;
+  border-radius:10px;
+  width:280px;
+  transition:0.3s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+/* PRECIOS */
+.price{
+  font-size:30px;
+  color:#e50914;
+  margin:15px 0;
+}
+
+/* ===== NUEVO: PLAN ACTIVO ===== */
+.card.active{
+  border:2px solid #e50914;
+}
+
+/* ===== NUEVO: LISTA ===== */
+.features{
+  display:none;
+  text-align:left;
+  margin-top:10px;
+  list-style:none;
+}
+
+.features li{
+  margin:6px 0;
+  position:relative;
+  padding-left:15px;
+}
+
+.features li::before{
+  content:"•";
+  position:absolute;
+  left:0;
+  color:#e50914;
+}
+
+/* Mostrar lista cuando está activo */
+.card.active .features{
+  display:block;
+}
+
+/* Ocultar texto original cuando está activo */
+.card.active .plan-desc{
+  display:none;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:#000;
+  color:#777;
+}
+
+/* ===== FIX ANDROID / MOBILE ===== */
+@media (max-width:768px){
+
+  .hero{
+    height:auto;
+    min-height:60vh;
+    padding:60px 20px 30px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .btn-download{
+    width:100%;
+    max-width:280px;
+  }
+
+  .section{
+    padding-top:30px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">MovieTx</div>
+</header>
+
+<section class="hero">
+  <h1>Descargá MovieTx</h1>
+  <p>Tu plataforma definitiva para ver películas y series sin límites, en cualquier momento y lugar.</p>
+
+  <button class="btn-download" onclick="descargarApp()">Descargar App</button>
+</section>
+
+<section class="section">
+  <h2>¿Qué es MovieTx?</h2>
+  <p>
+    MovieTx es una aplicación de streaming avanzada que te permite disfrutar de miles de películas,
+    series y contenido exclusivo en alta calidad. Con un diseño moderno, rápido y optimizado,
+    tendrás una experiencia similar a Netflix pero totalmente personalizada.
+  </p>
+</section>
+
+<section class="section">
+  <h2>Características</h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3>🎬 Streaming HD</h3>
+      <p>Disfrutá contenido en alta definición sin cortes.</p>
+    </div>
+
+    <div class="card">
+      <h3>📱 Multiplataforma</h3>
+      <p>Compatible con celulares, tablets.</p>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Carga Rápida</h3>
+      <p>Reproducción instantánea optimizada.</p>
+    </div>
+
+    <div class="card">
+      <h3>🔒 Contenido +18</h3>
+      <p>Acceso protegido con contraseña personalizada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Planes y Precios</h2>
+
+  <div class="cards">
+
+    <div class="card plan">
+      <h3>Básico</h3>
+      <div class="price">$2500 ARG</div>
+      <p class="plan-desc">30 días + HD + 2 perfiles</p>
+
+      <ul class="features">
+        <li>HD</li>
+        <li>30 días</li>
+        <li>2 perfiles</li>
+      </ul>
+    </div>
+
+    <div class="card plan">
+      <h3>Premium</h3>
+      <div class="price">$3500 ARG</div>
+      <p class="plan-desc">30 días + HD + 3 perfiles</p>
+
+      <ul class="features">
+        <li>HD</li>
+        <li>30 días</li>
+        <li>3 perfiles</li>
+      </ul>
+    </div>
+
+    <div class="card plan">
+      <h3>Combo Familiar</h3>
+      <div class="price">$5000 ARG</div>
+      <p class="plan-desc">30 días + HD + 5 perfiles</p>
+
+      <ul class="features">
+        <li>HD</li>
+        <li>30 días</li>
+        <li>5 perfiles</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © 2026 MovieTx - Todos los derechos reservados
+</footer>
+
+<script>
+function descargarApp(){
+  // CAMBIAR POR TU LINK REAL
+  const link = document.createElement("a");
+  link.href = "app/MovieTx.apk"; 
+  link.download = "MovieTx.apk";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+/* ===== NUEVO: ACTIVAR PLAN ===== */
+const plans = document.querySelectorAll(".plan");
+
+plans.forEach(plan => {
+  plan.addEventListener("click", () => {
+
+    plans.forEach(p => p.classList.remove("active"));
+
+    plan.classList.add("active");
+
+  });
+});
+</script>
+
+</body>
+</html>

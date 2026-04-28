@@ -349,18 +349,27 @@ if (window.performance && window.performance.navigation.type === 2) {
 </div>
 
 <style>
+/* =========================
+   🔥 LOADER BASE CENTRADO
+========================= */
 #loader-screen {
   position: fixed;
   inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background:
     radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
     radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
     #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+
   z-index: 10000;
+
+  padding: 20px;
+  box-sizing: border-box;
+
   transition: opacity 1s ease, visibility 1s ease;
 }
 #loader-screen.hidden {
@@ -369,7 +378,15 @@ if (window.performance && window.performance.navigation.type === 2) {
 }
 
 .loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+
   animation: fadeUp 0.8s ease;
 }
 
@@ -384,36 +401,46 @@ if (window.performance && window.performance.navigation.type === 2) {
   }
 }
 
+/* =========================
+   🔥 CÍRCULO ARCOIRIS
+========================= */
 .loader-circle {
   position: relative;
-  width: 180px;
-  height: 180px;
+
+  width: 160px;
+  height: 160px;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+
+  margin-bottom: 20px;
 }
 
-/* 🔥 ARO GIRATORIO */
+/* 🌈 ARO GIRATORIO */
 .loader-circle::before {
   content: "";
   position: absolute;
   inset: -6px;
   border-radius: 50%;
+
   background: conic-gradient(
     #00aaff,
     #00ffcc,
     #ff00aa,
     #ff3c3c,
+    #ffaa00,
     #00aaff
   );
+
   animation: spin 2s linear infinite;
   z-index: 0;
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
-/* 🔥 BORDE INTERNO NEGRO (para efecto limpio) */
+/* 🔥 CENTRO NEGRO */
 .loader-circle::after {
   content: "";
   position: absolute;
@@ -423,19 +450,20 @@ if (window.performance && window.performance.navigation.type === 2) {
   z-index: 1;
 }
 
-/* 🔥 IMAGEN CENTRADA (NO GIRA) */
+/* 🔥 LOGO CENTRADO PERFECTO */
 .loader-logo {
   position: absolute;
   top: 50%;
   left: 50%;
 
-  width: 100px;
+  width: 90px;
 
-  transform: translate(-50%, -50%); /* 🔥 CENTRADO REAL */
-
+  transform: translate(-50%, -50%);
   z-index: 2;
+
   animation: pulse 2.5s ease-in-out infinite;
 }
+
 @keyframes pulse {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
@@ -445,35 +473,15 @@ if (window.performance && window.performance.navigation.type === 2) {
   }
 }
 
-/* 🔄 ROTACIÓN SOLO DEL ARO */
+/* 🔄 ROTACIÓN */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.loader-circle::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #00aaff,
-    #00ffcc,
-    #ff00aa,
-    #ff3c3c,
-    #ffaa00,
-    #00aaff
-  );
-  animation: spin 2s linear infinite;
-  z-index: 0;
-  filter: blur(3px);
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
+/* =========================
+   🌈 TEXTO MOVIETX ARCOIRIS
+========================= */
 .loader-title {
   font-size: 2.6rem;
   font-weight: 800;
@@ -498,22 +506,22 @@ if (window.performance && window.performance.navigation.type === 2) {
 
   animation: rainbowMove 6s linear infinite;
 
-  /* 🔥 glow suave */
   text-shadow:
     0 0 8px rgba(255,255,255,0.1),
     0 0 15px rgba(255,0,120,0.2);
 }
+
 @keyframes rainbowMove {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 300%;
-  }
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
 }
 
+/* =========================
+   TEXTO
+========================= */
 .loader-sub { font-size: 1.2rem; color: #ccc; }
 .loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
+
 @keyframes dotPulse {
   0% { content: ''; }
   25% { content: '.'; }
@@ -521,9 +529,12 @@ if (window.performance && window.performance.navigation.type === 2) {
   75% { content: '...'; }
   100% { content: ''; }
 }
+
 .loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
 
-/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
+/* =========================
+   🔥 BARRA DE CARGA
+========================= */
 .loading-bar {
   width: 75%;
   height: 16px;
@@ -542,7 +553,6 @@ if (window.performance && window.performance.navigation.type === 2) {
   overflow: hidden;
 }
 
-/* brillo que se mueve */
 .loading-fill::after {
   content: "";
   position: absolute;
@@ -568,9 +578,121 @@ if (window.performance && window.performance.navigation.type === 2) {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+/* 📱 CELULARES */
+/* 📱 CELULARES */
+@media (max-width: 480px) {
+
+  .loader-circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* 🔥 logo más grande */
+  .loader-logo {
+    width: 85px;
+  }
+
+  .loader-title {
+    font-size: 2rem;
+  }
+
+  /* 🔥 barra más corta y prolija */
+  .loading-bar {
+    width: 65%;
+    height: 12px;
+  }
+
+  .loading-percent {
+    font-size: 10px;
+  }
+
+}
+
+/* 💻 PC */
+@media (min-width: 1024px) {
+  .loader-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loader-logo {
+    width: 110px;
+  }
+
+  .loader-title {
+    font-size: 3rem;
+  }
 }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loader = document.getElementById('loader-screen');
+  const bar = document.getElementById('loading-fill');
+  const percent = document.getElementById('loading-percent');
+
+  // 🔒 Si no existe el loader, no rompe nada
+  if (!loader || !bar || !percent) return;
+
+  let progreso = 0;
+  let terminado = false;
+
+  // 🔥 Animación controlada
+  const anim = setInterval(() => {
+    if (progreso < 90) {
+      progreso += 1.5; // más suave
+      actualizar();
+    }
+  }, 60);
+
+  function actualizar() {
+    if (!bar || !percent) return;
+
+    progreso = Math.min(progreso, 100);
+    bar.style.width = progreso + "%";
+    percent.textContent = Math.floor(progreso) + "%";
+  }
+
+  function finalizar() {
+    if (terminado) return;
+    terminado = true;
+
+    clearInterval(anim);
+
+    // 🔥 subida final limpia
+    const finalAnim = setInterval(() => {
+      if (progreso < 100) {
+        progreso += 2;
+        actualizar();
+      } else {
+        clearInterval(finalAnim);
+
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 300);
+      }
+    }, 20);
+  }
+
+  // ✅ SOLO cuando todo cargó
+  window.addEventListener("load", () => {
+    setTimeout(finalizar, 200);
+  });
+
+  // ✅ fallback seguro (por si algo falla)
+  setTimeout(() => {
+    finalizar();
+  }, 3500);
+
+});
+</script>
 
 <style>
 
@@ -692,45 +814,6 @@ if (window.performance && window.performance.navigation.type === 2) {
 }
 
 </style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const loader = document.getElementById('loader-screen');
-  const bar = document.getElementById('loading-fill');
-  const percent = document.getElementById('loading-percent');
-
-  let totalImages = document.images.length;
-  let loaded = 0;
-
-  if (totalImages === 0) {
-    totalImages = 1;
-    loaded = 1;
-  }
-
-  function updateLoader() {
-    loaded++;
-    let p = Math.floor((loaded / totalImages) * 100);
-
-    bar.style.width = p + "%";
-    percent.textContent = p + "%";
-
-    if (p >= 100) {
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 600);
-    }
-  }
-
-  for (let img of document.images) {
-    if (img.complete) updateLoader();
-    else {
-      img.addEventListener("load", updateLoader);
-      img.addEventListener("error", updateLoader);
-    }
-  }
-});
-</script>
 <!-- 🔴 Fin pantalla de carga neón -->
 
   <header>
@@ -793,6 +876,15 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 
   <div class="movie-grid" id="movie-grid">
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="super mario bros 2 galaxy la pelicula" data-genero="animacion aventura fantasia comedia familiar" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=super_mario_bros_2" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2026</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Super Mario Bros 2: Galaxy</p>
+    </div>
   
     <div class="movie locked" data-tipo="pelicula" data-titulo="el vinculo sueca" data-genero="drama guerra historia" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=la_conexion_sueca" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
@@ -812,7 +904,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Love me, Love me</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romaance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=la_empleada" data-fecha="2026-02-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la empleada" data-genero="romance drama misterio" data-anio="2026" data-html="../View Peliculas/Reproductor Universal.php?id=la_empleada" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2026</span>
       <span class="year-tegg">HD</span>
@@ -833,10 +925,28 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="movie locked" data-tipo="pelicula" data-titulo="five nights at freddys 2" data-genero="terror misterio suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=five_night_at_freddy_2" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
-      <span class="year-tegg">HD</span>
+      <span class="year-tegg">CAM</span>
       <img src="https://image.tmdb.org/t/p/w300/vMU4TTPcnwtbJMFKfAEkDcDXb3l.jpg">
       <span class="lock-icon">🔒</span>
       <p>Five nights at freddy´s 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="thunderbolts" data-genero="accion  ciencia ficcion marvel" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=" data-fecha="2026-04-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/aPVAwfxJc77qGrS2rzhNkJ4VnUB.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Thunderbolts*</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="estragos" data-genero="accion crimen suspenso drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=estragos" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Estragos</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="mi año en oxford" data-genero="romance comedia drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=mi_año_en_oxford" data-fecha="2026-02-28">
@@ -857,6 +967,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Echo valley</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="extraterritorial" data-genero="accion suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=extraterritorial" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Extraterritorial</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="depredador tierras salvajes" data-genero="accion ciencia ficcion aventura" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=depredador_tierras_salvajes" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
@@ -873,6 +992,33 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/wlo2rGpjjHh3X8XImBdeUayKJ6g.jpg">
       <span class="lock-icon">🔒</span>
       <p>Encerrado</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="karae kid 4 legends" data-genero="accion aventura peleas drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=karate_kid_4" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Karate Kid 4: Legends</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="karol g mañana fue muy bonito" data-genero="documental musical" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=karol_g" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5aXoQYwaQ7JJVUWclHAEXJgiS2M.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Karol G: Mañana fue muy bonito</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="plankton bob esponja" data-genero="animacion aventura accion comedia ciencia ficcion" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=plankton" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Plankton: La pelicula</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="ojala estuvieras aqui" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=ojala_estuvieras_aqui" data-fecha="2026-02-24">
@@ -902,6 +1048,51 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Los Pitulos</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la primera profecia" data-genero="terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_primera_profecia" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La primera profecia</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="Lo que le falta a esta estrella" data-genero="animacion romance ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lo_que_le_falta_a_esta_estrella" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lo que le falta a esta estrella</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="rehen" data-genero="crimen drama suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=rehen" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xduStDf3yiIL6WDIuhIdLX5rRGv.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>¡Rehén!</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="La rosa de versalles" data-genero="animacion romance historia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_rosa_de_versalles" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La rosa de Versalles</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch action" data-genero="animacion aventura disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch_2025" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">CAM</span>
+      <img src="https://image.tmdb.org/t/p/w300/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="poseida" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=poseida" data-fecha="2026-01-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
@@ -909,6 +1100,42 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg">
       <span class="lock-icon">🔒</span>
       <p>Poseída</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la vieja guardia 2" data-genero="accion fantasia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_vieja_guardia_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6eGyuK8bHMAB34AIIQOL3wZw8sn.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La vieja guardia 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la viuda negra" data-genero="misterio suspenso drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_viuda_negra" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La viuda negra</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="warfare tiempo de guerra" data-genero="accion guerra" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=warfare_tiempo_de_guerra" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fkVpNJugieKeTu7Se8uQRqRag2M.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Warfare: Tiempo de guerra</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mufasa el rey leon" data-genero="animacion disney aventura familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=mufasa_el_rey_leon" data-fecha="2026-04-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mufasa: El rey león</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="sonic 3" data-genero="animacion comedia ciencia ficcion familiar" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=sonic_3" data-fecha="2026-02-15">
@@ -920,6 +1147,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Sonic 3: La pelicula</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mi lista de deseos" data-genero="drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=mi_lista_de_deseos" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/a3IFeDHSCIkMLmoBzaOcD60BOoR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mi lista de deseos</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="zootopia 2" data-genero="animacion aventura comedia familia infantil niños disney" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=zootopia_2" data-fecha="2025-12-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
@@ -928,6 +1164,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg">
       <span class="lock-icon">🔒</span>
       <p>Zootopia 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="viaje de fin de curso mallorca" data-genero="comedia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=viaje_de_fin_de_curso" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/A8E8EqXqETV8ggPiOkHjaBU8H9N.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Viaje de fin de curso: Mallorca</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="until dawn noche de terror" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=until_dawn_noche_de_terror" data-fecha="2025-12-29">
@@ -966,6 +1211,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Almas marcadas: Rule + Shaw</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="megan m3gan 2" data-genero="terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=megan_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6tPr2pXIpqIldCSTKUt6GCSyvnf.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>M3GAN 2.0</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="culpa nuestra" data-genero="romance drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=culpa_nuestra_3" data-fecha="2025-11-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
@@ -975,13 +1229,58 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Culpa nuestra</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon" data-genero="aventura ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon" data-fecha="2025-11-25">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la fuente de la eterna juventud" data-genero="accion aventura fantasia misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_fuente_de_la_juventud:" data-fecha="2026-04-18">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La fuente de la eterna juventud</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="harta" data-genero="drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=harta" data-fecha="2026-01-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Harta</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la evaluacion" data-genero="drama suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_evaluacion" data-fecha="2025-11-02">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La evaluación</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="k.o" data-genero="accion drama suspenso" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=k_o" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/qcM2sUiAeP4zXwx4ADSvgc9S58k.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>K.O</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="como entrenar a tu dragon" data-genero="aventura ciencia ficcion familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=como_entrenar_a_tu_dragon" data-fecha="2025-11-25">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">CAM</span>
       <img src="https://image.tmdb.org/t/p/w300/xLsMLfE0t0eyc8km2hAeSayUBa3.jpg">
       <span class="lock-icon">🔒</span>
       <p>Como entrenar a tu dragón</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la acompañante" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_acompañante" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La acompañante</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="blancanieves y los siete enanitos" data-tipo="pelicula" data-genero="animacion fantasia familia disney princesas" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=blancanieves" data-fecha="2025-11-08">
@@ -993,10 +1292,19 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Blancanieves</p>
     </div>
 
-    <div class="movie locked" data-titulo="el conjuro 4 el ultimo rito" data-genero="Terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=el_conjuro_4" data-fecha="2025-12-24">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la calle del terror la reina del baile" data-genero="terror misterio" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_calle_del_terror" data-fecha="2026-04-18">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La calle del terror: La reina del baile</p>
+    </div>
+
+    <div class="movie locked" data-titulo="el conjuro 4 el ultimo rito" data-genero="Terror" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=el_conjuro_4" data-fecha="2025-12-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">CAM</span>
       <img src="https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg">
       <span class="lock-icon">🔒</span>
       <p>El conjuro 4: El ultimo rito</p>
@@ -1036,6 +1344,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg">
       <span class="lock-icon">🔒</span>
       <p>Contraataque</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la mitad de ana" data-genero="drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_mitad_de_ana" data-fecha="2026-04-16">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La mitad de ana</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="bala perdida 3" data-genero="accion suspenso crimen" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=bala_perdida_3" data-fecha="2025-11-02">
@@ -1078,7 +1395,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
       <span class="year-tegg">HD</span>
-      <img src="https://cinepelayo.com/wp-content/uploads/2025/01/cartel-cantar-desnuda.jpg">
+      <img src="https://m.media-amazon.com/images/M/MV5BZTBjZGRmMWUtNTIxMS00MDc3LTg2Y2EtMDEwNTIxZTc3ZmYyXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg">
       <span class="lock-icon">🔒</span>
       <p>Cantar desnuda</p>
     </div>
@@ -1092,6 +1409,78 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El ladron romantico</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la mitad de ana" data-genero="drama" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_mitad_de_ana" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La mitad de Ana</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la leyenda de ochi" data-genero="fantasia aventura familia" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=la_leyenda_de_ochi" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2025</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La leyenda de Ochi</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="frida" data-genero="documental" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=frida" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/yeWgiZhSUC7XKEPT1EzXP6E9xta.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Frida</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="salve maria" data-genero="drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=salve_maria" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Salve Maria</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="presencia" data-genero="terror drama suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=presencia" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kc7YIx6KNiXm1dpqlhqdX3eTL7a.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Presencia</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la joven y el mar" data-genero="drama aventura disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=la_joven_y_el_mar" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/n3KE8fbiOCr6qktIpE52wWErBMi.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La joven y el mar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="liga de la justicia crisis en tierras infinitas parte 2" data-genero="accion animacion ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=liga_de_la_justicia_crisis_en_tierras_infinitas_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/aOT8n3YOOkInZ5VHJN4FffHrm43.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Liga de la Justicia: Crisis en Tierras Infinitas - Parte 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="turno nocturno" data-genero="terror misterio" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=turno_nocturno" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Turno Nocturno</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="banger" data-genero="musical comedia pelicula" data-anio="2025" data-html="../View Peliculas/Reproductor Universal.php?id=banger" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2025</span>
@@ -1099,6 +1488,42 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/x2pegSby27ebOwW361GJb1aKcxa.jpg">
       <span class="lock-icon">🔒</span>
       <p>Banger</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="twisters" data-genero="drama accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=twisters" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4UWDVI6IleoKl9T6wHbHcqd5zAX.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Twisters</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="godzilla y kong el nuevo imperio" data-genero="accion  ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=godzilla_y_kong_el_nuevo_imperio" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lluGBHiORAC74piEPbCaITpdv2U.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Godzilla y Kong: El nuevo imperio</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un ladron romantico" data-genero="romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=un_ladron_romantico" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Un ladron romantico</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="garfield fuera de casa" data-genero="familia comedia aventura animacion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=garfield_fuera_de_casa" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/6QR2FOCQr41gSduN70WulRIhJb7.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Garfield: Fuera de casa</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="en las profundidades del sena" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=en_las_profundidades_del_sena" data-fecha="2025-03-25">
@@ -1200,6 +1625,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Moana 2</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sustancia" data-genero="terror" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=la_sustancia" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sustancia</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="bambi una vida en el bosque" data-genero="aventura documental familia disney" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=bambi_una_vida_en_el_bosque_2024" data-fecha="2025-11-02">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
@@ -1207,6 +1641,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg">
       <span class="lock-icon">🔒</span>
       <p>Bambi: Una vida en el bosque</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="ricky stanicky el impostor" data-genero="comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=ricky_el_impostor" data-fecha="2026-04-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Ricky Stanicky: El impostor</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="deadpool 3 y wolverine" data-genero="accion heroes marvel ciencia ficcion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=deadpool_y_wolverine" data-fecha="2025-11-08">
@@ -1281,6 +1724,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Anora</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="todo bien" data-genero="comedia romance drama" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=todo_bien" data-fecha="2026-04-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/arVt18It7zOpOa2WZTzMiBxmyrY.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>¿Todo bien?</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="damsel" data-genero="drama accion fantasia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=damsel" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2024</span>
@@ -1323,7 +1775,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="year-tegg">HD</span>
       <img src="https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg">
       <span class="lock-icon">🔒</span>
-      <p>60 Minutos acechados por el mal</p>
+      <p>60 Minutos</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="Detonantes" data-genero="accion" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=detonantes" data-fecha="2025-11-30">
@@ -1333,6 +1785,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg">
       <span class="lock-icon">🔒</span>
       <p>Detonantes</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="robot salvaje" data-genero="animacion aventura animales familia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=robot_salvaje" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Robot salvaje</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="culpa tuya 1" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=culpa_tuya" data-fecha="2025-10-09">
@@ -1351,6 +1812,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/dg6WrJUIQLU4pssA4ZucGfdOj8.jpg">
       <span class="lock-icon">🔒</span>
       <p>Codigo 8: Parte 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="romper el circulo" data-genero="drama romance" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=romper_el_circulo" data-fecha="2026-04-24">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Romper el circulo</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="Winnie the pooh 2 el bosque sangriento" data-genero="terror suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=winnie_the_pooh_2" data-fecha="2026-02-29">
@@ -1470,6 +1940,51 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Baghead: Contacto con la muerte</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="imaginario uguete diabolico" data-genero="terror misterio" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=juguete_diabolico_imaginario" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Imaginario: Juguete diabólico</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="nahir" data-genero="drama crimen suspenso" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=nahir" data-fecha="2026_04_23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Nahir</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="megamente 2 contra el sindicato del mal" data-genero="animacion ciencia ficcion comedia" data-anio="2024" data-html="../View Peliculas/Reproductor Universal.php?id=megamente_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2024</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/jdXLCBv0oFjWbTtQTuoJFXVPsbd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Megamente 2: Contra el sindicato del mal</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="gran turismo de jugador a corredor" data-genero="accion drama aventura" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=gran_turismo" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tETqYkrxTAbLjisBmzFof7jhxt3.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Gran turismo de jugador a corredor</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="freestyle" data-genero="crimen accion suspenso musical" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=freestyle" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Freestyle</p>
+    </div>
+
     <div class="movie locked" data-titulo="elemental" data-genero="animacion musical disney aventura romance" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=elemental" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
@@ -1486,6 +2001,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg">
       <span class="lock-icon">🔒</span>
       <p>Five nights at freddy´s</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="super mario bros la pelicula" data-genero="animacion aventura fantasia comedia familiar" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=super_mario_bros" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/k36QyeVsy851npTUQL08jO8hqip.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Super Mario Bros: La pelicula</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="spider man cruzando el multiverso spider man 2" data-genero="accion aventura animacion marvel" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=spiderman_man_cruzando_el_multi_verso_2" data-fecha="2026-01-24">
@@ -1519,7 +2043,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
       <span class="year-tegg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg">
+      <img src="https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg">
       <span class="lock-icon">🔒</span>
       <p>El gato con botas 2: El último deseo</p>
     </div>
@@ -1578,6 +2102,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Blue Beetle</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hablame" data-genero="terror" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=hablame" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2023</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Háblame</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="anna nicole smith tu no me conoces" data-genero="documentacion" data-anio="2023" data-html="../View Peliculas/Reproductor Universal.php?id=anna_nicole_smith" data-fecha="2025-30-10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2023</span>
@@ -1614,13 +2147,31 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Barbie</p>
     </div>
 
-    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion fantasia disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho_2022" data-fecha="2026-02-23">
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 4 transformania" data-genero="animacion comedia aventura fantasia" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_4" data-fecha="2026-04-18">
       <span class="pelicula">Pelicula</span>
-      <span class="year-tag">1940</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 4: Transformania</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion fantasia disney aventura" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho_2022" data-fecha="2026-02-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
       <span class="year-tegg">HD</span>
       <img src="https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg">
       <span class="lock-icon">🔒</span>
       <p>Pinocho</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="minions el origen de gru" data-genero="animacion accion aventura comedia ciencia ficcion familia" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=minions_el_origen_de_gru" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Minions: El origen de Gru</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="terrifier 2" data-genero="terror" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=terrifier_2" data-fecha="2026-02-24">
@@ -1676,6 +2227,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>Sonrie</p>
     </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales el rencor de edimburgo parte 1" data-genero="animacion aventura anime accion" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_el_rencor_1" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2022</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: El rencor de Edimburgo - Parte 1</p>
+    </div>
     
     <div class="movie locked" data-tipo="pelicula" data-titulo="365 dias 2 aquel dia " data-genero="romance drama" data-anio="2022" data-html="../View Peliculas/Reproductor Universal.php?id=dias_365_2" data-fecha="2025-10-08">
       <span class="pelicula">Pelicula</span>
@@ -1684,6 +2244,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg">
       <span class="lock-icon">🔒</span>
       <p>365 Dias 2: Aquel dia</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="maligno" data-genero="terror suspenso" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=maligno" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/gijtUdVH3M6KbWnuSFmiI9MvxJ6.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Maligno</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales la maldicion de la luz" data-genero="animacion accion aventura anime" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_la_maldicion_de_la_luz" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: La maldición de la luz</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="encanto" data-genero="animacion musical disney fantasia" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=encanto" data-fecha="2026-03-25">
@@ -1704,6 +2282,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>El conjuro 3: El diablo me obligo hacerlo</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un jefe en pañales 2 negocios de familia" data-genero="animacion musical familiar aventura" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=un_jefe_en_pañales_2" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kv2Qk9MKFFQo4WQPaYta599HkJP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Un jefe en pañales 2: Negocios de familia</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="el deseo deana" data-genero="drama romance" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=el_deseo_de_ana" data-fecha="2026-03-25">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2021</span>
@@ -1711,6 +2298,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg">
       <span class="lock-icon">🔒</span>
       <p>El deseo de Ana</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trollhunters el despertar de los titanes" data-genero="animacion fantasia familia accion aventura" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2021</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trollhunters: El despertar de los titanes</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="el es asi" data-genero="drama romance" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=el_es_asi" data-fecha="2026-03-25">
@@ -1721,7 +2317,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>El es asi</p>
     </div>
-
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="cato" data-genero="musical drama" data-anio="2021" data-html="../View Peliculas/Reproductor Universal.php?id=cato" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
@@ -1739,6 +2334,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg">
       <span class="lock-icon">🔒</span>
       <p>Sing 2: Cantar</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los croods 2 una nueva era" data-genero="animacion aventura comedia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=los_croods_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5uMWKEmegf5aTJnp1u98JF4QerP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Croods 2: Una nueva era</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="scooby ¡scooby!" data-genero="animacion aventura" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=scooby_2020" data-fecha="2025-10-09">
@@ -1775,6 +2379,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg">
       <span class="lock-icon">🔒</span>
       <p>365 Dias</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trolls 2 gira mundial" data-genero="animacion musical aventura familia fantasia" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=trolls_2" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2020</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trolls 2: Gira mundial</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="belleza negra" data-genero="drama caballo disney" data-anio="2020" data-html="../View Peliculas/Reproductor Universal.php?id=belleza_negra" data-fecha="2025-11-08">
@@ -1894,6 +2507,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Annabelle 3: Vuelve a casa</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="no me las toquen" data-genero="comedia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=no_me_la_toquen" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>No me las toquen</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="maría magdalena" data-genero="drama biblico" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=maria_magdalena" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>María Magdalena</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="mara" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=mara" data-fecha="2026-02-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
@@ -1903,6 +2534,42 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Mara</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los Increibles 2" data-genero="animacion disney accion aventura" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_increibles_2" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/bJjc0217DuipdwJ0wyi3I4j6soR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Increíbles 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los siete pecados capitales prisioneros del cielo" data-genero="animacion accion aventura anime" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_siete_pecados_capitales_prisioneros_del_cielo" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/">
+      <span class="lock-icon">🔒</span>
+      <p>Los siete pecados capitales: Prisioneros del cielo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pantera negra" data-genero="accion marvel pelea ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=pantera_negra" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/4KQkyaSfh0uHRDMvY5XADzfmx5k.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pantera negra</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 3" data-genero="animacion comedia aventura fantasia" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 3</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="spider man un nuevo universo" data-genero="accion aventura animacion marvel ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=spider_man_un_nuevo_universo" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
@@ -1910,6 +2577,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/xRMZikjAHNFebD1FLRqgDZeGV4a.jpg">
       <span class="lock-icon">🔒</span>
       <p>Spider-Man: Un nuevo universo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la monja" data-genero="terror" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=la_monja" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La monja</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="los vengadores infinity war" data-genero="accion marvel ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=los_vengadores_infinity_war" data-fecha="2026-01-24">
@@ -1993,6 +2669,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Steven Universe: La pelicula</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pablo el apostol de cristo" data-genero="drama biblico" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=pablo_el_apostol_de_cristo" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2018</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pablo, el apóstol de Cristo</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="venom " data-genero="marvel accion ciencia ficcion" data-anio="2018" data-html="../View Peliculas/Reproductor Universal.php?id=venom" data-fecha="2026-02-24">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2018</span>
@@ -2074,6 +2759,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Cincuenta sombras 2: Más oscurass</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la resurreccion de cristo" data-genero="biblico accion historia aventura" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=la_resurrección_de_cristo" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2016</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/lkfXzT5T5cQO9UpknSAEdq8Lvvd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La resurrección de cristo</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="capitan america 3 civil war" data-genero="heroes marvel accion ciencia ficcion" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=capitan_america3" data-fecha="2025-11-16">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2016</span>
@@ -2081,6 +2775,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/xHIzL54EuCFXVMaSudLLuHjuZ5r.jpg">
       <span class="lock-icon">🔒</span>
       <p>Capitán América 3: Civil War</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="trolls" data-genero="animacion musical aventura familia fantasia" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=trolls" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2016</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5nDbnZ9UssqVoVRggQOb2icL9Pb.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Trolls</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="el conjuro 2 el caso enfield" data-genero="terror" data-anio="2016" data-html="../View Peliculas/Reproductor Universal.php?id=el_conjuro_2" data-fecha="2025-12-09">
@@ -2146,6 +2849,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: La resurreccion de Freezer</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania 2" data-genero="animacion comedia aventura fantasia" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania 2</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="boruto uzumaki naruto shippuden" data-tipo="pelicula" data-genero="animacion anime accion" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=boruto_2015" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2015</span>
@@ -2154,6 +2866,17 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>Boruto: La Película</p>
     </div>
+
+    <!--
+    <div class="movie locked" data-tipo="pelicula" data-titulo="un gran dinosaurio" data-genero="animacion aventura disney musical" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=un_gran_dinosaurio" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2015</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/">
+      <span class="lock-icon">🔒</span>
+      <p>Un gran dinosaurio</p>
+    </div>
+    -->
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="corazones de acero" data-genero="accion guerra belica" data-anio="2015" data-html="../View Peliculas/Reproductor Universal.php?id=corazones_de_acero" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
@@ -2263,6 +2986,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Annabelle</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hijo de dios" data-genero="drama biblico" data-anio="2014" data-html="../View Peliculas/Reproductor Universal.php?id=hijo_de_dios" data-fecha="2026-01-08">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2014</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/pnORCAOUW0JKR84ueMap8GiBAoA.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hijo de dios</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los croods" data-genero="animacion aventura comedia familia" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=los_croods" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/3X3qtBTgKt5mCB30RJwbIjgjzdw.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los croods</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="thor 2 el mundo oscuro" data-genero="accion marvel comedia ciencia ficcion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=thor_2" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2013</span>
@@ -2270,6 +3011,33 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/iY2E6b5huleYrM0NYKrb7a7lSGZ.jpg">
       <span class="lock-icon">🔒</span>
       <p>Thor 2: El mundo oscuro</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hotel transylvania" data-genero="animacion comedia aventura fantasia" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=hotel_transylvania" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hotel Transylvania</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="guerra mundial z" data-genero="accion terror suspenso ciencia ficcion" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=guerra_mundial_z" data-fecha="2026-04-04">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/9Sd2zBbi8hlcc6p6hGV3Qfj39jl.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Guerra mundial z</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="iron man 3" data-genero="accion ciencia ficcion marvel" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=iron_man_3" data-fecha="2026-04-15">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2013</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/2ZZhlnlkYIMHXsjaHH7ywNVy89k.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Iron-Man 3</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="el conjuro expediente warren" data-genero="terror suspenso" data-anio="2013" data-html="../View Peliculas/Reproductor Universal.php?id=el_conjuro" data-fecha="2025-12-09">
@@ -2324,6 +3092,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/ikz6zymN62kqSFioVWAqn8mPufM.jpg">
       <span class="lock-icon">🔒</span>
       <p>Mi villano favorito 2</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar 3 de marcha por europa" data-genero="animacion aventura animales ciencia ficion" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar_3" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2012</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/l7d5JCkwvGrqiQcppobohXYnjxt.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Madagascar 3: De marcha por Europa</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="el origen de los guardianes" data-genero="animacion aventura fantasia" data-anio="2012" data-html="../View Peliculas/Reproductor Universal.php?id=el_origen_de_los_guardianes" data-fecha="2026-03-15">
@@ -2479,6 +3256,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Alvin y las ardillas 2</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="martyrs" data-genero="terror suspenso drama" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=martyrs" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2008</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5IG3StXtcMDP1hrMFACeEpNVPbt.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Martyrs</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar 2" data-genero="animacion aventura animales ciencia ficcion" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar_2" data-fecha="2025-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2008</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Madagascar 2</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="iron man" data-genero="accion marvel comedia ciencia ficcion" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=iron_man_1" data-fecha="2026-01-23">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2008</span>
@@ -2486,6 +3281,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/bFj7XRg5avQDvuvWaag3IttjEAw.jpg">
       <span class="lock-icon">🔒</span>
       <p>Iron-Man</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita 3 los comienzos de ariel" data-genero="animacion aventura disney musical fantasia" data-anio="2008" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2008</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/oP09KA2lP5SluKVf8AmRsf38X7q.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita 3: Los comienzos de Ariel</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta 3 qué pasaría si…" data-genero="animacion disney musical familia aventura" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta_3" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2007</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta 3: Qué pasaría si…</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="alvin y las ardillas" data-genero="animacion aventura comedia musical" data-anio="2007" data-html="../View Peliculas/Reproductor Universal.php?id=alvin_y_las_ardillas" data-fecha="2025-10-12">
@@ -2505,6 +3318,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="lock-icon">🔒</span>
       <p>Destino final 3</p>
     </div>
+    
+    <div class="movie locked" data-tipo="pelicula" data-titulo="leroy y stitch" data-genero="animacion disney aventura familia" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=leroy_y_stitch" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2006</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1RjvpZMAFZlnbLvrRYWEb2tzEyC.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Leroy y Stitch</p>
+    </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos 2" data-genero="animacion disney familia aventura" data-anio="2006" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos_2" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
@@ -2522,6 +3344,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/abW5AzHDaIK1n9C36VdAeOwORRA.jpg">
       <span class="lock-icon">🔒</span>
       <p>Cars</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch 2 el efecto del defecto" data-genero="animacion aventura disney familia" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2005</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch 2: El efecto del defecto</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="madagascar" data-genero="animacion aventura familia animales" data-anio="2005" data-html="../View Peliculas/Reproductor Universal.php?id=madagascar" data-fecha="2026-02-16">
@@ -2551,6 +3382,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Tarzan 2</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="mickey, donald y goofy los tres mosqueteros" data-genero="animacion disney aventura" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=mickey_donald_y_goofy_los_tres_mosqueteros" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2004</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/gknRvWOe1vypDJfFA4jnprCoK0T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Mickey, Donald y Goofy: Los tres mosqueteros</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="bob esponja 1" data-tipo="pelicula" data-genero="animacion aventura niños infantil familia" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=bob_esponja_1" data-fecha="2025-11-08">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2004</span>
@@ -2560,6 +3400,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bob Esponja: La película</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="los Increibles" data-genero="animacion disney accion aventura" data-anio="2004" data-html="../View Peliculas/Reproductor Universal.php?id=los_increibles" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2004</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/1Clex17991DCM7uRkAClq52UULM.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Los Increíbles</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="tierra de osos" data-genero="animacion disney familia aventura" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=tierra_de_osos" data-fecha="2026-02-28">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2003</span>
@@ -2567,6 +3416,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg">
       <span class="lock-icon">🔒</span>
       <p>Tierra de osos</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan la gran aventura" data-genero="animacion aventura familia disney fantasia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan_la_gran_aventura" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2003</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter Pan: La gran aventura</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="chicas malas" data-tipo="pelicula" data-genero="drama comedia" data-anio="2003" data-html="../View Peliculas/Reproductor Universal.php?id=chicas_malas_2004" data-fecha="2025-11-24">
@@ -2596,6 +3454,42 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Bad boys 2: Dos policías rebeldes</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan 2 en regreso al País de nunca jamas" data-genero="animacion aventura familia disney fantasia" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/kkFeLiMeih9jgXatztoloOyGSbc.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter Pan 2: En Regreso al País de Nunca Jamás</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta 2 la magia no termina a media noche" data-genero="animacion disney musical familia aventura" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta_2" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/2EoH5WWtDYuQLYVLHeJxfvbSRyK.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta 2: ¡La magia no termina a media noche!</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="lilo y stitch" data-genero="animacion aventura disney familia" data-anio="2002" data-html="../View Peliculas/Reproductor Universal.php?id=lilo_y_stitch" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2002</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Lilo y Stitch</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="shrek" data-genero="animacion aventura fantasia familia" data-anio="2001" data-html="../View Peliculas/Reproductor Universal.php?id=shrek" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2001</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Shrek</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="destino final" data-genero="terror" data-anio="2000" data-html="../View Peliculas/Reproductor Universal.php?id=destino_final" data-fecha="2025-11-26">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">2000</span>
@@ -2603,6 +3497,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/2g4Jz0Jr54aYCpFLWKYDo5VZvzN.jpg">
       <span class="lock-icon">🔒</span>
       <p>Destino final</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita 2 regreso al mar" data-genero="animacion aventura disney musical fantasia" data-anio="2000" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita_2" data-fecha="2025-07-11">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">2000</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/fresAluIWfBRwdQOaVcM4i5uGsP.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita 2: Regreso al mar</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="tarzan" data-genero="animacion aventura familia disney" data-anio="1999" data-html="../View Peliculas/Reproductor Universal.php?id=tarzan" data-fecha="2025-01-20">
@@ -2632,6 +3535,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball: Gran aventura mística</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pocahontas 2 vuaje a un nuevo mundo" data-genero="animacion aventura disney familia romance" data-anio="1998" data-html="../View Peliculas/Reproductor Universal.php?id=pocahontas_2" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1998</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pocahontas 2: Viaje a un nuevo mundo</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="hercules" data-genero="animacion aventura disney fantasia" data-anio="1997" data-html="../View Peliculas/Reproductor Universal.php?id=hercules" data-fecha="2026-04-22">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1997</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/hdOS8bvta2DmDF8NHcgKWQDx0OX.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Hercules</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="aladdin 3 el rey de los ladrones" data-genero="animacion aventura disney romance fantasia " data-anio="1986" data-html="../View Peliculas/Reproductor Universal.php?id=aladdim_3" data-fecha="2025-10-12">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1996</span>
@@ -2657,6 +3578,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/izZaeWcWDir9PvuSwaITV1E1rA8.jpg">
       <span class="lock-icon">🔒</span>
       <p>Dragon Ball GT: Después 100 años </p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="pocahontas" data-genero="animacion aventura disney familia romance" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=pocahontas" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1995</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Pocahontas</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z el ataque del dragon" data-genero="animacion anime accion ciencia ficcion fantasia" data-anio="1995" data-html="../View Peliculas/Reproductor Universal.php?id=dragon_ball_z_el_ataque_del_dragon" data-fecha="2026-03-10">
@@ -2813,6 +3743,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Dragon Ball Z: El mas fuerte del mundo</p>
     </div>
 
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la sirenita" data-genero="animacion disney musical aventura familia" data-anio="1989" data-html="../View Peliculas/Reproductor Universal.php?id=la_sirenita" data-fecha="2025-12-09">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1989</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/muTcgTmuyvXQldGNnCzen9FgDfW.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La sirenita</p>
+    </div>
+
     <div class="movie locked" data-tipo="pelicula" data-titulo="dragon ball z devuelveme a mi gohan" data-genero="anime animacion accion ciencia ficcion" data-anio="1989" data-html="View Peliculas/Reproductor Universal.php?id=dragon_ball_z_devuelveme_a_mi_gohan" data-fecha="2026/03/10">
       <span class="pelicula">Pelicula</span>
       <span class="year-tag">1989</span>
@@ -2838,6 +3777,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://image.tmdb.org/t/p/w300/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg">
       <span class="lock-icon">🔒</span>
       <p>Dragon Ball: La leyenda del dragón Shenron</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="peter pan" data-genero="animacion aventura familia disney fantasia" data-anio="1953" data-html="../View Peliculas/Reproductor Universal.php?id=peter_pan" data-fecha="2026-04-23">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1953</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>Peter pan</p>
+    </div>
+
+    <div class="movie locked" data-tipo="pelicula" data-titulo="la cenicienta" data-genero="animacion disney musical familia aventura" data-anio="1951" data-html="../View Peliculas/Reproductor Universal.php?id=la_cenicienta" data-fecha="2026-04-18">
+      <span class="pelicula">Pelicula</span>
+      <span class="year-tag">1951</span>
+      <span class="year-tegg">HD</span>
+      <img src="https://image.tmdb.org/t/p/w300/doN9cNyfpcX1DPBNmjJW8eBgcAf.jpg">
+      <span class="lock-icon">🔒</span>
+      <p>La Cenicienta</p>
     </div>
 
     <div class="movie locked" data-tipo="pelicula" data-titulo="pinocho" data-genero="animacion disney aventura" data-anio="1940" data-html="../View Peliculas/Reproductor Universal.php?id=pinocho" data-fecha="2026-02-23">

@@ -648,27 +648,18 @@ if (window.performance && window.performance.navigation.type === 2) {
 </div>
 
 <style>
-/* =========================
-   🔥 LOADER BASE CENTRADO
-========================= */
 #loader-screen {
   position: fixed;
   inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   background:
     radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
     radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
     #000;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   z-index: 10000;
-
-  padding: 20px;
-  box-sizing: border-box;
-
   transition: opacity 1s ease, visibility 1s ease;
 }
 #loader-screen.hidden {
@@ -677,15 +668,7 @@ if (window.performance && window.performance.navigation.type === 2) {
 }
 
 .loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
   text-align: center;
-  width: 100%;
-  max-width: 400px;
-
   animation: fadeUp 0.8s ease;
 }
 
@@ -700,46 +683,36 @@ if (window.performance && window.performance.navigation.type === 2) {
   }
 }
 
-/* =========================
-   🔥 CÍRCULO ARCOIRIS
-========================= */
 .loader-circle {
   position: relative;
-
-  width: 160px;
-  height: 160px;
-
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
-/* 🌈 ARO GIRATORIO */
+/* 🔥 ARO GIRATORIO */
 .loader-circle::before {
   content: "";
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-
   background: conic-gradient(
     #00aaff,
     #00ffcc,
     #ff00aa,
     #ff3c3c,
-    #ffaa00,
     #00aaff
   );
-
   animation: spin 2s linear infinite;
   z-index: 0;
-  filter: blur(3px);
+  filter: blur(2px);
 }
 
-/* 🔥 CENTRO NEGRO */
+/* 🔥 BORDE INTERNO NEGRO (para efecto limpio) */
 .loader-circle::after {
   content: "";
   position: absolute;
@@ -749,38 +722,48 @@ if (window.performance && window.performance.navigation.type === 2) {
   z-index: 1;
 }
 
-/* 🔥 LOGO CENTRADO PERFECTO */
+/* 🔥 IMAGEN CENTRADA (NO GIRA) */
 .loader-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  width: 90px;
-
-  transform: translate(-50%, -50%);
+  width: 100px;
   z-index: 2;
-
+  position: relative;
   animation: pulse 2.5s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.08);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
 }
 
-/* 🔄 ROTACIÓN */
+/* 🔄 ROTACIÓN SOLO DEL ARO */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* =========================
-   🌈 TEXTO MOVIETX ARCOIRIS
-========================= */
+.loader-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00aaff,
+    #00ffcc,
+    #ff00aa,
+    #ff3c3c,
+    #ffaa00,
+    #00aaff
+  );
+  animation: spin 2s linear infinite;
+  z-index: 0;
+  filter: blur(3px);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .loader-title {
   font-size: 2.6rem;
   font-weight: 800;
@@ -805,22 +788,22 @@ if (window.performance && window.performance.navigation.type === 2) {
 
   animation: rainbowMove 6s linear infinite;
 
+  /* 🔥 glow suave */
   text-shadow:
     0 0 8px rgba(255,255,255,0.1),
     0 0 15px rgba(255,0,120,0.2);
 }
-
 @keyframes rainbowMove {
-  0% { background-position: 0%; }
-  100% { background-position: 300%; }
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 300%;
+  }
 }
 
-/* =========================
-   TEXTO
-========================= */
 .loader-sub { font-size: 1.2rem; color: #ccc; }
 .loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
-
 @keyframes dotPulse {
   0% { content: ''; }
   25% { content: '.'; }
@@ -828,12 +811,9 @@ if (window.performance && window.performance.navigation.type === 2) {
   75% { content: '...'; }
   100% { content: ''; }
 }
-
 .loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
 
-/* =========================
-   🔥 BARRA DE CARGA
-========================= */
+/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
 .loading-bar {
   width: 75%;
   height: 16px;
@@ -852,6 +832,7 @@ if (window.performance && window.performance.navigation.type === 2) {
   overflow: hidden;
 }
 
+/* brillo que se mueve */
 .loading-fill::after {
   content: "";
   position: absolute;
@@ -877,56 +858,7 @@ if (window.performance && window.performance.navigation.type === 2) {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* =========================
-   📱 RESPONSIVE
-========================= */
-
-/* 📱 CELULARES */
-/* 📱 CELULARES */
-@media (max-width: 480px) {
-
-  .loader-circle {
-    width: 180px;
-    height: 180px;
-  }
-
-  /* 🔥 logo más grande */
-  .loader-logo {
-    width: 85px;
-  }
-
-  .loader-title {
-    font-size: 2rem;
-  }
-
-  /* 🔥 barra más corta y prolija */
-  .loading-bar {
-    width: 65%;
-    height: 12px;
-  }
-
-  .loading-percent {
-    font-size: 10px;
-  }
-
-}
-
-/* 💻 PC */
-@media (min-width: 1024px) {
-  .loader-circle {
-    width: 200px;
-    height: 200px;
-  }
-
-  .loader-logo {
-    width: 110px;
-  }
-
-  .loader-title {
-    font-size: 3rem;
-  }
+  pointer-events: none;
 }
 </style>
 
@@ -996,112 +928,48 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- 🔴 Fin pantalla de carga neón -->
   
  <style>
-
-/* PROGRESSBAR */
-
-
-/* ===============================
-   🌈 PROGRESS BAR ARCOÍRIS ANIMADA
-================================ */
-
-#progressBar {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: #222;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-}
-
-/* 🔥 CAPA DE COLOR ANIMADA */
-#progressBar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: var(--progress, 0%);
-  border-radius: 999px;
-
-  background: linear-gradient(
-    270deg,
-    #ff0000,
-    #ff9900,
-    #ffff00,
-    #00ff00,
-    #00ccff,
-    #0066ff,
-    #cc00ff,
-    #ff0000
-  );
-
-  background-size: 400% 100%;
-  animation: rainbowMove 6s linear infinite;
-
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-}
-
-/* 🎞️ ANIMACIÓN */
-@keyframes rainbowMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-#progressBar {
-  position: relative;
-  z-index: 1;
-}
-
-#progressBar::before {
-  z-index: 0;
-}
-
-#progressBar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid #00cfff;
-
-  /* 🔥 brillo fuerte */
-  box-shadow: 
-    0 0 10px rgba(0,255,255,0.9),
-    0 0 20px rgba(0,255,255,0.6);
-
-  margin-top: -4px;
- /* 🔥 centrado perfecto */
-  position: relative;
-  z-index: 3;
-}
-
-/* Firefox */
-#progressBar::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid #00cfff;
-}
-#progressBar {
-  overflow: visible;
-}
-
-@media (max-width: 768px) {
-  #progressBar::-webkit-slider-thumb {
-    margin-top: -3px; /* ajuste fino mobile */
-  }
-}
-
-/* fin*/
-
 #video-container {
   position: relative;
   overflow: hidden;
+}
+
+#player-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  border-radius: 8px;
+}
+
+.player-spinner {
+  width: 43px; /*circulo de carga de reproductor estaba en 60*/
+  height: 43px; /*circulo de carga de reproductor estaba en 60*/
+  border: 5px solid #222;
+  border-top: 5px solid #ff007f;
+  border-bottom: 5px solid #00aaff;
+  border-radius: 50%;
+  animation: spin 1.3s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.player-loading-text {
+  font-size: 0.80rem; /*agrandar o achicar letra de cargando en el reproductor (estaba en 1.2)*/
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
 }
 
 .dots::after {
@@ -1298,6 +1166,104 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
+/* ===============================
+   🌈 PROGRESS BAR ARCOÍRIS ANIMADA
+================================ */
+
+#progressBar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #222;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 🔥 CAPA DE COLOR ANIMADA */
+#progressBar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress, 0%);
+  border-radius: 999px;
+
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff9900,
+    #ffff00,
+    #00ff00,
+    #00ccff,
+    #0066ff,
+    #cc00ff,
+    #ff0000
+  );
+
+  background-size: 400% 100%;
+  animation: rainbowMove 6s linear infinite;
+
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+/* 🎞️ ANIMACIÓN */
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+#progressBar {
+  position: relative;
+  z-index: 1;
+}
+
+#progressBar::before {
+  z-index: 0;
+}
+
+#progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #00cfff;
+
+  /* 🔥 brillo fuerte */
+  box-shadow: 
+    0 0 10px rgba(0,255,255,0.9),
+    0 0 20px rgba(0,255,255,0.6);
+
+  margin-top: -4px;
+ /* 🔥 centrado perfecto */
+  position: relative;
+  z-index: 3;
+}
+
+/* Firefox */
+#progressBar::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #00cfff;
+}
+#progressBar {
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  #progressBar::-webkit-slider-thumb {
+    margin-top: -3px; /* ajuste fino mobile */
+  }
+}
+
+
 .fullscreen-btn {
   align-self: flex-end;
   width: 36px;
@@ -1366,99 +1332,57 @@ document.addEventListener("DOMContentLoaded", () => {
   object-fit: contain;
 }
 
-
-/* MODAL */
-.modal-temp {
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 99999;
-}
-
-.modal-temp.active {
-  display: flex;
-}
-
-.modal-temp-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(8px);
-}
-
-/* CAJA */
-.modal-temp-box {
-  position: relative;
-  margin: auto;
-  width: 95%;
-  max-width: 500px;
-  background: #111;
-  border-radius: 16px;
-  padding: 15px;
-  z-index: 2;
-  animation: aparecer .3s ease;
-}
-
-@keyframes aparecer {
-  from {transform: scale(.9); opacity:0;}
-  to {transform: scale(1); opacity:1;}
-}
-
-/* HEADER */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-header h2 {
-  font-size: 1.2rem;
-}
-
-#cerrarModalTemp {
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/* TEMPORADAS */
-.temp-list {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-  overflow-x: auto;
-}
-
-.temp-btn {
-  background: #222;
-  padding: 8px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.temp-btn.active {
-  background: #ff2d5b;
-}
-
-/* EPISODIOS HORIZONTAL */
-.episodios-list {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-
-.ep-card:hover {
-  background: #ff2d5b;
-}
-
   
 </style>
 
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const video = document.getElementById('videoPlayer');
+  const loader = document.getElementById('player-loader');
+
+  if (!video || !loader) return;
+
+  const showLoader = () => {
+    loader.style.display = 'flex';
+  };
+
+  const hideLoader = () => {
+    loader.style.display = 'none';
+  };
+
+  // 🔄 Cargando video
+  video.addEventListener('loadstart', showLoader);
+  video.addEventListener('waiting', showLoader);
+  video.addEventListener('stalled', showLoader);
+
+  // ▶️ Listo / reproduciendo
+  video.addEventListener('canplay', hideLoader);
+  video.addEventListener('playing', hideLoader);
+
+  // ⏸️ Pausa o fin → no mostrar loader
+  video.addEventListener('pause', hideLoader);
+  video.addEventListener('ended', hideLoader);
+});
+</script>
+
+<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
 
 <script>
-const PERFIL_ACTIVO = <?php echo isset($_SESSION['perfil_id']) ? 'true' : 'false'; ?>;
+  setInterval(() => {
+
+  fetch("auth.php?check_status=1")
+    .then(res => res.text())
+    .then(data => {
+
+      if (data === "logout") {
+        window.location.href = "../index.php";
+      }
+
+    });
+
+}, 15000); // cada 15 segundos
+
 </script>
 
 <script>
@@ -1472,19 +1396,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const imginicio = movie.imginicio || "";
 
   if (!imginicio) {
-    console.log("No hay imginicio");
-  }
-
-  // 🔥 DETECTAR PERFIL O USUARIO
-  const URL_GUARDADO = (typeof PERFIL_ACTIVO !== "undefined" && PERFIL_ACTIVO)
-    ? "perfil_inicio_data.php"
-    : "inicio_data.php";
+  console.log("No hay imginicio");
+}
 
   function guardarProgreso() {
 
-    const progreso = Math.floor(video.currentTime);
+    const progreso = Math.floor(video.currentTime); // segundos
 
-    fetch(URL_GUARDADO, {
+    fetch("inicio_data.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -1493,11 +1412,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "id=" + encodeURIComponent(movieId) +
         "&titulo=" + encodeURIComponent(titulo) +
         "&imginicio=" + encodeURIComponent(imginicio) +
-        "&progreso=" + encodeURIComponent(progreso)
-    })
-    .then(r => r.text())
-    .then(res => console.log("Guardado:", res))
-    .catch(err => console.log("Error fetch:", err));
+        "&progreso=" + progreso
+    });
   }
 
   // 🔥 guardar cada 10 segundos
@@ -1510,176 +1426,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
 <!-- FIN -->
-
- <!-- ==========================
-    ESTILO DE CARGA DE VIDEO
-    ===========================
--->
-
-<style>
-  #player-loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 10, 10, 0.45);
-  backdrop-filter: blur(8px);
-  z-index: 20;
-  border-radius: 8px;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-#player-loader.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 🔥 Spinner PRO */
-.player-spinner {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #ff007f,
-    #ffae00,
-    #00ffcc,
-    #00aaff,
-    #9d00ff,
-    #ff007f
-  );
-  animation: spin 1.2s linear infinite;
-  position: relative;
-  margin-bottom: 14px;
-  filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
-}
-
-/* Centro del spinner */
-.player-spinner::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  background: #111;
-  border-radius: 50%;
-}
-
-/* Rotación */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Texto */
-.player-loading-text {
-  font-size: 0.85rem;
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* Animación de puntos */
-.dots::after {
-  content: "";
-  animation: dots 1.4s infinite steps(3);
-}
-
-@keyframes dots {
-  0% { content: ""; }
-  33% { content: "."; }
-  66% { content: ".."; }
-  100% { content: "..."; }
-}
-
-/* 📱 Responsive */
-@media (max-width: 600px) {
-  .player-spinner {
-    width: 40px;
-    height: 40px;
-  }
-
-  .player-loading-text {
-    font-size: 0.75rem;
-  }
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const video = document.getElementById('videoPlayer');
-  const loader = document.getElementById('player-loader');
-
-  if (!video || !loader) return;
-
-  let loadingTimeout;
-
-  const showLoader = () => {
-    clearTimeout(loadingTimeout);
-
-    // ⏱ pequeño delay para evitar parpadeo
-    loadingTimeout = setTimeout(() => {
-      loader.classList.add('active');
-    }, 180);
-  };
-
-  const hideLoader = () => {
-    clearTimeout(loadingTimeout);
-    loader.classList.remove('active');
-  };
-
-  // 🔄 Estados reales de carga
-  video.addEventListener('loadstart', showLoader);
-  video.addEventListener('waiting', showLoader);
-  video.addEventListener('stalled', showLoader);
-  video.addEventListener('seeking', showLoader);
-
-  // ▶️ Cuando ya puede reproducir
-  video.addEventListener('canplay', hideLoader);
-  video.addEventListener('playing', hideLoader);
-
-  // ⏸️ No mostrar loader
-  video.addEventListener('pause', hideLoader);
-  video.addEventListener('ended', hideLoader);
-
-  // 🧠 Extra: si buffer se recupera solo
-  video.addEventListener('timeupdate', () => {
-    if (!video.paused && !video.seeking && video.readyState >= 3) {
-      hideLoader();
-    }
-  });
-});
-</script>
-
-<!-- ==========================
-    FIN ESTILO DE CARGA DE VIDEO
-    ===========================
--->
 
 <div class="mobile-player" id="mobilePlayer">
   <!-- 🔄 Loader del reproductor -->
   <div id="player-loader">
-  <div class="loader-content">
     <div class="player-spinner"></div>
     <div class="player-loading-text">
       Cargando<span class="dots"></span>
     </div>
   </div>
-</div>
   <video
     id="videoPlayer"
     playsinline
     webkit-playsinline
     preload="metadata"
-    poster="https://image.tmdb.org/t/p/w780/"
+    poster="https://image.tmdb.org/t/p/original/"
   >
   </video>
 
@@ -1843,7 +1605,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg"
       },
       {
-        id: "la_mitad_de_ana",
+        id: "La_mitad_de_Ana",
         titulo: "La mitad de Ana",
         imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"
       }
@@ -2116,7 +1878,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"
       },
       {
-        id: "la_mitad_de_ana",
+        id: "La_mitad_de_Ana",
         titulo: "La mitad de Ana",
         imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"
       },
@@ -2612,7 +2374,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el Multiverso",
+        titulo: "Spider-Man: Cruzando el multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -2667,7 +2429,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el multiverso",
+        titulo: "Spider-Man: Cruzando el multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -3364,7 +3126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "fineskind",
+        id: "Fineskind",
         titulo: "Fineskind: Entre hermanos",
         imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       },
@@ -3862,24 +3624,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        href: "View Peliculas/Reproductor Universal Series.php?id=baki_hanma",
+        href: "Baki Hanma (2021).html",
         titulo: "Baki Hanma",
         imagen: "https://image.tmdb.org/t/p/w300/x145FSI9xJ6UbkxfabUsY2SFbu3.jpg"
       },
       {
-        href: "View Peliculas/Reproductor Universal Series.php?id=baki_2018",
+        href: "Baki (2018).html",
         titulo: "Baki",
         imagen: "https://image.tmdb.org/t/p/w300/j4bL0G8h8k49MuXKYfZqhXqk2rI.jpg"
       },
       {
-        href: "View Peliculas/Reproductor Universal Series.php?id=kengan_ashura",
+        href: "Kengan Ashura (2019).html",
         titulo: "Kengan Ashura",
         imagen: "https://image.tmdb.org/t/p/w300/bjKEi6zstDdSdMRfTmjof7bT6TP.jpg"
       },
       {
-        href: "View Peliculas/Reproductor Universal Series.php?id=baki_dou_el_samurai_invencible",
+        id: "../View Series/Baki-Dou El samurái invencible (2026).php",
         titulo: "Baki-Dou: El samurái invencible",
-        imagen: "https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg"
+        imagen: "https://imgs.search.brave.com/wL_zD4jMSbWlQUzFzIXV4WnXFsX6aYf9kV_1d1xiM74/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3dp/a2ktZG9ibGFqZS1l/c3BhbmEvaW1hZ2Vz/LzkvOWUvQmFraS1E/b3VfLV9FbF9TYW11/ciVDMyVBMWlfSW52/ZW5jaWJsZV8tX1Bv/c3Rlci5qcGcvcmV2/aXNpb24vbGF0ZXN0/L3NjYWxlLXRvLXdp/ZHRoLWRvd24vMjY4/P2NiPTIwMjYwMjA0/MjAyNTM3JnBhdGgt/cHJlZml4PWVz"
       },
       {
         id: "steven_universe_la_pelicula",
@@ -4366,7 +4128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "bambi_una_vida_en_el_bosque_2024",
-        titulo: "Bambi: Una vida en el bosque",
+        titulo: "Bambi: Una aventura en el bosque",
         imagen: "https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg"
       },
       {
@@ -4938,8 +4700,8 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/qTdnMVkjoP3b1ocwYyW0qrsEabc.jpg"
       },
       {
-        id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        id: "doctor_strange2",
+        titulo: "Doctor Strange: En el multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg"
       }
     ]
@@ -6037,7 +5799,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/A8fYqHsOKF0wI5tYnpScjab3f3p.jpg"
       },
       {
-        id: "la_sirenita_2023",
+        id: "la_sirenita",
         titulo: "La Sirenita",
         imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
       },
@@ -6092,7 +5854,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
       },
       {
-        id: "lilo_y_stitch_2025",
+        id: "lilo_y_stich_2025",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
       },
@@ -7341,7 +7103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recomendaciones: [
       {
         id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        titulo: "Doctor strange 2: En el multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/xu0RftYPT4crY4ZSf9SMa5UM8dr.jpg"
       },
       {
@@ -9385,7 +9147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        titulo: "Doctor strange 2: En el multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg"
       },
       {
@@ -9604,7 +9366,7 @@ document.addEventListener('DOMContentLoaded', () => {
       {
         id: "extraterritorial",
         titulo: "Extraterritorial",
-        imagen: "https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg"
+        imagen: "https://image.tmdb.org/t/p/w3007tWkxxiqraVx1IzYd4DHv6FIvhS.jpg/"
       },
       {
         id: "bala_perdida_3",
@@ -9762,7 +9524,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "mufasa_el_rey_leon",
+        id: "mufasa_rl_rey",
         titulo: "Mufasa: El rey león",
         imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
       },
@@ -9782,7 +9544,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/x2SAEOXURbKDgKfdHdZ49VhPGrB.jpg"
       },
       {
-        id: "la_sirenita_2023",
+        id: "la_sirenita",
         titulo: "La sirenita",
         imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
       },
@@ -9837,7 +9599,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
       },
       {
-        id: "lilo_y_stitch_2025",
+        id: "lilo_y_stich_2025",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
       },
@@ -10282,7 +10044,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
       },
       {
-        id: "insidiuos_puerta_roja",
+        id: "Insidiuos_puerta_roja",
         titulo: "Insidiuos: puerta roja",
         imagen: "https://image.tmdb.org/t/p/w300/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg"
       }
@@ -10482,7 +10244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg"
       },
       {
-        id: "fineskind",
+        id: "Fineskind",
         titulo: "Fineskind: Entre hermanos",
         imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       },
@@ -10612,7 +10374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg"
       },
       {
-        id: "insidiuos_puerta_roja",
+        id: "Insidiuos_puerta_roja",
         titulo: "Insidiuos: puerta roja",
         imagen: "https://image.tmdb.org/t/p/w300/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg"
       }
@@ -10887,7 +10649,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "fineskind",
+        id: "Fineskind",
         titulo: "Fineskind: Entre hermanos",
         imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       }
@@ -11207,7 +10969,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el multiverso",
+        titulo: "Spider-Man: Cruzando el multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -12245,7 +12007,7 @@ document.addEventListener('DOMContentLoaded', () => {
       {
         id: "frozen",
         titulo: "Frozen",
-        imagen: "https://image.tmdb.org/t/p/w300/kgwjIb2JDHRhNk13lmSxiClFjVk.jpg"
+        imagen: "https://image.tmdb.org/t/p/w300/hAKhrHvzQDUHQP5zd5HFeqF2BCN.jpg"
       },
       {
         id: "el_rey_leon_2019",
@@ -12552,507 +12314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  /*H*/
-
-  hablame: {
-    id: "hablame",
-    titulo: "Háblame",
-    video: "https://dl.dropbox.com/scl/fi/sl93snxxfkm8k70o8ftzz/H-blame.2022.1080P-Dual-Lat.mp4?rlkey=ee5u4n12o8st89hput52z97vz&st=",
-    poster: "https://image.tmdb.org/t/p/w780/bTzq40wrtfbmEk7VmEXHAZcd52A.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bTzq40wrtfbmEk7VmEXHAZcd52A.jpg",
-    imginicio: "",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando un grupo de amigos descubre cómo conjurar espíritus usando una mano embalsamada, se vuelven adictos a la nueva emoción, hasta que uno de ellos va demasiado lejos y desata fuerzas sobrenaturales aterradoras.",
-    anio: "2023",
-    duracion: "1h 35min",
-    calificacion: "82%",
-    genero: "Terror",
-    director: "Danny Philippou, Michael Philippou",
-    reparto: "Sophie Wilde, Alexandra Jensen, Joe Bird",
-    estreno: "17/08/2023",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "five_night_at_freddy_2",
-        titulo: "Five nights at freddy's 2",
-        imagen: "https://image.tmdb.org/t/p/w300/vMU4TTPcnwtbJMFKfAEkDcDXb3l.jpg"
-      },
-      {
-        id: "evil_dead_el_despertar",
-        titulo: "Evil Dead: El despertar",
-        imagen: "https://image.tmdb.org/t/p/w300/yrx8cBjVTS5Z0KpCy40nV53XmsJ.jpg"
-      },
-      {
-        id: "no_me_sigas",
-        titulo: "No me sigas",
-        imagen: "https://image.tmdb.org/t/p/w300/gop4DwcBeb9T3JTaxwDEHdJNqSq.jpg"
-      },
-      {
-        id: "lo_que_se_esconde_bajo_el_agua",
-        titulo: "Lo que se esconde bajo el agua",
-        imagen: "https://image.tmdb.org/t/p/w300/ovIQATc8FzEuTa3EJ3AiZ9jGuY7.jpg"
-      },
-      {
-        id: "los_extraños_capitulo_2",
-        titulo: "Los extraños: Capítulo 2",
-        imagen: "https://image.tmdb.org/t/p/w300/fE5JZwAqTAgSASwm8rip9fMQ6Nv.jpg"
-      },
-      {
-        id: "regalo_maldito",
-        titulo: "Regalo maldito",
-        imagen: "https://image.tmdb.org/t/p/w300/qYCA7XkLRUNS1DC7c8ehtj6W4XM.jpg"
-      }
-    ]
-  },
-
-  harta: {
-    id: "harta",
-    titulo: "Harta",
-    video: "https://dl.dropbox.com/scl/fi/bwc38qcxl9tmw25e302jl/Harta.2025.1080P-Dual-Lat.mkv?rlkey=xa3xygkv1h2q6ixkolxfk4nfk&st=",
-    poster: "https://image.tmdb.org/t/p/w780/wvr3Nh8TALWbmATrnlNg5Vhf6d3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wEC3zdfK1SMnwAV7U82hCD77Wfe.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "¿Cuál será la gota que colme el vaso? Un día devastador lleva al límite a una madre soltera y trabajadora, y la empuja a cometer un impactante acto de desesperación.",
-    anio: "2025",
-    duracion: "1h 47min",
-    calificacion: "87%",
-    genero: "Drama • Suspenso",
-    director: "Tyler Perry",
-    reparto: "Taraji P. Henson, Sherri Shepherd, Teyana Taylor",
-    estreno: "06/06/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "rehen",
-        titulo: "iRehén!",
-        imagen: "https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"
-      },
-      {
-        id: "temporada_de_huracanes",
-        titulo: "Temporada de huracanes",
-        imagen: "https://image.tmdb.org/t/p/w300/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg"
-      },
-      {
-        id: "la_joven_y_el_mar",
-        titulo: "La joven y el mar",
-        imagen: "https://image.tmdb.org/t/p/w300/n3KE8fbiOCr6qktIpE52wWErBMi.jpg"
-      },
-      {
-        id: "finestkind",
-        titulo: "Finestkind: Entre hermanos",
-        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
-      },
-      {
-        id: "asesino_serial",
-        titulo: "Asesino serial",
-        imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"
-      },
-      {
-        id: "no_me_sigas",
-        titulo: "No me sigas",
-        imagen: "https://image.tmdb.org/t/p/w300/gop4DwcBeb9T3JTaxwDEHdJNqSq.jpg"
-      }
-    ]
-  },
-
-  hercules: {
-    id: "hercules",
-    titulo: "Hércules",
-    video: "https://dl.dropbox.com/scl/fi/vuxvswm2w0rr987z8arpl/H-rcules.1997.1080P-Dual-Lat.mkv?rlkey=bfavf9ocqlru4kf190zmeyqn4&st=",
-    poster: "https://image.tmdb.org/t/p/w780/y43ELBtPuqCQFCmJSSw8Utt0ES0.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hdOS8bvta2DmDF8NHcgKWQDx0OX.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ahmc5y1fglC0Ec52qIAyw6oseME.jpg",
-    imginicio: "",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Dotado de una fuerza sobrehumana, un joven mortal llamado Hércules se propone demostrar que es un héroe ante los ojos de su padre, el gran dios Zeus. Junto con sus amigos Pegaso, un caballo volador, y Phil, un entrenador personal, Hércules es engañado por el hilarante e impulsivo villano Hades, quien planea apoderarse del Monte Olimpo.",
-    anio: "1997",
-    duracion: "1h 33min",
-    calificacion: "83%",
-    genero: "Animación • Disney • Fantasía • Aventura • Romance ",
-    director: "Ron Clements, Juan Musker",
-    reparto: "Tate Donovan, Josh Keaton, Roger Bart",
-    estreno: "13/06/1997",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "frozen_2",
-        titulo: "Frozen 2",
-        imagen: "https://image.tmdb.org/t/p/w300/qXsndsv3WOoxszmdlvTWeY688eK.jpg"
-      },
-      {
-        id: "el_rey_leon_2019",
-        titulo: "El Rey Leon",
-        imagen: "https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg"
-      },
-      {
-        id: "blancanieves",
-        titulo: "Blancanieves",
-        imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"
-      },
-      {
-        id: "tierra_de_osos",
-        titulo: "Tierra de osos",
-        imagen: "https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg"
-      },
-      {
-        id: "trolls_2",
-        titulo: "Trolls 2: Gira mundial",
-        imagen: "https://image.tmdb.org/t/p/w300/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg"
-      },
-      {
-        id: "un_jefe_en_pañales_2",
-        titulo: "Un jefe en pañales 2: Negocios de familia",
-        imagen: "https://image.tmdb.org/t/p/w300/85J1DwZowIlKFOF7jllgCD3iHhx.jpg"
-      }
-    ]
-  },
-
-  hijo_de_dios: {
-    id: "hijo_de_dios",
-    titulo: "Hijo de Dios",
-    video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Hijo%20de%20Dios%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/iPtLFd2Sv1iq2UCe6THol1W6TSe.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pnORCAOUW0JKR84ueMap8GiBAoA.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hONTXxtQVSYySKW5f3nRndKUfhc.jpg",
-    imginicio: "",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En Tierra Santa, la ocupación romana ha generado un hervidero de opresión, ansiedad e impuestos excesivos sobre el pueblo judío. Temiendo la ira del gobernador romano Poncio Pilato, el sumo sacerdote judío Caifás intenta mantener el control de su pueblo.",
-    anio: "2014",
-    duracion: "2h 18min",
-    calificacion: "00%",
-    genero: "Drama • Biblico",
-    director: "Cristóbal Spencer",
-    reparto: "Diogo Morgado, Roma Downey, Greg Hicks",
-    estreno: "28/02/2014",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_resurrección_de_cristo",
-        titulo: "La resurrección de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg"
-      },
-      {
-        id: "la_pasion_de_cristo",
-        titulo: "La pasión de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg"
-      },
-      {
-        id: "maria_magdalena",
-        titulo: "María Magdalena",
-        imagen: "https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg"
-      },
-      {
-        id: "su_unico_hijo",
-        titulo: "Su unico hijo",
-        imagen: "https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg"
-      },
-      {
-        id: "pablo_el_apostol_de_cristo",
-        titulo: "Pablo, el apóstol de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=moises_y_los_diez_mandamientos",
-        titulo: "Moises y los diez mandamientos",
-        imagen: "https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"
-      }
-    ]
-  },
-
-  hotel_transylvania: {
-    id: "hotel_transylvania",
-    titulo: "Hotel transilvania",
-    video: "https://dl.dropbox.com/scl/fi/3yko53cuj5d28t09jcalf/Hotel.Transylvania.2012.latino-e-ingles-subt.mkv?rlkey=7k1n5chl73cpbs56yeg1qv9b7&st=",
-    poster: "https://image.tmdb.org/t/p/w780/9N3KKOKpqEFe9GhHaIVHwk9N1Y.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zvWlwBGQWuJ0wog65q1uS37BApC.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tcHF7MvHRNyu23XsGnJmTnvB9Rc.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Drácula regenta un hotel en el que se alojan personajes como Frankenstein, la Momia, el Hombre Invisible, hombres-lobo... El problema del conde es que tiene una hija de espíritu aventurero a la que le resulta difícil controlar. El conflicto surge cuando se aloja en el hotel un ser humano que se siente atraído por la hija del dueño.",
-    anio: "2012",
-    duracion: "1h 31min",
-    calificacion: "84%",
-    genero: "Animación • Comedia • Familia • Fantasía",
-    director: "Genndy Tartakovsky",
-    reparto: "Adam Sandler, Andy Samberg, Selena Gómez",
-    estreno: "04/10/2012",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hotel_transylvania_2",
-        titulo: "Hotel Transylvania 2",
-        imagen: "https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg"
-      },
-      {
-        id: "hotel_transylvania_3",
-        titulo: "Hotel Transylvania 3",
-        imagen: "https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg"
-      },
-      {
-        id: "hotel_transylvania_4",
-        titulo: "Hotel Transylvania 4",
-        imagen: "https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg"
-      },
-      {
-        id: "scooby_2020",
-        titulo: "¡Scooby!",
-        imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg"
-      },
-      {
-        id: "intensamente_2",
-        titulo: "Intensamente 2",
-        imagen: "https://image.tmdb.org/t/p/w300/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg"
-      }
-    ]
-  },
-
-  hotel_transylvania_2: {
-    id: "hotel_transylvania_2",
-    titulo: "Hotel Transylvania 2",
-    video: "https://dl.dropbox.com/scl/fi/bavlmpf77dqz9dpbkiywz/Hotel.transylvania.2.2015.1080p-dual-lat.mp4?rlkey=0kkvjzrj37z690kbi5jqu2g4a&st=",
-    poster: "https://image.tmdb.org/t/p/w780/kFPWoBFBkVi3YDG8MyOOTrwGxPF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/g2tlrb2oy6T90l37Umt1iXBV1Ua.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Todo parece mejorar en el Hotel Transilvania. La rígida norma establecida por Drácula de “sólo para monstruos” se ha suprimido y se aceptan también huéspedes humanos. Lo que preocupa al conde es que que su adorable nieto Dennis, medio humano y medio vampiro, no dé señal alguna de vampirismo.",
-    anio: "2015",
-    duracion: "1h 30min",
-    calificacion: "82%",
-    genero: "Animación • Comedia • Familia • Fantasía",
-    director: "Genndy Tartakovsky",
-    reparto: "Adam Sandler, Andy Samberg, Selena Gómez",
-    estreno: "24/09/2015",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hotel_transylvania",
-        titulo: "Hotel Transylvania",
-        imagen: "https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg"
-      },
-      {
-        id: "hotel_transylvania_3",
-        titulo: "Hotel Transilvania 3: Unas vacaciones monstruosas",
-        imagen: "https://image.tmdb.org/t/p/w300/gjAFM4xhA5vyLxxKMz38ujlUfDL.jpg"
-      },
-      {
-        id: "hotel_transylvania_4",
-        titulo: "Hotel Transylvania 4: Transformania",
-        imagen: "https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg"
-      },
-      {
-        id: "kung_fu_panda_4",
-        titulo: "Kung fu panda 4",
-        imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/d2In25p3RW9lwxEPX9zAhkg0L5l.jpg"
-      },
-      {
-        id: "robot_salvaje",
-        titulo: "Robot Salvaje",
-        imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"
-      }
-    ]
-  },
-
-  hotel_transylvania_3: {
-    id: "hotel_transylvania_3",
-    titulo: "Hotel Transilvania 3: Unas vacaciones monstruosas",
-    video: "https://dl.dropbox.com/scl/fi/yrph5cqr4ijymla4n367w/Hotel.transylvania.3.summer.vacation.2018.1080p-dual-lat-cinecalidad.to.mp4.mp4?rlkey=k77zbbvxc1iwef0cll14vocq7&st=",
-    poster: "https://image.tmdb.org/t/p/w780/m03jul0YdVEOFXEQVUv6pOVQYGL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/p5eBnMRoFWjSua4DYdiKjmHP3H5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eAjpAdm3zKYoi0HTTwJm7iB1kpL.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Nuestra familia de monstruos favorita se embarca en un crucero de lujo para que por fin Drac pueda tomarse un descanso de proveer de vacaciones al resto en el hotel. Es una navegación tranquila para la pandilla de Drac, ya que los monstruos se entregan a toda la diversión a bordo que ofrece el crucero, desde el voleibol de monstruos y las excursiones exóticas, a ponerse al día con sus bronceados de luna.",
-    anio: "2018",
-    duracion: "1h 37min",
-    calificacion: "87%",
-    genero: "Animación • Comedia • Familia • Fantasía",
-    director: "Genndy Tartakovsky",
-    reparto: "Adam Sandler, Andy Samberg, Selena Gómez",
-    estreno: "30/06/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hotel_transylvania",
-        titulo: "Hotel Transylvania",
-        imagen: "https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg"
-      },
-      {
-        id: "hotel_transylvania_2",
-        titulo: "Hotel Transylvania 2",
-        imagen: "https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg"
-      },
-      {
-        id: "hotel_transylvania_4",
-        titulo: "Hotel Transilvania 4: Transformanía",
-        imagen: "https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg"
-      },
-      {
-        id: "pinocho",
-        titulo: "Pinocho",
-        imagen: "https://image.tmdb.org/t/p/w300/nsnyd6MFznuFSaHk1iveAdWc3nI.jpg"
-      },
-      {
-        id: "peter_pan",
-        titulo: "Peter Pan",
-        imagen: "https://image.tmdb.org/t/p/w300/fJJOs1iyrhKfZceANxoPxPwNGF1.jpg"
-      },
-      {
-        id: "pocahontas",
-        titulo: "Pocahontas",
-        imagen: "https://image.tmdb.org/t/p/w300/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg"
-      }
-    ]
-  },
-
-  hotel_transylvania_4: {
-    id: "hotel_transylvania_4",
-    titulo: "Hotel Transilvania 4: Transformanía",
-    video: "https://dl.dropbox.com/scl/fi/sdxvd4en5colp8f6vwg2i/Hotel-transylvania-4.mp4?rlkey=xh5rn9namgcndo9absyokgu21&st=",
-    poster: "https://image.tmdb.org/t/p/w780/qBLEWvJNVsehJkEJqIigPsWyBse.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lgqnv4zSmgg31T7r73nTwSpfzKN.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando el misterioso invento de Van Helsing, el Rayo Monstruificante, se descontrola, Drac y sus amigos monstruos se transforman en humanos, y Johnny se convierte en un monstruo. En sus nuevos cuerpos dispares, Drac y Johnny deben unir fuerzas y recorrer el mundo para encontrar una cura antes de que sea demasiado tarde y antes de que se vuelvan locos el uno al otro.",
-    anio: "2022",
-    duracion: "1h 27min",
-    calificacion: "81,9%",
-    genero: "Animación • Comedia • Familia • Fantasía",
-    director: "Derek Drymon",
-    reparto: "Andy Samberg, Selena Gómez, Kathryn Hahn",
-    estreno: "25/02/2022",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hotel_transylvania",
-        titulo: "Hotel Transylvania",
-        imagen: "https://image.tmdb.org/t/p/w300/eJGvzGrsfe2sqTUPv5IwLWXjVuR.jpg"
-      },
-      {
-        id: "hotel_transylvania_2",
-        titulo: "Hotel Transylvania 2",
-        imagen: "https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg"
-      },
-      {
-        id: "hotel_transylvania_3",
-        titulo: "Hotel Transilvania 3: Unas vacaciones monstruosas",
-        imagen: "https://image.tmdb.org/t/p/w300/gjAFM4xhA5vyLxxKMz38ujlUfDL.jpg"
-      },
-      {
-        id: "intensamente",
-        titulo: "Intensamente",
-        imagen: "https://image.tmdb.org/t/p/w300/cTXHRoiKnuNdLRy4qn7JhQXHZO0.jpg"
-      },
-      {
-        id: "turbo",
-        titulo: "Turbo",
-        imagen: "https://image.tmdb.org/t/p/w300/ysNUm2zWPkJQKa3Op0N4EmqrZ0h.jpg"
-      },
-      {
-        id: "sing_cantar",
-        titulo: "Sing: Cantar",
-        imagen: "https://image.tmdb.org/t/p/w300/sMCdqRia4H5WNZe9jgf37ZnUDlw.jpg"
-      }
-    ]
-  },
-
   /*I*/
-
-  juguete_diabolico_imaginario: {
-    id: "juguete_diabolico_imaginario",
-    titulo: "Imaginario: Juguete diabólico",
-    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Imaginario-%20juguete%20diab%C3%B3lico%20online%20HD%20-%20Cuevana%202.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando Jessica regresa a la casa de su infancia con su familia, su hijastra menor, Alice, desarrolla un extraño apego a un oso de peluche llamado Chauncey que encuentra en el sótano. Alice empieza a jugar con Chauncey, juegos que empiezan de forma juguetona y se vuelven cada vez más siniestros.",
-    anio: "2024",
-    duracion: "1h 44min",
-    calificacion: "60%",
-    genero: "Terror • Misterio",
-    director: "Jeff Wadlow",
-    reparto: "DeWanda Wise, Taegen Burns, Pyper Braun",
-    estreno: "07/03/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "baghead_contacto_con_la_muerte",
-        titulo: "Baghead: Contacto con la muerte",
-        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
-      },
-      {
-        id: "atrapados_en_lo_profundo",
-        titulo: "Atrapados en lo Profundo",
-        imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg"
-      },
-      {
-        id: "annabelle_2",
-        titulo: "Annabelle 2: La creacion",
-        imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
-      },
-      {
-        id: "un_lugar_en_silencio_3",
-        titulo: "Un lugar en silencio 3: Día uno",
-        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
-      },
-      {
-        id: "saw_x",
-        titulo: "Saw X",
-        imagen: "https://image.tmdb.org/t/p/w300/aQPeznSu7XDTrrdCtT5eLiu52Yu.jpg"
-      },
-      {
-        id: "ofrenda_al_demonio",
-        titulo: "Ofrenda al demonio",
-        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
-      }
-    ]
-  },
 
   it_2017: {
     id: "it_2017",
@@ -13405,7 +12667,7 @@ document.addEventListener('DOMContentLoaded', () => {
     director: "Cristina Constantini",
     reparto: "Karol G, Shakira, Becky G",
     estreno: "08/05/2025",
-    idioma: "Colombia 🇨🇴",
+    idioma: "Colombia",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
@@ -13536,7 +12798,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el multiverso",
+        titulo: "Spider-Man: Cruzando el multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -13664,1822 +12926,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
   /*L*/
-
-  los_siete_pecados_capitales_prisioneros_del_cielo: {
-    id: "los_siete_pecados_capitales_prisioneros_del_cielo",
-    titulo: "Los siete pecados capitales: Prisioneros del cielo",
-    video: "https://dl.dropbox.com/scl/fi/by5es2uhxz4goz4weoen3/Los-siete-pecados-capitales-prisioneros-en-el-ciel.mp4?rlkey=tvaan880o3ev0k0b176za7i7s&st=",
-    poster: "https://image.tmdb.org/t/p/w780/aeWS2ahnsOuD2XENzwUntA4zOMB.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wYtZ7edTA335iULm2KzMmFqcmfh.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Los Siete Pecados Capitales viajan a una tierra remota en busca del ingrediente fantasma “Pez de Cielo”. Meliodas y Hawk terminan en Sky Palace que existe sobre las nubes, donde todos los residentes tienen alas. Meliodas es confundido con un chico que cometió un crimen y es arrojado a la cárcel. Mientras tanto, los residentes están preparando la de defensa contra una bestia feroz que se despierta una vez cada 3.000 años. Pero los Seis Caballeros de Negro, un ejército del Clan Demonio, llegan y quitan el sello a la bestia antes que los residentes de Sky Palace puedan prepararse.",
-    anio: "2018",
-    duracion: "1h 39min",
-    calificacion: "80%",
-    genero: "Animación • Acción • Anime • Fantasía • Aventura",
-    director: "Noriyuki Abe, Yasuto Nishikata",
-    reparto: "Yuki Kaji, Sora Amamiya, Misaki Kuno",
-    estreno: "18/08/2018 ",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_siete_pecados_capitales_el_rencor_1",
-        titulo: "Los siete pecados capitales: El rencor de edimburgo - Parte 1",
-        imagen: "https://image.tmdb.org/t/p/w300/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_el_rencor_2",
-        titulo: "Los siete pecados capitales: El rencor de Edimburgo - Parte 2",
-        imagen: "https://image.tmdb.org/t/p/w300/by5ZMxYI4RD4CzKMJhX6X74JhFl.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_la_maldicion_de_la_luz",
-        titulo: "Los siete pecados capitales: La maldición de la luz",
-        imagen: "https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=los_cuatro_jinetes_del_apocalipsis",
-        titulo: "Los siete pecados capitales: Los cuatro jinetes del apocalipsis",
-        imagen: "https://image.tmdb.org/t/p/w300/jagPIbydbjPZ9o0EOrYLZHzyATS.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=los_siete_pecados_capitales",
-        titulo: "Los siete pecados capitales",
-        imagen: "https://image.tmdb.org/t/p/w300/s5muSKkmmtYXLolgAcFiWd49y1P.jpg"
-      },
-      {
-        id: "dragon_ball_z_la_batalla_de_los_dioses",
-        titulo: "Dragon Ball Z: La batalla de los dioses",
-        imagen: "https://image.tmdb.org/t/p/w300/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg"
-      }
-    ]
-  },
-
-  los_siete_pecados_capitales_la_maldicion_de_la_luz: {
-    id: "los_siete_pecados_capitales_la_maldicion_de_la_luz",
-    titulo: "Los siete pecados capitales: La maldición de la luz",
-    video: "https://dl.dropbox.com/scl/fi/sxahylo1kzmodc5jmcpzp/The.Seven.Deadly-Sins.Cursed.By.Light.2021.1080p.dual-lat.cinecalidad.run.mp4?rlkey=7d0xnj0mt6ukmdegcwdwqcbda&st=",
-    poster: "https://image.tmdb.org/t/p/w780/Aoueuf0P1U9oqf4dgN6dqxl7hsE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7h5WAPAcUzOWpp2jrwHBB48790j.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Con la ayuda del Dragón Sin of Wrath Meliodas y los peores rebeldes de la historia, los Siete Pecados Capitales, la Guerra Santa, en la que cuatro razas, incluyendo Humanos, Diosas, Hadas y Gigantes lucharon contra los Demonios, finalmente se sobre. A costa de la vida de Escanor El pecado del orgullo del león, el Rey Demonio fue derrotado y el mundo recuperó la paz. Después de eso, cada uno de los pecados toma su propio camino.",
-    anio: "2021",
-    duracion: "1h 19min",
-    calificacion: "86,8%",
-    genero: "Animación • Acción • Anime • Fantasía • Aventura",
-    director: "Takayuki Hamana",
-    reparto: "Yuki Kaji, Sora Amamiya, Misaki Kuno",
-    estreno: "02/07/2021",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_siete_pecados_capitales_el_rencor_1",
-        titulo: "Los siete pecados capitales: El rencor de edimburgo - Parte 1",
-        imagen: "https://image.tmdb.org/t/p/w300/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_el_rencor_2",
-        titulo: "Los siete pecados capitales: El rencor de Edimburgo - Parte 2",
-        imagen: "https://image.tmdb.org/t/p/w300/by5ZMxYI4RD4CzKMJhX6X74JhFl.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_prisioneros_del_cielo",
-        titulo: "Los siete pecados capitales: Prisioneros del cielo",
-        imagen: "https://image.tmdb.org/t/p/w300/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg"
-      },
-      {
-        id: "baki_hanma_vs_kengan_ashura",
-        titulo: "Baki Hanma vs Kengan Ashura",
-        imagen: "https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"
-      },
-      {
-        id: "naruto_the_last",
-        titulo: "Naruto The last: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/phPfQ4jWhwmZrmPhAtVYUJfqfwG.jpg"
-      },
-      {
-        id: "dragon_ball_z_devuelveme_a_mi_gohan",
-        titulo: "Dragon Ball Z: Devuélvanme a mi Gohan",
-        imagen: "https://image.tmdb.org/t/p/w300/koo5d4CdZd0sxcxxTgxXUHMSY10.jpg"
-      }
-    ]
-  },
-
-
-  los_siete_pecados_capitales_el_rencor_1: {
-    id: "los_siete_pecados_capitales_el_rencor_1",
-    titulo: "Los siete pecados capitales: El rencor de Edimburgo - Parte 1",
-    video: "https://dl.dropbox.com/scl/fi/jsnn27uxsbfngwblye9j3/Los-siete-pecados-capitales-el-rencor-parte-1.mp4?rlkey=77peq4p2ey2blu8bkvpi0rbzs&st=",
-    poster: "https://image.tmdb.org/t/p/w780/24fe6ou97ammOg3O6ShCgaiolp4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zUvBcp63w2WNnuNoq8bdjTT5U0c.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando fuerzas siiestras amenazan su reino, un joven principe emprende un peligroso viaje para salvar a sus seres queridos y descubrir sus poderes. Primera parte de las películas secuela de la serie anime The Seven Deadly Sins, tras los eventos sucedidos en The Seven Deadly Sins: Dragon's Judgement, centrada en el hijo de Meliodas, Tristan.",
-    anio: "2022",
-    duracion: "52min",
-    calificacion: "86%",
-    genero: "Animación • Acción • Anime • Fantasía • Aventura",
-    director: "Bob Shirohata",
-    reparto: "Ayumu Murase, Sora Amamiya, Yohei Azakami",
-    estreno: "20/12/2022",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_siete_pecados_capitales_el_rencor_2",
-        titulo: "Los siete pecados capitales: El rencor de Edimburgo - Parte 2",
-        imagen: "https://image.tmdb.org/t/p/w300/by5ZMxYI4RD4CzKMJhX6X74JhFl.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_la_maldicion_de_la_luz",
-        titulo: "Los siete pecados capitales: La maldición de la luz",
-        imagen: "https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg"
-      },
-      {
-        id: "los_siete_pecados_capitales_prisioneros_del_cielo",
-        titulo: "Los siete pecados capitales: Prisioneros del cielo",
-        imagen: "https://image.tmdb.org/t/p/w300/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg"
-      },
-      {
-        id: "naruto_the_last",
-        titulo: "Naruto The last: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/phPfQ4jWhwmZrmPhAtVYUJfqfwG.jpg"
-      },
-      {
-        id: "baki_hanma_vs_kengan_ashura",
-        titulo: "Baki Hanma vs Kengan Ashura",
-        imagen: "https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"
-      },
-      {
-        id: "boruto_2015",
-        titulo: "Boruto: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg"
-      }
-    ]
-  },
-
-  los_increibles_2: {
-    id: "los_increibles_2",
-    titulo: "Los Increíbles 2",
-    video: "https://dl.dropbox.com/scl/fi/y4b3p94wa6h3t5zgbrvuf/Incredibles.2.2018.1080P-Dual-Lat.mp4?rlkey=kpudqbic5nqu7ek5asrzruo40&st=",
-    poster: "https://image.tmdb.org/t/p/w780/q0UwKZD5dJzUVJVgiX8nSTgjqg3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bJjc0217DuipdwJ0wyi3I4j6soR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/q0UwKZD5dJzUVJVgiX8nSTgjqg3.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Helen tiene que liderar una campaña para que los superhéroes regresen, mientras Bob vive su vida 'normal' con Violet, Dash y el bebé Jack-Jack —cuyos superpoderes descubriremos—. Su misión se va a pique cuando aparece un nuevo villano con un brillante plan que lo amenaza todo. Pero los Parr no se amedrentarán y menos teniendo a Frozone de su parte.",
-    anio: "2018",
-    duracion: "1h 58min",
-    calificacion: "82%",
-    genero: "Acción • Aventura • Animación • Familia • Disney",
-    director: "Brad Bird",
-    reparto: "Craig T. Nelson, Holly Hunter, Sarah Vowell",
-    estreno: "15/06/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_increibles",
-        titulo: "Los Increíbles",
-        imagen: "https://image.tmdb.org/t/p/w300/al1jusd4T7JPatZlj4BuYkDDOzr.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
-      },
-      {
-        id: "intensamente",
-        titulo: "Intensamente",
-        imagen: "https://image.tmdb.org/t/p/w300/cTXHRoiKnuNdLRy4qn7JhQXHZO0.jpg"
-      },
-      {
-        id: "elemental",
-        titulo: "Elemental",
-        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
-      },
-      {
-        id: "encanto",
-        titulo: "Encanto",
-        imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg"
-      },
-      {
-        id: "moana_2",
-        titulo: "Moana 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      }
-    ]
-  },
-
-  los_increibles: {
-    id: "los_increibles",
-    titulo: "Los Increíbles",
-    video: "https://dl.dropbox.com/scl/fi/njhewns8balczai149b38/The.incredibles.2004.1080P-Dual-Lat.mp4?rlkey=laugcbvh24u84y8i6n8o2ynqu&st=",
-    poster: "https://image.tmdb.org/t/p/w780/3BzsK5fa6QF9m4p7SSV6DaaRmxx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1Clex17991DCM7uRkAClq52UULM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/l45uay1M0IFH7OnIlbfv6o0tyoa.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Como Mr. Increíble y Elastigirl, Bob y su esposa Helen estaban entre los mejores luchadores contra el crimen. Por fin pueden volver a la acción cuando una misteriosa llamada cita a Bob en una isla remota.",
-    anio: "2004",
-    duracion: "1h 55min",
-    calificacion: "84,2%",
-    genero: "Acción • Aventura • Animación • Familia • Disney",
-    director: "Brad Bird",
-    reparto: "Craig T. Nelson, Holly Hunter, Sarah Vowell",
-    estreno: "02/12/2004",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_increibles_2",
-        titulo: "Los Increíbles 2",
-        imagen: "https://image.tmdb.org/t/p/w300/x1txcDXkcM65gl7w20PwYSxAYah.jpg"
-      },
-      {
-        id: "mufasa_el_rey_leon",
-        titulo: "Mufasa: El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
-      },
-      {
-        id: "wish_el_poder_de_los_deseos",
-        titulo: "Wish: El Poder De Los Deseos",
-        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
-      },
-      {
-        id: "coco",
-        titulo: "Coco",
-        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
-      },
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      },
-      {
-        id: "al_rescate_de_fondo_de_bikini_la_película_de_arenita_mejillas",
-        titulo: "Al rescate de fondo de Bikini: La película de Arenita Mejillas",
-        imagen: "https://image.tmdb.org/t/p/w300/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg"
-      }
-    ]
-  },
-
-  leroy_y_stitch: {
-    id: "leroy_y_stitch",
-    titulo: "Leroy y Stitch",
-    video: "https://dl.dropbox.com/scl/fi/6qdznntegdfx4ekll7s7p/Leroy-y-stitch-2006.mp4?rlkey=hxo4k4cewcn4a5tbc2uuzukef&st=",
-    poster: "https://image.tmdb.org/t/p/w780/8HUsm0xA1tEL1VMS7HuHJwJPTuH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1RjvpZMAFZlnbLvrRYWEb2tzEyC.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oUoYliVxrp5hJHpXV9OAEHVsz1W.jpg ",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Como recompensa por recuperar los 625 experimentos, Lilo, Stitch, Jumba y Peakley han sido enviados a los distintos lugares de la galaxia donde cada uno cree pertenecer, pero sus vidas pronto se ven altreradas cuando el malévolo Dr. Hamsterviel escapa de prisión y obliga a Jumba a crear un nuevo experimento: Leroy, el malvado gemelo de Stitch.",
-    anio: "2006",
-    duracion: "1h 12min",
-    calificacion: "70%",
-    genero: "Animación • Disney • Comedia • Familia • Ciencia ficción",
-    director: "Bobs Gannaway, Tony Craig",
-    reparto: "Daveigh Chase, Chris Sanders, Tia Carrere",
-    estreno: "23/06/2006",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "lilo_y_stitch",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2",
-        titulo: "Lilo y Stitch 2: El efecto del defecto",
-        imagen: "https://image.tmdb.org/t/p/w300/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
-      },
-      {
-        id: "blancanieves",
-        titulo: "Blancanieves",
-        imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"
-      },
-      {
-        id: "aladdin_2019",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/fv9c5fsdxqUzkullgMB4cZja29y.jpg"
-      },
-      {
-        id: "bambi_una_vida_en_el_bosque_2024",
-        titulo: "Bambi: Una vida en el bosque",
-        imagen: "https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg"
-      }
-    ]
-  },
-
-  liga_de_la_justicia_crisis_en_tierras_infinitas_2: {
-    id: "liga de la justicia crisis en tierras infinitas_2",
-    titulo: "Liga de la Justicia: Crisis en Tierras Infinitas - Parte 2 ",
-    video: "https://dl.dropbox.com/scl/fi/rouhqz1v187kd4ttx55o4/Justice.league.crisis.on.infinite.earths.part.two.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=l00s5xwe71qtkjni6y8reds6u&st=",
-    poster: "https://image.tmdb.org/t/p/w780/tBmJCH9llj1Q9jDOS7vGWnl7GVj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aOT8n3YOOkInZ5VHJN4FffHrm43.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6DlgYvWq7yftoUrKYp9KCrs8pq7.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "El Antimonitor (la contrapartida malvada del Monitor) se desata en el Multiverso DC y comienza a destruir las diferentes Tierras que lo componen. El Monitor intenta reclutar a héroes de todo el Multiverso para contraatacar.",
-    anio: "2024",
-    duracion: "1h 34min",
-    calificacion: "70%",
-    genero: "Acción • Animación • Ciencia ficción",
-    director: "Jeff Wamester",
-    reparto: "Jensen Ackles, Darren Criss, Meg Donnelly",
-    estreno: "23/04/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "liga_de_la_justicia_crisis_en_tierras_infinitas_1",
-        titulo: "Liga de la Justicia: Crisis en Tierras Infinitas - parte 1",
-        imagen: "https://image.tmdb.org/t/p/w300/kr36D6FiF8mNrsPz4fL6OUAvrrJ.jpg"
-      },
-      {
-        id: "liga_de_la_justicia_crisis_en_tierras_infinitas_3",
-        titulo: "Liga de la Justicia: Crisis en Tierras Infinitas – Parte 3",
-        imagen: "https://image.tmdb.org/t/p/w300/jXeeV5YrACBgc9CGvggdsA6PEmd.jpg"
-      },
-      {
-        id: "el_rey_mono",
-        titulo: "El rey mono",
-        imagen: "https://image.tmdb.org/t/p/w300/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg"
-      },
-      {
-        id: "hotel_transylvania_3",
-        titulo: "Hotel Transylvania 3",
-        imagen: "https://image.tmdb.org/t/p/w300/gjAFM4xhA5vyLxxKMz38ujlUfDL.jpg"
-      },
-      {
-        id: "los_vengadores_endgame",
-        titulo: "Los Vengadores: Endgame",
-        imagen: "https://image.tmdb.org/t/p/w300/zBXAjVMp92PvGovg148Qz0IjrEF.jpg"
-      }
-    ]
-  },
-
-  lo_que_le_falta_a_esta_estrella: {
-    id: "lo_que_le_falta_a_esta_estrella",
-    titulo: "Lo que le falta a esta estrella",
-    video: "https://dl.dropbox.com/scl/fi/gbsofc341j4x8cfv2txkn/Lo.Que.Le.Falta.A.Esta.Estrella.2025.1080P-Dual-Lat.mkv?rlkey=2nvn0i2pvfgoi3bwhxuuiye3r&st=",
-    poster: "https://image.tmdb.org/t/p/w780/jfnFHHZSIPkHfKGjlWnWck2o5ou.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/17kb3gpFeTB3P3phswsGKkYqxdd.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La inmensidad del espacio infinito separa a dos amantes cuando una astronauta abandona la Tierra rumbo a Marte en este romance de animación que recorre todo el cosmos.",
-    anio: "2025",
-    duracion: "1h 38min",
-    calificacion: "86%",
-    genero: "Animación • Romance • Ciencia ficción • Drama",
-    director: "Han Ji-won",
-    reparto: "Kim Tae-ri, Hong Kyung, Kang Ku-han",
-    estreno: "30/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "leo",
-        titulo: "Leo",
-        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
-      },
-      {
-        id: "el_rey_mono",
-        titulo: "El rey mono",
-        imagen: "https://image.tmdb.org/t/p/w300/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg"
-      },
-      {
-        id: "blancanieves",
-        titulo: "Blancanieves",
-        imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"
-      },
-      {
-        id: "intensamente_2",
-        titulo: "Intensamente 2",
-        imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
-      },
-      {
-        id: "lilo_y_stitch",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
-      }
-    ]
-  },
-
-  los_croods_2: {
-    id: "los_croods_2",
-    titulo: "Los Croods 2: Una nueva era",
-    video: "https://dl.dropbox.com/scl/fi/9pycwunyybmgbd7pbz1tv/The.croods.a.new.age.2020.1080p-dual-lat-cinecalidad.is.mp4?rlkey=8y2r9u69ufr7ct16tpjbybfev&st=",
-    poster: "https://image.tmdb.org/t/p/w780/mqmHhAf7OhJq5Tq81p7wFI0Fnde.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5uMWKEmegf5aTJnp1u98JF4QerP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jC7I0BMII4nBu71YWf5PRB9aAmv.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Después de salir de su cueva, los Croods se encuentran con su mayor amenaza desde que se fueron: otra familia llamada Betterman, quienes afirman y demuestran ser mejores y evolucionados. Grug empieza a sospechar de los padres de Betterman, Phil y Hope, ya que planean en secreto separar a su hija Eep con su amado novio Guy para asegurarse de que su hija Dawn tenga un compañero amoroso e inteligente que la proteja.",
-    anio: "2020",
-    duracion: "1h 35min",
-    calificacion: "79%",
-    genero: "Animacion • Familia • Aventura • Comedia",
-    director: "Joel Crawford",
-    reparto: "Nicolas Cage, Emma Stone, Ryan Reynolds",
-    estreno: "25/11/2020",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_croods",
-        titulo: "Los Croods",
-        imagen: "https://image.tmdb.org/t/p/w300/p7lJkqHlK01nr0zNacunUFI5Qxy.jpg"
-      },
-      {
-        id: "shrek",
-        titulo: "Shrek",
-        imagen: "https://image.tmdb.org/t/p/w300/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg"
-      },
-      {
-        id: "ninja_turtles_caos_mutante",
-        titulo: "Ninja Turtles: Caos mutante",
-        imagen: "https://image.tmdb.org/t/p/w300/mgBXgA8jHext4KRWg84Cux5Y94L.jpg"
-      },
-      {
-        id: "tarzan",
-        titulo: "Tarzan",
-        imagen: "https://image.tmdb.org/t/p/w300/1Gk8iihu4Q4BGh2n1IwNLB3zM8E.jpg"
-      },
-      {
-        id: "un_jefe_en_pañales",
-        titulo: "Un jefe en pañales",
-        imagen: "https://image.tmdb.org/t/p/w300/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg"
-      },
-      {
-        id: "wish_el_poder_de_los_deseos",
-        titulo: "Wish: El Poder De Los Deseos",
-        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
-      }
-    ]
-  },
-
-  los_croods: {
-    id: "los_croods",
-    titulo: "Los Croods",
-    video: "https://dl.dropbox.com/scl/fi/24nqrs1j1arhwut80h7oz/The.Croods.2013.bluray.720p-latino-e-ingles-subt.mp4?rlkey=3edf2uuec4aklj0otlnsns9tf&st=",
-    poster: "https://image.tmdb.org/t/p/w780/bNgqt819qpHcszjCzLCG5y16ldF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3X3qtBTgKt5mCB30RJwbIjgjzdw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5NgZXsA9tMdzZh9Vk5qQtokH0wr.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La película está ambientada en la prehistoria, donde Crug lidera a su familia más allá de la comodidad de su hogar después de que este sea destruido por un gran terremoto. Mientras intentan viajar por el desconocido y aterrador mundo, se encuentran con un nómada que cautiva a su clan, en especial a su hermana mayor, con su mente moderna.",
-    anio: "2013",
-    duracion: "1h 38min",
-    calificacion: "86%",
-    genero: "Animacion • Familia • Aventura • Comedia",
-    director: "Chris Sanders, Kirk DeMicco",
-    reparto: "Nicolas Cage, Emma Stone, Ryan Reynolds",
-    estreno: "21/03/2013",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_croods_2",
-        titulo: "Los Croods 2: Una nueva era",
-        imagen: "https://image.tmdb.org/t/p/w300/A8fYqHsOKF0wI5tYnpScjab3f3p.jpg"
-      },
-      {
-        id: "luck_suerte",
-        titulo: "Luck: Suerte",
-        imagen: "https://image.tmdb.org/t/p/w300/cQDqNCtq7j5xaCXGeLsLZK90RuR.jpg"
-      },
-      {
-        id: "madagascar_2",
-        titulo: "Madagascar 2",
-        imagen: "https://image.tmdb.org/t/p/w300/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg"
-      },
-      {
-        id: "kung_fu_panda_4",
-        titulo: "Kung fu panda 4",
-        imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg"
-      },
-      {
-        id: "megamente",
-        titulo: "Megamente",
-        imagen: "https://image.tmdb.org/t/p/w300/294wOKPmc2XIpciVqZPp9qb9aaz.jpg"
-      },
-      {
-        id: "sonic",
-        titulo: "Sonic: La Película",
-        imagen: "https://image.tmdb.org/t/p/w300/zwS0XnNi1Vb6sQecG5GNNlKx7cv.jpg"
-      }
-    ]
-  },
-
-  lilo_y_stitch_2: {
-    id: "lilo_y_stitch_2",
-    titulo: "Lilo y Stitch 2: El efecto del defecto",
-    video: "https://dl.dropbox.com/scl/fi/9imbovtqqp35999c5u0q2/Lilo-y-stitch-2-2005.mp4?rlkey=bk140eq1tnsi0zvcll9jwpmrz&st=",
-    poster: "https://image.tmdb.org/t/p/w780/wciVfVtIPFTQgfN7mfdmPuBYgl2.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hs3POL17wfJkrQpwM3e76YCQTNA.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Un adorable alienígena se adapta a la vida en Hawái, y todo va como la seda hasta que se le cruzan los cables y todo se vuelve un caos. Ahora todos tienen que ayudar para salvar a su divertido amigo.",
-    anio: "2005",
-    duracion: "1h 08min",
-    calificacion: "70%",
-    genero: "Animación • Disney • Familia • Comedia • Ciencia ficción",
-    director: "Tony Leondis, Michael LaBash",
-    reparto: "Chris Sanders, Dakota Fanning, Tia Carrere",
-    estreno: "30/08/2005",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "lilo_y_stitch",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg"
-      },
-      {
-        id: "leroy_y_stitch",
-        titulo: "Leroy y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/sfRiRRkCNywtS0t9y9BL1cTh3TJ.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "scooby_2020",
-        titulo: "¡Scooby!",
-        imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg"
-      },
-      {
-        id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el Multiverso",
-        imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
-      }
-    ]
-  },
-
-  lilo_y_stitch: {
-    id: "lilo_y_stitch",
-    titulo: "Lilo y Stitch",
-    video: "https://dl.dropbox.com/scl/fi/80twax9vcl6l4dc8ti0o1/Lilo-y-stitch-2002.mp4?rlkey=uhjjk9rs131ic9e9gx6ogxtjo&st=",
-    poster: "https://image.tmdb.org/t/p/w780/7y6dJrcI83D1VzQ6c7ctNsgbl3R.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gnmqXokczSmUgOhSCY0jx1HQiuf.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Lilo es una niña hawaiana que se siente sola y decide adoptar un perro muy feo al que llama Stitch. Stitch sería la mascota perfecta... si no fuera en realidad un experimento genético que ha escapado de un planeta alienígena y que ha aterrizado por casualidad en la tierra.",
-    anio: "2002",
-    duracion: "1h 25min",
-    calificacion: "00%",
-    genero: "Animación • Disney • Familia • Comedia • Ciencia ficción",
-    director: "Dean DeBlois, Chris Sanders",
-    reparto: "Daveigh Chase, Chris Sanders, Tia Carrere",
-    estreno: "21/06/2002",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "lilo_y_stitch_2",
-        titulo: "Lilo y Stitch 2: El efecto del defecto",
-        imagen: "https://image.tmdb.org/t/p/w300/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg"
-      },
-      {
-        id: "leroy_y_stitch",
-        titulo: "Leroy y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/sfRiRRkCNywtS0t9y9BL1cTh3TJ.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
-      },
-      {
-        id: "moana_2",
-        titulo: "Moana 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      },
-      {
-        id: "elemental",
-        titulo: "Elemental",
-        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
-      },
-      {
-        id: "sonic_3",
-        titulo: "Sonic 3: La Pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"
-      }
-    ]
-  },
-
-  lilo_y_stitch_2025: {
-    id: "lilo_y_stitch_2025",
-    titulo: "Lilo y Stitch",
-    video: "https://dl.dropbox.com/scl/fi/t7fk9u9lro04d1dv09j5j/Lilo-y-stitch-2025.mp4?rlkey=48joxiba083esxqu78la9eq86&st=",
-    poster: "https://image.tmdb.org/t/p/w780/4DYrZevpUpMsKv6XCraOeLlQtJ7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/Aj0umGs0heNJ4VKtkaRQWeg6Tyx.jpg",
-    calidad: false,   // 720P | 1080P | 4K
-    cam: true,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La conmovedora y divertidísima historia de una solitaria niña hawaiana y el extraterrestre fugitivo que la ayuda a reparar su desestructurada familia.",
-    anio: "2025",
-    duracion: "1h 36min",
-    calificacion: "86%",
-    genero: "Animacion • Disney • Familia • Ciencia ficción • Comedia",
-    director: "Dean Fleischer Camp",
-    reparto: "Maia Kealoha, Sydney Agudong, Chris Sanders",
-    estreno: "22/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "lilo_y_stitch",
-        titulo: "Lilo y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg"
-      },
-      {
-        id: "lilo_y_stitch_2",
-        titulo: "Lilo y Stitch 2: El efecto del defecto",
-        imagen: "https://image.tmdb.org/t/p/w300/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg"
-      },
-      {
-        id: "leroy_y_stitch",
-        titulo: "Leroy y Stitch",
-        imagen: "https://image.tmdb.org/t/p/w300/sfRiRRkCNywtS0t9y9BL1cTh3TJ.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg"
-      },
-      {
-        id: "blancanieves_y_los_siete_enanitos",
-        titulo: "Blancanieves y los siete enanitos",
-        imagen: "https://image.tmdb.org/t/p/w300/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg"
-      },
-      {
-        id: "bambi_una_vida_en_el_bosque_2024",
-        titulo: "Bambi: Una vida en el bosque",
-        imagen: "https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg"
-      }
-    ]
-  },
-
-  la_rosa_de_versalles: {
-    id: "la_rosa_de_versalles",
-    titulo: "La rosa de Versalles",
-    video: "https://dl.dropbox.com/scl/fi/w3d5lp1v2riv5gwcso4i5/La.Rosa.De.Versalles.2025.1080P-Dual-Lat.mkv?rlkey=6yniiztjgiahasmtajal8e8r5&st=",
-    poster: "https://image.tmdb.org/t/p/w780/gTGlgtHAwQjJA3G9g2fLWuqg8zG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/F4OILPPbBfCYkWoW5be1UZnmJq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bVHhTDBmhnZ0wKyUgPdSkO5ZH2w.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En una época revolucionaria, María Antonieta y Oscar François de Jarjayes, que se encarga de protegerla, se enfrentan a decisiones difíciles al asumir su papel en la sociedad.",
-    anio: "2025",
-    duracion: "1h 54min",
-    calificacion: "83%",
-    genero: "Animación • Romance • Drama • Historia",
-    director: "Ai Yoshimura",
-    reparto: "Miyuki Sawashiro, Aya Hirano, Toshiyuki Toyonaga",
-    estreno: "30/04/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "lo_que_le_falta_a_esta_estrella",
-        titulo: "Lo que le falta a esta estrella",
-        imagen: "https://image.tmdb.org/t/p/w300/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg"
-      },
-      {
-        id: "el_gato_con_botas_2",
-        titulo: "Gato con botas 2: El último deseo",
-        imagen: "https://image.tmdb.org/t/p/w300/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg"
-      },
-      {
-        id: "baki_hanma_vs_kengan_ashura",
-        titulo: "Baki Hanma vs Kengan Ashura",
-        imagen: "https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"
-      },
-      {
-        id: "steven_universe_la_pelicula",
-        titulo: "Steven Universe: La película",
-        imagen: "https://image.tmdb.org/t/p/w300/bewhxwbmWTMe16dEQa8ICGe9Y1Y.jpg"
-      },
-      {
-        id: "naruto_the_last",
-        titulo: "Naruto The last: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/phPfQ4jWhwmZrmPhAtVYUJfqfwG.jpg"
-      },
-      {
-        id: "el_rey_mono",
-        titulo: "El rey mono",
-        imagen: "https://image.tmdb.org/t/p/w300/vJ9MZHG3XQDusXLIbhRAzTlcZ2v.jpg"
-      }
-    ]
-  },
-
-  la_primera_profecia: {
-    id: "la_primera_profecia",
-    titulo: "La primera profecía",
-    video: "https://dl.dropbox.com/scl/fi/4ey8de0ywxxk4eulc3j8g/La.Primera.Profecia.2024.1080P-Dual-Lat.mkv?rlkey=sddvmfvlj86zsmoara062urq6&st=",
-    poster: "https://image.tmdb.org/t/p/w780/d9Np3GLfXchtPHfiBjIK6ps4BoE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oeebIBwOB7tZV3qQ47q5cUv8h0s.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando una joven estadounidense es enviada a Roma para iniciar una vida de servicio a la Iglesia, se topa con una oscuridad que pone en cuestión su propia fe y descubre una conspiración aterradora que espera provocar el nacimiento de la encarnación del mal. Una precuela de 'La profecía'.",
-    anio: "2024",
-    duracion: "1h 59min",
-    calificacion: "81,8%",
-    genero: "Terror",
-    director: "Arkasha Stevenson",
-    reparto: "Nell Tiger Free, Ralph Ineson, Sonia Braga",
-    estreno: "04/04/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_monja_2",
-        titulo: "La Monja 2",
-        imagen: "https://image.tmdb.org/t/p/w300/qKq8dflkSBxoBapvfOAFP3LE03q.jpg"
-      },
-      {
-        id: "los_extraños_capitulo_1",
-        titulo: "Los extraños: Capitulo uno",
-        imagen: "https://image.tmdb.org/t/p/w300/za4jDcPQ5IV4p27UGcC5uEgsNGG.jpg"
-      },
-      {
-        id: "ofrenda_al_demonio",
-        titulo: "Ofrenda al demonio",
-        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
-      },
-      {
-        id: "tarot",
-        titulo: "Tarot de la muerte",
-        imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
-      },
-      {
-        id: "sonrie",
-        titulo: "Sonríe",
-        imagen: "https://image.tmdb.org/t/p/w300/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg"
-      },
-      {
-        id: "annabelle_2",
-        titulo: "Annabelle 2: La creación",
-        imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
-      }
-    ]
-  },
-
-  la_resurrección_de_cristo: {
-    id: "la resurrección de cristo",
-    titulo: "La resurrección de cristo",
-    video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/7HGFhKftMxoinIkOmsHCZNT89so.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lkfXzT5T5cQO9UpknSAEdq8Lvvd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lvyU838cy3m0fKSfQIxN8grjxYr.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En Jerusalén, un joven centurión romano recibe, por parte de Poncio Pilato, prefecto de Judea, la misión de investigar la misteriosa desaparición del cuerpo de un predicador nazareno crucificado hace tres días, y los crecientes rumores sobre su resurrección.",
-    anio: "2016",
-    duracion: "1h 47min",
-    calificacion: "72%",
-    genero: "Acción • Aventura • Drama • Historia • Misterio",
-    director: "Kevin Reynolds",
-    reparto: "Joseph Fiennes, Peter Firth, Cliff Curtis",
-    estreno: "24/03/2016",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hijo_de_dios",
-        titulo: "Hijo de Dios",
-        imagen: "https://image.tmdb.org/t/p/w300/ecz83StK0eK8Rnio8TCmhbtVU98.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=moises_y_los_diez_mandamientos",
-        titulo: "Moises y los diez mandamientos",
-        imagen: "https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"
-      },
-      {
-        id: "la_pasion_de_cristo",
-        titulo: "La pasión de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg"
-      },
-      {
-        id: "maria_magdalena",
-        titulo: "María Magdalena",
-        imagen: "https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg"
-      },
-      {
-        id: "pablo_el_apostol_de_cristo",
-        titulo: "Pablo, el apóstol de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg"
-      },
-      {
-        id: "su_unico_hijo",
-        titulo: "Su unico hijo",
-        imagen: "https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg"
-      }
-    ]
-  },
-
-  la_sirenita: {
-    id: "la_sirenita",
-    titulo: "La sirenita",
-    video: "https://dl.dropbox.com/scl/fi/dn4ocgdcsyw0mc1y0pobb/la-sirenita-1989-latino.mp4?rlkey=yx73p5tci870t4qziq4uj4go9&st=",
-    poster: "https://image.tmdb.org/t/p/w780/6koUMaulpEUA3sNKcDszv6qRW7L.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/muTcgTmuyvXQldGNnCzen9FgDfW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/p72M8vHHEqBCPShn9n8s6jX92vM.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Ariel es una sirena adolescente, hija de Tritón, el rey del mar. Desobedeciendo a su padre, visita la superficie y se enamora del príncipe Eric. Con la esperanza de encontrar a su amado, la sirenita cae inocentemente bajo los encantos de Úrsula, la bruja del mar, que la transforma en un ser humano. Pero la bruja tiene planes terribles para Ariel y su padre.",
-    anio: "1989",
-    duracion: "1h 23min",
-    calificacion: "85%",
-    genero: "Animación • Aventura • Disney • Familia • Fantasía",
-    director: "Ron Clements, John Musker",
-    reparto: "Jodi Benson, Samuel E. Wright, Pat Carroll",
-    estreno: "17/11/1989",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_sirenita_2",
-        titulo: "La sirenita 2: Regreso al mar",
-        imagen: "https://image.tmdb.org/t/p/w300/1m6JsSmBa4X1Kp35YW3QPbMpByF.jpg"
-      },
-      {
-        id: "la_sirenita_3",
-        titulo: "La sirenita 3: Los comienzos de ariel",
-        imagen: "https://image.tmdb.org/t/p/w300/yFWP8BSOVC8tQ3NI34gfvEhUqZl.jpg"
-      },
-      {
-        id: "la_cenicienta_2",
-        titulo: "La cenicienta 2: ¡La magia no termina a medianoche!",
-        imagen: "https://image.tmdb.org/t/p/w300/eUoQl8Bhd4s5woTc35lHFijhLcW.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg"
-      },
-      {
-        id: "blancanieves",
-        titulo: "Blancanieves",
-        imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg"
-      },
-      {
-        id: "moana",
-        titulo: "Moana",
-        imagen: "https://image.tmdb.org/t/p/w300/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg"
-      }
-    ]
-  },
-
-  la_sirenita_2: {
-    id: "la_sirenita_2",
-    titulo: "La sirenita 2: Regreso al mar",
-    video: "https://dl.dropboxusercontent.com/scl/fi/lopy8g3ruk89cicmws9dz/La-Sirenita-2.mp4?rlkey=yk9j9u7ujgongiy6lbl5owmbf&st=",
-    poster: "https://image.tmdb.org/t/p/w780/rNOeiC5uruGnr5n7YW8hvnrbX9q.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fresAluIWfBRwdQOaVcM4i5uGsP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8TWFBVko3uxdYPFiq2A4EG0kAKo.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Ariel y el Príncipe Eric viven felices desde que por fin consiguieron casarse, superando todos los obstáculos a los que se enfrentaron en La Sirenita, y ambos son padres de una preciosa niña, Melody. Ahora que la malvada Úrsula ya no existe, la vida sonríe a Ariel y al resto de la familia.",
-    anio: "2000",
-    duracion: "1h 15min",
-    calificacion: "70%",
-    genero: "Animación • Aventura • Disney • Familia • Fantasía",
-    director: "Jim Kammerud",
-    reparto: "Jodi Benson, Samuel E. Wright, Tara Strong",
-    estreno: "19/09/2000",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_sirenita",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/Vc0KvO7z2OzEbRs6nyZs9xD81s.jpg"
-      },
-      {
-        id: "la_sirenita_3",
-        titulo: "La sirenita 3: Los comienzos de ariel",
-        imagen: "https://image.tmdb.org/t/p/w300/yFWP8BSOVC8tQ3NI34gfvEhUqZl.jpg"
-      },
-      {
-        id: "la_sirenita_2023",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
-      },
-      {
-        id: "wish_el_poder_de_los_deseos",
-        titulo: "Wish: El poder de los deseos",
-        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
-      },
-      {
-        id: "encanto",
-        titulo: "Encanto",
-        imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg"
-      },
-      {
-        id: "elemental",
-        titulo: "Elemental",
-        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
-      }
-    ]
-  },
-
-  la_sirenita_3: {
-    id: "la_sirenita_3",
-    titulo: "La sirenita 3: Los comienzos de Ariel",
-    video: "https://dl.dropbox.com/scl/fi/art175spktl7zz7ooho00/la-sirenita-3-el-origen-de-la-sirenita-2008-latino-supervideo.tv.mp4?rlkey=zz10rdpivzoxi7015uijgrs39&st=",
-    poster: "https://image.tmdb.org/t/p/w780/kil7g6C9Xu9e4qPs8ynJxXeGzHw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oP09KA2lP5SluKVf8AmRsf38X7q.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kil7g6C9Xu9e4qPs8ynJxXeGzHw.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Mucho antes de conocer al príncipe Eric y poner los pies en la tierra, Ariel era una de las siete hijas queridas del poderoso rey Tritón. Pero los tiempos estaban cambiando en el reino submarino, y la música estaba prohibida. En esta aventura, Ariel, sus hermanas y sus amigos los leales Sebastián y Flounder, se esfuerzan por devolver la música y la amistad al reino de Atlántica.",
-    anio: "2008",
-    duracion: "1h 17min",
-    calificacion: "67%",
-    genero: "Animación • Aventura • Disney • Familia • Fantasía",
-    director: "Peggy Holmes",
-    reparto: "Jodi Benson, Samuel E. Wright, Jim Cummings",
-    estreno: "26/08/2008",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_sirenita",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/Vc0KvO7z2OzEbRs6nyZs9xD81s.jpg"
-      },
-      {
-        id: "la_sirenita_2",
-        titulo: "La sirenita 2: Regreso al mar",
-        imagen: "https://image.tmdb.org/t/p/w300/1m6JsSmBa4X1Kp35YW3QPbMpByF.jpg"
-      },
-      {
-        id: "mufasa_el_rey_leon",
-        titulo: "Mufasa: El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
-      },
-      {
-        id: "moana_2",
-        titulo: "Moana 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      },
-      {
-        id: "intensamente_2",
-        titulo: "Intensamente 2",
-        imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
-      },
-      {
-        id: "sonic_3",
-        titulo: "Sonic 3: La Pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"
-      }
-    ]
-  },
-
-  la_sustancia: {
-    id: "la_sustancia",
-    titulo: "La sustancia",
-    video: "https://dl.dropbox.com/scl/fi/ss74exao9c17ks3fpagu2/La.sustancia.2024.1080p-Dual-Lat.mkv?rlkey=ljo3u4xklni0ga000fdagfui2&st=",
-    poster: "https://image.tmdb.org/t/p/w780/bFPqSvR2EmWQ9AlzWkC801XpoAZ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cQD1qEnPOKUPHAui0okOLZSgitu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/p4peaE00vukV1nXxYwuyFlXgMBY.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Tú, pero mejor en todos los sentidos. Esa es la promesa de la sustancia, un producto revolucionario basado en la división celular, que crea un alter ego más joven, más bello, más perfecto.",
-    anio: "2024",
-    duracion: "2h 21min",
-    calificacion: "84,2%",
-    genero: "Terror • Ciencia ficción • Drama",
-    director: "Coralie Fargeat",
-    reparto: "Demi Moore, Margaret Qualley, Dennis Quaid",
-    estreno: "19/09/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "el_bufon",
-        titulo: "El bufón",
-        imagen: "https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg"
-      },
-      {
-        id: "el_exorcismo_de_georgetown",
-        titulo: "El exorcista de georgetown",
-        imagen: "https://image.tmdb.org/t/p/w300/ioQCdjn2YPfAJMfJlgzNdXgYZrr.jpg"
-      },
-      {
-        id: "el_exorcista_creyente",
-        titulo: "El exorcista creyentes",
-        imagen: "https://image.tmdb.org/t/p/w300/aNoNB5jWIzqcBqHEYzW232B2ktx.jpg"
-      },
-      {
-        id: "cementerio_de_animales_2",
-        titulo: "Cementerio de animales 2: Los orígenes",
-        imagen: "https://image.tmdb.org/t/p/w300/sbzfFLgExjl7ekLeNFEZ9EwOA9V.jpg"
-      },
-      {
-        id: "atrapados_en_lo_profundo",
-        titulo: "Atrapados en lo Profundo",
-        imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg"
-      },
-      {
-        id: "winnie_the_pooh_2",
-        titulo: "Winnie the pooh 2: Miel y sangre",
-        imagen: "https://image.tmdb.org/t/p/w300/17UmQl8TuDmHWGlcKeFIjnR8bJF.jpg"
-      }
-    ]
-  },
-
-  la_vieja_guardia_2: {
-    id: "la_vieja_guardia_2",
-    titulo: "La vieja guardia 2",
-    video: "https://dl.dropbox.com/scl/fi/g58emyn87nofsupxj0l80/The.old.guard.2.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=z9x22e6swodf3kw7mg2h3k2ku&st=",
-    poster: "https://image.tmdb.org/t/p/w780/kCxUtinf8731QzZihhUjYqE2NVE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6eGyuK8bHMAB34AIIQOL3wZw8sn.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/f8FaWGOR1k7MiOOybNPbnxCRfYx.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Andy y su equipo de guerreros inmortales luchan con un propósito renovado y se enfrentan a un nuevo y poderoso enemigo que amenaza su misión de proteger a la humanidad.",
-    anio: "2025",
-    duracion: "1h 47min",
-    calificacion: "74%",
-    genero: "Acción • Fantasía",
-    director: "Victoria Mahoney",
-    reparto: "Charlize Theron, KiKi Layne, Matthias Schoenaerts",
-    estreno: "02/07/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_vieja_guardia",
-        titulo: "La vieja guardia",
-        imagen: "https://image.tmdb.org/t/p/w300/ktkn6wc2sb7uQ08ZsHaKPZNRUab.jpg"
-      },
-      {
-        id: "la_fuente_de_la_eterna_juventud",
-        titulo: "La fuente de la eterna juventud",
-        imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"
-      },
-      {
-        id: "rapidos_y_furiosos_x",
-        titulo: "Rápidos y furiosos X",
-        imagen: "https://image.tmdb.org/t/p/w300/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg"
-      },
-      {
-        id: "twisters",
-        titulo: "Twisters",
-        imagen: "https://image.tmdb.org/t/p/w300/pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg"
-      },
-      {
-        id: "bad_boys",
-        titulo: "Bad boys: Dos policias rebeldes",
-        imagen: "https://image.tmdb.org/t/p/w300/ZYpSdXaTMFYCGbmVmXOFbdJmSv.jpg"
-      },
-      {
-        id: "alarum_codigo_letal",
-        titulo: "Alarum: Código Letal",
-        imagen: "https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg"
-      }
-    ]
-  },
-
-  la_viuda_negra: {
-    id: "la_viuda_negra",
-    titulo: "La viuda negra",
-    video: "https://dl.dropbox.com/scl/fi/45cj3zss0g0afxucyzz0o/La-viuda-negra-2025.mp4?rlkey=wjw12w27dhxjm8rlcpclp7ruo&st=",
-    poster: "https://image.tmdb.org/t/p/w780/pOR4Aye28KLZ5Jogu8zc3yiqBpT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uuabL0qp3zygLDEjImbPiWR9j2e.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qqOdtim1SgrY8HMAcogLwcFLDMF.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando un hombre aparece muerto, la investigación del caso desbarata la imagen perfecta de su esposa y pone al descubierto su doble vida en este thriller basado en hechos reales.",
-    anio: "2025",
-    duracion: "2h 02min",
-    calificacion: "76%",
-    genero: "Misterio • Suspenso",
-    director: "Carlos Sedes",
-    reparto: "Ivana Baquero, Tristán Ulloa, Carmen Machi",
-    estreno: "30/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "asesino_serial",
-        titulo: "Asesino serial",
-        imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"
-      },
-      {
-        id: "mala_influencia",
-        titulo: "Mala influencia",
-        imagen: "https://image.tmdb.org/t/p/w300/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg"
-      },
-      {
-        id: "a_ganar",
-        titulo: "¡A ganar!",
-        imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg"
-      },
-      {
-        id: "todo_bien",
-        titulo: "¿Todo bien?",
-        imagen: "https://image.tmdb.org/t/p/w300/mKdRfCpWkcH0wEEg6yO4a8ES4TX.jpg"
-      },
-      {
-        id: "desafiante_rivales",
-        titulo: "Desafiante Rivales",
-        imagen: "https://image.tmdb.org/t/p/w300/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg"
-      },
-      {
-        id: "anora",
-        titulo: "Anora",
-        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
-      }
-    ]
-  },
-
-  la_cenicienta_3: {
-    id: "la_cenicienta_3",
-    titulo: "La Cenicienta 3: Qué pasaría si…",
-    video: "https://dl.dropbox.com/scl/fi/yqm4xc7anpbh57hmh3tdu/La.Cenicienta.3.Un.Giro.En.El.Tiempo.2007.1080P-Dual-Lat.mkv?rlkey=0q35g60n5a4kk4okbj59ju8u0&st=",
-    poster: "https://image.tmdb.org/t/p/w780/3mmV3DuOpqc0eTUcrlFGoVl1p9T.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uQZZdmNyG4JdAMzSBiAMUX5M8sl.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La madrastra de Cenicienta se apodera de la varita mágica del Hada Madrina para viajar atrás en el tiempo y lograr cambiar el curso de los acontecimientos mediante un maléfico hechizo.",
-    anio: "2007",
-    duracion: "1h 14min",
-    calificacion: "82,3%",
-    genero: "Animación • Disney • Romance • Familia • Fantasía",
-    director: "Frank Nissen",
-    reparto: "Jennifer Hale, Christopher Daniel Barnes, Tress MacNeille",
-    estreno: "05/02/2007",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_cenicienta",
-        titulo: "La Cenicienta",
-        imagen: "https://image.tmdb.org/t/p/w300/vqzeSm5Agvio7DahhKXaySUbUUW.jpg"
-      },
-      {
-        id: "la_cenicienta_2",
-        titulo: "La Cenicienta 2: ¡La magia no termina a medianoche!",
-        imagen: "https://image.tmdb.org/t/p/w300/eUoQl8Bhd4s5woTc35lHFijhLcW.jpg"
-      },
-      {
-        id: "blancanieves_y_los_siete_enanitos",
-        titulo: "Blancanieves y los siete enanitos",
-        imagen: "https://image.tmdb.org/t/p/w300/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg"
-      },
-      {
-        id: "bambi",
-        titulo: "Bambi",
-        imagen: "https://image.tmdb.org/t/p/w300/q9LI5Uloz1WRqaJjr8Tq2aOeSeH.jpg"
-      },
-      {
-        id: "scooby_2020",
-        titulo: "¡Scooby!",
-        imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg"
-      },
-      {
-        id: "super_mario_bros",
-        titulo: "Super Mario Bros: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/k36QyeVsy851npTUQL08jO8hqip.jpg"
-      }
-    ]
-  },
-
-  la_cenicienta_2: {
-    id: "la_cenicienta_2",
-    titulo: "La Cenicienta 2: ¡La magia no termina a media noche!",
-    video: "https://dl.dropbox.com/scl/fi/ri1ljkwmt161shmuaw87u/La.Cenicienta.2.Un.Sue-o.Hecho.Realidad.2002.1080P-Dual-Lat.mkv?rlkey=1yk044ijci2m5kcog8k2va50s&st=",
-    poster: "https://image.tmdb.org/t/p/w780/oyjIJTUUsF1nMdVXk3Q0ExBr0pQ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/2EoH5WWtDYuQLYVLHeJxfvbSRyK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/teXrwxRurSdRvVg1nGNySfFWssC.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Recién coronada como princesa, Cenicienta aprende rápidamente que la vida en palacio y sus responsabilidades reales son más complicadas de lo que había imaginado. En tres conmovedoras historias, Cenicienta pide a sus amigos los animales y a su Hada Madrina que la ayuden a desempeñar su papel real, y descubre que ser fiel a uno mismo es la mejor manera de hacer sus sueños realidad.",
-    anio: "2002",
-    duracion: "1h 13min",
-    calificacion: "83,4%",
-    genero: "Animación • Disney • Romance • Familia • Fantasía",
-    director: "John Kafka",
-    reparto: "Jennifer Hale, Rob Paulsen, Corey Burton",
-    estreno: "23/02/2002",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_cenicienta",
-        titulo: "La cenicienta",
-        imagen: "https://image.tmdb.org/t/p/w300/vqzeSm5Agvio7DahhKXaySUbUUW.jpg"
-      },
-      {
-        id: "la_cenicienta_3",
-        titulo: "La cenicienta 3: Qué pasaría si...",
-        imagen: "https://image.tmdb.org/t/p/w300/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg"
-      },
-      {
-        id: "pocahontas",
-        titulo: "Pocahontas",
-        imagen: "https://image.tmdb.org/t/p/w300/iKZioEcxgDGsJkRkd9n2R5q2ctx.jpg"
-      },
-      {
-        id: "elemental",
-        titulo: "Elemental",
-        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
-      },
-      {
-        id: "el_gato_con_botas_2",
-        titulo: "Gato con botas 2: El último deseo",
-        imagen: "https://image.tmdb.org/t/p/w300/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg"
-      },
-      {
-        id: "el_origen_de_los_guardianes",
-        titulo: "El origen de los guardianes",
-        imagen: "https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg"
-      }
-    ]
-  },
-
-  la_cenicienta: {
-    id: "la_cenicienta",
-    titulo: "La cenicienta",
-    video: "https://dl.dropbox.com/scl/fi/8eqjqcmz9vivf0ty285jw/Cenicienta.1950.1080p-Dual-Lat.mkv?rlkey=t4jtvs56cxfm5cfhgcz7aus7t&st=",
-    poster: "https://image.tmdb.org/t/p/w780/nFp75h4AjvzvqB7RiGW6NtdcYMl.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/doN9cNyfpcX1DPBNmjJW8eBgcAf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/b0IUQanwvkTGPjn1ANGWSy1TQ3E.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cenicienta vive con su madrastra y las dos hijas de ésta. Las tres le hacen la vida imposible y la tienen trabajando sin parar en las labores del hogar. Pero ella establece amistad con los animales de la casa, que le ayudarán a asistir al baile Real al que su madre no le permite ir.",
-    anio: "1951",
-    duracion: "1h 14min",
-    calificacion: "86%",
-    genero: "Animación • Disney • Romance • Familia • Fantasía",
-    director: "Wilfred Jackson, Hamilton Luske, Clyde Geronimi",
-    reparto: "Ilene Woods, Eleanor Audley, Verna Felton",
-    estreno: "02/01/1951",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_cenicienta_2",
-        titulo: "La Cenicienta 2: ¡La magia no termina a medianoche!",
-        imagen: "https://image.tmdb.org/t/p/w300/eUoQl8Bhd4s5woTc35lHFijhLcW.jpg"
-      },
-      {
-        id: "la_cenicienta_3",
-        titulo: "La Cenicienta 3: Qué pasaría si...",
-        imagen: "https://image.tmdb.org/t/p/w300/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg"
-      },
-      {
-        id: "la_sirenita",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/Vc0KvO7z2OzEbRs6nyZs9xD81s.jpg"
-      },
-      {
-        id: "tarzan_2",
-        titulo: "Tarzán 2",
-        imagen: "https://image.tmdb.org/t/p/w300/5KRnGepv2b1daJ2WM8ZGnPS64nl.jpg"
-      },
-      {
-        id: "cars_3",
-        titulo: "Cars 3",
-        imagen: "https://image.tmdb.org/t/p/w300/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg"
-      },
-      {
-        id: "robot_salvaje",
-        titulo: "Robot salvaje",
-        imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"
-      }
-    ]
-  },
-
-  la_calle_del_terror: {
-    id: "la_calle_del_terror",
-    titulo: "La calle del terror: La reina del baile",
-    video: "https://dl.dropbox.com/scl/fi/knybyzxv9mnfabwvi88w7/Fear.street.prom.queen.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=bzlgl2d9ffu15l93pc6j28pzx&st=",
-    poster: "https://image.tmdb.org/t/p/w780/qspghhpOyaBGgZDJoCbV2o9WNMU.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zLAte4QNzynx0hTeA8l9dQKTtFB.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "¿Quién será la reina del baile de 1988 del instituto Shadyside? La competencia de la discreta Lori es feroz incluso antes de que alguien empiece a matar a las candidatas.",
-    anio: "2025",
-    duracion: "1h 30min",
-    calificacion: "79,6%",
-    genero: "Terror • Misterio",
-    director: "Matt Palmer",
-    reparto: "India Fowler, Suzanna Son, Fina Strazza",
-    estreno: "23/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "until_dawn_noche_de_terror",
-        titulo: "Until Dawn: Noche de terror",
-        imagen: "https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg"
-      },
-      {
-        id: "presencia",
-        titulo: "Presencia",
-        imagen: "https://image.tmdb.org/t/p/w300/8mRO5AdZ4Rn1crgjTHaUnWWhJXB.jpg"
-      },
-      {
-        id: "la_primera_profecia",
-        titulo: "La Primera profecia",
-        imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
-      },
-      {
-        id: "la_sustancia",
-        titulo: "La Sustancia",
-        imagen: "https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg"
-      },
-      {
-        id: "la_acompañante",
-        titulo: "La acompañante",
-        imagen: "https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg"
-      },
-      {
-        id: "maligno",
-        titulo: "Maligno",
-        imagen: "https://image.tmdb.org/t/p/w300/oCVDRqnh6xtaexTKQ8OkXD89rkL.jpg"
-      }
-    ]
-  },
-
-  la_acompañante: {
-    id: "la_acompañante",
-    titulo: "La acompañante",
-    video: "https://dl.dropbox.com/scl/fi/k5kwtfnqh8yka4wj1p429/Compa-era.Perfecta.2025.1080P-Dual-Lat.mkv?rlkey=ao8zyfo2bvkruckj8iv0wfhi2&st=",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kByk0I58pUiNaY3OJZGRnCzZO9j.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La muerte de un multimillonario desencadena una serie de acontecimientos para Iris y sus amigos durante un viaje de fin de semana a su finca junto al lago.",
-    anio: "2025",
-    duracion: "1h 37min",
-    calificacion: "80,2%",
-    genero: "Terror • Suspenso",
-    director: "Drew Hancock",
-    reparto: "Sophie Thatcher, Jack Quaid, Lukas Gage",
-    estreno: "30/01/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_monja",
-        titulo: "La Monja",
-        imagen: "https://image.tmdb.org/t/p/w300/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg"
-      },
-      {
-        id: "megan",
-        titulo: "M3GAN",
-        imagen: "https://image.tmdb.org/t/p/w300/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg"
-      },
-      {
-        id: "los_extraños_capitulo_1",
-        titulo: "Los extraños: Capitulo uno",
-        imagen: "https://image.tmdb.org/t/p/w300/za4jDcPQ5IV4p27UGcC5uEgsNGG.jpg"
-      },
-      {
-        id: "insidiuos_puerta_roja",
-        titulo: "Insidiuos: puerta roja",
-        imagen: "https://image.tmdb.org/t/p/w300/wD4eLIHUaTvrXQqAzlfduHQ1NYg.jpg"
-      },
-      {
-        id: "it_capitulo_2",
-        titulo: "It: Capitulo 2",
-        imagen: "https://image.tmdb.org/t/p/w300/pxw6j2AwlUsw5iS4fCxPoCP0jPh.jpg"
-      },
-      {
-        id: "annabelle_2",
-        titulo: "Annabelle 2: La creacion",
-        imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
-      }
-    ]
-  },
-
-  k_o: {
-    id: "k_o",
-    titulo: "K.O",
-    video: "https://dl.dropbox.com/scl/fi/s54vo5nhz3xq3mk6r6b3s/K.O.2025.1080P-Dual-Lat.mkv?rlkey=z7j1obvjdagbkxuu7dmkw8b8l&st=",
-    poster: "https://image.tmdb.org/t/p/w780/bsrhm3rlE4Wzv9f5ZTxcNxaMz29.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qcM2sUiAeP4zXwx4ADSvgc9S58k.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/94rVbLvlV3lejIWC8NXhU9o4pcF.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Un exluchador debe encontrar al hijo de un rival al que mató por accidente hace años y se enfrenta a una violenta banda criminal en Marsella.",
-    anio: "2025",
-    duracion: "1h 26min",
-    calificacion: "80%",
-    genero: "Acción • Drama • Aventura",
-    director: "Antoine Blossier",
-    reparto: "Ciryl Gane, Alice Belaïdi, Foued Nabba",
-    estreno: "06/06/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "secenta_minutos",
-        titulo: "60 Minutos",
-        imagen: "https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg"
-      },
-      {
-        id: "rendirse_jamas",
-        titulo: "Rendirse Jamas",
-        imagen: "https://image.tmdb.org/t/p/w300/nas9XShlxUZrNZCyBdf4AAXpRiq.jpg"
-      },
-      {
-        id: "mision_de_rescate",
-        titulo: "Misión de rescate",
-        imagen: "https://image.tmdb.org/t/p/w300/fKaP5Z0cloniKAhUcH7DbsDP6O4.jpg"
-      },
-      {
-        id: "bad_boys_3",
-        titulo: "Bad boys 3: Para siempre",
-        imagen: "https://image.tmdb.org/t/p/w300/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg"
-      },
-      {
-        id: "bala_perdida_3",
-        titulo: "La bala perdida 3",
-        imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"
-      },
-      {
-        id: "deadpool_y_wolverine",
-        titulo: "Deadpool Y Wolverine",
-        imagen: "https://image.tmdb.org/t/p/w300/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"
-      }
-    ]
-  },
-
-  la_evaluacion: {
-    id: "la_evaluacion",
-    titulo: "La evaluación",
-    video: "https://dl.dropbox.com/scl/fi/hqvuvdvffyc3yb3v1c487/La.Evaluacion.2025.1080P-Dual-Lat.mkv?rlkey=enzeybr5jdz452cin29wolj9t&st=",
-    poster: "https://image.tmdb.org/t/p/w780/96w2p3xKIgvuSTJsNVnvNFqOhPJ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bf2S5XoGlthesPmfZLxLp9qJPNM.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En un futuro cercano, en el que está estrictamente controlado tener hijos, los siete días de evaluación de una pareja para poder ser padres se convierten en una pesadilla psicológica, que les obliga a cuestionarse los principios básicos de su sociedad y lo que significa ser humanos.",
-    anio: "2025",
-    duracion: "1h 55min",
-    calificacion: "78%",
-    genero: "Drama • Suspenso",
-    director: "Fleur Fortuné",
-    reparto: "Elizabeth Olsen, Alicia Vikander, Himesh Patel",
-    estreno: "21/03/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "rehen",
-        titulo: "iRehén!",
-        imagen: "https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"
-      },
-      {
-        id: "salve_maria",
-        titulo: "Salve maria",
-        imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg"
-      },
-      {
-        id: "la_madre",
-        titulo: "La Madre",
-        imagen: "https://image.tmdb.org/t/p/w300/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg"
-      },
-      {
-        id: "alarum_codigo_letal",
-        titulo: "Alarum: Código Letal",
-        imagen: "https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg"
-      },
-      {
-        id: "sentencia_de_muerte",
-        titulo: "Sentencia de muerte",
-        imagen: "https://image.tmdb.org/t/p/w300/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg"
-      },
-      {
-        id: "frente_al_tornado",
-        titulo: "Frente al tornado",
-        imagen: "https://image.tmdb.org/t/p/w300/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg"
-      }
-    ]
-  },
-
-  la_fuente_de_la_juventud: {
-    id: "la_fuente_de_la_juventud",
-    titulo: "La fuente de la eterna juventud",
-    video: "https://dl.dropbox.com/scl/fi/ietygi0otuy2k03gssfba/La.Fuente.De.La.Juventud.2025.1080P-Dual-Lat.mkv?rlkey=mgu2uybpvpq247v2uuno7qu39&st=",
-    poster: "https://image.tmdb.org/t/p/w780/1v7hku4qe3dsEFp1mOePGZQmFx4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/segrtlVoidhovxXVyElUXZM1Ing.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Un genio cazatesoros reúne a un equipo para una misión que cambiará vidas. Pero para esquivar y superar los obstáculos que se encontrará, necesitará a alguien más listo que él: su distanciada hermana.",
-    anio: "2025",
-    duracion: "2h 07min",
-    calificacion: "78%",
-    genero: "Aventura • Fantasía • Misterio",
-    director: "Guy Ritchie",
-    reparto: "John Krasinski, Natalie Portman, Eiza González",
-    estreno: "22/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "fineskind",
-        titulo: "Fineskind: Entre hermanos",
-        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
-      },
-      {
-        id: "el_asesino",
-        titulo: "El asesino",
-        imagen: "https://image.tmdb.org/t/p/w300/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg"
-      },
-      {
-        id: "twisters",
-        titulo: "Twisters",
-        imagen: "https://image.tmdb.org/t/p/w300/pjnD08FlMAIXsfOLKQbvmO0f0MD.jpg"
-      },
-      {
-        id: "frente_al_tornado",
-        titulo: "Frente al tornado",
-        imagen: "https://image.tmdb.org/t/p/w300/7e2BuOfD6jFQm4IPMJWubsFXdUo.jpg"
-      },
-      {
-        id: "rapidos_y_furiosos_x",
-        titulo: "Rápidos y furiosos X",
-        imagen: "https://image.tmdb.org/t/p/w300/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg"
-      },
-      {
-        id: "extraterritorial",
-        titulo: "Extraterritorial",
-        imagen: "https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg"
-      }
-    ]
-  },
-
-  la_joven_y_el_mar: {
-    id: "la_joven_y_el_mar",
-    titulo: "La joven y el mar",
-    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20La%20Joven%20y%20El%20Mar%20online%20HD%20-%20Cuevana%202.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/qTn1ylMRL3PG61cPnyKOR9ArJVh.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/n3KE8fbiOCr6qktIpE52wWErBMi.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/a3M9doWrc23TjfhxqzKPYEV5T8h.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Esta es la extraordinaria historia real de Trudy Ederle, la primera mujer que cruzó el canal de la Mancha a nado. Gracias al apoyo inquebrantable de su hermana mayor y sus entrenadores, supera todas las adversidades, así como la hostilidad de una sociedad patriarcal, y logra llegar a lo más alto del equipo olímpico de natación y completar con éxito la travesía de 33 kilómetros entre Francia e Inglaterra.",
-    anio: "2024",
-    duracion: "2h 08min",
-    calificacion: "84%",
-    genero: "Drama • Dsiney • Historia",
-    director: "Joachim Rønning",
-    reparto: "Daisy Ridley, Tilda Cobham-Hervey, Stephen Graham",
-    estreno: "19/07/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "nahir",
-        titulo: "Nahir",
-        imagen: "https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg"
-      },
-      {
-        id: "gran_turismo",
-        titulo: "Gran turismo",
-        imagen: "https://image.tmdb.org/t/p/w300/cYRizCfDYc8D1yr01BFQDVYEejx.jpg"
-      },
-      {
-        id: "maestro",
-        titulo: "Maestro",
-        imagen: "https://image.tmdb.org/t/p/w300/kxj7rMco6RNYsVcNwuGAIlfWu64.jpg"
-      },
-      {
-        id: "barbie",
-        titulo: "Barbie",
-        imagen: "https://image.tmdb.org/t/p/w300/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
-      },
-      {
-        id: "anora",
-        titulo: "Anora",
-        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
-      },
-      {
-        id: "babygirl",
-        titulo: "Babygirl: Deseo prohibido",
-        imagen: "https://image.tmdb.org/t/p/w300/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg"
-      }
-    ]
-  },
-
-  la_leyenda_de_ochi: {
-    id: "la_leyenda_de_ochi",
-    titulo: "La leyenda de Ochi",
-    video: "https://dl.dropbox.com/scl/fi/uo0nnxgxe2ct0po1wbbnv/La.Leyenda.De.Ochi.2025.1080P-Dual-Lat.mkv?rlkey=c2o6enxp1x5mfv5jlikeojm3c&st=",
-    poster: "https://image.tmdb.org/t/p/w780/qlJa9H6ss72tDtZfAma2TqEFrAX.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/96GymRHAFNFtUfn1WFzmCqVwxuw.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En una aldea remota de la isla de Carpatia, Yuri, una tímida campesina, es criada con el miedo a una especie animal esquiva llamada ochi. Pero cuando Yuri descubre que han abandonado a un bebé ochi herido, emprende una misión para traerlo a casa.",
-    anio: "2025",
-    duracion: "1h 35min",
-    calificacion: "70%",
-    genero: "Familia • Fantasía • Aventura",
-    director: "Isaiah Saxon",
-    reparto: "Helena Zengel, Willem Dafoe, Emily Watson",
-    estreno: "15/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "mufasa_el_rey_leon",
-        titulo: "Mufasa: El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
-      },
-      {
-        id: "moana_2",
-        titulo: "Moana 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "el_ultimo_respiro",
-        titulo: "El último respiro",
-        imagen: "https://image.tmdb.org/t/p/w300/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg"
-      },
-      {
-        id: "damsel",
-        titulo: "Damsel",
-        imagen: "https://image.tmdb.org/t/p/w300/gh7oa9IKlu5yMveemyJkzLfopuB.jpg"
-      },
-      {
-        id: "duro_de_entrenar",
-        titulo: "Duro de entrenar",
-        imagen: "https://image.tmdb.org/t/p/w300/eA6FztxHGs43AS6v1TF7PwugEXQ.jpg"
-      }
-    ]
-  },
-
-  la_mitad_de_ana: {
-    id: "la_mitad_de_ana",
-    titulo: "La mitad de ana",
-    video: "https://dl.dropbox.com/scl/fi/5kbwwx2xpy5rs5d4ngdxv/La-mitad-de-ana-2025.mp4?rlkey=n1qtb5wqnm7kdnvj140rwm3c3&st=",
-    poster: "https://image.tmdb.org/t/p/w780/9CfTSdvtzaWZ5mGO3JQv40ecEJs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5J05paz9AoOV7qhwHTSTOChdYBc.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Trata el tema de lo trans en la infancia a través de una madre y un hijo en el proceso de cambio.",
-    anio: "2025",
-    duracion: "1h 25min",
-    calificacion: "67%",
-    genero: "Drama",
-    director: "Marta Nieto",
-    reparto: "Marta Nieto, Noa Álvarez, Nahuel Pérez Biscayart",
-    estreno: "10/01/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "harta",
-        titulo: "Harta",
-        imagen: "https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"
-      },
-      {
-        id: "elena_sabe",
-        titulo: "Elena sabe",
-        imagen: "https://image.tmdb.org/t/p/w300/AjAElsEROAhnRLFzob8eqTfvlN7.jpg"
-      },
-      {
-        id: "abandonada",
-        titulo: "Abandonada",
-        imagen: "https://image.tmdb.org/t/p/w300/4h0EYAeSslKXXiVTqcehXjGf3PA.jpg"
-      },
-      {
-        id: "todo_bien",
-        titulo: "¿Todo bien?",
-        imagen: "https://image.tmdb.org/t/p/w300/mKdRfCpWkcH0wEEg6yO4a8ES4TX.jpg"
-      },
-      {
-        id: "salve_maria",
-        titulo: "Salve maria",
-        imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg"
-      },
-      {
-        id: "nyad",
-        titulo: "Nyad",
-        imagen: "https://image.tmdb.org/t/p/w300/eh1IjDZfDRjgv5NzMBkjN1GzKgy.jpg"
-      }
-    ]
-  },
 
   la_monja: {
     id: "la_monja",
@@ -15790,7 +13236,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        titulo: "Doctor strange 2: El multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/xu0RftYPT4crY4ZSf9SMa5UM8dr.jpg"
       },
       {
@@ -15799,8 +13245,8 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg"
       },
       {
-        id: "pantera_negra_2",
-        titulo: "Pantera negra 2: Wakanda por siempre",
+        id: "pantera_negra2",
+        titulo: "Pantera Negra 2: Wakanda por siempre",
         imagen: "https://image.tmdb.org/t/p/w300/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg"
       },
       {
@@ -15860,9 +13306,10 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "cantardesnuda",
+        titulo: "Solo Adultos",
+        imagen: "https://image.tmdb.org/t/p/w300/",
+        adulto: true
       }
     ]
   },
@@ -15905,8 +13352,8 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/zqXn3gaMBNHNK7YHdYNidwWrJoT.jpg"
       },
       {
-        id: "lilo_y_stitch_2025",
-        titulo: "Lilo y Stitch",
+        id: "lilo_y_stitch",
+        titulo: "Lilo & Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/d2In25p3RW9lwxEPX9zAhkg0L5l.jpg"
       },
       {
@@ -15978,721 +13425,6 @@ document.addEventListener('DOMContentLoaded', () => {
   },
 
   /*M*/
-
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      }
-    ]
-  },
-
-  mufasa_el_rey_leon: {
-    id: "mufasa_el_rey_leon",
-    titulo: "Mufasa: El rey león",
-    video: "https://dl.dropbox.com/scl/fi/ho5b640nqivpweapw5byq/294028-24b36b4d-42d1-461c-87c0-706be80100ad-odsj-2584694-streamwish.mp4?rlkey=aliq10yeworwounyswjazq7xv&st=",
-    poster: "https://image.tmdb.org/t/p/w780/cVh8Af7a9JMOJl75ML3Dg2QVEuq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9TPE8OxQozui6weF2VM7WDGQ48t.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Rafiki debe transmitir la leyenda de Mufasa a la joven cachorro de león Kiara, hija de Simba y Nala, y con Timón y Pumba prestando su estilo característico. Mufasa, un cachorro huérfano, perdido y solo, conoce a un simpático león llamado Taka, heredero de un linaje real. Este encuentro casual pone en marcha un viaje de un extraordinario grupo de inadaptados que buscan su destino.",
-    anio: "2025",
-    duracion: "1h 58min",
-    calificacion: "84%",
-    genero: "Animación • Aventura • Disney • Familia",
-    director: "Barry Jenkins",
-    reparto: "Aaron Pierre, Kelvin Harrison Jr. Tiffany Boone",
-    estreno: "26/03/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "el_rey_leon_2019",
-        titulo: "El Rey Leon",
-        imagen: "https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg"
-      },
-      {
-        id: "el_rey_leon1",
-        titulo: "El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/b0MxU37dNmMwKtoPVYPKOZSIrIn.jpg"
-      },
-      {
-        id: "dumbo",
-        titulo: "Dumbo",
-        imagen: "https://image.tmdb.org/t/p/w300/4x9FmvdJ464Fg7A9XcbYSmxfVw3.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/5MoKURsBQPUt3hJxWnKRRzLWbOW.jpg"
-      }
-    ]
-  },
-
-  minions_el_origen_de_gru: {
-    id: "minions_el_origen_de_gru",
-    titulo: "Minions: El origen de Gru",
-    video: "https://dl.dropbox.com/scl/fi/kt9ieoiyylt1v910wfiab/Gru-nace-un-villano-2022.mp4?rlkey=ufzlr3hrib6y5c59ci4lnphu6&st=",
-    poster: "https://image.tmdb.org/t/p/w780/wZS4xSfPtk1NPQnx9zsT5R2WhCu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8rzI5vNefZWuUiF6MrHXqVY5Hhl.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "En los años 70, Gru crece siendo un gran admirador de Los salvajes seis, un supergrupo de villanos. Para demostrarles que puede ser malvado, diseña un plan con la esperanza de formar parte de la banda.",
-    anio: "2022",
-    duracion: "1h 27min",
-    calificacion: "83,7%",
-    genero: "Animación • Familia • Comedia • Aventura • Ciencia ficción • Fantasía • Acción",
-    director: "Kyle Balda",
-    reparto: "Steve Carell, Pierre Coffin, Alan Arkin",
-    estreno: "01/07/2022",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "mi_villano_favorito",
-        titulo: "Mi villano favorito",
-        imagen: "https://image.tmdb.org/t/p/w300/7ml02WwUzz4jlZJdiEI4ZIYHj1J.jpg"
-      },
-      {
-        id: "mi_villano_favorito_2",
-        titulo: "Mi villano favorito 2",
-        imagen: "https://image.tmdb.org/t/p/w300/ikz6zymN62kqSFioVWAqn8mPufM.jpg"
-      },
-      {
-        id: "mi_villano_favorito_3",
-        titulo: "Mi villano favorito 3",
-        imagen: "https://image.tmdb.org/t/p/w300/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg"
-      },
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      },
-      {
-        id: "los_minions",
-        titulo: "Los Minions",
-        imagen: "https://image.tmdb.org/t/p/w300/nmqLwaTfgyWLQWbYd82w159cAqJ.jpg"
-      },
-      {
-        id: "mufasa_el_rey_leon",
-        titulo: "Mufasa: El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
-      }
-    ]
-  },
-
-  mientras_duermes: {
-    id: "mientras_duermes",
-    titulo: "Mientras duermes",
-    video: "https://dl.dropbox.com/scl/fi/q2mee7kepizb0drvhbjxa/Mientras.Duermes.2021.1080P-Dual-Lat.mp4?rlkey=vddidowpd87olh8ouyxldml5y&st=",
-    poster: "https://image.tmdb.org/t/p/w780/nMJlSiRA0ct2vuX5O9ltq192IxR.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aDi56oSNirZStVwgl8R12nkQrIk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/w2a2zIuqlv32IU4mKpVWfEZuzfU.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "César es el portero de un edificio de apartamentos y no cambiaría este trabajo por ningún otro, ya que le permite conocer a fondo los movimientos, los hábitos más íntimos, los puntos débiles y los secretos de todos los inquilinos. Si quisiera podría incluso controlar sus vidas, influir en ellas como si fuera Dios, abrir sus heridas y hurgar en ellas. Y todo sin levantar ninguna sospecha.",
-    anio: "2012",
-    duracion: "1h 33min",
-    calificacion: "72%",
-    genero: "Terror • Suspenso",
-    director: "Jaume Balagueró",
-    reparto: "Luis Tosar, Marta Etura, Alberto San Juan",
-    estreno: "06/09/2012",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "martyrs",
-        titulo: "Martyrs",
-        imagen: "https://image.tmdb.org/t/p/w300/5kymocKK0SfyEEV0ohNEBz1lxNx.jpg"
-      },
-      {
-        id: "mara",
-        titulo: "Mara",
-        imagen: "https://image.tmdb.org/t/p/w300/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg"
-      },
-      {
-        id: "la_acompañante",
-        titulo: "La acompañante",
-        imagen: "https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg"
-      },
-      {
-        id: "la_sustancia",
-        titulo: "La sustancia",
-        imagen: "https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg"
-      },
-      {
-        id: "la_primera_profecia",
-        titulo: "La Primera profecia",
-        imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg"
-      },
-      {
-        id: "eliminar_amigo",
-        titulo: "Eliminar amigo",
-        imagen: "https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg"
-      }
-    ]
-  },
-
-  mickey_donald_y_goofy_los_tres_mosqueteros: {
-    id: "mickey_donald_y_goofy_los_tres_mosqueteros",
-    titulo: "Mickey, Donald y Goofy: Los tres mosqueteros",
-    video: "https://dl.dropbox.com/scl/fi/h7f4nk3gkr1gzkn5jpm1a/Mickey.Donald.Goofy.Los.Tres.Mosqueteros.2004.1080P-Dual-Lat.mkv?rlkey=najkdqoz2ovb4cgy0hn1xcbqs&st=",
-    poster: "https://image.tmdb.org/t/p/w780/AoCKRAdl4zH8AOzJM2EZoetGhOb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gknRvWOe1vypDJfFA4jnprCoK0T.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AoCKRAdl4zH8AOzJM2EZoetGhOb.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Mickey, Donald y Goofy, son unos humildes limpiadores que sueñan con llegar a ser mosqueteros. Sus vidas darán un vuelco cuando Pete Pata Palo, capitán de los mosqueteros, y su siniestro lugarteniente Clarabelle les utilizan en una malvada conspiración para destronar a la Princesa Minnie.",
-    anio: "2004",
-    duracion: "1h 07min",
-    calificacion: "85%",
-    genero: "Animación • Aventura • Comedia • Disney • Familia",
-    director: "Donovan Cook",
-    reparto: "Wayne Allwine, Tony Anselmo, Bill Farmer",
-    estreno: "17/08/2004",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hercules",
-        titulo: "Hércules",
-        imagen: "https://image.tmdb.org/t/p/w300/dK9rNoC97tgX3xXg5zdxFisdfcp.jpg"
-      },
-      {
-        id: "elemental",
-        titulo: "Elemental",
-        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
-      },
-      {
-        id: "coco",
-        titulo: "Coco",
-        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
-      },
-      {
-        id: "mi_villano_favorito_3",
-        titulo: "Mi villano favorito 3",
-        imagen: "https://image.tmdb.org/t/p/w300/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg"
-      },
-      {
-        id: "robot_salvaje",
-        titulo: "Robot salvaje",
-        imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"
-      },
-      {
-        id: "sonic_3",
-        titulo: "Sonic 3: La Pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"
-      }
-    ]
-  },
-
-  mi_lista_de_deseos: {
-    id: "mi_lista_de_deseos",
-    titulo: "Mi lista de deseos",
-    video: "https://dl.dropbox.com/scl/fi/ak4gbd2mekjbh63bftk81/Mi.Lista.De.Deseos.2025.1080P-Dual-Lat.mkv?rlkey=61rgb3q2ssff7b4fdn6qhfgkl&st=",
-    poster: "https://image.tmdb.org/t/p/w780/2boblyjul5QGxiCvfPitdG92HkA.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/a3IFeDHSCIkMLmoBzaOcD60BOoR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/g4IXOyB9VHBJvBaYQUZhOQMWOTW.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Cuando su madre la envía a una misión para completar su lista de deseos de la adolescencia, una joven desvela secretos familiares, encuentra el amor... y se redescubre.",
-    anio: "2025",
-    duracion: "2h 05min",
-    calificacion: "84%",
-    genero: "Comedia • Drama • Romance",
-    director: "Adam Brooks",
-    reparto: "Sofia Carson, Kyle Allen, Sebastian de Souza",
-    estreno: "28/03/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "almas_marcadas",
-        titulo: "Almas marcadas: Rule + Shaw",
-        imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg"
-      },
-      {
-        id: "after_2",
-        titulo: "After 2: En mil pedazos",
-        imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg"
-      },
-      {
-        id: "culpa_tuya",
-        titulo: "Culpa tuya",
-        imagen: "https://image.tmdb.org/t/p/w300/1jvCVdlgInyItAUEvvvCakm1Yxz.jpg"
-      },
-      {
-        id: "corazon_delator",
-        titulo: "Corazón delator",
-        imagen: "https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg"
-      },
-      {
-        id: "cincuentas_sombras_de_grey_1",
-        titulo: "Cincuenta sombras de Grey",
-        imagen: "https://image.tmdb.org/t/p/w300/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg"
-      },
-      {
-        id: "babygirl",
-        titulo: "Babygirl: Deseo prohibido",
-        imagen: "https://image.tmdb.org/t/p/w300/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg"
-      }
-    ]
-  },
-
-  metegol: {
-    id: "metegol",
-    titulo: "Metegol",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/qjyw3UDb78RmnfN3dpFHzZlthTT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lypC1Hi5H6jNCidQU5NG5bE7jrT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cP9aLIiOmywUmattOo936gEqovd.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Amadeo es un fenómeno jugando al futbolín y está enamorado de Laura, su mejor amiga, aunque nunca se ha atrevido a decírselo. Desde pequeño se ha pasado la vida jugando al futbolín en el bar que su padre regenta en un pueblo pequeño, donde el tiempo pasa sin sobresaltos. Su vida tranquila se termina el día en el que el Crack, un joven del pueblo convertido en el mejor futbolista del mundo, vuelve dispuesto a vengarse de la única derrota de su vida: la que sufrió frente a Amadeo jugando al futbolín siendo niños.",
-    anio: "2013",
-    duracion: "0h 008min",
-    calificacion: "84%",
-    genero: "Animación • Aventura • Romance",
-    director: "Juan José Campanella",
-    reparto: "David Masajnik, Juan José Campanella, Diego Ramos",
-    estreno: "18/07/2013 ",
-    idioma: "Argentina 🇦🇷",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      },
-      {
-        id: "migracion_un_viaje_patas_arriba",
-        titulo: "Migración. Un viaje patas arriba",
-        imagen: "https://image.tmdb.org/t/p/w300/6uSw2N6jLff3QL5necHxZFd0Aez.jpg"
-      },
-      {
-        id: "leo",
-        titulo: "Leo",
-        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
-      },
-      {
-        id: "la_sirenita_2023",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
-      },
-      {
-        id: "kung_fu_panda_4",
-        titulo: "Kung fu panda 4",
-        imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg"
-      },
-      {
-        id: "plankton",
-        titulo: "Plankton",
-        imagen: "https://image.tmdb.org/t/p/w300/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg"
-      }
-    ]
-  },
-
-  megan_2: {
-    id: "megan_2",
-    titulo: "M3GAN 2.0",
-    video: "https://dl.dropbox.com/scl/fi/vqcw7lmxvoqyfnnbagrtw/M3GAN-2-2025.mp4?rlkey=6dn7h3ejnl9tcqedww2w7imzo&st=",
-    poster: "https://image.tmdb.org/t/p/w780/fEoXQz53i2K7dLStGGFUzt115pH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6tPr2pXIpqIldCSTKUt6GCSyvnf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/93Tq99YbUESCa4aPnThnT9x6WCB.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Con el futuro de la existencia humana en juego, Gemma se da cuenta de que la única opción es resucitar a M3GAN y darle unas cuantas mejoras, haciéndola más rápida, más fuerte y más letal.",
-    anio: "2025",
-    duracion: "2h 00min",
-    calificacion: "78%",
-    genero: "Terror • Suspenso • Ciencia ficción",
-    director: "Gerard Johnstone",
-    reparto: "Allison Williams, Amie Donald, Violet McGraw",
-    estreno: "26/06/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "megan",
-        titulo: "M3GAN",
-        imagen: "https://image.tmdb.org/t/p/w300/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg"
-      },
-      {
-        id: "el_bufon",
-        titulo: "El bufón",
-        imagen: "https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg"
-      },
-      {
-        id: "el_conjuro",
-        titulo: "El conjuro",
-        imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"
-      },
-      {
-        id: "la_llorona",
-        titulo: "La Llorona",
-        imagen: "https://image.tmdb.org/t/p/w300/yVsINl4Aa9vvQ9lE2LF77qNj7AP.jpg"
-      },
-      {
-        id: "un_lugar_en_silencio",
-        titulo: "Un lugar en silencio",
-        imagen: "https://image.tmdb.org/t/p/w300/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg"
-      },
-      {
-        id: "sonrie",
-        titulo: "Sonríe",
-        imagen: "https://image.tmdb.org/t/p/w300/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg"
-      }
-    ]
-  },
-
-  megamente_2: {
-    id: "megamente_2",
-    titulo: "Megamente 2: Contra el sindicato del mal",
-    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Megamente%20contra%20el%20sindicato%20de%20Doom%20online%20HD%20-%20Cuevana%202.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/3Kzc6V4MWs3RXCmE5DhAYnfWL8F.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jdXLCBv0oFjWbTtQTuoJFXVPsbd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dNd2UsShbjVs23FSOyD3NDeYDtD.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "El antiguo equipo de villanos de Megamind, El sindicato del mal, han regresado. Nuestro héroe cabezon azul recién coronado, ahora debe mantener apariencias malvadas hasta que pueda reunir a sus amigos para evitar que sus antiguos compañeros malvados lancen Metro City a la Luna.   ",
-    anio: "2024",
-    duracion: "1h 25min",
-    calificacion: "67%",
-    genero: "Animación • Comedia • Ciencia ficción",
-    director: "Eric Fogel",
-    reparto: "Keith Ferguson, Laura Post, Josh Brener",
-    estreno: "01/03/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "megamente",
-        titulo: "Megamente",
-        imagen: "https://image.tmdb.org/t/p/w300/294wOKPmc2XIpciVqZPp9qb9aaz.jpg"
-      },
-      {
-        id: "moana",
-        titulo: "Moana",
-        imagen: "https://image.tmdb.org/t/p/w300/zLZxomOWttSCxJOnY8Hiy72qcm0.jpg"
-      },
-      {
-        id: "garfield_fuera_de_casa",
-        titulo: "Garfield: Fuera de casa",
-        imagen: "https://image.tmdb.org/t/p/w300/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg"
-      },
-      {
-        id: "aladdin",
-        titulo: "Aladdin",
-        imagen: "https://image.tmdb.org/t/p/w300/oakAd8syy7jNQ4ZoaAGCQkTqcOV.jpg"
-      },
-      {
-        id: "leo",
-        titulo: "Leo",
-        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
-      },
-      {
-        id: "el_gato_con_botas_2",
-        titulo: "Gato con botas 2: El último deseo",
-        imagen: "https://image.tmdb.org/t/p/w300/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg"
-      }
-    ]
-  },
-
-  martyrs: {
-    id: "martyrs",
-    titulo: "Martyrs",
-    video: "https://dl.dropbox.com/scl/fi/bspl8ayjiam1ig3vuv8pm/M-rtires.2008.1080P-Dual-Lat.mp4?rlkey=5zdlij73fccvw3f1tbn1k0vp3&st=",
-    poster: "https://image.tmdb.org/t/p/w780/28yadVSarQyArto0Lab9QE10JXw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5IG3StXtcMDP1hrMFACeEpNVPbt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/d2DaEAb6SwiqSPqdp19zPC3llfu.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Francia. Una noche a comienzos de 1970. Lucie, una niña perdida hace un año, es descubierta andando por una carretera. Está en un estado catatónico y es incapaz de decir nada de lo que le ha sucedido. Los policías no tardarán en encontrar el lugar donde ha estado presa: un antiguo matadero... ¿Qué pasó en aquel lugar? ¿Cómo consiguió la chica escapar?",
-    anio: "2008",
-    duracion: "1h 39min",
-    calificacion: "80%",
-    genero: "Terror • Drama • Suspenso",
-    director: "Pascal Laugier",
-    reparto: "Morjana Alaoui, Mylène Jampanoï, Catherine Bégin",
-    estreno: "10/09/2008",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "azrael",
-        titulo: "Azrael",
-        imagen: "https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"
-      },
-      {
-        id: "abigail",
-        titulo: "Abigail",
-        imagen: "https://image.tmdb.org/t/p/w300/5Uq8P6MPj9Ppsns5t82AiCiUaWE.jpg"
-      },
-      {
-        id: "el_bufon",
-        titulo: "El bufón",
-        imagen: "https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg"
-      },
-      {
-        id: "el_conjuro",
-        titulo: "El conjuro",
-        imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"
-      },
-      {
-        id: "dulce_venganza_2",
-        titulo: "Dulce venganza 2",
-        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
-      },
-      {
-        id: "eliminar_amigos",
-        titulo: "Eliminar amigos",
-        imagen: "https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg"
-      }
-    ]
-  },
-
-  maria_magdalena: {
-    id: "maria_magdalena",
-    titulo: "María Magdalena",
-    video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Mar%C3%ADa%20Magdalena%20Online%20Gratis%20(%E2%9A%9C%EF%B8%8F%202018)%20-%20CUEVANA3.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/52IcRf09Z1220bMCBybe81JxOVy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sDVjNezM9fU4x0O66zesw6zhpB4.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "María Magdalena es un melodrama que recrea la vida de una mujer apasionada durante tiempos de opresión. Una mujer diferente al resto, quien cambiará las leyes de una sociedad corrupta completamente dirigida por hombres. Como una testigo de un mundo lleno de vicios y traición, ella será forzada a huir y tratar de olvidar su pasado.",
-    anio: "2018",
-    duracion: "2h 00min",
-    calificacion: "80%",
-    genero: "Drama • Biblico",
-    director: "Garth Davis",
-    reparto: "Rooney Mara, Joaquin Phoenix, Chiwetel Ejiofor",
-    estreno: "22/03/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "hijo_de_dios",
-        titulo: "Hijo de Dios",
-        imagen: "https://image.tmdb.org/t/p/w300/ecz83StK0eK8Rnio8TCmhbtVU98.jpg"
-      },
-      {
-        id: "la_resurrección_de_cristo",
-        titulo: "La resurrección de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg"
-      },
-      {
-        id: "la_pasion_de_cristo",
-        titulo: "La pasión de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg"
-      },
-      {
-        id: "pablo_el_apostol_de_cristo",
-        titulo: "Pablo, el apóstol de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=genesis",
-        titulo: "Genesis",
-        imagen: "https://image.tmdb.org/t/p/w300/8hUZa9LzC4vyQiwX8KadKLIBXWg.jpg"
-      },
-      {
-        id: "su_unico_hijo",
-        titulo: "Su unico hijo",
-        imagen: "https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg"
-      }
-    ]
-  },
-
-  maligno: {
-    id: "maligno",
-    titulo: "Maligno",
-    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2Fmaligno.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/gqG7a2X9dB6isdqeLCyQpmO3Wkm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gijtUdVH3M6KbWnuSFmiI9MvxJ6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/l3oCt7ySRLVumOCb9UPZMTreK2C.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Madison es una mujer que tiene unas macabras pesadillas que la dejan completamente paralizada. Aterrada por lo que ve en ellas, Madison no consigue dormir por las noches ni vivir por el día. Pero el terror cada vez se irá apoderando de ella cuando descubra que esas pesadillas no son sueños, sino que son hechos de la vida real.",
-    anio: "2021",
-    duracion: "1h 51min",
-    calificacion: "81%",
-    genero: "Terror",
-    director: "James Wan",
-    reparto: "Annabelle Wallis, Maddie Hasson, George Young",
-    estreno: "02/09/2021",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "megan",
-        titulo: "M3GAN",
-        imagen: "https://image.tmdb.org/t/p/w300/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg"
-      },
-      {
-        id: "it__capitulo_2",
-        titulo: "It: Capitulo 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9oERKIVyTWpHNum3STVsAGD4ojz.jpg"
-      },
-      {
-        id: "hablame",
-        titulo: "Háblame",
-        imagen: "https://image.tmdb.org/t/p/w300/rS8fjd6dYcf64v3ZhAE6fKrxoaF.jpg"
-      },
-      {
-        id: "evil_dead_el_despertar",
-        titulo: "Evil dead: El despertar",
-        imagen: "https://image.tmdb.org/t/p/w300/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg"
-      },
-      {
-        id: "en_las_profundidades_del_sena",
-        titulo: "En las profundidades del sena",
-        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
-      },
-      {
-        id: "el_mono",
-        titulo: "El mono",
-        imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
-      }
-    ]
-  },
-
-  mala_influencia: {
-    id: "mala_influencia",
-    titulo: "Mala influencia",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/zXUxcXnBPHF1cD0IHi4KUpsNvF4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1bW4spbLWFe70c06f6Hr5IdDhwd.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Reese Russell disfruta de la vida perfecta, pero todo se complica cuando comienzan a suceder una serie de sucesos extraños a su alrededor y empieza a recibir amenazas anónimas. Su padre, Bruce, debe buscarle un trabajo al joven criminal Eros Douglas, y decide encargarle la protección de su hija.",
-    anio: "2025",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "Drama • Suspenso • Romance",
-    director: "Chloé Wallace",
-    reparto: "Alberto Olmo, Eléa Rochera, Enrique Arce",
-    estreno: "09/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "millers_girl",
-        titulo: "Miller's Girl",
-        imagen: "https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"
-      },
-      {
-        id: "romper_el_circulo",
-        titulo: "Romper el circulo",
-        imagen: "https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg"
-      },
-      {
-        id: "anora",
-        titulo: "Anora",
-        imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg"
-      },
-      {
-        id: "radical",
-        titulo: "Radical",
-        imagen: "https://image.tmdb.org/t/p/w300/eSatbygYZp8ooprBHZdb6GFZxGB.jpg"
-      },
-      {
-        id: "nyad",
-        titulo: "Nyad",
-        imagen: "https://image.tmdb.org/t/p/w300/eh1IjDZfDRjgv5NzMBkjN1GzKgy.jpg"
-      },
-      {
-        id: "extraterritorial",
-        titulo: "Extraterritorial",
-        imagen: "https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg"
-      }
-    ]
-  },
 
   super_mario_bros: {
     id: "super_mario_bros",
@@ -16969,116 +13701,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  madagascar_3: {
-    id: "madagascar_3",
-    titulo: "Madagascar 3: De marcha por Europa",
-    video: "https://dl.dropbox.com/scl/fi/dqtxg9o7q36p5h93k74gf/Madagascar.3.2012.1080P-Dual-Lat.mkv?rlkey=e2rku3i5r1g9da899g8zxzyiu&st=",
-    poster: "https://image.tmdb.org/t/p/w780/9VbNbdVqVBISn4pe6gvYkvVWggm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/l7d5JCkwvGrqiQcppobohXYnjxt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xgmUfp7VcdGdsPAoaGy4ci9XHwo.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Alex el león, Marty la cebra, Melman la jirafa y Gloria la hipopótamo están decididos a regresar como sea al Zoo de Central Park en Nueva York. Tras abandonar África, toman un desvío y emergen, literalmente, en Europa, persiguiendo a los pingüinos y chimpancés que se las han arreglado para hacer saltar la banca de un casino de Montecarlo.",
-    anio: "2012",
-    duracion: "1h 33min",
-    calificacion: "70%",
-    genero: "Aventura • Animación • Comedia • Familia",
-    director: "Eric Darnell, Conrad Vernon, Tom McGrath",
-    reparto: "Ben Stiller, Chris Rock, David Schwimmer",
-    estreno: "07/06/2012",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "madagascar",
-        titulo: "Madagascar",
-        imagen: "https://image.tmdb.org/t/p/w300/zrV5GnfCcLWzyjrFgYTpjQPRMfl.jpg"
-      },
-      {
-        id: "madagascar_2",
-        titulo: "Madagascar 2",
-        imagen: "https://image.tmdb.org/t/p/w300/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg"
-      },
-      {
-        id: "migracion_un_viaje_patas_arriba",
-        titulo: "Migración. Un viaje patas arriba",
-        imagen: "https://image.tmdb.org/t/p/w300/6uSw2N6jLff3QL5necHxZFd0Aez.jpg"
-      },
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      },
-      {
-        id: "moana_2",
-        titulo: "Moana 2",
-        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      },
-      {
-        id: "shrek",
-        titulo: "Shrek",
-        imagen: "https://image.tmdb.org/t/p/w300/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg"
-      }
-    ]
-  },
-
-  madagascar_2: {
-    id: "madagascar_2",
-    titulo: "Madagascar 2",
-    video: "https://dl.dropbox.com/scl/fi/sbfr85dp81tkq4q83oyyf/Madagascar.2.Escape.De.-frica.2008.1080P-Dual-Lat.mp4?rlkey=x1drybgwlhqyxiazhgbzzo4es&st=",
-    poster: "https://image.tmdb.org/t/p/w780/3yXLkSTrVhG66MIAr3X6C4gjccw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/BwQhyfwuuOsq7mwvRaEX4rJQTV.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Alex, Marty, Melman, Gloria, el rey Julien, Maurice, los pingüinos y los chimpancés se encuentran abandonados en las remotas playas de Madagascar. Para superar este obstáculo, los neoyorquinos han ideado un plan tan loco que puede que funcione. Con precisión militar, los pingüinos han reparado (bueno, casi) un viejo aeroplano accidentado.",
-    anio: "2008",
-    duracion: "1h 29min",
-    calificacion: "70%",
-    genero: "Aventura • Animación • Comedia • Familia",
-    director: "Tom McGrath, Eric Darnell",
-    reparto: "Ben Stiller, Chris Rock, David Schwimmer",
-    estreno: "04/12/2008",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "madagascar",
-        titulo: "Madagascar",
-        imagen: "https://image.tmdb.org/t/p/w300/zrV5GnfCcLWzyjrFgYTpjQPRMfl.jpg"
-      },
-      {
-        id: "madagascar_3",
-        titulo: "Madagascar 3: De marcha por Europa",
-        imagen: "https://image.tmdb.org/t/p/w300/l7d5JCkwvGrqiQcppobohXYnjxt.jpg"
-      },
-      {
-        id: "mufasa_el_rey_leon",
-        titulo: "Mufasa: El rey león",
-        imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
-      },
-      {
-        id: "mi_villano_favorito",
-        titulo: "Mi villano favorito",
-        imagen: "https://image.tmdb.org/t/p/w300/7ml02WwUzz4jlZJdiEI4ZIYHj1J.jpg"
-      },
-      {
-        id: "coco",
-        titulo: "Coco",
-        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
-      },
-      {
-        id: "el_gato_con_botas_2",
-        titulo: "Gato con botas 2: El último deseo",
-        imagen: "https://image.tmdb.org/t/p/w300/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg"
-      }
-    ]
-  },
-
   madagascar: {
     id: "madagascar",
     titulo: "Madagascar",
@@ -17292,7 +13914,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/nmqLwaTfgyWLQWbYd82w159cAqJ.jpg"
       },
       {
-        id: "el_gato_con_botas_2",
+        id: "gato_con_botas_2",
         titulo: "Gato con botas 2: El último deseo",
         imagen: "https://image.tmdb.org/t/p/w300/b5Jb7GoQaqIXy4VEdnQa0UrQZI.jpg"
       }
@@ -17497,7 +14119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg"
       },
       {
-        id: "mufasa_el_rey_leon",
+        id: "mufasa_rl_rey",
         titulo: "Mufasa: El rey león",
         imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg"
       },
@@ -17562,7 +14184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
       },
       {
-        id: "lilo_y_stitch_2025",
+        id: "lilo_y_stich_2025",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
       },
@@ -17574,285 +14196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
-  /*N*/
-
-  nahir: {
-    id: "nahir",
-    titulo: "Nahir",
-    video: "https://dl.dropboxusercontent.com/scl/fi/y13vgq3beu33jpwt9wi74/Nahir-Galarza-2024.mp4?rlkey=huz66z2uxlfz344p3c0c84lcr&st=",
-    poster: "https://image.tmdb.org/t/p/w780/gyReyZ09en6XIm4Xzo5ESMxeyuu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg",
-    imginicio: "https://fotos.perfil.com/2024/05/24/trim/1140/641/nahir-portada-1807025.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Uno de los casos más polémicos de los últimos años en Argentina. Basada en la historia real de Nahir Galarza, la mujer más joven condenada y sentenciada a cadena perpetua en el país, por el asesinato de su novio.",
-    anio: "2024",
-    duracion: "1h 46min",
-    calificacion: "70%",
-    genero: "Crimen • Drama • Suspenso",
-    director: "Hernán Guerschuny",
-    reparto: "Valentina Zenere, César Bordón, Mónica Antonópulos",
-    estreno: "22/05/2024",
-    idioma: "Argentina 🇦🇷",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "divorcio_sin_ataduras",
-        titulo: "Divorcio sin ataduras de Tyler Perry",
-        imagen: "https://image.tmdb.org/t/p/w300/2Xkdb7J3juzcLe8IrOheNkDgklZ.jpg"
-      },
-      {
-        id: "su_unico_hijo",
-        titulo: "Su unico hijo",
-        imagen: "https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg"
-      },
-      {
-        id: "desaparecidos_en_la_noche",
-        titulo: "Desaparecidos en la noche",
-        imagen: "https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg"
-      },
-      {
-        id: "todo_bien",
-        titulo: "¿Todo bien?",
-        imagen: "https://image.tmdb.org/t/p/w300/arVt18It7zOpOa2WZTzMiBxmyrY.jpg"
-      },
-      {
-        id: "millers_girl",
-        titulo: "Miller's Girl",
-        imagen: "https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"
-      },
-      {
-        id: "la_madre",
-        titulo: "La Madre",
-        imagen: "https://image.tmdb.org/t/p/w300/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg"
-      }
-    ]
-  },
-
-  no_me_la_toquen: {
-    id: "no_me_la_toquen",
-    titulo: "No me las toquen",
-    video: "https://dl.dropbox.com/scl/fi/jezdirnudopnnuryfmbaf/Blockers.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=npa8oat5vlbb5ybi30jsb0iq2&st=",
-    poster: "https://image.tmdb.org/t/p/w780/nfiyVEDIMRXoqoxlPL2DCoIAtnS.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2AKGkz81kZAXIUuAnL6CqgQSTjL.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Tres padres tratan de impedir que sus hijas tengan relaciones sexuales en la noche del baile de graduación.",
-    anio: "2018",
-    duracion: "1h 42min",
-    calificacion: "80%",
-    genero: "Comedia",
-    director: "Kay Cannon",
-    reparto: "Leslie Mann, John Cena, Ike Barinholtz",
-    estreno: "06/04/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "que_paso_ayer_3",
-        titulo: "¿Que paso ayer? 3",
-        imagen: "https://image.tmdb.org/t/p/w300/1goOfrB3ZRnoJenHHIDqiskMi9q.jpg"
-      },
-      {
-        id: "ricky_el_impostor",
-        titulo: "Ricky Stanicky: El impostor",
-        imagen: "https://image.tmdb.org/t/p/w300/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg"
-      },
-      {
-        id: "señora_influencer",
-        titulo: "Señora influencer",
-        imagen: "https://image.tmdb.org/t/p/w300/2PlHYTHLfZbhjmWOEMQm9ZqyK70.jpg"
-      },
-      {
-        id: "tequila_repasado",
-        titulo: "Tequila repasado",
-        imagen: "https://image.tmdb.org/t/p/w300/7onQmk5ZzUjx6SEAiqILWQFTaYC.jpg"
-      },
-      {
-        id: "la_gran_seduccion",
-        titulo: "La gran seducción",
-        imagen: "https://image.tmdb.org/t/p/w300/17VmLlO81QJPGlnAJxZKRwSKhDW.jpg"
-      },
-      {
-        id: "pobres_criaturas",
-        titulo: "Pobres criaturas",
-        imagen: "https://image.tmdb.org/t/p/w300/mm1M6CoN2qLy8BpnrmYEVToQHJR.jpg"
-      }
-    ]
-  },
-
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "cantardesnuda",
-        titulo: "Solo Adultos",
-        imagen: "https://image.tmdb.org/t/p/w300/",
-        adulto: true
-      }
-    ]
-  },
-
   /*S*/
-
-  salve_maria: {
-    id: "salve_maria",
-    titulo: "Salve Maria",
-    video: "https://dl.dropbox.com/scl/fi/u8l90jrxc4yxa19we08by/Salve-maria-2024.mp4?rlkey=q2m0ws3yzy0kwi8onev6uk6z2&st=",
-    poster: "https://image.tmdb.org/t/p/w780/r8QidlNFOFL7QBq1fFmHGaDiX0x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1gEqF1SCGsDUsdGDPiBhXnokL77.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "María, una joven escritora que acaba de ser madre, se topa con la noticia de un suceso estremecedor: una mujer francesa ha ahogado a sus gemelos de diez meses en la bañera. María se obsesiona con ello, ¿por qué los mató? A partir de ese momento, la sombra del infanticidio la acechará como una vertiginosa posibilidad.",
-    anio: "2024",
-    duracion: "1h 47min",
-    calificacion: "70%",
-    genero: "Drama",
-    director: "Mar Coll",
-    reparto: "Laura Weissmahr, Oriol Pla, Giannina Fruttero",
-    estreno: "31/10/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_joven_y_el_mar",
-        titulo: "La joven y el mar",
-        imagen: "https://image.tmdb.org/t/p/w300/n3KE8fbiOCr6qktIpE52wWErBMi.jpg"
-      },
-      {
-        id: "la_madre",
-        titulo: "La Madre",
-        imagen: "https://image.tmdb.org/t/p/w300/A8BXrFD0FIH2iVbOoTEw7DxnHCb.jpg"
-      },
-      {
-        id: "nyad",
-        titulo: "Nyad",
-        imagen: "https://image.tmdb.org/t/p/w300//eh1IjDZfDRjgv5NzMBkjN1GzKgy.jpg"
-      },
-      {
-        id: "culpa_mia_2",
-        titulo: "Culpa Mia: Londres",
-        imagen: "https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg"
-      },
-      {
-        id: "cincuentas_sombras_de_grey_1",
-        titulo: "Cincuenta sombras de Grey",
-        imagen: "https://image.tmdb.org/t/p/w300/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg"
-      },
-      {
-        id: "elena_sabe",
-        titulo: "Elena sabe",
-        imagen: "https://image.tmdb.org/t/p/w300/AjAElsEROAhnRLFzob8eqTfvlN7.jpg"
-      }
-    ]
-  },
-
-  shrek: {
-    id: "shrek",
-    titulo: "Shrek",
-    video: "https://dl.dropbox.com/scl/fi/jvekkli0pljeibldv76zt/Shrek.1.2001.1080P-Dual-Lat.mp4?rlkey=s01em56707ho0r0yvml69tdbb&st=",
-    poster: "https://image.tmdb.org/t/p/w780/bNTHSd3UqqLzIVwbDOGPnx3ScfF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kZy4ApKnFhOekGmOlYtauF2xLWq.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Hace mucho, mucho tiempo, en una lejanísima ciénaga vivía un intratable ogro llamado Shrek. Pero de repente, un día, su absoluta soledad se ve interrumpida por una invasión de sorprendentes personajes de cuento. Hay ratoncitos ciegos en su comida, un enorme y malísimo lobo en su cama, tres cerditos sin hogar y otros muchos seres increíbles que han sido deportados de su reino por el malvado Lord Farquaad.",
-    anio: "2001",
-    duracion: "1h 30min",
-    calificacion: "80%",
-    genero: "Animación, Comedia, Fantasía, Aventura y Familia",
-    director: "Andrew Adamson, Vicky Jenson",
-    reparto: "Mike Myers, Eddie Murphy, Cameron Diaz",
-    estreno: "19/07/2001",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "shrek_2",
-        titulo: "Shrek 2",
-        imagen: "https://image.tmdb.org/t/p/w300/knRt4E8KyfwEv0SVu9LsLvD28IQ.jpg"
-      },
-      {
-        id: "shrek_3",
-        titulo: "Shrek 3",
-        imagen: "https://image.tmdb.org/t/p/w300/2ogCqOTY7VlKcOHzELeLP71BGLJ.jpg"
-      },
-      {
-        id: "shrek_4",
-        titulo: "Shrek 4: Felices para siempre",
-        imagen: "https://image.tmdb.org/t/p/w300/3MyKXb1ozCfq61tPNKpIggwvP6J.jpg"
-      },
-      {
-        id: "el_gato_con_botas_2",
-        titulo: "El gato con botas 2: El último deseo",
-        imagen: "https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg"
-      },
-      {
-        id: "garfield_fuera_de_casa",
-        titulo: "Garfield: Fuera de casa",
-        imagen: "https://image.tmdb.org/t/p/w300/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg"
-      },
-      {
-        id: "peabody_y_sherman",
-        titulo: "Mr Peabody y Sherman",
-        imagen: "https://image.tmdb.org/t/p/w300/c6kZC5pvwNIRSxiLL2JFGGc46He.jpg"
-      }
-    ]
-  },
 
   sonic_3: {
     id: "sonic_3",
@@ -18108,7 +14452,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        titulo: "Doctor strange 2: El multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/xu0RftYPT4crY4ZSf9SMa5UM8dr.jpg"
       },
       {
@@ -18173,7 +14517,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el multiverso",
+        titulo: "Spider-Man: Cruzando el multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -18336,7 +14680,7 @@ document.addEventListener('DOMContentLoaded', () => {
       {
         id: "frozen",
         titulo: "Frozen",
-        imagen: "https://image.tmdb.org/t/p/w300/kgwjIb2JDHRhNk13lmSxiClFjVk.jpg"
+        imagen: "https://image.tmdb.org/t/p/w300/hAKhrHvzQDUHQP5zd5HFeqF2BCN.jpg"
       },
       {
         id: "como_entrenar_a_tu_dragon_3",
@@ -18631,229 +14975,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*T*/
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      }
-    ]
-  },
-
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      }
-    ]
-  },
-
-  thunderbolts: {
-    id: "thunderbolts",
-    titulo: "Thunderbolts*",
-    video: "https://dl.dropbox.com/scl/fi/9it9z7ng4y3ysk347fuu1/Thunderbolts-2025.mp4?rlkey=1a550jep2v8l1jqd8q4lhchsh&st=",
-    poster: "https://image.tmdb.org/t/p/w780/2VflsZMBlPEdwQj8miBbYWMrpvq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aPVAwfxJc77qGrS2rzhNkJ4VnUB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AlrvUOe2wsW5bGOocxMbMdL3xgb.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Un grupo de supervillanos poco convencional es reclutado para hacer misiones para el gobierno: Yelena Belova, Bucky Barnes, Red Guardian, Ghost, Taskmaster y John Walker. Después de verse atrapados en una trampa mortal urdida por Valentina Allegra de Fontaine, estos marginados deben embarcarse en una peligrosa misión que les obligará a enfrentarse a los recovecos más oscuros de su pasado.",
-    anio: "2025",
-    duracion: "2h 06min",
-    calificacion: "86%",
-    genero: "Acción • Aventura • Ciencia ficción • Marvel",
-    director: "Jake Schreier",
-    reparto: "Florence Pugh, Sebastian Stan, David Harbour",
-    estreno: "02/05/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_vengadores_endgame",
-        titulo: "Los vengadores: Endgame",
-        imagen: "https://image.tmdb.org/t/p/w300/br6krBFpaYmCSglLBWRuhui7tPc.jpg"
-      },
-      {
-        id: "capitan_america4",
-        titulo: "Capitán América 4: Un nuevo mundo",
-        imagen: "https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg"
-      },
-      {
-        id: "capitan_america2",
-        titulo: "Capitán América 2: El soldado de invierno",
-        imagen: "https://image.tmdb.org/t/p/w300/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg"
-      },
-      {
-        id: "deadpool_y_wolverine",
-        titulo: "Deadpool y Wolverine",
-        imagen: "https://image.tmdb.org/t/p/w300/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"
-      },
-      {
-        id: "doctor_strange",
-        titulo: "Doctor strange",
-        imagen: "https://image.tmdb.org/t/p/w300/dAh03zjNzjhiQPrq4Dcr7qKDPlR.jpg"
-      },
-      {
-        id: "spider_man3",
-        titulo: "Spider-Man: Sin camino a casa",
-        imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
-      }
-    ]
-  },
-
-  todo_bien: {
-    id: "todo_bien",
-    titulo: "¿Todo bien?",
-    video: "https://dl.dropbox.com/scl/fi/3ja3n1jfxsierv3hgnfva/Estoy.Bien.2024.1080P-Dual-Lat.mkv?rlkey=dgk4nc6xd07z4ki637ib9iq16&st=",
-    poster: "https://image.tmdb.org/t/p/w780/rzu9BVI9HqY5rG0Xq05ZhewdkYP.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fKxGUfI09ubxe594Nl8Om2cMuxH.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Lucy y Jane han sido mejores amigas toda su vida. Solo cuando Lucy se embarque en un viaje personal, se enfrentará a una prueba de su amistad y de su sentido de sí misma, en un camino que quizás no esté del todo preparada para tomar.",
-    anio: "2024",
-    duracion: "1h 26min",
-    calificacion: "70%",
-    genero: "Comedia • Romance • Drama",
-    director: "Stephanie Allynne, Tig Notaro",
-    reparto: "Dakota Johnson, Sonoya Mizuno, Jermaine Fowler",
-    estreno: "03/06/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "temporada_de_huracanes",
-        titulo: "Temporada de huracanes",
-        imagen: "https://image.tmdb.org/t/p/w300/5wY5mqmwIu5XOhDBhoBY9SStjR8.jpg"
-      },
-      {
-        id: "salve_maria",
-        titulo: "Salve maria",
-        imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg"
-      },
-      {
-        id: "radical",
-        titulo: "Radical",
-        imagen: "https://image.tmdb.org/t/p/w300/eSatbygYZp8ooprBHZdb6GFZxGB.jpg"
-      },
-      {
-        id: "rehen",
-        titulo: "iRehén!",
-        imagen: "https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"
-      },
-      {
-        id: "nahir",
-        titulo: "Nahir",
-        imagen: "https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg"
-      },
-      {
-        id: "la_evaluacion",
-        titulo: "La evaluación",
-        imagen: "https://image.tmdb.org/t/p/w300/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg"
-      }
-    ]
-  },
-
   turno_nocturno: {
     id: "turno_nocturno",
-    titulo: "Turno nocturno",
+    titulo: "Truno nocturno",
     video: "https://dl.dropbox.com/scl/fi/vk4i7d7kncl7hmb1o2ews/Turno-nocturno-2024.mp4?rlkey=p4owg5wv2uxjsb03qn3hot968&st=",
     poster: "https://image.tmdb.org/t/p/w780/5VjZbfvSxyLEhLCON1NmMJdWTp0.jpg",
     imagen: "https://image.tmdb.org/t/p/original/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg",
@@ -19440,7 +15564,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/saGpA6u71TPA8DyTYoAqSBGVZW.jpg"
       },
       {
-        id: "la_sirenita_2023",
+        id: "la_sirenita",
         titulo: "La sirenita",
         imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
       },
@@ -19495,7 +15619,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
       },
       {
-        id: "lilo_y_stitch",
+        id: "lilo_y_stitch_1",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg"
       },
@@ -19890,7 +16014,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/cTXHRoiKnuNdLRy4qn7JhQXHZO0.jpg"
       },
       {
-        id: "lilo_y_stitch",
+        id: "lilo_y_stitch_1",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/9jrmKyhNGam2pj89bcxmhQzXCNo.jpg"
       }
@@ -20175,502 +16299,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*P*/
 
-  pablo_el_apostol_de_cristo: {
-    id: "pablo_el_apostol_de_cristo",
-    titulo: "Pablo, el apóstol de Cristo",
-    video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Pablo%20Apostol%20De%20Cristo%20(2018)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/rPCZqz8RbYMgK4m5NMkRbMOOTK.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qSGzTPUOVM7lPFqq2n3wCJ06YuY.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Pablo sufre en soledad en una prisión romana, a la espera de su ejecución por orden del emperador Nerón. A Mauricio, el ambicioso prefecto de la prisión, le cuesta imaginar qué clase de peligro podría suponer este hombre destrozado. En otro tiempo, fue Saulo de Tarso, un brutal asesino de cristianos de alto rango.",
-    anio: "2018",
-    duracion: "1h 47min",
-    calificacion: "76%",
-    genero: "Drama • Biblico",
-    director: "Andrew Hyatt",
-    reparto: "Jim Caviezel, James Faulkner, Olivier Martinez",
-    estreno: "28/03/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "la_resurrección_de_cristo",
-        titulo: "La resurrección de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/uDULudnohzhAc5HzjDyVlPL8Vt2.jpg"
-      },
-      {
-        id: "la_pasion_de_cristo",
-        titulo: "La pasión de Cristo",
-        imagen: "https://image.tmdb.org/t/p/w300/5f3cFxNhA3KFuBFJqooM7YDYOpF.jpg"
-      },
-      {
-        id: "hijo_de_dios",
-        titulo: "Hijo de Dios",
-        imagen: "https://image.tmdb.org/t/p/w300/ecz83StK0eK8Rnio8TCmhbtVU98.jpg"
-      },
-      {
-        id: "su_unico_hijo",
-        titulo: "Su unico hijo",
-        imagen: "https://image.tmdb.org/t/p/w300/1MvQXCBJtC34yI16QS276ZjWKY1.jpg"
-      },
-      {
-        id: "maria_magdalena",
-        titulo: "María Magdalena",
-        imagen: "https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg"
-      },
-      {
-        href: "View Peliculas/Reproductor Universal Series.php?id=moises_y_los_diez_mandamientos",
-        titulo: "Moises y los diez mandamientos",
-        imagen: "https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"
-      }
-    ]
-  },
-
-  peter_pan_la_gran_aventura: {
-    id: "peter_pan_la_gran_aventura",
-    titulo: "Peter Pan: La gran aventura",
-    video: "https://dl.dropbox.com/scl/fi/met9tinydprkvvcejfh9s/Peter-pan-2003.mp4?rlkey=hgk36f0jrseclx4txz6l4115d&st=",
-    poster: "https://image.tmdb.org/t/p/w780/t91jCc56Ukzs810Zk96aC8vpc6x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t91jCc56Ukzs810Zk96aC8vpc6x.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Adaptación de la historia de J. M. Barrie acerca de un niño que nunca creció. Los tres niños de la familia Darling reciben una visita de Peter Pan, quien los lleva a la Tierra de Nunca Jamás, donde una guerra continua entre la pandilla de Peter y los Niños Perdidos y el malvado pirata Capitán Garfio está teniendo lugar.",
-    anio: "2003",
-    duracion: "1h 53min",
-    calificacion: "72%",
-    genero: "Aventura • Disney • Famtasia • Familia",
-    director: "P.J. Hogan",
-    reparto: "Jeremy Sumpter, Jason Isaacs, Rachel Hurd-Wood",
-    estreno: "18/12/2003",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "peter_pan",
-        titulo: "Peter Pan",
-        imagen: "https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg"
-      },
-      {
-        id: "peter_pan_2",
-        titulo: "Peter Pan 2: En Regreso al País de Nunca Jamás",
-        imagen: "https://image.tmdb.org/t/p/w300/kkFeLiMeih9jgXatztoloOyGSbc.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy<",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "pinocho_2022",
-        titulo: "Pinocho",
-        imagen: "https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg"
-      },
-      {
-        id: "leo",
-        titulo: "Leo",
-        imagen: "https://image.tmdb.org/t/p/w300/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg"
-      },
-      {
-        id: "los_croods",
-        titulo: "Los Croods",
-        imagen: "https://image.tmdb.org/t/p/w300/p7lJkqHlK01nr0zNacunUFI5Qxy.jpg"
-      }
-    ]
-  },
-
-  peter_pan_2: {
-    id: "peter_pan_2",
-    titulo: "Peter Pan 2: En Regreso al País de Nunca Jamás",
-    video: "https://dl.dropbox.com/scl/fi/8ia4gie67stcnvf4t101j/Peter.Pan.el.regreso.al.pais.de.nunca.jamas.2002.1080p-Dual-Lat.mkv?rlkey=1mnxv11r7magnjb802welb323&st=",
-    poster: "https://image.tmdb.org/t/p/w780/t3g02iZ8PWrVcn0JNehxheOzzY4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kkFeLiMeih9jgXatztoloOyGSbc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t3g02iZ8PWrVcn0JNehxheOzzY4.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Peter Pan sigue siendo el líder de los Niños Perdidos y librando batallas con el malvado Capitán Garfio, con la ayuda de Campanilla. Pero aunque Peter Pan nunca creció, todo a su alrededor ha cambiado: Wendy es ahora madre de una niña llamada Jane. Jane ya no cree en cuentos de hadas, y ¡mucho menos en volar!. ",
-    anio: "2002",
-    duracion: "1h 12min",
-    calificacion: "70%",
-    genero: "Animación • Aventura • Disney • Familia • Fantasia",
-    director: "Robin Budd",
-    reparto: "Harriet Owen, Blayne Weaver, Jeff Bennett",
-    estreno: "14/02/2002",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "peter_pan",
-        titulo: "Peter Pan",
-        imagen: "https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg"
-      },
-      {
-        id: "peter_pan_la_gran_aventura",
-        titulo: "Peter Pan: La gran aventura",
-        imagen: "https://image.tmdb.org/t/p/w300/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy<",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "el_niño_y_la_garza",
-        titulo: "El niño y la garza",
-        imagen: "https://image.tmdb.org/t/p/w300/jDQPkgzerGophKRRn7MKm071vCU.jpg"
-      },
-      {
-        id: "el_gato_con_botas",
-        titulo: "El gato con botas",
-        imagen: "https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg"
-      },
-      {
-        id: "garfield_fuera_de_casa",
-        titulo: "Garfield: Fuera de casa",
-        imagen: "https://image.tmdb.org/t/p/w300/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg"
-      }
-    ]
-  },
-
-  peter_pan: {
-    id: "peter_pan",
-    titulo: "Peter Pan",
-    video: "https://dl.dropbox.com/scl/fi/d82g33omcm3j280mghigk/Peter-pan-1950.mp4?rlkey=5ok6r238pkfqa5kseififns88&st=",
-    poster: "https://image.tmdb.org/t/p/w780/vwcfvPzYO3Gz975yRXp6DYSSbzo.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8OznN4TSxuexTXJFNHrGy0BdFiX.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Uno de los grandes clásicos de la factoría Walt Disney, que relata las aventuras en el País de Nunca Jamás de Peter Pan, su compañera Campanilla, su amiga Wendy y los Niños Perdidos, en su lucha contra el malvado Capitán Garfio.",
-    anio: "1953",
-    duracion: "1h 16min",
-    calificacion: "80%",
-    genero: "Animación • Aventura • Disney • Familia • Fantasia",
-    director: "Clyde Geronimi, Hamilton Luske, Wilfred Jackson",
-    reparto: "Bobby Driscoll, Kathryn Beaumont, Hans Conried",
-    estreno: "05/02/1953",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "peter_pan_2",
-        titulo: "Peter Pan 2: En Regreso al País de Nunca Jamás",
-        imagen: "https://image.tmdb.org/t/p/w300/kkFeLiMeih9jgXatztoloOyGSbc.jpg"
-      },
-      {
-        id: "peter_pan_la_gran_aventura",
-        titulo: "Peter Pan: La gran aventura",
-        imagen: "https://image.tmdb.org/t/p/w300/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy<",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "metegol",
-        titulo: "Metegol",
-        imagen: "https://image.tmdb.org/t/p/w300/dXWCHlDvkth40JhX2ctSdK5DC9d.jpg"
-      },
-      {
-        id: "plankton",
-        titulo: "Plankton: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg"
-      },
-      {
-        id: "baki_hanma_vs_kengan_ashura",
-        titulo: "Baki Hanma vs Kengan Ashura",
-        imagen: "https://image.tmdb.org/t/p/w300/sXybjRq6BsCkWcDBfNphSH9biqn.jpg"
-      }
-    ]
-  },
-
-  plankton: {
-    id: "plankton",
-    titulo: "Plankton: La pelicula",
-    video: "https://dl.dropbox.com/scl/fi/jono80wrhx5u0tj5wkie3/Plankton.La.Pel-cula.2025.1080P-Dual-Lat.mkv?rlkey=7yfghuiico5ug19ng9zkvvz26&st=",
-    poster: "https://image.tmdb.org/t/p/w780/lsgT602GYV8ts97sKH1gWFtQs1k.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/nVhlmU9eJWPWSaBZtWjqWUdqaSx.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "La complicada historia de amor de Plankton con su esposa computarizada Karen se complica cuando ella decide destruir el mundo sin él.",
-    anio: "2025",
-    duracion: "1h 27min",
-    calificacion: "70%",
-    genero: "Familia, Comedia, Aventura, Animación, Ciencia ficción",
-    director: "Dave Needham",
-    reparto: "Mr. Lawrence, Jill Talley, Tom Kenny",
-    estreno: "07/03/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "bob_esponja_1",
-        titulo: "Bob Esponja: La película",
-        imagen: "https://image.tmdb.org/t/p/w300/CtISczftMz6g7kyk5uLxBben8b.jpg"
-      },
-      {
-        id: "bob_esponja_2",
-        titulo: "Bob Esponja 2: Un héroe fuera del agua",
-        imagen: "https://image.tmdb.org/t/p/w300/z5aphafm6OEcAq4jwOs5Ml9F384.jpg"
-      },
-      {
-        id: "bob_esponja_3",
-        titulo: "Bob Esponja 3: Un héroe al rescate",
-        imagen: "https://image.tmdb.org/t/p/w300/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg"
-      },
-      {
-        id: "al_rescate_de_fondo_de_bikini_la_película_de_arenita_mejillas",
-        titulo: "Al rescate de Fondo de Bikini: La película de Arenita Mejillas",
-        imagen: "https://image.tmdb.org/t/p/w300/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg"
-      },
-      {
-        id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el Multiverso",
-        imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
-      },
-      {
-        id: "pinocho_2022",
-        titulo: "Pinocho",
-        imagen: "https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg"
-      }
-    ]
-  },
-
-  pocahontas_2: {
-    id: "pocahontas_2",
-    titulo: "Pocahontas 2: Viaje a un nuevo mundo",
-    video: "https://dl.dropbox.com/scl/fi/l8zid6b87ejionpikl1ud/Pocahontas.2.Encuentro.De.Dos.Mundos.1998.1080P-Dual-Lat.mkv?rlkey=gebg4lpws5yyhukzsa51ijh9m&st=",
-    poster: "https://image.tmdb.org/t/p/w780/zl55Z7GqDgxsMepx16g5jvfutlx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zl55Z7GqDgxsMepx16g5jvfutlx.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Pocahontas vive el mayor reto de su vida en su viaje a Inglaterra. Con la ayuda del apuesto John Rolfe, buscará la paz de su pueblo. Mientra se prepara para el baile de la Caceria, abre poco a poco su corazón a Rolfe. Pero la misteriosa aparición de John Smith sumerge a Pocahontas en un dilema... elegir entre dos amores y dos maneras de vivir.",
-    anio: "1998",
-    duracion: "1h 13min",
-    calificacion: "80%",
-    genero: "Animación • Aventura • Disney • Familia • Romance",
-    director: "Tom Ellery, Bradley Raymond",
-    reparto: "Billy Zane, Irene Bedard, Jim Cummings",
-    estreno: "25/08/1998",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "pocahontas",
-        titulo: "Pocahontas",
-        imagen: "https://image.tmdb.org/t/p/w300/iKZioEcxgDGsJkRkd9n2R5q2ctx.jpg"
-      },
-      {
-        id: "pinocho_2022",
-        titulo: "Pinocho",
-        imagen: "https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg"
-      },
-      {
-        id: "wish_el_poder_de_los_deseos",
-        titulo: "Wish: El poder de los deseos",
-        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
-      },
-      {
-        id: "frozen",
-        titulo: "Frozen",
-        imagen: "https://image.tmdb.org/t/p/w300/kgwjIb2JDHRhNk13lmSxiClFjVk.jpg"
-      },
-      {
-        id: "encanto",
-        titulo: "Encanto",
-        imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg"
-      },
-      {
-        id: "un_jefe_en_pañales",
-        titulo: "Un jefe en pañales",
-        imagen: "https://image.tmdb.org/t/p/w300/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg"
-      }
-    ]
-  },
-
-  pocahontas: {
-    id: "pocahontas",
-    titulo: "Pocahontas",
-    video: "https://dl.dropbox.com/scl/fi/gcmv34mbsvgzhxm776zw1/Pocahontas.1995.1080P-Dual-Lat.mkv?rlkey=ngnzja898b3cc0lvyp9wxfyk0&st=",
-    poster: "https://image.tmdb.org/t/p/w780/yJzeQuLz9KNPTuVdKV73JBcQnBR.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/z8cXnNULBiXqTDgwkpCIo4CARrR.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Pocahontas, la hija del Jefe Powhatan, vigila la llegada de un gran grupo de colonos ingleses, guiados por el ambicioso gobernador Radcliff y el valiente capitán John Smith. Con su juguetón compañero Meeko, un travieso mapache, y con Flit, un alegre pájaro, Pocahontas entabla una fuerte amistad con el Capitán Smith.",
-    anio: "1995",
-    duracion: "1h 21min",
-    calificacion: "84,6%",
-    genero: "Animación • Aventura • Disney • Familia • Romance",
-    director: "Eric Goldberg, Mike Gabriel",
-    reparto: "Irene Bedard, Mel Gibson, John Kassir",
-    estreno: "16/06/1995",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "pocahontas_2",
-        titulo: "Pocahontas 2: Viaje a un nuevo mundo",
-        imagen: "https://image.tmdb.org/t/p/w300/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg"
-      },
-      {
-        id: "tierra_de_osos",
-        titulo: "Tierra de osos",
-        imagen: "https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg"
-      },
-      {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy<",
-        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
-      },
-      {
-        id: "la_sirenita",
-        titulo: "La sirenita",
-        imagen: "https://image.tmdb.org/t/p/w300/Vc0KvO7z2OzEbRs6nyZs9xD81s.jpg"
-      },
-      {
-        id: "alvil_y_las_ardillas_2",
-        titulo: "Alvin y las ardillas 2",
-        imagen: "https://image.tmdb.org/t/p/w300/1DqgIFHVJwjlaIITCcYtobrirfd.jpg"
-      },
-      {
-        id: "migracion_un_viaje_patas_arriba",
-        titulo: "Migración. Un viaje patas arriba",
-        imagen: "https://image.tmdb.org/t/p/w300/6uSw2N6jLff3QL5necHxZFd0Aez.jpg"
-      }
-    ]
-  },
-
-  presencia: {
-    id: "presencia",
-    titulo: "Presencia",
-    video: "https://dl.dropbox.com/scl/fi/3wejw520iu2ib1vwtzmo0/Presencia.2025.1080P-Dual-Lat.mkv?rlkey=1jlcnt1wuelkm0qog4sph6sd6&st=",
-    poster: "https://image.tmdb.org/t/p/w780/vuxqDA58KbIROvca6FASmnW5DFN.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kc7YIx6KNiXm1dpqlhqdX3eTL7a.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eK2I8OuLpLe8WuJfl4yHQmXbCwC.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Bruno sueña con reencontrarse con Alma, o con lo que queda de ella.",
-    anio: "2025",
-    duracion: "1h 24min",
-    calificacion: "80%",
-    genero: "Terror • Drama • Suspenso",
-    director: "Juliana Benítez",
-    reparto: "Gregorio Parodi, Cielo Salas Cortez",
-    estreno: "08/05/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "Destino_final_6",
-        titulo: "Destino final 6: Lazos de sangre",
-        imagen: "https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"
-      },
-      {
-        id: "el_mono",
-        titulo: "El mono",
-        imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
-      },
-      {
-        id: "la_acompañante",
-        titulo: "La acompañante",
-        imagen: "https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg"
-      },
-      {
-        id: "dulce_venganza_2",
-        titulo: "Dulce venganza 2",
-        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
-      },
-      {
-        id: "el_conjuro",
-        titulo: "El conjuro",
-        imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"
-      },
-      {
-        id: "evil_dead_el_despertar",
-        titulo: "Evil dead: El despertar",
-        imagen: "https://image.tmdb.org/t/p/w300/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg"
-      }
-    ]
-  },
-
-  pantera_negra: {
-    id: "pantera_negra",
-    titulo: "Pantera negra",
-    video: "https://dl.dropbox.com/scl/fi/x764ntrpgx7kl1huycgur/Black.panther.2018.1080P-Dual-Lat.mp4?rlkey=71kq9tyjsnyda05tzpvo8caju&st=",
-    poster: "https://image.tmdb.org/t/p/w780/4K92giNstjy4Waz35bAsqt83J1F.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4KQkyaSfh0uHRDMvY5XADzfmx5k.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1OAkwZl1pTZEsR5oTdhDQgYTgcp.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Después de los acontecimientos de Capitán América: Civil War, T'Challa vuelve a casa, la nación aislada y muy avanzada tecnológicamente de Wakanda, para ser proclamado Rey. Pero la reaparición de un viejo enemigo pone a prueba el temple de T'Challa como Rey y Black Panther ya que se ve arrastrado a un conflicto que pone en peligro todo el destino de Wakanda y del mundo.",
-    anio: "2018",
-    duracion: "2h 14min",
-    calificacion: "85%",
-    genero: "Acción • Aventura • Ciencia ficción • Marvel",
-    director: "Ryan Coogler",
-    reparto: "Chadwick Boseman, Michael B. Jordan, Lupita Nyong'o",
-    estreno: "15/02/2018",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "pantera_negra_2",
-        titulo: "Pantera negra 2: Wakanda por siempre",
-        imagen: "https://image.tmdb.org/t/p/w300/qUhjmU8P2OA7AG4IgqXzbwvl4Tq.jpg"
-      },
-      {
-        id: "los_vengadores_endgame",
-        titulo: "Los vengadores: Endgame",
-        imagen: "https://image.tmdb.org/t/p/w300/br6krBFpaYmCSglLBWRuhui7tPc.jpg"
-      },
-      {
-        id: "capitan_america3",
-        titulo: "Capitán América 3: Civil war",
-        imagen: "https://image.tmdb.org/t/p/w300/fwqAK9Vlh14mWMX3GNMi11P8XR4.jpg"
-      },
-      {
-        id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
-        imagen: "https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg"
-      },
-      {
-        id: "spider_man3",
-        titulo: "Spider-Man 3: Sin camino a casa",
-        imagen: "https://image.tmdb.org/t/p/w300/rkLhaNa37IwzWis8rzWMAYTCdIK.jpg"
-      },
-      {
-        id: "thor_3",
-        titulo: "Thor 3: Ragnarok",
-        imagen: "https://image.tmdb.org/t/p/w300/fx68UQgQvAOJZoRtMVigRkOozcQ.jpg"
-      }
-    ]
-  },
-
-
   pinocho: {
     id: "pinocho",
     titulo: "Pinocho",
@@ -20769,7 +16397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/1m6JsSmBa4X1Kp35YW3QPbMpByF.jpg"
       },
       {
-        id: "lilo_y_stitch_2025",
+        id: "lilo_y_stitch",
         titulo: "Lilo y Stitch",
         imagen: "https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"
       },
@@ -20893,282 +16521,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*R*/
 
-  ricky_el_impostor: {
-    id: "ricky_el_impostor",
-    titulo: "Ricky Stanicky: El impostor",
-    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Ricky%20Stanicky-%20El%20impostor%20online%20HD%20-%20Cuevana%202.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/wfdHCilp8cNPK7tK4jLgdUT7703.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4jNBEhI2zqdQf31Yhkamu1gUIJb.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Tres amigos de la infancia se inventan a un amigo imaginario para salirse con la suya siempre que lo necesiten. Cuando ya son adultos y la mentira de su amigo imaginario se ve comprometida, el trio es forzado a contratar a un actor para convencer a sus esposas de que Ricky Stanicky es una persona real.",
-    anio: "2024",
-    duracion: "1h 54min",
-    calificacion: "82%",
-    genero: "Comedia",
-    director: "Peter Farrelly",
-    reparto: "Zac Efron, John Cena, Lex Scott Davis",
-    estreno: "21/02/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "los_instigadores",
-        titulo: "Los instigadores",
-        imagen: "https://image.tmdb.org/t/p/w300/zDWHsjfdsvZZkMWo1u1Ep7Y77FQ.jpg"
-      },
-      {
-        id: "inexpertos",
-        titulo: "Inexpertos",
-        imagen: "https://image.tmdb.org/t/p/w300/ukpk3ZFeDOmznIBFbSpdXb6o1pt.jpg"
-      },
-      {
-        id: "bendita_suegra",
-        titulo: "Bendita suegra",
-        imagen: "https://image.tmdb.org/t/p/w300/5xupm2thQic5GzYi6nim6URMZOY.jpg"
-      },
-      {
-        id: "la_gran_seduccion",
-        titulo: "La gran seducción",
-        imagen: "https://image.tmdb.org/t/p/w300/17VmLlO81QJPGlnAJxZKRwSKhDW.jpg"
-      },
-      {
-        id: "señora_influencer",
-        titulo: "Señora influencer",
-        imagen: "https://image.tmdb.org/t/p/w300//2PlHYTHLfZbhjmWOEMQm9ZqyK70.jpg"
-      },
-      {
-        id: "papas_a_la_antigua",
-        titulo: "Papás a la antigua",
-        imagen: "https://image.tmdb.org/t/p/w300/tEQSmMmtgsD4ssNaIWmPgQJsSwJ.jpg"
-      }
-    ]
-  },
-
-  romper_el_circulo: {
-    id: "romper_el_circulo",
-    titulo: "Romper el circulo",
-    video: "https://dl.dropboxusercontent.com/scl/fi/5m6kj4eef1rperc8a7ik2/Romper-El-Circulo-1080p.mp4?rlkey=hptq1lwm9vjcyr78etans7sbl&st=",
-    poster: "https://image.tmdb.org/t/p/w780/zAqBIeO71BFL7bAtP5TFzVjVamy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jeSK0tl0pc0zEVLNyUCkdq7ZEUt.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Una mujer atraviesa las tumultuosas etapas de una relación abusiva. Tras mudarse a la ciudad de Boston después de la universidad, decide iniciar su propio negocio como florista y se enamora de un joven neurocirujano.",
-    anio: "2024",
-    duracion: "2h 10min",
-    calificacion: "70%",
-    genero: "Romance • Drama",
-    director: "Justin Baldoni",
-    reparto: "Blake Lively, Justin Baldoni, Jenny Slate",
-    estreno: "15/08/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "el_es_aso",
-        titulo: "El es asi",
-        imagen: "https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg"
-      },
-      {
-        id: "dias_365_3",
-        titulo: "365 Dias 3: Mas",
-        imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg"
-      },
-      {
-        id: "after_2",
-        titulo: "After 2: En mil pedazos",
-        imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg"
-      },
-      {
-        id: "un_ladron_romantico",
-        titulo: "Un ladron romantico",
-        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
-      },
-      {
-        id: "tierra_baja",
-        titulo: "Tierra Baja",
-        imagen: "https://image.tmdb.org/t/p/w300/7c6HPcnw0oaO8H2vBwSLqTtFYx9.jpg"
-      },
-      {
-        id: "lecciones_para_canella",
-        titulo: "Lecciones para canalla",
-        imagen: "https://image.tmdb.org/t/p/w300/AP9kVisL0Xo4GNBQVNa8qv1yLo.jpg"
-      }
-    ]
-  },
-
-  regalo_maldito: {
-    id: "regalo_maldito",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
-      },
-      {
-        id: "cantardesnuda",
-        titulo: "Solo Adultos",
-        imagen: "https://image.tmdb.org/t/p/w300/",
-        adulto: true
-      }
-    ]
-  },
-
-  rehen: {
-    id: "rehen",
-    titulo: "¡Rehén!",
-    video: "https://dl.dropbox.com/scl/fi/yj7i1w4fahszq6i9iruzg/Rehen.2025.1080P-Dual-Lat.mkv?rlkey=i9itxmrrso0c3g2snbdpj0u2t&st=",
-    poster: "https://image.tmdb.org/t/p/w780/4mM7m9L3XlPLq4vNNy3P8yDSXNM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xduStDf3yiIL6WDIuhIdLX5rRGv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/u6AJnrTikePCIKQDfb2zbflWsku.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Un hombre armado atraca una tienda Apple en el centro de Ámsterdam y a la policía le toca resolver una situación delicada.  ",
-    anio: "2025",
-    duracion: "1h 42min",
-    calificacion: "60%",
-    genero: "Crimen • Drama • Suspenso",
-    director: "Bobby Boermans",
-    reparto: "Soufiane Moussouli, Admir Šehović, Emmanuel Ohene Boafo",
-    estreno: "18/04/2025",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "fineskind",
-        titulo: "Fineskind: Entre hermanos",
-        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
-      },
-      {
-        id: "alarum_codigo_letal",
-        titulo: "Alarum: Código Letal",
-        imagen: "https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg"
-      },
-      {
-        id: "uncharted",
-        titulo: "Uncharted: Fuera Del Mapa",
-        imagen: "https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg"
-      },
-      {
-        id: "rapidos_y_furiosos_x",
-        titulo: "Rápidos y furiosos X",
-        imagen: "https://image.tmdb.org/t/p/w300/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg"
-      },
-      {
-        id: "la_fuente_de_la_eterna_juventud",
-        titulo: "La fuente de la eterna juventud",
-        imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"
-      },
-      {
-        id: "godzilla_y_kong_el_nuevo_imperio",
-        titulo: "Godzilla y Kong: El nuevo imperio",
-        imagen: "https://image.tmdb.org/t/p/w300/rRLqnazAys1CQGNX5BpXN0Gbowy.jpg"
-      }
-    ]
-  },
-
-  robot_salvaje: {
-    id: "robot_salvaje",
-    titulo: "Robot Salvaje",
-    video: "https://dl.dropbox.com/scl/fi/1fgbxe64haibskvnlgdk7/Robot.Salvaje.2024.1080P-Dual-Lat.mkv?rlkey=w0vldwhkksii94tlj7f0rkfd5&st=",
-    poster: "https://image.tmdb.org/t/p/w780/1pmXyN3sKeYoUhu5VBZiDU4BX21.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/z2WWrqQskzskS6Vj9Or4j01nZ2E.jpg",
-    calidad: "1080P",   // 720P | 1080P | 4K
-    cam: false,         // true si es cámara
-    adulto: false,      // true si es +18
-    sinopsis: "Esta aventura épica cuenta la historia de una robot, Rozzum 7-1-3-4, Roz para abreviar, que naufraga en una isla inhabitada y debe aprender a adaptarse a los entornos rigurosos construyendo relaciones con los animales de la isla y convirtiéndose en la madre adoptiva de una cría de ganso huérfana.",
-    anio: "2024",
-    duracion: "1h 41min",
-    calificacion: "85%",
-    genero: "Animacion • Aventura • Ciencia ficcion • Familia",
-    director: "Chris Sanders",
-    reparto: "Lupita Nyong'o, Pedro Pascal, Kit Connor",
-    estreno: "10/10/2024",
-    idioma: "Español Latino 🇲🇽",
-
-    // 🔥 RECOMENDACIONES
-    recomendaciones: [
-      {
-        id: "minecraft",
-        titulo: "Minecraft: La Pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/bpGgV1GH2XYqZn02WW1C94sMBkQ.jpg"
-      },
-      {
-        id: "sonic_3",
-        titulo: "Sonic 3: La pelicula",
-        imagen: "https://image.tmdb.org/t/p/w300/j1O319PWd4OdrpqPY4uzFNh2JC.jpg"
-      },
-      {
-        id: "intensamente_2",
-        titulo: "Intensamente 2",
-        imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
-      },
-      {
-        id: "spider_man_un_nuevo_universo",
-        titulo: "Spider-Man: Un nuevo universo",
-        imagen: "https://image.tmdb.org/t/p/w300/lWEUafLv3z00YB70ZInXLNnWRik.jpg"
-      },
-      {
-        id: "encanto",
-        titulo: "Encanto",
-        imagen: "https://image.tmdb.org/t/p/w300/7M8bMABEbhGkC6z36WEsDttDk6F.jpg"
-      },
-      {
-        id: "mi_villano_favorito_4",
-        titulo: "Mi villano favorito 4",
-        imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg"
-      }
-    ]
-  },
-
   regalo_maldito: {
     id: "regalo_maldito",
     titulo: "",
@@ -21261,7 +16613,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spiderman_man_cruzando_el_multi_verso_2",
-        titulo: "Spider-Man 2: Cruzando el Multiverso",
+        titulo: "Spider-Man: Cruzando el Multiverso",
         imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg"
       },
       {
@@ -21275,8 +16627,8 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/6uSw2N6jLff3QL5necHxZFd0Aez.jpg"
       },
       {
-        id: "peter_pan_y_wendy",
-        titulo: "Peter Pan y Wendy",
+        id: "pitter_pan_y_wendy",
+        titulo: "Pitter Pan y Wendy",
         imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
       }
     ]
@@ -21637,7 +16989,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "ricky_el_impostor",
+        id: "",
         titulo: "Ricky Stanicky: El impostor",
         imagen: "https://image.tmdb.org/t/p/w300/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg"
       },
@@ -21823,7 +17175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "doctor_strange_2",
-        titulo: "Doctor Strange 2: El multiverso de la locura",
+        titulo: "Doctor strange 2: En el multiverso de la locura",
         imagen: "https://image.tmdb.org/t/p/w300/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg"
       },
       {
@@ -21833,7 +17185,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ]
   },
-
   spiderman: {
     id: "nombredepelicula",
     titulo: "",
