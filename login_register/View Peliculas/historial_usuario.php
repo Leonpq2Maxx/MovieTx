@@ -2,6 +2,119 @@
 session_start();
 require_once "../config.php";
 
+/* =========================================
+   👤 OBTENER USUARIO / PERFIL
+========================================= */
+
+$userId = (int) ($_SESSION['id'] ?? 0);
+
+$nombre = "Usuario";
+$foto = "../Logo/Logo Nuevo -512x512.png";
+
+/* =========================================
+   🔥 USUARIO PRINCIPAL
+========================================= */
+
+if($userId > 0){
+
+$stmt = $conn->prepare("
+SELECT id, name, foto
+FROM users
+WHERE id=?
+LIMIT 1
+");
+
+$stmt->bind_param("i",$userId);
+$stmt->execute();
+
+$user =
+$stmt
+->get_result()
+->fetch_assoc();
+
+if($user){
+
+$nombre =
+$user['name'] ?: "Usuario";
+
+/* =========================================
+   🖼 FOTO USUARIO
+========================================= */
+
+if(
+!empty($user['foto']) &&
+file_exists("../".$user['foto'])
+){
+
+$foto =
+"../".$user['foto'];
+
+}
+
+}
+
+/* =========================================
+   👤 PERFIL ACTIVO
+========================================= */
+
+if(isset($_SESSION['perfil_id'])){
+
+$perfilId =
+(int) $_SESSION['perfil_id'];
+
+$stmtPerfil = $conn->prepare("
+SELECT nombre,foto
+FROM perfiles
+WHERE id=? AND user_id=?
+LIMIT 1
+");
+
+$stmtPerfil->bind_param(
+"ii",
+$perfilId,
+$userId
+);
+
+$stmtPerfil->execute();
+
+$perfil =
+$stmtPerfil
+->get_result()
+->fetch_assoc();
+
+/* =========================================
+   🔥 PERFIL EXISTE
+========================================= */
+
+if($perfil){
+
+$nombre =
+$perfil['nombre'] ?: $nombre;
+
+/* =========================================
+   🖼 FOTO PERFIL
+========================================= */
+
+if(
+!empty($perfil['foto']) &&
+file_exists(
+"../uploads/perfiles/" .
+$perfil['foto']
+)
+){
+
+$foto =
+"../uploads/perfiles/" .
+$perfil['foto'];
+
+}
+
+}
+
+}
+
+}
+
 /* =========================
    VALIDAR SESIÓN
 ========================= */
@@ -67,7 +180,7 @@ if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
 
 $nombre = $user['name'] ?? 'Usuario';
 $email  = $user['email'] ?? '';
-$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+$foto   = !empty($user['foto']) ? $user['foto'] : '../Logo/Logo Nuevo -512x512.png';
 
 
 /* =========================
@@ -92,6 +205,64 @@ if (isset($_GET['check_status'])) {
 
     exit();
 }
+
+/* ======================================
+   🔥 ACTIVO DEL USUARIO
+====================================== */
+if(isset($_SESSION['id']) && isset($_COOKIE['device_token'])){
+
+    $stmt = $conn->prepare("
+        UPDATE dispositivos 
+        SET last_ping = NOW(), is_active = 1 
+        WHERE user_id = ? AND token = ?
+    ");
+    $stmt->bind_param("is", $_SESSION['id'], $_COOKIE['device_token']);
+    $stmt->execute();
+}
+
+/* ======================================
+   🚫 VERIFICAR SI EL DISPOSITIVO ESTÁ BLOQUEADO
+====================================== */
+if(isset($_SESSION['id']) && isset($_COOKIE['device_token'])){
+
+    $stmt = $conn->prepare("
+        SELECT blocked
+        FROM dispositivos
+        WHERE user_id = ?
+        AND token = ?
+        LIMIT 1
+    ");
+
+    $stmt->bind_param("is", $_SESSION['id'], $_COOKIE['device_token']);
+    $stmt->execute();
+
+    $res = $stmt->get_result()->fetch_assoc();
+
+    // SI ESTÁ BLOQUEADO
+    if($res && intval($res['blocked']) === 1){
+
+        // DESTRUIR SESIÓN
+        $_SESSION = [];
+        session_destroy();
+
+        // ELIMINAR COOKIE
+        setcookie("device_token", "", time() - 3600, "/");
+
+        // REDIRIGIR
+        header("Location: index.php");
+        exit;
+    }
+}
+
+/* ======================================
+   ⚫ LIMPIAR INACTIVOS (GLOBAL)
+====================================== */
+$conn->query("
+    UPDATE dispositivos
+    SET is_active = 0
+    WHERE is_active = 1
+    AND last_ping < NOW() - INTERVAL 2 MINUTE
+");
 ?>
 
 <?php require_once "../auth.php"; ?>
@@ -99,1927 +270,2230 @@ if (isset($_GET['check_status'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Historial</title>
 
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: sans-serif;
-    }
+<meta charset="UTF-8" />
 
-    .search-box,
-    .order-box {
-      width: 90%;
-      margin: 15px auto;
-      display: block;
-      padding: 10px;
-      border-radius: 10px;
-      background: #1c1c1c;
-      border: 1px solid #333;
-      color: white;
-    }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    .order-box { background:#111; }
+<link
+rel="icon"
+type="image/png"
+href="../Logo/Logo Nuevo -512x512.png">
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      padding: 0 12px 30px;
-      margin-top: 25px;
-    }
+<title>Historial</title>
 
-    .item {
-      background: #000;
-      border-radius: 10px;
-      position: relative;
-      opacity: 0;
-      transform: scale(0.9);
-      animation: fadeIn .3s forwards;
-    }
+<style>
 
-    @keyframes fadeIn {
-      to { opacity:1; transform:scale(1); }
-    }
+/* =========================================================
+🌌 RESET
+========================================================= */
 
-    .item img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    .item-title {
-      padding: 6px;
-      font-size: .6rem;
-      text-align: center;
-    }
-
-    .item-info {
-      font-size:.55rem;
-      text-align:center;
-      color:#bbb;
-      padding-bottom:6px;
-    }
-
-    .delete-btn {
-      position:absolute;
-      top:5px;
-      right:5px;
-      background:crimson;
-      border:none;
-      color:#fff;
-      width:22px;
-      height:22px;
-      border-radius:50%;
-    }
-
-    .selector {
-  position:absolute;
-  top:5px;
-  right:5px; /* 🔥 ahora ocupa lugar de la X */
-  width:20px;
-  height:20px;
-  border-radius:4px;
-  background:#000a;
-  border:1px solid #fff;
-  display:none;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
-.multi-select-active .delete-btn {
-  display: none;
+:root{
+
+--bg:#050505;
+--card:#101010;
+--card2:#171717;
+
+--text:#ffffff;
+--muted:#9b9b9b;
+
+--primary:#00bfff;
+--secondary:#ff006a;
+
+--glass:rgba(255,255,255,.06);
+
+--radius:18px;
+
+--shadow:
+0 10px 40px rgba(0,0,0,.45);
+
 }
 
-.multi-select-active .selector {
-  display: block;
+html{
+scroll-behavior:smooth;
 }
 
-    .item.selected .selector {
-  background:#00ff99;
+body{
+
+font-family:
+Inter,
+system-ui,
+sans-serif;
+
+background:
+radial-gradient(circle at top left,
+rgba(0,191,255,.10),
+transparent 30%),
+
+radial-gradient(circle at bottom right,
+rgba(255,0,106,.08),
+transparent 35%),
+
+#050505;
+
+color:var(--text);
+
+min-height:100vh;
+overflow-x:hidden;
+
+text-rendering:optimizeSpeed;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+
 }
 
-    .modal-order {
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.7);
-      justify-content:center;
-      align-items:center;
-      z-index:9999;
-    }
+/* =========================================================
+🔥 PERFORMANCE
+========================================================= */
 
-    .order-box-modal {
-      background:#111;
-      padding:20px;
-      width:90%;
-      max-width:350px;
-      border-radius:15px;
-      text-align:center;
-    }
+img{
+display:block;
+max-width:100%;
+user-select:none;
+-webkit-user-drag:none;
+}
 
-    .order-option,
-    .close-order {
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:10px;
-      margin:8px 0;
-      background:#222;
-      color:white;
-    }
+button,
+input{
+font-family:inherit;
+}
 
-    /* =========================
-   🔥 MODAL OVERLAY
-========================= */
+.grid{
+contain:layout style paint;
+}
+
+.item{
+contain:layout paint;
+content-visibility:auto;
+contain-intrinsic-size:320px;
+transform:translateZ(0);
+}
+
+.poster img{
+transform:translateZ(0);
+backface-visibility:hidden;
+}
+
+.topbar{
+transform:translateZ(0);
+}
+
+/* =========================================================
+🔥 SCROLL
+========================================================= */
+
+::-webkit-scrollbar{
+width:7px;
+}
+
+::-webkit-scrollbar-track{
+background:#080808;
+}
+
+::-webkit-scrollbar-thumb{
+background:linear-gradient(
+180deg,
+var(--primary),
+var(--secondary)
+);
+border-radius:20px;
+}
+
+/* =========================================================
+🧊 TOP BAR
+========================================================= */
+
+.topbar{
+
+position:sticky;
+top:0;
+z-index:999;
+
+background:
+linear-gradient(
+180deg,
+rgba(10,10,10,.96),
+rgba(10,10,10,.75)
+);
+
+backdrop-filter:blur(8px);
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
+padding:
+16px
+14px;
+
+}
+
+.topbar-inner{
+
+max-width:1700px;
+margin:auto;
+
+display:flex;
+gap:12px;
+align-items:center;
+justify-content:space-between;
+
+flex-wrap:wrap;
+
+}
+
+/* =========================================================
+🎬 LOGO
+========================================================= */
+
+.brand{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+}
+
+.brand img{
+
+width:52px;
+height:52px;
+
+border-radius:16px;
+
+object-fit:cover;
+
+box-shadow:
+0 0 20px rgba(0,191,255,.18);
+
+animation:pulseLogo 6s ease-in-out infinite;
+
+}
+
+@keyframes pulseLogo{
+
+0%,100%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.03);
+}
+
+}
+
+.brand-text h1{
+
+font-size:1.15rem;
+font-weight:800;
+
+letter-spacing:.5px;
+
+background:
+linear-gradient(
+90deg,
+#00bfff,
+#ff006a
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.brand-text p{
+
+font-size:.76rem;
+color:var(--muted);
+
+margin-top:2px;
+
+}
+
+/* =========================================================
+🔍 SEARCH
+========================================================= */
+
+.search-wrapper{
+
+position:relative;
+flex:1;
+min-width:220px;
+
+}
+
+.search-box{
+
+width:100%;
+height:52px;
+
+padding:
+0 52px 0 18px;
+
+border:none;
+outline:none;
+
+background:
+rgba(255,255,255,.05);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:16px;
+
+color:#fff;
+
+font-size:.95rem;
+
+transition:
+background .15s ease,
+border-color .15s ease;
+
+backdrop-filter:blur(5px);
+
+}
+
+.search-box:focus{
+
+border-color:
+rgba(0,191,255,.45);
+
+background:
+rgba(255,255,255,.07);
+
+}
+
+.search-icon{
+
+position:absolute;
+right:16px;
+top:50%;
+
+transform:translateY(-50%);
+
+font-size:1rem;
+opacity:.7;
+
+pointer-events:none;
+
+}
+
+/* =========================================================
+🎛️ CONTROLS
+========================================================= */
+
+.controls{
+
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+
+}
+
+.control-btn{
+
+height:50px;
+
+padding:
+0 18px;
+
+border:none;
+outline:none;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+color:#fff;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:
+transform .16s ease,
+background .16s ease;
+
+backdrop-filter:blur(6px);
+
+}
+
+.control-btn:hover{
+
+transform:translateY(-2px);
+
+background:
+linear-gradient(
+135deg,
+rgba(0,191,255,.16),
+rgba(255,0,106,.16)
+);
+
+}
+
+/* =========================================================
+📊 STATS
+========================================================= */
+
+.stats{
+
+max-width:1700px;
+
+margin:
+18px auto 0;
+
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+
+padding:0 14px;
+
+}
+
+.stat-card{
+
+flex:1;
+min-width:140px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.04),
+rgba(255,255,255,.02)
+);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+border-radius:18px;
+
+padding:16px;
+
+overflow:hidden;
+
+position:relative;
+
+box-shadow:var(--shadow);
+
+}
+
+.stat-card::before{
+
+content:"";
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.025),
+transparent
+);
+
+transform:translateX(-100%);
+animation:shine 9s linear infinite;
+
+}
+
+@keyframes shine{
+
+100%{
+transform:translateX(100%);
+}
+
+}
+
+.stat-label{
+
+font-size:.8rem;
+color:#b8b8b8;
+
+margin-bottom:6px;
+
+}
+
+.stat-value{
+
+font-size:1.3rem;
+font-weight:800;
+
+}
+
+/* =========================================================
+🎞️ GRID
+========================================================= */
+
+.grid{
+
+max-width:1700px;
+
+margin:
+24px auto 120px;
+
+padding:
+0 14px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(180px,1fr));
+
+gap:18px;
+
+}
+
+/* =========================================================
+🎬 CARD
+========================================================= */
+
+.item{
+
+position:relative;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.05),
+rgba(255,255,255,.02)
+);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+border-radius:22px;
+
+overflow:hidden;
+
+cursor:pointer;
+
+opacity:0;
+transform:translateY(8px);
+
+animation:cardIn .22s ease forwards;
+
+transition:
+transform .16s ease,
+border-color .16s ease;
+
+box-shadow:var(--shadow);
+
+}
+
+@keyframes cardIn{
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.item:hover{
+
+transform:
+translateY(-4px);
+
+border-color:
+rgba(0,191,255,.28);
+
+}
+
+.poster{
+
+position:relative;
+overflow:hidden;
+
+aspect-ratio:2/3;
+
+background:#0d0d0d;
+
+}
+
+.poster img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+transition:transform .28s ease;
+
+}
+
+.item:hover .poster img{
+transform:scale(1.04);
+}
+
+.poster::after{
+
+content:"";
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+180deg,
+transparent 45%,
+rgba(0,0,0,.92)
+);
+
+}
+
+/* =========================================================
+🏷️ BADGES
+========================================================= */
+
+.category-badge{
+
+position:absolute;
+
+top:12px;
+left:12px;
+
+z-index:5;
+
+padding:
+6px 10px;
+
+border-radius:999px;
+
+font-size:.62rem;
+font-weight:800;
+
+letter-spacing:.5px;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(4px);
+
+}
+
+.category-pelicula{
+background:linear-gradient(135deg,#ff2d55,#ff0055);
+}
+
+.category-serie{
+background:linear-gradient(135deg,#8a2eff,#5a00ff);
+}
+
+.category-trailer{
+background:linear-gradient(135deg,#00aaff,#004cff);
+}
+
+/* =========================================================
+🗑️ DELETE BTN
+========================================================= */
+
+.delete-btn{
+
+position:absolute;
+
+top:12px;
+right:12px;
+
+width:36px;
+height:36px;
+
+border:none;
+
+border-radius:50%;
+
+background:
+rgba(0,0,0,.55);
+
+color:#fff;
+
+font-size:1rem;
+
+cursor:pointer;
+
+z-index:5;
+
+transition:
+transform .15s ease,
+background .15s ease;
+
+}
+
+.delete-btn:hover{
+
+background:#ff004c;
+
+transform:
+scale(1.04);
+
+}
+
+/* =========================================================
+📝 CONTENT
+========================================================= */
+
+.item-content{
+padding:14px;
+}
+
+.item-title{
+
+font-size:.88rem;
+font-weight:700;
+
+line-height:1.35;
+
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+
+overflow:hidden;
+
+min-height:38px;
+
+}
+
+.item-meta{
+
+margin-top:10px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+font-size:.72rem;
+color:#b5b5b5;
+
+}
+
+.watch-pill{
+
+padding:
+5px 10px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+}
+
+/* =========================================================
+✨ EMPTY
+========================================================= */
+
+#noResultsMsg{
+
+display:none;
+
+text-align:center;
+
+padding:
+60px 20px;
+
+font-size:1rem;
+
+color:#999;
+
+}
+
+/* =========================================================
+⚡ MULTI SELECT
+========================================================= */
+
+.selector{
+
+position:absolute;
+
+top:12px;
+right:12px;
+
+width:28px;
+height:28px;
+
+border-radius:10px;
+
+background:
+rgba(0,0,0,.55);
+
+border:
+2px solid rgba(255,255,255,.6);
+
+z-index:6;
+
+display:none;
+
+transition:.15s;
+
+}
+
+.multi-select-active .selector{
+display:block;
+}
+
+.multi-select-active .delete-btn{
+display:none;
+}
+
+.item.selected .selector{
+
+background:
+linear-gradient(
+135deg,
+#00ff99,
+#00d67f
+);
+
+border-color:#00ff99;
+
+}
+
+/* =========================================================
+🧊 FLOAT ACTIONS
+========================================================= */
+
+.float-actions{
+
+position:fixed;
+
+left:50%;
+bottom:20px;
+
+transform:translateX(-50%);
+
+width:min(92%,520px);
+
+display:flex;
+gap:12px;
+
+padding:10px;
+
+background:
+rgba(12,12,12,.82);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+border-radius:24px;
+
+backdrop-filter:blur(14px);
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.45);
+
+z-index:99999;
+
+opacity:0;
+pointer-events:none;
+
+transition:
+opacity .2s ease,
+transform .2s ease;
+
+}
+
+.float-actions.active{
+
+opacity:1;
+pointer-events:auto;
+
+transform:
+translateX(-50%)
+translateY(0);
+
+}
+
+.float-btn{
+
+flex:1;
+
+height:54px;
+
+padding:
+0 18px;
+
+border:none;
+
+border-radius:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+color:#fff;
+
+font-size:.9rem;
+
+transition:
+transform .15s ease,
+opacity .15s ease;
+
+}
+
+.float-btn:hover{
+transform:translateY(-2px);
+}
+
+#multiDeleteBtn{
+
+background:
+linear-gradient(
+135deg,
+#ff004c,
+#ff3d71
+);
+
+}
+
+#cancelSelectBtn{
+
+background:
+rgba(255,255,255,.08);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+}
+
+/* =========================================================
+🧊 MODALS
+========================================================= */
+
+.modal-order,
 .delete-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
 
-  background:rgba(0,0,0,.85);
-  backdrop-filter: blur(8px);
+position:fixed;
+inset:0;
 
-  z-index:99999;
-  padding:15px;
+display:none;
+
+align-items:center;
+justify-content:center;
+
+padding:18px;
+
+background:
+rgba(0,0,0,.72);
+
+backdrop-filter:blur(6px);
+
+z-index:99999;
+
 }
 
-/* =========================
-   💎 CAJA PRINCIPAL
-========================= */
+.order-box-modal,
 .delete-box{
-  width:100%;
-  max-width:420px;
 
-  background:linear-gradient(180deg,#111,#0a0a0a);
-  border-radius:18px;
+width:100%;
+max-width:430px;
 
-  overflow:hidden;
+background:
+linear-gradient(
+180deg,
+#141414,
+#0b0b0b
+);
 
-  border:1px solid rgba(255,255,255,0.05);
+border-radius:28px;
 
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.9),
-    0 0 20px rgba(255,0,80,.15);
+border:
+1px solid rgba(255,255,255,.06);
 
-  animation:modalShow .25s ease;
+overflow:hidden;
+
+animation:modalIn .18s ease;
+
 }
 
-@keyframes modalShow{
-  from{
-    transform:scale(.85);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
+@keyframes modalIn{
+
+from{
+opacity:0;
+transform:translateY(10px) scale(.98);
 }
 
-/* =========================
-   🖼️ CONTENEDOR IMAGEN
-========================= */
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+
+}
+
+.order-header{
+
+padding:22px;
+
+font-size:1.1rem;
+font-weight:800;
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
+}
+
+.order-option,
+.close-order{
+
+width:100%;
+
+padding:18px;
+
+background:none;
+
+border:none;
+
+border-bottom:
+1px solid rgba(255,255,255,.04);
+
+color:#fff;
+
+font-size:.95rem;
+
+cursor:pointer;
+
+transition:.15s;
+
+}
+
+.order-option:hover,
+.order-option.active{
+
+background:
+linear-gradient(
+90deg,
+rgba(0,191,255,.16),
+rgba(255,0,106,.16)
+);
+
+}
+
+/* =========================================================
+🗑️ DELETE MODAL
+========================================================= */
+
 .delete-media{
-  width:92%;
-  padding:12px;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+padding:20px;
 
-  /* 🔥 evita que rompa */
-  max-height:65vh;
-  overflow:hidden;
+display:flex;
+justify-content:center;
+
 }
 
-/* 🔥 IMAGEN PERFECTA */
 .delete-img{
-  width:100%;
-  height:auto;
 
-  max-height:60vh;
+width:100%;
+max-height:380px;
 
-  object-fit:contain;
+object-fit:contain;
 
-  border-radius:12px;
+border-radius:20px;
 
-  /* efecto suave */
-  transition:transform .3s ease;
 }
 
-.delete-box:hover .delete-img{
-  transform:scale(1.03);
-}
-
-/* =========================
-   📝 INFO
-========================= */
 .delete-info{
-  padding:15px;
-  text-align:center;
+
+padding:
+0 22px 18px;
+
+text-align:center;
+
 }
 
 .delete-title{
-  font-size:1.05rem;
-  font-weight:600;
-  margin-bottom:6px;
 
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+font-size:1.1rem;
+font-weight:800;
+
+margin-bottom:8px;
+
 }
 
 .delete-text{
-  font-size:.85rem;
-  color:#aaa;
+
+font-size:.88rem;
+color:#9f9f9f;
+
 }
 
-/* =========================
-   🔘 BOTONES
-========================= */
 .delete-actions{
-  display:flex;
-  gap:10px;
-  padding:15px;
+
+display:flex;
+gap:12px;
+
+padding:20px;
+
+}
+
+.btn-delete,
+.btn-cancel{
+
+flex:1;
+
+height:54px;
+
+border:none;
+
+border-radius:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:transform .15s ease;
+
 }
 
 .btn-delete{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:10px;
 
-  background:linear-gradient(135deg,#ff2d55,#ff004c);
-  color:white;
-  font-weight:bold;
+background:
+linear-gradient(
+135deg,
+#ff004c,
+#ff4d7c
+);
 
-  cursor:pointer;
-  transition:.25s;
-}
+color:#fff;
 
-.btn-delete:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px rgba(255,0,80,.6);
 }
 
 .btn-cancel{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:10px;
 
-  background:#2a2a2a;
-  color:#ddd;
+background:
+rgba(255,255,255,.06);
 
-  cursor:pointer;
-  transition:.25s;
-}
+border:
+1px solid rgba(255,255,255,.05);
 
-.btn-cancel:hover{
-  background:#3a3a3a;
-}
-
-/* =========================
-   ❌ BOTÓN CERRAR
-========================= */
-.close-delete{
-  position:absolute;
-  top:10px;
-  right:10px;
-
-  width:34px;
-  height:34px;
-
-  border:none;
-  border-radius:50%;
-
-  background:rgba(0,0,0,.65);
-  color:#fff;
-
-  cursor:pointer;
-  z-index:10;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:16px;
-
-  transition:.25s;
-}
-
-.close-delete:hover{
-  background:#ff2d55;
-  transform:rotate(90deg);
-}
-
-/* =========================
-   📱 MÓVILES
-========================= */
-@media(max-width:480px){
-
-  .delete-box{
-    max-width:95%;
-    border-radius:16px;
-  }
-
-  .delete-title{
-    font-size:.95rem;
-  }
-
-  .delete-text{
-    font-size:.8rem;
-  }
-
-  .delete-actions{
-    flex-direction:column;
-  }
-
-  .btn-delete,
-  .btn-cancel{
-    width:100%;
-  }
-}
-
-/* =========================
-   📲 TABLETS
-========================= */
-@media(min-width:481px) and (max-width:900px){
-
-  .delete-box{
-    max-width:380px;
-  }
+color:#fff;
 
 }
 
-/* =========================
-   💻 PC
-========================= */
-@media(min-width:901px){
+/* =========================================================
+📱 MOBILE
+========================================================= */
 
-  .delete-box{
-    max-width:440px;
-  }
+@media(max-width:768px){
 
-  .delete-title{
-    font-size:1.2rem;
-  }
+.grid{
 
-  .delete-text{
-    font-size:.9rem;
-  }
-}
+grid-template-columns:
+repeat(,minmax(0,1fr));
 
-    .category-badge {
-      position:absolute;
-      top:6px;
-      left:6px;
-      background:rgba(0,0,0,.75);
-      padding:3px 6px;
-      font-size:.55rem;
-      border-radius:6px;
-      font-weight:bold;
-      text-transform:uppercase;
-    }
-
-    .category-pelicula { background:#e50914; }
-    .category-serie { background:#1db954; }
-
-    #multiDeleteBtn, #cancelSelectBtn {
-      display:none;
-      margin:10px;
-      padding:10px;
-      border:none;
-      border-radius:8px;
-      color:white;
-    }
-
-    #multiDeleteBtn { background:#ff007f; }
-    #cancelSelectBtn { background:#333; }
-
-    #noResultsMsg {
-      display:none;
-      text-align:center;
-      color:#aaa;
-      margin-top:20px;
-    }
-    /* ========================= */
-/* 📱 CELULARES PEQUEÑOS */
-/* ========================= */
-@media (max-width: 360px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-  }
-
-  .item img {
-    height: 150px;
-  }
-
-  .item-title {
-    font-size: 0.5rem;
-  }
-
-  .item-info {
-    font-size: 0.45rem;
-  }
-
-  .search-box,
-  .order-box {
-    font-size: 0.75rem;
-    padding: 8px;
-  }
-}
-
-/* ========================= */
-/* 📱 CELULARES GRANDES @media (max-width: 480px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .item img {
-    height: 170px;
-  }
-
-  .item-title {
-    font-size: 0.6rem;
-  }
-
-  .item-info {
-    font-size: 0.5rem;
-  }
-  
-}
-*/
-/* ========================= */
-
-/* ========================= */ 
-/* 📱 CELULARES GRANDES */
-/* ========================= */
-@media (max-width: 480px) {
-
-  html, body {
-    overflow-x: hidden;
-  }
-
-  /* 🔥 GRID */
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    padding: 0 6px;
-  }
-
-  .item img {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-  }
-
-  .item-title {
-    font-size: 0.6rem;
-  }
-
-  .item-info {
-    font-size: 0.5rem;
-  }
-
-  /* ========================= */
-  /* 🔥 DELETE MODAL */
-  /* ========================= */
-
-  .delete-box {
-    position: relative;
-    width: 90%;
-    max-width: 320px;
-    margin: 0 auto;
-    border-radius: 20px;
-    overflow: hidden;
-    z-index: 0;
-  }
-
-  /* 🔥 ARCOIRIS BORDE */
-  .delete-box::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 20px;
-
-    background: conic-gradient(
-      from var(--angle),
-      red,
-      orange,
-      yellow,
-      lime,
-      cyan,
-      blue,
-      violet,
-      red
-    );
-
-    animation: rotateBorder 3s linear infinite;
-
-    z-index: 0;
-  }
-
-  /* 🔥 FONDO INTERNO */
-  .delete-box::after {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    border-radius: 18px;
-
-    background: linear-gradient(180deg, #111, #0a0a0a);
-
-    z-index: 1;
-  }
-
-  /* 🔥 CONTENIDO */
-  .delete-box > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* ========================= */
-  /* 🖼️ IMAGEN CENTRADA SIN CORTE */
-  /* ========================= */
-
-  .delete-box .img-container {
-    width: 100%;
-    max-height: 180px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #000;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .delete-box img {
-    max-width: 100%;
-    max-height: 100%;
-
-    width: auto;
-    height: auto;
-
-    object-fit: contain; /* 🔥 NO recorta */
-    display: block;
-  }
+gap:12px;
+padding:0 10px;
 
 }
 
-/* 🔥 soporte animación */
-@property --angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+.poster{
+aspect-ratio:2/2.9;
 }
 
-/* 🔄 animación arcoiris */
-@keyframes rotateBorder {
-  0% { --angle: 0deg; }
-  100% { --angle: 360deg; }
+.topbar{
+padding:14px 10px;
 }
 
-
-/* 🔄 animación REAL del borde  */
-@keyframes rotateBorder {
-  0% {
-    --angle: 0deg;
-  }
-  100% {
-    --angle: 360deg;
-  }
-}
-/* 🔄 animación */
-@keyframes borderSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.stats{
+padding:0 10px;
 }
 
-/* ========================= */
-/* 📲 TABLETS */
-/* ========================= */
-@media (min-width: 481px) and (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .item img {
-    height: 190px;
-  }
-
-  .item-title {
-    font-size: 0.65rem;
-  }
-
-  .item-info {
-    font-size: 0.55rem;
-  }
+.item-title{
+font-size:.76rem;
 }
 
-/* ========================= */
-/* 💻 NOTEBOOKS Y PCs */
-/* ========================= */
-@media (min-width: 769px) and (max-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
+.float-actions{
+
+bottom:max(12px,env(safe-area-inset-bottom));
+
+width:calc(100% - 16px);
+
+gap:10px;
+
+padding:10px;
+
+border-radius:22px;
+
 }
 
-/* ========================= */
-/* 📺 PANTALLAS GRANDES */
-/* ========================= */
-@media (min-width: 1201px) {
-  .grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
+.float-btn{
 
-  .item img {
-    height: 280px;
-  }
+height:50px;
 
-  .item-title {
-    font-size: 0.75rem;
-  }
+font-size:.82rem;
 
-  .item-info {
-    font-size: 0.6rem;
-  }
+padding:0 12px;
+
 }
 
-/* ========================= */
-/* 💻 MODAL ELIMINAR EN PC */
-/* ========================= */
-@media (min-width: 1024px) {
-
-  /* 🔥 VARIABLE PARA ROTACIÓN */
-  @property --angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-  }
-
-  /* 🌈 BORDE ARCOIRIS ANIMADO */
-  .delete-box {
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  /* 🔥 capa arcoiris */
-  .delete-box::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 20px;
-
-    background: conic-gradient(
-      from var(--angle),
-      red,
-      orange,
-      yellow,
-      lime,
-      cyan,
-      blue,
-      violet,
-      red
-    );
-
-    animation: rotateBorder 3s linear infinite;
-
-    z-index: 0;
-  }
-
-  /* 🔥 capa interna */
-  .delete-box::after {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    border-radius: 18px;
-
-    background: linear-gradient(180deg,#111,#0a0a0a);
-
-    z-index: 1;
-  }
-
-  /* 🔥 CONTENIDO ENCIMA */
-  .delete-box > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* 🔄 animación REAL continua */
-  @keyframes rotateBorder {
-    0% { --angle: 0deg; }
-    100% { --angle: 360deg; }
-  }
-
-  .delete-img {
-    width: 80%;
-    border-radius: 8px;
-    margin-bottom: 12px;
-  }
-
-  .delete-title {
-    font-size: 1.4rem;
-  }
-
-  .delete-text {
-    font-size: 1rem;
-  }
-
-  .btn-delete {
-    font-size: 1rem;
-    padding: 14px;
-  }
-
-  .close-delete {
-    font-size: 10px;
-    padding: 6px 10px;
-  }
 }
 
-/* 🔥 HOVER para las opciones de orden */
-.order-option {
-  transition: 0.25s ease;
+/* =========================================================
+🍎 IOS
+========================================================= */
+
+@media only screen
+and (-webkit-min-device-pixel-ratio:2)
+and (max-width:932px){
+
+body{
+-webkit-overflow-scrolling:touch;
 }
 
-.order-option:hover {
-  background: #ff0033;
-  color: #fff;
-  transform: scale(1.03);
-  box-shadow: 0 0 12px rgba(255, 0, 51, 0.7);
-}
-/* 🔥 Opción seleccionada */
-.order-option.active {
-  background: #ff0033 !important;
-  color: #fff !important;
-  transform: scale(1.03);
-  box-shadow: 0 0 12px rgba(255, 0, 51, 0.7);
+.topbar{
+padding-top:max(14px,env(safe-area-inset-top));
 }
 
-  </style>
+.float-actions{
+
+padding-left:max(10px,env(safe-area-inset-left));
+padding-right:max(10px,env(safe-area-inset-right));
+
+}
+
+input{
+font-size:16px;
+}
+
+}
+
+/* =========================================================
+🖥️ PC
+========================================================= */
+
+@media(min-width:1024px){
+
+.grid{
+
+grid-template-columns:
+repeat(auto-fill,minmax(210px,1fr));
+
+gap:20px;
+padding:0 20px;
+
+}
+
+.float-actions{
+width:auto;
+min-width:420px;
+}
+
+}
+
+/* =========================================================
+🔥 REDUCIR ANIMACIONES
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+*{
+animation:none !important;
+transition:none !important;
+scroll-behavior:auto !important;
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div id="loader-screen">
-  <div class="loader-content">
-    <div class="loader-circle">
-      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
-    </div>
+<!-- =========================================================
+🔥 TOPBAR
+========================================================= -->
 
-    <h1 class="loader-title">MovieTx</h1>
-    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
-    <p class="loader-msg">Por favor, espere</p>
+<div class="topbar">
 
-    <!-- 🔥 Nueva barra de carga profesional -->
-    <div class="loading-bar">
-      <div class="loading-fill" id="loading-fill"></div>
-      <div class="loading-percent" id="loading-percent">0%</div>
-    </div>
+<div class="topbar-inner">
 
-  </div>
+<div class="brand">
+
+<img
+src="../Logo/Logo Nuevo -512x512.png"
+loading="lazy"
+decoding="async">
+
+<div class="brand-text">
+<h1>MovieTx Historial</h1>
+<p>Experiencia ultrarrápida</p>
 </div>
 
-<style>
-/* =========================
-   🔥 LOADER BASE CENTRADO
-========================= */
-#loader-screen {
-  position: fixed;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
-    radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
-    #000;
-
-  z-index: 10000;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  transition: opacity 1s ease, visibility 1s ease;
-}
-#loader-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-
-  animation: fadeUp 0.8s ease;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* =========================
-   🔥 CÍRCULO ARCOIRIS
-========================= */
-.loader-circle {
-  position: relative;
-
-  width: 160px;
-  height: 160px;
-
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 20px;
-}
-
-/* 🌈 ARO GIRATORIO */
-.loader-circle::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-
-  background: conic-gradient(
-    #00aaff,
-    #00ffcc,
-    #ff00aa,
-    #ff3c3c,
-    #ffaa00,
-    #00aaff
-  );
-
-  animation: spin 2s linear infinite;
-  z-index: 0;
-  filter: blur(3px);
-}
-
-/* 🔥 CENTRO NEGRO */
-.loader-circle::after {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  background: #000;
-  z-index: 1;
-}
-
-/* 🔥 LOGO CENTRADO PERFECTO */
-.loader-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  width: 90px;
-
-  transform: translate(-50%, -50%);
-  z-index: 2;
-
-  animation: pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-}
-
-/* 🔄 ROTACIÓN */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* =========================
-   🌈 TEXTO MOVIETX ARCOIRIS
-========================= */
-.loader-title {
-  font-size: 2.6rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-
-  background: linear-gradient(
-    90deg,
-    #ff0000,
-    #ff9900,
-    #ffee00,
-    #00ff99,
-    #00aaff,
-    #7a00ff,
-    #ff00aa,
-    #ff0000
-  );
-
-  background-size: 300%;
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  animation: rainbowMove 6s linear infinite;
-
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.1),
-    0 0 15px rgba(255,0,120,0.2);
-}
-
-@keyframes rainbowMove {
-  0% { background-position: 0%; }
-  100% { background-position: 300%; }
-}
-
-/* =========================
-   TEXTO
-========================= */
-.loader-sub { font-size: 1.2rem; color: #ccc; }
-.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
-
-@keyframes dotPulse {
-  0% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
-  100% { content: ''; }
-}
-
-.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
-
-/* =========================
-   🔥 BARRA DE CARGA
-========================= */
-.loading-bar {
-  width: 75%;
-  height: 16px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 10px;
-  margin: 22px auto 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.loading-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #00aaff, #ff007f);
-  position: relative;
-  overflow: hidden;
-}
-
-.loading-fill::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
-  animation: shine 1.5s infinite;
-}
-
-@keyframes shine {
-  0% { left: -50%; }
-  100% { left: 120%; }
-}
-
-.loading-percent {
-  position: absolute;
-  inset: 0;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* =========================
-   📱 RESPONSIVE
-========================= */
-
-/* 📱 CELULARES */
-/* 📱 CELULARES */
-@media (max-width: 480px) {
-
-  .loader-circle {
-    width: 180px;
-    height: 180px;
-  }
-
-  /* 🔥 logo más grande */
-  .loader-logo {
-    width: 85px;
-  }
-
-  .loader-title {
-    font-size: 2rem;
-  }
-
-  /* 🔥 barra más corta y prolija */
-  .loading-bar {
-    width: 65%;
-    height: 12px;
-  }
-
-  .loading-percent {
-    font-size: 10px;
-  }
-
-}
-
-/* 💻 PC */
-@media (min-width: 1024px) {
-  .loader-circle {
-    width: 200px;
-    height: 200px;
-  }
-
-  .loader-logo {
-    width: 110px;
-  }
-
-  .loader-title {
-    font-size: 3rem;
-  }
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const loader = document.getElementById('loader-screen');
-  const bar = document.getElementById('loading-fill');
-  const percent = document.getElementById('loading-percent');
-
-  // 🔒 Si no existe el loader, no rompe nada
-  if (!loader || !bar || !percent) return;
-
-  let progreso = 0;
-  let terminado = false;
-
-  // 🔥 Animación controlada
-  const anim = setInterval(() => {
-    if (progreso < 90) {
-      progreso += 1.5; // más suave
-      actualizar();
-    }
-  }, 60);
-
-  function actualizar() {
-    if (!bar || !percent) return;
-
-    progreso = Math.min(progreso, 100);
-    bar.style.width = progreso + "%";
-    percent.textContent = Math.floor(progreso) + "%";
-  }
-
-  function finalizar() {
-    if (terminado) return;
-    terminado = true;
-
-    clearInterval(anim);
-
-    // 🔥 subida final limpia
-    const finalAnim = setInterval(() => {
-      if (progreso < 100) {
-        progreso += 2;
-        actualizar();
-      } else {
-        clearInterval(finalAnim);
-
-        setTimeout(() => {
-          loader.classList.add("hidden");
-        }, 300);
-      }
-    }, 20);
-  }
-
-  // ✅ SOLO cuando todo cargó
-  window.addEventListener("load", () => {
-    setTimeout(finalizar, 200);
-  });
-
-  // ✅ fallback seguro (por si algo falla)
-  setTimeout(() => {
-    finalizar();
-  }, 3500);
-
-});
-</script>
-
-<input id="buscar" class="search-box" placeholder="Buscar historial...">
-
-<button id="openOrderMenu" class="order-box">Ordenar: Más recientes</button>
-
-<p id="noResultsMsg">No se encuentra su Película o Serie en el historial</p>
-
-<button id="cancelSelectBtn">Cancelar selección</button>
-<button id="multiDeleteBtn">Eliminar seleccionados</button>
-
-<div class="grid" id="historial-container"></div>
+</div>
+
+<div class="search-wrapper">
+
+<input
+id="buscar"
+class="search-box"
+placeholder="Buscar película, serie o trailer..."
+autocomplete="off"
+spellcheck="false">
+
+<span class="search-icon">⌕</span>
+
+</div>
+
+<div class="controls">
+
+<button
+id="openOrderMenu"
+class="control-btn">
+
+Más recientes
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+📊 STATS
+========================================================= -->
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-label">Contenido</div>
+<div class="stat-value" id="totalItems">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Películas</div>
+<div class="stat-value" id="totalMovies">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Series</div>
+<div class="stat-value" id="totalSeries">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Trailers</div>
+<div class="stat-value" id="totalTrailers">0</div>
+</div>
+
+</div>
+
+<p id="noResultsMsg">
+No encontramos resultados en tu historial
+</p>
+
+<div
+class="grid"
+id="historial-container">
+</div>
+
+<!-- =========================================================
+⚡ FLOAT ACTIONS
+========================================================= -->
+
+<div class="float-actions" id="floatActions">
+
+<button
+id="cancelSelectBtn"
+class="float-btn">
+
+Cancelar
+
+</button>
+
+<button
+id="multiDeleteBtn"
+class="float-btn">
+
+Eliminar seleccionados
+
+</button>
+
+</div>
+
+<!-- =========================================================
+🎛️ ORDER MODAL
+========================================================= -->
 
 <div id="orderModal" class="modal-order">
-  <div class="order-box-modal">
-    <h3>Ordenar por</h3>
-    <button class="order-option" data-value="recientes">Más recientes</button>
-    <button class="order-option" data-value="antiguos">Más antiguos</button>
-    <button class="close-order">Cerrar</button>
-  </div>
+
+<div class="order-box-modal">
+
+<div class="order-header">
+Ordenar historial
 </div>
+
+<button
+class="order-option active"
+data-value="recientes">
+
+Más recientes
+
+</button>
+
+<button
+class="order-option"
+data-value="antiguos">
+
+Más antiguos
+
+</button>
+
+<button class="close-order">
+Cerrar
+</button>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+🗑️ DELETE MODAL
+========================================================= -->
 
 <div id="deleteModal" class="delete-modal">
 
-  <div class="delete-box">
+<div class="delete-box">
 
-    <div class="delete-media">
-      <img id="deleteImg" class="delete-img" loading="lazy">
-    </div>
+<div class="delete-media">
 
-    <div class="delete-info">
-      <h3 id="deleteTitle" class="delete-title"></h3>
-      <p class="delete-text">
-        ¿Estas segur@ que quieres borrarlo del historial?
-      </p>
-    </div>
-
-    <div class="delete-actions">
-      <button id="confirmDelete" class="btn-delete">Eliminar</button>
-      <button id="cancelDelete2" class="btn-cancel">Cancelar</button>
-    </div>
-
-  </div>
+<img
+id="deleteImg"
+class="delete-img"
+loading="lazy"
+decoding="async">
 
 </div>
 
-<!-- Modal flotante de edad + clave -->
-<div id="ageModal" class="age-modal hidden">
-  <div class="age-modal-content">
-    <span class="close-button" onclick="closeModal()">×</span>
+<div class="delete-info">
 
-    <h2>Verificación de Edad</h2>
+<h3
+id="deleteTitle"
+class="delete-title">
+</h3>
 
-    <label for="birthyear">Año de nacimiento:</label>
-    <input type="number" id="birthyear" placeholder="Año" min="1900" max="2030" />
+<p class="delete-text">
+Esta acción eliminará el contenido del historial
+</p>
 
-    <label for="age">Edad actual:</label>
-    <input type="number" id="age" placeholder="----" min="1" max="120" />
-
-    <label for="clave">Clave de acceso (solo adultos):</label>
-    <input type="password" id="clave" placeholder="Clave secreta" />
-
-    <button id="resetClaveBtn" style="background:#444;margin-top:10px;">
-      Olvidé mi clave
-    </button>
-
-    <button id="confirmAgeBtn">Validar acceso</button>
-
-    <p id="result-message"></p>
-  </div>
 </div>
 
-<!-- MODAL RESET CLAVE -->
-<div id="resetModal" class="modal">
-  <div class="modal-content">
-    <h2>Restablecer clave</h2>
-    <p>¿Deseás borrar tu clave y crear una nueva?</p>
-    <div class="modal-buttons">
-      <button id="cancelReset">Cancelar</button>
-      <button id="confirmReset">Confirmar</button>
-    </div>
-  </div>
+<div class="delete-actions">
+
+<button
+id="confirmDelete"
+class="btn-delete">
+
+Eliminar
+
+</button>
+
+<button
+id="cancelDelete2"
+class="btn-cancel">
+
+Cancelar
+
+</button>
+
 </div>
 
-<!-- MODAL ALERTA -->
-<div id="alertModal" class="modal">
-  <div class="modal-content">
-    <p id="alertTexto"></p>
-    <button id="closeAlert">Aceptar</button>
-  </div>
 </div>
 
-<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
-
-<script>
-  setInterval(() => {
-
-  fetch("auth.php?check_status=1")
-    .then(res => res.text())
-    .then(data => {
-
-      if (data === "logout") {
-        window.location.href = "../index.php";
-      }
-
-    });
-
-}, 15000); // cada 15 segundos
-
-</script>
-
-<!-- FIN -->
-
-<style>
-
-/*MODAL DE VLAVE*/
-
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.modal-content {
-  background:#121212;
-  color:#fff;
-  padding:25px;
-  border-radius:12px;
-  width:90%;
-  max-width:350px;
-  text-align:center;
-  box-shadow:0 0 15px rgba(0,0,0,.5);
-}
-
-.modal-buttons {
-  margin-top:15px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.modal-buttons button,
-#closeAlert {
-  padding:8px 14px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#333;
-  color:#fff;
-}
-
-#confirmReset {
-  background:#d63030;
-}
-
-.modal-buttons button:hover,
-#closeAlert:hover {
-  opacity:.85;
-}
-
-
-/*FIN*/
-
-  .age-modal {
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(6px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeInBg 0.4s ease;
-  }
-
-  .age-modal-content {
-    width: 320px;
-    background: #141414;
-    padding: 25px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(255,0,0,0.25);
-    color: white;
-    position: relative;
-    animation: popup 0.35s ease;
-  }
-
-  @keyframes popup {
-    from { transform: scale(0.85); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  @keyframes fadeInBg {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .age-modal-content h2 {
-    margin-bottom: 15px;
-    font-size: 22px;
-    color: #ff3c3c;
-  }
-
-  .age-modal-content label {
-    text-align: left;
-    display: block;
-    margin: 10px 0 5px;
-    font-size: 14px;
-    opacity: 0.9;
-  }
-
-  .age-modal-content input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    background: #1f1f1f;
-    border: 1px solid #333;
-    color: white;
-    outline: none;
-    font-size: 15px;
-    transition: 0.2s;
-  }
-
-  .age-modal-content input:focus {
-    border-color: #ff3c3c;
-    box-shadow: 0 0 5px rgba(255,60,60,0.6);
-  }
-
-  .age-modal-content button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 12px;
-    background: #ff3c3c;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.2s ease;
-  }
-
-  .age-modal-content button:hover {
-    background: #ff5555;
-    transform: scale(1.03);
-  }
-
-  .close-button {
-    position: absolute;
-    right: 14px;
-    top: 10px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #bbb;
-  }
-
-  .close-button:hover {
-    color: white;
-  }
-
-  #result-message {
-    margin-top: 12px;
-    font-size: 14px;
-    min-height: 20px;
-  }
-
-  .hidden {
-    display: none;
-  }
-</style>
-
-<script>
-const resetModal = document.getElementById("resetModal");
-const alertModal = document.getElementById("alertModal");
-const alertTexto = document.getElementById("alertTexto");
-
-document.getElementById("resetClaveBtn").addEventListener("click", () => {
-  resetModal.style.display = "flex";
-});
-
-document.getElementById("cancelReset").onclick = () => {
-  resetModal.style.display = "none";
-};
-
-document.getElementById("confirmReset").onclick = () => {
-  localStorage.removeItem("claveAdultos");
-  claveGuardada = null;
-
-  resetModal.style.display = "none";
-  showAlert("Clave eliminada. Ahora podés crear una nueva.");
-  openModal();
-};
-
-document.getElementById("closeAlert").onclick = () => {
-  alertModal.style.display = "none";
-};
-
-function showAlert(msg) {
-  alertTexto.textContent = msg;
-  alertModal.style.display = "flex";
-}
-</script>
-
-<script>
-let pendingRedirect = null;
-
-// 🔎 Revisamos si ya existe una clave guardada
-let claveGuardada = localStorage.getItem("claveAdultos") || null;
-
-function verificarAcceso(url, requiereEdad) {
-  if (requiereEdad) {
-    pendingRedirect = url;
-    openModal();
-  } else {
-    location.assign(url);
-  }
-}
-
-function openModal() {
-  document.getElementById("ageModal").classList.remove("hidden");
-  document.getElementById("result-message").innerText = "";
-  document.getElementById("birthyear").value = "";
-  document.getElementById("age").value = "";
-  document.getElementById("clave").value = "";
-
-  if (claveGuardada) {
-    document.querySelector("label[for='clave']").innerText = "Ingresa tu clave:";
-    document.getElementById("clave").placeholder = "Clave guardada";
-  } else {
-    document.querySelector("label[for='clave']").innerText = "Crea una clave:";
-    document.getElementById("clave").placeholder = "Nueva clave";
-  }
-}
-
-function closeModal() {
-  document.getElementById("ageModal").classList.add("hidden");
-  pendingRedirect = null;
-}
-
-document.getElementById("confirmAgeBtn").addEventListener("click", function () {
-  const birthYear = parseInt(document.getElementById("birthyear").value);
-  const enteredAge = parseInt(document.getElementById("age").value);
-  const claveIngresada = document.getElementById("clave").value;
-  const currentYear = new Date().getFullYear();
-  const calculatedAge = currentYear - birthYear;
-  const result = document.getElementById("result-message");
-
-  result.style.color = "red";
-
-  if (!birthYear || !enteredAge || !claveIngresada) {
-    result.textContent = "Completa todos los campos.";
-    return;
-  }
-
-  if (enteredAge !== calculatedAge) {
-    result.textContent = "La edad no coincide con el año de nacimiento.";
-    return;
-  }
-
-  if (enteredAge < 18) {
-    result.textContent = "Debes ser mayor de edad.";
-    return;
-  }
-
-  if (!claveGuardada) {
-    localStorage.setItem("claveAdultos", claveIngresada);
-    claveGuardada = claveIngresada;
-
-    result.style.color = "lime";
-    result.textContent = "Clave creada y acceso autorizado. Entrando...";
-
-    setTimeout(() => {
-      if (pendingRedirect) window.location.href = pendingRedirect;
-    }, 1200);
-    return;
-  }
-
-  if (claveIngresada !== claveGuardada) {
-    result.textContent = "Clave incorrecta.";
-    return;
-  }
-
-  result.style.color = "lime";
-  result.textContent = "Acceso autorizado. Entrando...";
-
-  setTimeout(() => {
-    if (pendingRedirect) window.location.href = pendingRedirect;
-  }, 1200);
-});
-</script>
-
-<script>
-function abrirItemHistorial(item) {
-  if (item.adulto === true) {
-    verificarAcceso(item.archivo, true);
-  } else {
-    location.href = item.archivo;
-  }
-}
-</script>
+</div>
 
 <script>
 
-function normalizar(str){
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+/* =========================================================
+⚡ HELPERS
+========================================================= */
+
+const qs = s => document.querySelector(s);
+const qsa = s => document.querySelectorAll(s);
+
+const container = qs("#historial-container");
+
+const totalItems = qs("#totalItems");
+const totalMovies = qs("#totalMovies");
+const totalSeries = qs("#totalSeries");
+const totalTrailers = qs("#totalTrailers");
+
+function normalizar(str=""){
+
+return str
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.toLowerCase();
+
 }
+
+/* =========================================================
+🔥 VARIABLES
+========================================================= */
 
 let historial = [];
+let historialRender = [];
 
-/* 🔥 NUEVO: marcar "Más recientes" por defecto */
-document.addEventListener("DOMContentLoaded", () => {
-  const btnDefault = document.querySelector('.order-option[data-value="recientes"]');
-  if (btnDefault) {
-    btnDefault.classList.add("active");
-  }
-});
+let seleccionados = new Set();
+
+let multiMode = false;
+let indexAEliminar = null;
+let ordenActual = "recientes";
+
+let searchRAF = null;
+let touchTimer = null;
+
+/* =========================================================
+🚀 CARGA
+========================================================= */
 
 async function cargarHistorial(){
 
-  const res = await fetch("obtener_historial.php");
-  const data = await res.json();
+try{
 
-  historial = data.map(item => {
+const [a,b] = await Promise.all([
 
-    let titulo = item.titulo;
-    if(!titulo || titulo === "undefined"){
-      titulo = item.movie_id.replace(/_/g," ");
-      titulo = titulo.replace(/\b\w/g,l=>l.toUpperCase());
-    }
+fetch("obtener_historial.php"),
+fetch("perfil_obtener_historial.php")
 
-    let tipo = (item.tipo || "").toLowerCase();
+]);
 
-    if(tipo === "series") tipo = "serie";
+const [normal,perfil] = await Promise.all([
+a.json(),
+b.json()
+]);
 
-    if(tipo !== "serie" && tipo !== "pelicula"){
-      if(item.movie_id.includes("s01") || item.movie_id.includes("s02")){
-        tipo = "serie";
-      } else {
-        tipo = "pelicula";
-      }
-    }
+const data = [
 
-    let timestamp = item.timestamp;
+...(Array.isArray(normal)
+? normal
+: []),
 
-    if(!timestamp && item.visto_en){
-      timestamp = new Date(item.visto_en).getTime();
-    }
+...(Array.isArray(perfil)
+? perfil
+: [])
 
-    if(!timestamp){
-      timestamp = Date.now();
-    }
+];
 
-    return {
-      ...item,
-      titulo,
-      tipo,
-      timestamp
-    };
+historial = data.map(item=>{
 
-  });
+let tipo =
+(item.tipo || "")
+.toLowerCase();
 
-  renderHistorial();
+if(tipo === "series"){
+tipo = "serie";
+}
+
+if(
+tipo === "trailer" ||
+item.archivo?.includes("trailers")
+){
+tipo = "trailer";
+}
+
+if(
+tipo !== "serie" &&
+tipo !== "pelicula" &&
+tipo !== "trailer"
+){
+
+tipo =
+item.movie_id?.includes("s01")
+? "serie"
+: "pelicula";
+
+}
+
+return{
+
+...item,
+
+tipo,
+
+timestamp:
+item.timestamp ||
+new Date(
+item.visto_en ||
+item.creado_en ||
+Date.now()
+).getTime(),
+
+titulo:
+item.titulo ||
+(item.movie_id || "")
+.replace(/_/g," ")
+.replace(/\b\w/g,l=>l.toUpperCase())
+
+};
+
+});
+
+actualizarStats();
+
+renderHistorial();
+
+}catch(err){
+
+console.error(err);
+
+}
+
 }
 
 cargarHistorial();
 
-let seleccionados = [];
-let multiMode = false;
-let indexAEliminar = null;
+/* =========================================================
+📊 STATS
+========================================================= */
+
+function actualizarStats(){
+
+let peliculas = 0;
+let series = 0;
+let trailers = 0;
+
+for(let i=0;i<historial.length;i++){
+
+const tipo = historial[i].tipo;
+
+if(tipo === "pelicula") peliculas++;
+else if(tipo === "serie") series++;
+else if(tipo === "trailer") trailers++;
+
+}
+
+totalItems.textContent = historial.length;
+totalMovies.textContent = peliculas;
+totalSeries.textContent = series;
+totalTrailers.textContent = trailers;
+
+}
+
+/* =========================================================
+🎞️ RENDER
+========================================================= */
 
 function renderHistorial(){
 
-  const container = document.getElementById("historial-container");
-  const noResults = document.getElementById("noResultsMsg");
+if(!historial.length){
 
-  container.innerHTML = "";
-  let filtrados = historial;
+container.innerHTML = "";
 
-  if (openOrderMenu.innerText.includes("recientes")) {
-    filtrados.sort((a,b)=>b.timestamp-a.timestamp);
-  } else {
-    filtrados.sort((a,b)=>a.timestamp-b.timestamp);
-  }
+qs("#noResultsMsg").style.display = "block";
 
-  if (filtrados.length === 0) {
-    noResults.style.display = "block";
-    return;
-  } else {
-    noResults.style.display = "none";
-  }
-
-  filtrados.forEach((item,index)=>{
-
-    const ahora = Date.now();
-    const edad = ahora - item.timestamp;
-
-    let tiempo = "";
-    if(edad < 86400000) tiempo = "Hoy";
-    else if(edad < 172800000) tiempo = "Ayer";
-    else tiempo = Math.floor(edad / 86400000) + " días";
-
-    const tipo = item.tipo;
-
-    const div = document.createElement("div");
-    div.className = "item";
-
-    div.innerHTML = `
-      <div class="selector"></div>
-
-      <img src="${item.imagen}">
-
-      <div class="category-badge category-${tipo}">
-        ${tipo.toUpperCase()}
-      </div>
-
-      <div class="item-title">${item.titulo}</div>
-      <div class="item-info">${tiempo}</div>
-
-      <button class="delete-btn"
-        onclick="event.stopPropagation(); eliminarItem(${index})">×</button>
-    `;
-
-    // 🔥 CLICK NORMAL
-    div.onclick = (e) => {
-      if (longPressActivo) return;
-
-      if (multiMode) {
-        div.classList.toggle("selected");
-
-        if (div.classList.contains("selected")) {
-          seleccionados.push(index);
-        } else {
-          seleccionados = seleccionados.filter(i => i !== index);
-        }
-
-      } else {
-        abrirItemHistorial(item);
-      }
-    };
-
-    // =========================
-    // 🔥 LONG PRESS COMO FAVORITOS
-    // =========================
-    let pressTimer;
-    let longPressActivo = false;
-
-    div.addEventListener("touchstart", () => {
-
-      longPressActivo = false;
-
-      pressTimer = setTimeout(() => {
-
-        longPressActivo = true;
-
-        activarSeleccionMultiple();
-
-        div.classList.add("selected");
-
-        if (!seleccionados.includes(index)) {
-          seleccionados.push(index);
-        }
-
-      }, 400);
-
-    });
-
-    div.addEventListener("touchend", (e) => {
-      clearTimeout(pressTimer);
-
-      if (longPressActivo) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
-
-    div.addEventListener("touchmove", () => {
-      clearTimeout(pressTimer);
-    });
-
-    container.appendChild(div);
-
-  });
+return;
 
 }
 
-// 🔥 BUSCADOR IGUAL A FAVORITOS
-document.getElementById("buscar").oninput = e => {
+qs("#noResultsMsg").style.display = "none";
 
-  const term = normalizar(e.target.value);
-  let visibles = 0;
+/* 🔥 IMPORTANTE:
+NO mutar historial original */
+historialRender = [...historial];
 
-  document.querySelectorAll("#historial-container .item").forEach(card => {
+historialRender.sort((a,b)=>
 
-    const title = normalizar(
-      card.querySelector(".item-title").innerText
-    );
+ordenActual === "recientes"
+? b.timestamp-a.timestamp
+: a.timestamp-b.timestamp
 
-    if (title.includes(term)) {
-      card.style.display = "";
-      visibles++;
-    } else {
-      card.style.display = "none";
-    }
-
-  });
-
-  document.getElementById("noResultsMsg").style.display =
-    visibles === 0 ? "block" : "none";
-
-};
-
-function activarSeleccionMultiple() {
-
-  multiMode = true;
-  seleccionados = [];
-
-  document.body.classList.add("multi-select-active");
-
-  document.querySelectorAll(".item").forEach(item => {
-    item.classList.remove("selected");
-  });
-
-  document.querySelectorAll(".selector").forEach(s => {
-    s.style.display = "block";
-  });
-
-  document.getElementById("multiDeleteBtn").style.display = "inline-block";
-  document.getElementById("cancelSelectBtn").style.display = "inline-block";
-}
-
-document.getElementById("cancelSelectBtn").onclick = () => {
-
-  multiMode = false;
-  seleccionados = [];
-
-  document.body.classList.remove("multi-select-active");
-
-  document.querySelectorAll(".item").forEach(item => {
-    item.classList.remove("selected");
-  });
-
-  document.querySelectorAll(".selector").forEach(s => {
-    s.style.display = "none";
-  });
-
-  document.getElementById("multiDeleteBtn").style.display = "none";
-  document.getElementById("cancelSelectBtn").style.display = "none";
-};
-
-multiDeleteBtn.onclick = () => {
-
-  let promesas = [];
-
-  seleccionados.forEach(i => {
-
-    const movieId = historial[i].movie_id;
-const tipo = historial[i].tipo;
-
-promesas.push(
-  fetch("eliminar_historial.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body:
-      "movie_id=" + encodeURIComponent(movieId) +
-      "&tipo=" + encodeURIComponent(tipo)
-  })
 );
 
+const now = Date.now();
 
-  });
+let html = "";
 
-  Promise.all(promesas).then(() => {
+historialRender.forEach((item,index)=>{
 
-    historial = historial.filter((_, i) => !seleccionados.includes(i));
+const edad = now - item.timestamp;
 
-    seleccionados = [];
-    multiMode = false;
+let tiempo = "Hoy";
 
-    document.body.classList.remove("multi-select-active");
+if(edad > 86400000){
+tiempo = "Ayer";
+}
 
-    document.getElementById("multiDeleteBtn").style.display = "none";
-    document.getElementById("cancelSelectBtn").style.display = "none";
+if(edad > 172800000){
 
-    renderHistorial();
-
-  });
-
-};
-
-function eliminarItem(i){
-
-  indexAEliminar = i;
-
-  deleteImg.src = historial[i].imagen;
-  deleteTitle.innerText = historial[i].titulo;
-
-  deleteModal.style.display = "flex";
+tiempo =
+Math.floor(edad/86400000)
++ " días";
 
 }
 
-openOrderMenu.onclick=()=>orderModal.style.display="flex";
+html += `
 
-document.querySelector(".close-order").onclick=
-()=>orderModal.style.display="none";
+<div
+class="item"
+data-index="${index}">
 
-document.querySelectorAll(".order-option").forEach(b=>{
+<div class="selector"></div>
 
-  b.onclick=()=>{
+<div class="poster">
 
-    document.querySelectorAll(".order-option")
-    .forEach(x=>x.classList.remove("active"));
+<img
+src="${item.imagen}"
+loading="lazy"
+decoding="async"
+draggable="false">
 
-    b.classList.add("active");
+<div class="category-badge category-${item.tipo}">
+${item.tipo.toUpperCase()}
+</div>
 
-    openOrderMenu.innerText="Ordenar: "+b.innerText;
+<button
+class="delete-btn"
+data-delete="${index}">
 
-    renderHistorial();
+✕
 
-    orderModal.style.display="none";
+</button>
 
-  };
+</div>
+
+<div class="item-content">
+
+<div class="item-title">
+${item.titulo}
+</div>
+
+<div class="item-meta">
+
+<div class="watch-pill">
+${tiempo}
+</div>
+
+<div>
+▶ Ver
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
 
 });
 
-</script>
+container.innerHTML = html;
 
-<script>
-
-// 🔥 ELEMENTOS DEL MODAL
-const deleteModal = document.getElementById("deleteModal");
-const confirmDelete = document.getElementById("confirmDelete");
-const cancelDeleteBtn = document.getElementById("cancelDelete2");
-const closeDeleteBtn = document.querySelector(".close-delete");
-
-// ✅ CANCELAR
-cancelDeleteBtn.onclick = () => {
-  deleteModal.style.display = "none";
-};
-
-// ✅ BOTÓN X (esto es lo que te faltaba)
-if(closeDeleteBtn){
-  closeDeleteBtn.onclick = () => {
-    deleteModal.style.display = "none";
-  };
 }
 
-// ✅ CLICK FUERA
-deleteModal.addEventListener("click", (e) => {
-  if (e.target === deleteModal) {
-    deleteModal.style.display = "none";
-  }
+/* =========================================================
+🎬 ABRIR CONTENIDO
+========================================================= */
+
+function abrirItemHistorial(item){
+
+if(!item) return;
+
+/* 🔥 DESTINO FINAL */
+let destino = "";
+
+/* =========================================================
+🔥 PRIORIDAD LINKS DIRECTOS
+========================================================= */
+
+if(item.url){
+
+destino = item.url;
+
+}
+
+else if(item.link){
+
+destino = item.link;
+
+}
+
+else if(item.archivo){
+
+destino = item.archivo;
+
+}
+
+/* =========================================================
+🔥 GENERAR AUTOMÁTICAMENTE
+========================================================= */
+
+else if(item.tipo === "serie"){
+
+destino =
+`serie.html?id=${encodeURIComponent(item.movie_id)}`;
+
+}
+
+else if(item.tipo === "trailer"){
+
+destino =
+`trailer.html?id=${encodeURIComponent(item.movie_id)}`;
+
+}
+
+else{
+
+destino =
+`pelicula.html?id=${encodeURIComponent(item.movie_id)}`;
+
+}
+
+/* =========================================================
+🚫 SI NO EXISTE DESTINO
+========================================================= */
+
+if(!destino){
+
+console.warn(
+"No se encontró destino:",
+item
+);
+
+return;
+
+}
+
+/* =========================================================
+🔞 CONTROL ADULTOS
+========================================================= */
+
+if(item.adulto === true){
+
+if(typeof verificarAcceso === "function"){
+
+verificarAcceso(destino,true);
+
+}else{
+
+window.location.href = destino;
+
+}
+
+}else{
+
+window.location.href = destino;
+
+}
+
+}
+
+/* =========================================================
+🔥 EVENTS
+========================================================= */
+
+container.addEventListener("click",e=>{
+
+const deleteBtn =
+e.target.closest(".delete-btn");
+
+if(deleteBtn){
+
+e.stopPropagation();
+
+eliminarItem(
+Number(deleteBtn.dataset.delete)
+);
+
+return;
+
+}
+
+const card =
+e.target.closest(".item");
+
+if(!card) return;
+
+const index =
+Number(card.dataset.index);
+
+/* 🔥 IMPORTANTE:
+usar historialRender */
+const item =
+historialRender[index];
+
+if(!item) return;
+
+if(multiMode){
+
+card.classList.toggle("selected");
+
+if(card.classList.contains("selected")){
+
+seleccionados.add(item.movie_id);
+
+}else{
+
+seleccionados.delete(item.movie_id);
+
+}
+
+return;
+
+}
+
+/* 🔥 ABRIR */
+abrirItemHistorial(item);
+
 });
 
-// ✅ ESC
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    deleteModal.style.display = "none";
-  }
+/* =========================================================
+📱 TOUCH MULTISELECT
+========================================================= */
+
+container.addEventListener(
+"touchstart",
+e=>{
+
+const card =
+e.target.closest(".item");
+
+if(!card) return;
+
+clearTimeout(touchTimer);
+
+touchTimer = setTimeout(()=>{
+
+if(multiMode) return;
+
+activarSeleccionMultiple();
+
+card.classList.add("selected");
+
+const index =
+Number(card.dataset.index);
+
+const item =
+historialRender[index];
+
+if(item){
+
+seleccionados.add(
+item.movie_id
+);
+
+}
+
+navigator.vibrate?.(20);
+
+},450);
+
+},
+{passive:true}
+);
+
+container.addEventListener(
+"touchend",
+()=>clearTimeout(touchTimer),
+{passive:true}
+);
+
+container.addEventListener(
+"touchmove",
+()=>clearTimeout(touchTimer),
+{passive:true}
+);
+
+/* =========================================================
+🔍 SEARCH
+========================================================= */
+
+qs("#buscar").addEventListener("input",e=>{
+
+cancelAnimationFrame(searchRAF);
+
+searchRAF = requestAnimationFrame(()=>{
+
+const term =
+normalizar(e.target.value);
+
+const cards =
+qsa(".item");
+
+let visibles = 0;
+
+cards.forEach(card=>{
+
+const title =
+normalizar(
+card.querySelector(".item-title")
+.textContent
+);
+
+const visible =
+title.includes(term);
+
+card.style.display =
+visible ? "" : "none";
+
+if(visible) visibles++;
+
 });
 
-// 🔥 CONFIRMAR ELIMINAR (ESTO ES CLAVE)
-confirmDelete.onclick = async () => {
+qs("#noResultsMsg").style.display =
+visibles ? "none" : "block";
 
-  const item = historial[indexAEliminar];
+});
 
-  await fetch("eliminar_historial.php", {
-    method:"POST",
-    headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:
-  "movie_id=" + encodeURIComponent(item.movie_id) +
-  "&tipo=" + encodeURIComponent(item.tipo)
+});
 
-  });
+/* =========================================================
+⚡ MULTI MODE
+========================================================= */
 
-  // 🔥 BORRAR PROGRESO LOCAL
-  localStorage.removeItem(`season_progress_${item.movie_id}`);
+function activarSeleccionMultiple(){
 
-  historial.splice(indexAEliminar,1);
+multiMode = true;
 
-  deleteModal.style.display="none";
+document.body.classList.add(
+"multi-select-active"
+);
 
-  renderHistorial();
+qs("#floatActions")
+.classList.add("active");
+
+}
+
+function cerrarSeleccionMultiple(){
+
+multiMode = false;
+
+seleccionados.clear();
+
+document.body.classList.remove(
+"multi-select-active"
+);
+
+qsa(".item").forEach(item=>
+item.classList.remove("selected")
+);
+
+qs("#floatActions")
+.classList.remove("active");
+
+}
+
+qs("#cancelSelectBtn").onclick =
+cerrarSeleccionMultiple;
+
+/* =========================================================
+🗑️ MULTI DELETE
+========================================================= */
+
+qs("#multiDeleteBtn").onclick =
+async ()=>{
+
+const itemsEliminar =
+historial.filter(item=>
+seleccionados.has(item.movie_id)
+);
+
+const tareas = [];
+
+itemsEliminar.forEach(item=>{
+
+const body =
+"movie_id=" +
+encodeURIComponent(item.movie_id)
++
+"&tipo=" +
+encodeURIComponent(item.tipo);
+
+tareas.push(
+
+fetch("eliminar_historial.php",{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body
+})
+
+);
+
+tareas.push(
+
+fetch("perfil_eliminar_historial.php",{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body
+})
+
+);
+
+});
+
+await Promise.all(tareas);
+
+historial =
+historial.filter(item=>
+!seleccionados.has(item.movie_id)
+);
+
+actualizarStats();
+
+cerrarSeleccionMultiple();
+
+renderHistorial();
 
 };
+
+/* =========================================================
+🗑️ DELETE
+========================================================= */
+
+function eliminarItem(index){
+
+const item =
+historialRender[index];
+
+if(!item) return;
+
+indexAEliminar =
+historial.findIndex(i=>
+i.movie_id === item.movie_id
+);
+
+qs("#deleteImg").src =
+item.imagen;
+
+qs("#deleteTitle").textContent =
+item.titulo;
+
+qs("#deleteModal").style.display =
+"flex";
+
+}
+
+qs("#cancelDelete2").onclick = ()=>{
+
+qs("#deleteModal").style.display =
+"none";
+
+};
+
+qs("#deleteModal").onclick = e=>{
+
+if(e.target.id === "deleteModal"){
+
+qs("#deleteModal").style.display =
+"none";
+
+}
+
+};
+
+qs("#confirmDelete").onclick =
+async ()=>{
+
+const item =
+historial[indexAEliminar];
+
+if(!item) return;
+
+const body =
+"movie_id=" +
+encodeURIComponent(item.movie_id)
++
+"&tipo=" +
+encodeURIComponent(item.tipo);
+
+await Promise.all([
+
+fetch("eliminar_historial.php",{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body
+}),
+
+fetch("perfil_eliminar_historial.php",{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body
+})
+
+]);
+
+historial.splice(indexAEliminar,1);
+
+actualizarStats();
+
+qs("#deleteModal").style.display =
+"none";
+
+renderHistorial();
+
+};
+
+/* =========================================================
+🎛️ ORDER
+========================================================= */
+
+qs("#openOrderMenu").onclick = ()=>{
+
+qs("#orderModal").style.display =
+"flex";
+
+};
+
+qs(".close-order").onclick = ()=>{
+
+qs("#orderModal").style.display =
+"none";
+
+};
+
+qsa(".order-option").forEach(btn=>{
+
+btn.onclick = ()=>{
+
+qsa(".order-option")
+.forEach(b=>
+b.classList.remove("active")
+);
+
+btn.classList.add("active");
+
+ordenActual =
+btn.dataset.value;
+
+qs("#openOrderMenu").textContent =
+btn.textContent;
+
+renderHistorial();
+
+qs("#orderModal").style.display =
+"none";
+
+};
+
+});
 
 </script>
 

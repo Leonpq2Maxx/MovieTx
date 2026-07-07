@@ -5,14 +5,15 @@ require "../config.php";
 header("Content-Type: application/json");
 
 /* =========================
-   VALIDAR USUARIO PRINCIPAL
+   VALIDAR PERFIL
 ========================= */
-if (!isset($_SESSION['email']) || isset($_SESSION['perfil_name'])) {
-    echo json_encode(["status" => "error", "msg" => "No es usuario principal"]);
+if (!isset($_SESSION['email']) || !isset($_SESSION['perfil_name'])) {
+    echo json_encode(["status" => "error", "msg" => "No es perfil"]);
     exit;
 }
 
-$email = $_SESSION['email'];
+$email  = $_SESSION['email'];
+$perfil = $_SESSION['perfil_name'];
 
 /* =========================
    DATOS
@@ -31,10 +32,10 @@ if (!$movie_id) {
    VERIFICAR EXISTE
 ========================= */
 $check = $conn->prepare("
-    SELECT id FROM favoritos 
-    WHERE user_email=? AND movie_id=?
+    SELECT id FROM perfil_favorito 
+    WHERE user_email=? AND perfil_name=? AND movie_id=?
 ");
-$check->bind_param("ss", $email, $movie_id);
+$check->bind_param("sss", $email, $perfil, $movie_id);
 $check->execute();
 $res = $check->get_result();
 
@@ -47,14 +48,15 @@ if ($res->num_rows > 0) {
    INSERT
 ========================= */
 $stmt = $conn->prepare("
-    INSERT INTO favoritos 
-    (user_email, movie_id, titulo, imagen, tipo, creado_en)
-    VALUES (?,?,?,?,?,NOW())
+    INSERT INTO perfil_favorito
+    (user_email, perfil_name, movie_id, titulo, imagen, tipo, creado_en)
+    VALUES (?,?,?,?,?,?,NOW())
 ");
 
 $stmt->bind_param(
-    "sssss",
+    "ssssss",
     $email,
+    $perfil,
     $movie_id,
     $titulo,
     $imagen,

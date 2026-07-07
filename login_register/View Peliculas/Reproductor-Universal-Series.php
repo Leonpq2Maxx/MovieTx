@@ -163,7 +163,7 @@ if (isset($_GET['check_status'])) {
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>MovieTx • Reproductor</title>
+  <title>MovieTx - Reproductor</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
   <link rel="icon" type="image/png" href="../Logo/Logo Nuevo -512x512.png">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
@@ -1832,68 +1832,8 @@ finishLoader();
   
 <style>
 
-/*Fullscreen y minimizar*/
-
-/* =========================
-   FULLSCREEN
-========================= */
-
-.player-actions{
-  display:flex;
-  align-items:center;
-  gap:0;                    /* Sin separación */
-  flex-shrink:0;
-
-  background:rgba(255,255,255,.15);
-  border-radius:10px;
-  overflow:hidden;          /* Mantiene las esquinas redondeadas */
-}
-
-/* Ambos botones comparten el mismo fondo */
-.fullscreen-btn{
-
-  flex-shrink:0;
-
-  width:42px;
-  height:42px;
-
-  border:none;
-  border-radius:0;
-  background:transparent;
-
-  color:#fff;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:18px;
-  padding:0;
-
-  transition:background .2s ease;
-}
-
-/* Línea divisoria */
-#btnMinimize{
-  border-right:1px solid rgba(255,255,255,.18);
-}
-
-/* Efecto al pasar el mouse */
-.fullscreen-btn:hover{
-  background:rgba(255,255,255,.08);
-}
-
-/* Efecto al presionar */
-.fullscreen-btn:active{
-  background:rgba(255,255,255,.15);
-}
-
-#btnMinimize{
-  font-size:20px;
-  line-height:1;
-}
-
 /* PROGRESSBAR */
+
 
 /* ===============================
    🌈 PROGRESS BAR ARCOÍRIS ANIMADA
@@ -2537,6 +2477,34 @@ finishLoader();
 
 
 /* =========================
+   FULLSCREEN
+========================= */
+
+.fullscreen-btn{
+
+  flex-shrink:0;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:10px;
+
+  background:rgba(255,255,255,.15);
+
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:18px;
+
+  padding:0;
+}
+
+
+/* =========================
    TABLETS
 ========================= */
 
@@ -2553,6 +2521,7 @@ finishLoader();
   }
 
 }
+
 
 /* =========================
    ANDROID + IPHONE
@@ -2591,6 +2560,7 @@ finishLoader();
   }
 
 }
+
 
 /* =========================
    IPHONE PEQUEÑOS
@@ -2637,6 +2607,44 @@ finishLoader();
   width:100%;
   min-width:0;
 }
+
+/*Fullscreen y minimizar*/
+
+.player-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+
+#btnMinimize{
+  font-size:20px;
+  line-height:1;
+}
+
+/* FULLSCREEN */
+.fullscreen-btn{
+  flex-shrink:0;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:10px;
+
+  background:rgba(255, 255, 255, 0.2);
+
+  color:white;
+
+  font-size:20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0;
+}
+
 
 /* =========================
    TABLETS
@@ -3151,20 +3159,13 @@ TEMPORADAS Y EPISODIOS
 
 .season-box {
   background: #141414;
-
   width: 90%;
   max-width: 340px;
-
   border-radius: 14px;
   padding: 20px;
-
   position: relative;
 
   box-shadow: 0 0 25px rgba(255,45,91,.4);
-
-  max-height: 85vh;   /* evita que el modal sea más alto que la pantalla */
-  display: flex;
-  flex-direction: column;
 }
 
 .season-close {
@@ -3191,43 +3192,11 @@ TEMPORADAS Y EPISODIOS
 }
 
 /* LISTA */
-/* LISTA DE TEMPORADAS */
 .season-list {
-
   display: flex;
   flex-direction: column;
-
   gap: 10px;
-
   margin-top: 15px;
-
-  max-height: 300px;   /* aproximadamente 5 temporadas */
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  padding-right: 6px;
-
-  scrollbar-width: thin;
-  scrollbar-color: #555 #1a1a1a;
-}
-
-/* Scroll Chrome */
-.season-list::-webkit-scrollbar{
-    width:6px;
-}
-
-.season-list::-webkit-scrollbar-track{
-    background:#1a1a1a;
-    border-radius:20px;
-}
-
-.season-list::-webkit-scrollbar-thumb{
-    background:#666;
-    border-radius:20px;
-}
-
-.season-list::-webkit-scrollbar-thumb:hover{
-    background:#888;
 }
 
 /* BOTONES */
@@ -3311,180 +3280,6 @@ TEMPORADAS Y EPISODIOS
   opacity: 0.7;
   cursor: default;
 }
-
-/* =====================================
-   💻 EXPERIENCIA PREMIUM SOLO EN PC
-===================================== */
-
-@media (min-width:1024px){
-
-  /* Modal más elegante */
-  .season-modal{
-    backdrop-filter:blur(14px);
-    background:rgba(0,0,0,.82);
-  }
-
-  .season-box{
-
-    width:520px;
-    max-width:90vw;
-
-    max-height:75vh;
-
-    padding:28px;
-
-    border-radius:22px;
-
-    background:
-      linear-gradient(
-        180deg,
-        #1c1c1c 0%,
-        #131313 100%
-      );
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-      0 25px 70px rgba(0,0,0,.65),
-      0 0 40px rgba(255,45,85,.18);
-
-    animation:seasonPopup .22s ease;
-  }
-
-  .season-box h3{
-
-    font-size:22px;
-    font-weight:700;
-
-    margin-bottom:22px;
-
-    letter-spacing:.4px;
-  }
-
-  .season-close{
-
-    top:18px;
-    right:18px;
-
-    width:36px;
-    height:36px;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(255,255,255,.06);
-
-    transition:.2s;
-  }
-
-  .season-close:hover{
-    background:rgba(255,255,255,.14);
-    transform:rotate(90deg);
-  }
-
-  /* Lista */
-
-  .season-list{
-
-    gap:14px;
-
-    max-height:420px;
-
-    padding-right:10px;
-  }
-
-  .season-item{
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:16px 20px;
-
-    font-size:16px;
-
-    border-radius:14px;
-
-    background:#1a1a1a;
-
-    border:1px solid #2d2d2d;
-
-    transition:
-      transform .18s,
-      background .18s,
-      border-color .18s,
-      box-shadow .18s;
-  }
-
-  .season-item::after{
-
-    content:"›";
-
-    font-size:20px;
-
-    opacity:.45;
-
-    transition:.2s;
-  }
-
-  .season-item:hover{
-
-    background:#232323;
-
-    border-color:#4b4b4b;
-
-    transform:translateX(6px);
-
-    box-shadow:
-      0 8px 20px rgba(0,0,0,.35);
-  }
-
-  .season-item:hover::after{
-
-    opacity:1;
-
-    transform:translateX(4px);
-  }
-
-  .season-item.active{
-
-    background:
-      linear-gradient(
-        135deg,
-        #ff2d55,
-        #ff5e7e
-      );
-
-    border:none;
-
-    box-shadow:
-      0 10px 28px rgba(255,45,85,.35);
-  }
-
-  .season-item.active::after{
-    content:"✓";
-    opacity:1;
-  }
-
-}
-
-@keyframes seasonPopup{
-
-  from{
-    opacity:0;
-    transform:translateY(20px) scale(.96);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0) scale(1);
-  }
-
-}
-
 </style>
 
 <script>
@@ -3814,16 +3609,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <span id="duration">0:00</span>
     </div>
 
-    <div class="player-actions">
-      
-      <button id="btnMinimize" class="fullscreen-btn" title="Minimizar">
-        ❐
-      </button>
-      
-      <button id="btnFullscreen" class="fullscreen-btn" title="Pantalla completa">
-        ⛶
-      </button>
-    </div>
+    <button id="btnFullscreen" class="fullscreen-btn">
+      ⛶
+    </button>
 
   </div>
 
@@ -6124,9 +5912,10 @@ const MOVIES_DB = {
           { id: "t1e6", number: 6, src: "https://dl.dropbox.com/scl/fi/c90ot4yi018le1l1nm0md/Rick-y-Morty-T1C6.mp4?rlkey=bhnikgk5smta40d6a8aqjrgjs&st=unvv1pyz&dl=" },
           { id: "t1e7", number: 7, src: "https://dl.dropbox.com/scl/fi/tk8csqxywio9svqwoapj4/Rick-y-Morty-T1C7.mp4?rlkey=cc34cm2y3bm2qmugft6008gnv&st=7rps2efq&dl=" },
           { id: "t1e8", number: 8, src: "https://dl.dropbox.com/scl/fi/hn8matbay9u8lpomr6e63/Rick-y-Morty-T1C8.mp4?rlkey=pg93d976kov0vq8f3elxtp3l3&st=1ve1jug6&dl=" },
-          { id: "t1e9", number: 9, src: "https://dl.dropbox.com/scl/fi/pqu7lyeoxchjbx1235ew4/Rick-y-Morty-T1C9.mp4?rlkey=f8k1aokqjxm1uh5mjyaasuznb&st=mfy9r2kk&dl=" },
-          { id: "t1e10", number: 10, src: "https://dl.dropbox.com/scl/fi/k43tzqdnkkfu7eqesff5e/Rick-y-Morty-T1C10.mp4?rlkey=3obqm3zzqs19nfnar3klzbnxj&st=8gml9zxj&dl=" },
-          { id: "t1e11", number: 11, src: "https://dl.dropbox.com/scl/fi/3z6ljyp6vvm9911rdazf8/Rick-y-Morty-T1C11.mp4?rlkey=ujulcigk796nghpbsudusbive&st=41c8ojrs&dl=" }
+          { id: "t1e9", number: 9, src: "" },
+          { id: "t1e10", number: 10, src: "" },
+          { id: "t1e11", number: 11, src: "" },
+          { id: "t1e12", number: 12, src: "" }
         ]
       },
       {
@@ -6134,16 +5923,16 @@ const MOVIES_DB = {
         name: "Temporada 2",
         year: 2015,
         episodes: [
-          { id: "t2e1", number: 1, src: "https://dl.dropbox.com/scl/fi/z4zv5kecei1ajqtaeytdb/Rick-y-Morty-T2C1.mp4?rlkey=kr00zp1539jtrgj43nt9eifn3&st=" },
-          { id: "t2e2", number: 2, src: "https://dl.dropbox.com/scl/fi/z9rkut5oli5x6qm2z196o/Rick-y-Morty-T2C2.mp4?rlkey=e16boid40fjscy6ngjd1w17x9&st=" },
-          { id: "t2e3", number: 3, src: "https://dl.dropbox.com/scl/fi/yr3s8n6gq1xffddh74vwn/Rick-y-Morty-T2C3.mp4?rlkey=1znxs1cma0i1w9vehde3dixbe&st=" },
-          { id: "t2e4", number: 4, src: "https://dl.dropbox.com/scl/fi/en6uadtpemwnfh7xj4cf9/Rick-y-Morty-T2C4.mp4?rlkey=fl7wlsi8f4u1rkxma39zxo8dw&st=" },
-          { id: "t2e5", number: 5, src: "https://dl.dropbox.com/scl/fi/lanvtfeduv9snq30jop6n/Rick-y-Morty-T2C5.mp4?rlkey=weu31c8m11nldyboh822w03b8&st=" },
-          { id: "t2e6", number: 6, src: "https://dl.dropbox.com/scl/fi/edf3rznf0jn8hjgcmu267/Rick-y-Morty-T2C6.mp4?rlkey=zqpeef43jhhw76ksiobh8lcyp&st=" },
-          { id: "t2e7", number: 7, src: "https://dl.dropbox.com/scl/fi/gzanb58j9juxyrh3t0rdd/Rick-y-Morty-T2C7.mp4?rlkey=mp9mu9vpapm36zciqwxarkydb&st=" },
-          { id: "t2e8", number: 8, src: "https://dl.dropbox.com/scl/fi/4rzvpafh4sbmoq8bilb6w/Rick-y-Morty-T2C8.mp4?rlkey=7uklf6zx3pacfw4j3hxlq0hvx&st=" },
-          { id: "t2e9", number: 9, src: "https://dl.dropbox.com/scl/fi/o9wbse799rolja76e8abz/Rick-y-Morty-T2C9.mp4?rlkey=bm5ftx743f8fonnviqv20ks74&st=" },
-          { id: "t2e10", number: 10, src: "https://dl.dropbox.com/scl/fi/0cuh63l3wlwbb4wqz4163/Rick-y-Morty-T2C10.mp4?rlkey=dqzr4wnrjx6psj0dn38fdwe5y&st=" },
+          { id: "t2e1", number: 1, src: "" },
+          { id: "t2e2", number: 2, src: "" },
+          { id: "t2e3", number: 3, src: "" },
+          { id: "t2e4", number: 4, src: "" },
+          { id: "t2e5", number: 5, src: "" },
+          { id: "t2e6", number: 6, src: "" },
+          { id: "t2e7", number: 7, src: "" },
+          { id: "t2e8", number: 8, src: "" },
+          { id: "t2e9", number: 9, src: "" },
+          { id: "t2e10", number: 10, src: "" },
         ]
       },
       {
@@ -6264,143 +6053,7 @@ const MOVIES_DB = {
           { id: "t9e9", number: 9, src: "" },
           { id: "t9e10", number: 10, src: "" },*/
         ]
-      },
-      {
-        id: "t10",
-        name: "Temporada 10",
-        year: 2026,
-        episodes: [
-          { id: "t10e1", number: 1, src: "" },
-          { id: "t10e2", number: 2, src: "" },
-          { id: "t10e3", number: 3, src: "" },
-          { id: "t10e4", number: 4, src: "" },
-          { id: "t10e5", number: 5, src: "" },
-          { id: "t10e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t11",
-        name: "Temporada 11",
-        year: 2026,
-        episodes: [
-          { id: "t11e1", number: 1, src: "" },
-          { id: "t11e2", number: 2, src: "" },
-          { id: "t11e3", number: 3, src: "" },
-          { id: "t11e4", number: 4, src: "" },
-          { id: "t11e5", number: 5, src: "" },
-          { id: "t11e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t12",
-        name: "Temporada 12",
-        year: 2026,
-        episodes: [
-          { id: "12e1", number: 1, src: "" },
-          { id: "12e2", number: 2, src: "" },
-          { id: "12e3", number: 3, src: "" },
-          { id: "12e4", number: 4, src: "" },
-          { id: "12e5", number: 5, src: "" },
-          { id: "12e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t13",
-        name: "Temporada 13",
-        year: 2026,
-        episodes: [
-          { id: "13e1", number: 1, src: "" },
-          { id: "13e2", number: 2, src: "" },
-          { id: "13e3", number: 3, src: "" },
-          { id: "13e4", number: 4, src: "" },
-          { id: "13e5", number: 5, src: "" },
-          { id: "13e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t14",
-        name: "Temporada 14",
-        year: 2026,
-        episodes: [
-          { id: "t14e1", number: 1, src: "" },
-          { id: "t14e2", number: 2, src: "" },
-          { id: "t14e3", number: 3, src: "" },
-          { id: "t14e4", number: 4, src: "" },
-          { id: "t14e5", number: 5, src: "" },
-          { id: "t14e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t15",
-        name: "Temporada 15",
-        year: 2026,
-        episodes: [
-          { id: "t15e1", number: 1, src: "" },
-          { id: "t15e2", number: 2, src: "" },
-          { id: "t15e3", number: 3, src: "" },
-          { id: "t15e4", number: 4, src: "" },
-          { id: "t15e5", number: 5, src: "" },
-          { id: "t15e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t16",
-        name: "Temporada 16",
-        year: 2026,
-        episodes: [
-          { id: "t16e1", number: 1, src: "" },
-          { id: "t16e2", number: 2, src: "" },
-          { id: "t16e3", number: 3, src: "" },
-          { id: "t16e4", number: 4, src: "" },
-          { id: "t16e5", number: 5, src: "" },
-          { id: "t16e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
-      {
-        id: "t17",
-        name: "Temporada 17",
-        year: 2026,
-        episodes: [
-          { id: "t9e1", number: 1, src: "" },
-          { id: "t9e2", number: 2, src: "" },
-          { id: "t9e3", number: 3, src: "" },
-          { id: "t9e4", number: 4, src: "" },
-          { id: "t9e5", number: 5, src: "" },
-          { id: "t9e6", number: 6, src: "" },
-          /*{ id: "t9e7", number: 7, src: "" },
-          { id: "t9e8", number: 8, src: "" },
-          { id: "t9e9", number: 9, src: "" },
-          { id: "t9e10", number: 10, src: "" },*/
-        ]
-      },
+      }
     ],
 
     recomendaciones: [
@@ -6421,7 +6074,7 @@ const MOVIES_DB = {
       },
       {
         id: "invencible",
-        titulo: "Invencible",
+        titulo: "Invincible",
         imagen: "https://image.tmdb.org/t/p/w300/zCgPbsPJ7d1qlXVn1cKvTlcob1H.jpg"
       },
       {
@@ -7159,7 +6812,6 @@ let episodeProgress = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
   const btnRewind = document.getElementById("btnRewind");
   const btnForward = document.getElementById("btnForward");
   const btnFullscreen = document.getElementById("btnFullscreen");
-  const btnMinimize = document.getElementById("btnMinimize");
 
   const progress = document.getElementById("progressBar");
   const currentTimeEl = document.getElementById("currentTime");
@@ -7336,19 +6988,14 @@ async function cargarProgresoDB() {
 // BOTÓN TEMPORADAS (FIX)
 // =========================
 btnOpen.onclick = () => {
-    modal.classList.remove("hidden");
+  modal.classList.remove("hidden");
 
-    // Bloquear scroll de la página
-    document.body.style.overflow = "hidden";
-
-    updateSeasonActiveUI();
+  // 🔥 FIX: actualizar visual al abrir
+  updateSeasonActiveUI();
 };
 
 closeBtn.onclick = () => {
-    modal.classList.add("hidden");
-
-    // Restaurar scroll
-    document.body.style.overflow = "";
+  modal.classList.add("hidden");
 };
 
 function updateRainbowProgress() {
@@ -7661,7 +7308,6 @@ if (activeId) {
   loadEpisodes();
   updateSeasonActiveUI();
   modal.classList.add("hidden");
-  document.body.style.overflow = "";
   updateSeasonYearUI();
 };
 
@@ -7801,50 +7447,6 @@ function enterFullscreen() {
     console.warn("Fullscreen no disponible", e);
   }
 }
-
-// 🗗 MINIMIZAR (Picture-in-Picture)
-async function minimizePlayer() {
-
-  if (!videoLoaded) return;
-
-  // Algunos navegadores requieren que el video esté reproduciéndose
-  if (video.paused) {
-    try {
-      await video.play();
-    } catch(e){}
-  }
-
-  // Si ya está en PiP → salir
-  if (document.pictureInPictureElement) {
-    await document.exitPictureInPicture();
-    return;
-  }
-
-  // Entrar en PiP
-  if (document.pictureInPictureEnabled) {
-    try {
-      await video.requestPictureInPicture();
-    } catch(err) {
-      console.error("No se pudo activar Picture-in-Picture:", err);
-    }
-  } else {
-    alert("Tu navegador no admite Picture-in-Picture.");
-  }
-
-}
-
-btnMinimize.onclick = (e) => {
-  e.stopPropagation();
-  minimizePlayer();
-};
-
-video.addEventListener("enterpictureinpicture", () => {
-  btnMinimize.textContent = "▣";
-});
-
-video.addEventListener("leavepictureinpicture", () => {
-  btnMinimize.textContent = "❐";
-});
 
 btnFullscreen.onclick = (e) => {
   e.stopPropagation();

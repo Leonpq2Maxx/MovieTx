@@ -5,14 +5,24 @@ require "../config.php";
 header("Content-Type: application/json");
 
 /* =========================
-   VALIDAR USUARIO PRINCIPAL
+   VALIDAR SESIÓN
 ========================= */
-if (!isset($_SESSION['email']) || isset($_SESSION['perfil_id'])) {
-    echo json_encode(["status" => "error", "msg" => "No es usuario principal"]);
+if (!isset($_SESSION['email'])) {
+    echo json_encode(["status" => "error", "msg" => "No logueado"]);
     exit;
 }
 
 $email = $_SESSION['email'];
+
+/* =========================
+   PERFIL ACTIVO
+========================= */
+if (!isset($_SESSION['perfil_name'])) {
+    echo json_encode(["status" => "error", "msg" => "Perfil no seleccionado"]);
+    exit;
+}
+
+$perfil = $_SESSION['perfil_name'];
 
 /* =========================
    DATOS
@@ -34,6 +44,7 @@ if (!$movie_id || !$archivo) {
 if (!$titulo || $titulo === "undefined") {
     $titulo = str_replace("_", " ", $movie_id);
 }
+
 if (!$tipo || $tipo === "undefined") {
     $tipo = "pelicula";
 }
@@ -46,13 +57,13 @@ $conn->begin_transaction();
 try {
 
     /* =========================
-       VERIFICAR EXISTE
+       VERIFICAR SI EXISTE
     ========================= */
     $check = $conn->prepare("
-        SELECT id FROM historial 
-        WHERE user_email=? AND movie_id=?
+        SELECT id FROM perfil_historial 
+        WHERE user_email=? AND perfil_name=? AND movie_id=?
     ");
-    $check->bind_param("ss", $email, $movie_id);
+    $check->bind_param("sss", $email, $perfil, $movie_id);
     $check->execute();
     $res = $check->get_result();
 
@@ -62,11 +73,11 @@ try {
     if ($res->num_rows > 0) {
 
         $update = $conn->prepare("
-            UPDATE historial 
+            UPDATE perfil_historial 
             SET visto_en=NOW()
-            WHERE user_email=? AND movie_id=?
+            WHERE user_email=? AND perfil_name=? AND movie_id=?
         ");
-        $update->bind_param("ss", $email, $movie_id);
+        $update->bind_param("sss", $email, $perfil, $movie_id);
         $update->execute();
 
         $status = "updated";
@@ -77,14 +88,15 @@ try {
            INSERT
         ========================= */
         $stmt = $conn->prepare("
-            INSERT INTO historial
-            (user_email, movie_id, titulo, tipo, imagen, archivo, visto_en)
-            VALUES (?,?,?,?,?,?,NOW())
+            INSERT INTO perfil_historial
+            (user_email, perfil_name, movie_id, titulo, tipo, imagen, archivo, visto_en)
+            VALUES (?,?,?,?,?,?,?,NOW())
         ");
 
         $stmt->bind_param(
-            "ssssss",
+            "sssssss",
             $email,
+            $perfil,
             $movie_id,
             $titulo,
             $tipo,
@@ -98,24 +110,24 @@ try {
     }
 
     /* =========================
-       LIMITE 15 (SEGURO)
+       LIMITE 15 POR PERFIL 🔥
     ========================= */
     $limite = 15;
 
     $delete = $conn->prepare("
-        DELETE FROM historial 
-        WHERE user_email=?
+        DELETE FROM perfil_historial 
+        WHERE user_email=? AND perfil_name=?
         AND id NOT IN (
             SELECT id FROM (
-                SELECT id FROM historial
-                WHERE user_email=?
+                SELECT id FROM perfil_historial
+                WHERE user_email=? AND perfil_name=?
                 ORDER BY visto_en DESC
                 LIMIT $limite
             ) t
         )
     ");
 
-    $delete->bind_param("ss", $email, $email);
+    $delete->bind_param("ssss", $email, $perfil, $email, $perfil);
     $delete->execute();
 
     $conn->commit();

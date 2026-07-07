@@ -60,6 +60,7 @@ if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
     header("Location: index.php?expired=1");
     exit();
 }
+ 
 
 /* =========================
    DATOS DEL USUARIO
@@ -69,6 +70,65 @@ $nombre = $user['name'] ?? 'Usuario';
 $email  = $user['email'] ?? '';
 $foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
 
+
+/* ======================================
+   🔥 ACTIVO DEL USUARIO
+====================================== */
+if(isset($_SESSION['id']) && isset($_COOKIE['device_token'])){
+
+    $stmt = $conn->prepare("
+        UPDATE dispositivos 
+        SET last_ping = NOW(), is_active = 1 
+        WHERE user_id = ? AND token = ?
+    ");
+    $stmt->bind_param("is", $_SESSION['id'], $_COOKIE['device_token']);
+    $stmt->execute();
+}
+
+/* ======================================
+   🚫 VERIFICAR SI EL DISPOSITIVO ESTÁ BLOQUEADO
+====================================== */
+if(isset($_SESSION['id']) && isset($_COOKIE['device_token'])){
+
+    $stmt = $conn->prepare("
+        SELECT blocked
+        FROM dispositivos
+        WHERE user_id = ?
+        AND token = ?
+        LIMIT 1
+    ");
+
+    $stmt->bind_param("is", $_SESSION['id'], $_COOKIE['device_token']);
+    $stmt->execute();
+
+    $res = $stmt->get_result()->fetch_assoc();
+
+    // SI ESTÁ BLOQUEADO
+    if($res && intval($res['blocked']) === 1){
+
+        // DESTRUIR SESIÓN
+        $_SESSION = [];
+        session_destroy();
+
+        // ELIMINAR COOKIE
+        setcookie("device_token", "", time() - 3600, "/");
+
+        // REDIRIGIR
+        header("Location: index.php");
+        exit;
+    }
+}
+
+/* ======================================
+   ⚫ LIMPIAR INACTIVOS (GLOBAL)
+====================================== */
+$conn->query("
+    UPDATE dispositivos
+    SET is_active = 0
+    WHERE is_active = 1
+    AND last_ping < NOW() - INTERVAL 2 MINUTE
+");
+ 
 
 /* =========================
    VERIFICACIÓN AJAX
@@ -104,9 +164,9 @@ if (isset($_GET['check_status'])) {
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>MovieTx - Reproductor</title>
+  <title>MovieTx • Reproductor</title>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
-  <link rel="icon" type="image/png" href="../Logo Poster MovieTx PNG/Logo MovieTx.png">
+  <link rel="icon" type="image/png" href="../Logo/Logo Nuevo -512x512.png">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
   <style>
     :root {
@@ -250,39 +310,77 @@ if (isset($_GET['check_status'])) {
   100% { transform: rotate(360deg); }
 }
 
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 15px;
-      text-align: center;
-    }
-    .serie {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: white;
-    }
+    .series-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* SIEMPRE 3 columnas */
+  gap: 10px;
+  text-align: center;
+  width: 100%;
+}
 
-    .serie img {
-      width: 120px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
+.serie{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  min-width: 0;
+}
 
-    .serie p {
+.serie img{
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* 📱 móviles pequeños */
+.serie p{
   margin-top: 6px;
-  font-size: 14px;
-  line-height: 1.4;          /* más aire */
-  max-width: 120px;
+  font-size: 11px;
+  line-height: 1.3;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
   white-space: normal;
   text-align: center;
+}
+
+/* 📱 móviles medianos */
+@media (min-width: 480px){
+  .series-grid{
+    gap: 12px;
+  }
+
+  .serie p{
+    font-size: 12px;
+  }
+}
+
+/* 📱 móviles grandes */
+@media (min-width: 768px){
+  .series-grid{
+    gap: 15px;
+  }
+
+  .serie p{
+    font-size: 14px;
+  }
+}
+
+/* 💻 PC */
+@media (min-width: 1024px){
+
+  .series-grid{
+    grid-template-columns: repeat(6, 1fr); /* imágenes una al lado de la otra */
+    gap: 20px;
+  }
+
 }
 
 
@@ -363,10 +461,7 @@ if (isset($_GET['check_status'])) {
       50%  { transform: scale(1.3); }
       100% { transform: scale(1); }
     }
-    
-    #btn-favorito.animado {
-      animation: pop 0.3s ease;
-    }
+     
     /* --- Mejor experiencia deslizable en móvil --- */
     @media (max-width: 880px) {
   
@@ -450,44 +545,6 @@ if (isset($_GET['check_status'])) {
       border-radius: 6px;
     }
 
-    #btn-favorito {
-      background: linear-gradient(135deg, #ff2d55, #ff5e7e);
-      color: white;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-      box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
-    }
-
-    #btn-favorito:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
-    }
-
-
-    #btn-favorito::after {
-      content: ""; 
-      position: absolute; 
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-      120deg,
-      transparent,
-      rgba(255, 255, 255, 0.25),
-      transparent
-      );
-      transform: rotate(25deg);
-      animation: shine 3s infinite;
-    }
-
     @keyframes shine {
       0% { transform: translateX(-100%) rotate(25deg); }
       50% { transform: translateX(100%) rotate(25deg); }
@@ -513,7 +570,6 @@ if (isset($_GET['check_status'])) {
       flex-wrap: wrap;
     }
 
-
     .play-btn {
       background: linear-gradient(135deg, #1db954, #1ed760);
       color: white;
@@ -527,58 +583,15 @@ if (isset($_GET['check_status'])) {
       box-shadow: 0 8px 20px rgba(29, 185, 84, 0.35);
     }
 
-
     .play-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 28px rgba(29, 185, 84, 0.55);
     }
 
-
-    #btn-favorito {
-      background: linear-gradient(135deg, #ff2d55, #ff5e7e);
-      color: white;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-      box-shadow: 0 8px 20px rgba(255, 45, 91, 0.35);
-    }
-
-
-    #btn-favorito:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(255, 45, 91, 0.55);
-    }
-
-
-    #btn-favorito::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-      120deg,
-      transparent,
-      rgba(255, 255, 255, 0.25),
-      transparent
-      );
-      transform: rotate(25deg);  
-      animation: shine 3s infinite;
-    }
-
-
     @keyframes shine {
       0% { transform: translateX(-100%) rotate(25deg); } 
       50% { transform: translateX(100%) rotate(25deg); }
       100% { transform: translateX(100%) rotate(25deg); }
-
     }
   
     .season-episode-tag {
@@ -596,10 +609,7 @@ if (isset($_GET['check_status'])) {
       box-shadow: 0 4px 12px rgba(0,0,0,0.35);
     }
 
-
-
     /* 💎 Barra de progreso estilo "Neón líquido celeste" */
-
 
     @keyframes neonFlow {
       0% { background-position: 0% 50%; }
@@ -629,376 +639,1253 @@ if (window.performance && window.performance.navigation.type === 2) {
 </script>
 
 <div id="loader-screen">
+
+  <!-- 🌌 fondo animado -->
+  <div class="loader-bg"></div>
+  <div class="loader-particles"></div>
+  <div class="loader-glow"></div>
+
   <div class="loader-content">
+
+    <!-- 🔥 LOGO -->
     <div class="loader-circle">
-      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
+
+      <div class="circle-ring ring1"></div>
+      <div class="circle-ring ring2"></div>
+
+      <div class="circle-core">
+        <img
+          src="../Logo/Logo Nuevo -512x512.png"
+          alt="MovieTx"
+          class="loader-logo"
+          draggable="false"
+        >
+      </div>
+
     </div>
 
-    <h1 class="loader-title">MovieTx</h1>
-    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
-    <p class="loader-msg">Por favor, espere</p>
+    <!-- 🎬 TITULO -->
+    <h1 class="loader-title">
+      Movie<span>Tx</span>
+    </h1>
 
-    <!-- 🔥 Nueva barra de carga profesional -->
-    <div class="loading-bar">
-      <div class="loading-fill" id="loading-fill"></div>
-      <div class="loading-percent" id="loading-percent">0%</div>
+    <!-- ✨ SUB -->
+    <p class="loader-sub">
+      Streaming Experience
+    </p>
+
+    <!-- 📊 PROGRESS -->
+    <div class="loader-progress">
+
+      <div class="loader-progress-track">
+
+        <div
+          class="loader-progress-fill"
+          id="loading-fill">
+        </div>
+
+        <div class="loader-shine"></div>
+
+      </div>
+
+      <div
+        class="loader-percent"
+        id="loading-percent">
+        0%
+      </div>
+
+    </div>
+
+    <!-- ⚡ STATUS -->
+    <div class="loader-status">
+
+      <span class="status-dot"></span>
+
+      <span
+        class="loader-message"
+        id="loader-message">
+        Inicializando sistema
+      </span>
+
     </div>
 
   </div>
+
 </div>
 
 <style>
-/* =========================
-   🔥 LOADER BASE CENTRADO
-========================= */
-#loader-screen {
-  position: fixed;
-  inset: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* =========================================
+🌌 RESET
+========================================= */
 
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255,0,120,0.15), transparent 40%),
-    radial-gradient(circle at 70% 80%, rgba(0,170,255,0.15), transparent 40%),
-    #000;
-
-  z-index: 10000;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  transition: opacity 1s ease, visibility 1s ease;
-}
-#loader-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-
-  animation: fadeUp 0.8s ease;
+html{
+scroll-behavior:smooth;
+-webkit-text-size-adjust:100%;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* =========================================
+🔒 BODY LOCK
+========================================= */
+
+body.loading{
+overflow:hidden;
+touch-action:none;
+height:100vh;
 }
 
-/* =========================
-   🔥 CÍRCULO ARCOIRIS
-========================= */
-.loader-circle {
-  position: relative;
+/* =========================================
+🌌 MAIN LOADER
+========================================= */
 
-  width: 160px;
-  height: 160px;
+#loader-screen{
 
-  border-radius: 50%;
+position:fixed;
+inset:0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display:flex;
+align-items:center;
+justify-content:center;
 
-  margin-bottom: 20px;
+overflow:hidden;
+
+padding:20px;
+
+background:
+radial-gradient(circle at top,
+rgba(0,180,255,.12),
+transparent 30%),
+
+radial-gradient(circle at bottom,
+rgba(255,0,128,.10),
+transparent 30%),
+
+linear-gradient(
+180deg,
+#070b14 0%,
+#020307 45%,
+#000 100%
+);
+
+z-index:999999;
+
+font-family:
+'Inter',
+sans-serif;
+
+transition:
+opacity .8s ease,
+visibility .8s ease;
+
+/* mejora render */
+isolation:isolate;
+will-change:opacity;
 }
 
-/* 🌈 ARO GIRATORIO */
-.loader-circle::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
+/* ocultar */
 
-  background: conic-gradient(
-    #00aaff,
-    #00ffcc,
-    #ff00aa,
-    #ff3c3c,
-    #ffaa00,
-    #00aaff
-  );
-
-  animation: spin 2s linear infinite;
-  z-index: 0;
-  filter: blur(3px);
+#loader-screen.hidden{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
 }
 
-/* 🔥 CENTRO NEGRO */
-.loader-circle::after {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  background: #000;
-  z-index: 1;
+/* =========================================
+✨ BACKGROUND EFFECT
+========================================= */
+
+.loader-bg{
+
+position:absolute;
+
+/* FIX DEL HALO GIGANTE */
+inset:-20%;
+
+background:
+conic-gradient(
+from 180deg,
+rgba(0,170,255,.05),
+rgba(123,45,255,.04),
+rgba(255,0,128,.05),
+rgba(0,170,255,.05)
+);
+
+animation:
+bgRotate 22s linear infinite;
+
+will-change:transform;
+transform:translateZ(0);
 }
 
-/* 🔥 LOGO CENTRADO PERFECTO */
-.loader-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+@keyframes bgRotate{
 
-  width: 90px;
-
-  transform: translate(-50%, -50%);
-  z-index: 2;
-
-  animation: pulse 2.5s ease-in-out infinite;
+to{
+transform:rotate(360deg);
+}
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.08);
-  }
+/* =========================================
+✨ PARTICLES
+========================================= */
+
+.loader-particles{
+
+position:absolute;
+inset:0;
+
+overflow:hidden;
+pointer-events:none;
 }
 
-/* 🔄 ROTACIÓN */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.loader-particles::before,
+.loader-particles::after{
+
+content:"";
+
+position:absolute;
+
+width:220%;
+height:220%;
+
+background-image:
+radial-gradient(
+rgba(255,255,255,.13) 1px,
+transparent 1px
+);
+
+background-size:
+58px 58px;
+
+animation:
+particlesMove 22s linear infinite;
+
+will-change:transform;
 }
 
-/* =========================
-   🌈 TEXTO MOVIETX ARCOIRIS
-========================= */
-.loader-title {
-  font-size: 2.6rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-
-  background: linear-gradient(
-    90deg,
-    #ff0000,
-    #ff9900,
-    #ffee00,
-    #00ff99,
-    #00aaff,
-    #7a00ff,
-    #ff00aa,
-    #ff0000
-  );
-
-  background-size: 300%;
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  animation: rainbowMove 6s linear infinite;
-
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.1),
-    0 0 15px rgba(255,0,120,0.2);
+.loader-particles::after{
+opacity:.4;
+animation-duration:34s;
+transform:rotate(12deg);
 }
 
-@keyframes rainbowMove {
-  0% { background-position: 0%; }
-  100% { background-position: 300%; }
+@keyframes particlesMove{
+
+from{
+transform:translate3d(0,0,0);
 }
 
-/* =========================
-   TEXTO
-========================= */
-.loader-sub { font-size: 1.2rem; color: #ccc; }
-.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
-
-@keyframes dotPulse {
-  0% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
-  100% { content: ''; }
+to{
+transform:translate3d(-140px,-140px,0);
+}
 }
 
-.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
+/* =========================================
+💡 GLOW
+========================================= */
 
-/* =========================
-   🔥 BARRA DE CARGA
-========================= */
-.loading-bar {
-  width: 75%;
-  height: 16px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 10px;
-  margin: 22px auto 0;
-  position: relative;
-  overflow: hidden;
+.loader-glow{
+
+position:absolute;
+
+width:460px;
+height:460px;
+
+border-radius:50%;
+
+background:
+radial-gradient(
+circle,
+rgba(0,170,255,.16),
+transparent 70%
+);
+
+filter:blur(55px);
+
+animation:
+pulseGlow 4s ease infinite;
+
+pointer-events:none;
+will-change:transform,opacity;
 }
 
-.loading-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #00aaff, #ff007f);
-  position: relative;
-  overflow: hidden;
+@keyframes pulseGlow{
+
+0%,100%{
+transform:scale(1);
+opacity:.65;
 }
 
-.loading-fill::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
-  animation: shine 1.5s infinite;
+50%{
+transform:scale(1.15);
+opacity:1;
+}
 }
 
-@keyframes shine {
-  0% { left: -50%; }
-  100% { left: 120%; }
+/* =========================================
+📦 CONTENT
+========================================= */
+
+.loader-content{
+
+position:relative;
+z-index:20;
+
+width:min(92vw,420px);
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
+animation:
+loaderFade .9s ease;
+
+will-change:transform,opacity;
 }
 
-.loading-percent {
-  position: absolute;
-  inset: 0;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@keyframes loaderFade{
+
+from{
+opacity:0;
+transform:translateY(18px);
 }
 
-/* =========================
-   📱 RESPONSIVE
-========================= */
-
-/* 📱 CELULARES */
-/* 📱 CELULARES */
-@media (max-width: 480px) {
-
-  .loader-circle {
-    width: 180px;
-    height: 180px;
-  }
-
-  /* 🔥 logo más grande */
-  .loader-logo {
-    width: 85px;
-  }
-
-  .loader-title {
-    font-size: 2rem;
-  }
-
-  /* 🔥 barra más corta y prolija */
-  .loading-bar {
-    width: 65%;
-    height: 12px;
-  }
-
-  .loading-percent {
-    font-size: 10px;
-  }
-
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
-/* 💻 PC */
-@media (min-width: 1024px) {
-  .loader-circle {
-    width: 200px;
-    height: 200px;
-  }
+/* =========================================
+🪐 LOGO
+========================================= */
 
-  .loader-logo {
-    width: 110px;
-  }
+.loader-circle{
 
-  .loader-title {
-    font-size: 3rem;
-  }
+position:relative;
+
+width:170px;
+height:170px;
+
+margin:
+0 auto 34px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+isolation:isolate;
 }
+
+/* =========================================
+🌀 RINGS
+========================================= */
+
+.circle-ring{
+
+position:absolute;
+inset:0;
+
+border-radius:50%;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+pointer-events:none;
+will-change:transform;
+}
+
+.ring1{
+
+animation:
+rotateRing 6s linear infinite;
+}
+
+.ring2{
+
+inset:12px;
+
+border-color:
+rgba(0,180,255,.20);
+
+animation:
+rotateRingReverse 8s linear infinite;
+}
+
+@keyframes rotateRing{
+
+to{
+transform:rotate(360deg);
+}
+}
+
+@keyframes rotateRingReverse{
+
+to{
+transform:rotate(-360deg);
+}
+}
+
+/* =========================================
+🌟 CORE
+========================================= */
+
+.circle-core{
+
+position:absolute;
+inset:20px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:50%;
+
+/* FIX PRINCIPAL */
+overflow:hidden;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.02)
+);
+
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+box-shadow:
+0 0 35px rgba(0,170,255,.18),
+inset 0 0 25px rgba(255,255,255,.04);
+
+isolation:isolate;
+}
+
+/* borde animado FIX */
+
+.circle-core::before{
+
+content:"";
+
+position:absolute;
+
+/* FIX DEL HOVER TRANSPARENTE */
+inset:0;
+
+border-radius:50%;
+
+padding:2px;
+
+background:
+linear-gradient(
+135deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+-webkit-mask:
+linear-gradient(#fff 0 0)
+content-box,
+linear-gradient(#fff 0 0);
+
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+
+animation:
+spinBorder 4s linear infinite;
+
+pointer-events:none;
+will-change:transform;
+}
+
+@keyframes spinBorder{
+
+to{
+transform:rotate(360deg);
+}
+}
+
+/* =========================================
+🎬 LOGO IMAGE
+========================================= */
+
+.loader-logo{
+
+width:88px;
+height:88px;
+
+object-fit:contain;
+
+position:relative;
+z-index:2;
+
+pointer-events:none;
+user-select:none;
+
+filter:
+drop-shadow(0 0 16px rgba(0,225,255,.45));
+
+animation:
+logoFloat 3s ease infinite;
+
+will-change:transform;
+}
+
+@keyframes logoFloat{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-6px);
+}
+}
+
+/* =========================================
+🎬 TITLES
+========================================= */
+
+.loader-title{
+
+font-size:2.8rem;
+font-weight:900;
+
+line-height:1;
+letter-spacing:.5px;
+
+margin-bottom:10px;
+
+color:#fff;
+
+text-shadow:
+0 0 20px rgba(0,225,255,.08);
+}
+
+.loader-title span{
+
+background:
+linear-gradient(
+135deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.loader-sub{
+
+font-size:.9rem;
+font-weight:600;
+
+letter-spacing:2.5px;
+text-transform:uppercase;
+
+color:
+rgba(255,255,255,.58);
+
+margin-bottom:34px;
+}
+
+/* =========================================
+📊 PROGRESS
+========================================= */
+
+.loader-progress{
+width:100%;
+}
+
+.loader-progress-track{
+
+position:relative;
+
+height:9px;
+
+overflow:hidden;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+backdrop-filter:blur(6px);
+}
+
+.loader-progress-fill{
+
+width:0%;
+height:100%;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+90deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+box-shadow:
+0 0 18px rgba(0,225,255,.45);
+
+transition:
+width .22s ease;
+
+will-change:width;
+}
+
+/* brillo */
+
+.loader-shine{
+
+position:absolute;
+top:0;
+left:-40%;
+
+width:40%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.4),
+transparent
+);
+
+animation:
+shine 1.8s linear infinite;
+
+pointer-events:none;
+}
+
+@keyframes shine{
+
+to{
+left:140%;
+}
+}
+
+/* =========================================
+🔢 PERCENT
+========================================= */
+
+.loader-percent{
+
+margin-top:14px;
+
+font-size:1rem;
+font-weight:800;
+
+color:#fff;
+
+letter-spacing:.5px;
+}
+
+/* =========================================
+⚡ STATUS
+========================================= */
+
+.loader-status{
+
+margin-top:28px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+font-size:.84rem;
+
+color:
+rgba(255,255,255,.65);
+}
+
+.status-dot{
+
+width:10px;
+height:10px;
+
+border-radius:50%;
+
+background:#00e1ff;
+
+box-shadow:
+0 0 14px #00e1ff;
+
+animation:
+dotPulse 1s infinite;
+
+flex-shrink:0;
+}
+
+@keyframes dotPulse{
+
+0%,100%{
+transform:scale(1);
+opacity:1;
+}
+
+50%{
+transform:scale(.65);
+opacity:.45;
+}
+}
+
+/* =========================================
+📱 MOBILE SMALL
+========================================= */
+
+@media screen and (max-width:360px){
+
+#loader-screen{
+padding:14px;
+}
+
+.loader-content{
+width:100%;
+}
+
+.loader-circle{
+width:125px;
+height:125px;
+margin-bottom:24px;
+}
+
+.circle-core{
+inset:16px;
+}
+
+.loader-logo{
+width:58px;
+height:58px;
+}
+
+.ring2{
+inset:9px;
+}
+
+.loader-title{
+font-size:1.8rem;
+}
+
+.loader-sub{
+font-size:.68rem;
+letter-spacing:1.4px;
+margin-bottom:26px;
+}
+
+.loader-progress-track{
+height:7px;
+}
+
+.loader-percent{
+font-size:.82rem;
+}
+
+.loader-status{
+font-size:.68rem;
+margin-top:22px;
+}
+
+.status-dot{
+width:8px;
+height:8px;
+}
+}
+
+/* =========================================
+📱 MOBILE
+========================================= */
+
+@media screen and (min-width:361px)
+and (max-width:600px){
+
+.loader-content{
+width:min(94vw,340px);
+}
+
+.loader-circle{
+width:150px;
+height:150px;
+}
+
+.circle-core{
+inset:18px;
+}
+
+.loader-logo{
+width:72px;
+height:72px;
+}
+
+.loader-title{
+font-size:2.1rem;
+}
+
+.loader-sub{
+font-size:.76rem;
+letter-spacing:2px;
+}
+
+.loader-progress-track{
+height:8px;
+}
+
+.loader-percent{
+font-size:.92rem;
+}
+
+.loader-status{
+font-size:.74rem;
+}
+}
+
+/* =========================================
+🍎 IPHONE
+========================================= */
+
+@media screen
+and (min-width:390px)
+and (max-width:430px){
+
+.loader-circle{
+width:165px;
+height:165px;
+}
+
+.circle-core{
+inset:20px;
+}
+
+.loader-logo{
+width:78px;
+height:78px;
+}
+
+.loader-title{
+font-size:2.3rem;
+}
+
+.loader-sub{
+font-size:.8rem;
+}
+
+.loader-percent{
+font-size:.95rem;
+}
+}
+
+/* =========================================
+📱 TABLET
+========================================= */
+
+@media screen
+and (min-width:768px)
+and (max-width:1023px){
+
+.loader-content{
+width:min(78vw,500px);
+}
+
+.loader-circle{
+width:200px;
+height:200px;
+}
+
+.circle-core{
+inset:24px;
+}
+
+.loader-logo{
+width:100px;
+height:100px;
+}
+
+.loader-title{
+font-size:3.2rem;
+}
+
+.loader-sub{
+font-size:1rem;
+}
+
+.loader-progress-track{
+height:11px;
+}
+
+.loader-percent{
+font-size:1.15rem;
+}
+
+.loader-status{
+font-size:.95rem;
+}
+}
+
+/* =========================================
+💻 PC
+========================================= */
+
+@media screen
+and (min-width:1024px){
+
+.loader-content{
+width:min(32vw,500px);
+}
+
+.loader-circle{
+width:210px;
+height:210px;
+margin-bottom:40px;
+}
+
+.circle-core{
+inset:24px;
+}
+
+.loader-logo{
+width:105px;
+height:105px;
+}
+
+.loader-title{
+font-size:3.5rem;
+letter-spacing:1px;
+}
+
+.loader-sub{
+font-size:1rem;
+letter-spacing:3px;
+}
+
+.loader-progress-track{
+height:11px;
+}
+
+.loader-percent{
+font-size:1.15rem;
+}
+
+.loader-status{
+font-size:.95rem;
+margin-top:32px;
+}
+
+.loader-glow{
+width:620px;
+height:620px;
+}
+}
+
+/* =========================================
+🖥 PC GRANDES
+========================================= */
+
+@media screen
+and (min-width:1440px){
+
+.loader-content{
+width:min(28vw,560px);
+}
+
+.loader-circle{
+width:240px;
+height:240px;
+}
+
+.circle-core{
+inset:28px;
+}
+
+.loader-logo{
+width:120px;
+height:120px;
+}
+
+.loader-title{
+font-size:4rem;
+}
+
+.loader-sub{
+font-size:1.1rem;
+}
+
+.loader-progress-track{
+height:12px;
+}
+
+.loader-percent{
+font-size:1.3rem;
+}
+
+.loader-status{
+font-size:1rem;
+}
+
+.loader-glow{
+width:760px;
+height:760px;
+}
+}
+
 </style>
-
 <script>
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  const loader = document.getElementById('loader-screen');
-  const bar = document.getElementById('loading-fill');
-  const percent = document.getElementById('loading-percent');
+const loader =
+document.getElementById("loader-screen");
 
-  // 🔒 Si no existe el loader, no rompe nada
-  if (!loader || !bar || !percent) return;
+const fill =
+document.getElementById("loading-fill");
 
-  let progreso = 0;
-  let terminado = false;
+const percent =
+document.getElementById("loading-percent");
 
-  // 🔥 Animación controlada
-  const anim = setInterval(() => {
-    if (progreso < 90) {
-      progreso += 1.5; // más suave
-      actualizar();
-    }
-  }, 60);
+const message =
+document.getElementById("loader-message");
 
-  function actualizar() {
-    if (!bar || !percent) return;
+if(
+!loader ||
+!fill ||
+!percent
+) return;
 
-    progreso = Math.min(progreso, 100);
-    bar.style.width = progreso + "%";
-    percent.textContent = Math.floor(progreso) + "%";
-  }
+/* =========================================
+🔒 LOCK BODY
+========================================= */
 
-  function finalizar() {
-    if (terminado) return;
-    terminado = true;
+document.body.classList.add("loading");
 
-    clearInterval(anim);
+/* =========================================
+⚡ STATUS TEXTS
+========================================= */
 
-    // 🔥 subida final limpia
-    const finalAnim = setInterval(() => {
-      if (progreso < 100) {
-        progreso += 2;
-        actualizar();
-      } else {
-        clearInterval(finalAnim);
+const texts = [
 
-        setTimeout(() => {
-          loader.classList.add("hidden");
-        }, 300);
-      }
-    }, 20);
-  }
+"Inicializando sistema",
+"Cargando catálogo",
+"Preparando películas",
+"Optimizando experiencia",
+"Finalizando carga"
 
-  // ✅ SOLO cuando todo cargó
-  window.addEventListener("load", () => {
-    setTimeout(finalizar, 200);
-  });
+];
 
-  // ✅ fallback seguro (por si algo falla)
-  setTimeout(() => {
-    finalizar();
-  }, 3500);
+let textIndex = 0;
+
+const textInterval =
+setInterval(() => {
+
+textIndex =
+(textIndex + 1) % texts.length;
+
+if(message){
+message.textContent =
+texts[textIndex];
+}
+
+}, 900);
+
+/* =========================================
+📊 PROGRESS
+========================================= */
+
+let progress = 0;
+let finished = false;
+
+function updateProgress(value){
+
+progress =
+Math.min(100, value);
+
+fill.style.width =
+progress + "%";
+
+percent.textContent =
+Math.floor(progress) + "%";
+}
+
+/* progreso fake suave */
+
+const progressInterval =
+setInterval(() => {
+
+if(progress < 88){
+
+progress +=
+Math.random() * 4;
+
+updateProgress(progress);
+
+}
+
+}, 120);
+
+/* =========================================
+✅ FINISH
+========================================= */
+
+function finishLoader(){
+
+if(finished) return;
+
+finished = true;
+
+clearInterval(progressInterval);
+clearInterval(textInterval);
+
+/* animación final */
+
+const final =
+setInterval(() => {
+
+if(progress < 100){
+
+progress += 2.5;
+
+updateProgress(progress);
+
+}else{
+
+clearInterval(final);
+
+setTimeout(() => {
+
+loader.classList.add("hidden");
+
+document.body.classList.remove("loading");
+
+/* remover */
+
+setTimeout(() => {
+
+loader.remove();
+
+}, 900);
+
+}, 250);
+
+}
+
+}, 18);
+
+}
+
+/* =========================================
+🚀 LOAD EVENT
+========================================= */
+
+window.addEventListener("load", () => {
+
+setTimeout(() => {
+
+finishLoader();
+
+}, 300);
 
 });
+
+/* fallback */
+
+setTimeout(() => {
+
+finishLoader();
+
+}, 5000);
+
+});
+
 </script>
 
 <!-- 🔴 Fin pantalla de carga neón -->
   
  <style>
 
-/* PROGRESSBAR */
+/*Fullscreen y minimizar*/
 
+/* =========================
+   FULLSCREEN
+========================= */
+
+.player-actions{
+  display:flex;
+  align-items:center;
+  gap:0;                    /* Sin separación */
+  flex-shrink:0;
+
+  background:rgba(255,255,255,.15);
+  border-radius:10px;
+  overflow:hidden;          /* Mantiene las esquinas redondeadas */
+}
+
+/* Ambos botones comparten el mismo fondo */
+.fullscreen-btn{
+
+  flex-shrink:0;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:0;
+  background:transparent;
+
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:18px;
+  padding:0;
+
+  transition:background .2s ease;
+}
+
+/* Línea divisoria */
+#btnMinimize{
+  border-right:1px solid rgba(255,255,255,.18);
+}
+
+/* Efecto al pasar el mouse */
+.fullscreen-btn:hover{
+  background:rgba(255,255,255,.08);
+}
+
+/* Efecto al presionar */
+.fullscreen-btn:active{
+  background:rgba(255,255,255,.15);
+}
+
+#btnMinimize{
+  font-size:20px;
+  line-height:1;
+}
+
+/* PROGRESSBAR */
 
 /* ===============================
    🌈 PROGRESS BAR ARCOÍRIS ANIMADA
@@ -1016,88 +1903,228 @@ document.addEventListener("DOMContentLoaded", () => {
   position: relative;
 }
 
-/* 🔥 CAPA DE COLOR ANIMADA */
-#progressBar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: var(--progress, 0%);
-  border-radius: 999px;
+/* =====================================
+   🌈 PROGRESS BAR PREMIUM ESTABLE
+===================================== */
 
-  background: linear-gradient(
-    270deg,
-    #ff0000,
-    #ff9900,
-    #ffff00,
-    #00ff00,
-    #00ccff,
-    #0066ff,
-    #cc00ff,
-    #ff0000
-  );
+#progressBar{
 
-  background-size: 400% 100%;
-  animation: rainbowMove 6s linear infinite;
+  --track-height: 6px;
+  --thumb-size: 14px;
 
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  -webkit-appearance:none;
+  appearance:none;
+
+  position:relative;
+
+  width:100%;
+  height:var(--track-height);
+
+  border-radius:999px;
+
+  background:#1f1f1f;
+
+  cursor:pointer;
+
+  overflow:visible;
+
+  z-index:1;
+
+  transform:translateZ(0);
+
+  will-change:auto;
+
+  backface-visibility:hidden;
 }
 
-/* 🎞️ ANIMACIÓN */
-@keyframes rainbowMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+
+/* =====================================
+   🔥 CAPA ARCOÍRIS
+===================================== */
+
+#progressBar::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:var(--progress,0%);
+  height:100%;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      270deg,
+      #ff0000,
+      #ff9900,
+      #ffff00,
+      #00ff00,
+      #00ccff,
+      #0066ff,
+      #cc00ff,
+      #ff0000
+    );
+
+  background-size:400% 100%;
+
+  animation:rainbowMove 6s linear infinite;
+
+  box-shadow:
+    0 0 6px rgba(255,255,255,.18),
+    0 0 14px rgba(0,255,255,.18);
+
+  will-change:background-position,width;
+
+  transform:translateZ(0);
+
+  pointer-events:none;
+
+  z-index:0;
 }
 
-#progressBar {
-  position: relative;
-  z-index: 1;
-}
 
-#progressBar::before {
-  z-index: 0;
-}
+/* =====================================
+   🎞️ ANIMACIÓN SUAVE
+===================================== */
 
-#progressBar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid #00cfff;
+@keyframes rainbowMove{
 
-  /* 🔥 brillo fuerte */
-  box-shadow: 
-    0 0 10px rgba(0,255,255,0.9),
-    0 0 20px rgba(0,255,255,0.6);
+  0%{
+    background-position:0% 50%;
+  }
 
-  margin-top: -4px;
- /* 🔥 centrado perfecto */
-  position: relative;
-  z-index: 3;
-}
-
-/* Firefox */
-#progressBar::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid #00cfff;
-}
-#progressBar {
-  overflow: visible;
-}
-
-@media (max-width: 768px) {
-  #progressBar::-webkit-slider-thumb {
-    margin-top: -3px; /* ajuste fino mobile */
+  100%{
+    background-position:200% 50%;
   }
 }
 
-/* fin*/
+
+/* =====================================
+   🎯 THUMB WEBKIT
+===================================== */
+
+#progressBar::-webkit-slider-thumb{
+
+  -webkit-appearance:none;
+  appearance:none;
+
+  width:var(--thumb-size);
+  height:var(--thumb-size);
+
+  border-radius:50%;
+
+  background:#fff;
+
+  border:3px solid #00d9ff;
+
+  box-shadow:
+    0 0 6px rgba(0,255,255,.95),
+    0 0 14px rgba(0,255,255,.65),
+    0 0 24px rgba(0,255,255,.35);
+
+  margin-top:calc(
+    (var(--track-height) - var(--thumb-size)) / 2
+  );
+
+  position:relative;
+
+  z-index:3;
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease;
+
+  transform:translateZ(0);
+}
+
+
+/* =====================================
+   🖱️ HOVER PC
+===================================== */
+
+@media (hover:hover){
+
+  #progressBar:hover::-webkit-slider-thumb{
+
+    transform:scale(1.08);
+
+    box-shadow:
+      0 0 10px rgba(0,255,255,1),
+      0 0 20px rgba(0,255,255,.7),
+      0 0 30px rgba(0,255,255,.45);
+  }
+
+}
+
+
+/* =====================================
+   🔥 ACTIVE
+===================================== */
+
+#progressBar:active::-webkit-slider-thumb{
+  transform:scale(1.15);
+}
+
+
+/* =====================================
+   🦊 FIREFOX
+===================================== */
+
+#progressBar::-moz-range-thumb{
+
+  width:var(--thumb-size);
+  height:var(--thumb-size);
+
+  border:none;
+  border-radius:50%;
+
+  background:#fff;
+
+  border:3px solid #00d9ff;
+
+  box-shadow:
+    0 0 6px rgba(0,255,255,.95),
+    0 0 14px rgba(0,255,255,.65),
+    0 0 24px rgba(0,255,255,.35);
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease;
+}
+
+
+/* =====================================
+   📱 MOBILE
+===================================== */
+
+@media (max-width:768px){
+
+  #progressBar{
+
+    --track-height:5px;
+    --thumb-size:13px;
+  }
+
+}
+
+
+/* =====================================
+   📱 IPHONE PEQUEÑOS
+===================================== */
+
+@media (max-width:480px){
+
+  #progressBar{
+
+    --track-height:4px;
+    --thumb-size:12px;
+  }
+
+}
 
 #video-container {
   position: relative;
@@ -1123,62 +2150,133 @@ document.addEventListener("DOMContentLoaded", () => {
   border-radius: 4px;
   font-size: 12px;
 }
-/*
+
+
+/* =========================================================
+   🎬 REPRODUCTOR RESPONSIVE
+   PC + NOTEBOOK + ANDROID + IPHONE
+========================================================= */
+.mobile-player video{
+  display:block;
+}
+/* ===== PC POR DEFECTO ===== */
 .mobile-player {
+
   position: relative;
+
   width: 100%;
-  max-width: 100%;
+  max-width: 1500px;
+
+  margin: 20px auto;
+
   aspect-ratio: 16 / 9;
-  background: #000;
-  border-radius: 14px;
 
-  🔥 ESTO ES LO QUE FALTABA 
-  min-height: 200px;
-}
-
-
-
-.mobile-player {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  width: 100%;
-  aspect-ratio: 16 / 9;   
   background: black;
   overflow: hidden;
-}
-*/
 
-/* ===== REPRODUCTOR (PC por defecto) ===== */
-.mobile-player {
-  position: relative;     /* ⬅ PC: NO sticky */
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: black;
-  overflow: hidden;
+  border-radius: 18px;
+
+  box-shadow:
+    0 0 20px rgba(0,0,0,.35),
+    0 12px 40px rgba(0,0,0,.55);
+
+  touch-action: manipulation;
+
+  transition:
+    width .3s ease,
+    border-radius .3s ease,
+    box-shadow .3s ease;
 }
 
-/* 📱 MÓVIL: reproductor fijo arriba */
-@media (max-width: 768px) {
-  .mobile-player {
+/* =========================================================
+   🖥️ MONITORES GRANDES
+========================================================= */
+
+@media screen and (min-width: 1600px){
+
+  .mobile-player{
+    width: 75%;
+    max-width: 1650px;
+  }
+
+}
+
+/* =========================================================
+   💻 NOTEBOOK / LAPTOP
+========================================================= */
+
+@media screen and (min-width: 992px) and (max-width: 1599px){
+
+  .mobile-player{
+    width: 90%;
+    max-width: 1450px;
+  }
+
+}
+
+/* =========================================================
+   📱 TABLETS
+========================================================= */
+
+@media screen and (min-width: 768px) and (max-width: 991px){
+
+  .mobile-player{
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    box-shadow: none;
+  }
+
+}
+
+
+/* =========================================================
+   📱 ANDROID + IPHONE
+========================================================= */
+
+@media screen and (max-width: 767px){
+
+  .mobile-player{
+
     position: sticky;
     top: 0;
     z-index: 1000;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    aspect-ratio: 16 / 9;
+
+    border-radius: 0;
+
+    box-shadow: none;
   }
+
 }
 
+/* =========================================================
+   📱 MÓVILES PEQUEÑOS
+========================================================= */
+
+@media screen and (max-width: 480px){
+  .mobile-player{
+    aspect-ratio: 16 / 9;
+  }
+}
 
 .mobile-player video {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 👈 respeta proporción del video */
+  object-fit: contain;
   background: black;
-  pointer-events: none; /* 🔥 evita que el video bloquee los controles */
-}
-
-.mobile-player {
-  touch-action: manipulation;
+  pointer-events: none;
 }
 
 /* OVERLAY */
@@ -1201,6 +2299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     rgba(0,0,0,.15),
     rgba(0,0,0,.55)
   );
+
   pointer-events: auto;
   transition: opacity .3s;
 }
@@ -1226,33 +2325,6 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 /* BOTTOM */
-.overlay-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  z-index: 6;
-}
-
-.overlay-bottom-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.overlay-bottom-controls #progressBar {
-  flex: 1;
-}
-
-.overlay-bottom input[type="range"] {
-  width: 100%;
-}
 
 .time {
   display: flex;
@@ -1267,7 +2339,6 @@ document.addEventListener("DOMContentLoaded", () => {
   pointer-events: none;
 }
 
-
 .seek-btn,
 .play-btn {
   flex-shrink: 0;
@@ -1276,6 +2347,7 @@ document.addEventListener("DOMContentLoaded", () => {
   justify-content: center;
   aspect-ratio: 1 / 1;
 }
+
 
 /* PLAY */
 .play-btn {
@@ -1298,24 +2370,331 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-.fullscreen-btn {
-  align-self: flex-end;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(0,0,0,.6);
-  color: white;
-  font-size: 18px;
+/* 📱 BOTONES MÁS CÓMODOS EN MÓVIL */
+@media screen and (max-width: 767px){
+
+  .overlay-center{
+    gap: 18px;
+  }
+
+  .play-btn{
+    width: 62px;
+    height: 62px;
+    font-size: 24px;
+  }
+
+  .seek-btn{
+    width: 56px;
+    height: 56px;
+    font-size: 16px;
+  }
+
+}
+
+/* 💻 CONTROLES MÁS ELEGANTES EN PC */
+@media screen and (min-width: 1200px){
+  .overlay-center{
+    gap: 22px;
+  }
+  .play-btn{
+    width: 68px;
+    height: 68px;
+  }
+  .seek-btn{
+    width: 58px;
+    height: 58px;
+  }
+
+}
+
+/* =========================
+   BOTTOM CONTROLS
+========================= */
+
+.overlay-bottom{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:6;
+  padding: clamp(10px, 2vw, 18px);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* CONTROLES */
+/* =========================
+   OVERLAY BOTTOM
+========================= */
+
+.overlay-bottom{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:6;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:
+    clamp(10px, 2vw, 18px)
+    clamp(10px, 2vw, 18px)
+    clamp(12px, 2vw, 20px);
+}
+
+/* =========================
+   FILA INFERIOR
+========================= */
+
+.overlay-bottom-controls{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:14px;
+
+  width:100%;
+}
+
+/* =========================
+   TIME
+========================= */
+
+.time{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  min-width:0;
+  color:#d8d8d8;
+  font-size:clamp(11px, 1vw, 14px);
+  font-weight:500;
+  line-height:1;
+  white-space:nowrap;
+  font-variant-numeric: tabular-nums;
+  user-select:none;
+}
+
+.time-separator{
+  opacity:.7;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+#progressBar{
+  width:100%;
+}
+
+/* =========================
+   TABLETS
+========================= */
+
+@media (max-width: 991px){
+
+  .overlay-bottom{
+    gap:8px;
+    padding:14px;
+  }
+
+  .fullscreen-btn{
+    width:40px;
+    height:40px;
+  }
+
 }
 
 
-.overlay-bottom .time {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #ccc;
+/* =========================
+   ANDROID + IPHONE
+========================= */
+
+@media (max-width: 767px){
+
+  .overlay-bottom{
+
+    gap:7px;
+
+    padding:
+      10px
+      max(10px, env(safe-area-inset-right))
+      max(14px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .overlay-bottom-controls{
+    gap:10px;
+  }
+
+  .time{
+    font-size:11px;
+  }
+
+  #progressBar{
+    height:5px;
+  }
+
+  .fullscreen-btn{
+    width:38px;
+    height:38px;
+    font-size:16px;
+    border-radius:9px;
+  }
+
+}
+
+
+/* =========================
+   IPHONE PEQUEÑOS
+========================= */
+
+@media (max-width: 480px){
+
+  .time{
+    font-size:10px;
+  }
+
+  .fullscreen-btn{
+    width:34px;
+    height:34px;
+    font-size:15px;
+    border-radius:8px;
+  }
+
+  #progressBar{
+    height:4px;
+  }
+
+}
+
+/* TIEMPO */
+.overlay-bottom .time{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  width:100%;
+
+  font-size: clamp(11px, 1.3vw, 14px);
+
+  color:#ccc;
+
+  line-height:1;
+}
+
+/* PROGRESS */
+.overlay-bottom-controls #progressBar{
+  width:100%;
+  min-width:0;
+}
+
+/* =========================
+   TABLETS
+========================= */
+
+@media (max-width: 991px){
+
+  .overlay-bottom{
+    padding:14px;
+    gap:8px;
+  }
+
+  .fullscreen-btn{
+    width:40px;
+    height:40px;
+    font-size:18px;
+  }
+
+}
+
+
+/* =========================
+   ANDROID + IPHONE
+========================= */
+
+@media (max-width: 767px){
+
+  .overlay-bottom{
+    padding:
+      10px
+      max(10px, env(safe-area-inset-right))
+      max(14px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+
+    gap:7px;
+  }
+
+  .overlay-bottom-controls{
+    gap:10px;
+  }
+
+  .overlay-bottom .time{
+    font-size:12px;
+  }
+
+  #progressBar{
+    height:5px;
+  }
+
+  .fullscreen-btn{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    font-size:17px;
+  }
+
+}
+
+
+/* =========================
+   IPHONE PEQUEÑOS
+========================= */
+
+@media (max-width: 480px){
+
+  .overlay-bottom{
+    padding:
+      8px
+      max(8px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left));
+  }
+
+  .overlay-bottom-controls{
+    gap:8px;
+  }
+
+  .overlay-bottom .time{
+    font-size:11px;
+  }
+
+  #progressBar{
+    height:4px;
+  }
+
+  .fullscreen-btn{
+    width:34px;
+    height:34px;
+    font-size:15px;
+  }
+
+}
+
+
+/* =========================
+   FULLSCREEN
+========================= */
+
+.mobile-player:fullscreen .overlay-bottom,
+.mobile-player.fake-fullscreen .overlay-bottom{
+
+  padding:
+    18px
+    max(18px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(18px, env(safe-area-inset-left));
 }
 
 .mobile-player:fullscreen .overlay-bottom {
@@ -1338,6 +2717,7 @@ document.addEventListener("DOMContentLoaded", () => {
 .mobile-player:fullscreen video {
   object-fit: contain;
 }
+
 .mobile-player:fullscreen {
   width: 100vw;
   height: 100vh;
@@ -1386,6 +2766,7 @@ document.addEventListener("DOMContentLoaded", () => {
   backdrop-filter: blur(8px);
 }
 
+
 /* CAJA */
 .modal-temp-box {
   position: relative;
@@ -1400,9 +2781,17 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 @keyframes aparecer {
-  from {transform: scale(.9); opacity:0;}
-  to {transform: scale(1); opacity:1;}
+  from {
+    transform: scale(.9);
+    opacity:0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity:1;
+  }
 }
+
 
 /* HEADER */
 .modal-header {
@@ -1419,6 +2808,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cursor: pointer;
   font-size: 20px;
 }
+
 
 /* TEMPORADAS */
 .temp-list {
@@ -1440,6 +2830,7 @@ document.addEventListener("DOMContentLoaded", () => {
   background: #ff2d5b;
 }
 
+
 /* EPISODIOS HORIZONTAL */
 .episodios-list {
   display: flex;
@@ -1452,7 +2843,6 @@ document.addEventListener("DOMContentLoaded", () => {
   background: #ff2d5b;
 }
 
-  
 </style>
 
 
@@ -1519,50 +2909,169 @@ document.addEventListener('DOMContentLoaded', () => {
 -->
 
 <style>
-  #player-loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 10, 10, 0.45);
-  backdrop-filter: blur(8px);
-  z-index: 20;
-  border-radius: 8px;
+ /* ==========================
+   LOADER VIDEO RESPONSIVE
+========================== */
 
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
+#player-loader{
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(0,0,0,.45);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index:20;
+
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s ease;
+
+  overflow:hidden;
+}
+
+/* ACTIVO */
+#player-loader.active{
+  opacity:1;
+  visibility:visible;
+}
+
+/* 🔥 IMPORTANTE */
+.mobile-player{
+  position:relative;
+}
+
+/* CONTENIDO */
+.player-loader-content{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:12px;
+  text-align:center;
+
+  width:100%;
+}
+
+/* SPINNER */
+/* =========================
+   SPINNER LIMPIO
+========================= */
+
+.player-spinner{
+
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  background:
+    conic-gradient(
+      #ff007f,
+      #ffae00,
+      #00ffcc,
+      #00aaff,
+      #9d00ff,
+      #ff007f
+    );
+
+  animation:playerSpin 1s linear infinite;
+
+  margin-bottom:12px;
+
+  /* 🔥 AGUJERO TRANSPARENTE */
+  -webkit-mask:
+    radial-gradient(
+      farthest-side,
+      transparent calc(100% - 5px),
+      #000 calc(100% - 4px)
+    );
+
+  mask:
+    radial-gradient(
+      farthest-side,
+      transparent calc(100% - 5px),
+      #000 calc(100% - 4px)
+    );
+
+  filter:drop-shadow(0 0 10px rgba(255,0,120,.35));
+}
+
+/* ROTACIÓN */
+@keyframes playerSpin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.player-spinner::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:50%;
+  background:#111;
+}
+
+@keyframes playerSpin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* TEXTO */
+.player-loading-text{
+  font-size:.9rem;
+  font-weight:600;
+  color:#fff;
+}
+
+/* 📱 MOBILE */
+@media (max-width:768px){
+
+  #player-loader{
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .player-spinner{
+    width:40px;
+    height:40px;
+  }
+
+  .player-loading-text{
+    font-size:.75rem;
+  }
+
+}
+
+/* 📱 MÓVILES MUY PEQUEÑOS */
+@media (max-width:480px){
+
+  .player-spinner{
+    width:34px;
+    height:34px;
+  }
+
+  .player-loading-text{
+    font-size:.70rem;
+  }
+
 }
 
 #player-loader.active {
   opacity: 1;
   pointer-events: all;
-}
-
-.loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 🔥 Spinner PRO */
-.player-spinner {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #ff007f,
-    #ffae00,
-    #00ffcc,
-    #00aaff,
-    #9d00ff,
-    #ff007f
-  );
-  animation: spin 1.2s linear infinite;
-  position: relative;
-  margin-bottom: 14px;
-  filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
 }
 
 /* Centro del spinner */
@@ -1574,18 +3083,6 @@ document.addEventListener('DOMContentLoaded', () => {
   border-radius: 50%;
 }
 
-/* Rotación */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Texto */
-.player-loading-text {
-  font-size: 0.85rem;
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
 
 /* Animación de puntos */
 .dots::after {
@@ -1667,7 +3164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="mobile-player" id="mobilePlayer">
   <!-- 🔄 Loader del reproductor -->
   <div id="player-loader">
-  <div class="loader-content">
+  <div class="player-loader-content">
     <div class="player-spinner"></div>
     <div class="player-loading-text">
       Cargando<span class="dots"></span>
@@ -1692,15 +3189,32 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="overlay-bottom">
-      <div class="time">
-        <span id="currentTime">0:00</span>
-        <span id="duration">0:00</span>
-      </div>
-      <div class="overlay-bottom-controls">
-        <input type="range" id="progressBar" value="0">
-        <button id="btnFullscreen" class="fullscreen-btn">⛶</button>
-      </div>
+
+  <input type="range" id="progressBar" value="0">
+
+  <div class="overlay-bottom-controls">
+
+    <div class="time">
+      <span id="currentTime">0:00</span>
+
+      <span class="time-separator">/</span>
+
+      <span id="duration">0:00</span>
     </div>
+
+    <div class="player-actions">
+      <button id="btnMinimize" class="fullscreen-btn" title="Minimizar">
+        ❐
+      </button>
+      
+      <button id="btnFullscreen" class="fullscreen-btn" title="Pantalla completa">
+        ⛶
+      </button>
+    </div>
+
+  </div>
+
+</div>
   </div>
 </div>
 
@@ -1731,9 +3245,576 @@ document.addEventListener('DOMContentLoaded', () => {
     <br>
 
     <div class="acciones">
-      <button id="btn-favorito">⭐ Agregar a Favoritos</button>
-    </div>
+
+  <button id="btn-favorito">
+
+    <span class="fav-bg"></span>
+
+    <span class="fav-icon">
+      ❤
+    </span>
+
+    <span class="fav-text">
+      Agregar a Favoritos
+    </span>
+
+    <span class="fav-glow"></span>
+
+  </button>
+
+</div>
   </div>
+
+  <!--FAVORITOS-->
+<style>
+
+/* =========================================
+🔥 RESET BOTÓN
+========================================= */
+
+#btn-favorito,
+#btn-favorito *{
+box-sizing:border-box;
+}
+
+/* =========================================
+🔥 CONTENEDOR
+========================================= */
+
+.acciones{
+
+width:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:
+20px 16px;
+}
+
+/* =========================================
+💖 FAVORITOS PREMIUM
+========================================= */
+
+#btn-favorito{
+
+position:relative;
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+
+width:auto;
+max-width:100%;
+
+border:none;
+outline:none;
+cursor:pointer;
+
+overflow:hidden;
+isolation:isolate;
+
+padding:
+16px 30px;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+135deg,
+#ff0055 0%,
+#ff2d75 35%,
+#7b2dff 100%
+);
+
+color:#fff;
+
+font-family:
+'Inter',
+sans-serif;
+
+font-size:1rem;
+font-weight:800;
+
+letter-spacing:.3px;
+line-height:1;
+
+white-space:nowrap;
+
+transition:
+transform .25s ease,
+box-shadow .35s ease,
+filter .35s ease,
+background .35s ease;
+
+box-shadow:
+0 10px 30px rgba(255,0,102,.30),
+0 0 25px rgba(123,45,255,.18);
+
+backdrop-filter:
+blur(10px);
+
+-webkit-backdrop-filter:
+blur(10px);
+}
+
+/* =========================================
+✨ CAPA INTERNA
+========================================= */
+
+.fav-bg{
+
+position:absolute;
+inset:1px;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.02)
+);
+
+z-index:-1;
+}
+
+/* =========================================
+💡 GLOW
+========================================= */
+
+.fav-glow{
+
+position:absolute;
+
+top:50%;
+left:-35%;
+
+width:130px;
+height:130px;
+
+transform:
+translateY(-50%);
+
+border-radius:50%;
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,.35),
+transparent 70%
+);
+
+opacity:.7;
+
+filter:blur(10px);
+
+animation:
+glowMove 4s linear infinite;
+}
+
+@keyframes glowMove{
+
+0%{
+left:-40%;
+opacity:0;
+}
+
+15%{
+opacity:.8;
+}
+
+100%{
+left:130%;
+opacity:0;
+}
+}
+
+/* =========================================
+❤️ ICONO
+========================================= */
+
+.fav-icon{
+
+position:relative;
+z-index:2;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:1.15rem;
+line-height:1;
+
+transition:
+transform .25s ease;
+}
+
+/* =========================================
+📝 TEXTO
+========================================= */
+
+.fav-text{
+
+position:relative;
+z-index:2;
+
+display:block;
+
+white-space:nowrap;
+}
+
+/* =========================================
+✨ SHINE
+========================================= */
+
+#btn-favorito::before{
+
+content:"";
+
+position:absolute;
+top:0;
+left:-120%;
+
+width:60%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.28),
+transparent
+);
+
+transform:skewX(-25deg);
+
+animation:
+shine 3.5s linear infinite;
+}
+
+@keyframes shine{
+
+100%{
+left:150%;
+}
+}
+
+/* =========================================
+🔥 HOVER
+========================================= */
+
+#btn-favorito:hover{
+
+transform:
+translateY(-4px)
+scale(1.02);
+
+box-shadow:
+0 16px 40px rgba(255,0,102,.42),
+0 0 30px rgba(123,45,255,.28);
+
+filter:
+brightness(1.05);
+}
+
+#btn-favorito:hover .fav-icon{
+
+transform:
+scale(1.18)
+rotate(-8deg);
+}
+
+/* =========================================
+⚡ ACTIVE
+========================================= */
+
+#btn-favorito:active{
+
+transform:
+scale(.96);
+}
+
+/* =========================================
+📱 MOBILE PEQUEÑOS
+========================================= */
+
+@media screen and (max-width:360px){
+
+.acciones{
+padding:
+16px 12px;
+}
+
+#btn-favorito{
+
+width:100%;
+
+min-height:50px;
+
+padding:
+14px 16px;
+
+gap:8px;
+
+font-size:.78rem;
+
+border-radius:18px;
+
+box-shadow:
+0 8px 22px rgba(255,0,102,.26);
+}
+
+.fav-icon{
+font-size:.90rem;
+}
+
+.fav-text{
+
+max-width:100%;
+
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.fav-glow{
+width:75px;
+height:75px;
+}
+
+#btn-favorito::before{
+animation-duration:4.5s;
+}
+}
+
+/* =========================================
+📱 MOBILE GENERAL
+========================================= */
+
+@media screen
+and (min-width:361px)
+and (max-width:600px){
+
+.acciones{
+padding:
+18px 14px;
+}
+
+#btn-favorito{
+
+width:100%;
+
+min-height:54px;
+
+padding:
+15px 20px;
+
+gap:10px;
+
+font-size:.90rem;
+
+border-radius:20px;
+}
+
+.fav-icon{
+font-size:1rem;
+}
+
+.fav-text{
+font-weight:800;
+}
+
+.fav-glow{
+width:90px;
+height:90px;
+}
+
+#btn-favorito:hover{
+
+transform:
+translateY(-2px)
+scale(1.01);
+}
+}
+
+/* =========================================
+🍎 IPHONE
+========================================= */
+
+@media screen
+and (min-width:390px)
+and (max-width:430px){
+
+.acciones{
+padding:
+20px 16px;
+}
+
+#btn-favorito{
+
+min-height:58px;
+
+padding:
+16px 24px;
+
+gap:12px;
+
+font-size:.97rem;
+
+border-radius:22px;
+}
+
+.fav-icon{
+font-size:1.08rem;
+}
+
+.fav-glow{
+width:100px;
+height:100px;
+}
+
+.fav-text{
+letter-spacing:.2px;
+}
+}
+
+/* =========================================
+📱 TABLET
+========================================= */
+
+@media screen
+and (min-width:768px)
+and (max-width:1023px){
+
+#btn-favorito{
+
+padding:
+17px 28px;
+
+font-size:1rem;
+
+gap:12px;
+
+border-radius:999px;
+}
+
+.fav-icon{
+font-size:1.15rem;
+}
+
+.fav-glow{
+width:120px;
+height:120px;
+}
+}
+
+/* =========================================
+💻 PC
+========================================= */
+
+@media screen
+and (min-width:1024px){
+
+.acciones{
+padding:
+24px 20px;
+}
+
+#btn-favorito{
+
+min-height:62px;
+
+padding:
+18px 34px;
+
+gap:14px;
+
+font-size:1.05rem;
+
+border-radius:999px;
+
+box-shadow:
+0 12px 34px rgba(255,0,102,.32),
+0 0 28px rgba(123,45,255,.20);
+}
+
+.fav-icon{
+font-size:1.22rem;
+}
+
+.fav-text{
+font-weight:800;
+}
+
+.fav-glow{
+width:140px;
+height:140px;
+}
+
+#btn-favorito:hover{
+
+transform:
+translateY(-5px)
+scale(1.03);
+}
+}
+
+/* =========================================
+🖥 PC GRANDES
+========================================= */
+
+@media screen
+and (min-width:1440px){
+
+.acciones{
+padding:
+28px 24px;
+}
+
+#btn-favorito{
+
+min-height:68px;
+
+padding:
+20px 42px;
+
+gap:16px;
+
+font-size:1.12rem;
+}
+
+.fav-icon{
+font-size:1.35rem;
+}
+
+.fav-glow{
+width:170px;
+height:170px;
+}
+
+#btn-favorito:hover{
+
+transform:
+translateY(-6px)
+scale(1.04);
+}
+}
+
+</style>
+
+  <script>
+
+// ENVIAR PING CADA 30 SEGUNDOS
+setInterval(() => {
+
+    fetch("ping.php")
+    .catch(() => {});
+
+}, 30000);
+
+</script>
 
   <script>
     const MOVIES_DB = {
@@ -1745,8 +3826,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "60 Minutos",
     video: "https://dl.dropbox.com/scl/fi/mb198ke9qzql2nmonx917/60-Minutos.mp4?rlkey=ci5hig86v3okgw54kyazo8o6j&st=",
     poster: "https://image.tmdb.org/t/p/w780/unvtbkgxh47BewQ8pENvdOdme0r.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/y15jeOxf2s4n6Nslk1rJksIl5mq.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/y15jeOxf2s4n6Nslk1rJksIl5mq.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -1754,7 +3835,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 29min",
     calificacion: "82%",
-    genero: "Accion • MMA",
+    genero: "Acción • MMA",
     director: "Oliver Kienle",
     reparto: "Emilio Sakraya, Dennis Mojen, Marie Mouroum",
     estreno: "19/01/2025",
@@ -1800,8 +3881,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "365 Días",
     video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelisarregladas%2Fparte2%2FVer%20pel%C3%ADcula%20365%20d%C3%ADas%20online%20gratis%20en%20HD%20%E2%80%A2%20Gnula.mp4",
     poster: "https://image.tmdb.org/t/p/w780/e8b2F4eg6ansZhaQQN8iXfzZtz7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wHGv8m8c8nctOo4VeFVkCejJ0gx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wHGv8m8c8nctOo4VeFVkCejJ0gx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -1855,8 +3936,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "365 Días 2: Aquel día",
     video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2FVer%20365%20dni-%20Ten%20dzie%C5%84%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4",
     poster: "https://image.tmdb.org/t/p/w780/zBG5Mg29NH9xxpWMMG7BIvKwYhL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/j3QAwKBfF2JGZrxP6UuxxP0tLN5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/k3J2GdYxhR6U2RfsHZOsmHVKW7m.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/j3QAwKBfF2JGZrxP6UuxxP0tLN5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -1910,8 +3991,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "365 Días 3: Más",
     video: "https://dl.dropbox.com/scl/fi/7i4ktk81fxyvhk66y73rr/365-Dias-3-Mas-2022.mp4?rlkey=bhnbxhi94hh6hw730kl8hqjfy&st=",
     poster: "https://image.tmdb.org/t/p/w780/6cpRpfD3isvluFwXDGSiDVyibPJ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6wy7bNk0kSFIU5mE9u6fupB38aP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mwcII5bXMeMTKyCejPuBPBTjmxu.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6wy7bNk0kSFIU5mE9u6fupB38aP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -1965,8 +4046,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "1978",
     video: "https://dl.dropbox.com/scl/fi/h3y5ye6hfqifjsqolfg0w/1978.2025.1080P-Lat.mkv?rlkey=fbvfj844uowkaro7wi6y6ifqb&st=",
     poster: "https://image.tmdb.org/t/p/w780/A81WfCAmydM880E9ZkULRjaX9QL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/znLNfdCKJlA9gjiJafnU8ic6vvN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iyKixwGhGRas1ppAih8E7SG5QDZ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/znLNfdCKJlA9gjiJafnU8ic6vvN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2023,8 +4104,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Avatar 3: Fuego y ceniza",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vHtH4xdcTbaCVftGwaeGFHfOB3p.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/el5qIXvvSPQOTYh6J6lNEvkw3pG.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vHtH4xdcTbaCVftGwaeGFHfOB3p.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/el5qIXvvSPQOTYh6J6lNEvkw3pG.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2078,8 +4159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¡A ganar!",
     video: "https://dl.dropbox.com/scl/fi/0prsz81yb8pv74njs8d0j/The.miracle.season.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=g97lmjjkt9ekh8stxzh6ci8g8&amp;st=",
     poster: "https://image.tmdb.org/t/p/w780/zwfec4vK1EvkQapE5wcYrB1BHov.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2wh7gMOOrgHasLUIAHaX8RXO37N.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6GVYL9K2IBFrfIqwwFqMPu5DdC5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2wh7gMOOrgHasLUIAHaX8RXO37N.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2133,8 +4214,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Abigail",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmay24%2FVer%20Abigail%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/uy0uipx90Su2WqOjDSazOJDryUj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kmB9grIf2fvpwwsDmNMN0XFz1tT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/yAyYEF7gksifL2cePGWZB0CRiu4.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kmB9grIf2fvpwwsDmNMN0XFz1tT.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/yAyYEF7gksifL2cePGWZB0CRiu4.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2188,8 +4269,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "After: Aquí empieza todo",
     video: "https://dl.dropbox.com/scl/fi/my2rjwlpuunyzasp3d2fa/After.we.collided.2020.1080P-Dual-Lat.mp4?rlkey=pse9hjnqtt00l0m097dxv7sm7&st=",
     poster: "https://image.tmdb.org/t/p/w780/2v7RA1nbYnaz0NPBw3fq4bOvLgN.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1crJw3WFstkgpJOO4b9qNwQ847a.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5kZxlS9vLExy3hZA5GfNFg8oJgZ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1crJw3WFstkgpJOO4b9qNwQ847a.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2243,8 +4324,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "After 2: En mil pedazos",
     video: "https://dl.dropbox.com/scl/fi/9ztayaphhu5khkh464ep4/After.we.fell.2021.1080P-Dual-Lat.mp4?rlkey=ei8fb4b80wcashrezwtjgab2f&st=",
     poster: "https://image.tmdb.org/t/p/w780/6hgItrYQEG33y0I7yP2SRl2ei4w.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8nPw22C41EUWXREWmY9iIivMXxm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lSB9mLJ8LQP1BTzhp3LETCkjVmu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8nPw22C41EUWXREWmY9iIivMXxm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lSB9mLJ8LQP1BTzhp3LETCkjVmu.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2298,8 +4379,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "After 3: Amor infinito",
     video: "https://dl.dropbox.com/scl/fi/1sxa7z40k8spgl169c9mr/After.Para.Siempre.2023.1080P-Dual-Lat.mp4?rlkey=ndpuunh4tejq42usn5dfgbaeq&st=",
     poster: "https://image.tmdb.org/t/p/w780/rwgmDkIEv8VjAsWx25ottJrFvpO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/v90nsS5Bd8mIqiEUumqrIRlPLEz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vcI9BD5kMmVI45Pzj5B1ZaGpFIR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/v90nsS5Bd8mIqiEUumqrIRlPLEz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2353,8 +4434,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "After 4: Aquí acaba todo",
     video: "https://dl.dropbox.com/scl/fi/pvf8rt6u4k9a16wz4bnd6/After.Ever.Happy.2022.1080P-Dual-Lat.mp4?rlkey=pdgunohi7i4ljm49emvvz317t&st=",
     poster: "https://image.tmdb.org/t/p/w780/fH7kYS9qEOkhFQZc0Dcoa9MFjje.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jO3VGQi5sHIj2BGS963g1F74yCq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/o1ThjWZn2TbXXZu7g3YZXGk05CI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jO3VGQi5sHIj2BGS963g1F74yCq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/o1ThjWZn2TbXXZu7g3YZXGk05CI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2408,8 +4489,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Al rescate de Fondo de Bikini: La película de Arenita Mejillas",
     video: "https://dl.dropbox.com/scl/fi/lm34v9ne3qvjrjwnun40r/Al-rescate-a-fondo-de-bikini-arenita-2025-Mp4.mp4?rlkey=q1ipsn1xgcv2ymf9z6vas6ch4&st=",
     poster: "https://image.tmdb.org/t/p/w780/b80Ql0yP3lushkYpv4zgS93yfdJ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/erz9iEOK13uvzcVAb8UcwlW0799.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7WfWEy1EIJj4nLR6PdE6A09TcOv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/erz9iEOK13uvzcVAb8UcwlW0799.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2463,8 +4544,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Aladdín",
     video: "https://dl.dropbox.com/scl/fi/vql4ijsfk0s5465s1bt6a/Aladdin.1992.1080p-dual-lat-cinecalidad.is.mp4?rlkey=tgeihruzajf0ovwpzpazjhhax&st=",
     poster: "https://image.tmdb.org/t/p/w780/5OeY4U2rzePxWq2rkqMajUx2gz7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fg1ZtkVT8hUVAGqqJwS5hyWX654.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fg1ZtkVT8hUVAGqqJwS5hyWX654.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2472,7 +4553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1993",
     duracion: "1h 30min",
     calificacion: "82%",
-    genero: "Animacion • Aventura • Disney • Romance • Fantasia",
+    genero: "Animación • Aventura • Disney • Romance • Fantasia",
     director: "Ron Clements, John Musker",
     reparto: "Robin Williams, Scott Weinger, Linda Larkin",
     estreno: "25/11/1992",
@@ -2518,8 +4599,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Aladdín 2: El retorno de Jafar",
     video: "https://dl.dropbox.com/scl/fi/arba3rvk9wcjzyop87qjv/Aladdin-2.mp4?rlkey=5mrj74618l97biga8cb94u0cv&st=",
     poster: "https://image.tmdb.org/t/p/w780/mOOJm3tamy9iHg2mOEA77CM6ufZ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tC54XTUu4NVsMeWdSofja2uye9c.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7fmLctOOoSajuTmOoxeyy9x3QsW.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tC54XTUu4NVsMeWdSofja2uye9c.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7fmLctOOoSajuTmOoxeyy9x3QsW.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2527,7 +4608,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1994",
     duracion: "1h 09min",
     calificacion: "82%",
-    genero: "Animacion • Aventura • Disney • Romance • Fantasia",
+    genero: "Animación • Aventura • Disney • Romance • Fantasia",
     director: "Guy Ritchie",
     reparto: "Robin Williams, Scott Weinger, Linda Larkin",
     estreno: "20/03/1994",
@@ -2573,8 +4654,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Aladdín 3: El rey de los ladrones",
     video: "https://dl.dropbox.com/scl/fi/hwfh35xta2br4myvu099w/Aladdin-3.mp4?rlkey=9v1n013fwd39e5xgin5e7f8ez&st=",
     poster: "https://image.tmdb.org/t/p/w780/6ywLV3O6InF1BE870a4EgSpBoja.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/abWvjyJz4kcp1xDn28RwyXjoIds.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lqsxcyXHrGkJKOcAauyqtXni4nh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/abWvjyJz4kcp1xDn28RwyXjoIds.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lqsxcyXHrGkJKOcAauyqtXni4nh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2582,7 +4663,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1996",
     duracion: "1h 21min",
     calificacion: "75%",
-    genero: "Animacion • Aventura • Disney • Romance • Fantasia",
+    genero: "Animación • Aventura • Disney • Romance • Fantasia",
     director: "Tad Stones",
     reparto: "Scott Weinger, Linda Larkin, Val Bettin",
     estreno: "22/01/1996",
@@ -2628,8 +4709,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Aladdín",
     video: "https://dl.dropbox.com/scl/fi/acgrahd2zzcqgh5zo0hx9/Aladdin.2019.1080p-dual-lat-cinecalidad.to.mp4?rlkey=qtonjfh72uy6bvmjsad1kiadh&st=",
     poster: "https://image.tmdb.org/t/p/w780/oX056O8bAInZ75jGY9MacQ2VlsM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fv9c5fsdxqUzkullgMB4cZja29y.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fRQtk23AQV5uj2sIoJhWCqt37qW.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fv9c5fsdxqUzkullgMB4cZja29y.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fRQtk23AQV5uj2sIoJhWCqt37qW.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2683,8 +4764,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Alarum: Código letal",
     video: "https://dl.dropbox.com/scl/fi/zgdjsgfexumfj01xfvhz0/Alarum.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=eyioe1rx3gjw80ra8l294i1yf&st=",
     poster: "https://image.tmdb.org/t/p/w780/9A97itZIjT5wozcRLAHusnXYsr5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9A97itZIjT5wozcRLAHusnXYsr5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/d3QFYKpEY2LSSTh70C227Z2mlwB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9A97itZIjT5wozcRLAHusnXYsr5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2692,7 +4773,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 35min",
     calificacion: "70%",
-    genero: "Accion • Crimen • Suspenso",
+    genero: "Acción • Crimen • Suspenso",
     director: "Michael Polish",
     reparto: "Willa Fitzgerald, Sylvester Stallone, Ísis Valverde",
     estreno: "17/01/2025",
@@ -2738,8 +4819,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Annabelle",
     video: "https://dl.dropbox.com/scl/fi/c4y8vmzvwttrw9y51zvz8/Annabelle.2014.1080P-Dual-Lat.mp4?rlkey=igq4az6ke0jtnu22suc5uyt51&st=",
     poster: "https://image.tmdb.org/t/p/w780/pWZ0srAfPx4XyJMlFkKBlmYfx3C.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6eBUOcKZiE60a0nRz2al8xMyUm7.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jNFqmsulwUrhYQW3MvqzfMc7SdS.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6eBUOcKZiE60a0nRz2al8xMyUm7.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2794,8 +4875,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Annabelle 2: La creación",
     video: "https://dl.dropbox.com/scl/fi/qse92rnp9macloj3kqcmu/Annabelle.2.creation.2017.1080P-Dual-Lat.mp4?rlkey=21izro9wmv54cht86t5md0rbd&st=",
     poster: "https://image.tmdb.org/t/p/w780/o8u0NyEigCEaZHBdCYTRfXR8U4i.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/x0pekWNy7GS37bm30zuxWNLPXj8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tyaxiSf1tgJnhq7CMGEwB3zThIP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tyaxiSf1tgJnhq7CMGEwB3zThIP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2849,8 +4930,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Annabelle 3: Vuelve a casa",
     video: "https://dl.dropbox.com/scl/fi/phy3ip3ioojlg7vcgd5gy/Annabelle.comes.home.2019.1080P-Dual-Lat.mp4?rlkey=geo7jbrydvuek4x8cyr2m5st4&st=",
     poster: "https://image.tmdb.org/t/p/w780/jB98SrdXAYSbiprjIwc7WfVCuCV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qWSdvIeCbAfdSxwjaWS1kbl0njf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qWSdvIeCbAfdSxwjaWS1kbl0njf.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -2904,13 +4985,13 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Anora",
     video: "https://dl.dropbox.com/scl/fi/yitxkxrgh7e3q4v81q9gn/Anora-2024.mp4?rlkey=l6ihh94ritdypkhzdtz9s7w2e&st=",
     poster: "https://image.tmdb.org/t/p/w780/kEYWal656zP5Q2Tohm91aw6orlT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8gGOe2JkSxEQB40yRpEsAdCYHPL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tZCrWnyN4zEtJiFem5TFoYT8nxI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8gGOe2JkSxEQB40yRpEsAdCYHPL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
     sinopsis: "Anora, una joven prostituta de Brooklyn, tiene la oportunidad de vivir una historia de Cenicienta cuando conoce e impulsivamente se casa con el hijo de un oligarca. Cuando la noticia llega a Rusia, su cuento de hadas se ve amenazado, ya que los padres parten hacia Nueva York para intentar conseguir la anulación del matrimonio.",
-    anio: "2024",
+    anio: "2025",
     duracion: "2h 19min",
     calificacion: "70%",
     genero: "Romance • Drama",
@@ -2922,7 +5003,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        href: "../View Series/IT Bienvenido a Derry (2025).html",
+        href: "View Peliculas/Reproductor Universal Series.php?id=it_bienvenido_a_derry",
         titulo: "IT: Bienvenidos a Derry",
         imagen: "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg"
       },
@@ -2959,8 +5040,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Almas marcadas: Rule + Shaw",
     video: "https://dl.dropbox.com/scl/fi/nn8zmke4u409kc51h4d1f/Almas-marcadas-2025.mp4?rlkey=lx0qms8ss6dcpzza469tepksx&st=",
     poster: "https://image.tmdb.org/t/p/w780/uEFgYNggglIgno71h73W1oJAiQG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/78peWyR9zJ02Ga25R4ibG7TIn8f.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6rFgrN5k4c1HrVoyr0zNDdH4bK5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/78peWyR9zJ02Ga25R4ibG7TIn8f.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3015,8 +5096,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Alvin y las ardillas",
     video: "https://dl.dropbox.com/scl/fi/w5pw3kypg73z37ug5v1xh/Alvin-y-las-ardillas.mp4?rlkey=d6x3vsrhw5tytdl1oy9a41cgo&st=",
     poster: "https://image.tmdb.org/t/p/w780/1Y0ObS013fFZiwy1kihsh3fDHJl.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ijhQ1jYtkO8um8zShKVYDTsJFEE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ijhQ1jYtkO8um8zShKVYDTsJFEE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3024,7 +5105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2007",
     duracion: "1h 31min",
     calificacion: "73%",
-    genero: "Animacion • Musical • Comedia • Familia",
+    genero: "Animación • Musical • Comedia • Familia",
     director: "Tim Hill",
     reparto: "Ross Bagdasarian Jr, David Cross, Janice Karman",
     estreno: "14/12/2007",
@@ -3033,7 +5114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "alvil_y_las_ardillas_2",
+        id: "alvin_y_las_ardillas_2",
         titulo: "Alvin y las ardillas 2",
         imagen: "https://image.tmdb.org/t/p/w300/1DqgIFHVJwjlaIITCcYtobrirfd.jpg"
       },
@@ -3070,8 +5151,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Alvin y las ardillas 2",
     video: "https://dl.dropbox.com/scl/fi/2y6gswnb8setevnlah2ck/Alvin-y-las-ardillas-2.mp4?rlkey=i4p2hktjij1gzr0f8nkd889qz&st=",
     poster: "https://image.tmdb.org/t/p/w780/3lf6YCItKcF3Wrrs7tp1PL0eyOT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/yPJ1hm4Oz6ckD60F2ZYYK1joh9E.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ye1MoMxdW6imx1BdytGxXYvj4BT.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/yPJ1hm4Oz6ckD60F2ZYYK1joh9E.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3079,7 +5160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2009",
     duracion: "1h 28min",
     calificacion: "70%",
-    genero: "Animacion • Aventura • Comedia • Musical",
+    genero: "Animación • Aventura • Comedia • Musical",
     director: "Betty Thomas",
     reparto: "Justin Long, Zachary Levi, Anna Faris",
     estreno: "23/12/2009",
@@ -3125,8 +5206,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Alvin y las ardillas 3",
     video: "https://dl.dropbox.com/scl/fi/rf3psyxozwy9y0p0f9lql/Alvin-y-las-ardillas-3.mp4?rlkey=0q8eim0a7lnckc25lw86l4co3&st=",
     poster: "https://image.tmdb.org/t/p/w780/6ZcAuv5GBSSLF0LDLVLjTaT3Ucd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/a52ebjlDqvrjcKtFGDtQgNQLaGH.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/nYKSWBMZ1iF8QrJgOHImWEPnGiy.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/a52ebjlDqvrjcKtFGDtQgNQLaGH.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/nYKSWBMZ1iF8QrJgOHImWEPnGiy.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3134,7 +5215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2011",
     duracion: "1h 27min",
     calificacion: "87%",
-    genero: "Animacion • Aventura • Comedia • Musical",
+    genero: "Animación • Aventura • Comedia • Musical",
     director: "Mike Mitchell",
     reparto: "Jason Lee, Jenny Slate, Jesse McCartney",
     estreno: "05/01/2011",
@@ -3148,7 +5229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg"
       },
       {
-        id: "alvil_y_las_ardillas_2",
+        id: "alvin_y_las_ardillas_2",
         titulo: "Alvin y las ardillas 2",
         imagen: "https://image.tmdb.org/t/p/w300/1DqgIFHVJwjlaIITCcYtobrirfd.jpg"
       },
@@ -3180,16 +5261,16 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Alvin y las ardillas 4: Fiesta sobre ruedas",
     video: "https://dl.dropbox.com/scl/fi/xorbckpaet1vrzcq52nqo/Alvin.and.the.chipmunks.the.road.chip.2015.1080p-dual-lat.mp4?rlkey=81042fmp66s3jd2m9730rbalg&st=",
     poster: "https://image.tmdb.org/t/p/w780/r5uE0qZt7d9lVlNar2MAD7cvxEb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/isz4uh337srL6PIYiKXTS5Htssq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/naTVhOOSUTQJOFoG5mMrstG5N4s.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/isz4uh337srL6PIYiKXTS5Htssq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/naTVhOOSUTQJOFoG5mMrstG5N4s.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
     sinopsis: "Tras una serie de malentendidos Alvin, Simon y Theodore piensan que Dave se va a declarar a su nueva novia en Nueva York... y por tanto se olvidará de ellos. Tienen tres días para llegar e intentar romper el compromiso y salvarse así de la pérdida de Dave.",
     anio: "2015",
-    duracion: "0h 008min",
+    duracion: "1h 32min",
     calificacion: "73%",
-    genero: "Animacion • Aventura • Comedia • Musical",
+    genero: "Animación • Aventura • Comedia • Musical",
     director: "Walt Becker",
     reparto: "Justin Long, Mateo Gray Gubler, Jesse McCartney",
     estreno: "21/01/2015",
@@ -3203,7 +5284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/jgvlT0DhzAQET6nkM6N1BVoGDSj.jpg"
       },
       {
-        id: "alvil_y_las_ardillas_2",
+        id: "alvin_y_las_ardillas_2",
         titulo: "Alvin y las ardillas 2",
         imagen: "https://image.tmdb.org/t/p/w300/1DqgIFHVJwjlaIITCcYtobrirfd.jpg"
       },
@@ -3235,8 +5316,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Amateur",
     video: "https://dl.dropbox.com/scl/fi/uzcwtzbih9bpdyxcvgfvp/The.amateur.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=slid43o4ta4pyxigyniotnv0u&st=",
     poster: "https://image.tmdb.org/t/p/w780/2Hz53Ap0KLULE37BzwvZOBsMosW.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xzM5pMCIyp8jkGtsFBGcPlRhVBc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6vjEvMwns7kgkcEjJLRrXhkIhVb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xzM5pMCIyp8jkGtsFBGcPlRhVBc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6vjEvMwns7kgkcEjJLRrXhkIhVb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3244,7 +5325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "2h 02min",
     calificacion: "60%",
-    genero: "Suspenso • Accion",
+    genero: "Suspenso • Acción",
     director: "James Hawes",
     reparto: "Rami Malek, McCallany muerto, Rachel Brosnahan",
     estreno: "11/04/2025",
@@ -3291,8 +5372,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Anna Nicole Smith: Tú no me conoces",
     video: "https://dl.dropbox.com/scl/fi/y9jubtkn9hxk5fs1yokrf/Anna-nicole-2023.mp4?rlkey=k8cskscbcw2n2pdfvzomontjy&st=",
     poster: "https://image.tmdb.org/t/p/w780/nIXBaPRix53sq4W2KK8FazrGzc4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/liMeRBQ8FrCpwl6dc9qpYQaWkKS.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/liMeRBQ8FrCpwl6dc9qpYQaWkKS.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3329,7 +5410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/ofnOwcG9l1DuGl7vB45JHsfSlR6.jpg"
       },
       {
-        href: "../View Series/IT Bienvenido a Derry (2025).html",
+        href: "View Peliculas/Reproductor Universal Series.php?id=it_bienvenido_a_derry",
         titulo: "IT: Bienvenidos a Derry",
         imagen: "https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg"
       },
@@ -3346,8 +5427,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Asesino serial",
     video: "https://dl.dropbox.com/scl/fi/jgnezwq0w1ddidene6pju/Asesino-serial-2024.mp4?rlkey=ow3ootcly7htvefkkeeky95n1&st=",
     poster: "https://image.tmdb.org/t/p/w780/oBpgi6xMeZyYZwiAqXNE66bdzg8.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9T8h9P8JpyuEw9dWOQerShO0ipI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9T8h9P8JpyuEw9dWOQerShO0ipI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3401,8 +5482,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Atrapados en lo profundo",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Atrapados%20en%20lo%20Profundo%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/pTwYKKUvYeQ2kB3Nkx9Za3OKslr.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dzjntJTeTP72wSipv7jsp2WBJfn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dzjntJTeTP72wSipv7jsp2WBJfn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3456,8 +5537,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Azrael",
     video: "https://dl.dropbox.com/scl/fi/v6x1l1mfnvbbmayisj28v/Azrael-2024.mp4?rlkey=8ree1k56mr4v2nm937adbco82&st=",
     poster: "https://image.tmdb.org/t/p/w780/uLqNGzJwnj8JKkKuRM2dHWJKCtc.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oRZZDhHrxIqvXAuDgQLalm7vlrN.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/c2CvFzVdyXFokXHhIGJrqZg5ssE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/oRZZDhHrxIqvXAuDgQLalm7vlrN.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/c2CvFzVdyXFokXHhIGJrqZg5ssE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3509,13 +5590,178 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*B*/
 
+  boda_sangrienta_2: {
+    id: "boda_sangrienta_2",
+    titulo: "Boda sangrienta 2",
+    video: "https://dl.dropbox.com/scl/fi/nupo3lxk8igr5rlq37bas/Boda-sangrienta-2-Espa-ol-latino-2026.mp4?rlkey=w8webtboz4l9pbbcn6gcpilr1&st=",
+    poster: "https://image.tmdb.org/t/p/w780/fx2cEuadZK28VHKkc0F1nFR96i0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qu6EVeLYchxFSJkSmI9eK4KLEpG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1UzmDmeXBZnmyCEwKWTLdudBj1V.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Momentos después de sobrevivir a un ataque de la familia Le Domas, Grace descubre que ha alcanzado el siguiente nivel del juego, y esta vez acompañada por su hermana Faith, con quien mantiene una relación distante. Grace tiene una oportunidad para sobrevivir, mantener con vida a su hermana y reclamar el Alto Trono del Consejo que controla el mundo. Cuatro familias rivales la persiguen para hacerse con el trono, y quien gane lo gobernará todo.",
+    anio: "2026",
+    duracion: "1h 50min",
+    calificacion: "84,8%",
+    genero: "Terror • Suspenso",
+    director: "Tyler Gillett • Matt Bettinelli-Olpin",
+    reparto: "Samara Weaving • Kathryn Newton • Elijah Wood",
+    estreno: "19/03/2026",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "boda_sangrienta",
+        titulo: "Boda sangrienta",
+        imagen: "https://image.tmdb.org/t/p/w300/yxNSgsnBByx8L6PLH0fSXS9kgeR.jpg"
+      },
+      {
+        id: "scream_7",
+        titulo: "Scream 7",
+        imagen: "https://image.tmdb.org/t/p/w300/2pULHV2e3W7KNTyyfZl6dX071Np.jpg"
+      },
+      {
+        id: "insidiou_inferno",
+        titulo: "Insidious Inferno",
+        imagen: "https://image.tmdb.org/t/p/w300/8kljUAovBatZRYp2ye2RZr239hU.jpg"
+      },
+      {
+        id: "dulce_venganza_2",
+        titulo: "Dulce venganza 2",
+        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
+      },
+      {
+        id: "evil_dead_el_despertar",
+        titulo: "Evil dead: El despertar",
+        imagen: "https://image.tmdb.org/t/p/w300/uwF8bBauJob5TISQ1cMHoVgIdWD.jpg"
+      },
+      {
+        id: "axrael",
+        titulo: "Azrael",
+        imagen: "https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"
+      }
+    ]
+  },
+
+  boda_sangrienta: {
+    id: "boda_sangrienta",
+    titulo: "Boda sangrienta",
+    video: "https://dl.dropbox.com/scl/fi/18wi4d1dyy6z8e2uyjbrm/Ready.or.not.2019.1080P-Dual-Lat.mp4?rlkey=ja2wswd8tfsfazcg9oizmc612&st=",
+    poster: "https://image.tmdb.org/t/p/w780/oJ1MIABA0WF0a7MDVQnnMvBdex8.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yxNSgsnBByx8L6PLH0fSXS9kgeR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/teFRu8YlJjY0F5fCQAZKfKEVGXy.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Durante la noche de su boda, una mujer recibe la invitación por parte de la rica y excéntrica familia de su marido para participar en una tradición ancestral que se convierte en un juego letal de supervivencia.",
+    anio: "2019",
+    duracion: "1h 35min",
+    calificacion: "85,7%",
+    genero: "Terror • Suspenso",
+    director: "Matt Bettinelli-Olpin • Tyler Gillett",
+    reparto: "Samara Weaving • Adam Brody • Mark O'Brien",
+    estreno: "21/08/2019",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "boda_sangrienta_2",
+        titulo: "Boda sangrienta 2",
+        imagen: "https://image.tmdb.org/t/p/w300/qu6EVeLYchxFSJkSmI9eK4KLEpG.jpg"
+      },
+      {
+        id: "sirena",
+        titulo: "Sirena",
+        imagen: "https://image.tmdb.org/t/p/w300/gxcFPmTOpz1Eyl20x7sY3T95pcf.jpg"
+      },
+      {
+        id: "los_extraños_capitulo_2",
+        titulo: "Los extraños: Capítulo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/fE5JZwAqTAgSASwm8rip9fMQ6Nv.jpg"
+      },
+      {
+        id: "la_huerfana_el_origen",
+        titulo: "La huérfana: El origen",
+        imagen: "https://image.tmdb.org/t/p/w300/1xOSjSzY4k2MLRZ1phzYb0VJYaS.jpg"
+      },
+      {
+        id: "la_llamada_del_diablo",
+        titulo: "La llamada del diablo",
+        imagen: "https://image.tmdb.org/t/p/w300/zwPHAxgtexFXGzTG7qQEu5bMlOh.jpg"
+      },
+      {
+        id: "it_capitulo_2",
+        titulo: "It: Capitulo 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9oERKIVyTWpHNum3STVsAGD4ojz.jpg"
+      }
+    ]
+  },
+
+  boyka_invicto_4: {
+    id: "boyka_invicto_4",
+    titulo: "Boyka: Invicto IV",
+    video: "https://dl.dropbox.com/scl/fi/h1h31o3609jda1gc58vzn/Invicto-IV-2016.mp4?rlkey=1az82cutntetw29lduinsyt2p&st=",
+    poster: "https://image.tmdb.org/t/p/w780/tpIaOmS3Pf6m0gX8JPi0h3Rz9aK.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yegOHiGUyHiUXNSFlMfFTEZboj7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oja7zmxgSYZwKweyQoTaaDleoHK.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Boyka es un luchador de boxeo que se encuentra en mitad de una importante liga. Durante la competición se produce una muerte lo que hace que empiece a replantearse verdaderamente lo que merece la pena este deporte. Cuando descubre que la mujer del fallecido se encuentra en serios problemas, decide luchar una serie de batallas para poder liberarla de la servidumbre.",
+    anio: "2016",
+    duracion: "1h 30min",
+    calificacion: "85,4%",
+    genero: "Acción • Crimen • Drama • Suspenso",
+    director: "Todor Chapkanov",
+    reparto: "Scott Adkins, Alon Aboutboul, Julian Vergov",
+    estreno: "22/09/2016",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "invicto",
+        titulo: "Invicto",
+        imagen: "https://image.tmdb.org/t/p/w300/uzOUhslJu8NYcGXJEvC4H9aJiZv.jpg"
+      },
+      {
+        id: "invicto_2",
+        titulo: "Invicto 2",
+        imagen: "https://image.tmdb.org/t/p/w300/vclQBkYCUmXRGaVUbFO0EseiESn.jpg"
+      },
+      {
+        id: "invicto_3",
+        titulo: "Invicto 3: Redención",
+        imagen: "https://image.tmdb.org/t/p/w300/5IRmWsLeDv2P6qDRiJeSPUTj8va.jpg"
+      },
+      {
+        id: "karate_kid_4",
+        titulo: "Karate Kid 4: Legends",
+        imagen: "https://image.tmdb.org/t/p/w300/qU6SAj6arAaEgnrtn4WgIL2l3LS.jpg"
+      },
+      {
+        id: "rendirse_jamas",
+        titulo: "Rendirse Jamas",
+        imagen: "https://image.tmdb.org/t/p/w300/nas9XShlxUZrNZCyBdf4AAXpRiq.jpg"
+      },
+      {
+        id: "secenta_minutos",
+        titulo: "60 Minutos",
+        imagen: "https://image.tmdb.org/t/p/w300/cND79ZWPFINDtkA8uwmQo1gnPPE.jpg"
+      }
+    ]
+  },
+
   babygirl: {
     id: "babygirl",
     titulo: "Babygirl: Deseo prohibido",
     video: "https://dl.dropbox.com/scl/fi/6hpdz8xib7m9unzcxpnh5/Babygirl.2024.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=rqhnftmx46x7xpm0lks6l0j1n&st=",
     poster: "https://image.tmdb.org/t/p/w780/1KVV92Wns3NaNEHNcK6uZIyK0fT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mOP7n5MvYJfCvnL5mJZ2uBs5qw0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mOP7n5MvYJfCvnL5mJZ2uBs5qw0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3569,8 +5815,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bad boys: Dos policías rebeldes",
     video: "https://dl.dropbox.com/scl/fi/m5lmqp9v3m0h2os3lojy6/Dos-policias-rebeldes-1.mp4?rlkey=k31jddh6tc1yik1hv6vyin7cv&st=",
     poster: "https://image.tmdb.org/t/p/w780/fgKEdhRw9IgI9KGjLe4w5ghIjA3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ZYpSdXaTMFYCGbmVmXOFbdJmSv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sLqRP3zrbyvThp6LNZ7CoVHigNA.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ZYpSdXaTMFYCGbmVmXOFbdJmSv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/sLqRP3zrbyvThp6LNZ7CoVHigNA.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3578,7 +5824,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1995",
     duracion: "1h 58min",
     calificacion: "68%",
-    genero: "Accion • Comedia • Crimen",
+    genero: "Acción • Comedia • Crimen",
     director: "Michael Bay",
     reparto: "Will Smith, Martín Lawrence, Téa Leoni",
     estreno: "21/07/1995",
@@ -3624,8 +5870,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bad boys 2: Dos policías rebeldes",
     video: "https://dl.dropbox.com/scl/fi/5z54279hcxx8g8z6oh9ws/Bad.Boys.II.2003.1080P-Dual-Lat.mp4?rlkey=qbrdqfvz4gq9aq5e87bca8mx0&st=",
     poster: "https://image.tmdb.org/t/p/w780/jNGj5kw65X2tpx7ffRsuxunPjrC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qyHDZB87UQF9cu6uuQzhhaKGvuo.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/aBMSBNSpPQNoWgIhXKNTM8aAk7U.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qyHDZB87UQF9cu6uuQzhhaKGvuo.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/aBMSBNSpPQNoWgIhXKNTM8aAk7U.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3633,7 +5879,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2003",
     duracion: "2h 26min",
     calificacion: "71%",
-    genero: "Accion • Crimen • Comedia",
+    genero: "Acción • Crimen • Comedia",
     director: "Michael Bay",
     reparto: "Martin Lawrence, Will Smith, Jordi Mollà",
     estreno: "02/10/2003",
@@ -3679,8 +5925,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bad boys 3: Para siempre",
     video: "https://dl.dropbox.com/scl/fi/01jnh4tk060wehqr6zczc/Bad.boys.for.life.2020.1080P-Dual-Lat.mp4?rlkey=10kibtebmfvbijrgdst9jyv69&st=",
     poster: "https://image.tmdb.org/t/p/w780/iUspPEAjhUUrLYKntTnKupt3eqV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uD0y7OF5aVBAQA8sGQmyx9AEC1Y.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5XR7Pbo8qdwdpOIsFtWJOEiOJD6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/uD0y7OF5aVBAQA8sGQmyx9AEC1Y.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3688,7 +5934,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2020",
     duracion: "1h 03min",
     calificacion: "71%",
-    genero: "Accion • Crimen • Comedia",
+    genero: "Acción • Crimen • Comedia",
     director: "Adil El Arbi",
     reparto: "Will Smith, Martín Lawrence, Vanessa Hudgens",
     estreno: "23/01/2020",
@@ -3734,8 +5980,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bad boys 4: Hasta la muerte",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/tncbMvfV0V07UZozXdBEq4Wu9HH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/464ercDI5BPztFKw4BzcL6bkoID.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/25PVk2NFoZoCnaqxb4nSQqwxNd7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/464ercDI5BPztFKw4BzcL6bkoID.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3743,7 +5989,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "0h 008min",
     calificacion: "73%",
-    genero: "Accion • Crimen • Comedia",
+    genero: "Acción • Crimen • Comedia",
     director: "Adil El Arbi y Bilall Fallah",
     reparto: "Will Smith, Martin Lawrence, Vanessa Hudgens",
     estreno: "07/06/2024",
@@ -3789,8 +6035,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Baghead: Contacto con la muerte",
     video: "https://dl.dropbox.com/scl/fi/ur1xcyku3dvhy8yp0ujfd/Baghead.Contacto.Con.La.Muerte.2024.1080P-Dual-Lat.mp4?rlkey=gi7kxrnnupjmsye0r8ap2a789&st=",
     poster: "https://image.tmdb.org/t/p/w780/lVJVLe4EZ1hOKPUWgsZVebCnr0C.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/nCnFL7JeNVyGxZbvF73ubktQFBP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/nCnFL7JeNVyGxZbvF73ubktQFBP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3844,8 +6090,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Baki Hanma VS Kengan Ashura",
     video: "https://dl.dropbox.com/scl/fi/3vsv00d68ltyugcdg29m8/Baki.hanma.vs.kengan.ashura.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=p01e89n8nmpmzf6ktgaqvspdb&st=",
     poster: "https://image.tmdb.org/t/p/w780/zNueX4mKKQlBqHRmeSziGCHmbiz.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/etbHJxil0wHvYOCmibzFLsMcl2C.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6LPGdnB3iJ8VjpuCOfICkimFhTt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/etbHJxil0wHvYOCmibzFLsMcl2C.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6LPGdnB3iJ8VjpuCOfICkimFhTt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3853,7 +6099,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 02min",
     calificacion: "80%",
-    genero: "Animacion • Anime • Peleas • Fantasia",
+    genero: "Animación • Anime • Peleas • Fantasia",
     director: "Toshiki Hirano",
     reparto: "Nobunaga Shimazaki, Tatsuhisa Suzuki",
     estreno: "06/06/2024",
@@ -3899,8 +6145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -3955,8 +6201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4011,8 +6257,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La bala perdida 3",
     video: "https://dl.dropbox.com/scl/fi/3opokcax71x7t3kxp3pp5/Last.bullet.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=ceamibbik4a8kamwbodf8wjfj&st=",
     poster: "https://image.tmdb.org/t/p/w780/1ikqGTVjXA9wkDsESVVzpLP8H1r.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/35uNaXPgIDD4pjMoAuZqAYI9gQj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/35uNaXPgIDD4pjMoAuZqAYI9gQj.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4020,7 +6266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 52min",
     calificacion: "66%",
-    genero: "Accion • Crimen • Suspenso",
+    genero: "Acción • Crimen • Suspenso",
     director: "Guillaume Pierret",
     reparto: "Alban Lenoir, Stéfi Celma, Nicolás Duvauchelle",
     estreno: "07/03/2024",
@@ -4066,8 +6312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bambi: Una vida en el bosque",
     video: "https://dl.dropbox.com/scl/fi/anu1e7jfdqhdx6x1ix7y9/Bambi-una-aventura-2025.mp4?rlkey=09n31drcwgszldyjnyrt9z7ep&st=",
     poster: "https://image.tmdb.org/t/p/w780/1W1kMLnK34XRuUj1rhYHv7ewkwT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1W1kMLnK34XRuUj1rhYHv7ewkwT.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fvtIXQH4JcifptPe0J9GfLDIOAQ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1W1kMLnK34XRuUj1rhYHv7ewkwT.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4122,8 +6368,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Banger",
     video: "https://dl.dropbox.com/scl/fi/n0q75e4dxoa854xfvx6km/Banger-2025.mp4?rlkey=ouwqvwfj1byrzvkql6tu16ntl&st=",
     poster: "https://image.tmdb.org/t/p/w780/oDvBfDVgF6uthIPdRfC6zqqbvcE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/x2pegSby27ebOwW361GJb1aKcxa.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/prbsZeSa5D0xSWkoPMSPH1b0Ovh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/x2pegSby27ebOwW361GJb1aKcxa.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/prbsZeSa5D0xSWkoPMSPH1b0Ovh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4177,8 +6423,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Barbie",
     video: "https://dl.dropbox.com/scl/fi/fz60p7je69ecv4b067zp9/Barbie.2023.1080p-dual-lat-cinecalidad.re.mp4?rlkey=0s292tnq711cls7ecm7bua7l4&st=",
     poster: "https://image.tmdb.org/t/p/w780/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ldFX26JW3fusyMewRoWoXYWaffw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ldFX26JW3fusyMewRoWoXYWaffw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4232,8 +6478,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sentencia de muerte",
     video: "https://dl.dropbox.com/scl/fi/iwe0m4idth0uvdpybb5r2/The.beekeeper.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=2i1slz9vebdlhq0re9oh99u8m&st",
     poster: "https://image.tmdb.org/t/p/w780/f0ACHVpV707zqu4etZrXnWNdSgL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/u5y8a5P3OL8dikgJdtyO3ZBrXmv.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8hF8krJOG9SGMCwRNfzjsFVRcHE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/u5y8a5P3OL8dikgJdtyO3ZBrXmv.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4241,7 +6487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 45min",
     calificacion: "75%",
-    genero: "Accion • Crimen • Suspenso",
+    genero: "Acción • Crimen • Suspenso",
     director: "David Ayer",
     reparto: "Jason Statham, Emmey Raver- Lampman, Josh Hutcherson",
     estreno: "12/01/2024",
@@ -4287,8 +6533,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Belleza Negra",
     video: "https://dl.dropbox.com/scl/fi/03d5lo8jpc6a52okead3j/Belleza-negra-2020.mp4?rlkey=d35vy5fmgtnqehi0yo4tl87z4&st=",
     poster: "https://image.tmdb.org/t/p/w780/lQAe1hfWYDdYypRVdzTbdg6JYWP.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/d3wE2OAmWsuuE4IOp6i8iSeRYy4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/c01fe1yZshrqBYOl9QMXZgNNyi9.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/d3wE2OAmWsuuE4IOp6i8iSeRYy4.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/c01fe1yZshrqBYOl9QMXZgNNyi9.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4342,8 +6588,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Blancanieves",
     video: "https://dl.dropbox.com/scl/fi/alva123qrguovepzjw5mx/Blancanieves-2025.mp4?rlkey=xw3lhr9c1t7iuj9h6ue32c98d&st=",
     poster: "https://image.tmdb.org/t/p/w780/tyfO9jHgkhypUFizRVYD0bytPjP.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5P3yollcdZgDtgocICjt3wk5ddC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7FZhpH4YasGdvY4FUGQJhCusLeg.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5P3yollcdZgDtgocICjt3wk5ddC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4351,7 +6597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 48min",
     calificacion: "70%",
-    genero: "Animacion • Disney • Fantasia • Familia",
+    genero: "Animación • Disney • Fantasia • Familia",
     director: "Marc Webb",
     reparto: "Rachel Zegler, Gal Gadot, Andrew Burnap<",
     estreno: "21/03/2025",
@@ -4397,8 +6643,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Blancanieves y los siete enanitos",
     video: "https://dl.dropbox.com/scl/fi/y0n3cnn9kzqc2tj65u3pf/Blanca-nieves-y-los-7-enanitos-1950.mp4?rlkey=d04hcvajbv987mse74lnj2ocv&st=",
     poster: "https://image.tmdb.org/t/p/w780/wmSxNVGZOV1A51Yx6ChDXk3NVVi.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/50kswNGbirD201OiRdAXqX2KM1X.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/50kswNGbirD201OiRdAXqX2KM1X.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4453,8 +6699,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Blue Beetle",
     video: "https://dl.dropbox.com/scl/fi/3svr8baxgz7ck7rxw79ko/Blue-beeble-2023.mp4?rlkey=065f4qyjyhr7omielpd42btiz&st=",
     poster: "https://image.tmdb.org/t/p/w780/H6j5smdpRqP9a8UnhWp6zfl0SC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/z5mkvXYNRauSzHdZgxAj6MzrLTY.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eG46gBCExPX5p0Da1hw7NKnPJZt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/z5mkvXYNRauSzHdZgxAj6MzrLTY.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/eG46gBCExPX5p0Da1hw7NKnPJZt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4508,8 +6754,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bob Esponja: La película",
     video: "https://dl.dropbox.com/scl/fi/hh1xgnzlbp108s5sidez3/Bob-esponja-2004.mp4?rlkey=jtpfvtdn2c3e6h55tnwxe73wq&st=",
     poster: "https://image.tmdb.org/t/p/w780/6ZnHQKcqQ8nmfP6woZu2v5EtXoW.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/w6mFFEE2pX7QCoURSDszvmsX4rl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/j4Sqs3SKNaJ4chdKXS1qqUlaWyW.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/w6mFFEE2pX7QCoURSDszvmsX4rl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4563,8 +6809,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bob Esponja 2: Un héroe fuera del agua",
     video: "https://dl.dropbox.com/scl/fi/gk6eyb1i3zrk8gd0jtmt5/The.spongebob.movie.sponge.out.of.water.2015.hd-dual-lat.mp4?rlkey=3xhpm12vhmvh2motyw95dbjca&st=",
     poster: "https://image.tmdb.org/t/p/w780/sqcqFzAj3IPSFprQSLHr5JOBU4m.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/z5aphafm6OEcAq4jwOs5Ml9F384.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oHOvcLQBf5CCErv7eCEFJYj2p0R.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/z5aphafm6OEcAq4jwOs5Ml9F384.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oHOvcLQBf5CCErv7eCEFJYj2p0R.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4618,8 +6864,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bob Esponja 3: Un héroe al rescate",
     video: "https://dl.dropbox.com/scl/fi/kqyva7e33se5cmxe8zgme/The.spongebob.movie.sponge.on.the.run.2020.1080p-dual-lat-cinecalidad.is.mp4?rlkey=d7ab7cve2mus26ve8yr4iwupe&st=",
     poster: "https://image.tmdb.org/t/p/w780/wu1uilmhM4TdluKi2ytfz8gidHf.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jdHzqQPFOcMt3NDX0vAg7zOSszx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jdHzqQPFOcMt3NDX0vAg7zOSszx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4673,8 +6919,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Bob Esponja 4: En busca de los Pantalones Cuadrados",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/gbjK8p5S1aLXWCwOoXqr9aWZvqG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/eAoe5NsdIFstr9Jxbeet5tpgH6r.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qR2SN2pGWltdrWMup8I4tES6HKe.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/eAoe5NsdIFstr9Jxbeet5tpgH6r.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qR2SN2pGWltdrWMup8I4tES6HKe.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4728,8 +6974,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Boruto: La Película",
     video: "https://dl.dropbox.com/scl/fi/m3ii7qi3wogk7etwssiqp/Boruto-Uzumaki-2015.mp4?rlkey=o5bj6l9w6u5k3qyqjsiw49no2&st=",
     poster: "https://image.tmdb.org/t/p/w780/keIqryt6u5qGVThjrzFURMsRTri.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/niG1LY5qQwDG4S8l5CBAaFl2XjL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/t9F4Yzi8rZO8Rn55ceyQPAofrI9.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/niG1LY5qQwDG4S8l5CBAaFl2XjL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4785,8 +7031,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Capitán América: El primer vengador",
     video: "https://dl.dropbox.com/scl/fi/d4u3zogldzedwq4w9wbpd/Captain.america.the.first.avenger.2011.1080P-Dual-Lat.mp4?rlkey=s1qalyvhze89mwmh6f3pf9z0i&st=",
     poster: "https://image.tmdb.org/t/p/w780/yFuKvT4Vm3sKHdFY4eG6I4ldAnn.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/aff0mjGqmD8pMFzBLRaLe4mgyho.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/aff0mjGqmD8pMFzBLRaLe4mgyho.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4840,8 +7086,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Capitán América 2: El soldado de invierno",
     video: "https://dl.dropbox.com/scl/fi/zezkut1tqjhaayz6f77zh/Captain.america.the.winter.soldier.2014.1080P-Dual-Lat.mp4?rlkey=n741zfgm8h3un08zp3xp113jw&st=",
     poster: "https://image.tmdb.org/t/p/w780/ku1lKmW4iCbHNixRntDgcCdMyNs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pixsM2yA6lTZTFRD3szE6IBxSF4.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pixsM2yA6lTZTFRD3szE6IBxSF4.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4895,8 +7141,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Capitán América 3: Civil War",
     video: "https://dl.dropbox.com/scl/fi/ibggidfciyx46ewzmjq1v/Captain.america.civil.war.2016.1080P-Dual-Lat.mp4?rlkey=yi5qkprhtque5befp5amea8xi&st=",
     poster: "https://image.tmdb.org/t/p/w780/jbviMV7wLGyYMpxDOLHP92lCtki.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xHIzL54EuCFXVMaSudLLuHjuZ5r.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ijwBABERc42YavLIbUdRsmFkLEh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xHIzL54EuCFXVMaSudLLuHjuZ5r.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ijwBABERc42YavLIbUdRsmFkLEh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -4950,8 +7196,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Capitán América 4: Un nuevo mundo",
     video: "https://dl.dropbox.com/scl/fi/e5x75pq9aciu61908fdll/Capitan.America.Un.Nuevo.Mundo.2025.1080P-Dual-Lat.mkv?rlkey=7i2hthiznmol3xfyrysv037dj&st=",
     poster: "https://image.tmdb.org/t/p/w780/8eifdha9GQeZAkexgtD45546XKx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/x0udVjixqbi5M0N8M1ZqV9gDrOd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pVMSRyAiye7gZ8NtuCt1qgbspY9.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/x0udVjixqbi5M0N8M1ZqV9gDrOd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5005,8 +7251,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Culpa tuya",
     video: "https://dl.dropbox.com/scl/fi/zm9h8doo7g7kwd0f7sm6c/Culpa-tuya-2024.mp4?rlkey=cfyicql2ul47jgli8g676mozv&st=",
     poster: "https://image.tmdb.org/t/p/w780/k24eZq5I3jyz4htPkZCRpnUmBzE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1jvCVdlgInyItAUEvvvCakm1Yxz.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tCg2bpyeEuM6NJtWqEMTrwc974T.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1jvCVdlgInyItAUEvvvCakm1Yxz.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tCg2bpyeEuM6NJtWqEMTrwc974T.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5060,8 +7306,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Culpa mia 2: Londres",
     video: "https://dl.dropbox.com/scl/fi/f0ssvb8zrj6p2p30zgzrs/My.fault.london.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=ncm7to2oy0sfttbrp4ftlz6rg&st",
     poster: "https://image.tmdb.org/t/p/w780/8FH23n6noUWqeNBtcnmFhsrTTwD.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7JsAK4jfZtxzptTYTjKX4rU7Xol.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7JsAK4jfZtxzptTYTjKX4rU7Xol.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5115,8 +7361,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Culpa nuestra 3",
     video: "https://dl.dropbox.com/scl/fi/1mv1wem69f14nfr4l73eu/Culpa.Nuestra.2025.1080P-Dual-Lat.mkv?rlkey=pmlgufabviceovbib0264li54&st=",
     poster: "https://image.tmdb.org/t/p/w780/7QirCB1o80NEFpQGlQRZerZbQEp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6kmi6vmp6iOn4KzI7WfnVtAeJhU.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8WhlNrtQdyUBnKrw5WBJnsDn1HE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6kmi6vmp6iOn4KzI7WfnVtAeJhU.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8WhlNrtQdyUBnKrw5WBJnsDn1HE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5170,8 +7416,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cantar desnuda",
     video: "https://dl.dropbox.com/scl/fi/hztorlebywiaqdapqabky/Cantar-Desnuda-2025.mp4?rlkey=2k9g57uwrkw3pvlbbk871fpp9&st=",
     poster: "https://image.tmdb.org/t/p/w780/fwfggfE52rpd8d4yeeoRcbGN4oQ.jpg",
-    imagen: "https://cinepelayo.com/wp-content/uploads/2025/01/cartel-cantar-desnuda.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fwfggfE52rpd8d4yeeoRcbGN4oQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w780/fa6fEqIYo6mbFYZ5k1r6m8Or80D.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fwfggfE52rpd8d4yeeoRcbGN4oQ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: true,      // true si es +18
@@ -5228,8 +7474,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cars",
     video: "https://dl.dropbox.com/scl/fi/otghj0f0orj98yr1kqo80/Cars.2006.1080P-Dual-Lat.mp4?rlkey=w4tsieopb0gbp09h66ym7tcaw&st=",
     poster: "https://image.tmdb.org/t/p/w780/hCV6eVyuIZZuyBNVvFwYmCDgLaG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2pgBhRe2uK7SgFMop537rFMZHVW.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/abW5AzHDaIK1n9C36VdAeOwORRA.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2pgBhRe2uK7SgFMop537rFMZHVW.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5283,8 +7529,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cars 2",
     video: "https://dl.dropbox.com/scl/fi/xdrx2lp58mqr15ys54sw5/Cars.2.2011.1080P-Dual-Lat.mp4?rlkey=83bh2z5o20313z7ph7yfxpeqq&st=",
     poster: "https://image.tmdb.org/t/p/w780/2SSZlcXtliCi45Nd2LAs6tec0oc.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jrlq8lWxB3OKjKwJ0kCjtg5fIII.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jrlq8lWxB3OKjKwJ0kCjtg5fIII.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5338,8 +7584,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cars 3",
     video: "https://dl.dropbox.com/scl/fi/rfttgbbnb9l02i2o4lwe4/Cars.3.2017.1080P-Dual-Lat.mp4?rlkey=4hieb2sawy7wokplmahkmc1ik&st=",
     poster: "https://image.tmdb.org/t/p/w780/uVeDyl6hqzBKh45OG7PMH8HTZdO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gqyTUMNrMjyIVNVIgGMdurrNPWb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gqyTUMNrMjyIVNVIgGMdurrNPWb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5393,8 +7639,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "CATO",
     video: "https://dl.dropbox.com/scl/fi/n4wq66s8ccs8gcnq7v86b/Cato.2021.1080P-Dual-Lat.mp4?rlkey=smqkbc2vkko0ocx77l7dcvh2a&st=",
     poster: "https://image.tmdb.org/t/p/w780/lN93Tm0AH7CUhSZ9WavhkKoHjh3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lTCsGvAjqBbqp7T5ziK28SeDfVT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lN93Tm0AH7CUhSZ9WavhkKoHjh3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lTCsGvAjqBbqp7T5ziK28SeDfVT.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lN93Tm0AH7CUhSZ9WavhkKoHjh3.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5448,8 +7694,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cementerio de animales",
     video: "https://dl.dropbox.com/scl/fi/lz8v83q3nayi9uur98kyv/Pet.sematary.2019.1080p-dual-lat-cinecalidad.to.mp4?rlkey=cn2p2d3xp84onffr4bybdb9vj&st=",
     poster: "https://image.tmdb.org/t/p/w780/dMWVeuVce8ZLKLI0xpVevihEwm8.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/du0wXKQvLMYaXBHw7MHqbWvBd9V.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vnw6g9c7qzNdzvpQhwWGRzBxwM0.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/du0wXKQvLMYaXBHw7MHqbWvBd9V.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5503,8 +7749,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cementerio de animales 2: Los origenes",
     video: "https://dl.dropbox.com/scl/fi/2q23uzus9696wgps1i7e7/Cementerio-de-animales-2-2023.mp4?rlkey=xxd9d09auq1vi9fp74d31xxsx&st=",
     poster: "https://image.tmdb.org/t/p/w780/dRWhJ4godwy40JdmNuRZy23oViY.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/h6OOcYnuYVoaQQm3zGIYJ7XfTuo.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gi4wXHNIpASyU2AgzygOfs8A0Lz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/h6OOcYnuYVoaQQm3zGIYJ7XfTuo.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gi4wXHNIpASyU2AgzygOfs8A0Lz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5558,8 +7804,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Chicas malas",
     video: "https://dl.dropbox.com/scl/fi/5em8dekr0073nlu0df8y9/Chicaa-malas-2004.mp4?rlkey=4537xqlunaurfnb6f1lxsedku&st=",
     poster: "https://image.tmdb.org/t/p/w780/6DqzZaTAzFrT53JtRt3MLKs0Y9i.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7L7wCakqwuoz6S9zRVaAH0NLJ3H.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wCsI2O3Rx9rkNOrBGQyo09dOCw5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7L7wCakqwuoz6S9zRVaAH0NLJ3H.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wCsI2O3Rx9rkNOrBGQyo09dOCw5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5614,8 +7860,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Chicas malas",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20Chicas%20pesadas%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/accTIUygtg24TM7wT7uQMMdvYUW.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jCerTXgMp5iiSoJofwkKskp2w45.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7yzb9JuIhtN3Ik3P0wTbxVXECjf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jCerTXgMp5iiSoJofwkKskp2w45.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7yzb9JuIhtN3Ik3P0wTbxVXECjf.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5669,8 +7915,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Chicas malas 2",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/9A4LywU6zVpkVwjk4EjNwUH3RGs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/m4cVT2dGfdjkbnlMpwsNnslPHv8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dIWG4yBtMeTWreC1nP82sUOBpE5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/m4cVT2dGfdjkbnlMpwsNnslPHv8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dIWG4yBtMeTWreC1nP82sUOBpE5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5724,8 +7970,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cincuenta sombras de Grey",
     video: "https://dl.dropbox.com/scl/fi/h5ihjkfrfn0u4wiaywykv/Fifty.shades.of.grey.2015.r-hd-dual-lat.mp4?rlkey=cawwdlddgus5y8pxvsthsdf5d&st=",
     poster: "https://image.tmdb.org/t/p/w780/wQyzgDIOSMpoHOazmZb2yLRBRHd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/yEP2dy9oghKXLyRS3Im8i7v6pU2.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mNZcZOIlTwDKd30xLnRR4p0ZELg.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/yEP2dy9oghKXLyRS3Im8i7v6pU2.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5779,8 +8025,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cincuenta Sombras 3: liberadas",
     video: "https://dl.dropbox.com/scl/fi/ay2g3bqh66l6zid67elin/Fifty.shades.freed.2018.1080p.unrated-dual-lat-cinecalidad.to.mp4?rlkey=8m6ym2y7rhf8ki2uz32zwkqwd&st=",
     poster: "https://image.tmdb.org/t/p/w780/mYJTOuQmLRGhhMqGTQUZLTBekXF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/sM8hwgWZlmZf0h4aOkNopb3HBIo.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bWvDk4INHvqvlCg1DtDARgFF6Of.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/sM8hwgWZlmZf0h4aOkNopb3HBIo.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bWvDk4INHvqvlCg1DtDARgFF6Of.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5834,8 +8080,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cincuenta sombras 2: Más oscuras",
     video: "https://dl.dropbox.com/scl/fi/789jnn4bk1fpilkgxpgkh/Fifty.shades.darker.2017.1080P-Dual-Lat.mp4?rlkey=c5e9pgc9i97kuf7y1tri8z062&st=",
     poster: "https://image.tmdb.org/t/p/w780/9dWH18IZf0KdGx0kJaONzWcmD69.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jvBAQOg2ObZKYXZGxYSz3Fkr7Qt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cQ2OBh2mWvlbvKb0srJSTMqyech.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jvBAQOg2ObZKYXZGxYSz3Fkr7Qt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cQ2OBh2mWvlbvKb0srJSTMqyech.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5845,7 +8091,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calificacion: "84%",
     genero: "Romance • Drama",
     director: "James Foley",
-    reparto: "Dakota Johnson, Eloise Mumford, Bella Heathcote",
+    reparto: "Dakota Johnson • Eloise Mumford • Bella Heathcote",
     estreno: "09/02/2017",
     idioma: "Español Latino 🇲🇽",
 
@@ -5889,8 +8135,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Coco",
     video: "https://dl.dropbox.com/scl/fi/pfndn0wnjws80pfeotf1o/Coco.2017.1080p-dual-lat.mp4?rlkey=2sa8qu2l7wgs97udnwqmdijr9&st=",
     poster: "https://image.tmdb.org/t/p/w780/u018zss2PloCHqXgrvKMsDDuVDd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yAvisTUocxmXQZQJZ521dL9a36p.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pHH20NEwIPzdWstsVosPtOQvJXx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yAvisTUocxmXQZQJZ521dL9a36p.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pHH20NEwIPzdWstsVosPtOQvJXx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5898,9 +8144,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2017",
     duracion: "1h 45min",
     calificacion: "82%",
-    genero: "Animacion • Aventura • Musical • Disney",
+    genero: "Animación • Aventura • Musical • Disney",
     director: "Lee Unkrich",
-    reparto: "Anthony Gonzalez, Gael García Bernal, Alanna Ubach",
+    reparto: "Anthony Gonzalez • Gael García Bernal • Alanna Ubach",
     estreno: " 27/10/2017",
     idioma: "Español Latino 🇲🇽",
 
@@ -5944,8 +8190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cómo entrenar a tu dragón",
     video: "https://dl.dropbox.com/scl/fi/wcv2c8x291ibgtgborwe8/How.to.Train.Your.Dragon.2010.bluray-latino-e-ingles-subt.mp4?rlkey=z0evkc1z75o7cipc4vxqo0t2u&st=",
     poster: "https://image.tmdb.org/t/p/w780/aH9KWmXFMamXkHMgLjnQmSYjScL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8ekxsUORMAsfmSc8GzHmG8gWPbp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9xkfTw8g7cGcKnXkRK57u6BgguK.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8ekxsUORMAsfmSc8GzHmG8gWPbp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9xkfTw8g7cGcKnXkRK57u6BgguK.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -5953,9 +8199,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2010",
     duracion: "1h 37min",
     calificacion: "78%",
-    genero: "Animacion • Aventura • Fantansia • Familia",
+    genero: "Animación • Aventura • Fantansia • Familia",
     director: "Chris Sanders",
-    reparto: "Jay Baruchel, Gerard Butler, América Ferrera",
+    reparto: "Jay Baruchel • Gerard Butler • América Ferrera",
     estreno: "26/03/2010",
     idioma: "Español Latino 🇲🇽",
 
@@ -5999,8 +8245,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cómo entrenar a tu dragón 2",
     video: "https://dl.dropbox.com/scl/fi/yom0ju4bqtimjb23jk7s6/How.to.Train.Your.Dragon.2.2014.bluray-latino-e-ingles-subt.mp4?rlkey=a5azf1sl970v81s2lcm7ihtcf&st=",
     poster: "https://image.tmdb.org/t/p/w780/5MnP0h7RcUCeX7gpxMYoMScmfq7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ettHoubPw8byYfpV1vomGnyfBnp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kVXdBwzqiH4wduE6CvRTdstD81q.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ettHoubPw8byYfpV1vomGnyfBnp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/kVXdBwzqiH4wduE6CvRTdstD81q.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6008,9 +8254,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2014",
     duracion: "1h 42min",
     calificacion: "86%",
-    genero: "Animacion • Aventura • Fantansia • Familia",
+    genero: "Animación • Aventura • Fantansia • Familia",
     director: "Decano DeBlois",
-    reparto: "Jay Baruchel, Cate Blanchett, Gerard Butler",
+    reparto: "Jay Baruchel • Cate Blanchett • Gerard Butler",
     estreno: "13/06/2014",
     idioma: "Español Latino 🇲🇽",
 
@@ -6054,8 +8300,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cómo entrenar a tu dragón 3",
     video: "https://dl.dropbox.com/scl/fi/paumvpjg9tvq0tmmlp4kl/How.to.train.your.dragon.the.hidden.world.2019.1080p-dual-lat-cinecalidad.is.mp4?rlkey=pevwy0uw25ntsxamaw50accel&st=",
     poster: "https://image.tmdb.org/t/p/w780/h3KN24PrOheHVYs9ypuOIdFBEpX.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rBQ9RVg6Zpo5aasWWOWmjET5Hah.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uLjBhiiaJqUG6orfHISQOvKktDk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rBQ9RVg6Zpo5aasWWOWmjET5Hah.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/uLjBhiiaJqUG6orfHISQOvKktDk.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6063,9 +8309,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2018",
     duracion: "1h 44min",
     calificacion: "78%",
-    genero: "Animacion • Aventura • Fantansia • Familia",
+    genero: "Animación • Aventura • Fantansia • Familia",
     director: "Dean DeBlois",
-    reparto: "Jay Baruchel, America Ferrera, Cate Blanchett",
+    reparto: "Jay Baruchel • America Ferrera • Cate Blanchett",
     estreno: "31/01/2019",
     idioma: "Español Latino 🇲🇽",
 
@@ -6109,8 +8355,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cómo entrenar a tu dragón",
     video: "https://dl.dropbox.com/scl/fi/x3ok1brr670j2ax3i1nx9/Como-entrenar-a-tu-dragon-2025.mp4?rlkey=hklv7tg3xvxqx37lujhjlwq4k&st=",
     poster: "https://image.tmdb.org/t/p/w780/ovZasZ9EeZcp6UsrElkQ63hFCd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xLsMLfE0t0eyc8km2hAeSayUBa3.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xfZuPJKsZx4loJ8pEy0VoCinkkP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xLsMLfE0t0eyc8km2hAeSayUBa3.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xfZuPJKsZx4loJ8pEy0VoCinkkP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6120,7 +8366,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calificacion: "81%",
     genero: "Aventura • Ciencia ficcion • Familia",
     director: "Dean DeBlois",
-    reparto: "Mason Thames, Nico Parker, Gerard Butler",
+    reparto: "Mason Thames • Nico Parker • Gerard Butler",
     estreno: "13/06/2025",
     idioma: "Español Latino 🇲🇽",
 
@@ -6164,8 +8410,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Codigo 8: Parte 1",
     video: "https://dl.dropbox.com/scl/fi/wgy6blkygtsxdbwawv5c3/Code.8.Renegados2019.1080P-Dual-Lat.mp4?rlkey=6womxdw43w8leazr39c0210ts&st=",
     poster: "https://image.tmdb.org/t/p/w780/wlnDNMQlnwl5ETlVY6n9CEtR5s0.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ubXn3H2PWkoqH9TIBrWRJSKzuaD.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7fUsXCu6irYuAutwoGVGIFydayz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ubXn3H2PWkoqH9TIBrWRJSKzuaD.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7fUsXCu6irYuAutwoGVGIFydayz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6173,9 +8419,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2019",
     duracion: "1h 38min",
     calificacion: "63%",
-    genero: "Accion • Crimen • Ciencia ficción",
+    genero: "Acción • Crimen • Ciencia ficción",
     director: "Jeff Chan",
-    reparto: "Robbie Amell, Esteban Amell, Kari Matchett",
+    reparto: "Robbie Amell • Esteban Amell • Kari Matchett",
     estreno: "13/12/2019",
     idioma: "Español Latino 🇲🇽",
 
@@ -6219,8 +8465,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Codigo 8: Parte 2",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Ffeb24%2FVer%20C%C3%B3digo%208-%20Renegados%20(Parte%20II)%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/hKwMOnf7I2061ZsgBqctNaqSiz3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dg6WrJUIQLU4pssA4ZucGfdOj8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gQVTQu3OgD7eOXfi0LBCDgB4w3c.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/dg6WrJUIQLU4pssA4ZucGfdOj8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gQVTQu3OgD7eOXfi0LBCDgB4w3c.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6228,9 +8474,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 40min",
     calificacion: "64%",
-    genero: "Accion • Crimen • Ciencia ficción",
+    genero: "Acción • Crimen • Ciencia ficción",
     director: "Jeff Chan",
-    reparto: "Robbie Amell, Esteban Amell, Sirena Gulamgaus",
+    reparto: "Robbie Amell • Esteban Amell • Sirena Gulamgaus",
     estreno: "28/02/2024",
     idioma: "Español Latino 🇲🇽",
 
@@ -6274,8 +8520,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¿Cómo matar a mamá?",
     video: "https://dl.dropbox.com/scl/fi/xvnts72ky3wm8pfcbeqs8/Como-matar-a-mama.2023.1080p.LAT.cinecalidad.com.mx.mp4?rlkey=rradp9eh0b5lhd091btqk0kxm&st=",
     poster: "https://image.tmdb.org/t/p/w780/xKWKsL7VgaN5Ep697TB3H03lglM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zQch27gPbimK96vtbrEq4jFHg2D.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lrs6oOqqVVa92TepkWxZk8LbKtG.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zQch27gPbimK96vtbrEq4jFHg2D.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lrs6oOqqVVa92TepkWxZk8LbKtG.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6285,7 +8531,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calificacion: "72%",
     genero: "Comedia • Drama",
     director: "Jose Ramon Chavez Delgado",
-    reparto: "Blanca  Guerra, Diana Bovio, Ximena Sariñana",
+    reparto: "Blanca Guerra • Diana Bovio • Ximena Sariñana",
     estreno: "10/03/2023",
     idioma: "Español Latino 🇲🇽",
 
@@ -6329,8 +8575,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Contraataque",
     video: "https://dl.dropbox.com/scl/fi/wm7rassc0i8dxnhpzh51m/Contraataque-2025.mp4?rlkey=jgm6n2fpwx2nfkv6y752aqchn&st=",
     poster: "https://image.tmdb.org/t/p/w780/deUWVEgNh2IGjShyymZhaYP40ye.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gqcTPhbdSwkxU72fQRVi2q2n8gr.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gqcTPhbdSwkxU72fQRVi2q2n8gr.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6340,7 +8586,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calificacion: "77%",
     genero: "Acción • Suspenso • Aventura",
     director: "Chava Cartas",
-    reparto: "Luis Alberti, Noe Hernandez, Leonardo Alonso",
+    reparto: "Luis Alberti • Noe Hernandez • Leonardo Alonso",
     estreno: "28/02/2025",
     idioma: "Español Latino 🇲🇽",
 
@@ -6384,8 +8630,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Corazón delator",
     video: "https://dl.dropbox.com/scl/fi/vmh407hvi95cmvo5enay4/Corazon-delator-2025.mp4?rlkey=3yne2josbq2x7wlijg0yfjfbf&st=",
     poster: "https://image.tmdb.org/t/p/w780/leveUHJVT3kTomCjjqhJ0MMOuxw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/leveUHJVT3kTomCjjqhJ0MMOuxw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5XgEqq8KJVW0R0NhDZCdBV2Pjr0.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/leveUHJVT3kTomCjjqhJ0MMOuxw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6439,8 +8685,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Corazones de acero",
     video: "https://dl.dropbox.com/scl/fi/s5nyzg18d9qhwadnruv4l/Fury.2014.hd-latino-e-ingles-subt.mp4?rlkey=dz6egrkdrh0es46i4d6oi8vs9&st=",
     poster: "https://image.tmdb.org/t/p/w780/5ENhq5KEmflufK7aXXaquG1l2vb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/o9cwNmKnZoCG0RHmtchbxgYMojk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kbtH5G8L8REzy72LkLmKYoBVaGv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/o9cwNmKnZoCG0RHmtchbxgYMojk.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6494,8 +8740,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Cráter: Un viaje inolvidable",
     video: "https://dl.dropbox.com/scl/fi/k0mfodc5lt9anzzq9x65w/Crater-un-viaje-inolvidable-2023.mp4?rlkey=861xx2vypv5psonie0uz4hs8f&st=",
     poster: "https://image.tmdb.org/t/p/w780/wUMDnvi1xa8iMEpRDVAXrcAtqus.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ppEvMrq2nvV9DfBHuCRilf2MBnm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sHrKPbIV52w9XKtB5dfpDuzBRp5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ppEvMrq2nvV9DfBHuCRilf2MBnm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/sHrKPbIV52w9XKtB5dfpDuzBRp5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6549,8 +8795,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6604,8 +8850,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6659,8 +8905,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6711,13 +8957,178 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*D*/
 
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  dalmatas_2: {
+    id: "dalmatas_2",
+    titulo: "101 dálmatas 2",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/6B3O23LHMkBI8VoqVMHmeLBdpJ9.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7MjocXoaNAqd8WHWfoiRaVvaYid.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/94UHgvd4bAEWvdn4RakZLXNauRT.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Perdido en un mar de manchas, el pequeño Patch quiere destacar sobre los demás cachorros y sueña con convertirse en un perro único en su especie como su estrella favorita de televisión, Relámpago. Cuando Patch se separa accidentalmente de su familia, tiene la oportunidad de conocer a su héroe y milagrosamente, convertirse en su socio en la vida real.",
+    anio: "2003",
+    duracion: "0h 008min",
+    calificacion: "70%",
+    genero: "Aventura • Animación • Comedia • Disney • Familia",
+    director: "Jim Kammerud, Brian Smith",
+    reparto: "Barry Bostwick, Jason Alexander, Martin Short",
+    estreno: "21/01/2003",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dalmatas",
+        titulo: "101 dálmatas",
+        imagen: "https://image.tmdb.org/t/p/w300/wny5QtN4D9KYRaW3jDCNMSCQ8gc.jpg"
+      },
+      {
+        id: "intensamente_2",
+        titulo: "Intensamente 2",
+        imagen: "https://image.tmdb.org/t/p/w300/hbNrgcQjLkPcE56MLGUWSD5SO6V.jpg"
+      },
+      {
+        id: "la_cenicienta",
+        titulo: "La Cenicienta",
+        imagen: "https://image.tmdb.org/t/p/w300/vqzeSm5Agvio7DahhKXaySUbUUW.jpg"
+      },
+      {
+        id: "cars_3",
+        titulo: "Cars 3",
+        imagen: "https://image.tmdb.org/t/p/w300/ucGU1HyLfxoQwuq22VWwq55m0cH.jpg"
+      },
+      {
+        id: "coco",
+        titulo: "Coco",
+        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
+      },
+      {
+        id: "blancanieves_y_los_siete_enanitos",
+        titulo: "Blancanieves y los siete enanitos",
+        imagen: "https://image.tmdb.org/t/p/w300/wdA4lphQwywsPcEKj5sgQ9QSR55.jpg"
+      }
+    ]
+  },
+
+  dalmatas: {
+    id: "dalmatas",
+    titulo: "101 Dálmatas",
+    video: "https://dl.dropbox.com/scl/fi/tj4dh8ppo40dc043mfpac/101-D-lmatas.mp4?rlkey=6e6rydif15i2i9kb3bycgi8ze&st=",
+    poster: "https://image.tmdb.org/t/p/w780/cZgUATpU4NDlsfGj7sRriKJEiLB.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wny5QtN4D9KYRaW3jDCNMSCQ8gc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7iNxYnNHP50W13ELOLI0UG1hswK.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Pongo y Perdita, los dalmatas protagonistas, son una feliz pareja canina que vive rodeada de sus cachorros junto a sus amos, Roger y Anita. Pero la felicidad no es eterna y hay una malvada mujer, que vive en una gran mansion, que es la mayor enemiga del perro.Cuando se entera de que los protagonistas tienen nada menos que quince cachorros dalmatas, su sueño de obtener un exclusivo abrigo de piel de los pequeños perros, se convierte en una obsesion.",
+    anio: "1961",
+    duracion: "1h 19min",
+    calificacion: "86,6%",
+    genero: "Aventura • Animación • Comedia • Disney • Familia",
+    director: "Hamilton Luske, Wolfgang Reitherman, Clyde Geronimi",
+    reparto: "Rod Taylor, J. Pat O'Malley, Betty Lou Gerson",
+    estreno: "25/01/1961",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "dalmatas_2",
+        titulo: "101 Dálmatas 2",
+        imagen: "https://image.tmdb.org/t/p/w300/7MjocXoaNAqd8WHWfoiRaVvaYid.jpg"
+      },
+      {
+        id: "elemental",
+        titulo: "Elemental",
+        imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg"
+      },
+      {
+        id: "pinocho",
+        titulo: "Pinocho",
+        imagen: "https://image.tmdb.org/t/p/w300/sAluF7lNc4Mv3qxx1mmOgsfbr0C.jpg"
+      },
+      {
+        id: "wish_el_poder_de_los_deseos",
+        titulo: "Wish: El poder de los deseos",
+        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
+      },
+      {
+        id: "la_sirenita_2023",
+        titulo: "La sirenita",
+        imagen: "https://image.tmdb.org/t/p/w300/2w7EVsWEWfk45OZBxRTVxlyp00.jpg"
+      },
+      {
+        id: "los_pingüinos_de_madagascar",
+        titulo: "Los pingüinos de Madagascar",
+        imagen: "https://image.tmdb.org/t/p/w300/dXbpNrPDZDMEbujFoOxmMNQVMHa.jpg"
+      }
+    ]
+  },
+
   damsel: {
     id: "damsel",
     titulo: "Damsel",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Damsel%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/deLWkOLZmBNkm8p16igfapQyqeq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gh7oa9IKlu5yMveemyJkzLfopuB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1e1mvQmgNAelU1xhgi9EoEv8u9z.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gh7oa9IKlu5yMveemyJkzLfopuB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1e1mvQmgNAelU1xhgi9EoEv8u9z.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6771,8 +9182,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Demon Slayer: Kimetsu no Yaiba – Castillo Infinito",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/1RgPyOhN4DRs225BGTlHJqCudII.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/shTfJLn9Ds2IDYpaV3EqzGoeQmI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/shTfJLn9Ds2IDYpaV3EqzGoeQmI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6780,7 +9191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "0h 008min",
     calificacion: "78%",
-    genero: "Anime • Animacion • Accion • Fantasia",
+    genero: "Anime • Animación • Acción • Fantasia",
     director: "Haruo Sotozaki",
     reparto: "Iván Bastidas, Marc Winslow, José Luis Piedra",
     estreno: "18/07/2025",
@@ -6827,8 +9238,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Desaparecidos en la noche",
     video: "https://dl.dropbox.com/scl/fi/i44ucg82wmidxhg4k7n6q/Desaparecidos.En.La.Noche.2024.1080P-Dual-Lat.mkv?rlkey=v4frj42ei4286likd0tm9mplm&st=",
     poster: "https://image.tmdb.org/t/p/w780/kairgu1N35rYxW6JNjzRTyqNNfy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/20ZNQQzzx8HBSbkrMxRptpbO7XU.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uyEFqfRezkNrxh9Lg8fj8IcbkHx.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/20ZNQQzzx8HBSbkrMxRptpbO7XU.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6882,8 +9293,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final",
     video: "https://dl.dropbox.com/scl/fi/inbncscoq93wyr90a74wa/Final.destination.2000.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=i7r5fi99tzdcyia328uph64cb&st=",
     poster: "https://image.tmdb.org/t/p/w780/rBF9AumHuVdANpraeB8GoAYyN5x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/2g4Jz0Jr54aYCpFLWKYDo5VZvzN.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eW92BvxaRr9DEhyA9K9GhRHodlV.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/2g4Jz0Jr54aYCpFLWKYDo5VZvzN.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/eW92BvxaRr9DEhyA9K9GhRHodlV.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6937,8 +9348,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final 2",
     video: "https://dl.dropbox.com/scl/fi/b6kovpfj3l9uuncm87tis/Final.destination.2.2003.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=fepv6ygkaezwcfryerpn1cicw&st=",
     poster: "https://image.tmdb.org/t/p/w780/tKnmfO5lAyu8hpTZMyMaI4lhZpJ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/w1dJluO5aKK7Puz7qNXoQeUh4Cb.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4nvnNisb8kIO4A6buouu88HMYFs.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/w1dJluO5aKK7Puz7qNXoQeUh4Cb.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4nvnNisb8kIO4A6buouu88HMYFs.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -6992,8 +9403,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final 3",
     video: "https://dl.dropbox.com/scl/fi/r3pdgd5e0n8nlwi4p3hwz/Final.destination.3.2006.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=mnqb0pywg4offpvghzmkr0enx&st=",
     poster: "https://image.tmdb.org/t/p/w780/nSV1NIAK0Sp5dM1oiobtqbJ8Jrv.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5sSZBolbPCxCVXabzmL0bKWLgsv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/nrEHFHlTJOElu4A7MYsFyh9fKoN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5sSZBolbPCxCVXabzmL0bKWLgsv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/nrEHFHlTJOElu4A7MYsFyh9fKoN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7047,8 +9458,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final 4",
     video: "https://dl.dropbox.com/scl/fi/xag0hb8gpeo1g43xacyo4/The.final.destination.2009.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=lcw7li325grckah9vbe5psp58&st=",
     poster: "https://image.tmdb.org/t/p/w780/6LGX6bPhMEsuwi8CsfSBqnB1qnN.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8b1tsUQW8hogJRi6FFHHfO7D1fu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lk5Q6Dtmh6Z27O5sr5qN8OiBZFw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8b1tsUQW8hogJRi6FFHHfO7D1fu.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lk5Q6Dtmh6Z27O5sr5qN8OiBZFw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7102,8 +9513,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final 5",
     video: "https://dl.dropbox.com/scl/fi/xag0hb8gpeo1g43xacyo4/The.final.destination.2009.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=lcw7li325grckah9vbe5psp58&st=",
     poster: "https://image.tmdb.org/t/p/w780/xjp3ySB9qNqQj5Vu6UZ4L7nD6qd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xMBIeENKIZq3V0undgvaZbFdMw2.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xZIG4EeYHMHEgDmgtZH2tRSZlhG.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xMBIeENKIZq3V0undgvaZbFdMw2.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xZIG4EeYHMHEgDmgtZH2tRSZlhG.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7157,8 +9568,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Destino final 6: Lazos de sangre",
     video: "https://dl.dropbox.com/scl/fi/u1i6cu71xhjirqcmf4yv0/Destino-final-6-Lazos-de-sangre-.2025.1080p-dual-lat.mp4?rlkey=ghfloc7si76zv58ufqysq4btj&st=",
     poster: "https://image.tmdb.org/t/p/w780/bse2E5xgKcsL6w8h2efqpecvnxV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/f0156SDAw1GfrdZnSbSwkOst9aO.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5bDQlR7p31oAP4JvTriLbjfbCTm.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/f0156SDAw1GfrdZnSbSwkOst9aO.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5bDQlR7p31oAP4JvTriLbjfbCTm.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7212,8 +9623,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Detonantes",
     video: "https://dl.dropbox.com/scl/fi/0dnvfyz78ouo5w3t39k5x/Detonante-2024.1080p-dual-lat.mp4?rlkey=meddp3xkkb5d3x4tbb0xem533&st=",
     poster: "https://image.tmdb.org/t/p/w780/eIk878ea0umT07VbWYpeH0GTid8.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eKealeoM38LbNMLLA4b5NMfrKFd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mOXgCNK2PKf7xlpsZzybMscFsqm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/eKealeoM38LbNMLLA4b5NMfrKFd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7267,8 +9678,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Diario de mi vagina",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Diario%20de%20mi%20vagina%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/eNUFAIm3Wr4AvpVZThxVb9BlXf0.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7PzGmlaai6mRUslfrdBhfXjfA1J.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mfvIJFfSTxByc6avonSFNcIjj4C.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7PzGmlaai6mRUslfrdBhfXjfA1J.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mfvIJFfSTxByc6avonSFNcIjj4C.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7322,8 +9733,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Doctor strange: El hechicero supremo",
     video: "https://dl.dropbox.com/scl/fi/7j3crrxjyup90dc45fu7n/Doctor.strange.2016.1080P-Dual-Lat.mp4?rlkey=uyr3jq0lcx32qt8870r209g2d&st=",
     poster: "https://image.tmdb.org/t/p/w780/tqX1kakpqHNMFOeYbT4XZgudn7x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/sOsvKTJS0XwtfLsNMO3C0CVWJ4u.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/y6dilmCQVbKNovXXKihVahk5yZg.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/sOsvKTJS0XwtfLsNMO3C0CVWJ4u.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/y6dilmCQVbKNovXXKihVahk5yZg.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7331,7 +9742,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2016",
     duracion: "1h 55min",
     calificacion: "86%",
-    genero: "Accion • Marvel • Fantasía",
+    genero: "Acción • Marvel • Fantasía",
     director: "Scott Derrickson",
     reparto: "Benedicto Cumberbatch, Chiwetel Ejiofor, Raquel McAdams",
     estreno: "13/10/2016",
@@ -7356,7 +9767,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spider_man3",
-        titulo: "Spider-man 3: Sin camino a casa",
+        titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/rkLhaNa37IwzWis8rzWMAYTCdIK.jpg"
       },
       {
@@ -7377,8 +9788,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Doctor Strange 2: El multiverso de la locura",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/51wwXoVKpS6oJMbz03qvN0Hxt99.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qd7NMF0SyUCx5IS6nTOOUPdTwvB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/i7pIDC2U4CRF4YwDFwZGRXr37Y6.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qd7NMF0SyUCx5IS6nTOOUPdTwvB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/i7pIDC2U4CRF4YwDFwZGRXr37Y6.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7386,7 +9797,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2022",
     duracion: "0h 008min",
     calificacion: "00%",
-    genero: "Accion • Marvel • Fantasía",
+    genero: "Acción • Marvel • Fantasía",
     director: "Sam Raimi",
     reparto: "Benedicto Cumberbatch, Xóchitl Gómez, Elizabeth Olsen",
     estreno: "06/03/2022",
@@ -7431,8 +9842,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¿Donde esta el fantasma?",
     video: "https://dl.dropbox.com/scl/fi/lyyx8ahi44zfsgxu0cx1r/Y.D-nde.Esta.El.Fantasma.2013.1080P-Dual-Lat.mp4?rlkey=2leb7pw5f6d83iupbg7ttvuis&st=",
     poster: "https://image.tmdb.org/t/p/w780/1KPRGZlb0fjoIgHATwnmqG9DiDl.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pAVGfrADDvKMgoZnJLSCiLBCCiG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cMmyQLngx0maSp6EvyK3EOPIQKM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pAVGfrADDvKMgoZnJLSCiLBCCiG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cMmyQLngx0maSp6EvyK3EOPIQKM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7486,8 +9897,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¿Donde esta el fantasma? 2",
     video: "https://dl.dropbox.com/scl/fi/03x9fzrhnndf5min3kzhw/A.Haunted.House.2.1080P-Dual-Lat.mp4?rlkey=nk410hmc7wo5jn1khc8ivm5cy&st=",
     poster: "https://image.tmdb.org/t/p/w780/2lWladET1Od8JErz7DAFeprilnV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vRbDuqlmGPM9wGZ3VwbrjQu16Oa.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zHF0KdYTuKkwyaE1mt0oFeCB2EF.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vRbDuqlmGPM9wGZ3VwbrjQu16Oa.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zHF0KdYTuKkwyaE1mt0oFeCB2EF.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7541,8 +9952,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Depredador: Tierras salvajes",
     video: "https://dl.dropbox.com/scl/fi/0xj205842hedvxjumipca/Depredador-Tierras-Salvajes-2025-HDTS-1080p.mp4?rlkey=ee2dfhcu88kf8p8qxqxu0tnwh&st=",
     poster: "https://image.tmdb.org/t/p/w780/82lM4GJ9uuNvNDOEpxFy77uv4Ak.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/r7TEWHLr1lsIsTkiEFwtM3hAWma.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/k3wtmkySU8pHSCfjNqbp5f81DS0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/r7TEWHLr1lsIsTkiEFwtM3hAWma.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/k3wtmkySU8pHSCfjNqbp5f81DS0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7596,8 +10007,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball: El camino hacia el poder",
     video: "https://dl.dropbox.com/scl/fi/lroundzohbydbuc46qfpz/Dragon-Ball-El-camino-hacia-el-poder.mp4?rlkey=z1drtoge9pyyn4oo8omj2z5ld&st=",
     poster: "https://image.tmdb.org/t/p/w780/xDmJk9zQVsTKwNzHeKySoCguAk5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AfJogn6zTyttd8kuiIKSiKOSzUL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wPkoqtFhDoIbzt61oOYwmLOZdAg.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/AfJogn6zTyttd8kuiIKSiKOSzUL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7605,9 +10016,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1996",
     duracion: "1h 19min",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Shigeyasu Yamauchi",
-    reparto: "Laura Torres, Isabel Martiñón, Jesús Colí",
+    reparto: "Laura Torres • Isabel Martiñón • Jesús Colí",
     estreno: "02/03/1996",
     idioma: "Español Latino 🇲🇽",
 
@@ -7651,8 +10062,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball: Gran aventura mística",
     video: "https://dl.dropbox.com/scl/fi/l1fn1epxjjk4s3nuqxmia/Dragon-Ball-una-aventura-mistica.mp4?rlkey=frr86ylu658y84l8wb830ynmv&st=",
     poster: "https://image.tmdb.org/t/p/w780/xIv4HuvPP9nL7PU9vq2PKOKFvhj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/f2BipTKswrdpqoCc1xJDyL35rJy.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9hpxjVMhc43udmdgGmuDixkhySx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/f2BipTKswrdpqoCc1xJDyL35rJy.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9hpxjVMhc43udmdgGmuDixkhySx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7660,9 +10071,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1998",
     duracion: "45min 49s",
     calificacion: "77%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Kazuhisa Takenouchi",
-    reparto: "Laura Torres, Isabel Martiñón, Jesús Colín",
+    reparto: "Laura Torres • Isabel Martiñón • Jesús Colín",
     estreno: "09/09/1988",
     idioma: "Español Latino 🇲🇽",
 
@@ -7706,8 +10117,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball GT: Después 100 años ",
     video: "https://dl.dropbox.com/scl/fi/h6q0a27m2a2pnqusgn70f/Dragon-ball-gt-100a-os.mp4?rlkey=ymjozpox8hov55usqzu343oxz&st=",
     poster: "https://image.tmdb.org/t/p/w780/sLCN5b2WYsYkWMrMMCnRHGv1VEO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/izZaeWcWDir9PvuSwaITV1E1rA8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/e9mWVoUQv2KYiQoHkS3WNxsbunJ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/izZaeWcWDir9PvuSwaITV1E1rA8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/e9mWVoUQv2KYiQoHkS3WNxsbunJ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7715,9 +10126,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1996",
     duracion: "43min 11s",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Osamu Kasai",
-    reparto: "Irma Carmona, Gloria Rocha",
+    reparto: "Irma Carmona • Gloria Rocha",
     estreno: "16/04/1997",
     idioma: "Español Latino 🇲🇽",
 
@@ -7761,8 +10172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball: La leyenda del dragón Shenron",
     video: "https://dl.dropbox.com/scl/fi/s3lv2gz361hor0u0g1drg/Dragon-Ball-La-leyenda-de-shen-long.mp4?rlkey=t11dh1yqgqhzyfepifw6v6g3t&st=",
     poster: "https://image.tmdb.org/t/p/w780/ydBG5pa3p3wsVktrFza2WNI55yw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5k9l50gbVZ9E2OHsKvnVwXRYfSL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5uvaNiQ1rq08rAJgg5NyXQdBC58.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5k9l50gbVZ9E2OHsKvnVwXRYfSL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7770,9 +10181,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1996",
     duracion: "50min 14s",
     calificacion: "68%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
-    reparto: "Laura Torres, Rocío Garcel, Abel Rocha",
+    reparto: "Laura Torres • Rocío Garcel • Abel Rocha",
     estreno: "20/12/1986",
     idioma: "Español Latino 🇲🇽",
 
@@ -7816,8 +10227,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball: La princesa durmiente del castillo del mal",
     video: "https://dl.dropbox.com/scl/fi/7xzvzapcrpv648koabnqp/Dragon-ball-la-leyenda-de-la-princesa-durmiente.mp4?rlkey=s37apy3egwrh88iwr6udzjjlp&st=",
     poster: "https://image.tmdb.org/t/p/w780/o8laRnRa6BLMNsMi4nqeSMx3zRV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/sTTQ3efvJeW4VDheKvyoLgFAgku.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/a7yu3kFNsKuDdXlpcElBvBvaoIk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/sTTQ3efvJeW4VDheKvyoLgFAgku.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/a7yu3kFNsKuDdXlpcElBvBvaoIk.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7825,9 +10236,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1987",
     duracion: "44min 29s",
     calificacion: "73%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
-    reparto: "Laura Torres, Rossy Aguirre, Rocío Garcel,  Ricardo Mendoza",
+    reparto: "Laura Torres • Rossy Aguirre • Rocío Garcel • Ricardo Mendoza",
     estreno: "18/07/1987",
     idioma: "Español Latino 🇲🇽",
 
@@ -7871,8 +10282,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Super: Broly",
     video: "https://dl.dropbox.com/scl/fi/0ifr6542qw05d5gzve7s4/Dragon.ball.super.broly.2018.1080P-Dual-Lat.mp4?rlkey=eawj0b1jj7ju4umy954wyyq02&st=",
     poster: "https://image.tmdb.org/t/p/w780/6OTRuxpwUUGbmCX3MKP25dOmo59.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cVxHF3C7rLMgpC0IGLaaeWPlmEb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6JilEC1SON8tWIRHcdJzf4uVBpX.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/k3zw8QRsdXkhPjyrLSkmYZEPnpi.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7880,9 +10291,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2018",
     duracion: "1h 41min",
     calificacion: "94%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Tatsuya Nagamine",
-    reparto: "Mario Castañeda, René García, Ricardo Brust",
+    reparto: "Mario Castañeda • René García • Ricardo Brust",
     estreno: "14/12/2018",
     idioma: "Español Latino 🇲🇽",
 
@@ -7926,8 +10337,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Super: Super hero",
     video: "https://dl.dropboxusercontent.com/scl/fi/jy535c6e18x0ydikzhniw/Dragon.Ball.Super.Super.Hero.2022.1080P-Dual-Lat.mp4?rlkey=c2634uyll6a1rimri72e2akf9&st=",
     poster: "https://image.tmdb.org/t/p/w780/xvqzAso5RNA09PbMFmyrL2I9VdY.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wFYXVMKWLAoazjWTBNQ4IiQSKJg.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xrpdStZbwhbhwZ5J9KCT6ak7blZ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wFYXVMKWLAoazjWTBNQ4IiQSKJg.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xrpdStZbwhbhwZ5J9KCT6ak7blZ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7935,9 +10346,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2022",
     duracion: "1h 39min",
     calificacion: "89%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Tetsuro Kodama",
-    reparto: "Luis Manuel Ávila, Carlos Segundo, Víctor Ugarte",
+    reparto: "Luis Manuel Ávila • Carlos Segundo • Víctor Ugarte",
     estreno: "11/06/2022",
     idioma: "Español Latino 🇲🇽",
 
@@ -7981,8 +10392,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La galaxia corre peligro",
     video: "https://dl.dropbox.com/scl/fi/cuuf6t5cdynyr0whktcqj/Dragon-Ball-Z-La-galaxia-corre-peligro.mp4?rlkey=79rjsljijl55kd9nzuu2janlw&st=",
     poster: "https://image.tmdb.org/t/p/w780/k5ypSoY4Ze0Gfi8zkijhr6lV3yx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oAUr61gawC5q4LlxtmfrIwKeGco.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ecZ3I6rbzkKcGgPMwZ8cA76DFvO.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/oAUr61gawC5q4LlxtmfrIwKeGco.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ecZ3I6rbzkKcGgPMwZ8cA76DFvO.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -7990,9 +10401,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1996",
     duracion: "50min 25s",
     calificacion: "88%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Yoshihiro Ueda",
-    reparto: "Laura Torres, Luis Daniel Ramírez, Sergio Bonilla",
+    reparto: "Laura Torres • Luis Daniel Ramírez • Sergio Bonilla",
     estreno: "10/07/1993",
     idioma: "Español Latino 🇲🇽",
 
@@ -8036,8 +10447,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: Devuelveme a mi Gohan",
     video: "https://dl.dropbox.com/scl/fi/8lkjuo97s0p9b82mup84b/Dragon-Ball-Z-Devuelveme-a-mi-gohan.mp4?rlkey=17woye5yiqutff36s6oi0iry6&st=",
     poster: "https://image.tmdb.org/t/p/w780/wvneAN9gJSVS3HwnGpEBdv9zOlO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/koo5d4CdZd0sxcxxTgxXUHMSY10.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t7880ClvELfAjX1sNge45Gjzfav.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/koo5d4CdZd0sxcxxTgxXUHMSY10.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/t7880ClvELfAjX1sNge45Gjzfav.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8045,9 +10456,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1989",
     duracion: "41min",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
-    reparto: "Laura Torres, Carlos Segundo, Eduardo Garza",
+    reparto: "Laura Torres • Carlos Segundo • Eduardo Garza",
     estreno: "15/07/1989",
     idioma: "Español Latino 🇲🇽",
 
@@ -8091,8 +10502,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El ataque del dragon",
     video: "https://dl.dropbox.com/scl/fi/0f93yiciodiw3l020d138/DBZ-El-Ataque-Del-Dragon-1080p.mp4?rlkey=xtivpfhd0igzyah8i1ejv7wmf&st=",
     poster: "https://image.tmdb.org/t/p/w780/dskU66PycrhgW7gq00eJAOkuK4Q.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7uRu9EA3nie0n2mlVDDLlTI3IzC.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tx1cFle0wtppT3qWNzSSWigawyu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7uRu9EA3nie0n2mlVDDLlTI3IzC.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tx1cFle0wtppT3qWNzSSWigawyu.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8100,9 +10511,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1995",
     duracion: "1h 19min",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Mitsuo Hashimoto",
-    reparto: "Mario Castañeda, René García, Gaby Willer",
+    reparto: "Mario Castañeda • René García • Gaby Willer",
     estreno: "15/07/1995",
     idioma: "Español Latino 🇲🇽",
 
@@ -8146,8 +10557,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El combate final",
     video: "https://dl.dropbox.com/scl/fi/3jrehlcdoq89wx14nm8im/Dragon-Ball-Z-El-combate-final.mp4?rlkey=lox3zi5gsqn5r3xrh069vy9of&st=",
     poster: "https://image.tmdb.org/t/p/w780/1516leTXPqSEt6t7Fd7EphmR34W.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gYcZAjYdTUGVf5oyqO2CawwuBla.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ci8I8KWu4LRLvgacGw637bsKZAM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gYcZAjYdTUGVf5oyqO2CawwuBla.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ci8I8KWu4LRLvgacGw637bsKZAM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8155,7 +10566,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1994",
     duracion: "1h 19min",
     calificacion: "73%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Yoshihiro Ueda",
     reparto: "Laura Torres, Mónica Villaseñor, Luis Daniel Ramírez",
     estreno: "09/07/1994",
@@ -8201,8 +10612,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El más fuerte del mundo",
     video: "https://dl.dropbox.com/scl/fi/94klww2le3y1vw9zgkunv/Dragon-Ball-Z-El-mas-fuerte-del-mundo-1990.mp4?rlkey=avx55mssi1k7adzwfcg3rnlfk&st=",
     poster: "https://image.tmdb.org/t/p/w780/x1GZYK1guxTBOIkAPDf9IZCD3qK.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5elbm3iLgGQ6nA5vqUmi9vIojbF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ev9oQ2LyI2gysDiKuKdf58vkjH2.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5elbm3iLgGQ6nA5vqUmi9vIojbF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ev9oQ2LyI2gysDiKuKdf58vkjH2.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8210,7 +10621,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1990",
     duracion: "45min",
     calificacion: "87%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
     reparto: " Mario Castañeda, Jesús Colín, Rocío Garcel",
     estreno: "10/03/1990",
@@ -8256,8 +10667,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El regreso de cooler",
     video: "https://dl.dropbox.com/scl/fi/de7bw7x1p33ohv4705p4f/DBZ-Los-Guerreros-Mas-Poderosos-1080p.mkv?rlkey=u9r2q4mcaloa3vq2v9nhoe3ey&st=",
     poster: "https://image.tmdb.org/t/p/w780/utXkOLm5Ivr0rJtJFHVMKjcSTzQ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zJn14ySh0NTZCOIReQZiWE1fkje.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/valfnyCeouOlwKH4h1dZKrD9ice.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zJn14ySh0NTZCOIReQZiWE1fkje.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/valfnyCeouOlwKH4h1dZKrD9ice.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8265,7 +10676,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1992",
     duracion: "50min",
     calificacion: "84%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: " Daisuke Nishio",
     reparto: "Ricardo Brust, Laura Torres, Luis Daniel Ramírez",
     estreno: "07/03/1992",
@@ -8310,9 +10721,9 @@ document.addEventListener('DOMContentLoaded', () => {
     id: "dragon_ball_z_el_poder_invencible",
     titulo: "Dragon Ball Z: El poder Invencible",
     video: "https://dl.dropbox.com/scl/fi/k6jc657iads0r9vqq6rx5/Dragon-Ball-Z-El-poder-invensible.mp4?rlkey=i68x0gs8hleuva7pe25q1edey&st=",
-    poster: "https://image.tmdb.org/t/p/w780/mTI2iRLkgkqPpy1s3l1dMwthjB6.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qanX5FNg7w7DfjLqwGHZJtiF0Ri.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/f00jxI9XCGMtus1hoRGnvX1lNQD.jpg",
+    poster: "https://image.tmdb.org/t/p/w780/xrg1pYVPK1yN0UREAzd1ywoVM6m.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qanX5FNg7w7DfjLqwGHZJtiF0Ri.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/f00jxI9XCGMtus1hoRGnvX1lNQD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8320,7 +10731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1993",
     duracion: "44min",
     calificacion: "83%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Shigeyasu Yamauchi",
     reparto: "Enrique Mederos, René García, Ricardo Brust",
     estreno: "05/03/1993",
@@ -8366,8 +10777,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El regreso del guerrero legendario",
     video: "https://dl.dropbox.com/scl/fi/gxs1v21167asaezzvleb4/Dragon-Ball-Z-El-Regreso-de-broly.mp4?rlkey=smi2eok2rr2ujvrvw60metzq7&st=",
     poster: "https://image.tmdb.org/t/p/w780/ptLGiI2nEhI3n9PJ2xITXpRQxwr.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iwvMmddNNf6DVLq3CBe8hhpHUgE.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1g0hHhMjsL0lZ4OCuMYNbi7FxkY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iwvMmddNNf6DVLq3CBe8hhpHUgE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1g0hHhMjsL0lZ4OCuMYNbi7FxkY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8375,7 +10786,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1994",
     duracion: "52min",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Shigeyasu Yamauchi",
     reparto: "Luis Daniel Ramírez, Ricardo Brust, Carola Vázquez",
     estreno: "12/03/1994",
@@ -8421,8 +10832,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: El super saiyajin Son Goku",
     video: "https://dl.dropbox.com/scl/fi/rigo9c1fnq2syinp7szhk/Dragon-Ball-Z-Goku-es-un-super-saiyajin.mp4?rlkey=uzgflgbicfkdgiog8v1c65csf&st=",
     poster: "https://image.tmdb.org/t/p/w780/cyQK5IzMXDUS8o84HYbSIFQt1Vy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/usMb0DzjnMkekizU3ZKkTHQ4x40.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/3LNGGzaiIRvchi4poCeoM8Md0p4.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/usMb0DzjnMkekizU3ZKkTHQ4x40.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/3LNGGzaiIRvchi4poCeoM8Md0p4.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8430,7 +10841,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1991",
     duracion: "52min",
     calificacion: "86%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: " Mitsuo Hashimoto",
     reparto: "Mario Castañeda, Laura Torres, Rocío Garcel",
     estreno: "19/03/1991",
@@ -8476,8 +10887,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: Episodio de Bardock",
     video: "https://dl.dropbox.com/scl/fi/ppa1vjh7mjlfekdy4st94/Dragon-ball-z-episodio-de-Bardock-Espa-ol-Latino-Completo-720P_HD.mp4?rlkey=o0jel4tqau5s8khpsioifzwpk&st=",
     poster: "https://image.tmdb.org/t/p/w780/pLctvg69kQGVfqSLqeL55sbWNRr.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pLctvg69kQGVfqSLqeL55sbWNRr.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/f9a79aC4CaaUKZt4el5Ncnt24sM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pLctvg69kQGVfqSLqeL55sbWNRr.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8485,7 +10896,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2011",
     duracion: "22min",
     calificacion: "70%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Yoshihiro Ueda",
     reparto: "Gerardo Reyero, Tulio Ramírez, Mario Castañeda",
     estreno: "17/12/2011",
@@ -8531,8 +10942,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La batalla de los dioses",
     video: "https://dn720303.ca.archive.org/0/items/dragon-ball-z-la-batalla-de-los-dioses/Dragon%20Ball%20Z%20la%20Batalla%20de%20los%20Dioses.ia.mp4",
     poster: "https://image.tmdb.org/t/p/w780/yIDS5QLvKtgzfu43eUWx5JkGW6p.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gH0s9CXul3xQp3vfq0NAl2XBTva.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cIyPFIeSKNTiWU9Zny0c0IVPQRY.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gH0s9CXul3xQp3vfq0NAl2XBTva.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8540,7 +10951,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2013",
     duracion: "1h 25min",
     calificacion: "92%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Masahiro Hosoda",
     reparto: "Mario Castañeda, René García, José Luis Orozco",
     estreno: "30/03/2013",
@@ -8574,7 +10985,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/usMb0DzjnMkekizU3ZKkTHQ4x40.jpg"
       },
       {
-        href: "../View Series/Dragon Ball Daima (2024).php",
+        href: "View Peliculas/Reproductor Universal Series.php?id=dragon_ball_daima",
         titulo: "Dragon Ball Daima",
         imagen: "https://image.tmdb.org/t/p/w300/jcNmdE3Rgn6Xld0osZyIgPU6H40.jpg"
       }
@@ -8586,8 +10997,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La resurrección de Freezer",
     video: "https://dl.dropbox.com/scl/fi/pmdvuuxtgni6xfi252vx5/Dragon.ball.z.resurrection.f.2015.1080p-dual-lat.mp4?rlkey=pkfk0l2ojjgk0911baoxtl54g&st=",
     poster: "https://image.tmdb.org/t/p/w780/69DzGEMRGuLCXBF4fz81foG9nXT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/q588rqEaiu8L7rcgBp8cWpGz4MG.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hasMQTJXgv20EyNUDcNKMhQW6gq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/q588rqEaiu8L7rcgBp8cWpGz4MG.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8595,7 +11006,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2015",
     duracion: "1h 34min",
     calificacion: "87%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Tadayoshi Yamamuro",
     reparto: "Mario Castañeda, Luis Alfonso Mendoza, Gerardo Reyero",
     estreno: "18/04/2015",
@@ -8641,8 +11052,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La fusión de Goku y Vegeta",
     video: "https://dl.dropbox.com/scl/fi/9me4yfnqx8c60jn5hdcbc/Dragon-Ball-Z-La-fusion-de-goku-y-vegeta.mp4?rlkey=qurdzya65bttvpoztxc9j8vks&st=",
     poster: "https://image.tmdb.org/t/p/w780/mdntijZT6aiYvFKRD5JytFfsSZF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yo9ioIpVLR8AitD9Q9m13Nf3of8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sGG8MIJlTbKu5PL9Lzx5bN7zKhn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yo9ioIpVLR8AitD9Q9m13Nf3of8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/sGG8MIJlTbKu5PL9Lzx5bN7zKhn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8650,7 +11061,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1995",
     duracion: "51min",
     calificacion: "87%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Shigeyasu Yamauchi",
     reparto: "Mario Castañeda, René García, Enrique Mederos",
     estreno: "04/03/1995",
@@ -8696,8 +11107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La pelea de Bardock vs Freezer",
     video: "https://dl.dropbox.com/scl/fi/zhgnaas4gvkhu1ui2xwst/Dragon-ball-z-bardock-vs-freezer.mp4?rlkey=84kzgu6yg62lxcnk0yxybqg3k&st=",
     poster: "https://image.tmdb.org/t/p/w780/93WDwbpnt40peVQthtBQ6U8FCjr.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mnFEyVcDlSshzl65hEdWoYXtnm3.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/h3rRPtOhbyB1Ddly710RBIyCTI7.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mnFEyVcDlSshzl65hEdWoYXtnm3.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/h3rRPtOhbyB1Ddly710RBIyCTI7.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8705,7 +11116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1990",
     duracion: "48min",
     calificacion: "88%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Mitsuo Hashimoto",
     reparto: "Mario Castañeda, Enrique Cervantes",
     estreno: "17/10/1990",
@@ -8751,8 +11162,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: La super batalla",
     video: "https://dl.dropbox.com/scl/fi/1emxqgfmpt7mh1epsvvn2/Dragon-Ball-Z-La-batalla-mas-grande-de-este-mundo-esta-por-comenzar.mp4?rlkey=idmr36ccujczdjlx04uee39jr&st=",
     poster: "https://image.tmdb.org/t/p/w780/en28AEmaJxE3SPXZcMD8OvgX6Jz.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AnTFexK3CIXC7ShLGyEYLxxyHBg.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/69dMY6CPe6mqi7nMC2bVeCcjJQI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/AnTFexK3CIXC7ShLGyEYLxxyHBg.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8760,7 +11171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1990",
     duracion: "1h 00min",
     calificacion: "89%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
     reparto: "David Arnaiz, Laura Torres, Mario Castañeda",
     estreno: "07/07/1990",
@@ -8806,8 +11217,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: Los dos guerreros del futuro",
     video: "https://dl.dropbox.com/scl/fi/hidpvshoygb92gqjc5erl/Dragon-Ball-Z-Los-dos-guerreros-del-futuro-1993.mp4?rlkey=qi3ifgwldwdvwi2u3xb4i5tet&st=",
     poster: "https://image.tmdb.org/t/p/w780/5Kn26cG3KIafnCer4FDTjvtbtyD.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/x0FCkSSdOGTA3gC99QayGJH0Dqx.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pvbMs7VgB4Rdmqyf39MlE5hzBcC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/x0FCkSSdOGTA3gC99QayGJH0Dqx.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pvbMs7VgB4Rdmqyf39MlE5hzBcC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8815,7 +11226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1993",
     duracion: "48min",
     calificacion: "86%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Yoshihiro Ueda",
     reparto: "Sergio Bonilla, Luis Alfonso Mendoza, Laura Torres",
     estreno: "24/02/1993",
@@ -8861,8 +11272,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: Los rivales mas poderosos",
     video: "https://dl.dropbox.com/scl/fi/819k8li0r6tsuu1epx0zk/Dragon-Ball-Z-Los-Rivales-mas-Poderosos.mp4?rlkey=cyn55wxn69ev3go616ogn3e7p&st=",
     poster: "https://image.tmdb.org/t/p/w780/bI7Up9hXoJU8YN8v9zp2KGYLmui.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uqTSXqjaSgSAT2lCv3GyZeodQPG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hRWjy9dyJIOYi3hpY1CpVxPj7eS.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uqTSXqjaSgSAT2lCv3GyZeodQPG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hRWjy9dyJIOYi3hpY1CpVxPj7eS.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8870,7 +11281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1991",
     duracion: "47min",
     calificacion: "89%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Mitsuo Hashimoto",
     reparto: "Mario Castañeda, Carlos Segundo , Ricardo Brust",
     estreno: "20/07/1991",
@@ -8915,9 +11326,9 @@ document.addEventListener('DOMContentLoaded', () => {
     id: "dragon_ball_z_los_tres_grendes_guerreros_saiyajin",
     titulo: "Dragon Ball Z: Los tres grandes Super Saiyans",
     video: "https://dl.dropbox.com/scl/fi/s60h3fjqyfocpgd528frg/Dragon-Ball-Z-Los-tres-super-saiyajins.mp4?rlkey=uukcaj37oqfeptt9k5ajyj095&st=",
-    poster: "https://image.tmdb.org/t/p/w780/mGr18hk6oDQyGjaSpbF7o5epoJV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2DoZzcuu8nt7NC50WjZpHSJHJPO.jpg",
+    poster: "https://image.tmdb.org/t/p/w780/waJaeX01YBs3J2qG1YVBhiONQIv.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pIwjWaEuCcT3QVBd9Ng9wG3kbpU.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2DoZzcuu8nt7NC50WjZpHSJHJPO.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8925,7 +11336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1992",
     duracion: "46min",
     calificacion: "93%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Daisuke Nishio",
     reparto: "Mario Castañeda, René García, Sergio Bonilla",
     estreno: "11/07/1992",
@@ -8934,7 +11345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        href: "../View Series/Dragon Ball Daima (2024).php",
+        href: "View Peliculas/Reproductor Universal Series.php?id=dragon_ball_daima",
         titulo: "Dragon Ball Daima",
         imagen: "https://image.tmdb.org/t/p/w300/jcNmdE3Rgn6Xld0osZyIgPU6H40.jpg"
       },
@@ -8971,8 +11382,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dragon Ball Z: Plan para erradicar a los Super Saiyans",
     video: "https://dl.dropbox.com/scl/fi/4vlwun60x6z3ib5et82zn/EL-PLAN-PARA-ERRADICAR-A-LOS-SAYAYIN-PELICULA-COMPLETA-ESPA-OL-LATINO-HD-720P_HD.mp4?rlkey=jdhjaktzb1ofwxtob6542g0ae&st=",
     poster: "https://image.tmdb.org/t/p/w780/tElmkcm6Unf9iEQ6Vv1duNF4YsM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qPv8avE1joxywziPMd49k6yINJp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/719Vlka1SXbjdxxBPLMX2qAMTUj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qPv8avE1joxywziPMd49k6yINJp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/719Vlka1SXbjdxxBPLMX2qAMTUj.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -8980,7 +11391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2010",
     duracion: "27min",
     calificacion: "67%",
-    genero: "Anime • Animacion • Accion • Ciencia Ficcion",
+    genero: "Anime • Animación • Acción • Ciencia Ficcion",
     director: "Yoshihiro Ueda",
     reparto: "AdryAlbin Fandubs, Matilow Fandubs",
     estreno: "11/11/2010",
@@ -9026,8 +11437,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dulce venganza",
     video: "https://dl.dropbox.com/scl/fi/jwxixeqyhdc5xnbvbhgfm/Dulce-venganza-2010.mp4?rlkey=ya5aotr8iby6cmcv19na8lzpx&st=",
     poster: "https://image.tmdb.org/t/p/w780/w86s0hTKFJ9Vtusm8kknGoU61Up.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yfJwNAIzPPyAAOoCue1goOuHM81.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hvsweVIY3KcUiC0eVh0TKFS1EUI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yfJwNAIzPPyAAOoCue1goOuHM81.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hvsweVIY3KcUiC0eVh0TKFS1EUI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9081,8 +11492,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Dulce venganza 2",
     video: "https://dl.dropbox.com/scl/fi/sqrdnz1c7jzw8hsqixmgb/I.Spit.On.Your.Grave.2.2013.bluray-latino-e-ingles-subt.mp4?rlkey=b9gvpowgkwbbqru5pcbnxwlb6&st=",
     poster: "https://image.tmdb.org/t/p/w780/6TD67XbLc4bwGbDaQg5RkCtBx9O.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/g1WEqWtielGmcWj0hleLhDriB7w.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cTAzqS4Zu9H8BuQGQOZfBlqeORY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cTAzqS4Zu9H8BuQGQOZfBlqeORY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9136,8 +11547,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Duro de entrenar",
     video: "https://dl.dropbox.com/scl/fi/8ghvgnjusj64tj9uh4ri7/duro.de.entrenar.dual.2023.mkv?rlkey=4pcuom5psx1lp2smub7o8ntix&st=",
     poster: "https://image.tmdb.org/t/p/w780/un2kba7UHYrydCNL3OkLocU5mG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lXkS6kSA0W3c0zVr3QrCBseaNgc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2QAbB5ubE3PsHKmo8pXcrpFdwni.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lXkS6kSA0W3c0zVr3QrCBseaNgc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2QAbB5ubE3PsHKmo8pXcrpFdwni.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9145,7 +11556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2023",
     duracion: "1h 24min",
     calificacion: "77%",
-    genero: "Accion • Comedia • Suspenso",
+    genero: "Acción • Comedia • Suspenso",
     director: "Eric Appel",
     reparto: "Kevin Hart, John Travolta, Nathalie Emmanuel",
     estreno: "24/02/2023",
@@ -9191,8 +11602,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Echo Valley",
     video: "https://dl.dropbox.com/scl/fi/vddnodblow075ik1cixyx/Echo-Valley-2025.mp4?rlkey=0y1b1q9x8vqgibk6de4sswf34&st=",
     poster: "https://image.tmdb.org/t/p/w780/aQ5nvQGT6mM6TliOM5iSgrKVF4C.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1E4WCgTodyS7zo8pSp1gZlPO0th.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/idYQ9ZdXIDsZwNiDtT7DGCBwUrR.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1E4WCgTodyS7zo8pSp1gZlPO0th.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/idYQ9ZdXIDsZwNiDtT7DGCBwUrR.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9246,8 +11657,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "https://dl.dropbox.com/scl/fi/pf7aaukbvu760p88hm7f7/Deadpool.2016.1080p-dual-lat.mp4?rlkey=qdszat19stbqzhnv1f32hqex3&st=",
     poster: "https://image.tmdb.org/t/p/w780/rFj9IKlL75B2pXhZA60jkNWvxeW.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/rIvNRUyAXyQVGDrod5O7ilDVGXe.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7BYksRLQ9HtZbUtanhAIdeQO9eD.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/rIvNRUyAXyQVGDrod5O7ilDVGXe.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9301,8 +11712,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Deadpool 2",
     video: "https://dl.dropbox.com/scl/fi/zncte4hm0depgczukmc6d/Deadpool.2.2018.1080p.unrated-dual-lat-cinecalidad.to.mp4?rlkey=ibcvq1tdl0kanagzrnxrh7he1&st=",
     poster: "https://image.tmdb.org/t/p/w780/zlu94cDgn99dr8D0HyNgfknLvDv.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4rFMvsAMN3XuYaLHvYbVGOy6FSE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jA4DpT3ywxfchnTfMBiouBhq9nU.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4rFMvsAMN3XuYaLHvYbVGOy6FSE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9356,8 +11767,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Deadpool Y Wolverine",
     video: "https://dl.dropbox.com/scl/fi/0jllkqnacl4shcm9twz2x/Deadpool.and.wolverine.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=z10p865x2422x67z41cg3pu30&st=",
     poster: "https://image.tmdb.org/t/p/w780/f6TCICUC8OSBtZDKgg18T6PjfIM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/by162J7zFy9YwXkDNKvL9g4nbth.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/by162J7zFy9YwXkDNKvL9g4nbth.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9411,8 +11822,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Desafiante rivales",
     video: "https://dl.dropbox.com/scl/fi/hy4wfwbsn4t00joc9lv74/Challengers.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=1w644zncwe5vtj2dyqur6j8zu&st=",
     poster: "https://image.tmdb.org/t/p/w780/4CcUgdiGe83MeqJW1NyJVmZqRrF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8Klo6PFxvCLdxK2v4dE3kWGTWZa.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/Aiqfn4XtXUPr7QNsDsAKNQ1aOKV.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8Klo6PFxvCLdxK2v4dE3kWGTWZa.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9463,13 +11874,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*E*/
 
+  el_juego_del_miedo_9: {
+    id: "el_juego_del_miedo_9",
+    titulo: "Espiral: el juego del miedo continúa",
+    video: "https://dl.dropbox.com/scl/fi/jr0eie36rkfbif1urge6h/s4w9.mp4?rlkey=jawu3g3lobap3w5wz4j4mbmlp",
+    poster: "https://image.tmdb.org/t/p/w780/8NsJySiLulXvmMtkuFX8zUhpPuu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nGfod9VfpN14MeWsrEqFu0uVlIl.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/r5AWUMF2FITdlsaitbJzTxutFyE.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "El detective descarado Ezekiel Zeke Banks, y su compañero novato, se hacen cargo de una espeluznante investigación sobre varios asesinatos espantosos. Zeke, involuntariamente, se vera atrapado en el morboso juego del asesino.",
+    anio: "2021",
+    duracion: "1h 33min",
+    calificacion: "74,7%",
+    genero: "Terror • Misterio",
+    director: "Darren Lynn Bousman",
+    reparto: "Chris Rock, Samuel L. Jackson, Max Minghella",
+    estreno: "14/05/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "saw",
+        titulo: "saw",
+        imagen: "https://image.tmdb.org/t/p/w300/rLNSOudrayDBo1uqXjrhxcjODIC.jpg"
+      },
+      {
+        id: "saw_3",
+        titulo: "Saw 3",
+        imagen: "https://image.tmdb.org/t/p/w300/1k2mz5IEyDUU4iG4KMbTQMnxrMD.jpg"
+      },
+      {
+        id: "saw_4",
+        titulo: "Saw 4",
+        imagen: "https://image.tmdb.org/t/p/w300/ku1QdCXOU4ckz3zxLLlis8MIJVm.jpg"
+      },
+      {
+        id: "saw_7",
+        titulo: "Saw 7",
+        imagen: "https://image.tmdb.org/t/p/w300/9rhs2v1hUiU6BsuzDlLgZZdD4FF.jpg"
+      },
+      {
+        id: "saw_5",
+        titulo: "Saw 5",
+        imagen: "https://image.tmdb.org/t/p/w300/oT5iWP5y3ES9WECdf3RK3bZ59Y0.jpg"
+      },
+      {
+        id: "saw_x",
+        titulo: "Saw X",
+        imagen: "https://image.tmdb.org/t/p/w300/qpy4VY3dj50UR0Ztmgs6xofi5tZ.jpg"
+      }
+    ]
+  },
+
   extraterritorial: {
     id: "extraterritorial",
     titulo: "Extraterritorial",
     video: "https://dl.dropbox.com/scl/fi/lug9morotse42ufiu3lpn/Extraterritorial.2025.1080P-Dual-Lat.mkv?rlkey=c773238pqf20crpe7k4alk1g8&st=",
     poster: "https://image.tmdb.org/t/p/w780/pOsO5yd4lI19rNwxEEPy0rw33gT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/k6PPdj6VWa02NQ8QEVm1QpuKyTU.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/k6PPdj6VWa02NQ8QEVm1QpuKyTU.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9523,8 +11989,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9578,8 +12044,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Estragos",
     video: "https://dl.dropbox.com/scl/fi/1dop4ez8sfcjunvi2odwk/Estragos.2025.1080P-Dual-Lat.mkv?rlkey=cba55hwyyygi54ancw143b41g&st=",
     poster: "https://image.tmdb.org/t/p/w780/segpvueoaTyzZcgTTNr4QMvefqe.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mLvDWu2zh39IzH8iQgOQh83cMq3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tbsDLmo2Ej8YFM0HKcOGfNMTlyJ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mLvDWu2zh39IzH8iQgOQh83cMq3.jpg",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -9634,8 +12100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El telefono negro",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/wXpAvb1e6TiQ1PBj9lHPzhaczmv.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1D2R2wIgbTyXTPzmyJIKSbVN9wG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/vyQDTHpviu7mok7d4rwtBLMpLEM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1D2R2wIgbTyXTPzmyJIKSbVN9wG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/vyQDTHpviu7mok7d4rwtBLMpLEM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9689,8 +12155,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El sorprendente hombre araña 2: El poder de Electro",
     video: "https://dl.dropbox.com/scl/fi/ndaxtlx0wqlfodlipur10/The.amazing.spider-man.2.2014.1080p-dual-lat.mp4?rlkey=syfk92sm5bn0r6umr24ia7d3n&st=",
     poster: "https://image.tmdb.org/t/p/w780/u7SeO6Y42P7VCTWLhpnL96cyOqd.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6swE941NH3PQIpD7it6K5LUKIDM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wJSnLeoPFE1oEZYZWBUlCIgEBWF.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6swE941NH3PQIpD7it6K5LUKIDM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wJSnLeoPFE1oEZYZWBUlCIgEBWF.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9744,8 +12210,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El rey león",
     video: "https://dl.dropbox.com/scl/fi/gv76z0opad048f2lz29r6/The.lion.king.2019.1080P-Dual-Lat.mp4?rlkey=lkxy6x02y53qcnnyp9mep2kiv&st=",
     poster: "https://image.tmdb.org/t/p/w780/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yysmQpv26DdP79XtR3zsL3nVFbN.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ziW0oIgrP6KIMTsNL9xBCnrrHzY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yysmQpv26DdP79XtR3zsL3nVFbN.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ziW0oIgrP6KIMTsNL9xBCnrrHzY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9799,8 +12265,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Elemental",
     video: "https://dl.dropbox.com/scl/fi/o9mpa0axrdk159m8ql3yt/elemental.dual2023.mkv?rlkey=htqenp9zy7qpqilaw68bs2xi8&st=",
     poster: "https://image.tmdb.org/t/p/w780/onsgifD7XFWnA40StTn9fnQwC84.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8riWcADI1ekEiBguVB9vkilhiQm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bIZpF1OM0yb2mzub1egFvpRVzLh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8riWcADI1ekEiBguVB9vkilhiQm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bIZpF1OM0yb2mzub1egFvpRVzLh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9808,7 +12274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2023",
     duracion: "1h 41min",
     calificacion: "87%",
-    genero: "Animacion • Disney • Comedia •  Familia • Fantasía • Romance",
+    genero: "Animación • Disney • Comedia •  Familia • Fantasía • Romance",
     director: "Peter Sohn",
     reparto: "Leah Lewis, Mamoudou Athie, Ronnie del Carmen",
     estreno: "15/06/2023",
@@ -9854,8 +12320,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Eliminar amigos",
     video: "https://dl.dropbox.com/scl/fi/km3jf0ogcm4d95rv127eg/Eliminar.amigo.2014.1080p-dual-lat.mp4?rlkey=mkeyoeyyer2ftf1q15rd7adz2&st=",
     poster: "https://image.tmdb.org/t/p/w780/5RtOlnBnXx54umgY8DXSNAKCFBp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/Ag5fNQu0YvEiG3rA7gV9MqhZgOI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pzxHNiKjHL8Sz7DZ7POXXqohxet.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/Ag5fNQu0YvEiG3rA7gV9MqhZgOI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9909,8 +12375,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Encanto",
     video: "https://dl.dropboxusercontent.com/scl/fi/r9fjyel691mtibdxl4qux/Encanto-Espa-ol-Latino-2021.mp4?rlkey=554uu7mwjn9l9zk5ze2yy03mo&st=",
     poster: "https://image.tmdb.org/t/p/w780/fst9hM26nIJMF4FTkFLasUwmBC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lH8CLypeehddHZt172TzUGWutH8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hHyAD6iR5gL06TAJGprvxDFUmvO.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lH8CLypeehddHZt172TzUGWutH8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hHyAD6iR5gL06TAJGprvxDFUmvO.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -9964,8 +12430,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "En las profundidades del sena",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjun24%2FVer%20En%20las%20profundidades%20del%20Sena%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/hliXekHv7xc2cgXnMBLlp4Eihq8.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tw3DlxBmTWVdIYqvCjzqdJyNXGn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tw3DlxBmTWVdIYqvCjzqdJyNXGn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10019,8 +12485,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Evil dead: El despertar",
     video: "https://dl.dropboxusercontent.com/scl/fi/ute400529yhsikmcvp0au/Evil.Dead.El.Despertar.2023.1080P-Dual-Lat.mp4?rlkey=rh7y5ubuz7qqg1mhy5eocrqvm&st=",
     poster: "https://image.tmdb.org/t/p/w780/aAgGrfBwna1nO4M2USxwFgK5O0t.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yrx8cBjVTS5Z0KpCy40nV53XmsJ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9ntvUBD5D7o9pIcrNirTrannvRt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yrx8cBjVTS5Z0KpCy40nV53XmsJ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9ntvUBD5D7o9pIcrNirTrannvRt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10074,8 +12540,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El Conjuro",
     video: "https://dl.dropbox.com/scl/fi/1z32m2t6koera1vo52cbd/The.Conjuring.2013.1080p-dual-lat.mp4?rlkey=5846lca5ja5sar0tr2b50hb5s&st=",
     poster: "https://image.tmdb.org/t/p/w780/mXndmCbpvlqnD6po0EMfxEZcUSn.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mftGp3zFc6ScGK2avNcaG72guoo.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mftGp3zFc6ScGK2avNcaG72guoo.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10129,8 +12595,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El conjuro 2: El caso enfield",
     video: "https://dl.dropbox.com/scl/fi/6gvzq42a2a2nfc3ca0h90/The.conjuring.2.2016.1080P-Dual-Lat.mp4?rlkey=374ee3fe8poyos64nybo5dz87&st=",
     poster: "https://image.tmdb.org/t/p/w780/mFCS5OuhPYT79KXu5jl7RqznPR1.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/eYWH6pGsX102DUIjWpeybkDZfqA.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/3nLi3xj0SUeSja4Y4Yv1w7GCHWy.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/eYWH6pGsX102DUIjWpeybkDZfqA.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/3nLi3xj0SUeSja4Y4Yv1w7GCHWy.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10184,8 +12650,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El conjuro 3: El diablo me obligo hacerlo",
     video: "https://dl.dropbox.com/scl/fi/iuf0861zknazyjvqjrjlu/The.Conjuring.The.Devil.Made.Me.Do.It.2021.1080P-Dual-Lat.mp4?rlkey=c3pjsl6y9xcfzwv9izf9j75sm&st=",
     poster: "https://image.tmdb.org/t/p/w780/nUMtHNnM4EWQ3Md4NfjJQBCvHos.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/79QjdRiT9zTLkrOq9FltoIxClma.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uwXXxPup5aKaS5iZDJNNExTSQui.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/79QjdRiT9zTLkrOq9FltoIxClma.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/uwXXxPup5aKaS5iZDJNNExTSQui.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10235,12 +12701,12 @@ document.addEventListener('DOMContentLoaded', () => {
   },
 
   el_conjuro_4: {
-    id: "nombredepelicula",
+    id: "el_conjuro_4",
     titulo: "El conjuro 4: El ultimo rito",
     video: "https://dl.dropbox.com/scl/fi/ims8wuaqas1egdbuxkb07/The.conjuring.last.rites.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=xii0kollzql7x0e4denj7a5ls&st=",
     poster: "https://image.tmdb.org/t/p/w780/fJXqP9S9llRUy9tuccuwvIYFBA4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cDNuAKzhfM6GQ8jce55jn9SQLY3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cDNuAKzhfM6GQ8jce55jn9SQLY3.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10294,8 +12760,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El último respiro",
     video: "https://dl.dropbox.com/scl/fi/3h6h5ail7550oawb0xzrw/Last.breath2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=qrmg04fqw2q3hp20pbjxp8rpe&st=",
     poster: "https://image.tmdb.org/t/p/w780/tFNnex0vvGqqGVU4NQzUh1AF1Cq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dhdwvrhVqskWu6W3AKh0CCWtHN3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dhdwvrhVqskWu6W3AKh0CCWtHN3.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10312,9 +12778,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "terror_en_el_rio",
-        titulo: "Terror en el rio",
-        imagen: "https://image.tmdb.org/t/p/w300/kIO7eVOivYH9LptLxdXio5KRor.jpg"
+        id: "miedo_en_las_profundidades",
+        titulo: "Miedo en las profundidades",
+        imagen: "https://image.tmdb.org/t/p/w300/yfEJL8bRjyNlqxiYHu1cY7tJN9t.jpg"
       },
       {
         id: "tarot",
@@ -10349,8 +12815,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El bufón",
     video: "https://dl.dropbox.com/scl/fi/2j2znk120azkf1ba646w4/El.Buf-n.2023.1080P-Dual-Lat.mp4?rlkey=1wmowabjy8qg8niel8mlhycxf&st=",
     poster: "https://image.tmdb.org/t/p/w780/5akfl4CrFYbapAZCeKsJx502Mws.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dgKOxLURFXEUbot7LxStDiiQC3f.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dgKOxLURFXEUbot7LxStDiiQC3f.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10404,8 +12870,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El guasón",
     video: "https://dl.dropbox.com/scl/fi/p7zrohbsmy9x8me9eijg5/Guas-n.2019.1080p-dual-lat.mkv?rlkey=54dx7pk331dxbai3dgxw8j93x&st=",
     poster: "https://image.tmdb.org/t/p/w780/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4wjIkF5wzacT4NKcP3CCpsx3O9z.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/2cta3k9kgsgweUTY2LvMSFjuB6e.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4wjIkF5wzacT4NKcP3CCpsx3O9z.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10459,8 +12925,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El guasón 2",
     video: "https://dl.dropbox.com/scl/fi/zfqmde64wncaxym3hkyzu/Guason.2.Folie.a.Deux.2024.720p-Dual-Lat.mkv?rlkey=rrqmyax4tucckgd3j0ifl6z7y&st=",
     poster: "https://image.tmdb.org/t/p/w780/AVWlQpVhpudyFsSh3OQIieHHYf.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/33UjMxGTL5wnyjY0OsSbSLSX0zE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/33UjMxGTL5wnyjY0OsSbSLSX0zE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10514,7 +12980,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El deseo de Ana",
     video: "https://dl.dropbox.com/scl/fi/6w4e9ida6ysczi35rs9o0/El.deseo.de.Ana.2019.WEBRip.1080p.AVC.AAC.mkv?rlkey=2x0jqac63srgzck370q5kqp5k&st=",
     poster: "https://resizing.flixster.com/6dRWSUInI3_Fxd80JL7Fr9563ds=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p18726202_v_h8_aa.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/89XUJQYBjlxayW7IBnlNoxn1bPg.jpg",
     imginicio: "https://i.ytimg.com/vi/GeCb-77M4tg/maxresdefault.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -10569,8 +13035,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El hoyo",
     video: "https://dl.dropbox.com/scl/fi/4vysj42n5pb0gkevn4eok/El.hoyo.2019.1080p-cast-cinecalidad.is.mp4?rlkey=z1q6wchrg85tfakk43ut3da7x&st=",
     poster: "https://image.tmdb.org/t/p/w780/1w75Cpnxi8iRQDgxQeRudwl8r2g.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yVPear63M3MRiDyrSf6wsFgzN3A.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zn4v8QTI4z5yHVdG9sU84DwDiNl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yVPear63M3MRiDyrSf6wsFgzN3A.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zn4v8QTI4z5yHVdG9sU84DwDiNl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10624,8 +13090,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El hoyo 2",
     video: "https://dl.dropbox.com/scl/fi/ct567ncw4dw2p3leg1vyk/El.Hoyo.2.2024.1080P-Cast.mkv?rlkey=2oa6joh47fd251b7i48wmcgwz&st=",
     poster: "https://image.tmdb.org/t/p/w780/3m0j3hCS8kMAaP9El6Vy5Lqnyft.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jHGgM019xAoy62cKZtDmTxvQlUY.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jRdZDdjhLxT6IbbRz8J3RaeAZ7D.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jRdZDdjhLxT6IbbRz8J3RaeAZ7D.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10679,8 +13145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El ladrón de joyas",
     video: "https://dl.dropbox.com/scl/fi/1ey016vsad4n98d3paqls/El.Ladron.De.Joyas.2025.1080P-Dual-Lat.mkv?rlkey=7mue4uuxobatx0ztt4q48m8zr&st=",
     poster: "https://image.tmdb.org/t/p/w780/7fz867yEiEwNShKC4T7zl91ZyRI.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hcnB63OzHnwx0o4ej4FXYRMMQdl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hzuus3qrQct2JeoAs2AGMYzKzjZ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hcnB63OzHnwx0o4ej4FXYRMMQdl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10734,8 +13200,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El maravilloso mago de Oz",
     video: "https://dl.dropbox.com/scl/fi/sf5m6m4ijzg2y5ap7jxzu/El-Maravilloso.Mago.De.Oz.2025.Dual.1080p.Latino.mkv?rlkey=lb25ktgofttxhqu9nn74e8kxl&st=",
     poster: "https://image.tmdb.org/t/p/w780/1t3YfNmAZeWIFEctgh43pL10gdQ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1t3YfNmAZeWIFEctgh43pL10gdQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ruMUv9mtcUoiUWoZmLBBTDbn11J.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1t3YfNmAZeWIFEctgh43pL10gdQ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10789,8 +13255,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El pájaro loco ¡Lío en el campamento!",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fabr24%2FVer%20El%20P%C3%A1jaro%20Loco% 20se%20va%20de%20campamento%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/w5g4Vaicw66Lh7m0TIChhKZ9fbj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/x7QXH6T8oTKlUbKt8TD1rPimzCr.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/w5g4Vaicw66Lh7m0TIChhKZ9fbj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/x7QXH6T8oTKlUbKt8TD1rPimzCr.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/w5g4Vaicw66Lh7m0TIChhKZ9fbj.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10844,8 +13310,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El es así",
     video: "https://dl.dropbox.com/scl/fi/64sx39b00xrvhxokofds3/El-Es-Asi-Espa-ol-Latino-720p-2021.mp4?rlkey=1o1chyn7d6412cktdfb0cqomg&st=",
     poster: "https://image.tmdb.org/t/p/w780/wsztJfJvJW5nXxn5n0DIMzH2TDM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wsztJfJvJW5nXxn5n0DIMzH2TDM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gTboh2Tf7zKlXWJk4UdOL1G8ki7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wsztJfJvJW5nXxn5n0DIMzH2TDM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -10899,8 +13365,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -10955,8 +13421,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -11011,8 +13477,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -11067,8 +13533,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -11123,8 +13589,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El arca de Noé",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Arca%20de%20No%C3%A9%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/qSc5JzPvSm6KxVv54nrn7SNXFtk.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fRaBjht3S1HU6lJrz2SoFwwOZQM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qSc5JzPvSm6KxVv54nrn7SNXFtk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fRaBjht3S1HU6lJrz2SoFwwOZQM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qSc5JzPvSm6KxVv54nrn7SNXFtk.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11178,8 +13644,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Un jefe en pañales",
     video: "https://dl.dropbox.com/scl/fi/b1czcia7ews3wvynxmiso/The.boss.baby.2017.1080p-dual-lat.mp4?rlkey=x7cvmwxi7swrozabuzs3nm51y&st=",
     poster: "https://image.tmdb.org/t/p/w780/4IrZC1uuaDpGScO4TDyEe4E4bq2.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/r93RbIA4FoyZ32Nre3CCAQ0G3GQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/dPiXM1aFbJ9XJGPyf5ZULmEjzkR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/r93RbIA4FoyZ32Nre3CCAQ0G3GQ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11233,8 +13699,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El astronauta",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20El%20astronauta%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/824e60sDlEXUP1vXCYNqh5RSlI5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/s0n507Psi8qriJnJqKlnVEkBEYn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kyYNMXbXzuAw1LpnvzheqTKNaoL.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/s0n507Psi8qriJnJqKlnVEkBEYn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11252,7 +13718,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recomendaciones: [
       {
         id: "spider_man3",
-        titulo: "Spider-Man: Sin camino a casa",
+        titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       },
       {
@@ -11288,8 +13754,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El Asesino",
     video: "https://dl.dropbox.com/scl/fi/ziy36tqc55pyr0i5b2t5v/el.asesino.dual.2023.mkv?rlkey=3eq9dvaeowgg7ur1u5cedshi1&st=",
     poster: "https://image.tmdb.org/t/p/w780/mRmRE4RknbL7qKALWQDz64hWKPa.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mRmRE4RknbL7qKALWQDz64hWKPa.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mRmRE4RknbL7qKALWQDz64hWKPa.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11343,8 +13809,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El bosque de los suicidios",
     video: "https://dl.dropbox.com/scl/fi/muu5ip103tcqut0mdsu9g/el-bosque-de-los-suicidios.mkv?rlkey=kg9n3w99tjxtlx11z98ktoyaq&st=",
     poster: "https://image.tmdb.org/t/p/w780/c6GGumaw3bvhX15NXK30heuCnaC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/c6GGumaw3bvhX15NXK30heuCnaC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xrk5IwznK8x5kR2BlBYdu2H5GcI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/c6GGumaw3bvhX15NXK30heuCnaC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11398,8 +13864,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El gato con botas",
     video: "https://dl.dropbox.com/scl/fi/sv3tgf0v42tyqgij9ww7l/Gato.Con.Botas.2011.1080P-Dual-Lat.mkv?rlkey=samzxrq49zbdkr47jjrzxi5gr&st=",
     poster: "https://image.tmdb.org/t/p/w780/9Jf5uqvxGfpd0lXUB71iglugrjM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1VmrC82zY4U33l9UHlZTWDB1asN.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hH5x9EiqZUCOJTh0b4CAilJ6OHx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1VmrC82zY4U33l9UHlZTWDB1asN.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hH5x9EiqZUCOJTh0b4CAilJ6OHx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11453,8 +13919,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El gato con botas 2: El último deseo",
     video: "https://dl.dropbox.com/scl/fi/xxwt7vsy5dr0ibzmzalxq/Gato.Con.Botas-.El.-ltimo.Deseo.2022.1080P-Dual-Lat.mp4?rlkey=hg39kqdjdze54mpi3d07nu3th&st=",
     poster: "https://image.tmdb.org/t/p/w780/jNyZcfBd10rIChqZ5aqFJMpWA0n.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ygqZ758t5oBYKP1y8LHdeflNW79.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/rxmw7Ghv7EV60BEFY2R8R9C141U.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ygqZ758t5oBYKP1y8LHdeflNW79.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/rxmw7Ghv7EV60BEFY2R8R9C141U.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11508,8 +13974,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El planeta de los simios: [R] Evolucion",
     video: "https://dl.dropbox.com/scl/fi/s7wdlhn2o2vr4r8t8rwge/Rise.of.the.planet.of.the.apes.2011.1080p-dual-lat.mp4?rlkey=1cudv5381fhlyhwulzc955bts&st=",
     poster: "https://image.tmdb.org/t/p/w780/xDpa4rl47if5ixG1VRmzHErzy8h.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/3R0pjFNTDe7mCrXzgJk8EfeFPHy.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uQsVXnHCKOzhWZUqNX0nAvMGhx7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/3R0pjFNTDe7mCrXzgJk8EfeFPHy.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11563,8 +14029,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El planeta de los simios 2: Confrontación",
     video: "https://dl.dropbox.com/scl/fi/73jw0bwu0qkzj1iqyiup5/Dawn.of.the.planet.of.the.apes.2014.1080p-dual-lat.mp4?rlkey=d5ryregqrjsguowlu2az28lmi&st=",
     poster: "https://image.tmdb.org/t/p/w780/zlU8BIkgY7E6SMfD3USTWC6bchL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hkYU2SlXjR1h24ushpUM1CYzzzD.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yJXtXz8MFMeIfdoUHWjzTEuOhmK.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hkYU2SlXjR1h24ushpUM1CYzzzD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11618,8 +14084,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El planeta de los simios 3: La guerra",
     video: "https://dl.dropbox.com/scl/fi/frq9iu4id74n1l28rnytp/War.for.the.planet.of.the.apes.2017.1080p-dual-lat.mp4?rlkey=oclamavp01zvvh98kqkyo9ssl&st=",
     poster: "https://image.tmdb.org/t/p/w780/ulMscezy9YX0bhknvJbZoUgQxO5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1EzOMmGrDG6iqMN1oIJiDU9V9bo.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4s51V3REPzdABoEDLC4TPDPkY3b.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1EzOMmGrDG6iqMN1oIJiDU9V9bo.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11673,8 +14139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El planeta de los simios 4: Un nuevo reino",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20El%20planeta%20de%20los%20simios-%20Nuevo%20reino%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/f3sGWbkJ2xDDdXsXps6CRpNnPD3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/3GPVJOkXqkeMKuxmKPXhkkfwtq0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/p2wJF2CtbHhtQtnAxoHeptoSv1E.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/3GPVJOkXqkeMKuxmKPXhkkfwtq0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11728,8 +14194,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El origen de los guardianes",
     video: "https://dl.dropbox.com/scl/fi/sqjmg32yafdg3myp6kkhk/Rise.of.the.Guardians.2012.1080P-Dual-Lat.mkv?rlkey=257p5zh984mb9gz23ifdacxlj&st=",
     poster: "https://image.tmdb.org/t/p/w780/46IGtYNjpIvQYRIQlb2X493Wh8x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wwbungyAzPlLPRVowmwI2o8qQif.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kDVXsTZhssIJeZIMBC33MqmgkrQ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wwbungyAzPlLPRVowmwI2o8qQif.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11783,8 +14249,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Encerrado",
     video: "https://dl.dropbox.com/scl/fi/mz87h83azuy6q7owmqe51/Encerrado-2025-Mp4.mp4?rlkey=2flai43y0n6vec0efhrqfvgf1&st=",
     poster: "https://image.tmdb.org/t/p/w780/r4X2xRrWleVgx0kahP27xRmm3ia.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/wlo2rGpjjHh3X8XImBdeUayKJ6g.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5YI2iRIoR3PuoxBnPEbauLZYu3k.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/wlo2rGpjjHh3X8XImBdeUayKJ6g.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5YI2iRIoR3PuoxBnPEbauLZYu3k.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11838,8 +14304,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El mono",
     video: "https://dl.dropbox.com/scl/fi/zmxx4i4o9g0wullrcyjzt/El-mono-2025.mp4?rlkey=1h28dios3l8rxvc3gfs09tp18&st=",
     poster: "https://image.tmdb.org/t/p/w780/25CY0FggI3YXy7AS4xIfVBcRaMq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6wOkkGiQnJ1xZqPgrHIbn7hDuP0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6wOkkGiQnJ1xZqPgrHIbn7hDuP0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -11895,12 +14361,12 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Frida",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FWatch%20Frida%202024%201080L4T%20mp4.mp4",
     poster: "https://image.tmdb.org/t/p/w780/3IPj6hUlhGvb7xkdQGXbIMjp6lb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yeWgiZhSUC7XKEPT1EzXP6E9xta.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/o26xWsMAvBUEsZb0pe7niafUqEU.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yeWgiZhSUC7XKEPT1EzXP6E9xta.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/o26xWsMAvBUEsZb0pe7niafUqEU.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "Un viaje por la vida de la icónica artista Frida Kahlo, contada a través de sus propias palabras extraídas de diarios, cartas, ensayos y entrevistas. Animaciones líricas inspiradas en sus obras.",
+    sinopsis: "Un viaje por la vida de la icónica artista Frida Kahlo, contada a través de sus propias palabras extraídas de diarios, cartas, ensayos y entrevistas. Animaciónes líricas inspiradas en sus obras.",
     anio: "2024",
     duracion: "1h 27min",
     calificacion: "70%",
@@ -11950,8 +14416,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12005,8 +14471,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Freestyle",
     video: "https://dl.dropbox.com/scl/fi/9y3m5p8oukcclsl2r00nd/Freestyle-2023.mp4?rlkey=zbqtowkbh2q33z8sjlwvwdzeu&st=",
     poster: "https://image.tmdb.org/t/p/w780/voYx6OR5Bwo1RqXYeoZkg0ymzrq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/voYx6OR5Bwo1RqXYeoZkg0ymzrq.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/8jwbiJB8Am1N9OsqaJs9vrGerlG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/voYx6OR5Bwo1RqXYeoZkg0ymzrq.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12060,8 +14526,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12115,8 +14581,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Five Nights at Freddy's",
     video: "https://dl.dropbox.com/scl/fi/gilmfstcxzc0h7fllvybx/Five.nights.at.freddys.2023.1080p-dual-lat-cinecalidad.re.mp4?rlkey=hsdvcv3uwl36e0kqnetknbxxq&st=",
     poster: "https://image.tmdb.org/t/p/w780/7NRGAtu8E4343NSKwhkgmVRDINw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7BpNtNfxuocYEVREzVMO75hso1l.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dP6aTajnmITTfipJdb1I66WCMlS.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7BpNtNfxuocYEVREzVMO75hso1l.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dP6aTajnmITTfipJdb1I66WCMlS.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12170,8 +14636,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Five Nights at Freddy's 2",
     video: "https://dl.dropbox.com/scl/fi/su2b8i6ln2qzez3xpbio8/Five.nights.at.freddys.2.2025.1080p-dual-lat.mp4?rlkey=evymipj4q94cwd7p5qp8nzjag&st=",
     poster: "https://image.tmdb.org/t/p/w780/bZlismAr366jWFiZNKzY3x3AN5X.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gFVLyx2EX9jrnV2RY8rF9Y3W9aH.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gFVLyx2EX9jrnV2RY8rF9Y3W9aH.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12225,8 +14691,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Frozen 2",
     video: "https://dl.dropbox.com/scl/fi/019rxqf6iiu2y4lkf06sa/Frozen.ii.2019.1080P-Dual-Lat.mp4?rlkey=t41kc1mhesnbjwir8c5bu9qio&st=",
     poster: "https://image.tmdb.org/t/p/w780/xD7yQyIZTU56OhzIjEa6FhD66Pe.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/94P5AyQy9KET6wj3qLfczK1EMSs.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lTUrKg0vvBgjCUKyjkwxHEiLzBc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/94P5AyQy9KET6wj3qLfczK1EMSs.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12282,8 +14748,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Gran turismo",
     video: "https://bank.bemtv.cn/vod01/Movies/vod16286wxNEtb/vod16286wxNEtb_720.mp4/index.m3u8",
     poster: "https://image.tmdb.org/t/p/w780/ftzAvrQqMMBkBllnlPdcwGfwauz.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tETqYkrxTAbLjisBmzFof7jhxt3.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wFAlViMW1RpWGo7SRI9eLFhrlMd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tETqYkrxTAbLjisBmzFof7jhxt3.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wFAlViMW1RpWGo7SRI9eLFhrlMd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12337,8 +14803,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12392,8 +14858,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Guerra Mundial Z",
     video: "https://dl.dropbox.com/scl/fi/ofbuox10p4sojfth9r358/World.War.Z.2013.1080P-Dual-Lat.mp4?rlkey=3krg134ufli68xfeeel62hb2y&st=",
     poster: "https://image.tmdb.org/t/p/w780/9wRSJulmKZY4KWXneKGcCD0Rmap.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/9Sd2zBbi8hlcc6p6hGV3Qfj39jl.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/f5H5aLVCClEFnnTUrN0i2tXXLIz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/9Sd2zBbi8hlcc6p6hGV3Qfj39jl.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/f5H5aLVCClEFnnTUrN0i2tXXLIz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12401,7 +14867,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2013",
     duracion: "1h 56min",
     calificacion: "70%",
-    genero: "Accion • Terror • Suspenso • Ciencia ficcion",
+    genero: "Acción • Terror • Suspenso • Ciencia ficcion",
     director: "Marc Forster",
     reparto: "Brad Pitt, Mireille Enos, Daniella Kertesz",
     estreno: "21/06/2013",
@@ -12447,15 +14913,15 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Godzilla y Kong: El nuevo imperio",
     video: "https://dl.dropbox.com/scl/fi/3p4utaci6ou4kiaqazce6/Godzilla.Y.Kongel.Nuevo.Imperio.2024.1080P-Dual-Lat.mkv?rlkey=n496684euu83qt9cclw36opmj&st=",
     poster: "https://image.tmdb.org/t/p/w780/j3Z3XktmWB1VhsS8iXNcrR86PXi.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lluGBHiORAC74piEPbCaITpdv2U.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5uzu4Zo5AbJlOQIBAqeq1ecfmmm.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lluGBHiORAC74piEPbCaITpdv2U.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5uzu4Zo5AbJlOQIBAqeq1ecfmmm.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
     sinopsis: "Una aventura cinematográfica completamente nueva, que enfrentará al todopoderoso Kong y al temible Godzilla contra una colosal amenaza desconocida escondida dentro de nuestro mundo.",
     anio: "2024",
     duracion: "1h 55min",
-    calificacion: "00%",
+    calificacion: "80%",
     genero: "Acción • Aventura • Ciencia ficción",
     director: "Adam Wingard",
     reparto: "Rebecca Hall, Brian Tyree Henry, Dan Stevens",
@@ -12502,8 +14968,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Garfiled: Fuera de casa",
     video: "https://dl.dropbox.com/scl/fi/ywgo7bwjt4krsjoj5dc7j/Garfield.Fuera.De.Casa.2024.1080P-Dual-Lat.mkv?rlkey=7bw823r1zsjv2zmrastnwgsdo&st=",
     poster: "https://image.tmdb.org/t/p/w780/P82NAcEsLIYgQtrtn36tYsj41m.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6QR2FOCQr41gSduN70WulRIhJb7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t7qDrJLfRwLc3rGQ8y47C1wf25O.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6QR2FOCQr41gSduN70WulRIhJb7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/t7qDrJLfRwLc3rGQ8y47C1wf25O.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12513,7 +14979,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calificacion: "70%",
     genero: "Animación • Familia • Comedia • Aventura",
     director: "Mark Dindal",
-    reparto: " Chris Pratt, Samuel L. Jackson, Hannah Waddingham",
+    reparto: " Chris Pratt • Samuel L. Jackson • Hannah Waddingham",
     estreno: "02/05/2024",
     idioma: "Español Latino 🇲🇽",
 
@@ -12553,14 +15019,69 @@ document.addEventListener('DOMContentLoaded', () => {
   },
 
   /*H*/
+  
+  hoppers: {
+    id: "hoppers",
+    titulo: "Hoppers",
+    video: "https://dl.dropbox.com/scl/fi/6bo2pnixusv19b4o7y66n/Hoppers-2026-Espa-ol-latino.mp4?rlkey=ribtzqqp25hg4sylznocz27ex&st=",
+    poster: "https://image.tmdb.org/t/p/w780/7Zk07DUBunUp9E1LtLK63jJGiDk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4Z0E1W7YvQ0aVtgj7KKtktb9ukd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jj3ohaYX5FdyUGb343hFxl4PXpT.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Una amante de los animales aprovecha la oportunidad de utilizar una tecnología que coloca su conciencia en un castor robótico, descubriendo misterios dentro del mundo animal que van más allá de lo que podría haber imaginado.",
+    anio: "2026",
+    duracion: "1h 3min",
+    calificacion: "85,6%",
+    genero: "Animación • Aventura • Comedia • Disney • Familia • Ciencia ficción",
+    director: "Daniel Chong",
+    reparto: "Piper Curda • Bobby Moynihan • Jon Hamm",
+    estreno: "05/03/2026",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "intercambiados",
+        titulo: "Intercambiados",
+        imagen: "https://image.tmdb.org/t/p/w300/cAYWsiPLcjLjvmdSrPAoDtieu8i.jpg"
+      },
+      {
+        id: "super_mario_bros_2",
+        titulo: "Super Mario Bros 2: Galaxy",
+        imagen: "https://image.tmdb.org/t/p/w300/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg"
+      },
+      {
+        id: "goat_como_cabras",
+        titulo: "GOAT: Como cabras",
+        imagen: "https://image.tmdb.org/t/p/w300/wfuqMlaExcoYiUEvKfVpUTt1v4u.jpg"
+      },
+      {
+        id: "zootopia_2",
+        titulo: "Zootopia 2",
+        imagen: "https://image.tmdb.org/t/p/w300/jy3FeyNUNYIwylzapjtRx0eQw1P.jpg"
+      },
+      {
+        id: "moana_2",
+        titulo: "Moana 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
+      },
+      {
+        id: "los_tipos_malos_2",
+        titulo: "Los tipos malos 2",
+        imagen: "https://image.tmdb.org/t/p/w300/mZmnKDhIS2yNmtfzde5vtdCYzBF.jpg"
+      }
+    ]
+  },
 
   hablame: {
     id: "hablame",
     titulo: "Háblame",
     video: "https://dl.dropbox.com/scl/fi/sl93snxxfkm8k70o8ftzz/H-blame.2022.1080P-Dual-Lat.mp4?rlkey=ee5u4n12o8st89hput52z97vz&st=",
     poster: "https://image.tmdb.org/t/p/w780/bTzq40wrtfbmEk7VmEXHAZcd52A.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bTzq40wrtfbmEk7VmEXHAZcd52A.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hQpcO9OIGXEZtm7KfUEMtZxXukI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bTzq40wrtfbmEk7VmEXHAZcd52A.jpg",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -12570,8 +15091,8 @@ document.addEventListener('DOMContentLoaded', () => {
     duracion: "1h 35min",
     calificacion: "82%",
     genero: "Terror",
-    director: "Danny Philippou, Michael Philippou",
-    reparto: "Sophie Wilde, Alexandra Jensen, Joe Bird",
+    director: "Danny Philippou • Michael Philippou",
+    reparto: "Sophie Wilde • Alexandra Jensen • Joe Bird",
     estreno: "17/08/2023",
     idioma: "Español Latino 🇲🇽",
 
@@ -12615,8 +15136,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Harta",
     video: "https://dl.dropbox.com/scl/fi/bwc38qcxl9tmw25e302jl/Harta.2025.1080P-Dual-Lat.mkv?rlkey=xa3xygkv1h2q6ixkolxfk4nfk&st=",
     poster: "https://image.tmdb.org/t/p/w780/wvr3Nh8TALWbmATrnlNg5Vhf6d3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wEC3zdfK1SMnwAV7U82hCD77Wfe.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wEC3zdfK1SMnwAV7U82hCD77Wfe.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12670,8 +15191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hércules",
     video: "https://dl.dropbox.com/scl/fi/vuxvswm2w0rr987z8arpl/H-rcules.1997.1080P-Dual-Lat.mkv?rlkey=bfavf9ocqlru4kf190zmeyqn4&st=",
     poster: "https://image.tmdb.org/t/p/w780/y43ELBtPuqCQFCmJSSw8Utt0ES0.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hdOS8bvta2DmDF8NHcgKWQDx0OX.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ahmc5y1fglC0Ec52qIAyw6oseME.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hdOS8bvta2DmDF8NHcgKWQDx0OX.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ahmc5y1fglC0Ec52qIAyw6oseME.jpg",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -12726,8 +15247,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hijo de Dios",
     video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Hijo%20de%20Dios%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4",
     poster: "https://image.tmdb.org/t/p/w780/iPtLFd2Sv1iq2UCe6THol1W6TSe.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pnORCAOUW0JKR84ueMap8GiBAoA.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hONTXxtQVSYySKW5f3nRndKUfhc.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pnORCAOUW0JKR84ueMap8GiBAoA.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hONTXxtQVSYySKW5f3nRndKUfhc.jpg",
     imginicio: "",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -12782,8 +15303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hotel transilvania",
     video: "https://dl.dropbox.com/scl/fi/3yko53cuj5d28t09jcalf/Hotel.Transylvania.2012.latino-e-ingles-subt.mkv?rlkey=7k1n5chl73cpbs56yeg1qv9b7&st=",
     poster: "https://image.tmdb.org/t/p/w780/9N3KKOKpqEFe9GhHaIVHwk9N1Y.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zvWlwBGQWuJ0wog65q1uS37BApC.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tcHF7MvHRNyu23XsGnJmTnvB9Rc.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zvWlwBGQWuJ0wog65q1uS37BApC.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tcHF7MvHRNyu23XsGnJmTnvB9Rc.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12837,8 +15358,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hotel Transylvania 2",
     video: "https://dl.dropbox.com/scl/fi/bavlmpf77dqz9dpbkiywz/Hotel.transylvania.2.2015.1080p-dual-lat.mp4?rlkey=0kkvjzrj37z690kbi5jqu2g4a&st=",
     poster: "https://image.tmdb.org/t/p/w780/kFPWoBFBkVi3YDG8MyOOTrwGxPF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/g2tlrb2oy6T90l37Umt1iXBV1Ua.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3nFnrivNgipSKZ8LZJJbRSlAcTR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/g2tlrb2oy6T90l37Umt1iXBV1Ua.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12892,8 +15413,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hotel Transilvania 3: Unas vacaciones monstruosas",
     video: "https://dl.dropbox.com/scl/fi/yrph5cqr4ijymla4n367w/Hotel.transylvania.3.summer.vacation.2018.1080p-dual-lat-cinecalidad.to.mp4.mp4?rlkey=k77zbbvxc1iwef0cll14vocq7&st=",
     poster: "https://image.tmdb.org/t/p/w780/m03jul0YdVEOFXEQVUv6pOVQYGL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/p5eBnMRoFWjSua4DYdiKjmHP3H5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eAjpAdm3zKYoi0HTTwJm7iB1kpL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/p5eBnMRoFWjSua4DYdiKjmHP3H5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/eAjpAdm3zKYoi0HTTwJm7iB1kpL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12947,8 +15468,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Hotel Transilvania 4: Transformanía",
     video: "https://dl.dropbox.com/scl/fi/sdxvd4en5colp8f6vwg2i/Hotel-transylvania-4.mp4?rlkey=xh5rn9namgcndo9absyokgu21&st=",
     poster: "https://image.tmdb.org/t/p/w780/qBLEWvJNVsehJkEJqIigPsWyBse.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lgqnv4zSmgg31T7r73nTwSpfzKN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xNF8AxJc966FWk4SYqXxGHaZLHZ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lgqnv4zSmgg31T7r73nTwSpfzKN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -12999,57 +15520,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*I*/
 
-  juguete_diabolico_imaginario: {
-    id: "juguete_diabolico_imaginario",
-    titulo: "Imaginario: Juguete diabólico",
-    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Imaginario-%20juguete%20diab%C3%B3lico%20online%20HD%20-%20Cuevana%202.mp4",
-    poster: "https://image.tmdb.org/t/p/w780/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "Cuando Jessica regresa a la casa de su infancia con su familia, su hijastra menor, Alice, desarrolla un extraño apego a un oso de peluche llamado Chauncey que encuentra en el sótano. Alice empieza a jugar con Chauncey, juegos que empiezan de forma juguetona y se vuelven cada vez más siniestros.",
-    anio: "2024",
-    duracion: "1h 44min",
-    calificacion: "60%",
-    genero: "Terror • Misterio",
-    director: "Jeff Wadlow",
-    reparto: "DeWanda Wise, Taegen Burns, Pyper Braun",
-    estreno: "07/03/2024",
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "baghead_contacto_con_la_muerte",
-        titulo: "Baghead: Contacto con la muerte",
-        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "atrapados_en_lo_profundo",
-        titulo: "Atrapados en lo Profundo",
-        imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "annabelle_2",
-        titulo: "Annabelle 2: La creacion",
-        imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "un_lugar_en_silencio_3",
-        titulo: "Un lugar en silencio 3: Día uno",
-        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "saw_x",
-        titulo: "Saw X",
-        imagen: "https://image.tmdb.org/t/p/w300/aQPeznSu7XDTrrdCtT5eLiu52Yu.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
       },
       {
-        id: "ofrenda_al_demonio",
-        titulo: "Ofrenda al demonio",
-        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
+  intercambiados: {
+    id: "intercambiados",
+    titulo: "Intercambiados",
+    video: "https://dl.dropbox.com/scl/fi/x46lpz9zwhp7wug93zckh/Intercambiados-2026.mp4?rlkey=s3n9ma5aciv0rjh0wxynriocr&st=",
+    poster: "https://image.tmdb.org/t/p/w780/bSoD4DSclvabfBAwNP3CZuI8pOj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cFMqLI43ybVFyarJTnfV9YO9KUC.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9oG8zQbWP8o9iXSShgMXTqGuDZ8.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Una pequeña criatura del bosque intercambia el cuerpo con un majestuoso pájaro del valle, lo que los obliga a colaborar para sobrevivir a la aventura más salvaje de sus vidas.",
+    anio: "2026",
+    duracion: "1h 41min",
+    calificacion: "90%",
+    genero: "Aventura • Animación • Familia • Fantasía",
+    director: "Nathan Greno",
+    reparto: "Michael B. Jordan, Juno Temple, Tracy Morgan",
+    estreno: "01/05/2026",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "hoppers",
+        titulo: "Hoppers",
+        imagen: "https://image.tmdb.org/t/p/w300/4Z0E1W7YvQ0aVtgj7KKtktb9ukd.jpg"
+      },
+      {
+        id: "super_mario_bros_2",
+        titulo: "Super Mario Bros 2: Galaxy",
+        imagen: "https://image.tmdb.org/t/p/w300/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg"
+      },
+      {
+        id: "goat_como_cabras",
+        titulo: "GOAT: Como cabras",
+        imagen: "https://image.tmdb.org/t/p/w300/wfuqMlaExcoYiUEvKfVpUTt1v4u.jpg"
+      },
+      {
+        id: "zootopia_2",
+        titulo: "Zootopia 2",
+        imagen: "https://image.tmdb.org/t/p/w300/LrMBxFwnsMgXTnaWqHYinn3vDN.jpg"
+      },
+      {
+        id: "robot_salvaje",
+        titulo: "Robot salvaje",
+        imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg"
+      },
+      {
+        id: "moana_2",
+        titulo: "Moana 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
       }
     ]
   },
@@ -13059,8 +15635,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "It (eso)",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/qVGpxnjrGlHaSTCqTQI6viBDSfp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qIT7jyxnQrjwxLa021yBpgIFxOA.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8E0WtqLYZyIfS3nuKnGYGi19x5m.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qIT7jyxnQrjwxLa021yBpgIFxOA.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8E0WtqLYZyIfS3nuKnGYGi19x5m.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13115,8 +15691,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Intensamente 2",
     video: "https://dl.dropbox.com/scl/fi/24m32j58fus8nbfsfodbz/Intensamente-2-2024.mp4?rlkey=8rs1t247kjorwo3illourso2f&st=",
     poster: "https://image.tmdb.org/t/p/w780/xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fL9qNrBjCBGDigIf4avRInHOOFG.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fL9qNrBjCBGDigIf4avRInHOOFG.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13124,7 +15700,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 36min",
     calificacion: "86%",
-    genero: "Animacion • Aventura • Disney • Familia",
+    genero: "Animación • Aventura • Disney • Familia",
     director: "Kelsey Mann",
     reparto: "Amy Poehler, Maya Hawke, Kensington Tallman",
     estreno: "13/06/2024",
@@ -13170,8 +15746,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Intensamente",
     video: "https://dl.dropbox.com/scl/fi/nsxuun1nwqbfdj0xwcgf4/Inside.Out.2015.1080P-Dual-Lat.mkv?rlkey=fltrr22tpdcyhfb6yl3aor88j&st=",
     poster: "https://image.tmdb.org/t/p/w780/j29ekbcLpBvxnGk6LjdTc2EI5SA.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ewEX6VcVohyrQ52usZb1XovN1Bj.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/71DtRC94gZy7k0pMJUrtGWbPtJV.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ewEX6VcVohyrQ52usZb1XovN1Bj.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/71DtRC94gZy7k0pMJUrtGWbPtJV.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13179,7 +15755,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2015",
     duracion: "1h 34min",
     calificacion: "87%",
-    genero: "Animacion • Drama • Aventura • Disney • Fantasia",
+    genero: "Animación • Drama • Aventura • Disney • Fantasia",
     director: "Pete Docter",
     reparto: "Amy Poehler, Phyllis Smith, Richard Kind",
     estreno: "17/06/2015",
@@ -13225,8 +15801,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Iron-Man",
     video: "https://dl.dropbox.com/scl/fi/2q1vvm0iypz67dsc5renj/Iron.man.2008.1080p-dual-lat.mp4?rlkey=cwjc2t9wlt91aqx01wepukzrd&st=",
     poster: "https://image.tmdb.org/t/p/w780/cyecB7godJ6kNHGONFjUyVN9OX5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bFj7XRg5avQDvuvWaag3IttjEAw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wCtIznnr9pTpHojyfPgcvlH2ztk.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bFj7XRg5avQDvuvWaag3IttjEAw.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wCtIznnr9pTpHojyfPgcvlH2ztk.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13234,7 +15810,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2008",
     duracion: "2h 06min",
     calificacion: "77%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Jon Favreau",
     reparto: "Robert Downey Jr, Terrence Howard, Jeff Bridges",
     estreno: "30/04/2008",
@@ -13280,8 +15856,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Iron-Man 2",
     video: "https://dl.dropbox.com/scl/fi/k35aqcaji7hcsd5czkzs2/Iron.man.2.2010.1080P-Dual-Lat.mp4?rlkey=bekd8y72w9e0mfb7fmb6xw8qf&st=",
     poster: "https://image.tmdb.org/t/p/w780/7lmBufEG7P7Y1HClYK3gCxYrkgS.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1NHEyFPxKnsLdMuDVPy6AI7GRmE.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lsJ7Pg49OqX5mGtyIR4OezLYuAr.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1NHEyFPxKnsLdMuDVPy6AI7GRmE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lsJ7Pg49OqX5mGtyIR4OezLYuAr.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13289,7 +15865,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2010",
     duracion: "2h 04min",
     calificacion: "70%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Jon Favreau",
     reparto: "Robert Downey Jr., Gwyneth Paltrow, Don Cheadle",
     estreno: "07/05/2010",
@@ -13335,8 +15911,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Iron-Man 3",
     video: "https://dl.dropbox.com/scl/fi/9aw5grpca38lsixdp6fag/Iron.man.3.2013.1080p-dual-lat.mp4?rlkey=01v4zwj4oz1aghjozbvkc8jnu&st=",
     poster: "https://image.tmdb.org/t/p/w780/iVped1djsF0tvGkvnHbzsE3ZPTF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/2ZZhlnlkYIMHXsjaHH7ywNVy89k.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5evczgF0I48FTn3C3XXi7i1p8eK.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/2ZZhlnlkYIMHXsjaHH7ywNVy89k.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5evczgF0I48FTn3C3XXi7i1p8eK.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13344,7 +15920,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2013",
     duracion: "2h 10min",
     calificacion: "84,2%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Shane Black",
     reparto: "Robert Downey Jr., Gwyneth Paltrow, Don Cheadle",
     estreno: "02/05/2013",
@@ -13369,7 +15945,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spider_man3",
-        titulo: "Spider-Man: Sin camino a casa",
+        titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       },
       {
@@ -13385,6 +15961,63 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  /*j*/
+
+  juguete_diabolico_imaginario: {
+    id: "juguete_diabolico_imaginario",
+    titulo: "Imaginario: Juguete diabólico",
+    video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Imaginario-%20juguete%20diab%C3%B3lico%20online%20HD%20-%20Cuevana%202.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jPhol6mXdnXYimRAgf3vlN9ZUZF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cunBb7rpCbobBtlG3cyWfasK6zs.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Cuando Jessica regresa a la casa de su infancia con su familia, su hijastra menor, Alice, desarrolla un extraño apego a un oso de peluche llamado Chauncey que encuentra en el sótano. Alice empieza a jugar con Chauncey, juegos que empiezan de forma juguetona y se vuelven cada vez más siniestros.",
+    anio: "2024",
+    duracion: "1h 44min",
+    calificacion: "60%",
+    genero: "Terror • Misterio",
+    director: "Jeff Wadlow",
+    reparto: "DeWanda Wise, Taegen Burns, Pyper Braun",
+    estreno: "07/03/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "baghead_contacto_con_la_muerte",
+        titulo: "Baghead: Contacto con la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+      },
+      {
+        id: "atrapados_en_lo_profundo",
+        titulo: "Atrapados en lo Profundo",
+        imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg"
+      },
+      {
+        id: "annabelle_2",
+        titulo: "Annabelle 2: La creacion",
+        imagen: "https://image.tmdb.org/t/p/w300/x0pekWNy7GS37bm30zuxWNLPXj8.jpg"
+      },
+      {
+        id: "un_lugar_en_silencio_3",
+        titulo: "Un lugar en silencio 3: Día uno",
+        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
+      },
+      {
+        id: "saw_x",
+        titulo: "Saw X",
+        imagen: "https://image.tmdb.org/t/p/w300/aQPeznSu7XDTrrdCtT5eLiu52Yu.jpg"
+      },
+      {
+        id: "ofrenda_al_demonio",
+        titulo: "Ofrenda al demonio",
+        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
+      }
+    ]
+  },
+
   /*K*/
 
   karol_g: {
@@ -13392,8 +16025,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Karol G: Mañana fue muy bonito",
     video: "https://dl.dropbox.com/scl/fi/nlmf2cb0g4wxq5mdqcmm5/Karol-G-2025.mp4?rlkey=v1l0fty9ixu3s7n8jaup71qbg&st=",
     poster: "https://image.tmdb.org/t/p/w780/kpyXnnyO7UiK7FZFHJ5Ae7DRAIF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5aXoQYwaQ7JJVUWclHAEXJgiS2M.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qXBsuJhlFnMuYhpu5nFOFCAGATN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5aXoQYwaQ7JJVUWclHAEXJgiS2M.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qXBsuJhlFnMuYhpu5nFOFCAGATN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13447,8 +16080,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Karate Kid 4: Legends",
     video: "https://dl.dropbox.com/scl/fi/l99pu4aghy5tvsnjo4urb/Karate-kid-4-legends-2025.mp4?rlkey=xy9t3yryu6qf9cg2j7m9rscip&st=",
     poster: "https://image.tmdb.org/t/p/w780/lAnkMSDISzMYLWICS7m16rSTUHD.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/PmVTkarEa54zmvSCrGHvcImpfD.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5LB5GJzcaEBEb3IhjqnYNsqY5Zs.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/PmVTkarEa54zmvSCrGHvcImpfD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13456,7 +16089,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 34min",
     calificacion: "83,4%",
-    genero: "Accion • Drama • Aventura",
+    genero: "Acción • Drama • Aventura",
     director: "Jonathan Entwistle",
     reparto: "Jackie Chan, Ben Wang, Joshua Jackson",
     estreno: "08/05/2025",
@@ -13499,10 +16132,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   kung_fu_panda_4: {
     id: "kung_fu_panda_4",
-    titulo: "Kung fu panda 4",
+    titulo: "Kung Fu Panda 4",
     video: "https://dl.dropbox.com/scl/fi/xu02xc78tpp4n1950ptz2/Kung.Fu.Panda.4.2024.1080P-Dual-Lat.mp4?rlkey=ktsfbpax3rem6rmlhhbxlfqmm&st=",
     poster: "https://image.tmdb.org/t/p/w780/4z88bpDf7aqZcYkLDDEIdj8TfZU.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg",
     imginicio:"https://image.tmdb.org/t/p/original/jBO0BcpfHPP79qZMxwYPVX8ozec.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -13511,7 +16144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 33min",
     calificacion: "84%",
-    genero: "Animacion • Fantasia • Aventura • Accion",
+    genero: "Animación • Fantasia • Aventura • Acción",
     director: "Mike Mitchell",
     reparto: "Jack Black, Awkwafina, Viola Davis",
     estreno: "07/03/2024",
@@ -13557,8 +16190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13612,8 +16245,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13665,13 +16298,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*L*/
 
+  nombredepelicula: {
+    id: "nombredepelicula",
+    titulo: "",
+    video: "",
+    poster: "https://image.tmdb.org/t/p/w780/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "",
+    anio: "",
+    duracion: "0h 008min",
+    calificacion: "00%",
+    genero: "",
+    director: "",
+    reparto: "",
+    estreno: "",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      },
+      {
+        id: "",
+        titulo: "",
+        imagen: "https://image.tmdb.org/t/p/w300/"
+      }
+    ]
+  },
+
   los_siete_pecados_capitales_prisioneros_del_cielo: {
     id: "los_siete_pecados_capitales_prisioneros_del_cielo",
     titulo: "Los siete pecados capitales: Prisioneros del cielo",
     video: "https://dl.dropbox.com/scl/fi/by5es2uhxz4goz4weoen3/Los-siete-pecados-capitales-prisioneros-en-el-ciel.mp4?rlkey=tvaan880o3ev0k0b176za7i7s&st=",
     poster: "https://image.tmdb.org/t/p/w780/aeWS2ahnsOuD2XENzwUntA4zOMB.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/wYtZ7edTA335iULm2KzMmFqcmfh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gNq4Uo2KDPDTvAuixQALpsSFvPu.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/wYtZ7edTA335iULm2KzMmFqcmfh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13725,8 +16413,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los siete pecados capitales: La maldición de la luz",
     video: "https://dl.dropbox.com/scl/fi/sxahylo1kzmodc5jmcpzp/The.Seven.Deadly-Sins.Cursed.By.Light.2021.1080p.dual-lat.cinecalidad.run.mp4?rlkey=7d0xnj0mt6ukmdegcwdwqcbda&st=",
     poster: "https://image.tmdb.org/t/p/w780/Aoueuf0P1U9oqf4dgN6dqxl7hsE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7h5WAPAcUzOWpp2jrwHBB48790j.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7h5WAPAcUzOWpp2jrwHBB48790j.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13781,8 +16469,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los siete pecados capitales: El rencor de Edimburgo - Parte 1",
     video: "https://dl.dropbox.com/scl/fi/jsnn27uxsbfngwblye9j3/Los-siete-pecados-capitales-el-rencor-parte-1.mp4?rlkey=77peq4p2ey2blu8bkvpi0rbzs&st=",
     poster: "https://image.tmdb.org/t/p/w780/24fe6ou97ammOg3O6ShCgaiolp4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zUvBcp63w2WNnuNoq8bdjTT5U0c.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/VWKjOfMDisBDPJy1Dj5wxYLYTp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zUvBcp63w2WNnuNoq8bdjTT5U0c.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13836,8 +16524,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Increíbles 2",
     video: "https://dl.dropbox.com/scl/fi/y4b3p94wa6h3t5zgbrvuf/Incredibles.2.2018.1080P-Dual-Lat.mp4?rlkey=kpudqbic5nqu7ek5asrzruo40&st=",
     poster: "https://image.tmdb.org/t/p/w780/q0UwKZD5dJzUVJVgiX8nSTgjqg3.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bJjc0217DuipdwJ0wyi3I4j6soR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/q0UwKZD5dJzUVJVgiX8nSTgjqg3.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bJjc0217DuipdwJ0wyi3I4j6soR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/q0UwKZD5dJzUVJVgiX8nSTgjqg3.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13891,8 +16579,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Increíbles",
     video: "https://dl.dropbox.com/scl/fi/njhewns8balczai149b38/The.incredibles.2004.1080P-Dual-Lat.mp4?rlkey=laugcbvh24u84y8i6n8o2ynqu&st=",
     poster: "https://image.tmdb.org/t/p/w780/3BzsK5fa6QF9m4p7SSV6DaaRmxx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1Clex17991DCM7uRkAClq52UULM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/l45uay1M0IFH7OnIlbfv6o0tyoa.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1Clex17991DCM7uRkAClq52UULM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/l45uay1M0IFH7OnIlbfv6o0tyoa.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -13946,8 +16634,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Leroy y Stitch",
     video: "https://dl.dropbox.com/scl/fi/6qdznntegdfx4ekll7s7p/Leroy-y-stitch-2006.mp4?rlkey=hxo4k4cewcn4a5tbc2uuzukef&st=",
     poster: "https://image.tmdb.org/t/p/w780/8HUsm0xA1tEL1VMS7HuHJwJPTuH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1RjvpZMAFZlnbLvrRYWEb2tzEyC.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oUoYliVxrp5hJHpXV9OAEHVsz1W.jpg ",
+    imagen: "https://image.tmdb.org/t/p/w300/1RjvpZMAFZlnbLvrRYWEb2tzEyC.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oUoYliVxrp5hJHpXV9OAEHVsz1W.jpg ",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14001,8 +16689,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Liga de la Justicia: Crisis en Tierras Infinitas - Parte 2 ",
     video: "https://dl.dropbox.com/scl/fi/rouhqz1v187kd4ttx55o4/Justice.league.crisis.on.infinite.earths.part.two.2024.1080p-dual-lat-cinecalidad.re.mp4?rlkey=l00s5xwe71qtkjni6y8reds6u&st=",
     poster: "https://image.tmdb.org/t/p/w780/tBmJCH9llj1Q9jDOS7vGWnl7GVj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aOT8n3YOOkInZ5VHJN4FffHrm43.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6DlgYvWq7yftoUrKYp9KCrs8pq7.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aOT8n3YOOkInZ5VHJN4FffHrm43.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6DlgYvWq7yftoUrKYp9KCrs8pq7.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14056,8 +16744,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Lo que le falta a esta estrella",
     video: "https://dl.dropbox.com/scl/fi/gbsofc341j4x8cfv2txkn/Lo.Que.Le.Falta.A.Esta.Estrella.2025.1080P-Dual-Lat.mkv?rlkey=2nvn0i2pvfgoi3bwhxuuiye3r&st=",
     poster: "https://image.tmdb.org/t/p/w780/jfnFHHZSIPkHfKGjlWnWck2o5ou.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/17kb3gpFeTB3P3phswsGKkYqxdd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/17kb3gpFeTB3P3phswsGKkYqxdd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14111,8 +16799,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Croods 2: Una nueva era",
     video: "https://dl.dropbox.com/scl/fi/9pycwunyybmgbd7pbz1tv/The.croods.a.new.age.2020.1080p-dual-lat-cinecalidad.is.mp4?rlkey=8y2r9u69ufr7ct16tpjbybfev&st=",
     poster: "https://image.tmdb.org/t/p/w780/mqmHhAf7OhJq5Tq81p7wFI0Fnde.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5uMWKEmegf5aTJnp1u98JF4QerP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jC7I0BMII4nBu71YWf5PRB9aAmv.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5uMWKEmegf5aTJnp1u98JF4QerP.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jC7I0BMII4nBu71YWf5PRB9aAmv.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14120,7 +16808,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2020",
     duracion: "1h 35min",
     calificacion: "79%",
-    genero: "Animacion • Familia • Aventura • Comedia",
+    genero: "Animación • Familia • Aventura • Comedia",
     director: "Joel Crawford",
     reparto: "Nicolas Cage, Emma Stone, Ryan Reynolds",
     estreno: "25/11/2020",
@@ -14166,8 +16854,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Croods",
     video: "https://dl.dropbox.com/scl/fi/24nqrs1j1arhwut80h7oz/The.Croods.2013.bluray.720p-latino-e-ingles-subt.mp4?rlkey=3edf2uuec4aklj0otlnsns9tf&st=",
     poster: "https://image.tmdb.org/t/p/w780/bNgqt819qpHcszjCzLCG5y16ldF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3X3qtBTgKt5mCB30RJwbIjgjzdw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5NgZXsA9tMdzZh9Vk5qQtokH0wr.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3X3qtBTgKt5mCB30RJwbIjgjzdw.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5NgZXsA9tMdzZh9Vk5qQtokH0wr.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14175,7 +16863,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2013",
     duracion: "1h 38min",
     calificacion: "86%",
-    genero: "Animacion • Familia • Aventura • Comedia",
+    genero: "Animación • Familia • Aventura • Comedia",
     director: "Chris Sanders, Kirk DeMicco",
     reparto: "Nicolas Cage, Emma Stone, Ryan Reynolds",
     estreno: "21/03/2013",
@@ -14221,8 +16909,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Lilo y Stitch 2: El efecto del defecto",
     video: "https://dl.dropbox.com/scl/fi/9imbovtqqp35999c5u0q2/Lilo-y-stitch-2-2005.mp4?rlkey=bk140eq1tnsi0zvcll9jwpmrz&st=",
     poster: "https://image.tmdb.org/t/p/w780/wciVfVtIPFTQgfN7mfdmPuBYgl2.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/hs3POL17wfJkrQpwM3e76YCQTNA.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/l71VXcph19ZwJr2ZtEFuZA6ZzK5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/hs3POL17wfJkrQpwM3e76YCQTNA.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14276,8 +16964,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Lilo y Stitch",
     video: "https://dl.dropbox.com/scl/fi/80twax9vcl6l4dc8ti0o1/Lilo-y-stitch-2002.mp4?rlkey=uhjjk9rs131ic9e9gx6ogxtjo&st=",
     poster: "https://image.tmdb.org/t/p/w780/7y6dJrcI83D1VzQ6c7ctNsgbl3R.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gnmqXokczSmUgOhSCY0jx1HQiuf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/dTYyAszU6NWbmWGvhqLZpZTdS5T.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gnmqXokczSmUgOhSCY0jx1HQiuf.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14331,8 +17019,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Lilo y Stitch",
     video: "https://dl.dropbox.com/scl/fi/t7fk9u9lro04d1dv09j5j/Lilo-y-stitch-2025.mp4?rlkey=48joxiba083esxqu78la9eq86&st=",
     poster: "https://image.tmdb.org/t/p/w780/4DYrZevpUpMsKv6XCraOeLlQtJ7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/Aj0umGs0heNJ4VKtkaRQWeg6Tyx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yrZqrGVbmoYZJdncnx60JUhzsGm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/Aj0umGs0heNJ4VKtkaRQWeg6Tyx.jpg",
     calidad: false,   // 720P | 1080P | 4K
     cam: true,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14340,7 +17028,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 36min",
     calificacion: "86%",
-    genero: "Animacion • Disney • Familia • Ciencia ficción • Comedia",
+    genero: "Animación • Disney • Familia • Ciencia ficción • Comedia",
     director: "Dean Fleischer Camp",
     reparto: "Maia Kealoha, Sydney Agudong, Chris Sanders",
     estreno: "22/05/2025",
@@ -14386,8 +17074,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La rosa de Versalles",
     video: "https://dl.dropbox.com/scl/fi/w3d5lp1v2riv5gwcso4i5/La.Rosa.De.Versalles.2025.1080P-Dual-Lat.mkv?rlkey=6yniiztjgiahasmtajal8e8r5&st=",
     poster: "https://image.tmdb.org/t/p/w780/gTGlgtHAwQjJA3G9g2fLWuqg8zG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/F4OILPPbBfCYkWoW5be1UZnmJq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bVHhTDBmhnZ0wKyUgPdSkO5ZH2w.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/F4OILPPbBfCYkWoW5be1UZnmJq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bVHhTDBmhnZ0wKyUgPdSkO5ZH2w.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14441,8 +17129,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La primera profecía",
     video: "https://dl.dropbox.com/scl/fi/4ey8de0ywxxk4eulc3j8g/La.Primera.Profecia.2024.1080P-Dual-Lat.mkv?rlkey=sddvmfvlj86zsmoara062urq6&st=",
     poster: "https://image.tmdb.org/t/p/w780/d9Np3GLfXchtPHfiBjIK6ps4BoE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oeebIBwOB7tZV3qQ47q5cUv8h0s.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kJkrr39cjRcfz3jR6XcGa8wSkyl.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oeebIBwOB7tZV3qQ47q5cUv8h0s.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14496,8 +17184,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La resurrección de cristo",
     video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20La%20Resurrecci%C3%B3n%20de%20Cristo%20(2016)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4",
     poster: "https://image.tmdb.org/t/p/w780/7HGFhKftMxoinIkOmsHCZNT89so.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lkfXzT5T5cQO9UpknSAEdq8Lvvd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/lvyU838cy3m0fKSfQIxN8grjxYr.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lkfXzT5T5cQO9UpknSAEdq8Lvvd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/lvyU838cy3m0fKSfQIxN8grjxYr.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14551,8 +17239,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La sirenita",
     video: "https://dl.dropbox.com/scl/fi/dn4ocgdcsyw0mc1y0pobb/la-sirenita-1989-latino.mp4?rlkey=yx73p5tci870t4qziq4uj4go9&st=",
     poster: "https://image.tmdb.org/t/p/w780/6koUMaulpEUA3sNKcDszv6qRW7L.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/muTcgTmuyvXQldGNnCzen9FgDfW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/p72M8vHHEqBCPShn9n8s6jX92vM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/muTcgTmuyvXQldGNnCzen9FgDfW.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/p72M8vHHEqBCPShn9n8s6jX92vM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14606,8 +17294,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La sirenita 2: Regreso al mar",
     video: "https://dl.dropboxusercontent.com/scl/fi/lopy8g3ruk89cicmws9dz/La-Sirenita-2.mp4?rlkey=yk9j9u7ujgongiy6lbl5owmbf&st=",
     poster: "https://image.tmdb.org/t/p/w780/rNOeiC5uruGnr5n7YW8hvnrbX9q.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fresAluIWfBRwdQOaVcM4i5uGsP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8TWFBVko3uxdYPFiq2A4EG0kAKo.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fresAluIWfBRwdQOaVcM4i5uGsP.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8TWFBVko3uxdYPFiq2A4EG0kAKo.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14661,8 +17349,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La sirenita 3: Los comienzos de Ariel",
     video: "https://dl.dropbox.com/scl/fi/art175spktl7zz7ooho00/la-sirenita-3-el-origen-de-la-sirenita-2008-latino-supervideo.tv.mp4?rlkey=zz10rdpivzoxi7015uijgrs39&st=",
     poster: "https://image.tmdb.org/t/p/w780/kil7g6C9Xu9e4qPs8ynJxXeGzHw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oP09KA2lP5SluKVf8AmRsf38X7q.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kil7g6C9Xu9e4qPs8ynJxXeGzHw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/oP09KA2lP5SluKVf8AmRsf38X7q.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/kil7g6C9Xu9e4qPs8ynJxXeGzHw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14716,8 +17404,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La sustancia",
     video: "https://dl.dropbox.com/scl/fi/ss74exao9c17ks3fpagu2/La.sustancia.2024.1080p-Dual-Lat.mkv?rlkey=ljo3u4xklni0ga000fdagfui2&st=",
     poster: "https://image.tmdb.org/t/p/w780/bFPqSvR2EmWQ9AlzWkC801XpoAZ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cQD1qEnPOKUPHAui0okOLZSgitu.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/p4peaE00vukV1nXxYwuyFlXgMBY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/p4peaE00vukV1nXxYwuyFlXgMBY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14771,8 +17459,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La vieja guardia 2",
     video: "https://dl.dropbox.com/scl/fi/g58emyn87nofsupxj0l80/The.old.guard.2.2025.1080p-dual-lat-cinecalidad.ro.mp4?rlkey=z9x22e6swodf3kw7mg2h3k2ku&st=",
     poster: "https://image.tmdb.org/t/p/w780/kCxUtinf8731QzZihhUjYqE2NVE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6eGyuK8bHMAB34AIIQOL3wZw8sn.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/f8FaWGOR1k7MiOOybNPbnxCRfYx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6eGyuK8bHMAB34AIIQOL3wZw8sn.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/f8FaWGOR1k7MiOOybNPbnxCRfYx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14826,8 +17514,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La viuda negra",
     video: "https://dl.dropbox.com/scl/fi/45cj3zss0g0afxucyzz0o/La-viuda-negra-2025.mp4?rlkey=wjw12w27dhxjm8rlcpclp7ruo&st=",
     poster: "https://image.tmdb.org/t/p/w780/pOR4Aye28KLZ5Jogu8zc3yiqBpT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uuabL0qp3zygLDEjImbPiWR9j2e.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qqOdtim1SgrY8HMAcogLwcFLDMF.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qqOdtim1SgrY8HMAcogLwcFLDMF.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14881,8 +17569,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La Cenicienta 3: Qué pasaría si…",
     video: "https://dl.dropbox.com/scl/fi/yqm4xc7anpbh57hmh3tdu/La.Cenicienta.3.Un.Giro.En.El.Tiempo.2007.1080P-Dual-Lat.mkv?rlkey=0q35g60n5a4kk4okbj59ju8u0&st=",
     poster: "https://image.tmdb.org/t/p/w780/3mmV3DuOpqc0eTUcrlFGoVl1p9T.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uQZZdmNyG4JdAMzSBiAMUX5M8sl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hnu7CGMc1zQejwjUIEGcSikdhmV.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/uQZZdmNyG4JdAMzSBiAMUX5M8sl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14936,8 +17624,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La Cenicienta 2: ¡La magia no termina a media noche!",
     video: "https://dl.dropbox.com/scl/fi/ri1ljkwmt161shmuaw87u/La.Cenicienta.2.Un.Sue-o.Hecho.Realidad.2002.1080P-Dual-Lat.mkv?rlkey=1yk044ijci2m5kcog8k2va50s&st=",
     poster: "https://image.tmdb.org/t/p/w780/oyjIJTUUsF1nMdVXk3Q0ExBr0pQ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/2EoH5WWtDYuQLYVLHeJxfvbSRyK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/teXrwxRurSdRvVg1nGNySfFWssC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/2EoH5WWtDYuQLYVLHeJxfvbSRyK.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/teXrwxRurSdRvVg1nGNySfFWssC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -14991,8 +17679,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La cenicienta",
     video: "https://dl.dropbox.com/scl/fi/8eqjqcmz9vivf0ty285jw/Cenicienta.1950.1080p-Dual-Lat.mkv?rlkey=t4jtvs56cxfm5cfhgcz7aus7t&st=",
     poster: "https://image.tmdb.org/t/p/w780/nFp75h4AjvzvqB7RiGW6NtdcYMl.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/doN9cNyfpcX1DPBNmjJW8eBgcAf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/b0IUQanwvkTGPjn1ANGWSy1TQ3E.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/doN9cNyfpcX1DPBNmjJW8eBgcAf.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/b0IUQanwvkTGPjn1ANGWSy1TQ3E.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15001,8 +17689,8 @@ document.addEventListener('DOMContentLoaded', () => {
     duracion: "1h 14min",
     calificacion: "86%",
     genero: "Animación • Disney • Romance • Familia • Fantasía",
-    director: "Wilfred Jackson, Hamilton Luske, Clyde Geronimi",
-    reparto: "Ilene Woods, Eleanor Audley, Verna Felton",
+    director: "Wilfred Jackson • Hamilton Luske • Clyde Geronimi",
+    reparto: "Ilene Woods • Eleanor Audley • Verna Felton",
     estreno: "02/01/1951",
     idioma: "Español Latino 🇲🇽",
 
@@ -15046,8 +17734,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La calle del terror: La reina del baile",
     video: "https://dl.dropbox.com/scl/fi/knybyzxv9mnfabwvi88w7/Fear.street.prom.queen.2025.1080p-dual-lat-cinecalidad.rs.mp4?rlkey=bzlgl2d9ffu15l93pc6j28pzx&st=",
     poster: "https://image.tmdb.org/t/p/w780/qspghhpOyaBGgZDJoCbV2o9WNMU.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zLAte4QNzynx0hTeA8l9dQKTtFB.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zLAte4QNzynx0hTeA8l9dQKTtFB.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15101,8 +17789,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La acompañante",
     video: "https://dl.dropbox.com/scl/fi/k5kwtfnqh8yka4wj1p429/Compa-era.Perfecta.2025.1080P-Dual-Lat.mkv?rlkey=ao8zyfo2bvkruckj8iv0wfhi2&st=",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kByk0I58pUiNaY3OJZGRnCzZO9j.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/kByk0I58pUiNaY3OJZGRnCzZO9j.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15156,8 +17844,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "K.O",
     video: "https://dl.dropbox.com/scl/fi/s54vo5nhz3xq3mk6r6b3s/K.O.2025.1080P-Dual-Lat.mkv?rlkey=z7j1obvjdagbkxuu7dmkw8b8l&st=",
     poster: "https://image.tmdb.org/t/p/w780/bsrhm3rlE4Wzv9f5ZTxcNxaMz29.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qcM2sUiAeP4zXwx4ADSvgc9S58k.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/94rVbLvlV3lejIWC8NXhU9o4pcF.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qcM2sUiAeP4zXwx4ADSvgc9S58k.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/94rVbLvlV3lejIWC8NXhU9o4pcF.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15211,8 +17899,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La evaluación",
     video: "https://dl.dropbox.com/scl/fi/hqvuvdvffyc3yb3v1c487/La.Evaluacion.2025.1080P-Dual-Lat.mkv?rlkey=enzeybr5jdz452cin29wolj9t&st=",
     poster: "https://image.tmdb.org/t/p/w780/96w2p3xKIgvuSTJsNVnvNFqOhPJ.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bf2S5XoGlthesPmfZLxLp9qJPNM.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rCGwGWI4a2EaNQCyTe4vDfoiMtk.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bf2S5XoGlthesPmfZLxLp9qJPNM.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15266,8 +17954,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La fuente de la eterna juventud",
     video: "https://dl.dropbox.com/scl/fi/ietygi0otuy2k03gssfba/La.Fuente.De.La.Juventud.2025.1080P-Dual-Lat.mkv?rlkey=mgu2uybpvpq247v2uuno7qu39&st=",
     poster: "https://image.tmdb.org/t/p/w780/1v7hku4qe3dsEFp1mOePGZQmFx4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/segrtlVoidhovxXVyElUXZM1Ing.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/segrtlVoidhovxXVyElUXZM1Ing.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15321,8 +18009,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La joven y el mar",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjul24%2FVer%20La%20Joven%20y%20El%20Mar%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/qTn1ylMRL3PG61cPnyKOR9ArJVh.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/n3KE8fbiOCr6qktIpE52wWErBMi.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/a3M9doWrc23TjfhxqzKPYEV5T8h.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/n3KE8fbiOCr6qktIpE52wWErBMi.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/a3M9doWrc23TjfhxqzKPYEV5T8h.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15376,8 +18064,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La leyenda de Ochi",
     video: "https://dl.dropbox.com/scl/fi/uo0nnxgxe2ct0po1wbbnv/La.Leyenda.De.Ochi.2025.1080P-Dual-Lat.mkv?rlkey=c2o6enxp1x5mfv5jlikeojm3c&st=",
     poster: "https://image.tmdb.org/t/p/w780/qlJa9H6ss72tDtZfAma2TqEFrAX.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/96GymRHAFNFtUfn1WFzmCqVwxuw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uyz9qcZdIrUqVrwly3KB5oPUKZO.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/96GymRHAFNFtUfn1WFzmCqVwxuw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15431,8 +18119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La mitad de ana",
     video: "https://dl.dropbox.com/scl/fi/5kbwwx2xpy5rs5d4ngdxv/La-mitad-de-ana-2025.mp4?rlkey=n1qtb5wqnm7kdnvj140rwm3c3&st=",
     poster: "https://image.tmdb.org/t/p/w780/9CfTSdvtzaWZ5mGO3JQv40ecEJs.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5J05paz9AoOV7qhwHTSTOChdYBc.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5J05paz9AoOV7qhwHTSTOChdYBc.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15481,13 +18169,68 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  la_monja_2: {
+    id: "la_monja_2",
+    titulo: "La monja 2",
+    video: "https://dl.dropbox.com/scl/fi/kmnntpc3ge31tk2nrlsko/m0nj4-2.mp4?rlkey=zu617etf1rgk7ruxlse72usa8",
+    poster: "https://image.tmdb.org/t/p/w780/27jtaS1oCiLK5Y7P6iOXG2yj1Nc.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qKq8dflkSBxoBapvfOAFP3LE03q.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gJIjgGrTIO0QfljXl13ygscBgZS.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "En 1956 en Francia, un sacerdote es asesinado y parece que un mal se está extendiendo. La hermana Irene una vez más se encuentra cara a cara con una fuerza demoníaca.",
+    anio: "2023",
+    duracion: "1h 49min",
+    calificacion: "00%",
+    genero: "Terror",
+    director: "Michael Chaves",
+    reparto: "Taissa Farmiga, Anna Popplewell, Jonas Bloquet",
+    estreno: "07/09/2023",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "la_monja",
+        titulo: "La monja",
+        imagen: "https://image.tmdb.org/t/p/w300/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg"
+      },
+      {
+        id: "it_eso",
+        titulo: "It (Eso)",
+        imagen: "https://image.tmdb.org/t/p/w300/tZ55C7gPExwzvBLCsZMqFZMbB2I.jpg"
+      },
+      {
+        id: "encerrado_2025",
+        titulo: "Encerrado",
+        imagen: "https://image.tmdb.org/t/p/w300//wlo2rGpjjHh3X8XImBdeUayKJ6g.jpg"
+      },
+      {
+        id: "five_night_at_freddy_2",
+        titulo: "Five nights at freddy's 2",
+        imagen: "https://image.tmdb.org/t/p/w300/vMU4TTPcnwtbJMFKfAEkDcDXb3l.jpg"
+      },
+      {
+        id: "no_respires_2",
+        titulo: "No respires",
+        imagen: "https://image.tmdb.org/t/p/w300/o0kJOePRfC59exAb7e3wrCTSMbK.jpg"
+      },
+      {
+        id: "el_conjuro_4",
+        titulo: "El conjuro 4: El ultimo rito",
+        imagen: "https://image.tmdb.org/t/p/w300/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg"
+      }
+    ]
+  },
+
   la_monja: {
     id: "la_monja",
     titulo: "La monja",
     video: "https://dl.dropbox.com/scl/fi/at49empymku16r2xmxvab/La-Monja-2018.mp4?rlkey=i3w9dge8bzx76u1nq46k6o19k&st=",
     poster: "https://image.tmdb.org/t/p/w780/56iwlz2bylpeQjIiKApEzVpBBUC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4dOFS6SyxMmFJopYW4qZwgtuXnz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/q2JFJ8x0IWligHyuLJbBjqNsySf.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4dOFS6SyxMmFJopYW4qZwgtuXnz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15541,8 +18284,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La novia cadáver",
     video: "https://dl.dropbox.com/scl/fi/gyt6wbkcag0tpqkrl7tgv/Elcad-verdelanovia.2005.1080P-Dual-Lat-1.mp4?rlkey=xgwj65bxbf2wqd9p66v0znkqi&st=",
     poster: "https://image.tmdb.org/t/p/w780/v23fWgJUEt8EMmvn19btIacxP8E.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3ALM0VeZjGUryAqWo6pqohzbLDh.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ofqJcPEjVsEyEeGAu2Yr0bvZ541.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3ALM0VeZjGUryAqWo6pqohzbLDh.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ofqJcPEjVsEyEeGAu2Yr0bvZ541.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15596,8 +18339,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "El vínculo sueco",
     video: "https://dl.dropbox.com/scl/fi/r2j6y7q6h4p89e8htk8ex/La-conexi-n-sueco-2026.mp4?rlkey=ncbj2udfa5pvfy5mbqec1doqw&st=",
     poster: "https://image.tmdb.org/t/p/w780/56VfTGANetZ5IIYQsXuciNePM28.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/snlnvSB232OZwPCuO8zkWYJ6P7j.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/56VfTGANetZ5IIYQsXuciNePM28.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/snlnvSB232OZwPCuO8zkWYJ6P7j.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/56VfTGANetZ5IIYQsXuciNePM28.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15651,8 +18394,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Love me, Love me",
     video: "https://dl.dropbox.com/scl/fi/wnkfefp6ec2t6twy0pvvu/Love-me-love-me-2026.mp4?rlkey=hltzsxjzz6jyiosdslnwdrf67&st=",
     poster: "https://image.tmdb.org/t/p/w780/o0jRpVznKXuLvoXQX9UTKVtGjxK.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jfwHKRHRE2X4NTexdzblaioHH51.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4jrdU5p1K8H61Fgmk6pCHEb5LBf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jfwHKRHRE2X4NTexdzblaioHH51.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4jrdU5p1K8H61Fgmk6pCHEb5LBf.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15706,8 +18449,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "La empleada",
     video: "https://dl.dropbox.com/scl/fi/05cykeak5rs2jyalt0mdw/La-empleada-2026.mp4?rlkey=q1b7vbu30cdl0yoi3lcizav50&st=",
     poster: "https://image.tmdb.org/t/p/w780/tNONILTe9OJz574KZWaLze4v6RC.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cFnGVbQQPhhq7wJsAczJt48MsiS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1wmz7sKD6dpCGM56NADV0FjBbeV.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cFnGVbQQPhhq7wJsAczJt48MsiS.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1wmz7sKD6dpCGM56NADV0FjBbeV.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15761,8 +18504,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Vengadores: Infinity War",
     video: "https://dl.dropbox.com/scl/fi/sqmr5y1rfwcnbfq0wl9k7/Avengers-Infinity-War-2018-1080p-Latino.mkv?rlkey=zl5w5m6t7jsmix6asdum87qae&st=",
     poster: "https://image.tmdb.org/t/p/w780/kbGO5mHPK7rh516MgAIJUQ9RvqD.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/z58HrY2Hd9PlSpBTsZuoavfDavd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zcU8TBp4Ke5qLomJSrSQC1KS0XJ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/z58HrY2Hd9PlSpBTsZuoavfDavd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zcU8TBp4Ke5qLomJSrSQC1KS0XJ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15770,7 +18513,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2018",
     duracion: "2h 29min",
     calificacion: "94%",
-    genero: "Accion • Marvel • Ciencia Ficcion",
+    genero: "Acción • Marvel • Ciencia Ficcion",
     director: "Anthony Russo",
     reparto: "Robert Downey Jr, Chris Evans, Chris Hemsworth",
     estreno: "26/04/2018",
@@ -15817,8 +18560,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15872,8 +18615,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Los Pitufos",
     video: "https://dl.dropbox.com/scl/fi/xcjeczkrom5iw9mmo78tv/Los-Pitufos-2025.mp4?rlkey=g3hmttnkwgkttnd0th5tj4r8a&st=",
     poster: "https://image.tmdb.org/t/p/w780/9whEVuKte4Qi0LI4TzPf7glinJW.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zBdQclxQnEDOhDOjkKgKPW6jEHh.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/11wxL3MWMuwWSGG7AKdHXfVG9E5.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zBdQclxQnEDOhDOjkKgKPW6jEHh.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/11wxL3MWMuwWSGG7AKdHXfVG9E5.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15881,7 +18624,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 32min",
     calificacion: "70%",
-    genero: "Animacion • Fantasia • Aventura",
+    genero: "Animación • Fantasia • Aventura",
     director: "Chris Miller",
     reparto: "Rihanna, James Corden, Nick Offerman",
     estreno: "17/07/2025",
@@ -15927,8 +18670,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Lightyear",
     video: "https://dl.dropbox.com/scl/fi/rxnwajbcwydosci025nzv/Lightyear.2022.1080p-dual-lat-cinecalidad.re.mp4?rlkey=voeyfoclotyrg6x6d9zg0xoaq&st=",
     poster: "https://image.tmdb.org/t/p/w780/nW5fUbldp1DYf2uQ3zJTUdachOu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fRYMB5f2MOqUxa0pOvLRlY3xfOQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fRYMB5f2MOqUxa0pOvLRlY3xfOQ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -15979,57 +18722,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*M*/
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+  mision_de_rescate: {
+    id: "mision_de_rescate",
+    titulo: "Misión de rescate",
+    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2023pelis%2Fjunn%2FVer%20Misi%C3%B3n%20de%20rescate%20online%20HD%20-%20Cuevana%202%20Espa%C3%B1ol.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/wLVFj4alWRWzEC5uSdoWzN2BU6O.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fKaP5Z0cloniKAhUcH7DbsDP6O4.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/me7Alg5Mv2HEdC4h2wK9iKpGQQU.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    sinopsis: "Tyler Rake, un intrépido mercenario que ofrece sus servicios en el mercado negro, emprende una peligrosa misión cuando es contratado para rescatar al hijo secuestrado de un señor del crimen de Bombay.",
+    anio: "2020",
+    duracion: "1h 57min",
+    calificacion: "73%",
+    genero: "Acción • Suspenso",
+    director: "Sam Hargrave",
+    reparto: "Chris Hemsworth, Rudhraksh Jaiswal, Randeep Hooda",
+    estreno: "24/04/2020",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "mision_de_rescate_2",
+        titulo: "Mision de rescate 2",
+        imagen: "https://image.tmdb.org/t/p/w300/szsOY5gX0jV6PHqXgvHNJlos8h9.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "uncharted",
+        titulo: "Uncharted: Fuera del mapa",
+        imagen: "https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "fineskind",
+        titulo: "Fineskind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "misterio_en_venecia",
+        titulo: "Misterio en venecia",
+        imagen: "https://image.tmdb.org/t/p/w300/uthO75TZ3701HDiNzB4hxRw1zdU.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "La_oscuridad_de_la_luz_del_mundo",
+        titulo: "La oscuridad de la luz del mundo",
+        imagen: "https://image.tmdb.org/t/p/w300/tg1LwZgPKcvxaIgWauX8F5Cs6HS.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "deadpool_y_wolverine",
+        titulo: "Deadpool y Wolverine",
+        imagen: "https://image.tmdb.org/t/p/w300/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"
       }
     ]
   },
@@ -16039,8 +18782,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mufasa: El rey león",
     video: "https://dl.dropbox.com/scl/fi/ho5b640nqivpweapw5byq/294028-24b36b4d-42d1-461c-87c0-706be80100ad-odsj-2584694-streamwish.mp4?rlkey=aliq10yeworwounyswjazq7xv&st=",
     poster: "https://image.tmdb.org/t/p/w780/cVh8Af7a9JMOJl75ML3Dg2QVEuq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9TPE8OxQozui6weF2VM7WDGQ48t.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lk4NNdeQrb6zbRSogDSdE6qmjk8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9TPE8OxQozui6weF2VM7WDGQ48t.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16094,8 +18837,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Minions: El origen de Gru",
     video: "https://dl.dropbox.com/scl/fi/kt9ieoiyylt1v910wfiab/Gru-nace-un-villano-2022.mp4?rlkey=ufzlr3hrib6y5c59ci4lnphu6&st=",
     poster: "https://image.tmdb.org/t/p/w780/wZS4xSfPtk1NPQnx9zsT5R2WhCu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8rzI5vNefZWuUiF6MrHXqVY5Hhl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/h4cuPo1iZAxdNNA6OUS2OoDYZjF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8rzI5vNefZWuUiF6MrHXqVY5Hhl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16149,8 +18892,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mientras duermes",
     video: "https://dl.dropbox.com/scl/fi/q2mee7kepizb0drvhbjxa/Mientras.Duermes.2021.1080P-Dual-Lat.mp4?rlkey=vddidowpd87olh8ouyxldml5y&st=",
     poster: "https://image.tmdb.org/t/p/w780/nMJlSiRA0ct2vuX5O9ltq192IxR.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aDi56oSNirZStVwgl8R12nkQrIk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/w2a2zIuqlv32IU4mKpVWfEZuzfU.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aDi56oSNirZStVwgl8R12nkQrIk.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/w2a2zIuqlv32IU4mKpVWfEZuzfU.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16204,8 +18947,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mickey, Donald y Goofy: Los tres mosqueteros",
     video: "https://dl.dropbox.com/scl/fi/h7f4nk3gkr1gzkn5jpm1a/Mickey.Donald.Goofy.Los.Tres.Mosqueteros.2004.1080P-Dual-Lat.mkv?rlkey=najkdqoz2ovb4cgy0hn1xcbqs&st=",
     poster: "https://image.tmdb.org/t/p/w780/AoCKRAdl4zH8AOzJM2EZoetGhOb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gknRvWOe1vypDJfFA4jnprCoK0T.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AoCKRAdl4zH8AOzJM2EZoetGhOb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gknRvWOe1vypDJfFA4jnprCoK0T.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/AoCKRAdl4zH8AOzJM2EZoetGhOb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16259,8 +19002,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi lista de deseos",
     video: "https://dl.dropbox.com/scl/fi/ak4gbd2mekjbh63bftk81/Mi.Lista.De.Deseos.2025.1080P-Dual-Lat.mkv?rlkey=61rgb3q2ssff7b4fdn6qhfgkl&st=",
     poster: "https://image.tmdb.org/t/p/w780/2boblyjul5QGxiCvfPitdG92HkA.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/a3IFeDHSCIkMLmoBzaOcD60BOoR.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/g4IXOyB9VHBJvBaYQUZhOQMWOTW.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/a3IFeDHSCIkMLmoBzaOcD60BOoR.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/g4IXOyB9VHBJvBaYQUZhOQMWOTW.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16314,8 +19057,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Metegol",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/qjyw3UDb78RmnfN3dpFHzZlthTT.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/lypC1Hi5H6jNCidQU5NG5bE7jrT.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/cP9aLIiOmywUmattOo936gEqovd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lypC1Hi5H6jNCidQU5NG5bE7jrT.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/cP9aLIiOmywUmattOo936gEqovd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16369,8 +19112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "M3GAN 2.0",
     video: "https://dl.dropbox.com/scl/fi/vqcw7lmxvoqyfnnbagrtw/M3GAN-2-2025.mp4?rlkey=6dn7h3ejnl9tcqedww2w7imzo&st=",
     poster: "https://image.tmdb.org/t/p/w780/fEoXQz53i2K7dLStGGFUzt115pH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/6tPr2pXIpqIldCSTKUt6GCSyvnf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/93Tq99YbUESCa4aPnThnT9x6WCB.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6tPr2pXIpqIldCSTKUt6GCSyvnf.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/93Tq99YbUESCa4aPnThnT9x6WCB.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16424,8 +19167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Megamente 2: Contra el sindicato del mal",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Megamente%20contra%20el%20sindicato%20de%20Doom%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/3Kzc6V4MWs3RXCmE5DhAYnfWL8F.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/jdXLCBv0oFjWbTtQTuoJFXVPsbd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/dNd2UsShbjVs23FSOyD3NDeYDtD.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/jdXLCBv0oFjWbTtQTuoJFXVPsbd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/dNd2UsShbjVs23FSOyD3NDeYDtD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16479,8 +19222,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Martyrs",
     video: "https://dl.dropbox.com/scl/fi/bspl8ayjiam1ig3vuv8pm/M-rtires.2008.1080P-Dual-Lat.mp4?rlkey=5zdlij73fccvw3f1tbn1k0vp3&st=",
     poster: "https://image.tmdb.org/t/p/w780/28yadVSarQyArto0Lab9QE10JXw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5IG3StXtcMDP1hrMFACeEpNVPbt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/d2DaEAb6SwiqSPqdp19zPC3llfu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5IG3StXtcMDP1hrMFACeEpNVPbt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/d2DaEAb6SwiqSPqdp19zPC3llfu.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16534,8 +19277,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "María Magdalena",
     video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Mar%C3%ADa%20Magdalena%20Online%20Gratis%20(%E2%9A%9C%EF%B8%8F%202018)%20-%20CUEVANA3.mp4",
     poster: "https://image.tmdb.org/t/p/w780/52IcRf09Z1220bMCBybe81JxOVy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sDVjNezM9fU4x0O66zesw6zhpB4.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/i2IqYxpXbVa0LcrIxCK9c0h5bYK.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/sDVjNezM9fU4x0O66zesw6zhpB4.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16589,8 +19332,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Maligno",
     video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2Fmaligno.mp4",
     poster: "https://image.tmdb.org/t/p/w780/gqG7a2X9dB6isdqeLCyQpmO3Wkm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gijtUdVH3M6KbWnuSFmiI9MvxJ6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/l3oCt7ySRLVumOCb9UPZMTreK2C.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gijtUdVH3M6KbWnuSFmiI9MvxJ6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/l3oCt7ySRLVumOCb9UPZMTreK2C.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16612,7 +19355,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg"
       },
       {
-        id: "it__capitulo_2",
+        id: "it_capitulo_2",
         titulo: "It: Capitulo 2",
         imagen: "https://image.tmdb.org/t/p/w300/9oERKIVyTWpHNum3STVsAGD4ojz.jpg"
       },
@@ -16644,8 +19387,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mala influencia",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/zXUxcXnBPHF1cD0IHi4KUpsNvF4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1bW4spbLWFe70c06f6Hr5IdDhwd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/oogmlZekRCHP0JDhHKDZIyDIfpP.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1bW4spbLWFe70c06f6Hr5IdDhwd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16699,8 +19442,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Super Mario Bros: La pelicula",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/iJQIbOPm81fPEGKt5BPuZmfnA54.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/k36QyeVsy851npTUQL08jO8hqip.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pKxgFUfwK0yrd0DXHGiH0n6vJEP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/k36QyeVsy851npTUQL08jO8hqip.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pKxgFUfwK0yrd0DXHGiH0n6vJEP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16754,8 +19497,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Super Mario Bros 2: Galaxy",
     video: "https://dl.dropbox.com/scl/fi/4ra5lecgggmsmqc2l5szw/Super-Mario-Bros-2-Galaxy-CAM.mp4?rlkey=twia4catvs2r33yzz2xhrmzzi&st=",
     poster: "https://image.tmdb.org/t/p/w780/9Z2uDYXqJrlmePznQQJhL6d92Rq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2N6WbNYULjQiCmLb3zLJYCCTrlg.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4Js0gYWxuvTN6b8iAaSF1cSQzBs.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2N6WbNYULjQiCmLb3zLJYCCTrlg.jpg",
        //calidad: "1080P", 720P | 1080P | 4K
     cam: true,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16809,8 +19552,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi año en Oxford",
     video: "https://dl.dropbox.com/scl/fi/sr3khm0rzk9xnpzycvd4y/Mi-a-o-en-Oxford-2025-Mp4.mp4?rlkey=oehp8kbdd6rnimns0087l3apf&st=",
     poster: "https://image.tmdb.org/t/p/w780/5gGdNbO2duu0IwFtgWdUUDydDFL.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iKT49ApsXGKYY3wdZ0THYhhgOBe.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ukp1TJMNn9hX1pWVTy84lk8J5uJ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iKT49ApsXGKYY3wdZ0THYhhgOBe.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ukp1TJMNn9hX1pWVTy84lk8J5uJ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16864,8 +19607,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Minecraft: La pelicula",
     video: "https://dl.dropbox.com/scl/fi/6909s4hi0zmr48fn23xhe/Una.Pel-cula.De.Minecraft.2025.1080P-Dual-Lat.mkv?rlkey=dretqxyom7e469dazz7ojkf69&st=",
     poster: "https://image.tmdb.org/t/p/w780/2Nti3gYAX513wvhp8IiLL6ZDyOm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rZYYmjgyF5UP1AVsvhzzDOFLCwG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xamBLexcq5KHBRqFuB3BaJZ06lL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rZYYmjgyF5UP1AVsvhzzDOFLCwG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xamBLexcq5KHBRqFuB3BaJZ06lL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16919,8 +19662,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mara",
     video: "https://dl.dropbox.com/scl/fi/65k6f2q01kfm0oziensoa/Mara.mp4?rlkey=gh6q5dr8t12qy4f2wvjy49hfp&st=",
     poster: "https://image.tmdb.org/t/p/w780/kQrGGrAylBQM0O7OkNfjgmgwIhE.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/98ZkOG2qgOO60bn81Ix2UQqiOle.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/gQDmXAef1Oc1SXci5mui2x5DJwt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/98ZkOG2qgOO60bn81Ix2UQqiOle.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -16974,8 +19717,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Madagascar 3: De marcha por Europa",
     video: "https://dl.dropbox.com/scl/fi/dqtxg9o7q36p5h93k74gf/Madagascar.3.2012.1080P-Dual-Lat.mkv?rlkey=e2rku3i5r1g9da899g8zxzyiu&st=",
     poster: "https://image.tmdb.org/t/p/w780/9VbNbdVqVBISn4pe6gvYkvVWggm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/l7d5JCkwvGrqiQcppobohXYnjxt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/xgmUfp7VcdGdsPAoaGy4ci9XHwo.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/l7d5JCkwvGrqiQcppobohXYnjxt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xgmUfp7VcdGdsPAoaGy4ci9XHwo.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17029,8 +19772,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Madagascar 2",
     video: "https://dl.dropbox.com/scl/fi/sbfr85dp81tkq4q83oyyf/Madagascar.2.Escape.De.-frica.2008.1080P-Dual-Lat.mp4?rlkey=x1drybgwlhqyxiazhgbzzo4es&st=",
     poster: "https://image.tmdb.org/t/p/w780/3yXLkSTrVhG66MIAr3X6C4gjccw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/BwQhyfwuuOsq7mwvRaEX4rJQTV.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zYbvSjajQrb2jU9rUo5Mt06stPd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/BwQhyfwuuOsq7mwvRaEX4rJQTV.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17084,8 +19827,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Madagascar",
     video: "https://dl.dropbox.com/scl/fi/vnsocfvwlau9mslcm4phw/Madagascar.2005.1080P-Dual-Lat.mp4?rlkey=uql999w7tyw9mzfg8zjaj0234&st=",
     poster: "https://image.tmdb.org/t/p/w780/j7A8wkcW9UYvchFdWu89oHN9b6O.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/v6bFSYpmAREGriQiMJvvO9TiapM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5xixpEvjdabAAmidz42BfmxSmWJ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/v6bFSYpmAREGriQiMJvvO9TiapM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5xixpEvjdabAAmidz42BfmxSmWJ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17139,8 +19882,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi villano favorito",
     video: "https://dl.dropbox.com/scl/fi/zqync4g3e4a390cw6wav4/Despicable.me.2010.1080P-Dual-Lat.mp4?rlkey=ntnwx7w5hvxg03jqfre8ge22x&st=",
     poster: "https://image.tmdb.org/t/p/w780/r5OvZIQJ1kIvmxNQc8SBW0PvGIb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pgDbf2DPNWVz5D8PvgsCoI21k7j.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/msKJaswwvzfXdCqSHa4u2bddloZ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pgDbf2DPNWVz5D8PvgsCoI21k7j.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/msKJaswwvzfXdCqSHa4u2bddloZ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17194,8 +19937,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi villano favorito 2",
     video: "https://dl.dropbox.com/scl/fi/lj05wziedsdhkxk8p2x8p/Despicable.me.2.2013.bluray-latino-e-ingles-subt.mp4?rlkey=ylegvae9yedl91cnsssvlpnne&st=",
     poster: "https://image.tmdb.org/t/p/w780/az8kg8kyXXj1P3cF2vXzjwtf9Q5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ikz6zymN62kqSFioVWAqn8mPufM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fOipappvgVtUbbHOtmCkHzcwJjC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ikz6zymN62kqSFioVWAqn8mPufM.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fOipappvgVtUbbHOtmCkHzcwJjC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17249,8 +19992,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi villano favorito 3",
     video: "https://dl.dropbox.com/scl/fi/2bnx70zw1g8d3yucky2u6/Despicable.me.3.2017.1080p-dual-lat.mp4?rlkey=93ltxh9aq0peyqxf8qy9bla9l&st=",
     poster: "https://image.tmdb.org/t/p/w780/ftRkFtAGuHngHnLiOxktq0aCVMF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t1fY8kIECcuq1tIusfWku4k3hcn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7m3tvqHVXX5PX4uv7HpNQFOXOjK.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17304,8 +20047,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi villano favorito 4",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/twsxsfao6ZOVvT8LfudH603MMi6.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ikz6zymN62kqSFioVWAqn8mPufM.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9EwsjuK7lBJGyQtnxkgqRbYEDOs.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/b6JX0fBne5yPFNBtdp4Imi3CpiE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9EwsjuK7lBJGyQtnxkgqRbYEDOs.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17359,8 +20102,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Miller's Girl",
     video: "https://dl.dropbox.com/scl/fi/6mmlrt7ojmqzpi9wf2aei/Miller-s.Girl.2024.1080P-Dual-Lat.mkv?rlkey=ehkpbcav964gnna87mfkscvyw&st=",
     poster: "https://image.tmdb.org/t/p/w780/hMhPkVvqQz9gMMrJENciIKSQgVb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/a5YCKz2HV3xEtaOhr4I7FGe05qQ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9FqvQdd1agkxSyvn3KWiYuTbvDE.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/a5YCKz2HV3xEtaOhr4I7FGe05qQ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9FqvQdd1agkxSyvn3KWiYuTbvDE.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17414,8 +20157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Mi abuelo es un peligro",
     video: "https://dl.dropbox.com/scl/fi/3tjglc6m3qejrye4838im/Mi.abuelo.es.un.peligro.2016.1080p-dual-lat.mp4?rlkey=6v3r565011fuwcznfxjocjqts&st=",
     poster: "https://image.tmdb.org/t/p/w780/esh6PunfeHvgculCRvSjzwE8Kip.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/7r9pn1g3lY95DjiwzxpmNqlJzeO.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/yndbqpVBoN2y90pYB3Lsr8SUyJ1.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7r9pn1g3lY95DjiwzxpmNqlJzeO.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/yndbqpVBoN2y90pYB3Lsr8SUyJ1.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17469,8 +20212,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Moana",
     video: "https://dl.dropbox.com/scl/fi/s30qf1hyi27386un4oekd/Moana.2016.1080p-dual-lat.mp4?rlkey=x95hdcwm1fujjc6j2u4m9mp4t&st=",
     poster: "https://image.tmdb.org/t/p/w780/iYLKMV7PIBtFmtygRrhSiyzcVsF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pwW2sC4ugeFaygOPu6nYCAV3JWG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kNAANuEyhDu5g4c5p0gcMFLhV0k.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pwW2sC4ugeFaygOPu6nYCAV3JWG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/kNAANuEyhDu5g4c5p0gcMFLhV0k.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17524,8 +20267,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Moana 2",
     video: "https://dl.dropbox.com/scl/fi/ej548y6fqwu5y93wzgjvg/Moana.2.2024.1080P-Dual-Lat.mkv?rlkey=egjrop2zd3y0ivtnpuxnsweo5&st=",
     poster: "https://image.tmdb.org/t/p/w780/vYqt6kb4lcF8wwqsMMaULkP9OEn.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pgy1mO4cnnLKB4E31zY8VxGVTMW.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pgy1mO4cnnLKB4E31zY8VxGVTMW.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17581,7 +20324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Nahir",
     video: "https://dl.dropboxusercontent.com/scl/fi/y13vgq3beu33jpwt9wi74/Nahir-Galarza-2024.mp4?rlkey=huz66z2uxlfz344p3c0c84lcr&st=",
     poster: "https://image.tmdb.org/t/p/w780/gyReyZ09en6XIm4Xzo5ESMxeyuu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg",
     imginicio: "https://fotos.perfil.com/2024/05/24/trim/1140/641/nahir-portada-1807025.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
@@ -17636,8 +20379,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "No me las toquen",
     video: "https://dl.dropbox.com/scl/fi/jezdirnudopnnuryfmbaf/Blockers.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=npa8oat5vlbb5ybi30jsb0iq2&st=",
     poster: "https://image.tmdb.org/t/p/w780/nfiyVEDIMRXoqoxlPL2DCoIAtnS.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2AKGkz81kZAXIUuAnL6CqgQSTjL.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2AKGkz81kZAXIUuAnL6CqgQSTjL.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17686,13 +20429,178 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  novocaine: {
+    id: "novocaine",
+    titulo: "Novocaine: Sin dolor",
+    video: "https://dl.dropbox.com/scl/fi/56ok26aywc7vtsxeuzbx8/Novocaine.Sin.Dolor.2025.1080P-Dual-Lat.mkv?rlkey=ct5pwdiqzibme0m34vzbfnb3o&st=",
+    poster: "https://image.tmdb.org/t/p/w780/lyBH2mFFU6qrHwD5QKotL2JnEb6.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6YbTJhN5GJQOlZ1IyRiCyhKSiJE.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xMoykvwUA7NnYc10e7YFCFD6bas.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Cuando la chica de sus sueños es secuestrada, Nate, un chico corriente, convierte su incapacidad para sentir dolor en una fuerza inesperada en su lucha por recuperarla.",
+    anio: "2025",
+    duracion: "1h 52min",
+    calificacion: "68%",
+    genero: "Acción • Comedia • Suspenso",
+    director: "Robert Olsen, Dan Berk",
+    reparto: "Jack Quaid, Amber Midthunder, Ray Nicholson",
+    estreno: "13/03/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "mision_de_rescate",
+        titulo: "Misión de rescate",
+        imagen: "https://image.tmdb.org/t/p/w300/fKaP5Z0cloniKAhUcH7DbsDP6O4.jpg"
+      },
+      {
+        id: "rebel_moon",
+        titulo: "Rebel Moon: La niña del fuego",
+        imagen: "https://image.tmdb.org/t/p/w300/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg"
+      },
+      {
+        id: "uncharted",
+        titulo: "Uncharted: Fuera Del Mapa",
+        imagen: "https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg"
+      },
+      {
+        id: "k_o",
+        titulo: "K.O.",
+        imagen: "https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg"
+      },
+      {
+        id: "axrael",
+        titulo: "Azrael",
+        imagen: "https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"
+      },
+      {
+        id: "until_dawn_noche_de_terror",
+        titulo: "Until Dawn: Noche de terror",
+        imagen: "https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg"
+      }
+    ]
+  },
+
+  nonnas: {
+    id: "nonnas",
+    titulo: "Nonnas",
+    video: "https://dl.dropbox.com/scl/fi/sctrme5cwlg5y3284p89e/Nonnas.2025.1080P-Dual-Lat.mkv?rlkey=t1r1axx3lgrkoqjaktv17eeak&st=",
+    poster: "https://image.tmdb.org/t/p/w780/gfe8onl8FhaJg4C47Kecj7CdNvf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/6YsEHhqgT6c8nJlS1TL1Zyrxwgw.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/61rLwi0bOAk9TE1aNuh5htkfo0P.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Tras la muerte de su madre, un hombre lo arriesga todo y decide honrarla abriendo un restaurante italiano donde abuelas de verdad toman el mando en la cocina.",
+    anio: "2025",
+    duracion: "1h 54min",
+    calificacion: "68%",
+    genero: "Comedia",
+    director: "Stephen Chbosky",
+    reparto: "Vince Vaughn, Lorraine Bracco, Talia Shire",
+    estreno: "09/05/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "quiero_tu_vida",
+        titulo: "Quiero tu vida",
+        imagen: "https://image.tmdb.org/t/p/w300/hk2kW6uwTEa8cxDeF1UPfIpEYkF.jpg"
+      },
+      {
+        id: "No_me_la_toquen",
+        titulo: "No me la toquen",
+        imagen: "https://image.tmdb.org/t/p/w300/yEsYJyBsnDdMUbsehxIofMa9Oh7.jpg"
+      },
+      {
+        id: "mi_abuelo_es_un_peligro",
+        titulo: "Mi abuelo es un peligro",
+        imagen: "https://image.tmdb.org/t/p/w300/7r9pn1g3lY95DjiwzxpmNqlJzeO.jpg"
+      },
+      {
+        id: "me_vuelves_loca",
+        titulo: "Me vuelves loca",
+        imagen: "https://image.tmdb.org/t/p/w300/pQeyfqLEDdY6x4P4Fl5r6jcstN4.jpg"
+      },
+      {
+        id: "juego_de_roles",
+        titulo: "Juego de roles",
+        imagen: "https://image.tmdb.org/t/p/w300/y7hqvT7dW0eGfcJpbBQ0s90j7fx.jpg"
+      },
+      {
+        id: "ghosting",
+        titulo: "Ghosting",
+        imagen: "https://image.tmdb.org/t/p/w300/liLN69YgoovHVgmlHJ876PKi5Yi.jpg"
+      }
+    ]
+  },
+
+  no_respires_2: {
+    id: "no_respires_2",
+    titulo: "No respires 2",
+    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelissept%2F%E2%96%B7%20Ver%20No%20Respires%202%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20Espa%C3%B1ol%20Latino.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/zHeJ1H3PiOFxmWgEBsp2jA3qetK.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/o0kJOePRfC59exAb7e3wrCTSMbK.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5liB6mee4NHmsoUNU2sU740y2IW.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "El ciego se ha estado escondiendo durante años en una cabaña aislada y ha acogido y criado a una niña que perdió a sus padres en un incendio en una casa. Su tranquila existencia se hace añicos cuando un grupo de secuestradores aparece y se lleva a la niña, lo que obliga al Ciego a dejar su refugio seguro para rescatarla.",
+    anio: "2021",
+    duracion: "1h 38min",
+    calificacion: "75%",
+    genero: "Terror • Suspenso",
+    director: "Rodo Sayagues",
+    reparto: "Stephen Lang, Madelyn Grace, Brendan Sexton III",
+    estreno: "13/08/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "no_respires",
+        titulo: "No respires",
+        imagen: "https://image.tmdb.org/t/p/w300/3A5sAyP9iENTRL5X86FUeYmo0wZ.jpg"
+      },
+      {
+        id: "no_estaras_sola",
+        titulo: "No estarás sola",
+        imagen: "https://image.tmdb.org/t/p/w300/moBrEYoOxLRc1LsFl8IXeilYwtq.jpg"
+      },
+      {
+        id: "ofrenda_al_demonio",
+        titulo: "Ofrenda al demonio",
+        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
+      },
+      {
+        id: "megan",
+        titulo: "M3GAN",
+        imagen: "https://image.tmdb.org/t/p/w300/d9nBoowhjiiYc4FBNtQkPY7c11H.jpg"
+      },
+      {
+        id: "la_sustancia",
+        titulo: "La sustancia",
+        imagen: "https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg"
+      },
+      {
+        id: "el_mono",
+        titulo: "El mono",
+        imagen: "https://image.tmdb.org/t/p/w300/z15wy8YqFG8aCAkDQJKR63nxSmd.jpg"
+      }
+    ]
+  },
+
   nombredepelicula: {
     id: "nombredepelicula",
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17749,8 +20657,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Salve Maria",
     video: "https://dl.dropbox.com/scl/fi/u8l90jrxc4yxa19we08by/Salve-maria-2024.mp4?rlkey=q2m0ws3yzy0kwi8onev6uk6z2&st=",
     poster: "https://image.tmdb.org/t/p/w780/r8QidlNFOFL7QBq1fFmHGaDiX0x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1gEqF1SCGsDUsdGDPiBhXnokL77.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1gEqF1SCGsDUsdGDPiBhXnokL77.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17804,8 +20712,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Shrek",
     video: "https://dl.dropbox.com/scl/fi/jvekkli0pljeibldv76zt/Shrek.1.2001.1080P-Dual-Lat.mp4?rlkey=s01em56707ho0r0yvml69tdbb&st=",
     poster: "https://image.tmdb.org/t/p/w780/bNTHSd3UqqLzIVwbDOGPnx3ScfF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/kZy4ApKnFhOekGmOlYtauF2xLWq.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/kZy4ApKnFhOekGmOlYtauF2xLWq.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17813,7 +20721,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2001",
     duracion: "1h 30min",
     calificacion: "80%",
-    genero: "Animación, Comedia, Fantasía, Aventura y Familia",
+    genero: "Animación • Comedia • Fantasía • Aventura • Familia",
     director: "Andrew Adamson, Vicky Jenson",
     reparto: "Mike Myers, Eddie Murphy, Cameron Diaz",
     estreno: "19/07/2001",
@@ -17859,8 +20767,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sonic 3: La pelicula",
     video: "https://dl.dropbox.com/scl/fi/xnj72sohseayha1tmitgt/Sonic.3.La.Pel-cula.2024.1080P-Dual-Lat.mkv?rlkey=s0vxtwdbq5itp10bfaxy4i73b&st=",
     poster: "https://image.tmdb.org/t/p/w780/uEDY5c1VrmwMxL7OlXXTTwYygUX.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vlAXtzNWQ3VSZtIinhHqcPXS1Oc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/uY2GofovocgMECVIvjnp6nz8EEB.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vlAXtzNWQ3VSZtIinhHqcPXS1Oc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/uY2GofovocgMECVIvjnp6nz8EEB.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17914,8 +20822,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sonríe",
     video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fnoviembr%2FVer%20Smile%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4",
     poster: "https://image.tmdb.org/t/p/w780/kMZIMqEXO5MFd5Y1Ha2jZZF4pvF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/x0ZHMfVrthWJVumnayeKvjNIsdn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hQTl9lp8rKY7qKQSudsdd8Duo8K.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/x0ZHMfVrthWJVumnayeKvjNIsdn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -17938,7 +20846,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "saw_3",
-        titulo: "Saw III",
+        titulo: "Saw 3",
         imagen: "https://image.tmdb.org/t/p/w300/4iO9n24Rb10peXV0JH2EldIOrAp.jpg"
       },
       {
@@ -17969,8 +20877,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sonrie 2",
     video: "https://dl.dropbox.com/scl/fi/u5uw6fg4m9t1gfy5i1enm/Sonr-e.2.2024.1080p-Dual-Lat.mkv?rlkey=c8rosff7ig5g878aptuuymyys&st=",
     poster: "https://image.tmdb.org/t/p/w780/iR79ciqhtaZ9BE7YFA1HpCHQgX4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aQtWauWpy5KQEHsBURDnoTD6svd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oGOk08kUotliKbFYLT9wI9i0eyy.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aQtWauWpy5KQEHsBURDnoTD6svd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oGOk08kUotliKbFYLT9wI9i0eyy.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18024,8 +20932,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Spider-Man: un nuevo universo",
     video: "https://dl.dropbox.com/scl/fi/0d3cbzxc8i709uulyo20o/Spider-Mna-Un-nuevo-universo-2018-Mp4.mp4?rlkey=kxmqh3ej5i50vupheekx8vio8&st=",
     poster: "https://image.tmdb.org/t/p/w780/qhkv1h4yyuL1bxqURqYxcrUlLW9.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xRMZikjAHNFebD1FLRqgDZeGV4a.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/pEa1I1iweYwjvEJuGTQ2c8cNUkN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xRMZikjAHNFebD1FLRqgDZeGV4a.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/pEa1I1iweYwjvEJuGTQ2c8cNUkN.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18079,8 +20987,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Spider-Man 2: Cruzando el Multi-Verso",
     video: "https://dl.dropbox.com/scl/fi/mkqt6y9en3w47r5evfn0g/Spider-Man-2-Cruzando-el-Multiverso-2023.mp4?rlkey=nbovtswylku4wqmv126ls16nz&st=",
     poster: "https://image.tmdb.org/t/p/w780/2I5eBh98Q4aPq8WdQrHdTC8ARhY.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/37WcNMgNOMxdhT87MFl7tq7FM1.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jtjBbGR2fOEwv74EkwW3hkyvIGl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/37WcNMgNOMxdhT87MFl7tq7FM1.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jtjBbGR2fOEwv74EkwW3hkyvIGl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18134,8 +21042,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¡Scooby!",
     video: "https://dl.dropbox.com/scl/fi/s17ns7ovwacflf5v7lxoe/Scoob.2020.1080p-dual-lat-cinecalidad.is.mp4?rlkey=kv09107fadgpq8d8t6eenjocq&st=",
     poster: "https://image.tmdb.org/t/p/w780/sJjuXNHNT7PfzcgkqM3oSIkVOXB.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/78d9Ptv5A7FQXFd7gS7TjkHiUSv.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tOhuq4RYr2Rt9TM7X4dkr7A9HSd.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/78d9Ptv5A7FQXFd7gS7TjkHiUSv.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18143,7 +21051,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2020",
     duracion: "1h 33min",
     calificacion: "88%",
-    genero: "Animacion • Aventura • Comedia",
+    genero: "Animación • Aventura • Comedia",
     director: "Tony Cervone",
     reparto: "Frank Welker, Amanda Seyfried, Will Forte",
     estreno: "15/03/2020",
@@ -18189,8 +21097,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18245,8 +21153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sugar baby",
     video: "https://dl.dropbox.com/scl/fi/ux7t24q3r11uti6l0jwdg/Sugar-Baby-2024.mp4?rlkey=ihi8zabn7u7y9mivljpgg5kne&st=",
     poster: "https://image.tmdb.org/t/p/w780/gscL9tqxpkmAMmbeRLLzLZPyJXb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/uLbDZIDAbN6SIiBr7Z2eMZ9212S.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gscL9tqxpkmAMmbeRLLzLZPyJXb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/uLbDZIDAbN6SIiBr7Z2eMZ9212S.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gscL9tqxpkmAMmbeRLLzLZPyJXb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18301,8 +21209,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sing: Cantar",
     video: "https://dl.dropbox.com/scl/fi/ti5ljw8be0676y80bubaj/Sing.2016.1080P-Dual-Lat.mp4?rlkey=x0lxkv10p64rcit1fvtlts0sn&st=",
     poster: "https://image.tmdb.org/t/p/w780/ijoyefFMGHsN82yOM19NS6VRKmh.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/sMCdqRia4H5WNZe9jgf37ZnUDlw.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/f2magHjnUAQIisAAC9DUsF5LHMY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/sMCdqRia4H5WNZe9jgf37ZnUDlw.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/f2magHjnUAQIisAAC9DUsF5LHMY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18357,8 +21265,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sing 2: Cantar",
     video: "https://dl.dropbox.com/scl/fi/775fx6x5isbhxos7irvfb/Sing.2.2021.1080P-Dual-Lat.mp4?rlkey=56z9mws1nf3jfz1vd7x8qkafc&st=",
     poster: "https://image.tmdb.org/t/p/w780/ztiFxuG0gC6wQ8y7JZFYbCQyN4Y.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/rPVROcP8SuBlaf82ec3qtzem6eY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/rPVROcP8SuBlaf82ec3qtzem6eY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18412,8 +21320,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Steven Universe: La pelicula",
     video: "https://dl.dropbox.com/scl/fi/6o1xd70czrwpeve54uunm/Steven.Universe.La.Pel-cula.2019.720p-Dual-Lat.mkv?rlkey=i4rro7sprq9j5fs7zevxuty28&st=",
     poster: "https://image.tmdb.org/t/p/w780/dymE9LUx7aQNTw2lwcKwBscKr6U.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bewhxwbmWTMe16dEQa8ICGe9Y1Y.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/rPzWW9rBTCjSxJz48zI5F6SUIbY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bewhxwbmWTMe16dEQa8ICGe9Y1Y.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/rPzWW9rBTCjSxJz48zI5F6SUIbY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18421,7 +21329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2019",
     duracion: "1h 22min",
     calificacion: "85%",
-    genero: "Animacion • Aventura • Fantasia • Musical • Ciencia ficción",
+    genero: "Animación • Aventura • Fantasia • Musical • Ciencia ficción",
     director: "Rebecca Sugar",
     reparto: "Zach Callison, Deedee Magno Hall, Michaela Dietz",
     estreno: "26/08/2019",
@@ -18450,7 +21358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/jm2BckEhy1upr4iPpOZ6WTx1tWw.jpg"
       },
       {
-        id: "los_siete_pecados_capitales_la_maldición_de_la_luz",
+        id: "los_siete_pecados_capitales_la_maldicion_de_la_luz",
         titulo: "Los siete pecados capitales: La maldición de la luz",
         imagen: "https://image.tmdb.org/t/p/w300/w6U2pGQokqWh2wJLRaXi0bVd3zF.jpg"
       },
@@ -18467,8 +21375,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Sidelined 2: Interceptado",
     video: "https://dl.dropbox.com/scl/fi/pa1r76owiauts5eo61pvv/sidelined-2026.mp4?rlkey=ncyb63d49eve1v5zz3mt6bx06&st=",
     poster: "https://image.tmdb.org/t/p/w780/iMxWTPRqWJJKVW7KYBlmirSeazw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/sEIP1pTVXa8BJaYSuVeVG3wFN10.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/iMxWTPRqWJJKVW7KYBlmirSeazw.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/sEIP1pTVXa8BJaYSuVeVG3wFN10.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/iMxWTPRqWJJKVW7KYBlmirSeazw.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18524,8 +21432,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Ojala estuvieras aqui",
     video: "https://dl.dropbox.com/scl/fi/8b4pl9czbbzihp0oh7j81/Ojala-estuvieras-aqui-2025.mp4?rlkey=offj5mjoi1mrmd9si7sz4qkjr&st=",
     poster: "https://image.tmdb.org/t/p/w780/wWXW3LBV2leDfRNlsYdQ4mvuF1Q.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/zVRDebamaWViYk9P7q8FgJ8CJO8.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4FPs5w6ZP6NARKG4MD7tkLdhhLn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/zVRDebamaWViYk9P7q8FgJ8CJO8.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4FPs5w6ZP6NARKG4MD7tkLdhhLn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18574,13 +21482,68 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  otro_pequeño_favor: {
+    id: "nombredepelicula",
+    titulo: "Otro pequeño favor",
+    video: "https://dl.dropbox.com/scl/fi/pfpouyr6yfon8lyt7o2ck/Otro.pequeno.favor.2025.720p-Dual-Lat.mkv?rlkey=1wlp5dnopwuhyjrhivavxqmdj&st=",
+    poster: "https://image.tmdb.org/t/p/w780/b6e5Nss2QNoQM4wJv2VppChswNP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pZr2QCUbsekpiLnZ7788twcLpSn.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4l0iXF9ovnDN1iH8TbnsmFuiynl.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Stephanie Smothers y Emily Nelson se reúnen en la hermosa isla de Capri, Italia, para la extravagante boda de Emily con un rico hombre de negocios italiano. Junto con los glamurosos invitados, cabe esperar asesinatos y traiciones en una boda con más giros y vueltas que el camino desde el puerto a la plaza del centro de Capri.",
+    anio: "2025",
+    duracion: "2h 02min",
+    calificacion: "60%",
+    genero: "Comedia • Suspenso • Misterio",
+    director: "Paul Feig",
+    reparto: "Anna Kendrick, Blake Lively, Michele Morrone",
+    estreno: "07/03/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "contraataque",
+        titulo: "Contraataque",
+        imagen: "https://image.tmdb.org/t/p/w300/kxnFdLJhi37ZVFDCL1ka0yeQVU5.jpg"
+      },
+      {
+        id: "el_ultimo_respiro",
+        titulo: "El último respiro",
+        imagen: "https://image.tmdb.org/t/p/w300/yXSsRxw89KDfUs1mdyQuUDUTLvI.jpg"
+      },
+      {
+        id: "la_viuda_negra",
+        titulo: "La viuda negra",
+        imagen: "https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg"
+      },
+      {
+        id: "salve_maria",
+        titulo: "Salve maria",
+        imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg"
+      },
+      {
+        id: "la_mitad_de_ana",
+        titulo: "La mitad de Ana",
+        imagen: "https://image.tmdb.org/t/p/w300/c24RWnJzwAtWZ039o9u6K7c8jyw.jpg"
+      },
+      {
+        id: "harta",
+        titulo: "Harta",
+        imagen: "https://image.tmdb.org/t/p/w300/4d2PJ6QLAVd9w66E918JSWjkgs7.jpg"
+      }
+    ]
+  },
+
   nombredepelicula: {
     id: "nombredepelicula",
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18631,112 +21594,222 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*T*/
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+  the_punisher_la_ultima_muerte: {
+    id: "the_punisher_la_ultima_muerte",
+    titulo: "The punisher: Una última muerte",
+    video: "https://dl.dropbox.com/scl/fi/g5ox2gxhcs1ymlq5ncn3t/The-Punisher-una-ultima-muerte-2026.mp4?rlkey=at09itjnlqa5xswx4ecavgq3i&st=",
+    poster: "https://image.tmdb.org/t/p/w780/fAhLjW8W9PU08KHBbRK3Vek9k4L.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qkyqQqQN8HAkLezR6xWTYzz6Icv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/44e4lt8LSMcnXOkFB1vtejAqnlD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    sinopsis: "Mientras Frank Castle busca propósito más allá de la venganza, una fuerza inesperada lo arrastra de nuevo a la lucha.",
+    anio: "2026",
+    duracion: "51min",
+    calificacion: "88,7%",
+    genero: "Acción • Crimen • Drama • Marvel",
+    director: "Reinaldo Marcus Green",
+    reparto: "Jon Bernthal • Deborah Ann Woll • Jason R. Moore",
+    estreno: "12/05/2026",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        href: "View Peliculas/Reproductor Universal Series.php?id=marvel_the_punisher",
+        titulo: "Marvel - The Punisher",
+        imagen: "https://image.tmdb.org/t/p/w300/8OdIbo68mFE4w6jXA20aL8ocPsE.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "deadpool_y_wolverine",
+        titulo: "Deadpool Y Wolverine",
+        imagen: "https://image.tmdb.org/t/p/w300/hAn57Hu13UU2Klw5wZszNlWngQr.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        href: "View Peliculas/Reproductor Universal Series.php?id=loki",
+        titulo: "Loki",
+        imagen: "https://image.tmdb.org/t/p/w300/voHUmluYmKyleFkTu3lOXQG702u.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "thor",
+        titulo: "Thor",
+        imagen: "https://image.tmdb.org/t/p/w300/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "los_vengadores_infinity_war",
+        titulo: "Los vengadores: Infinity war",
+        imagen: "https://image.tmdb.org/t/p/w300/z58HrY2Hd9PlSpBTsZuoavfDavd.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "los_4_fantasticos_2025",
+        titulo: "Los 4 Fantásticos: Primeros pasos",
+        imagen: "https://image.tmdb.org/t/p/w300/u6iFFGcOXk4d6C5pZes1qRgU8Nt.jpg"
       }
     ]
   },
 
-  nombredepelicula: {
-    id: "nombredepelicula",
-    titulo: "",
-    video: "",
-    poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+  ninja_turtles_caos_mutante: {
+    id: "ninja_turtles_caos_mutante",
+    titulo: "Ninja Turtles: Caos mutante",
+    video: "https://dl.dropbox.com/scl/fi/j1x9vzlxwvlxjfogf5ixb/Ninja-tortugas-caos-mutantr-2023.mp4?rlkey=6gs82cq7e6fiic2lz39031mba&st=",
+    poster: "https://image.tmdb.org/t/p/w780/tgFtGRjPJRQVTN1CLePMrkfxuoT.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mgBXgA8jHext4KRWg84Cux5Y94L.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1ysLHFm3J08r407a89Bk9ohNwsi.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
-    sinopsis: "",
-    anio: "",
-    duracion: "0h 008min",
-    calificacion: "00%",
-    genero: "",
-    director: "",
-    reparto: "",
-    estreno: "",
+    sinopsis: "Después de pasar años apartados del mundo humano, los hermanos Tortuga se proponen ganarse el corazón de los habitantes de Nueva York y que les acepten como quinceañeros normales, llevando a cabo actos heroicos. Su nueva amiga April O'Neil les ayuda a enfrentarse a un misterioso sindicato del crimen, pero pronto se ven superados ante el ataque de un ejército de mutantes que se abalanza sobre ellos.",
+    anio: "2023",
+    duracion: "1h 42min",
+    calificacion: "82%",
+    genero: "Acción • Animación • Comedia • Ciencia ficción",
+    director: "Jeff Rowe",
+    reparto: "Micah Abbey • Shamon Brown Jr. • Nicolas Cantu",
+    estreno: "17/08/2023",
     idioma: "Español Latino 🇲🇽",
 
     // 🔥 RECOMENDACIONES
     recomendaciones: [
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "peter_pan_y_wendy",
+        titulo: "Peter Pan y Wendy",
+        imagen: "https://image.tmdb.org/t/p/w300/9NXAlFEE7WDssbXSMgdacsUD58Y.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "pinocho_de_guillermo_del_toro",
+        titulo: "Pinocho de Guillermo del Toro",
+        imagen: "https://image.tmdb.org/t/p/w300/mJLFkiATSjU9sbtblR1yFWhHs4h.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "metegol",
+        titulo: "Metegol",
+        imagen: "https://image.tmdb.org/t/p/w300/dXWCHlDvkth40JhX2ctSdK5DC9d.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "super_mario_bros",
+        titulo: "Super Mario Bros: La película",
+        imagen: "https://image.tmdb.org/t/p/w300/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "moana_2",
+        titulo: "Moana 2",
+        imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
       },
       {
-        id: "",
-        titulo: "",
-        imagen: "https://image.tmdb.org/t/p/w300/"
+        id: "kung_fu_panda_4",
+        titulo: "Kung fu panda 4",
+        imagen: "https://image.tmdb.org/t/p/w300/xHeK1mttldtCEyWbPZbo9bSKUqd.jpg"
+      }
+    ]
+  },
+
+  miedo_en_las_profundidades: {
+    id: "miedo_en_las_profundidades",
+    titulo: "Miedo en las profundidades",
+    video: "https://dl.dropbox.com/scl/fi/t3wembx4jlflj4qjoemiu/Terror.En.El.Rio.2025.1080P-Dual-Lat.mkv?rlkey=dpbl6az9quinfeyj0nbqelzll&st=",
+    poster: "https://image.tmdb.org/t/p/w780/hr3yzjzfsiNxWqlDgRTSHgYB7fz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/yfEJL8bRjyNlqxiYHu1cY7tJN9t.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fsSpBzEoTi63CLPM09oKfZ1C6rx.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Australia, 1946. Cuando una banda de despiadados delincuentes pierde el oro robado al hundirse su coche en un río, recurren a un equipo de buceadores desesperados y sin suerte para recuperarlo. Lo que comienza como una misión de recuperación de alto riesgo se complica cuando los buceadores se encuentran con un feroz tiburón toro... pero los peligros en las profundidades del agua son sólo una fracción de los que les esperan arriba.",
+    anio: "2025",
+    duracion: "1h 25min",
+    calificacion: "65,7%",
+    genero: "Terror • Acción • Aventura • Suspenso",
+    director: "Matthew Holmes",
+    reparto: "Hermione Corfield, Jake Ryan, Kevin Dee",
+    estreno: "05/10/2024",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "until_dawn_noche_de_terror",
+        titulo: "Until Dawn: Noche de terror",
+        imagen: "https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg"
+      },
+      {
+        id: "un_lugar_en_silencio_3",
+        titulo: "Un lugar en silencio 3: Día uno",
+        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
+      },
+      {
+        id: "en_las_rpofundidades_del_sena",
+        titulo: "En las profundidades del Sena",
+        imagen: "https://image.tmdb.org/t/p/w300/3Nr9KwcPMF31BGlOfHXeAJhO2dF.jpg"
+      },
+      {
+        id: "atrapados_en_lo_profundo",
+        titulo: "Atrapados en lo Profundo",
+        imagen: "https://image.tmdb.org/t/p/w300/fSY6BYUZMObTIzPfRBlhuAb5lsd.jpg"
+      },
+      {
+        id: "poseida",
+        titulo: "Poseída",
+        imagen: "https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"
+      },
+      {
+        id: "martyrs",
+        titulo: "Martyrs",
+        imagen: "https://image.tmdb.org/t/p/w300/5kymocKK0SfyEEV0ohNEBz1lxNx.jpg"
+      }
+    ]
+  },
+
+  tierra_baja: {
+    id: "tierra_baja",
+    titulo: "Tierra baja",
+    video: "https://dl.dropbox.com/scl/fi/24f97380j9k4vupacud9c/Tierra-baja-2025.mp4?rlkey=k7cc9d0zh953kndhjxwcprjsi&st=",
+    poster: "https://image.tmdb.org/t/p/w780/U3Z3aPI5l22NZSWrB4fMKcvtbu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/7c6HPcnw0oaO8H2vBwSLqTtFYx9.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/U3Z3aPI5l22NZSWrB4fMKcvtbu.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Carmen, una conocida guionista, se ha retirado hace un año a una masía solitaria de un pueblo de Teruel. Allí se esfuerza por aumentar la cosecha de aceitunas en la finca heredada de su abuela, con la ayuda de dos amigas que la admiran y de Damián, un manitas que se siente atraído por ella. Un antiguo amor reaparece en su vida para decirle que nunca la olvidó.",
+    anio: "2025",
+    duracion: "1h 35min",
+    calificacion: "60%",
+    genero: "Romance • Drama",
+    director: "Miguel Santesmases",
+    reparto: "Aitana Sánchez-Gijón, Pere Arquillué, Itziar Miranda",
+    estreno: "31/01/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "un_ladron_romantico",
+        titulo: "Un ladron romantico",
+        imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg"
+      },
+      {
+        id: "millers_girl",
+        titulo: "Miller's Girl",
+        imagen: "https://image.tmdb.org/t/p/w300/qz7BADRc32DYQCmgooJwI8UWRRC.jpg"
+      },
+      {
+        id: "babygirl",
+        titulo: "Babygirl: Deseo prohibido",
+        imagen: "https://image.tmdb.org/t/p/w300/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg"
+      },
+      {
+        id: "nahir",
+        titulo: "Nahir",
+        imagen: "https://image.tmdb.org/t/p/w300/w4TcFexTfo5X7NkvNSeTrRSu9Sj.jpg"
+      },
+      {
+        id: "salve_maria",
+        titulo: "Salve maria",
+        imagen: "https://image.tmdb.org/t/p/w300/c1vxdtbIyKE31mX9znwIsrHJ30S.jpg"
+      },
+      {
+        id: "fineskind",
+        titulo: "Fineskind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
       }
     ]
   },
@@ -18746,8 +21819,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Thunderbolts*",
     video: "https://dl.dropbox.com/scl/fi/9it9z7ng4y3ysk347fuu1/Thunderbolts-2025.mp4?rlkey=1a550jep2v8l1jqd8q4lhchsh&st=",
     poster: "https://image.tmdb.org/t/p/w780/2VflsZMBlPEdwQj8miBbYWMrpvq.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aPVAwfxJc77qGrS2rzhNkJ4VnUB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AlrvUOe2wsW5bGOocxMbMdL3xgb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aPVAwfxJc77qGrS2rzhNkJ4VnUB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/AlrvUOe2wsW5bGOocxMbMdL3xgb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18790,7 +21863,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spider_man3",
-        titulo: "Spider-Man: Sin camino a casa",
+        titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       }
     ]
@@ -18801,8 +21874,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¿Todo bien?",
     video: "https://dl.dropbox.com/scl/fi/3ja3n1jfxsierv3hgnfva/Estoy.Bien.2024.1080P-Dual-Lat.mkv?rlkey=dgk4nc6xd07z4ki637ib9iq16&st=",
     poster: "https://image.tmdb.org/t/p/w780/rzu9BVI9HqY5rG0Xq05ZhewdkYP.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/arVt18It7zOpOa2WZTzMiBxmyrY.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fKxGUfI09ubxe594Nl8Om2cMuxH.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/arVt18It7zOpOa2WZTzMiBxmyrY.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fKxGUfI09ubxe594Nl8Om2cMuxH.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18856,8 +21929,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Turno nocturno",
     video: "https://dl.dropbox.com/scl/fi/vk4i7d7kncl7hmb1o2ews/Turno-nocturno-2024.mp4?rlkey=p4owg5wv2uxjsb03qn3hot968&st=",
     poster: "https://image.tmdb.org/t/p/w780/5VjZbfvSxyLEhLCON1NmMJdWTp0.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/5VjZbfvSxyLEhLCON1NmMJdWTp0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iSSx9Bys64vlOkvkyKXtp19P7Re.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5VjZbfvSxyLEhLCON1NmMJdWTp0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18911,8 +21984,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Twisters",
     video: "https://dl.dropbox.com/scl/fi/xi3yg4zceesd4zshra1xp/Tornado-2024.mp4?rlkey=aeblby84r4g6grldgzsuuv40h&st=",
     poster: "https://image.tmdb.org/t/p/w780/i8KwalM78wPA6FgYjjWzjJQ9abO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4UWDVI6IleoKl9T6wHbHcqd5zAX.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jzBbseScqtmqInX7E9ut7r1tElK.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4UWDVI6IleoKl9T6wHbHcqd5zAX.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jzBbseScqtmqInX7E9ut7r1tElK.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -18966,8 +22039,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Trolls",
     video: "https://dl.dropbox.com/scl/fi/xqtfta9uqi0c7g6cqn7tp/Trolls.2016.1080P-Dual-Lat.mp4?rlkey=i2vtql5pep75nmch5t73pvb4q&st=",
     poster: "https://image.tmdb.org/t/p/w780/whX7yKdykC96LMWqsxqBOVuwEHx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5nDbnZ9UssqVoVRggQOb2icL9Pb.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/j6ViI3lxcj8ySM86NkN4J4U1gRy.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5nDbnZ9UssqVoVRggQOb2icL9Pb.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/j6ViI3lxcj8ySM86NkN4J4U1gRy.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19021,8 +22094,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Trolls 2: Gira mundial",
     video: "https://dl.dropbox.com/scl/fi/m0ev6cef6afz7e3q2kfr6/Trolls-2-2020.mp4?rlkey=b732jzzjucj9kps4hjfzra6zk&st=",
     poster: "https://image.tmdb.org/t/p/w780/qsxhnirlp7y4Ae9bd11oYJSX59j.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4Eq362CDl4pYQTtVyxlSLELYo8y.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/9GdgycCYq3vnxLHw5Ldah8JEjH4.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4Eq362CDl4pYQTtVyxlSLELYo8y.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19076,8 +22149,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Trolls 3: Todos juntos",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/9Doth44AnNLlJqgnivwPMx8F9tH.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/saGpA6u71TPA8DyTYoAqSBGVZW.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/oOWrRVPjptHmHhOoAM4qnByrGER.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/saGpA6u71TPA8DyTYoAqSBGVZW.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/oOWrRVPjptHmHhOoAM4qnByrGER.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19132,8 +22205,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Trollhunters: El despertar de los titanes",
     video: "https://dl.dropbox.com/scl/fi/0za4f4n35fg7vxppr08h1/Trollhunters.El.Despertar.De.Los.Titanes2021.1080P-Dual-Lat.mp4?rlkey=ylpxm233w6sqscxw0yrj49x5o&st=",
     poster: "https://image.tmdb.org/t/p/w780/3OwaKVZf3A2NdnarqKbwzFEhKir.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/d1i6oB5xdo2a7sOmjprCcElqlrD.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/d1i6oB5xdo2a7sOmjprCcElqlrD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19187,8 +22260,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Terrifier: El Inicio",
     video: "https://dl.dropbox.com/scl/fi/sbg79efy195znmdty1fjm/Terrifier-2013.mp4?rlkey=3yjgs2dtlickyz2od8uekowx6&st=",
     poster: "https://image.tmdb.org/t/p/w780/tXOOveb17bv0Jhp37XJPrPeA2Jz.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/nfRlQCl590F30L37aihuqBGBvaO.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/ynhLauwYgLkyakm0UqfBasVkyqn.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nfRlQCl590F30L37aihuqBGBvaO.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/ynhLauwYgLkyakm0UqfBasVkyqn.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19242,8 +22315,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Terrifier 2",
     video: "https://dl.dropbox.com/scl/fi/xln7vq6jyxqlaavwyo42u/Terrifier-2-2022.mp4?rlkey=uwirc5qpspzeo1bysyyxd6nye&st=",
     poster: "https://image.tmdb.org/t/p/w780/y5Z0WesTjvn59jP6yo459eUsbli.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/2eh7LWOdCaZFnlxMeES0PpniK5z.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qEAlwXbYk6IHA4ztoS2XFFaa7Xo.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/2eh7LWOdCaZFnlxMeES0PpniK5z.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19297,8 +22370,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Terrifier 3",
     video: "https://dl.dropbox.com/scl/fi/9ep2vlwxm0he5r7sdto2q/Terrifier.3.Payaso.siniestro.2024.720p-Dual-Lat.mkv?rlkey=i5am7375srqch10fjyc30u286&st=",
     poster: "https://image.tmdb.org/t/p/w780/bHfGHipZ32Oec94FDJO4mWs3aZ5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/63xYQj1BwRFielxsBDXvHIJyXVm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6IVLbABhpnziDVbCglgFbCtSKYP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/63xYQj1BwRFielxsBDXvHIJyXVm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6IVLbABhpnziDVbCglgFbCtSKYP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19352,8 +22425,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Tarot de la muerte",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/otfoeC96neoOdA4HqsX06OWuzE9.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/Adh7xmtgSIUGZBaMj9VLTmq2G8z.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/u0eS6lgSD0emqNRXVW2k57Y8qPt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/Adh7xmtgSIUGZBaMj9VLTmq2G8z.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/u0eS6lgSD0emqNRXVW2k57Y8qPt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19407,8 +22480,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Tarzán",
     video: "https://dl.dropbox.com/scl/fi/kd1vm3xvgoaeadfox3jou/Tarzan-1999.mp4?rlkey=wgt3fb4ld462a3ajec54q2h2m&st=",
     poster: "https://image.tmdb.org/t/p/w780/gAuUsA4orQIifYEHTueAjbOaKug.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/u9WgwjFpBWc3eQxddUFSicH2K6p.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/syfXz8CbXpnuaM7tS52ekQIAECl.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/u9WgwjFpBWc3eQxddUFSicH2K6p.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/syfXz8CbXpnuaM7tS52ekQIAECl.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19416,7 +22489,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1999",
     duracion: "1h 28min",
     calificacion: "80%",
-    genero: "Animacion • Drama • Aventura • Familia • Disney",
+    genero: "Animación • Drama • Aventura • Familia • Disney",
     director: "Kevin Lima y Chris Buck",
     reparto: "Tony Goldwyn, Minnie Driver, Glenn Close",
     estreno: "18/06/1999",
@@ -19462,8 +22535,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Tarzán 2",
     video: "https://dl.dropbox.com/scl/fi/nnz8cpr8w0oqxo1flslka/Tarz-n-2.mp4?rlkey=llywabb8eifa0gt8snkqe3fkb&st=",
     poster: "https://image.tmdb.org/t/p/w780/lBmemfERELoZDxyLOCoumfkHAEO.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5KRnGepv2b1daJ2WM8ZGnPS64nl.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/rAjnjPpfIRE2z4FtNDb4Pb113Rh.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5KRnGepv2b1daJ2WM8ZGnPS64nl.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/rAjnjPpfIRE2z4FtNDb4Pb113Rh.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19471,7 +22544,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2005",
     duracion: "1h 11min",
     calificacion: "65%",
-    genero: "Animacion • Drama • Aventura • Familia • Disney",
+    genero: "Animación • Drama • Aventura • Familia • Disney",
     director: "Brian Smith",
     reparto: "Harrison Chad, George Carlin, Brad Garrett",
     estreno: "13/06/2005",
@@ -19517,8 +22590,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Thor",
     video: "https://dl.dropbox.com/scl/fi/efinzeuww5q4t0kxu10me/Thor.2011.1080P-Dual-Lat.mp4?rlkey=k0ifmv0jblh0bfii0xvb1ineo&st=",
     poster: "https://image.tmdb.org/t/p/w780/cDJ61O1STtbWNBwefuqVrRe3d7l.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/teBeJWlievjIV9w1xf8Jow0hFjI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/teBeJWlievjIV9w1xf8Jow0hFjI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19526,7 +22599,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2011",
     duracion: "1h 54min",
     calificacion: "80%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Kenneth Branagh",
     reparto: "Chris Hemsworth, Natalie Portman, Tom Hiddleston",
     estreno: "28/04/2011",
@@ -19551,7 +22624,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "spider_man3",
-        titulo: "Spider-Man: Sin camino a casa",
+        titulo: "Spider-Man 3: Sin camino a casa",
         imagen: "https://image.tmdb.org/t/p/w300/3LSdA2l3EmI9duIJKzNElUPs0RK.jpg"
       },
       {
@@ -19572,8 +22645,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Thor 2: El mundo oscuro",
     video: "https://dl.dropbox.com/scl/fi/v2w7vfkmojd891j1rttow/Thor.the.dark.world.2013.1080P-Dual-Lat.mp4?rlkey=060xi8oagx2z8rl7107ugyf9w&st=",
     poster: "https://image.tmdb.org/t/p/w780/uhYoytlNaq46dG81wLmHqaSuzWu.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iY2E6b5huleYrM0NYKrb7a7lSGZ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4dHb0RO5zAEPUiQARlMGAkmNwM6.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iY2E6b5huleYrM0NYKrb7a7lSGZ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4dHb0RO5zAEPUiQARlMGAkmNwM6.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19581,7 +22654,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2013",
     duracion: "1h 52min",
     calificacion: "73%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Alan Taylor",
     reparto: "Chris Hemsworth, Natalie Portman, Tom Hiddleston",
     estreno: "21/11/2013",
@@ -19627,8 +22700,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Thor 3: Ragnarok",
     video: "https://dl.dropbox.com/scl/fi/7l78trirdlhlek867qhbk/Thor.ragnarok.2017.1080P-Dual-Lat.mp4?rlkey=umab1me76zbm666ge0mvxr1iq&st=",
     poster: "https://image.tmdb.org/t/p/w780/AeH2ez3nOX2YEwkYJ79QbCXZsI7.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fx68UQgQvAOJZoRtMVigRkOozcQ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jSqeMS00C2vEkY8GqbKooOLGxHt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fx68UQgQvAOJZoRtMVigRkOozcQ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jSqeMS00C2vEkY8GqbKooOLGxHt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19636,7 +22709,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2017",
     duracion: "2h 10min",
     calificacion: "83%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Taika Waititi",
     reparto: "Chris Hemsworth, Mark Ruffalo, Tom Hiddleston",
     estreno: "03/11/2017",
@@ -19682,8 +22755,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Thor 4: Amor y trueno",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/t3y3eZbz7Adwi43IumSGdDbc2P5.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/qTdnMVkjoP3b1ocwYyW0qrsEabc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fOVtgRGC6GrIK76pQAEpZSmrj66.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/qTdnMVkjoP3b1ocwYyW0qrsEabc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fOVtgRGC6GrIK76pQAEpZSmrj66.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19691,7 +22764,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2022",
     duracion: "0h 008min",
     calificacion: "70%",
-    genero: "Accion • Marvel • Comedia • Ciencia Ficcion",
+    genero: "Acción • Marvel • Comedia • Ciencia Ficcion",
     director: "Taika Waititi",
     reparto: "Chris Hemsworth, Natalie Portman, Christian Bale",
     estreno: "08/09/2022",
@@ -19737,8 +22810,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Tierra de osos",
     video: "https://dl.dropbox.com/scl/fi/mlhfuhcrykf9amu0smno5/Tierra.De.Osos.2003.1080P-Dual-Lat.mkv?rlkey=02mdac96vjma1uwjxd9p0nc6z&st=",
     poster: "https://image.tmdb.org/t/p/w780/gksSgap0EMOPUTWyQA1SmzLaS7N.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/xoEY7339ewJ4jvDZZqM3FKVJb8r.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19792,8 +22865,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Tierra de osos 2",
     video: "https://dl.dropbox.com/scl/fi/sg7nq5u8a8yscah24wr69/Tierra.De.Osos.2.2006.1080P-Dual-Lat.mkv?rlkey=thb88lnf4gx84lskunxyzuca1&st=",
     poster: "https://image.tmdb.org/t/p/w780/dMqbyB5GQvDujXiKdKPhWT0VTRw.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/iiRaRi7SFCawo6lieWi3Ntcy936.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/a4RwRfEDPtX8gdIogSjbET9DipD.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/iiRaRi7SFCawo6lieWi3Ntcy936.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/a4RwRfEDPtX8gdIogSjbET9DipD.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19847,8 +22920,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Toy story",
     video: "https://dl.dropbox.com/scl/fi/2y9sffhp4sr1tewmhkmc5/Toy.story.1.1995.1080P-Dual-Lat.mp4?rlkey=s600jmi8s02b890riguaupv5w&st=",
     poster: "https://image.tmdb.org/t/p/w780/xEIGPk5QTxD9E5knNFSXggNxEAP.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/koUNJtRB1iRKhST9s4itGTzU6lp.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mgDx949ekEBF56nAfGjVHfi6436.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/koUNJtRB1iRKhST9s4itGTzU6lp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mgDx949ekEBF56nAfGjVHfi6436.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19856,9 +22929,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1995",
     duracion: "1h 21min",
     calificacion: "80%",
-    genero: "Animacion • Disney • Aventura • Familia • Comedia",
+    genero: "Animación • Disney • Aventura • Familia • Comedia",
     director: "Juan Lasseter",
-    reparto: "Tom Hanks, Tim Allen, Don Rickles",
+    reparto: "Tom Hanks • Tim Allen • Don Rickles",
     estreno: "14/03/1995",
     idioma: "Español Latino 🇲🇽",
 
@@ -19885,9 +22958,9 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
       },
       {
-        id: "intensamente",
-        titulo: "Intensamente",
-        imagen: "https://image.tmdb.org/t/p/w300/cTXHRoiKnuNdLRy4qn7JhQXHZO0.jpg"
+        id: "toy_story_5",
+        titulo: "Toy story 5",
+        imagen: "https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg"
       },
       {
         id: "lilo_y_stitch",
@@ -19902,8 +22975,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Toy story 2",
     video: "https://dl.dropbox.com/scl/fi/5m200rgcrb5e600nr8rt1/Toy.story.2.1999.1080P-Dual-Lat.mp4?rlkey=9sqjh8i1rjxvu93kx724wo1rp&st=",
     poster: "https://image.tmdb.org/t/p/w780/q4CId9Q7b8jwX2obTHbMYXUmfRi.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1dvOCqKgBcXvfqzVPmAAM5Rv4PP.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1dvOCqKgBcXvfqzVPmAAM5Rv4PP.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19911,9 +22984,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1999",
     duracion: "1h 32min",
     calificacion: "83%",
-    genero: "Animacion • Disney • Aventura • Familia • Comedia",
+    genero: "Animación • Disney • Aventura • Familia • Comedia",
     director: "Juan Lasseter",
-    reparto: "Tom Hanks, Tim Allen, Joan Cusack",
+    reparto: "Tom Hanks • Tim Allen • Joan Cusack",
     estreno: "24/11/1999",
     idioma: "Español Latino 🇲🇽",
 
@@ -19935,9 +23008,9 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg"
       },
       {
-        id: "wish_el_poder_de_los_deseos",
-        titulo: "Wish: El poder de los deseos",
-        imagen: "https://image.tmdb.org/t/p/w300/rCCrG4swkxgFZflup56sx6ymk5i.jpg"
+        id: "toy_story_5",
+        titulo: "Toy story 5",
+        imagen: "https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg"
       },
       {
         id: "un_gran_dinosaurio",
@@ -19957,8 +23030,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Toy story 3",
     video: "https://dl.dropbox.com/scl/fi/yw9aayb417d4r3ypg2vme/Toy.story.3.2010.1080P-Dual-Lat.mp4?rlkey=fhunm53ch46c1n3oolnb3jo9p&st=",
     poster: "https://image.tmdb.org/t/p/w780/egybPos4AIOpC3o1WlTdRPE0Y02.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/6HguugAxjC9qwRu8B7nVGXhuLsu.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/6HguugAxjC9qwRu8B7nVGXhuLsu.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -19966,9 +23039,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2010",
     duracion: "1h 43min",
     calificacion: "78%",
-    genero: "Animacion • Disney • Aventura • Familia • Comedia",
+    genero: "Animación • Disney • Aventura • Familia • Comedia",
     director: "Lee Unkrich",
-    reparto: "Tom Hanks, Joan Cusack, Don Rickles",
+    reparto: "Tom Hanks • Joan Cusack • Don Rickles",
     estreno: "17/06/2010",
     idioma: "Español Latino 🇲🇽",
 
@@ -19990,6 +23063,11 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg"
       },
       {
+        id: "toy_story_5",
+        titulo: "Toy story 5",
+        imagen: "https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg"
+      },
+      {
         id: "lightyear",
         titulo: "Lightyear",
         imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
@@ -19998,11 +23076,6 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "moana_2",
         titulo: "Moana 2",
         imagen: "https://image.tmdb.org/t/p/w300/9yfI8gGG96Dgf9bf7VT3XCRX30T.jpg"
-      },
-      {
-        id: "coco",
-        titulo: "Coco",
-        imagen: "https://image.tmdb.org/t/p/w300/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg"
       }
     ]
   },
@@ -20012,8 +23085,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Toy story 4",
     video: "https://dl.dropbox.com/scl/fi/dsymsmj1uaxh4cn28lnsk/Toystory4.2019.1080P-Dual-Lat.mp4?rlkey=8xjorrdpn0rkvgttajy0rejef&st=",
     poster: "https://image.tmdb.org/t/p/w780/eHz61dRrYZB16glXDttV0CnJf6j.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/AtcQK4fzS8rlbKXuTP06GQPp1Q7.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/AtcQK4fzS8rlbKXuTP06GQPp1Q7.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20021,9 +23094,9 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2019",
     duracion: "1h 40min",
     calificacion: "82%",
-    genero: "Animacion • Disney • Aventura • Familia • Comedia",
+    genero: "Animación • Disney • Aventura • Familia • Comedia",
     director: "Josh Cooley",
-    reparto: "Tom Hanks, Tim Allen, Annie Potts",
+    reparto: "Tom Hanks • Tim Allen • Annie Potts",
     estreno: "20/06/2019",
     idioma: "Español Latino 🇲🇽",
 
@@ -20045,14 +23118,14 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg"
       },
       {
+        id: "toy_story_5",
+        titulo: "Toy story 5",
+        imagen: "https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg"
+      },
+      {
         id: "lightyear",
         titulo: "Lightyear",
         imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
-      },
-      {
-        id: "hercules",
-        titulo: "Hércules",
-        imagen: "https://image.tmdb.org/t/p/w300/dK9rNoC97tgX3xXg5zdxFisdfcp.jpg"
       },
       {
         id: "elemental",
@@ -20062,13 +23135,68 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
 
+  toy_story_5: {
+    id: "toy_story_5",
+    titulo: "Toy Story 5",
+    video: "https://dl.dropbox.com/scl/fi/s4rkncwi55giq7tdo3spw/Toy-story-5-2026.mp4?rlkey=erdy07blx3kg6inshfs8vmviy&st=",
+    poster: "https://image.tmdb.org/t/p/w780/kwq3lxPrBfyyVRRSDSlojwCPzwH.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/87T7cjpql9yaXhf2IW2zx0d70In.jpg",
+       // 720P | 1080P | 4Kcalidad: "1080P",
+    cam: true,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Buzz, Woody, Jessie y el resto de la pandilla tienen un trabajo exponencialmente más difícil cuando se enfrentan a esta nueva amenaza para la hora de jugar: la tecnología.",
+    anio: "2026",
+    duracion: "1h 42min",
+    calificacion: "83,6%",
+    genero: "Animación • Aventura • Comedia • Disney • Familia ",
+    director: "Andrew Stanton",
+    reparto: "Tom Hanks • Tim Allen • Joan Cusack",
+    estreno: "18/06/2026",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "toy_story",
+        titulo: "Toy story",
+        imagen: "https://image.tmdb.org/t/p/w300/koUNJtRB1iRKhST9s4itGTzU6lp.jpg"
+      },
+      {
+        id: "toy_story_2",
+        titulo: "Toy story 2",
+        imagen: "https://image.tmdb.org/t/p/w300/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg"
+      },
+      {
+        id: "toy_story_3",
+        titulo: "Toy story 3",
+        imagen: "https://image.tmdb.org/t/p/w300/mYSY87AVVogFNg45C4LE5Rh2ALG.jpg"
+      },
+      {
+        id: "toy_story_4",
+        titulo: "Toy story 4",
+        imagen: "https://image.tmdb.org/t/p/w300/pTTYykZZwYhj9qpAqiFxtUAamLI.jpg"
+      },
+      {
+        id: "lightyear",
+        titulo: "Lightyear",
+        imagen: "https://image.tmdb.org/t/p/w300/65WFr1ZMAbEniIh4jEhbRG9OHHN.jpg"
+      },
+      {
+        id: "el_libro_de_la_vida",
+        titulo: "El libro de la vida",
+        imagen: "https://image.tmdb.org/t/p/w300/vUqYsOhwDAoFlN2hJktT0XoilXv.jpg"
+      }
+    ]
+  },
+
   turbo: {
     id: "turbo",
     titulo: "Turbo",
     video: "https://dl.dropbox.com/scl/fi/9ja5hvm1exw6nszniuc0p/Turbo.2013.1080p-dual-lat.mp4?rlkey=h219hf7hzn2e2acy8qshde87k&st=",
     poster: "https://image.tmdb.org/t/p/w780/3qfiZd8ETMk9MQsmhbOB5QAAx0l.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ysNUm2zWPkJQKa3Op0N4EmqrZ0h.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/d1wyBiFUtewwgXgF14eMkKNQfha.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ysNUm2zWPkJQKa3Op0N4EmqrZ0h.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/d1wyBiFUtewwgXgF14eMkKNQfha.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20122,8 +23250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20175,13 +23303,123 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*P*/
 
+  pecadores: {
+    id: "pecadores",
+    titulo: "Los pecadores",
+    video: "https://dl.dropbox.com/scl/fi/j24va136twtduky57dk4c/Pecadores.2025.720p-Dual-Lat.mkv?rlkey=y3tze2ziyzj8eamud7yyxennm&st=",
+    poster: "https://image.tmdb.org/t/p/w780/h5RR6awfUuIuprvCTgyqgCAOkT.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/n8BoxW0vPFfvlzaKlWDiEUo9VAP.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/xLeh3pHN0hJsuS9jGKI1yz7oe1p.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Tratando de dejar atrás sus problemáticas vidas, dos hermanos gemelos regresan a su pueblo natal para empezar de nuevo, solo para descubrir que un mal aún mayor les espera para darles la bienvenida.",
+    anio: "2025",
+    duracion: "2h 17min",
+    calificacion: "75%",
+    genero: "Terror • Acción • Suspenso",
+    director: "Ryan Coogler",
+    reparto: "Michael B. Jordan, Hailee Steinfeld, Miles Caton",
+    estreno: "24/04/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "poseida",
+        titulo: "Poseída",
+        imagen: "https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg"
+      },
+      {
+        id: "ofrenda_al_demonio",
+        titulo: "Ofrenda al demonio",
+        imagen: "https://image.tmdb.org/t/p/w300/7C1T0aFplHKaYacCqRdeGYLTKCW.jpg"
+      },
+      {
+        id: "la_sustancia",
+        titulo: "La sustancia",
+        imagen: "https://image.tmdb.org/t/p/w300/cQD1qEnPOKUPHAui0okOLZSgitu.jpg"
+      },
+      {
+        id: "la_calle_del_terror",
+        titulo: "La calle del terror: La reina del baile",
+        imagen: "https://image.tmdb.org/t/p/w300/kYeTcmPmuMvBgmwOdOtR5fUwRuH.jpg"
+      },
+      {
+        id: "Asesino_serial",
+        titulo: "Asesino serial",
+        imagen: "https://image.tmdb.org/t/p/w300/gs9GQ9n95BdVE8Uv1ZKNS1bSwCf.jpg"
+      },
+      {
+        id: "fineskind",
+        titulo: "Fineskind: Entre hermanos",
+        imagen: "https://image.tmdb.org/t/p/w300/90D6sXfbXKhDpd4S1cHICdAe8VD.jpg"
+      }
+    ]
+  },
+
+  depredador_asesino_de_asesinos: {
+    id: "depredador_asesino_de_asesinos",
+    titulo: "Depredador: Asesino de asesinos",
+    video: "https://dl.dropbox.com/scl/fi/ojplmorrc90pgos6isasz/Depredador.Cazador.De.Asesinos.2025.1080P-Dual-Lat.mkv?rlkey=qi3kfoolpgkb34jkh63y5568a&st=",
+    poster: "https://image.tmdb.org/t/p/w780/2DRUAEtBZRIcC7DTQShQv8MRMDm.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/e9gpb3U9kerduyipUX31Y00vfuJ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/d8n0LzHaeP5aETdaKgSInwHSSlO.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Esta antología original de animación narra las aventuras de tres de los guerreros más fieros de la historia de la humanidad: una saqueadora vikinga que guía a su hijo en su sangrienta búsqueda de la venganza, un ninja del Japón feudal que se enfrenta a su hermano samurái en una brutal batalla por la sucesión y un piloto de la Segunda Guerra Mundial que surca los cielos para investigar una amenaza extraterrestre contra los Aliados. ",
+    anio: "06/06/2025",
+    duracion: "1h 25min",
+    calificacion: "80%",
+    genero: "Animación • Acción • Ciencia ficción • Suspenso",
+    director: "Dan Trachtenberg",
+    reparto: "Lindsay LaVanchy, Louis Ozawa, Rick Gonzalez",
+    estreno: "06/06/2025",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "k_o",
+        titulo: "K.O",
+        imagen: "https://image.tmdb.org/t/p/w300/C4V4XW2igocPP54wqufQKSVQuq.jpg"
+      },
+      {
+        id: "el_planeta_de_los_simios",
+        titulo: "El planeta de los simios: [R] Evolucion",
+        imagen: "https://image.tmdb.org/t/p/w300/ztJVSZSmTh6YHtJpMKffrPJM0DI.jp"
+      },
+      {
+        id: "extraterritorial",
+        titulo: "Extraterritorial",
+        imagen: "https://image.tmdb.org/t/p/w300/7tWkxxiqraVx1IzYd4DHv6FIvhS.jpg"
+      },
+      {
+        id: "mi_villano_favorito",
+        titulo: "Mi villano favorito",
+        imagen: "https://image.tmdb.org/t/p/w300/7ml02WwUzz4jlZJdiEI4ZIYHj1J.jpg"
+      },
+      {
+        id: "ninja_turtles_caos_mutante",
+        titulo: "Ninja Turtles: Caos mutante",
+        imagen: "https://image.tmdb.org/t/p/w300/mgBXgA8jHext4KRWg84Cux5Y94L.jpg"
+      },
+      {
+        id: "la_fuente_de_la_eterna_juventud",
+        titulo: "La fuente de la eterna juventud",
+        imagen: "https://image.tmdb.org/t/p/w300/nJ9qnZLhmj6wD3NgOe6lKoXJQMx.jpg"
+      }
+    ]
+  },
+
   pablo_el_apostol_de_cristo: {
     id: "pablo_el_apostol_de_cristo",
     titulo: "Pablo, el apóstol de Cristo",
     video: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idvrlfgimket/b/cubostudio/o/peliculas%2Fpelisabr23%2Fcristianas%2FVer%20Pablo%20Apostol%20De%20Cristo%20(2018)%20Online%20-%20Cuevana%203%20Peliculas%20Online.mp4",
     poster: "https://image.tmdb.org/t/p/w780/rPCZqz8RbYMgK4m5NMkRbMOOTK.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qSGzTPUOVM7lPFqq2n3wCJ06YuY.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xgLSFfBfQVHmy8CrU3nGxb7ZLzm.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qSGzTPUOVM7lPFqq2n3wCJ06YuY.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20235,8 +23473,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Peter Pan: La gran aventura",
     video: "https://dl.dropbox.com/scl/fi/met9tinydprkvvcejfh9s/Peter-pan-2003.mp4?rlkey=hgk36f0jrseclx4txz6l4115d&st=",
     poster: "https://image.tmdb.org/t/p/w780/t91jCc56Ukzs810Zk96aC8vpc6x.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t91jCc56Ukzs810Zk96aC8vpc6x.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xtJoP8pppOqT4rECg3E8VkvFkCj.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/t91jCc56Ukzs810Zk96aC8vpc6x.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20290,8 +23528,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Peter Pan 2: En Regreso al País de Nunca Jamás",
     video: "https://dl.dropbox.com/scl/fi/8ia4gie67stcnvf4t101j/Peter.Pan.el.regreso.al.pais.de.nunca.jamas.2002.1080p-Dual-Lat.mkv?rlkey=1mnxv11r7magnjb802welb323&st=",
     poster: "https://image.tmdb.org/t/p/w780/t3g02iZ8PWrVcn0JNehxheOzzY4.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kkFeLiMeih9jgXatztoloOyGSbc.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t3g02iZ8PWrVcn0JNehxheOzzY4.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kkFeLiMeih9jgXatztoloOyGSbc.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/t3g02iZ8PWrVcn0JNehxheOzzY4.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20345,8 +23583,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Peter Pan",
     video: "https://dl.dropbox.com/scl/fi/d82g33omcm3j280mghigk/Peter-pan-1950.mp4?rlkey=5ok6r238pkfqa5kseififns88&st=",
     poster: "https://image.tmdb.org/t/p/w780/vwcfvPzYO3Gz975yRXp6DYSSbzo.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8OznN4TSxuexTXJFNHrGy0BdFiX.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/tDvGRWSdqT31ADijJf9OhbTbQ77.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8OznN4TSxuexTXJFNHrGy0BdFiX.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20400,8 +23638,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Plankton: La pelicula",
     video: "https://dl.dropbox.com/scl/fi/jono80wrhx5u0tj5wkie3/Plankton.La.Pel-cula.2025.1080P-Dual-Lat.mkv?rlkey=7yfghuiico5ug19ng9zkvvz26&st=",
     poster: "https://image.tmdb.org/t/p/w780/lsgT602GYV8ts97sKH1gWFtQs1k.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/nVhlmU9eJWPWSaBZtWjqWUdqaSx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fCvwQJVcbjNub2PiKzZmQXR7i1I.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/nVhlmU9eJWPWSaBZtWjqWUdqaSx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20455,8 +23693,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pocahontas 2: Viaje a un nuevo mundo",
     video: "https://dl.dropbox.com/scl/fi/l8zid6b87ejionpikl1ud/Pocahontas.2.Encuentro.De.Dos.Mundos.1998.1080P-Dual-Lat.mkv?rlkey=gebg4lpws5yyhukzsa51ijh9m&st=",
     poster: "https://image.tmdb.org/t/p/w780/zl55Z7GqDgxsMepx16g5jvfutlx.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/zl55Z7GqDgxsMepx16g5jvfutlx.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ttjEx1Wo3QOxsgKDhDCB2GzHdWk.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zl55Z7GqDgxsMepx16g5jvfutlx.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20510,8 +23748,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pocahontas",
     video: "https://dl.dropbox.com/scl/fi/gcmv34mbsvgzhxm776zw1/Pocahontas.1995.1080P-Dual-Lat.mkv?rlkey=ngnzja898b3cc0lvyp9wxfyk0&st=",
     poster: "https://image.tmdb.org/t/p/w780/yJzeQuLz9KNPTuVdKV73JBcQnBR.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/z8cXnNULBiXqTDgwkpCIo4CARrR.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/ilPqjOxheKo8TVA80oMnQWKrJf4.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/z8cXnNULBiXqTDgwkpCIo4CARrR.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20565,8 +23803,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Presencia",
     video: "https://dl.dropbox.com/scl/fi/3wejw520iu2ib1vwtzmo0/Presencia.2025.1080P-Dual-Lat.mkv?rlkey=1jlcnt1wuelkm0qog4sph6sd6&st=",
     poster: "https://image.tmdb.org/t/p/w780/vuxqDA58KbIROvca6FASmnW5DFN.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kc7YIx6KNiXm1dpqlhqdX3eTL7a.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/eK2I8OuLpLe8WuJfl4yHQmXbCwC.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kc7YIx6KNiXm1dpqlhqdX3eTL7a.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/eK2I8OuLpLe8WuJfl4yHQmXbCwC.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20598,14 +23836,14 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/nyloao2GWttUvS7KVcEM2eSDwUn.jpg"
       },
       {
-        id: "dulce_venganza_2",
-        titulo: "Dulce venganza 2",
-        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
-      },
-      {
         id: "el_conjuro",
         titulo: "El conjuro",
         imagen: "https://image.tmdb.org/t/p/w300/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg"
+      },
+      {
+        id: "dulce_venganza_2",
+        titulo: "Dulce venganza 2",
+        imagen: "https://image.tmdb.org/t/p/w300/g1WEqWtielGmcWj0hleLhDriB7w.jpg"
       },
       {
         id: "evil_dead_el_despertar",
@@ -20620,8 +23858,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pantera negra",
     video: "https://dl.dropbox.com/scl/fi/x764ntrpgx7kl1huycgur/Black.panther.2018.1080P-Dual-Lat.mp4?rlkey=71kq9tyjsnyda05tzpvo8caju&st=",
     poster: "https://image.tmdb.org/t/p/w780/4K92giNstjy4Waz35bAsqt83J1F.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/4KQkyaSfh0uHRDMvY5XADzfmx5k.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/1OAkwZl1pTZEsR5oTdhDQgYTgcp.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/4KQkyaSfh0uHRDMvY5XADzfmx5k.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/1OAkwZl1pTZEsR5oTdhDQgYTgcp.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20676,8 +23914,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pinocho",
     video: "https://dl.dropbox.com/scl/fi/e9gca8rftc03rahs51mlp/Pinocho.19940.1080P-Dual-Lat.mkv?rlkey=w9gea9hvjys4ga94m11sgcsvd&st=",
     poster: "https://image.tmdb.org/t/p/w780/gJVzFQd3IQdFbfLtot2cjtYfIgb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/nsnyd6MFznuFSaHk1iveAdWc3nI.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/8cqBrUZsclFOX5lUyO2WfMWmBCO.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nsnyd6MFznuFSaHk1iveAdWc3nI.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/8cqBrUZsclFOX5lUyO2WfMWmBCO.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20685,7 +23923,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "1940",
     duracion: "1h 27min",
     calificacion: "82%",
-    genero: "Animacion • Aventura • Disney • Familia",
+    genero: "Animación • Aventura • Disney • Familia",
     director: "Hamilton Luske",
     reparto: "Dickie Jones, Cliff Edwards, Christian Rub",
     estreno: "23/02/1940",
@@ -20731,8 +23969,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pinocho",
     video: "https://dl.dropbox.com/scl/fi/wvqv31p9qpqexxocwv8wc/Pinocho.2022.720p-Dual-Lat.mkv?rlkey=60upi6z6nldei50cym6o73cjd&st=",
     poster: "https://image.tmdb.org/t/p/w780/mRMZySTB40NDpI9suxQJhjxYd9n.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/mRMZySTB40NDpI9suxQJhjxYd9n.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/h32gl4a3QxQWNiNaR4Fc1uvLBkV.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/mRMZySTB40NDpI9suxQJhjxYd9n.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20786,8 +24024,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Poseida",
     video: "https://dl.dropbox.com/scl/fi/vaojm6s9wj0v8xkxqb0fs/Poseida-2025.mp4?rlkey=0e2wb0onm7ejvdjyzqmxn2ff4&st=",
     poster: "https://image.tmdb.org/t/p/w780/j7b27zJOkjLylvjxFEd7Hc7BRfz.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/t9MqBGo9BWainDLms66YLiDr5aS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/j7b27zJOkjLylvjxFEd7Hc7BRfz.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/t9MqBGo9BWainDLms66YLiDr5aS.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/j7b27zJOkjLylvjxFEd7Hc7BRfz.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20841,8 +24079,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Pideme lo que quieras",
     video: "https://dl.dropbox.com/scl/fi/4db8q8kufefbrj0by3z57/P-deme.Lo.Que.Quieras.2025.1080P-Cast.mkv?rlkey=tbvtwt7jxfbp2j2qoobzqiotd&st=",
     poster: "https://image.tmdb.org/t/p/w780/fSO7cnetDfNEflwAsxlkzV446Ua.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fSO7cnetDfNEflwAsxlkzV446Ua.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/5rtaLwyKAjbceww4J1ro8aA8BNB.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fSO7cnetDfNEflwAsxlkzV446Ua.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20893,13 +24131,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*R*/
 
+  ruega_por_nosotros: {
+    id: "ruega_por_nosotros",
+    titulo: "Ruega por nosotros",
+    video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/pelis%2Fpelismay%2FVer%20Ruega%20por%20nosotros%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4",
+    poster: "https://image.tmdb.org/t/p/w780/4OdA9Pgzeo5hBFbJmP6ynywJLOI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kLFfDKKKUUltwQZqQDobgDNVytO.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/5nRcvbhEoiYEtbSmrWO4HSZMG2l.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Se centra en un periodista caído en desgracia que descubre una serie de aparentes milagros acaecidos en un pequeño pueblo de Nueva Inglaterra, aplicándolos para devolver su carrera al estrellato. Lo que desconoce es que estos milagros esconden una cara mucho más oscura de lo que él cree.",
+    anio: "2021",
+    duracion: "1h 39min",
+    calificacion: "70%",
+    genero: "Terror • Misterio",
+    director: "Evan Spiliotopoulos",
+    reparto: "Jeffrey Dean Morgan, Cricket Brown, William Sadler",
+    estreno: "02/04/2021",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        id: "annabelle_3",
+        titulo: "Annabelle 3: Vuelve a casa",
+        imagen: "https://image.tmdb.org/t/p/w300/3ZZB2UHGK2iqj4XYgmivkeCgGJn.jpg"
+      },
+      {
+        id: "el_bufon",
+        titulo: "El bufón",
+        imagen: "https://image.tmdb.org/t/p/w300/6a6PmabZ32a0xIn2TJx4MGKN6Q6.jpg"
+      },
+      {
+        id: "baghead_contacto_con_la_muerte",
+        titulo: "Baghead: Contacto con la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/5ssaCHmqvTZDVZtcNhNZTzfb7Nj.jpg"
+      },
+      {
+        id: "el_conjuro_2",
+        titulo: "El conjuro 2: El caso enfield",
+        imagen: "https://image.tmdb.org/t/p/w300/x4jUJ0fF60SSOeUUTkaRtmnDvwG.jpg"
+      },
+      {
+        id: "un_lugar_en_silencio_3",
+        titulo: "Un lugar en silencio 3: Día uno",
+        imagen: "https://image.tmdb.org/t/p/w300/mB9GP9Wd7RduYpCSiqurZSnarl6.jpg"
+      },
+      {
+        id: "tarot",
+        titulo: "Tarot de la muerte",
+        imagen: "https://image.tmdb.org/t/p/w300/r8kgyBIT5umT330gISJH5hqRhhy.jpg"
+      }
+    ]
+  },
+
   ricky_el_impostor: {
     id: "ricky_el_impostor",
     titulo: "Ricky Stanicky: El impostor",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fmar24%2FVer%20Ricky%20Stanicky-%20El%20impostor%20online%20HD%20-%20Cuevana%202.mp4",
     poster: "https://image.tmdb.org/t/p/w780/wfdHCilp8cNPK7tK4jLgdUT7703.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/4jNBEhI2zqdQf31Yhkamu1gUIJb.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/oJQdLfrpl4CQsHAKIxd3DJqYTVq.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/4jNBEhI2zqdQf31Yhkamu1gUIJb.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -20953,8 +24246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Romper el circulo",
     video: "https://dl.dropboxusercontent.com/scl/fi/5m6kj4eef1rperc8a7ik2/Romper-El-Circulo-1080p.mp4?rlkey=hptq1lwm9vjcyr78etans7sbl&st=",
     poster: "https://image.tmdb.org/t/p/w780/zAqBIeO71BFL7bAtP5TFzVjVamy.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/jeSK0tl0pc0zEVLNyUCkdq7ZEUt.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/e0S9UXyuHE1JAoHZmyqRJISpyoS.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/jeSK0tl0pc0zEVLNyUCkdq7ZEUt.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21008,8 +24301,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21064,8 +24357,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "¡Rehén!",
     video: "https://dl.dropbox.com/scl/fi/yj7i1w4fahszq6i9iruzg/Rehen.2025.1080P-Dual-Lat.mkv?rlkey=i9itxmrrso0c3g2snbdpj0u2t&st=",
     poster: "https://image.tmdb.org/t/p/w780/4mM7m9L3XlPLq4vNNy3P8yDSXNM.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/xduStDf3yiIL6WDIuhIdLX5rRGv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/u6AJnrTikePCIKQDfb2zbflWsku.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/xduStDf3yiIL6WDIuhIdLX5rRGv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/u6AJnrTikePCIKQDfb2zbflWsku.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21093,7 +24386,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: "uncharted",
-        titulo: "Uncharted: Fuera Del Mapa",
+        titulo: "Uncharted: Fuera del mapa",
         imagen: "https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg"
       },
       {
@@ -21119,8 +24412,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Robot Salvaje",
     video: "https://dl.dropbox.com/scl/fi/1fgbxe64haibskvnlgdk7/Robot.Salvaje.2024.1080P-Dual-Lat.mkv?rlkey=w0vldwhkksii94tlj7f0rkfd5&st=",
     poster: "https://image.tmdb.org/t/p/w780/1pmXyN3sKeYoUhu5VBZiDU4BX21.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/z2WWrqQskzskS6Vj9Or4j01nZ2E.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/dE8Cwtnb31637ygPHTVDxFkg8K4.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/z2WWrqQskzskS6Vj9Or4j01nZ2E.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21128,7 +24421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2024",
     duracion: "1h 41min",
     calificacion: "85%",
-    genero: "Animacion • Aventura • Ciencia ficcion • Familia",
+    genero: "Animación • Aventura • Ciencia ficcion • Familia",
     director: "Chris Sanders",
     reparto: "Lupita Nyong'o, Pedro Pascal, Kit Connor",
     estreno: "10/10/2024",
@@ -21174,8 +24467,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21227,13 +24520,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /*U*/
 
+  un_show_mas_la_pelicula: {
+    id: "un_show_mas_la_pelicula",
+    titulo: "Un show más: La pelicula",
+    video: "https://dl.dropbox.com/scl/fi/dxothcz1ia3s58nl0tt0e/Un-Show-Mas-La-pelicula.2015.1080p-dual-lat.mkv?rlkey=q7ud3am5g3zoxsmvupjnxghy2&st=",
+    poster: "https://image.tmdb.org/t/p/w780/umoCPjvT0Qd8SblcPJ7gw19FazN.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/o7ii8gudODmqyQs9PgGfmozj29o.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/zyPGCWK7LuBwzPlqDopM43Ah5RO.jpg",
+    calidad: "1080P",   // 720P | 1080P | 4K
+    cam: false,         // true si es cámara
+    adulto: false,      // true si es +18
+    sinopsis: "Mordecai y Rigby viajan al pasado para detener un experimento fallido de su época escolar que amenaza con destruir el tejido del tiempo. Junto a sus compañeros del parque, deben enfrentar a un antiguo profesor vengativo y salvar el universo. En el proceso, su amistad se pone a prueba al revelarse un secreto que cambió sus vidas para siempre.",
+    anio: "2015",
+    duracion: "1h 08min",
+    calificacion: "82%",
+    genero: "Aventura • Animación • Comedia • Ciencia ficción",
+    director: "J.G. Quintel",
+    reparto: "J.G. Quintel, William Salyers, Sam Marin",
+    estreno: "01/09/2015",
+    idioma: "Español Latino 🇲🇽",
+
+    // 🔥 RECOMENDACIONES
+    recomendaciones: [
+      {
+        href: "un_show_mas",
+        titulo: "Un show más",
+        imagen: "https://image.tmdb.org/t/p/w300/6xea7V4d2xayrlBKOtMZ4wlV6wZ.jpg"
+      },
+      {
+        href: "View Peliculas/Reproductor Universal Series.php?id=un_show_mas_las_cintas_perdidas",
+        titulo: "Un show más: Las cintas perdidas",
+        imagen: "https://image.tmdb.org/t/p/w300/fQX1grWHT7W603p2GRQCUGaPs3J.jpg"
+      },
+      {
+        href: "View Peliculas/Reproductor Universal Series.php?id=steven_universe_futuro",
+        titulo: "Steven Universe Futuro",
+        imagen: "https://image.tmdb.org/t/p/w300/fDdIlvGhBNnljro1ON6T9Q3hRpq.jpg"
+      },
+      {
+        href: "View Peliculas/Reproductor Universal Series.php?id=invencible",
+        titulo: "Invencible",
+        imagen: "https://image.tmdb.org/t/p/w300/zCgPbsPJ7d1qlXVn1cKvTlcob1H.jpg"
+      },
+      {
+        href: "View Peliculas/Reproductor Universal Series.php?id=baki_dou_el_samurai_invencible",
+        titulo: "Baki-Dou: El samurái invencible",
+        imagen: "https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg"
+      },
+      {
+        href: "View Peliculas/Reproductor Universal Series.php?id=blue_lock_2022",
+        titulo: "Blue Lock",
+        imagen: "https://image.tmdb.org/t/p/w300/1DFhWgHKzzlzAvrmK8ZzLx4XcTY.jpg"
+      }
+    ]
+  },
+
   un_jefe_en_pañales_2: {
     id: "un_jefe_en_pañales_2",
     titulo: "Un jefe en pañales 2: Negocios de familia",
     video: "https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grrfff66me7t/b/Cubojoselyn/o/pelicujulio%2FVer%20El%20bebe%20jefazo-%20Negocios%20de%20familia%20Online%20Castellano%20Latino%20Subtitulada%20HD%20-%20HDFull.mp4",
     poster: "https://image.tmdb.org/t/p/w780/akwg1s7hV5ljeSYFfkw7hTHjVqk.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/85J1DwZowIlKFOF7jllgCD3iHhx.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/sh3g6UkwXpkWrxGkBu0zNgk2lam.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/85J1DwZowIlKFOF7jllgCD3iHhx.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/sh3g6UkwXpkWrxGkBu0zNgk2lam.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21287,8 +24635,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Un gran dinosaurio",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/q4CId9Q7b8jwX2obTHbMYXUmfRi.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kRN9FCa5dQ0niViuCwHSs5fJWqt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/bxPBpi7y9RAVJSNhiRwuEhSMUyT.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kRN9FCa5dQ0niViuCwHSs5fJWqt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/bxPBpi7y9RAVJSNhiRwuEhSMUyT.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21342,8 +24690,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Un ladron romantico",
     video: "https://dl.dropboxusercontent.com/scl/fi/5m6kj4eef1rperc8a7ik2/Romper-El-Circulo-1080p.mp4?rlkey=hptq1lwm9vjcyr78etans7sbl&st=",
     poster: "https://image.tmdb.org/t/p/w780/9jRWk8xxPxs1HhyjUcwgh0jtpuI.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/9jRWk8xxPxs1HhyjUcwgh0jtpuI.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/nif2JUyqNQBBmMYrDfmpTgwleOJ.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/9jRWk8xxPxs1HhyjUcwgh0jtpuI.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21397,8 +24745,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Un lugar en silencio",
     video: "https://dl.dropbox.com/scl/fi/3xt7djd74cqgiqneot0gz/A.quiet.place.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=b98an85allzaeitbzoqb71p30&st=",
     poster: "https://image.tmdb.org/t/p/w780/nIrDm42dy5PaXtUAzUfPmxM4mQm.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/qnsdVhFT80viksNWo92c9DFZ06l.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/hE51vC3iZJCqFecLzIO1Q4eYXqK.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/qnsdVhFT80viksNWo92c9DFZ06l.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21452,8 +24800,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Uncharted: Fuera del mapa",
     video: "https://objectstorage.us-phoenix-1.oraclecloud.com/n/axa4wow3dcia/b/bucket-20201001-1658/o/2022pelicu%2Fabril%2F%E2%96%B7%20Ver%20Uncharted-%20Fuera%20del%20Mapa%20(2021)%20Pel%C3%ADcula%20Completa%20Online%20en%20Espa%C3%B1ol%20Latino.mp4",
     poster: "https://image.tmdb.org/t/p/w780/vMTlir2E9mJN5PbM1DPran0LWjG.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/yZGa7NA1dKWFSnuKsHph6Dhxt8z.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/rJHC1RUORuUhtfNb4Npclx0xnOf.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/yZGa7NA1dKWFSnuKsHph6Dhxt8z.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21507,8 +24855,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Until Dawn: Noche de terror",
     video: "https://dl.dropbox.com/scl/fi/pz0ljf2y98oh57s8325xz/Until-Dawn-2025.mp4?rlkey=rdkmtvquhmvim8e2kj8w7lbmq&st=",
     poster: "https://image.tmdb.org/t/p/w780/pibqMWU2qqejx8nBEdWSZnuKKvj.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/vAYTXSUnQjmTFcm97BhROQav1wF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/t3GSbE7Zw8k5iIVFLpOPU206b9P.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/vAYTXSUnQjmTFcm97BhROQav1wF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/t3GSbE7Zw8k5iIVFLpOPU206b9P.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21562,8 +24910,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21619,8 +24967,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Viaje de fin de curso: Mallorca",
     video: "https://dl.dropbox.com/scl/fi/40j9nmp479fcjtxgzytrp/Viaje.De.Fin.De.Curso.Mallorca.2025.1080P-Cast.mkv?rlkey=awqwvetopem8dtzsnozxzrwko&st=",
     poster: "https://image.tmdb.org/t/p/w780/7kjr4EfeaZoIRLGljxhKBDNU0kI.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/A8E8EqXqETV8ggPiOkHjaBU8H9N.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/czNWWWBstf9SmnbPGDfQCXSFUMd.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/A8E8EqXqETV8ggPiOkHjaBU8H9N.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/czNWWWBstf9SmnbPGDfQCXSFUMd.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21674,8 +25022,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Venom",
     video: "https://dl.dropbox.com/scl/fi/4pr09g8wo9czjjjo7fqvf/Venom.2018.1080p-dual-lat-cinecalidad.to.mp4?rlkey=k4b2w3givd51ay3gc5mqeouob&st=",
     poster: "https://image.tmdb.org/t/p/w780/mUBsvochQCt4r0ezwEC1j2JIafp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bURIWlkMbzT8RdpemzCmQECo2Uh.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fE0OLays3HdGUTaJjeXsgq68BY0.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bURIWlkMbzT8RdpemzCmQECo2Uh.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fE0OLays3HdGUTaJjeXsgq68BY0.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21729,8 +25077,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Venom 2: Carnage liberado",
     video: "https://dl.dropbox.com/scl/fi/rl5k0nzze56txlmhc3fdr/Venom.let.there.be.carnage.2021.1080p-dual-lat-cinecalidad.re.mp4?rlkey=5dv2j6jp54034rgq726c4x49d&st=",
     poster: "https://image.tmdb.org/t/p/w780/vIgyYkXkg6NC2whRbYjBD7eb3Er.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fBXLfLm2R6bK7mByB6sxEpKf34A.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fBXLfLm2R6bK7mByB6sxEpKf34A.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21762,7 +25110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/tvl0OXmNQtLrPk7fJ8UHvLrD37R.jpg"
       },
       {
-        href: "../View Series/Loki (2021).html",
+        href: "View Peliculas/Reproductor Universal Series.php?id=loki",
         titulo: "Loki",
         imagen: "https://image.tmdb.org/t/p/w300/xRm4YaFi7aouVnFAtnkyQw2N7tW.jpg"
       },
@@ -21784,8 +25132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Vemon 3: El último baile",
     video: "https://dl.dropbox.com/scl/fi/jxmi1vi26s67442p5qbh8/Venom.El.-ltimo.baile.2024.1080p-Dual-Lat.mkv?rlkey=70jktptopc447xx0ud7j5k9ux&st=",
     poster: "https://image.tmdb.org/t/p/w780/d5oFul5tqDPuCbWEkq0gLBbs9sb.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/bHB8Fv28cOk5sNxRwWaLoT6Pnrv.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/gCvaRg10ckhtWq6SsH2KM1xaCUQ.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/bHB8Fv28cOk5sNxRwWaLoT6Pnrv.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/gCvaRg10ckhtWq6SsH2KM1xaCUQ.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21839,8 +25187,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21897,8 +25245,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Warfare. Tiempo de guerra",
     video: "https://dl.dropboxusercontent.com/scl/fi/il163gsshrprpw6qc9tv2/Tiempo.De.Guerra.2025.1080P-Dual-Lat.mkv?rlkey=mnjerpcyz7a5d4blkp8c9sy32&st=",
     poster: "https://image.tmdb.org/t/p/w780/yhIt9NvZJs9v1NJGrjKGuEudti1.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/fkVpNJugieKeTu7Se8uQRqRag2M.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/7XYf6DGAiUf2MHRKE9NwNA8rLZo.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/fkVpNJugieKeTu7Se8uQRqRag2M.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/7XYf6DGAiUf2MHRKE9NwNA8rLZo.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21952,8 +25300,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Winnie the Pooh 2: Miel y sangre",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Fjun24%2FWatch%20Winnie%20the%20Pooh%20Blood%20and%20Honey%202024%20WEBDLSCR1080L4T%20mp4.mp4",
     poster: "https://image.tmdb.org/t/p/w780/4qALHrtmrWxOOKGvG3GJKyDuLVA.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/17UmQl8TuDmHWGlcKeFIjnR8bJF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/tlwZtK7XklnuJ87FNf2zvmc40K2.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/17UmQl8TuDmHWGlcKeFIjnR8bJF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/tlwZtK7XklnuJ87FNf2zvmc40K2.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -21975,7 +25323,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: "https://image.tmdb.org/t/p/w300/lfetuG7lq3MVRt6jb1kfX7Va2H.jpg"
       },
       {
-        id: "it__capitulo_2",
+        id: "it_capitulo_2",
         titulo: "It: Capitulo 2",
         imagen: "https://image.tmdb.org/t/p/w300/9oERKIVyTWpHNum3STVsAGD4ojz.jpg"
       },
@@ -22007,8 +25355,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Winnie the Pooh: Miel y sangre",
     video: "https://grrfff66me7t.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grrfff66me7t/b/Cubojoselyn/o/reset%2Fpeliculas%2Foctubre%2FWatch%20Winnie%20the%20Pooh%20Miel%20Y%20Sangre%20mp4.mp4",
     poster: "https://image.tmdb.org/t/p/w780/jEybIB7yl3zgEdTHukaiR8b9yJp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/cUXqVDrHaOGEJD1clvVd7ucAHdt.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/doKz8QSdGZgl0DHUO93Xi9RpHop.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/cUXqVDrHaOGEJD1clvVd7ucAHdt.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/doKz8QSdGZgl0DHUO93Xi9RpHop.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -22064,8 +25412,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Yo, Tonya",
     video: "https://dl.dropbox.com/scl/fi/xyj06qjhvdam4dl57a0zz/Yo-tonya-2017.mp4?rlkey=c39mxfwxgb13abc0zcpya9qos&st=",
     poster: "https://image.tmdb.org/t/p/w780/5owIV2sqdfILBKyOOIkLYVqanZp.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fpalPtlxvinDWwrTtXhu4U7kBuf.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/aVWX0t95Igd8kKC3ejmtHCy1vX6.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fpalPtlxvinDWwrTtXhu4U7kBuf.jpg",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -22119,8 +25467,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "",
     video: "",
     poster: "https://image.tmdb.org/t/p/w780/",
-    imagen: "https://image.tmdb.org/t/p/original/",
-    imginicio: "https://image.tmdb.org/t/p/original/",
+    imagen: "https://image.tmdb.org/t/p/w300/",
+    imginicio: "https://image.tmdb.org/t/p/w780/",
     calidad: "1080P",   // 720P | 1080P | 4K
     cam: false,         // true si es cámara
     adulto: false,      // true si es +18
@@ -22176,8 +25524,8 @@ document.addEventListener('DOMContentLoaded', () => {
     titulo: "Zootopia 2",
     video: "https://dl.dropbox.com/scl/fi/rmbqexi8qbhr71ec4lzs9/Zootopia-2-2025.mp4?rlkey=0y4yo5977vs22c03kb4j4wc3d&st=",
     poster: "https://image.tmdb.org/t/p/w780/zdva2LmrzZ0OdTI27ayzKPw0wkF.jpg",
-    imagen: "https://image.tmdb.org/t/p/original/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg",
-    imginicio: "https://image.tmdb.org/t/p/original/fAV8StFLcssURq6EYwoMAP5tKwF.jpg",
+    imagen: "https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg",
+    imginicio: "https://image.tmdb.org/t/p/w780/fAV8StFLcssURq6EYwoMAP5tKwF.jpg",
     calidad: "",   // 720P | 1080P | 4K
     cam: true,         // true si es cámara
     adulto: false,      // true si es +18
@@ -22185,7 +25533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     anio: "2025",
     duracion: "1h 40min",
     calificacion: "88%",
-    genero: "Animacion • Disney • Comedia • Aventura • Familia",
+    genero: "Animación • Disney • Comedia • Aventura • Familia",
     director: "Jared Bush",
     reparto: "Ginnifer Goodwin, Jason Bateman, Ke Huy Quan",
     estreno: "27/11/2025",
@@ -22229,6 +25577,10 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
   </script>
+
+  <script>
+const PERFIL_ID = <?php echo isset($_SESSION['perfil_id']) ? (int)$_SESSION['perfil_id'] : 0; ?>;
+</script>
 
 <script>
     const params = new URLSearchParams(window.location.search);
@@ -22316,6 +25668,7 @@ const VIDEO_SRC = movie.video;
   const btnRewind = document.getElementById("btnRewind");
 const btnForward = document.getElementById("btnForward");
 const btnFullscreen = document.getElementById("btnFullscreen");
+const btnMinimize = document.getElementById("btnMinimize");
 
 
   const progress = document.getElementById("progressBar");
@@ -22358,13 +25711,54 @@ function enterFullscreen() {
   }
 }
 
+// 🗗 MINIMIZAR (Picture-in-Picture)
+async function minimizePlayer() {
+
+  if (!videoLoaded) return;
+
+  // Algunos navegadores requieren que el video esté reproduciéndose
+  if (video.paused) {
+    try {
+      await video.play();
+    } catch(e){}
+  }
+
+  // Si ya está en PiP → salir
+  if (document.pictureInPictureElement) {
+    await document.exitPictureInPicture();
+    return;
+  }
+
+  // Entrar en PiP
+  if (document.pictureInPictureEnabled) {
+    try {
+      await video.requestPictureInPicture();
+    } catch(err) {
+      console.error("No se pudo activar Picture-in-Picture:", err);
+    }
+  } else {
+    alert("Tu navegador no admite Picture-in-Picture.");
+  }
+
+}
+
+btnMinimize.onclick = (e) => {
+  e.stopPropagation();
+  minimizePlayer();
+};
+
+video.addEventListener("enterpictureinpicture", () => {
+  btnMinimize.textContent = "▣";
+});
+
+video.addEventListener("leavepictureinpicture", () => {
+  btnMinimize.textContent = "❐";
+});
 
 btnFullscreen.onclick = (e) => {
   e.stopPropagation(); // evita que se oculte el overlay
   enterFullscreen();
 };
-
-
 
 function hidePageInfo(hide) {
   document.querySelector(".info")?.classList.toggle("hide", hide);
@@ -22456,19 +25850,45 @@ btnForward.onclick = (e) => {
 
 
   /* ================= REANUDAR (CORRECTO) ================= */
+function getProgressEndpointsPeli() {
+  const isPerfil = (typeof PERFIL_ID !== "undefined" && PERFIL_ID > 0);
+
+  return {
+    guardar: isPerfil
+      ? "perfil_guardar_progreso_peli.php"
+      : "guardar_progreso_peli.php",
+
+    obtener: isPerfil
+      ? "perfil_obtener_progreso_peli.php"
+      : "obtener_progreso_peli.php"
+  };
+}
+
+
+/* =========================
+   ▶️ CARGAR PROGRESO
+========================= */
+
 video.addEventListener("loadedmetadata", async () => {
+
   if (resumeApplied) return;
 
   try {
-    const res = await fetch(`obtener_progreso_peli.php?movie_id=${movie.id}`);
+
+    const { obtener } = getProgressEndpointsPeli();
+
+    const res = await fetch(`${obtener}?movie_id=${movie.id}`);
     const data = await res.json();
 
     if (data.status === "ok" && data.data && data.data.tiempo) {
+
       const tiempo = parseFloat(data.data.tiempo);
 
+      // 🔥 evitar inicio o final
       if (tiempo > 5 && tiempo < video.duration - 5) {
         video.currentTime = tiempo;
       }
+
     }
 
   } catch (e) {
@@ -22478,9 +25898,18 @@ video.addEventListener("loadedmetadata", async () => {
   resumeApplied = true;
 });
 
+
+/* =========================
+   💾 GUARDAR PROGRESO
+========================= */
+
 async function guardarProgresoBackend(time) {
+
   try {
-    await fetch("guardar_progreso_peli.php", {
+
+    const { guardar } = getProgressEndpointsPeli();
+
+    await fetch(guardar, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -22490,6 +25919,7 @@ async function guardarProgresoBackend(time) {
         tiempo: time
       })
     });
+
   } catch (e) {
     console.warn("Error guardando progreso", e);
   }
@@ -22750,10 +26180,25 @@ document.getElementById('btn-favorito').addEventListener('click', () => {
 
   const movieId = movie.id.toLowerCase();
   const titulo = movie.titulo || movie.id.replace(/_/g," ");
-const imagen = movie.imagen || "";
-const tipo = movie.tipo || "pelicula";
+  const imagen = movie.imagen || "";
+  const tipo = movie.tipo || "pelicula";
 
-  fetch("guardar_favorito.php", {
+  /* =========================
+     🔥 DETECTAR PERFIL
+  ========================= */
+  const esPerfil = <?php echo isset($_SESSION['perfil_name']) ? 'true' : 'false'; ?>;
+
+  /* =========================
+     📡 ENDPOINT DINÁMICO
+  ========================= */
+  const url = esPerfil
+    ? "perfil_guardar_favorito.php"
+    : "guardar_favorito.php";
+
+  console.log("👤 Modo:", esPerfil ? "PERFIL" : "USUARIO");
+  console.log("📡 Endpoint:", url);
+
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
@@ -22767,6 +26212,8 @@ const tipo = movie.tipo || "pelicula";
   .then(res => res.json())
 
   .then(data => {
+
+    console.log("⭐ Favorito:", data);
 
     if(data.status === "success"){
       mostrarModalFavoritos("Película agregada a favoritos");
@@ -22798,6 +26245,7 @@ const tipo = movie.tipo || "pelicula";
 });
 
 </script>
+
 
 <script>
   function mostrarModalFavoritoExistente() {
@@ -22984,74 +26432,88 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoElement = document.getElementById('videoPlayer');
   if (!videoElement) return;
 
-  // ✅ OBTENER MOVIE BIEN (como ya hacés en el otro script)
   const params = new URLSearchParams(window.location.search);
   const movieId = params.get("id");
-  const movie = typeof MOVIES_DB !== "undefined" ? MOVIES_DB[movieId] : null;
+
+  if (!movieId) {
+    console.log("❌ ID no encontrado");
+    return;
+  }
+
+  const movie = (typeof MOVIES_DB !== "undefined") ? MOVIES_DB[movieId] : null;
 
   if (!movie) {
     console.log("❌ Movie no encontrada");
     return;
   }
 
+  /* =========================
+     DATOS LIMPIOS
+  ========================= */
   const titulo = movie.titulo ? movie.titulo.trim() : "";
-  const tipo = movie.type ? movie.type.trim() : "pelicula"; // 🔥 corregido (era "tipo")
-  const historialImagen = movie.imagen || "";
+  const tipo   = movie.type ? movie.type.trim() : "pelicula";
+  const imagen = movie.imagen || "";
   const archivo = "Reproductor Universal.php?id=" + movieId;
 
-  // ✅ GUARDAR EN HISTORIAL
-  fetch("guardar_historial.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body:
-      "movie_id=" + encodeURIComponent(movieId) +
-      "&titulo=" + encodeURIComponent(titulo) +
-      "&tipo=" + encodeURIComponent(tipo) +
-      "&imagen=" + encodeURIComponent(historialImagen) +
-      "&archivo=" + encodeURIComponent(archivo) +
-      "&progreso=" + encodeURIComponent("Asistido 0 min")
-  })
-  .then(res => res.json())
-  .then(data => {
+  /* =========================
+     🔥 DETECTAR PERFIL REAL
+  ========================= */
+  const esPerfil = <?php echo isset($_SESSION['perfil_name']) ? 'true' : 'false'; ?>;
 
-    console.log("Respuesta historial:", data); // 🔥 DEBUG
+  /* =========================
+     📡 ENDPOINT DINÁMICO
+  ========================= */
+  const url = esPerfil
+    ? "perfil_guardar_historial.php"
+    : "guardar_historial.php";
 
-    if (data.status === "new") {
-      esperarFinLoader(() => {
-        mostrarModalFavoritos("Agregado al historial");
-      });
-    }
+  console.log("👤 Modo:", esPerfil ? "PERFIL" : "USUARIO");
+  console.log("📡 Endpoint:", url);
 
-  })
-  .catch(err => console.log("❌ Error historial:", err));
+  /* =========================
+     🔒 EVITAR DUPLICADOS FRONT
+  ========================= */
+  let yaGuardado = false;
 
+  function guardarHistorial() {
 
-  // ✅ ACTUALIZAR PROGRESO
-  setInterval(() => {
+    if (yaGuardado) return;
+    yaGuardado = true;
 
-    if (!videoElement.paused && !videoElement.ended) {
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body:
+        "movie_id=" + encodeURIComponent(movieId) +
+        "&titulo=" + encodeURIComponent(titulo) +
+        "&tipo=" + encodeURIComponent(tipo) +
+        "&imagen=" + encodeURIComponent(imagen) +
+        "&archivo=" + encodeURIComponent(archivo)
+    })
+    .then(res => res.json())
+    .then(data => {
 
-      const minutos = Math.floor(videoElement.currentTime / 60);
-      const progreso = "Asistido " + minutos + " min";
+      console.log("📺 Historial:", data);
 
-      fetch("guardar_historial.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body:
-          "movie_id=" + encodeURIComponent(movieId) +
-          "&titulo=" + encodeURIComponent(titulo) +
-          "&tipo=" + encodeURIComponent(tipo) +
-          "&imagen=" + encodeURIComponent(historialImagen) +
-          "&progreso=" + encodeURIComponent(progreso)
-      });
+      if (!data || data.status === "error") {
+        console.log("❌ Error backend:", data);
+        return;
+      }
 
-    }
+      // 🔥 Ya no se muestra ningún cartel
 
-  }, 10000);
+    })
+    .catch(err => {
+      console.log("❌ Error historial:", err);
+    });
+  }
+
+  /* =========================
+     🚀 EJECUTAR SOLO UNA VEZ
+  ========================= */
+  guardarHistorial();
 
 });
 </script>

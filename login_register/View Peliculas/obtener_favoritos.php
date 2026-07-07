@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 /* =========================
    VALIDAR USUARIO PRINCIPAL
 ========================= */
-if (!isset($_SESSION['email']) || isset($_SESSION['perfil_id'])) {
+if (!isset($_SESSION['email']) || isset($_SESSION['perfil_name'])) {
     echo json_encode([]);
     exit;
 }
@@ -15,27 +15,29 @@ if (!isset($_SESSION['email']) || isset($_SESSION['perfil_id'])) {
 $email = $_SESSION['email'];
 
 /* =========================
-   OBTENER HISTORIAL
+   OBTENER FAVORITOS
 ========================= */
 $stmt = $conn->prepare("
-SELECT movie_id, titulo, tipo, imagen, archivo, visto_en
-FROM historial
-WHERE user_email=?
-ORDER BY visto_en DESC
+    SELECT movie_id, titulo, imagen, tipo, creado_en
+    FROM favoritos
+    WHERE user_email=?
+    ORDER BY creado_en DESC
 ");
 
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$historial = [];
+$favoritos = [];
 
 while ($row = $result->fetch_assoc()) {
 
     $titulo = $row['titulo'];
     $tipo   = $row['tipo'];
 
-    // 🔥 normalizar
+    /* =========================
+       NORMALIZAR
+    ========================= */
     if (!$titulo || $titulo === "undefined") {
         $titulo = str_replace("_", " ", $row['movie_id']);
         $titulo = ucwords($titulo);
@@ -45,14 +47,14 @@ while ($row = $result->fetch_assoc()) {
         $tipo = "pelicula";
     }
 
-    $historial[] = [
-        "movie_id"  => $row['movie_id'],
-        "titulo"    => $titulo,
-        "tipo"      => $tipo,
-        "imagen"    => $row['imagen'],
-        "archivo"   => $row['archivo'],
-        "timestamp" => strtotime($row['visto_en']) * 1000
+    $favoritos[] = [
+        "id"     => $row['movie_id'],
+        "titulo" => $titulo,
+        "imagen" => $row['imagen'],
+        "tipo"   => $tipo,
+        "fecha"  => strtotime($row['creado_en']) * 1000
     ];
 }
 
-echo json_encode($historial);
+echo json_encode($favoritos);
+?>
