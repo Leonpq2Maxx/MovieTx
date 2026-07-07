@@ -6,6 +6,11 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'user') {
     header("Location: index.php");
     exit();
 }
+$conn->query("
+    UPDATE dispositivos
+    SET last_ping = NOW()
+    WHERE token = '$deviceToken'
+");
 ?>
 
 
@@ -16,6 +21,7 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'user') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uer page</title>
+    <link rel="icon" type="image/png" href="Logo/Logo Nuevo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body style="background: #fff">

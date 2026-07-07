@@ -1,696 +1,2097 @@
 <?php
 session_start();
 
-//prueba
+/* =========================================================
+🚨 SEGURIDAD ADMIN
+========================================================= */
 
-
-// 🚨 Si un admin vuelve al index, cerrar sesión automáticamente
-if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+if(
+    isset($_SESSION['role']) &&
+    $_SESSION['role'] === 'admin'
+){
     session_unset();
     session_destroy();
 }
 
-//fin
+/* =========================================================
+📦 MENSAJES
+========================================================= */
 
-/* Mensajes */
-$loginError  = $_SESSION['login_error'] ?? '';
-$adminSuccess = $_SESSION['admin_register_success'] ?? '';
-$showAdminRegister = $_SESSION['show_admin_register'] ?? true;
+$loginError =
+$_SESSION['login_error'] ?? '';
 
-/* Limpiar mensajes */
+$registerError =
+$_SESSION['register_error'] ?? '';
+
+$registerSuccess =
+$_SESSION['success'] ?? '';
+
+$adminSuccess =
+$_SESSION['admin_register_success'] ?? '';
+
+$showAdminRegister =
+$_SESSION['show_admin_register'] ?? true;
+
 unset(
     $_SESSION['login_error'],
+    $_SESSION['register_error'],
+    $_SESSION['success'],
     $_SESSION['admin_register_success'],
     $_SESSION['show_admin_register']
 );
-
 
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>MovieTx</title>
-<link rel="icon" type="image/png" href="Logo Poster MovieTx PNG/Logo MovieTx.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="stylesheet" href="style.css">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,
+initial-scale=1,
+viewport-fit=cover">
+
+<title>MovieTx</title>
+
+<link
+rel="icon"
+type="image/png"
+href="Logo/Logo Nuevo -512x512.png">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
 
 <style>
-    * {
-    box-sizing: border-box;
+
+/* =========================================================
+🌌 RESET
+========================================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
-/* ===== BASE ===== */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #141414, #000);
-    color: #fff;
+:root{
 
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+--bg:#050505;
+--card:#0f0f12;
+--card2:#15151a;
 
-    padding: 15px;
+--text:#ffffff;
+--muted:#9d9d9d;
+
+--primary:#00bfff;
+--secondary:#ff006a;
+
+--border:
+rgba(255,255,255,.06);
+
+--glass:
+rgba(255,255,255,.05);
+
+--shadow:
+0 25px 60px rgba(0,0,0,.45);
+
+--radius:28px;
+
 }
 
-
-/* ===== CONTENEDOR ===== */
-.container {
-    width: 100%;
-    max-width: 420px;
-    padding: 15px;
+html{
+scroll-behavior:smooth;
 }
 
-/* ===== FORM BOX ===== */
-.form-box {
-    display: none;
-    width: 100%;
-    background: rgba(20, 20, 20, 0.9);
-    backdrop-filter: blur(15px);
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-    transition: all 0.3s ease;
+body{
+
+font-family:
+'Inter',
+system-ui,
+sans-serif;
+
+background:
+radial-gradient(
+circle at top left,
+rgba(0,191,255,.16),
+transparent 30%
+),
+
+radial-gradient(
+circle at bottom right,
+rgba(255,0,106,.12),
+transparent 30%
+),
+
+#050505;
+
+color:var(--text);
+
+min-height:100vh;
+overflow-x:hidden;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+
+position:relative;
+
 }
 
-.form-box.show {
-    display: block;
-    animation: fadeIn 0.4s ease;
+/* =========================================================
+🌌 BACKGROUND FX
+========================================================= */
+
+body::before,
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:420px;
+height:420px;
+
+border-radius:50%;
+
+filter:blur(90px);
+
+opacity:.18;
+
+pointer-events:none;
+
+z-index:-1;
+
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px);}
-    to { opacity: 1; transform: translateY(0);}
+body::before{
+
+top:-140px;
+left:-120px;
+
+background:#00bfff;
+
+animation:float1 12s ease-in-out infinite;
+
 }
 
-/* ===== LOGO ===== */
-.logo-box {
-    text-align: center;
-    margin-bottom: 15px;
+body::after{
+
+bottom:-140px;
+right:-120px;
+
+background:#ff006a;
+
+animation:float2 14s ease-in-out infinite;
+
 }
 
-#logoPrincipal,
-#adminLogo {
-    width: 85px;
-    height: 85px;
-    border-radius: 50%;
-    border: 2px solid #333;
-    transition: 0.3s;
+@keyframes float1{
+
+0%,100%{
+transform:translateY(0);
 }
 
-/* ===== TITULOS ===== */
-h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 22px;
+50%{
+transform:translateY(30px);
 }
 
-/* ===== INPUTS ===== */
-input {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border: 1px solid #333;
-    background: #111;
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-    transition: 0.25s;
 }
 
-input:focus {
-    border-color: #e50914;
-    box-shadow: 0 0 10px rgba(229,9,20,0.7);
+@keyframes float2{
+
+0%,100%{
+transform:translateY(0);
 }
 
-/* ===== BOTONES ===== */
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(45deg, #e50914, #ff2a2a);
-    color: #fff;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.3s;
+50%{
+transform:translateY(-25px);
 }
 
-button:hover {
-    transform: scale(1.04);
-    box-shadow: 0 0 15px rgba(255,0,0,0.7);
 }
 
-/* BOTÓN SECUNDARIO */
-button[type="button"] {
-    background: #222;
+/* =========================================================
+📦 APP
+========================================================= */
+
+.app{
+
+width:100%;
+max-width:1240px;
+
+display:grid;
+
+grid-template-columns:
+1.05fr .95fr;
+
+overflow:hidden;
+
+border-radius:34px;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.04),
+rgba(255,255,255,.02)
+);
+
+backdrop-filter:blur(16px);
+
+box-shadow:var(--shadow);
+
+min-height:760px;
+
 }
 
-button[type="button"]:hover {
-    background: #333;
+/* =========================================================
+🎬 HERO
+========================================================= */
+
+.hero{
+
+position:relative;
+
+padding:60px;
+
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+
+overflow:hidden;
+
+background:
+linear-gradient(
+160deg,
+rgba(0,191,255,.10),
+rgba(255,0,106,.04)
+);
+
 }
 
-/* ===== LINKS ===== */
-a {
-    color: #00e5ff;
-    text-decoration: none;
+.hero::before{
+
+content:"";
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+180deg,
+transparent,
+rgba(0,0,0,.45)
+);
+
+pointer-events:none;
+
 }
 
-a:hover {
-    text-decoration: underline;
+.hero-top{
+
+position:relative;
+z-index:2;
+
 }
 
-/* ===== MENSAJES ===== */
-.green {
-    color: #00ff99;
-    text-align: center;
+.hero-logo{
+
+display:flex;
+align-items:center;
+gap:16px;
+
+margin-bottom:34px;
+
 }
 
-.red {
-    color: #ff4d4d;
-    text-align: center;
+.hero-logo img{
+
+width:74px;
+height:74px;
+
+border-radius:24px;
+
+object-fit:cover;
+
+box-shadow:
+0 0 35px rgba(0,191,255,.25);
+
+animation:pulseLogo 6s ease infinite;
+
 }
 
-/* ===== CAJA EXPIRADA ===== */
-.expired-box {
-    background: rgba(255,0,0,0.15);
-    border: 1px solid #ff3b3b;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
+@keyframes pulseLogo{
+
+0%,100%{
+transform:scale(1);
 }
 
-/* ===== FOTO USUARIO ===== */
-.foto-usuario {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    margin: 10px auto;
-    display: block;
-    border: 2px solid #333;
+50%{
+transform:scale(1.04);
 }
 
-/* ===== TEXTO ===== */
-p {
-    text-align: center;
-    font-size: 14px;
-    opacity: 0.85;
 }
 
-/* ===== RESPONSIVE ===== */
+.hero-logo-text h1{
 
-/* 📱 CELULARES PEQUEÑOS */
-@media (max-width: 360px) {
-    .form-box {
-        padding: 18px;
-    }
+font-size:2rem;
+font-weight:900;
 
-    input, button {
-        padding: 12px;
-        font-size: 14px;
-    }
+background:
+linear-gradient(
+90deg,
+#00bfff,
+#ff006a
+);
 
-    h2 {
-        font-size: 20px;
-    }
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
 }
 
-/* 📱 MÓVILES (iPhone / Android) */
-@media (max-width: 768px) {
-    body {
-        align-items: center;   /* 🔥 centrado vertical */
-        justify-content: center;
-        padding: 20px 10px;
-    }
+.hero-logo-text p{
 
-    .container {
-        padding: 0;
-    }
+margin-top:4px;
+
+color:var(--muted);
+
+font-size:.92rem;
+
 }
 
-/* 💻 TABLETS / PC */
-@media (min-width: 769px) {
-    .container {
-        max-width: 450px;
-    }
+.hero-content{
 
-    .form-box {
-        padding: 30px;
-    }
+position:relative;
+z-index:2;
+
+max-width:520px;
+
 }
 
-/* 🖥️ PANTALLAS GRANDES */
-@media (min-width: 1200px) {
-    body {
-        background: linear-gradient(to bottom, #000, #111);
-    }
+.hero-badge{
 
-    .container {
-        max-width: 500px;
-    }
+display:inline-flex;
+align-items:center;
+gap:10px;
+
+padding:
+10px 16px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.05);
+
+border:
+1px solid rgba(255,255,255,.07);
+
+font-size:.82rem;
+font-weight:700;
+
+margin-bottom:24px;
+
+backdrop-filter:blur(10px);
+
 }
 
-/* 🍎 SOPORTE IPHONE NOTCH */
-@supports (padding: env(safe-area-inset-top)) {
-    body {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
+.hero-title{
+
+font-size:3.2rem;
+font-weight:900;
+
+line-height:1.02;
+
+letter-spacing:-1.5px;
+
+margin-bottom:22px;
+
 }
 
+.hero-title span{
 
-/* CONTENEDOR DEL PASSWORD */
-.password-box {
-    position: relative;
-    width: 100%;
+background:
+linear-gradient(
+90deg,
+#00bfff,
+#ff006a
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
 }
 
-/* INPUT CON ESPACIO PARA EL ICONO */
-.password-box input {
-    width: 100%;
-    padding-right: 45px; /* espacio para el icono */
+.hero-text{
+
+font-size:1rem;
+line-height:1.8;
+
+color:#cfcfcf;
+
+max-width:480px;
+
 }
 
-/* ICONO */
-.toggle-pass {
-    position: absolute;
-    top: 50%;
-    right: 12px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
+.hero-stats{
+
+position:relative;
+z-index:2;
+
+display:flex;
+gap:18px;
+
+margin-top:42px;
+
+flex-wrap:wrap;
+
 }
 
-/* SVG RESPONSIVE */
-.toggle-pass svg {
-    width: 22px;
-    height: 22px;
-    color: #aaa;
-    transition: 0.2s;
+.hero-card{
+
+flex:1;
+min-width:150px;
+
+padding:18px;
+
+border-radius:22px;
+
+background:
+rgba(255,255,255,.04);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+backdrop-filter:blur(10px);
+
 }
 
-.toggle-pass:hover svg {
-    color: #fff;
+.hero-card strong{
+
+display:block;
+
+font-size:1.45rem;
+font-weight:800;
+
+margin-bottom:6px;
+
 }
 
+.hero-card span{
 
+font-size:.85rem;
+color:#bcbcbc;
+
+}
+
+/* =========================================================
+🔐 PANEL
+========================================================= */
+
+.auth{
+
+padding:42px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+position:relative;
+
+}
+
+.forms{
+
+width:100%;
+max-width:460px;
+
+}
+
+.form-box{
+
+display:none;
+
+animation:fade .28s ease;
+
+}
+
+.form-box.active{
+display:block;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(12px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.form-card{
+
+padding:34px;
+
+border-radius:30px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.04),
+rgba(255,255,255,.02)
+);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+box-shadow:
+0 18px 50px rgba(0,0,0,.28);
+
+}
+
+/* =========================================================
+🧠 HEADER FORM
+========================================================= */
+
+.form-header{
+
+text-align:center;
+
+margin-bottom:26px;
+
+}
+
+.form-avatar{
+
+width:90px;
+height:90px;
+
+margin:auto auto 18px;
+
+border-radius:26px;
+
+overflow:hidden;
+
+background:#101010;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+box-shadow:
+0 0 25px rgba(0,191,255,.16);
+
+}
+
+.form-avatar img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+}
+
+.form-header h2{
+
+font-size:1.7rem;
+font-weight:900;
+
+margin-bottom:8px;
+
+}
+
+.form-header p{
+
+font-size:.92rem;
+color:var(--muted);
+
+}
+
+/* =========================================================
+💳 PLAN BOX
+========================================================= */
+
+.plan-box{
+
+padding:18px;
+
+border-radius:22px;
+
+margin-bottom:22px;
+
+background:
+rgba(255,255,255,.03);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+}
+
+.plan-price{
+
+font-size:1.2rem;
+font-weight:900;
+
+margin-bottom:10px;
+
+color:#00bfff;
+
+}
+
+.plan-text{
+
+font-size:.9rem;
+line-height:1.7;
+
+color:#d3d3d3;
+
+}
+
+.plan-note{
+
+margin-top:12px;
+
+font-size:.84rem;
+line-height:1.6;
+
+color:#a8a8a8;
+
+}
+
+/* =========================================================
+📥 INPUTS
+========================================================= */
+
+.input-group{
+
+margin-bottom:16px;
+
+}
+
+.input-label{
+
+display:block;
+
+font-size:.82rem;
+font-weight:700;
+
+margin-bottom:10px;
+
+color:#d0d0d0;
+
+}
+
+.input-box{
+
+position:relative;
+
+}
+
+.input-box input{
+
+width:100%;
+height:58px;
+
+padding:
+0 52px 0 18px;
+
+border:none;
+outline:none;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.04);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+color:#fff;
+
+font-size:.95rem;
+
+transition:
+border-color .16s ease,
+background .16s ease,
+transform .16s ease;
+
+}
+
+.input-box input:focus{
+
+border-color:
+rgba(0,191,255,.45);
+
+background:
+rgba(255,255,255,.06);
+
+transform:translateY(-1px);
+
+}
+
+.toggle-pass{
+
+position:absolute;
+
+right:16px;
+top:50%;
+
+transform:translateY(-50%);
+
+width:26px;
+height:26px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+opacity:.72;
+
+transition:.16s;
+
+}
+
+.toggle-pass:hover{
+opacity:1;
+}
+
+.toggle-pass svg{
+
+width:22px;
+height:22px;
+
+fill:#fff;
+
+}
+
+/* =========================================================
+🚀 BUTTONS
+========================================================= */
+
+.btn{
+
+width:100%;
+height:58px;
+
+border:none;
+outline:none;
+
+border-radius:18px;
+
+cursor:pointer;
+
+font-size:.95rem;
+font-weight:800;
+
+transition:
+transform .16s ease,
+opacity .16s ease;
+
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.btn-primary{
+
+background:
+linear-gradient(
+135deg,
+#00bfff,
+#006eff
+);
+
+color:#fff;
+
+box-shadow:
+0 14px 28px rgba(0,191,255,.24);
+
+}
+
+.btn-secondary{
+
+margin-top:12px;
+
+background:
+rgba(255,255,255,.05);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+color:#fff;
+
+}
+
+/* =========================================================
+📎 LINKS
+========================================================= */
+
+.form-links{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:.9rem;
+
+color:#bcbcbc;
+
+}
+
+.form-links a{
+
+color:#00bfff;
+
+text-decoration:none;
+
+font-weight:700;
+
+}
+
+.form-links a:hover{
+text-decoration:underline;
+}
+
+.link-btn{
+
+background:none;
+border:none;
+
+padding:0;
+margin:0;
+
+color:#00bfff;
+
+font-size:.92rem;
+font-weight:700;
+
+cursor:pointer;
+
+transition:
+opacity .15s ease,
+transform .15s ease;
+
+}
+
+.link-btn:hover{
+
+opacity:.9;
+
+transform:translateY(-1px);
+
+text-decoration:underline;
+
+}
+
+/* =========================================================
+🚨 ALERTS
+========================================================= */
+
+.alert{
+
+padding:14px 16px;
+
+border-radius:16px;
+
+margin-bottom:18px;
+
+font-size:.88rem;
+font-weight:600;
+
+border:
+1px solid transparent;
+
+}
+
+.alert-error{
+
+background:
+rgba(255,0,76,.10);
+
+border-color:
+rgba(255,0,76,.22);
+
+color:#ff7a9e;
+
+}
+
+.alert-success{
+
+background:
+rgba(0,255,153,.10);
+
+border-color:
+rgba(0,255,153,.22);
+
+color:#66ffc2;
+
+}
+
+/* =========================================================
+⚠️ EXPIRED
+========================================================= */
+
+.expired{
+
+margin-top:18px;
+
+padding:18px;
+
+border-radius:20px;
+
+background:
+rgba(255,0,76,.08);
+
+border:
+1px solid rgba(255,0,76,.20);
+
+text-align:center;
+
+font-size:.92rem;
+
+line-height:1.7;
+
+}
+
+/* =========================================================
+📱 MOBILE
+========================================================= */
+
+@media(max-width:980px){
+
+.app{
+
+grid-template-columns:1fr;
+
+max-width:540px;
+
+}
+
+.hero{
+display:none;
+}
+
+.auth{
+padding:18px;
+}
+
+.form-card{
+padding:28px 22px;
+}
+
+}
+
+/* =========================================================
+📱 SMALL PHONES
+========================================================= */
+
+@media(max-width:480px){
+
+body{
+padding:12px;
+}
+
+.form-card{
+padding:24px 18px;
+border-radius:26px;
+}
+
+.form-avatar{
+width:78px;
+height:78px;
+}
+
+.form-header h2{
+font-size:1.45rem;
+}
+
+.input-box input{
+height:54px;
+font-size:.9rem;
+}
+
+.btn{
+height:54px;
+font-size:.88rem;
+}
+
+}
+
+/* =========================================================
+🍎 IOS
+========================================================= */
+
+@supports(padding:max(0px)){
+
+body{
+
+padding-left:
+max(12px,env(safe-area-inset-left));
+
+padding-right:
+max(12px,env(safe-area-inset-right));
+
+padding-top:
+max(12px,env(safe-area-inset-top));
+
+padding-bottom:
+max(12px,env(safe-area-inset-bottom));
+
+}
+
+}
+
+/* =========================================================
+🔥 PERFORMANCE
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+*{
+animation:none !important;
+transition:none !important;
+scroll-behavior:auto !important;
+}
+
+}
 
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<!-- ================= LOGIN USUARIO ================= -->
-<div class="form-box show" id="login-form">
-<form action="login_register.php" method="post">
+<!-- =========================================================
+🎬 HERO
+========================================================= -->
 
-<div class="logo-box">
-    <img id="logoPrincipal"
-         src="Logo Poster MovieTx PNG/Logo MovieTx.png"
-         alt="MovieTx Logo">
+<section class="hero">
+
+<div class="hero-top">
+
+<div class="hero-logo">
+
+<img
+src="Logo/Logo Nuevo -512x512.png"
+loading="lazy"
+decoding="async">
+
+<div class="hero-logo-text">
+<h1>MovieTx</h1>
+<p>Streaming Premium Experience</p>
 </div>
 
+</div>
+
+<div class="hero-content">
+
+<div class="hero-badge">
+⚡ Plataforma ultrarrápida
+</div>
+
+<h2 class="hero-title">
+
+Tu cine favorito
+<span>sin límites</span>
+
+</h2>
+
+<p class="hero-text">
+
+Accede a películas, series y trailers
+con una experiencia fluida, moderna,
+rápida y optimizada para Android,
+iPhone, tablets y computadoras.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="hero-stats">
+
+<div class="hero-card">
+<strong>4K+</strong>
+<span>Contenido premium</span>
+</div>
+
+<div class="hero-card">
+<strong>Ultra</strong>
+<span>Velocidad optimizada</span>
+</div>
+
+<div class="hero-card">
+<strong>24/7</strong>
+<span>Disponibilidad total</span>
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+🔐 AUTH
+========================================================= -->
+
+<section class="auth">
+
+<div class="forms">
+
+<!-- =========================================================
+🔑 LOGIN
+========================================================= -->
+
+<div
+class="form-box active"
+id="login-form">
+
+<div class="form-card">
+
+<div class="form-header">
+
+<div class="form-avatar">
+
+<img
+id="logoPrincipal"
+src="Logo/Logo Nuevo -512x512.png"
+loading="lazy"
+decoding="async">
+
+</div>
 
 <h2>Iniciar Sesión</h2>
 
-
-<?php if ($loginError): ?>
-<p class="red"><?= $loginError ?></p>
-<?php endif; ?>
-<input type="email" id="correo" name="email" placeholder="Correo electrónico" required>
-<div class="password-box">
-    <input type="password" name="password" placeholder="Contraseña" required>
-    
-    <span class="toggle-pass">
-        <svg viewBox="0 0 24 24">
-            <path fill="currentColor"
-            d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-        </svg>
-    </span>
-</div>
-
-<button type="submit" name="login">Ingresar</button>
-
-
-<p style="text-align:center; font-size:14px; opacity:0.8;">
-¿No tienes cuenta?
-<a href="registro.php" onclick="showForm('register-form')">Registrarse</a>
+<p>
+Bienvenido nuevamente a MovieTx
 </p>
 
-<button type="button" onclick="showForm('admin-login-form')">
-Administrador
-</button>
-
-</form>
 </div>
 
-<?php if (isset($_GET['expired'])): ?>
-<div class="expired-box">
-    <strong>⚠️ Cuenta expirada</strong><br><br>
-    Su cuenta de usuario expiró.<br>
-    Para reactivarla debe abonar <b>$2500</b>.<br><br>
+<?php if($loginError): ?>
 
-    Comuníquese al:<br>
-    <b onclick="copyPhone()">3518175037</b>
+<div class="alert alert-error">
+<?= $loginError ?>
 </div>
+
 <?php endif; ?>
 
+<?php if($registerSuccess): ?>
 
-<!-- ================= REGISTRO USUARIO ================= -->
-<!-- en caso de querer activr esto para el registro
-<div class="form-box" id="register-form">
-<form action="login_register.php" method="post">
-
-<div class="logo-box">
-    <img src="Logo Poster MovieTx PNG/Logo MovieTx.png" alt="MovieTx Logo">
+<div class="alert alert-success">
+<?= $registerSuccess ?>
 </div>
 
-<h2>Registro Usuario</h2>
+<?php endif; ?>
 
-<input type="text" name="name" placeholder="Nombre completo" required>
-<input type="email" name="email" placeholder="Correo electrónico"autocomplete="off"  required>
-<input type="password" name="password" placeholder="Contraseña" autocomplete="new-password" required>
+<form
+action="login_register.php"
+method="post"
+autocomplete="off">
 
-<button type="submit" name="register">
-Registrarse
+<div class="input-group">
+
+<label class="input-label">
+Correo electrónico
+</label>
+
+<div class="input-box">
+
+<input
+type="email"
+id="correo"
+name="email"
+placeholder="Ingresa tu correo"
+required>
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label class="input-label">
+Contraseña
+</label>
+
+<div class="input-box">
+
+<input
+type="password"
+name="password"
+placeholder="Ingresa tu contraseña"
+required>
+
+<span class="toggle-pass">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
+
+</span>
+
+</div>
+
+</div>
+
+<button
+type="submit"
+name="login"
+class="btn btn-primary">
+
+Ingresar
+
 </button>
+
+<button
+type="button"
+class="btn btn-secondary"
+onclick="showForm('admin-form')">
+
+Administrador
+
+</button>
+
+<div class="form-links">
+
+¿No tienes cuenta?
+
+<button
+type="button"
+class="link-btn"
+onclick="showForm('register-form')">
+
+Registrarse
+
+</button>
+
+</div>
+
+</form>
+
+<?php if(isset($_GET['expired'])): ?>
+
+<div class="expired">
+
+<strong>
+⚠️ Cuenta expirada
+</strong>
+
+<br><br>
+
+Para reactivar tu cuenta
+debes comunicarte al:
+
+<br><br>
+
+<strong
+style="cursor:pointer;user-select:all;-webkit-user-select:all;"
+onclick="copyPhone()">
+
+📞 3518175037 📋
+
+</strong>
+
+</div>
+
+<?php endif; ?>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+📝 REGISTER
+========================================================= -->
+
+<div
+class="form-box"
+id="register-form">
+
+<div class="form-card">
+
+<div class="form-header">
+
+<div class="form-avatar">
+
+<img
+src="Logo/Logo Nuevo -512x512.png"
+loading="lazy"
+decoding="async">
+
+</div>
+
+<h2>Crear Cuenta</h2>
 
 <p>
-<a href="#" onclick="showForm('login-form')">Volver</a>
+Registrate en MovieTx
 </p>
 
-</form>
 </div>
--->
 
+<div class="plan-box">
 
-<?php
-$adminMsg = '';
-$adminClass = '';
+<div class="plan-price">
+💳 $2500 / mes
+</div>
 
-if (isset($_SESSION['login_type']) && $_SESSION['login_type'] === 'admin') {
+<div class="plan-text">
 
-    if ($_SESSION['login_status'] === 'error') {
-        $adminMsg = $_SESSION['login_message'];
-        $adminClass = 'login-msg error';
-    }
+Mercado Pago • Naranja X • Transferencia
 
-    if ($_SESSION['login_status'] === 'success') {
-        $adminMsg = $_SESSION['login_message'];
-        $adminClass = 'login-msg success';
-    }
+</div>
 
-    // limpiar para que no se repita
-    unset($_SESSION['login_status'], $_SESSION['login_message'], $_SESSION['login_type']);
+<div class="plan-note">
 
-    unset($_SESSION['login_status']);
-unset($_SESSION['login_message']);
-unset($_SESSION['login_type']);
-}
-?>
+⚠️ Una vez registrado, el administrador
+se comunicará con vos para activar
+la cuenta luego del pago.
 
+</div>
 
-<!-- ================= LOGIN ADMIN ================= -->
+</div>
 
-<div class="form-box" id="admin-login-form">
-<form action="login_register.php" method="post">
+<?php if($registerError): ?>
 
-<input type="hidden" name="login_type" value="admin">
+<div class="alert alert-error">
+<?= $registerError ?>
+</div>
 
-<div class="logo-box">
-    <img id="adminLogo"
-         src="Logo Poster MovieTx PNG/Logo MovieTx.png"
-         alt="MovieTx Logo">
+<?php endif; ?>
+
+<form
+action="registro.php"
+method="POST"
+autocomplete="off">
+
+<div class="input-group">
+
+<label class="input-label">
+Nombre completo
+</label>
+
+<div class="input-box">
+
+<input
+type="text"
+name="name"
+placeholder="Nombre completo"
+required>
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label class="input-label">
+Correo electrónico
+</label>
+
+<div class="input-box">
+
+<input
+type="email"
+name="email"
+placeholder="Correo electrónico"
+required>
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label class="input-label">
+Número de teléfono
+</label>
+
+<div class="input-box">
+
+<input
+type="text"
+name="telefono"
+placeholder="Número de teléfono"
+required>
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label class="input-label">
+Contraseña
+</label>
+
+<div class="input-box">
+
+<input
+type="password"
+name="password"
+placeholder="Contraseña"
+required>
+
+<span class="toggle-pass">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
+
+</span>
+
+</div>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-primary">
+
+Crear Cuenta
+
+</button>
+
+<div class="form-links">
+
+¿Ya tienes cuenta?
+
+<button
+type="button"
+class="link-btn"
+onclick="showForm('login-form')">
+
+Iniciar sesión
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+👑 ADMIN
+========================================================= -->
+
+<div
+class="form-box"
+id="admin-form">
+
+<div class="form-card">
+
+<div class="form-header">
+
+<div class="form-avatar">
+
+<img
+id="adminLogo"
+src="Logo/Logo Nuevo -512x512.png"
+loading="lazy"
+decoding="async">
+
 </div>
 
 <h2>Administrador</h2>
 
-<?php if ($loginError): ?>
-<p class="red"><?= $loginError ?></p>
-<?php endif; ?>
-
-<input type="email" id="adminCorreo" name="email" placeholder="Correo electrónico" autocomplete="off" required>
-<div class="password-box">
-    <input type="password" name="password" placeholder="Contraseña" required>
-    
-    <span class="toggle-pass">
-        <svg viewBox="0 0 24 24">
-            <path fill="currentColor"
-            d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-        </svg>
-    </span>
-</div>
-
-
-<div class="password-box">
-    <input type="password" id="adminKey" name="admin_key"
-    placeholder="Clave única (solo administrador principal)">
-
-    <span class="toggle-pass">
-        <svg viewBox="0 0 24 24">
-            <path fill="currentColor"
-            d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-        </svg>
-    </span>
-</div>
-
-
-<button type="submit" name="login">
-Iniciar sesión
-</button>
-
-<div id="admin-loading" class="login-msg success" style="display:none;">
-Verificando cuenta en la base de datos, espere un momento...
-</div>
-
-<?php if ($showAdminRegister): ?>
-<hr>
-<button type="button" onclick="showForm('admin-register-form')">
-Registrarse como Administrador Principal
-</button>
-<?php endif; ?>
-
 <p>
-<a href="#" onclick="showForm('login-form')">Volver atrás</a>
+Acceso exclusivo para administradores
 </p>
 
-</form>
 </div>
 
+<form
+action="login_register.php"
+method="post"
+autocomplete="off">
 
-<!-- ================= REGISTRO ADMIN PRINCIPAL ================= -->
-<div class="form-box" id="admin-register-form">
-<form action="login_register.php" method="post">
+<input
+type="hidden"
+name="login_type"
+value="admin">
 
-<h2>Administrador Principal</h2>
+<div class="input-group">
 
-<input type="text" name="name" placeholder="Nombre completo" required>
-<input type="email" name="email" placeholder="Correo electrónico" required>
-<div class="password-box">
-    <input type="password" id="adminKey" name="admin_key"
-    placeholder="Clave única (solo administrador principal)">
-    <span class="toggle-pass">👁️</span>
+<label class="input-label">
+Correo electrónico
+</label>
+
+<div class="input-box">
+
+<input
+type="email"
+id="adminCorreo"
+name="email"
+placeholder="Correo administrador"
+required>
+
 </div>
 
-<button type="submit" name="register_admin">
-Registrar Administrador Principal
+</div>
+
+<div class="input-group">
+
+<label class="input-label">
+Contraseña
+</label>
+
+<div class="input-box">
+
+<input
+type="password"
+name="password"
+placeholder="Contraseña"
+required>
+
+<span class="toggle-pass">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
+
+</span>
+
+</div>
+
+</div>
+
+<div
+class="input-group"
+id="adminKeyBox">
+
+<label class="input-label">
+Clave única
+</label>
+
+<div class="input-box">
+
+<input
+type="password"
+id="adminKey"
+name="admin_key"
+placeholder="Clave principal">
+
+<span class="toggle-pass">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
+
+</span>
+
+</div>
+
+</div>
+
+<button
+type="submit"
+name="admin_login"
+class="btn btn-primary">
+
+Ingresar al Panel
+
 </button>
 
-<?php if ($adminSuccess): ?>
-<p class="green"><?= $adminSuccess ?></p>
+<?php if($showAdminRegister): ?>
+
+<button
+type="button"
+class="btn btn-secondary"
+onclick="showForm('admin-register-form')">
+
+Registrar Admin Principal
+
+</button>
+
 <?php endif; ?>
 
-<p>
-<a href="#" onclick="showForm('admin-login-form')">Volver</a>
-</p>
+<div class="form-links">
+
+<button
+type="button"
+class="link-btn"
+onclick="showForm('login-form')">
+
+Volver atrás
+
+</button>
+
+</div>
 
 </form>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+👑 ADMIN REGISTER
+========================================================= -->
+
+<div
+class="form-box"
+id="admin-register-form">
+
+<div class="form-card">
+
+<div class="form-header">
+
+<h2>
+Administrador Principal
+</h2>
+
+<p>
+Registro único de administrador
+</p>
+
+</div>
+
+<?php if($adminSuccess): ?>
+
+<div class="alert alert-success">
+<?= $adminSuccess ?>
+</div>
+
+<?php endif; ?>
+
+<form
+action="login_register.php"
+method="post">
+
+<div class="input-group">
+
+<label class="input-label">
+Nombre completo
+</label>
+
+<div class="input-box">
+
+<input
+type="text"
+name="name"
+placeholder="Nombre completo"
+required>
+
 </div>
 
 </div>
 
-<script>
-document.querySelectorAll("input").forEach(input => {
-    input.addEventListener("focus", () => {
-        input.style.transform = "scale(1.02)";
-    });
-    input.addEventListener("blur", () => {
-        input.style.transform = "scale(1)";
-    });
-});
-</script>
+<div class="input-group">
 
+<label class="input-label">
+Correo electrónico
+</label>
 
+<div class="input-box">
 
-<!-- ================= JS ================= -->
+<input
+type="email"
+name="email"
+placeholder="Correo electrónico"
+required>
 
-<!--QUITAR ESTO SI QUIERES QUE FUNCIONE EL REGISTRO-->
-<script>
-(function () {
-    // Forzar siempre estado actual
-    history.pushState(null, "", location.href);
+</div>
 
-    window.onpopstate = function () {
-        history.pushState(null, "", location.href);
-        window.location.replace("index.php");
-    };
+</div>
 
-    // Detectar páginas restauradas
-    window.addEventListener("pageshow", function (event) {
-        if (event.persisted) {
-            window.location.replace("index.php");
-        }
-    });
-})();
+<div class="input-group">
 
-const correoInput = document.getElementById("correo");
-const logo = document.getElementById("logoPrincipal");
+<label class="input-label">
+Contraseña del administrador
+</label>
 
-const LOGO_DEFAULT = "Logo Poster MovieTx PNG/Logo MovieTx.png";
+<div class="input-box">
 
-correoInput.addEventListener("input", function () {
+<input
+type="password"
+name="password"
+placeholder="Contraseña del admin"
+required>
 
-  // Si no escribió nada → volver al logo
-  if (this.value.length < 3) {
-    logo.src = LOGO_DEFAULT;
-    return;
-  }
+<span class="toggle-pass">
 
-  fetch("buscar_foto.php?correo=" + encodeURIComponent(this.value))
-    .then(r => r.json())
-    .then(data => {
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
 
-      if (data.foto && data.foto !== "default.png") {
-        logo.src = data.foto; // 🔥 reemplaza logo por foto
-      } else {
-        logo.src = LOGO_DEFAULT; // vuelve al logo si no hay foto
-      }
+</span>
 
-    })
-    .catch(() => {
-      logo.src = LOGO_DEFAULT;
-    });
+</div>
 
-});
+</div>
 
+<div class="input-group">
 
+<label class="input-label">
+Clave única
+</label>
 
-</script>
+<div class="input-box">
 
-<!--FIN-->
+<input
+type="password"
+name="admin_key"
+placeholder="Clave principal"
+required>
 
-<script>
-function copyPhone() {
-    navigator.clipboard.writeText("3518175037");
-    alert("Número copiado: 3518175037");
-}
-</script>
+<span class="toggle-pass">
 
-    
+<svg viewBox="0 0 24 24">
+<path d="M12 5C7 5 3 8 1 12c2 4 6 7 11 7s9-3 11-7c-2-4-6-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+</svg>
 
-<script>
-function showAdminLoading() {
-    const box = document.getElementById('admin-loading');
-    if (box) {
-        box.style.display = 'block';
-    }
-}
-</script>
+</span>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const adminCorreo = document.getElementById("adminCorreo");
-    const adminLogo   = document.getElementById("adminLogo");
-    const adminKey    = document.getElementById("adminKey");
-    const LOGO_DEFAULT = "Logo Poster MovieTx PNG/Logo MovieTx.png";
+</div>
 
-    let debounceTimeout;
+</div>
 
-    adminCorreo.addEventListener("input", function () {
-        clearTimeout(debounceTimeout);
+<button
+type="submit"
+name="register_admin"
+class="btn btn-primary">
 
-        if (this.value.length < 3) {
-            adminLogo.src = LOGO_DEFAULT;
-            adminKey.style.display = "block";
-            return;
-        }
+Registrar Administrador
 
-        debounceTimeout = setTimeout(() => {
-            fetch("buscar_foto.php?correo=" + encodeURIComponent(this.value))
-                .then(r => r.json())
-                .then(data => {
-                    // FOTO
-                    if (data.foto && data.foto !== "default.png") {
-                        adminLogo.src = data.foto; // deja que el navegador use caché
-                    } else {
-                        adminLogo.src = LOGO_DEFAULT;
-                    }
+</button>
 
-                    // TIPO DE ADMIN
-                    adminKey.style.display = (data.admin_level === "normal") ? "none" : "block";
-                })
-                .catch(() => {
-                    adminLogo.src = LOGO_DEFAULT;
-                    adminKey.style.display = "block";
-                });
-        }, 250); // espera 250ms después de que el usuario deja de escribir
-    });
-});
-</script>
+<div class="form-links">
+
+<button
+type="button"
+class="link-btn"
+onclick="showForm('admin-form')">
+
+Volver
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
 
 <script>
-document.querySelectorAll(".toggle-pass").forEach(btn => {
 
-    btn.addEventListener("click", function() {
+/* =========================================================
+⚡ FORM SWITCH
+========================================================= */
 
-        const input = this.parentElement.querySelector("input");
-        const svg = this.querySelector("svg");
+let currentForm =
+document.querySelector(".form-box.active");
 
-        if (input.type === "password") {
-            input.type = "text";
-
-            svg.innerHTML = `
-            <path fill="currentColor"
-            d="M3 3l18 18M10.58 10.58A3 3 0 0012 15a3 3 0 002.42-4.42M9.88 5.09A9.77 9.77 0 0112 4.5c5 0 9.3 3.1 11 7.5a11.8 11.8 0 01-2.07 3.36M6.1 6.1A11.8 11.8 0 001 12c1.7 4.4 6 7.5 11 7.5a9.77 9.77 0 003.91-.8"/>
-            `;
-        } else {
-            input.type = "password";
-
-            svg.innerHTML = `
-            <path fill="currentColor"
-            d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-            `;
-        }
-
-    });
-
-});
-
-</script>
-
-
-
-<script>
 function showForm(id){
-    document.querySelectorAll('.form-box')
-        .forEach(f => f.classList.remove('show'));
-    document.getElementById(id).classList.add('show');
+
+const nextForm =
+document.getElementById(id);
+
+if(
+!nextForm ||
+nextForm === currentForm
+)return;
+
+currentForm.classList.remove("active");
+
+requestAnimationFrame(()=>{
+
+nextForm.classList.add("active");
+
+currentForm = nextForm;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+});
+
 }
+
+/* =========================================================
+👁️ PASSWORD TOGGLE
+========================================================= */
+
+document
+.querySelectorAll(".toggle-pass")
+.forEach(btn=>{
+
+btn.onclick = ()=>{
+
+const input =
+btn.parentElement.querySelector("input");
+
+input.type =
+input.type === "password"
+? "text"
+: "password";
+
+};
+
+});
+
+/* =========================================================
+📷 FOTO DINÁMICA
+========================================================= */
+
+const correoInput =
+document.getElementById("correo");
+
+const logoPrincipal =
+document.getElementById("logoPrincipal");
+
+const adminCorreo =
+document.getElementById("adminCorreo");
+
+const adminLogo =
+document.getElementById("adminLogo");
+
+const adminKeyBox =
+document.getElementById("adminKeyBox");
+
+const DEFAULT_LOGO =
+"Logo/Logo Nuevo -512x512.png";
+
+let debounce;
+
+/* LOGIN NORMAL */
+
+correoInput?.addEventListener(
+"input",
+function(){
+
+clearTimeout(debounce);
+
+const value =
+this.value.trim();
+
+if(value.length < 3){
+
+logoPrincipal.src =
+DEFAULT_LOGO;
+
+return;
+
+}
+
+debounce = setTimeout(()=>{
+
+fetch(
+"buscar_foto.php?correo=" +
+encodeURIComponent(value)
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+if(
+data.foto &&
+data.foto !== "default.png"
+){
+
+logoPrincipal.src =
+data.foto;
+
+}else{
+
+logoPrincipal.src =
+DEFAULT_LOGO;
+
+}
+
+})
+
+.catch(()=>{
+
+logoPrincipal.src =
+DEFAULT_LOGO;
+
+});
+
+},220);
+
+}
+);
+
+/* LOGIN ADMIN */
+
+adminCorreo?.addEventListener(
+"input",
+function(){
+
+clearTimeout(debounce);
+
+const value =
+this.value.trim();
+
+if(value.length < 3){
+
+adminLogo.src =
+DEFAULT_LOGO;
+
+adminKeyBox.style.display =
+"block";
+
+return;
+
+}
+
+debounce = setTimeout(()=>{
+
+fetch(
+"buscar_foto.php?correo=" +
+encodeURIComponent(value)
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+if(
+data.foto &&
+data.foto !== "default.png"
+){
+
+adminLogo.src =
+data.foto;
+
+}else{
+
+adminLogo.src =
+DEFAULT_LOGO;
+
+}
+
+adminKeyBox.style.display =
+data.admin_level === "normal"
+? "none"
+: "block";
+
+})
+
+.catch(()=>{
+
+adminLogo.src =
+DEFAULT_LOGO;
+
+adminKeyBox.style.display =
+"block";
+
+});
+
+},220);
+
+}
+);
+
+/* =========================================================
+📋 COPY PHONE
+========================================================= */
+
+function copyPhone(){
+
+const numero = "3518175037";
+
+navigator.clipboard.writeText(numero)
+.then(() => {
+
+alert("✅ Número copiado: " + numero);
+
+})
+.catch(() => {
+
+const input = document.createElement("input");
+input.value = numero;
+
+document.body.appendChild(input);
+
+input.select();
+document.execCommand("copy");
+
+document.body.removeChild(input);
+
+alert("✅ Número copiado: " + numero);
+
+});
+
+}
+
+/* =========================================================
+🚫 BACK BLOCK
+========================================================= */
+
+history.pushState(
+null,
+"",
+location.href
+);
+
+window.onpopstate = ()=>{
+
+history.pushState(
+null,
+"",
+location.href
+);
+
+location.replace("index.php");
+
+};
+
+window.addEventListener(
+"pageshow",
+event=>{
+
+if(event.persisted){
+
+location.replace(
+"index.php"
+);
+
+}
+
+}
+);
+
 </script>
 
 </body>

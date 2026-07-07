@@ -122,17 +122,9 @@ if(isset($_POST['login'])){
         back("Credenciales incorrectas");
     }
 
-    if($user['status']==='expired'){
-    back("⚠️ Tu suscripción ha vencido");
-}
-
-if($user['status']==='suspended'){
-    back("⛔ Tu cuenta fue suspendida");
-}
-
-if($user['status']!=='active'){
-    back("Cuenta pendiente");
-}
+    if($user['status']!=='active'){
+        back("Cuenta pendiente o suspendida");
+    }
 
     $upd=$conn->prepare("UPDATE users SET last_login=NOW(),is_online=1 WHERE id=?");
     $upd->bind_param("i",$user['id']);

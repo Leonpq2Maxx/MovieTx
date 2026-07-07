@@ -16,6 +16,19 @@ if(!isset($_POST['nombre']) || empty(trim($_POST['nombre']))){
 
 $nombre = trim($_POST['nombre']);
 
+/* =========================================================
+   👶 TIPO DE PERFIL
+========================================================= */
+
+$tipo = "normal";
+
+if(
+    isset($_POST['tipo']) &&
+    $_POST['tipo'] === "kids"
+){
+    $tipo = "kids";
+}
+
 /* 🔒 CONTAR PERFILES ACTUALES */
 $stmtCheck = $conn->prepare("SELECT COUNT(*) total FROM perfiles WHERE user_id=?");
 $stmtCheck->bind_param("i",$userId);
@@ -31,6 +44,29 @@ $max = $stmtLimit->get_result()->fetch_assoc()['max_perfiles'];
 /* 🚫 BLOQUEO */
 if($total >= $max){
     die("Límite de perfiles alcanzado");
+}
+
+/* =========================================================
+   👶 SOLO UN PERFIL KIDS
+========================================================= */
+
+if($tipo === "kids"){
+
+    $stmtKids = $conn->prepare("
+    SELECT id
+    FROM perfiles
+    WHERE user_id = ?
+    AND tipo = 'kids'
+    LIMIT 1
+    ");
+
+    $stmtKids->bind_param("i",$userId);
+    $stmtKids->execute();
+
+    if($stmtKids->get_result()->num_rows > 0){
+        die("Ya existe un perfil KIDS");
+    }
+
 }
 
 /* CARPETA DONDE SE GUARDAN LAS FOTOS */
@@ -65,8 +101,30 @@ if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0){
 }
 
 /* GUARDAR PERFIL EN BD */
-$stmt = $conn->prepare("INSERT INTO perfiles (user_id,nombre,foto) VALUES (?,?,?)");
-$stmt->bind_param("iss",$userId,$nombre,$fotoNombre);
+$stmt = $conn->prepare("
+INSERT INTO perfiles
+(
+user_id,
+nombre,
+foto,
+tipo
+)
+VALUES
+(
+?,
+?,
+?,
+?
+)
+");
+
+$stmt->bind_param(
+"isss",
+$userId,
+$nombre,
+$fotoNombre,
+$tipo
+);
 
 if(!$stmt->execute()){
     die("Error BD: " . $stmt->error);

@@ -1,11 +1,10 @@
-<?php
+<?php 
 session_start();
 require_once "../config.php";
 
-/* =========================
-   VALIDAR SESIÓN
-========================= */
-
+/* =========================================
+   🔒 VALIDAR SESIÓN
+========================================= */
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
@@ -13,80 +12,172 @@ if (!isset($_SESSION['id'])) {
 
 $userId = (int) $_SESSION['id'];
 
-/* =========================
-   OBTENER USUARIO
-========================= */
+/* =========================================
+   👤 OBTENER USUARIO
+========================================= */
+$stmt = $conn->prepare("
+    SELECT id, name, email, foto, status, paid_until
+    FROM users
+    WHERE id=?
+    LIMIT 1
+");
 
-$stmt = $conn->prepare("SELECT id, name, email, foto, status, paid_until FROM users WHERE id=? LIMIT 1");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
+
 $user = $stmt->get_result()->fetch_assoc();
 
-/* =========================
-   SI NO EXISTE → LOGOUT
-========================= */
-
+/* =========================================
+   ❌ SI NO EXISTE
+========================================= */
 if (!$user) {
+
     session_unset();
     session_destroy();
+
     header("Location: ../index.php");
     exit();
 }
 
-/* =========================
-   SI ADMIN SUSPENDIÓ
-========================= */
-
+/* =========================================
+   🚫 SUSPENDIDO
+========================================= */
 if ($user['status'] !== "active") {
+
     session_unset();
     session_destroy();
+
     header("Location: ../index.php");
     exit();
 }
 
-/* =========================
-   SI CUENTA EXPIRÓ
-========================= */
+/* =========================================
+   ⏳ EXPIRADO
+========================================= */
+if (
+    !empty($user['paid_until']) &&
+    strtotime($user['paid_until']) < time()
+) {
 
-if (!empty($user['paid_until']) && strtotime($user['paid_until']) < time()) {
+    $stmt = $conn->prepare("
+        UPDATE users
+        SET status='suspended'
+        WHERE id=?
+    ");
 
-    $stmt = $conn->prepare("UPDATE users SET status='suspended' WHERE id=?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
 
     session_unset();
     session_destroy();
 
-    header("Location: index.php?expired=1");
+    header("Location: ../index.php?expired=1");
     exit();
 }
 
-/* =========================
-   DATOS DEL USUARIO
-========================= */
+/* =========================================
+   👤 DETECTAR USUARIO / PERFIL
+========================================= */
 
+/* 🔥 USUARIO PRINCIPAL */
 $nombre = $user['name'] ?? 'Usuario';
-$email  = $user['email'] ?? '';
-$foto   = !empty($user['foto']) ? $user['foto'] : 'Logo Poster MovieTx PNG/Logo MovieTx.png';
+
+/* 🔥 FOTO USUARIO */
+if(
+    !empty($user['foto']) &&
+    file_exists("../" . $user['foto'])
+){
+    $foto = "../" . $user['foto'];
+
+}else{
+
+    $foto = "../Logo/Logo Nuevo -512x512.png";
+}
 
 
-/* =========================
-   VERIFICACIÓN AJAX
-   (para detectar suspensión en vivo)
-========================= */
+/* =========================================
+   👤 SI HAY PERFIL ACTIVO
+========================================= */
 
+if(isset($_SESSION['perfil_id'])){
+
+    $perfilId = (int) $_SESSION['perfil_id'];
+
+    $stmtPerfil = $conn->prepare("
+        SELECT nombre, foto
+        FROM perfiles
+        WHERE id=? AND user_id=?
+        LIMIT 1
+    ");
+
+    $stmtPerfil->bind_param(
+        "ii",
+        $perfilId,
+        $userId
+    );
+
+    $stmtPerfil->execute();
+
+    $perfil =
+    $stmtPerfil
+    ->get_result()
+    ->fetch_assoc();
+
+    /* =========================================
+       🔥 PERFIL EXISTE
+    ========================================= */
+
+    if($perfil){
+
+        /* 🔥 CAMBIAR NOMBRE */
+        $nombre = $perfil['nombre'];
+
+        /* 🔥 FOTO PERFIL */
+        if(
+            !empty($perfil['foto']) &&
+            file_exists(
+                "../uploads/perfiles/" .
+                $perfil['foto']
+            )
+        ){
+
+            $foto =
+            "../uploads/perfiles/" .
+            $perfil['foto'];
+
+        }else{
+
+            $foto =
+            "../Logo/Logo Nuevo -512x512.png";
+        }
+    }
+}
+/* =========================================
+   ⚡ VERIFICACIÓN AJAX
+========================================= */
 if (isset($_GET['check_status'])) {
 
-    $stmt = $conn->prepare("SELECT status FROM users WHERE id=? LIMIT 1");
+    $stmt = $conn->prepare("
+        SELECT status
+        FROM users
+        WHERE id=?
+        LIMIT 1
+    ");
+
     $stmt->bind_param("i", $userId);
     $stmt->execute();
+
     $data = $stmt->get_result()->fetch_assoc();
 
     if (!$data || $data['status'] !== 'active') {
+
         session_unset();
         session_destroy();
+
         echo "logout";
+
     } else {
+
         echo "ok";
     }
 
@@ -94,1186 +185,3166 @@ if (isset($_GET['check_status'])) {
 }
 ?>
 
-<?php require_once "../auth.php"; ?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2025 Movie</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background-color: #000000;
-      color: #fff;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      background-color: #000000;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1rem;
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-    }
-    h1 { margin: 0; font-size: 1rem; }
-    .search-box {
-      text-align: center;
-      padding: 15px 0;
-    }
-    .search-box input {
-      width: 90%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #1c1c1c;
-      color: #fff;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    .search-box input:focus {
-      outline: none;
-      background: #222;
-      box-shadow: 0 0 8px rgba(255, 32, 143, 0.5);
-    }
-    input::placeholder {
-      color: #aaa;
-      font-weight: 500;
-    }
 
-    .movie-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      padding: 10px;
-    }
-    @media (max-width: 600px) {
-      .movie-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (orientation: landscape) and (min-width: 700px) {
-      .movie-grid { grid-template-columns: repeat(4, 1fr); }
-    }
+<meta charset="UTF-8">
 
-    @media (orientation: landscape) and (min-width: 1024px) {
-      .movie-grid { grid-template-columns: repeat(8, 1fr); }
-    }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    .movie {
-      background: #000000;
-      border-radius: 6px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .movie:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 32, 143, 0.6);
-    }
-    .movie img {
-  width: 100%;
-  height: 180px;       /* 🔥 MISMO LARGO PARA TODAS */
-  object-fit: contain;   /* 🔥 NO RECORTA */
-  display: block;
-}
+<title>MovieTx • Agregado</title>
 
-.movie p {
-  margin: 6px 4px 8px;
-  text-align: center;
-  font-size: 0.6rem;
-  color: #f5f5f5;
-  line-height: 1.2;
-}
+<link rel="icon"
+type="image/png"
+href="../Logo/Logo Nuevo -512x512.png">
 
-    
-    .movie:hover img { filter: brightness(1.1); }
-    .movie.locked img { filter: brightness(0.5); }
-    .movie p {
-      margin: 8px;
-      text-align: center;
-      font-size: 0.6rem;
-      color: #f5f5f5;
-    }
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-    /*PELICULA*/
-    .movie .pelicula, .movie .year-tag {
-      position: absolute;
-      z-index: 2;
-      color: rgba(255, 32, 143, 0.838);
-      font-weight: bold;
-      background: rgba(255, 255, 255, 0.838);
-      padding: 2px 6px;
-      font-size: 0.7rem;
-      border-radius: 3px;
-    }
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
 
-    .movie .year-tegg {
-      position: absolute;
-      z-index: 2;
-      color: rgb(255, 32, 143);
-      font-weight: bold;
-      background: rgba(255, 255, 255, 0.838);
-      padding: 2px 6px;
-      font-size: 0.6rem;
-      border-radius: 3px;
-    }
-    .movie .pelicula { top: 5px; left: 5px; }
-    .movie .year-tag { top: 25px; left: 5px; }
-    .movie .year-tegg { top: 47px; left: 5px; }
-    .movie .lock-icon {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 28px;
-      height: 28px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: white;
-      animation: bounce 1s infinite;
-    }
-    /*FIN*/
-
-    /*Serie*/
-    .movie .SerieHd, .movie .year-tog {
-      position: absolute;
-      z-index: 2;
-      color: rgba(255, 255, 255, 0.838);
-      font-weight: bold;
-      background: rgba(255, 0, 136, 0.838);
-      padding: 2px 6px;
-      font-size: 0.7rem;
-      border-radius: 3px;
-    }
-
-    .movie .year-tagg {
-      position: absolute;
-      z-index: 2;
-      color: rgba(255, 255, 255, 0.838);
-      font-weight: bold;
-      background: rgba(255, 0, 136, 0.838);
-      padding: 2px 6px;
-      font-size: 0.6rem;
-      border-radius: 3px;
-    }
-
-    .movie .SerieHd { top: 5px; left: 5px; }
-    .movie .year-tog { top: 25px; left: 5px; }
-    .movie .year-tagg { top: 47px; left: 5px; }
-    .movie .lock-icon {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 28px;
-      height: 28px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: white;
-      animation: bounce 1s infinite;
-    }
-
-    /*FIN*/
-
-
-    
-    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);} }
-    .movie .recien-tag {
-      position: absolute;
-      top: 160px;
-      left: 5px;
-      background: rgb(255, 32, 143);
-      color: white;
-      font-weight: bold;
-      font-size: 0.65rem;
-      padding: 2px 6px;
-      border-radius: 3px;
-      z-index: 3;
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.8;transform:scale(1.1);}}
-    .no-results {
-      text-align: center;
-      padding: 20px;
-      font-size: 1rem;
-      color: #bbb;
-      display: none;
-    }
-  </style>
-</head>
-<body>
-
-<script>
-// 🔹 Evita volver a la página anterior
-// y manda directo a index.html al presionar atrás
-window.history.pushState(null, null, window.location.href);
-window.addEventListener('popstate', function () {
-  // Redirige directamente al index y reemplaza el historial
-  window.location.replace("../inicio.php");
-});
-
-// 🔹 Limpia el historial para que no se pueda regresar desde index
-if (window.performance && window.performance.navigation.type === 2) {
-  // Si se intenta volver con cache, redirige igual
-  window.location.replace("../inicio.php");
-}
-</script>
-
-<div id="loader-screen">
-  <div class="loader-content">
-    <div class="loader-circle">
-      <img src="../Logo Poster MovieTx PNG/Logo MovieTx.png" alt="Logo MovieTx" class="loader-logo">
-    </div>
-
-    <h1 class="loader-title">MovieTx</h1>
-    <p class="loader-sub">Cargando<span class="loading-dots"></span></p>
-    <p class="loader-msg">Por favor, espere</p>
-
-    <!-- 🔥 Nueva barra de carga profesional -->
-    <div class="loading-bar">
-      <div class="loading-fill" id="loading-fill"></div>
-      <div class="loading-percent" id="loading-percent">0%</div>
-    </div>
-
-  </div>
-</div>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
 
 <style>
-  
-#loader-screen {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 10000;
-  transition: opacity 1s ease, visibility 1s ease;
-}
-#loader-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-.loader-content { text-align: center; }
 
-.loader-circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  border: 6px solid transparent;
-  border-top: 6px solid #00aaff;
-  border-bottom: 6px solid #ff007f;
-  animation: spin 2s linear infinite;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+/* =========================================
+   🌌 RESET
+========================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.loader-logo { width: 100px; }
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+html{
+-webkit-text-size-adjust:100%;
 }
 
-.loader-title {
-  font-size: 2.5rem;
-  color: #fff;
-  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff1a8c, 0 0 40px #ff007f;
-  font-weight: bold;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+body{
+
+font-family:'Inter',sans-serif;
+
+background:
+radial-gradient(circle at top left,
+rgba(0,153,255,.10),
+transparent 30%),
+
+radial-gradient(circle at bottom right,
+rgba(255,0,128,.06),
+transparent 30%),
+
+#050505;
+
+color:#fff;
+
+overflow-x:hidden;
+overflow-y:auto;
+
+-webkit-font-smoothing:antialiased;
+text-rendering:optimizeLegibility;
+
+-webkit-overflow-scrolling:touch;
 }
 
-.loader-sub { font-size: 1.2rem; color: #ccc; }
-.loading-dots::after { content: ''; animation: dotPulse 1.5s steps(4) infinite; }
-@keyframes dotPulse {
-  0% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
-  100% { content: ''; }
-}
-.loader-msg { font-size: 1rem; color: #888; margin-top: 10px; }
+/* =========================================
+   🖼 IMG
+========================================= */
 
-/* 🔥 NUEVA BARRA PROFESIONAL (MISMO ESTILO DE COLOR) */
-.loading-bar {
-  width: 75%;
-  height: 16px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 10px;
-  margin: 22px auto 0;
-  position: relative;
-  overflow: hidden;
+img{
+display:block;
+max-width:100%;
+
+user-select:none;
+-webkit-user-drag:none;
 }
 
-.loading-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #00aaff, #ff007f);
-  transition: width 0.3s ease;
+/* =========================================
+   ✨ SCROLL
+========================================= */
+
+::-webkit-scrollbar{
+width:8px;
 }
 
-.loading-percent {
-  position: absolute;
-  inset: 0;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
+::-webkit-scrollbar-thumb{
+background:#ff007f;
+border-radius:20px;
 }
 
-/* HEADER FLEX */
-.header-container{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* =========================================
+   🔥 HEADER
+========================================= */
+
+.topbar{
+
+position:sticky;
+top:0;
+z-index:999;
+
+background:rgba(5,5,5,.92);
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
+padding:14px 18px;
 }
 
-/* BOTON FILTRO */
-.btn-filtro{
-  background:transparent;
-  border:none;
-  font-size:1.4rem;
-  cursor:pointer;
-  color:#fff;
-  transition:0.3s;
-}
-.btn-filtro:hover{
-  transform:scale(1.2);
-  color:#ff007f;
+.topbar-inner{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+gap:14px;
 }
 
-/* MODAL */
-.modal-genero{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(6px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  visibility:hidden;
-  transition:0.3s;
-  z-index:9999;
+.logo-area{
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-.modal-genero.activo{
-  opacity:1;
-  visibility:visible;
+.logo-area img{
+
+width:44px;
+height:44px;
+
+object-fit:cover;
+
+border-radius:14px;
 }
 
-.modal-contenido{
-  background:#111;
-  padding:25px;
-  border-radius:12px;
-  width:90%;
-  max-width:400px;
-  text-align:center;
-  box-shadow:0 0 25px rgba(255,0,128,0.4);
-  position:relative;
+.logo-text h1{
+font-size:1rem;
+font-weight:800;
 }
 
-.cerrar-modal{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.2rem;
-  cursor:pointer;
+.logo-text span{
+font-size:.75rem;
+opacity:.65;
 }
 
-/* BOTONES GENERO */
-.generos{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-top:15px;
-  max-height:250px;
-  overflow-y:auto;
+/* =========================================
+   👤 PERFIL
+========================================= */
+
+.profile-box{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-.genero-btn{
-  width:100%;
-  text-align:left;
-  padding:10px 14px;
-  border:none;
-  border-radius:6px;
-  background:#1a1a1a;
-  color:#fff;
-  cursor:pointer;
-  transition:0.3s;
-  font-size:0.9rem;
+.profile-box img{
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+object-fit:cover;
+
+border:2px solid rgba(255,255,255,.10);
 }
 
-.genero-btn:hover{
-  background:#ff007f;
+.profile-name{
+font-size:.84rem;
+font-weight:700;
 }
 
-.genero-btn.activo{
-  background:#ff007f;
-  box-shadow:0 0 10px #ff007f;
+/* =========================================
+   🔍 SEARCH
+========================================= */
+
+.search-wrapper{
+padding:18px;
 }
 
-/* RESET */
-.reset-btn{
-  margin-top:20px;
-  padding:8px 14px;
-  border:none;
-  border-radius:6px;
-  background:#444;
-  color:#fff;
-  cursor:pointer;
-}
-.reset-btn:hover{
-  background:#777;
+.search-box{
+position:relative;
 }
 
-.btn-filtro svg {
-  display: block;        /* 🔥 evita línea fantasma inline */
+.search-box input{
+
+width:100%;
+height:56px;
+
+border:none;
+outline:none;
+
+border-radius:18px;
+
+padding:
+0 55px 0 18px;
+
+font-size:.92rem;
+font-weight:600;
+
+background:
+rgba(255,255,255,.05);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+color:#fff;
+
+transition:
+border-color .15s ease,
+background .15s ease;
 }
 
-.btn-filtro {
-  line-height: 0;        /* 🔥 elimina espacio vertical invisible */
+.search-box input:focus{
+
+border-color:#ff007f;
+
+background:
+rgba(255,255,255,.07);
+}
+
+.search-box svg{
+
+position:absolute;
+right:18px;
+top:50%;
+
+transform:translateY(-50%);
+
+width:20px;
+height:20px;
+
+opacity:.6;
+
+stroke-width:2;
+}
+
+/* =========================================
+   🎯 GÉNEROS
+========================================= */
+
+.genre-scroll{
+
+display:flex;
+gap:10px;
+
+overflow-x:auto;
+
+padding:
+0 18px 18px;
+
+scrollbar-width:none;
+
+-webkit-overflow-scrolling:touch;
+}
+
+.genre-scroll::-webkit-scrollbar{
+display:none;
+}
+
+.genre-btn{
+
+border:none;
+cursor:pointer;
+
+padding:
+10px 16px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.05);
+
+color:#fff;
+
+font-size:.82rem;
+font-weight:700;
+
+white-space:nowrap;
+
+transition:
+background .15s ease,
+transform .15s ease;
+}
+
+.genre-btn:active{
+transform:scale(.96);
+}
+
+.genre-btn:hover,
+.genre-btn.active{
+
+background:
+linear-gradient(
+135deg,
+#ff007f,
+#7b2dff
+);
+}
+
+/* =========================================
+   🎬 TITULO
+========================================= */
+
+.section-title{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:
+0 18px 20px;
+}
+
+.section-title h3{
+
+font-size:1.15rem;
+font-weight:800;
+}
+
+.section-title span{
+
+font-size:.85rem;
+opacity:.65;
+}
+
+/* =========================================
+   🎞 GRID
+========================================= */
+
+.movie-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,minmax(0,1fr));
+
+gap:14px;
+
+padding:
+0 14px 45px;
+}
+
+/* =========================================
+   🎥 CARD
+========================================= */
+
+.movie-card{
+
+position:relative;
+
+overflow:hidden;
+
+border-radius:22px;
+
+cursor:pointer;
+
+background:
+rgba(255,255,255,.035);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+transition:
+transform .16s ease,
+border-color .16s ease,
+background .16s ease;
+}
+
+@media (hover:hover){
+
+.movie-card:hover{
+
+transform:translateY(-4px);
+
+border-color:
+rgba(255,255,255,.10);
+
+background:
+rgba(255,255,255,.045);
+}
+
+}
+
+/* =========================================
+   🎬 POSTER
+========================================= */
+
+.poster{
+
+position:relative;
+overflow:hidden;
+
+aspect-ratio:2/3;
+
+background:#111;
+}
+
+.poster img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+object-position:center;
+
+transition:transform .20s ease;
+}
+
+@media (hover:hover){
+
+.movie-card:hover .poster img{
+transform:scale(1.03);
+}
+
+}
+
+/* =========================================
+   🌑 OVERLAY
+========================================= */
+
+.overlay{
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,.88),
+transparent 65%
+);
+
+pointer-events:none;
+}
+
+/* =========================================
+   🏷 TAGS
+========================================= */
+
+.tags{
+
+position:absolute;
+
+top:8px;
+left:8px;
+
+display:flex;
+flex-direction:column;
+
+gap:5px;
+
+z-index:5;
+}
+
+.tag{
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+width:fit-content;
+
+padding:
+4px 8px;
+
+border-radius:999px;
+
+font-size:.52rem;
+font-weight:800;
+
+letter-spacing:.3px;
+line-height:1;
+
+border:
+1px solid rgba(255,255,255,.08);
+}
+
+.tag.series{
+
+background:
+linear-gradient(
+135deg,
+#ff007f,
+#ff4fa3
+);
+
+color:#fff;
+}
+
+.tag.year{
+
+background: linear-gradient(135deg, #ff007f, #ff4fa3);
+
+color:#fff;
+}
+
+.tag.hd{
+
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+
+color:#fff;
+}
+
+/* =========================================
+   🆕 NUEVO
+========================================= */
+
+.new-badge{
+
+position:absolute;
+
+bottom:10px;
+left:10px;
+
+padding:
+5px 9px;
+
+border-radius:999px;
+
+font-size:.50rem;
+font-weight:800;
+
+background:
+linear-gradient(
+135deg,
+#ff007f,
+#ff5f00
+);
+
+z-index:5;
+}
+
+/* =========================================
+   📄 INFO
+========================================= */
+
+.movie-info{
+
+padding:12px 8px 14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+}
+
+.movie-info h4{
+
+font-size:.82rem;
+font-weight:800;
+
+line-height:1.25;
+
+width:100%;
+
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+
+overflow:hidden;
+}
+
+/* =========================================
+   ⚡ IMÁGENES VACÍAS
+========================================= */
+
+.poster img[src=""],
+.poster img:not([src]){
+opacity:0;
+}
+
+/* =========================================
+   📱 MOBILE
+========================================= */
+
+@media screen and (max-width:480px){
+
+.topbar{
+padding:12px;
+}
+
+.logo-area img{
+width:38px;
+height:38px;
+}
+
+.logo-text h1{
+font-size:.88rem;
+}
+
+.logo-text span{
+font-size:.65rem;
+}
+
+.profile-box img{
+width:36px;
+height:36px;
+}
+
+.profile-name{
+font-size:.72rem;
+}
+
+.search-wrapper{
+padding:12px;
+}
+
+.search-box input{
+
+height:48px;
+
+font-size:.78rem;
+
+padding:
+0 45px 0 14px;
+}
+
+.genre-scroll{
+padding:0 12px 14px;
+gap:8px;
+}
+
+.genre-btn{
+
+font-size:.70rem;
+
+padding:
+8px 12px;
+}
+
+.section-title{
+padding:0 12px 16px;
+}
+
+.section-title h3{
+font-size:.95rem;
+}
+
+.section-title span{
+font-size:.70rem;
+}
+
+.movie-grid{
+
+grid-template-columns:
+repeat(3,minmax(0,1fr));
+
+gap:9px;
+
+padding:
+0 9px 35px;
+}
+
+.movie-card{
+border-radius:16px;
+}
+
+.tags{
+top:6px;
+left:6px;
+gap:4px;
+}
+
+.tag{
+
+font-size:.42rem;
+
+padding:
+3px 6px;
+
+border-radius:14px;
+}
+
+.new-badge{
+
+font-size:.42rem;
+
+padding:
+4px 7px;
+
+bottom:6px;
+left:6px;
+}
+
+.movie-info{
+padding:9px 4px 12px;
+}
+
+.movie-info h4{
+font-size:.64rem;
+}
+
+}
+
+/* =========================================
+   🍎 IPHONE
+========================================= */
+
+@media screen
+and (min-width:390px)
+and (max-width:430px){
+
+.movie-grid{
+gap:10px;
+}
+
+.movie-card{
+border-radius:18px;
+}
+
+.tag{
+
+font-size:.48rem;
+
+padding:
+4px 7px;
+}
+
+.new-badge{
+font-size:.46rem;
+}
+
+.movie-info h4{
+font-size:.72rem;
+}
+
+}
+
+/* =========================================
+   📱 TABLET
+========================================= */
+
+@media screen
+and (min-width:768px)
+and (max-width:1023px){
+
+.movie-grid{
+
+grid-template-columns:
+repeat(4,minmax(0,1fr));
+
+gap:18px;
+
+padding:
+0 18px 45px;
+}
+
+.movie-info h4{
+font-size:.92rem;
+}
+
+.tag{
+
+font-size:.62rem;
+
+padding:
+5px 10px;
+}
+
+}
+
+/* =========================================
+   💻 PC
+========================================= */
+
+@media screen
+and (min-width:1024px){
+
+.topbar{
+padding:16px 24px;
+}
+
+.logo-area img{
+width:48px;
+height:48px;
+}
+
+.logo-text h1{
+font-size:1.1rem;
+}
+
+.profile-name{
+font-size:.90rem;
+}
+
+.search-wrapper{
+padding:22px;
+}
+
+.search-box input{
+height:58px;
+font-size:.95rem;
+}
+
+.genre-scroll{
+padding:0 22px 20px;
+}
+
+.section-title{
+padding:0 22px 22px;
+}
+
+.movie-grid{
+
+grid-template-columns:
+repeat(6,minmax(0,1fr));
+
+gap:20px;
+
+padding:
+0 20px 55px;
+}
+
+.movie-card{
+border-radius:24px;
+}
+
+.tag{
+
+font-size:.65rem;
+
+padding:
+6px 11px;
+}
+
+.new-badge{
+
+font-size:.60rem;
+
+padding:
+6px 10px;
+}
+
+.movie-info{
+padding:14px 10px 16px;
+}
+
+.movie-info h4{
+font-size:.92rem;
+}
+
+}
+
+/* =========================================
+   🖥 PC GRANDES
+========================================= */
+
+@media screen
+and (min-width:1440px){
+
+.movie-grid{
+
+grid-template-columns:
+repeat(7,minmax(0,1fr));
+}
+
+.movie-info h4{
+font-size:1rem;
+}
+
+}
+
+/* =========================================
+   ⚡ REDUCIR ANIMACIONES
+========================================= */
+
+@media (prefers-reduced-motion:reduce){
+
+*{
+animation:none !important;
+transition:none !important;
+}
+
 }
 
 </style>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+</head>
 
-  const loader = document.getElementById('loader-screen');
-  const bar = document.getElementById('loading-fill');
-  const percent = document.getElementById('loading-percent');
+<body>
 
-  let totalImages = document.images.length;
-  let loaded = 0;
 
-  if (totalImages === 0) {
-    totalImages = 1;
-    loaded = 1;
-  }
+<div id="loader-screen">
 
-  function updateLoader() {
-    loaded++;
-    let p = Math.floor((loaded / totalImages) * 100);
+  <!-- 🌌 fondo animado -->
+  <div class="loader-bg"></div>
+  <div class="loader-particles"></div>
+  <div class="loader-glow"></div>
 
-    bar.style.width = p + "%";
-    percent.textContent = p + "%";
+  <div class="loader-content">
 
-    if (p >= 100) {
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 600);
-    }
-  }
+    <!-- 🔥 LOGO -->
+    <div class="loader-circle">
 
-  for (let img of document.images) {
-    if (img.complete) updateLoader();
-    else {
-      img.addEventListener("load", updateLoader);
-      img.addEventListener("error", updateLoader);
-    }
-  }
-});
-</script>
-<!-- 🔴 Fin pantalla de carga neón -->
+      <div class="circle-ring ring1"></div>
+      <div class="circle-ring ring2"></div>
 
-  <header>
-  <div class="header-container">
-    <h1 id="titulo-seccion">
-      Agregados HOY 
-      <span id="contador" style="font-size: 1rem; font-weight: normal; color: #bbb;"></span>
+      <div class="circle-core">
+        <img
+          src="../Logo/Logo Nuevo -512x512.png"
+          alt="MovieTx"
+          class="loader-logo"
+          draggable="false"
+        >
+      </div>
+
+    </div>
+
+    <!-- 🎬 TITULO -->
+    <h1 class="loader-title">
+      Movie<span>Tx</span>
     </h1>
-    <button class="btn-filtro" id="abrirModal" title="Filtrar por género">
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-    <line x1="4" y1="6" x2="20" y2="6"/>
-    <circle cx="10" cy="6" r="2"/>
-    <line x1="4" y1="12" x2="20" y2="12"/>
-    <circle cx="14" cy="12" r="2"/>
-    <line x1="4" y1="18" x2="20" y2="18"/>
-    <circle cx="8" cy="18" r="2"/>
-  </svg>
-</button>
+
+    <!-- ✨ SUB -->
+    <p class="loader-sub">
+      Streaming Experience
+    </p>
+
+    <!-- 📊 PROGRESS -->
+    <div class="loader-progress">
+
+      <div class="loader-progress-track">
+
+        <div
+          class="loader-progress-fill"
+          id="loading-fill">
+        </div>
+
+        <div class="loader-shine"></div>
+
+      </div>
+
+      <div
+        class="loader-percent"
+        id="loading-percent">
+        0%
+      </div>
+
+    </div>
+
+    <!-- ⚡ STATUS -->
+    <div class="loader-status">
+
+      <span class="status-dot"></span>
+
+      <span
+        class="loader-message"
+        id="loader-message">
+        Inicializando sistema
+      </span>
+
+    </div>
 
   </div>
+
+</div>
+
+<style>
+
+/* =========================================
+🌌 RESET
+========================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+-webkit-text-size-adjust:100%;
+}
+
+/* =========================================
+🔒 BODY LOCK
+========================================= */
+
+body.loading{
+overflow:hidden;
+touch-action:none;
+height:100vh;
+}
+
+/* =========================================
+🌌 MAIN LOADER
+========================================= */
+
+#loader-screen{
+
+position:fixed;
+inset:0;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+overflow:hidden;
+
+padding:20px;
+
+background:
+radial-gradient(circle at top,
+rgba(0,180,255,.12),
+transparent 30%),
+
+radial-gradient(circle at bottom,
+rgba(255,0,128,.10),
+transparent 30%),
+
+linear-gradient(
+180deg,
+#070b14 0%,
+#020307 45%,
+#000 100%
+);
+
+z-index:999999;
+
+font-family:
+'Inter',
+sans-serif;
+
+transition:
+opacity .8s ease,
+visibility .8s ease;
+
+/* mejora render */
+isolation:isolate;
+will-change:opacity;
+}
+
+/* ocultar */
+
+#loader-screen.hidden{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+}
+
+/* =========================================
+✨ BACKGROUND EFFECT
+========================================= */
+
+.loader-bg{
+
+position:absolute;
+
+/* FIX DEL HALO GIGANTE */
+inset:-20%;
+
+background:
+conic-gradient(
+from 180deg,
+rgba(0,170,255,.05),
+rgba(123,45,255,.04),
+rgba(255,0,128,.05),
+rgba(0,170,255,.05)
+);
+
+animation:
+bgRotate 22s linear infinite;
+
+will-change:transform;
+transform:translateZ(0);
+}
+
+@keyframes bgRotate{
+
+to{
+transform:rotate(360deg);
+}
+}
+
+/* =========================================
+✨ PARTICLES
+========================================= */
+
+.loader-particles{
+
+position:absolute;
+inset:0;
+
+overflow:hidden;
+pointer-events:none;
+}
+
+.loader-particles::before,
+.loader-particles::after{
+
+content:"";
+
+position:absolute;
+
+width:220%;
+height:220%;
+
+background-image:
+radial-gradient(
+rgba(255,255,255,.13) 1px,
+transparent 1px
+);
+
+background-size:
+58px 58px;
+
+animation:
+particlesMove 22s linear infinite;
+
+will-change:transform;
+}
+
+.loader-particles::after{
+opacity:.4;
+animation-duration:34s;
+transform:rotate(12deg);
+}
+
+@keyframes particlesMove{
+
+from{
+transform:translate3d(0,0,0);
+}
+
+to{
+transform:translate3d(-140px,-140px,0);
+}
+}
+
+/* =========================================
+💡 GLOW
+========================================= */
+
+.loader-glow{
+
+position:absolute;
+
+width:460px;
+height:460px;
+
+border-radius:50%;
+
+background:
+radial-gradient(
+circle,
+rgba(0,170,255,.16),
+transparent 70%
+);
+
+filter:blur(55px);
+
+animation:
+pulseGlow 4s ease infinite;
+
+pointer-events:none;
+will-change:transform,opacity;
+}
+
+@keyframes pulseGlow{
+
+0%,100%{
+transform:scale(1);
+opacity:.65;
+}
+
+50%{
+transform:scale(1.15);
+opacity:1;
+}
+}
+
+/* =========================================
+📦 CONTENT
+========================================= */
+
+.loader-content{
+
+position:relative;
+z-index:20;
+
+width:min(92vw,420px);
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
+animation:
+loaderFade .9s ease;
+
+will-change:transform,opacity;
+}
+
+@keyframes loaderFade{
+
+from{
+opacity:0;
+transform:translateY(18px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* =========================================
+🪐 LOGO
+========================================= */
+
+.loader-circle{
+
+position:relative;
+
+width:170px;
+height:170px;
+
+margin:
+0 auto 34px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+isolation:isolate;
+}
+
+/* =========================================
+🌀 RINGS
+========================================= */
+
+.circle-ring{
+
+position:absolute;
+inset:0;
+
+border-radius:50%;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+pointer-events:none;
+will-change:transform;
+}
+
+.ring1{
+
+animation:
+rotateRing 6s linear infinite;
+}
+
+.ring2{
+
+inset:12px;
+
+border-color:
+rgba(0,180,255,.20);
+
+animation:
+rotateRingReverse 8s linear infinite;
+}
+
+@keyframes rotateRing{
+
+to{
+transform:rotate(360deg);
+}
+}
+
+@keyframes rotateRingReverse{
+
+to{
+transform:rotate(-360deg);
+}
+}
+
+/* =========================================
+🌟 CORE
+========================================= */
+
+.circle-core{
+
+position:absolute;
+inset:20px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:50%;
+
+/* FIX PRINCIPAL */
+overflow:hidden;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.02)
+);
+
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+box-shadow:
+0 0 35px rgba(0,170,255,.18),
+inset 0 0 25px rgba(255,255,255,.04);
+
+isolation:isolate;
+}
+
+/* borde animado FIX */
+
+.circle-core::before{
+
+content:"";
+
+position:absolute;
+
+/* FIX DEL HOVER TRANSPARENTE */
+inset:0;
+
+border-radius:50%;
+
+padding:2px;
+
+background:
+linear-gradient(
+135deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+-webkit-mask:
+linear-gradient(#fff 0 0)
+content-box,
+linear-gradient(#fff 0 0);
+
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+
+animation:
+spinBorder 4s linear infinite;
+
+pointer-events:none;
+will-change:transform;
+}
+
+@keyframes spinBorder{
+
+to{
+transform:rotate(360deg);
+}
+}
+
+/* =========================================
+🎬 LOGO IMAGE
+========================================= */
+
+.loader-logo{
+
+width:88px;
+height:88px;
+
+object-fit:contain;
+
+position:relative;
+z-index:2;
+
+pointer-events:none;
+user-select:none;
+
+filter:
+drop-shadow(0 0 16px rgba(0,225,255,.45));
+
+animation:
+logoFloat 3s ease infinite;
+
+will-change:transform;
+}
+
+@keyframes logoFloat{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-6px);
+}
+}
+
+/* =========================================
+🎬 TITLES
+========================================= */
+
+.loader-title{
+
+font-size:2.8rem;
+font-weight:900;
+
+line-height:1;
+letter-spacing:.5px;
+
+margin-bottom:10px;
+
+color:#fff;
+
+text-shadow:
+0 0 20px rgba(0,225,255,.08);
+}
+
+.loader-title span{
+
+background:
+linear-gradient(
+135deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.loader-sub{
+
+font-size:.9rem;
+font-weight:600;
+
+letter-spacing:2.5px;
+text-transform:uppercase;
+
+color:
+rgba(255,255,255,.58);
+
+margin-bottom:34px;
+}
+
+/* =========================================
+📊 PROGRESS
+========================================= */
+
+.loader-progress{
+width:100%;
+}
+
+.loader-progress-track{
+
+position:relative;
+
+height:9px;
+
+overflow:hidden;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+backdrop-filter:blur(6px);
+}
+
+.loader-progress-fill{
+
+width:0%;
+height:100%;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+90deg,
+#00e1ff,
+#7b2dff,
+#ff007f
+);
+
+box-shadow:
+0 0 18px rgba(0,225,255,.45);
+
+transition:
+width .22s ease;
+
+will-change:width;
+}
+
+/* brillo */
+
+.loader-shine{
+
+position:absolute;
+top:0;
+left:-40%;
+
+width:40%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.4),
+transparent
+);
+
+animation:
+shine 1.8s linear infinite;
+
+pointer-events:none;
+}
+
+@keyframes shine{
+
+to{
+left:140%;
+}
+}
+
+/* =========================================
+🔢 PERCENT
+========================================= */
+
+.loader-percent{
+
+margin-top:14px;
+
+font-size:1rem;
+font-weight:800;
+
+color:#fff;
+
+letter-spacing:.5px;
+}
+
+/* =========================================
+⚡ STATUS
+========================================= */
+
+.loader-status{
+
+margin-top:28px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+font-size:.84rem;
+
+color:
+rgba(255,255,255,.65);
+}
+
+.status-dot{
+
+width:10px;
+height:10px;
+
+border-radius:50%;
+
+background:#00e1ff;
+
+box-shadow:
+0 0 14px #00e1ff;
+
+animation:
+dotPulse 1s infinite;
+
+flex-shrink:0;
+}
+
+@keyframes dotPulse{
+
+0%,100%{
+transform:scale(1);
+opacity:1;
+}
+
+50%{
+transform:scale(.65);
+opacity:.45;
+}
+}
+
+/* =========================================
+📱 MOBILE SMALL
+========================================= */
+
+@media screen and (max-width:360px){
+
+#loader-screen{
+padding:14px;
+}
+
+.loader-content{
+width:100%;
+}
+
+.loader-circle{
+width:125px;
+height:125px;
+margin-bottom:24px;
+}
+
+.circle-core{
+inset:16px;
+}
+
+.loader-logo{
+width:58px;
+height:58px;
+}
+
+.ring2{
+inset:9px;
+}
+
+.loader-title{
+font-size:1.8rem;
+}
+
+.loader-sub{
+font-size:.68rem;
+letter-spacing:1.4px;
+margin-bottom:26px;
+}
+
+.loader-progress-track{
+height:7px;
+}
+
+.loader-percent{
+font-size:.82rem;
+}
+
+.loader-status{
+font-size:.68rem;
+margin-top:22px;
+}
+
+.status-dot{
+width:8px;
+height:8px;
+}
+}
+
+/* =========================================
+📱 MOBILE
+========================================= */
+
+@media screen and (min-width:361px)
+and (max-width:600px){
+
+.loader-content{
+width:min(94vw,340px);
+}
+
+.loader-circle{
+width:150px;
+height:150px;
+}
+
+.circle-core{
+inset:18px;
+}
+
+.loader-logo{
+width:72px;
+height:72px;
+}
+
+.loader-title{
+font-size:2.1rem;
+}
+
+.loader-sub{
+font-size:.76rem;
+letter-spacing:2px;
+}
+
+.loader-progress-track{
+height:8px;
+}
+
+.loader-percent{
+font-size:.92rem;
+}
+
+.loader-status{
+font-size:.74rem;
+}
+}
+
+/* =========================================
+🍎 IPHONE
+========================================= */
+
+@media screen
+and (min-width:390px)
+and (max-width:430px){
+
+.loader-circle{
+width:165px;
+height:165px;
+}
+
+.circle-core{
+inset:20px;
+}
+
+.loader-logo{
+width:78px;
+height:78px;
+}
+
+.loader-title{
+font-size:2.3rem;
+}
+
+.loader-sub{
+font-size:.8rem;
+}
+
+.loader-percent{
+font-size:.95rem;
+}
+}
+
+/* =========================================
+📱 TABLET
+========================================= */
+
+@media screen
+and (min-width:768px)
+and (max-width:1023px){
+
+.loader-content{
+width:min(78vw,500px);
+}
+
+.loader-circle{
+width:200px;
+height:200px;
+}
+
+.circle-core{
+inset:24px;
+}
+
+.loader-logo{
+width:100px;
+height:100px;
+}
+
+.loader-title{
+font-size:3.2rem;
+}
+
+.loader-sub{
+font-size:1rem;
+}
+
+.loader-progress-track{
+height:11px;
+}
+
+.loader-percent{
+font-size:1.15rem;
+}
+
+.loader-status{
+font-size:.95rem;
+}
+}
+
+/* =========================================
+💻 PC
+========================================= */
+
+@media screen
+and (min-width:1024px){
+
+.loader-content{
+width:min(32vw,500px);
+}
+
+.loader-circle{
+width:210px;
+height:210px;
+margin-bottom:40px;
+}
+
+.circle-core{
+inset:24px;
+}
+
+.loader-logo{
+width:105px;
+height:105px;
+}
+
+.loader-title{
+font-size:3.5rem;
+letter-spacing:1px;
+}
+
+.loader-sub{
+font-size:1rem;
+letter-spacing:3px;
+}
+
+.loader-progress-track{
+height:11px;
+}
+
+.loader-percent{
+font-size:1.15rem;
+}
+
+.loader-status{
+font-size:.95rem;
+margin-top:32px;
+}
+
+.loader-glow{
+width:620px;
+height:620px;
+}
+}
+
+/* =========================================
+🖥 PC GRANDES
+========================================= */
+
+@media screen
+and (min-width:1440px){
+
+.loader-content{
+width:min(28vw,560px);
+}
+
+.loader-circle{
+width:240px;
+height:240px;
+}
+
+.circle-core{
+inset:28px;
+}
+
+.loader-logo{
+width:120px;
+height:120px;
+}
+
+.loader-title{
+font-size:4rem;
+}
+
+.loader-sub{
+font-size:1.1rem;
+}
+
+.loader-progress-track{
+height:12px;
+}
+
+.loader-percent{
+font-size:1.3rem;
+}
+
+.loader-status{
+font-size:1rem;
+}
+
+.loader-glow{
+width:760px;
+height:760px;
+}
+}
+
+</style>
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const loader =
+document.getElementById("loader-screen");
+
+const fill =
+document.getElementById("loading-fill");
+
+const percent =
+document.getElementById("loading-percent");
+
+const message =
+document.getElementById("loader-message");
+
+if(
+!loader ||
+!fill ||
+!percent
+) return;
+
+/* =========================================
+🔒 LOCK BODY
+========================================= */
+
+document.body.classList.add("loading");
+
+/* =========================================
+⚡ STATUS TEXTS
+========================================= */
+
+const texts = [
+
+"Inicializando sistema",
+"Cargando catálogo",
+"Preparando películas",
+"Optimizando experiencia",
+"Finalizando carga"
+
+];
+
+let textIndex = 0;
+
+const textInterval =
+setInterval(() => {
+
+textIndex =
+(textIndex + 1) % texts.length;
+
+if(message){
+message.textContent =
+texts[textIndex];
+}
+
+}, 900);
+
+/* =========================================
+📊 PROGRESS
+========================================= */
+
+let progress = 0;
+let finished = false;
+
+function updateProgress(value){
+
+progress =
+Math.min(100, value);
+
+fill.style.width =
+progress + "%";
+
+percent.textContent =
+Math.floor(progress) + "%";
+}
+
+/* progreso fake suave */
+
+const progressInterval =
+setInterval(() => {
+
+if(progress < 88){
+
+progress +=
+Math.random() * 4;
+
+updateProgress(progress);
+
+}
+
+}, 120);
+
+/* =========================================
+✅ FINISH
+========================================= */
+
+function finishLoader(){
+
+if(finished) return;
+
+finished = true;
+
+clearInterval(progressInterval);
+clearInterval(textInterval);
+
+/* animación final */
+
+const final =
+setInterval(() => {
+
+if(progress < 100){
+
+progress += 2.5;
+
+updateProgress(progress);
+
+}else{
+
+clearInterval(final);
+
+setTimeout(() => {
+
+loader.classList.add("hidden");
+
+document.body.classList.remove("loading");
+
+/* remover */
+
+setTimeout(() => {
+
+loader.remove();
+
+}, 900);
+
+}, 250);
+
+}
+
+}, 18);
+
+}
+
+/* =========================================
+🚀 LOAD EVENT
+========================================= */
+
+window.addEventListener("load", () => {
+
+setTimeout(() => {
+
+finishLoader();
+
+}, 300);
+
+});
+
+/* fallback */
+
+setTimeout(() => {
+
+finishLoader();
+
+}, 5000);
+
+});
+
+</script>
+
+<!-- =========================================
+     🔥 HEADER
+========================================= -->
+
+<header class="topbar">
+
+<div class="topbar-inner">
+
+<div class="logo-area">
+
+<img src="../Logo/Logo Nuevo -512x512.png">
+
+<div class="logo-text">
+<h1>MovieTx</h1>
+</div>
+
+</div>
+
+<div class="profile-box">
+
+<img src="<?= htmlspecialchars($foto) ?>">
+
+<div class="profile-name">
+<?= htmlspecialchars($nombre) ?>
+</div>
+
+</div>
+
+</div>
 
 </header>
 
-<div class="modal-genero" id="modalGenero">
-  <div class="modal-contenido">
+<!-- =========================================
+     🔍 SEARCH
+========================================= -->
 
-    <button class="cerrar-modal" id="cerrarModal">✖</button>
+<div class="search-wrapper">
 
-    <h2>Seleccionar género</h2>
+<div class="search-box">
 
-    <div class="generos">
-      <button class="genero-btn">Accion</button>
-      <button class="genero-btn">Animacion</button>
-      <button class="genero-btn">Anime</button>
-      <button class="genero-btn">Comedia</button>
-      <button class="genero-btn">Crimen</button>
-      <button class="genero-btn">Drama</button>
-      <button class="genero-btn">Documental</button>
-      <button class="genero-btn">Disney</button>
-      <button class="genero-btn">Marvel</button>
-      <button class="genero-btn">Musical</button>
-      <button class="genero-btn">Romance</button>
-      <button class="genero-btn">Terror</button>
+<input
+type="text"
+id="searchInput"
+placeholder="Buscar peliculas • acción • anime • terror..."
+>
+
+<svg fill="none"
+stroke="currentColor"
+viewBox="0 0 24 24">
+
+<circle cx="11"
+cy="11"
+r="8"></circle>
+
+<path d="m21 21-4.3-4.3"></path>
+
+</svg>
+
+</div>
+
+</div>
+
+<!-- =========================================
+     🎯 GÉNEROS
+========================================= -->
+
+<div class="genre-scroll">
+
+<button class="genre-btn active"
+data-genre="all">
+Todo
+</button>
+
+<button
+class="genre-btn"
+data-genre="nuevo"
+id="nuevoBtn"
+style="display:none;">
+Nuevo
+</button>
+
+<button class="genre-btn"
+data-genre="accion">
+Acción
+</button>
+
+<button class="genre-btn"
+data-genre="animacion">
+Animación
+</button>
+
+<button class="genre-btn"
+data-genre="anime">
+Anime
+</button>
+
+<button class="genre-btn"
+data-genre="biblico">
+Biblico
+</button>
+
+<button class="genre-btn"
+data-genre="comedia">
+Comedia
+</button>
+
+<button class="genre-btn"
+data-genre="crimen">
+Crimen
+</button>
+
+<button class="genre-btn"
+data-genre="drama">
+Drama
+</button>
+
+<button class="genre-btn"
+data-genre="documental">
+Documental
+</button>
+
+<button class="genre-btn"
+data-genre="disney">
+Disney
+</button>
+
+<button class="genre-btn"
+data-genre="marvel">
+Marvel
+</button>
+
+<button class="genre-btn"
+data-genre="misterio">
+Misterio
+</button>
+
+<button class="genre-btn"
+data-genre="musical">
+Musical
+</button>
+
+<button class="genre-btn"
+data-genre="suspenso">
+Suspenso
+</button>
+
+<button class="genre-btn"
+data-genre="romance">
+Romance
+</button>
+
+<button class="genre-btn"
+data-genre="peleas">
+Peleas
+</button>
+
+<button class="genre-btn"
+data-genre="terror">
+Terror
+</button>
+
+<button class="genre-btn"
+data-genre="venganza">
+Venganza
+</button>
+
+</div>
+
+<!-- =========================================
+     🎞 TITLE
+========================================= -->
+
+<div class="section-title">
+
+<h3>Agregados Hoy</h3>
+
+<span id="contador">0</span>
+
+</div>
+
+<!-- =========================================
+     🎥 GRID
+========================================= -->
+
+<div class="movie-grid"
+id="movieGrid">
+
+<div class="movie-card" 
+  data-anio="2026" 
+  data-tipo="serie" 
+  data-title="baki dou el samurai invencible" 
+  data-genre="anime animacion peleas" 
+  data-date="2026-06-13" 
+  data-link="../View Peliculas/Reproductor Universal.php?id=baki_dou_el_samurai_invencible">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2026
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
     </div>
-
-    <button class="reset-btn" id="resetGenero">
-      Quitar filtro
-    </button>
-
+    <img src="https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>Baki-Dou: El samurái invencible</h4>
   </div>
 </div>
 
+<div class="movie-card" 
+  data-anio="2025" 
+  data-tipo="serie" 
+  data-title="en el barro" 
+  data-genre="crimen drama" 
+  data-date="2026-05-27" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=en_el_barro">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2025
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
 
-
-  <div class="search-box">
-    <input type="text" id="search-input" placeholder="Buscar por nombre, género o año..." oninput="filtrarPeliculas()"> <!--ESTABA PUESTO "Buscar por nombre, género o año..." -->
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
   </div>
-
-  <div class="movie-grid" id="movie-grid">
-
-  <div class="movie locked" data-tipo="serie" data-titulo="baki dou el samurai invencible" data-tipo="serie" data-genero="anime animacion pelea accion" data-anio="2026" data-html="../View Series/.html" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2026</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/vIbiGAJR69775GHFlYlPFG4GSpb.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>Baki-Dou: El samurái invencible</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="en el barro" data-tipo="serie" data-genero="drama suspenso novela" data-anio="2025" data-html="../View Series/En el barro (2025).php" data-fecha="2026-01-">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2025</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>En el barro</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="it bienvenido a derry" data-tipo="serie" data-genero="terror misterio" data-anio="2025" data-html="../View Series/IT Bienvenidos a Derry (2025).php" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2025</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>It: Bienvenido a Derry</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="agatha quien si no" data-tipo="serie" data-genero="marvel drama misterio accion" data-anio="2024" data-html="../View Series/Agatha (2024).php" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2024</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/nbkbguUUNWQZygVJKjODyELBQk9.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>Agatha ¿Quien si no?</p>
-    </div>
-    
-    <div class="movie locked" data-tipo="serie" data-titulo="from" data-tipo="serie" data-genero="suspenso terror misterio" data-anio="2022" data-html="../View Series/FROM (2022).php" data-fecha="2026-01-">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2022</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>FROM</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="blue lock" data-tipo="serie" data-genero="anime animacion futbol" data-anio="2022" data-html="../View Series/Blue Lock (2022).php" data-fecha="2026-04-01-">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2022</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/1DFhWgHKzzlzAvrmK8ZzLx4XcTY.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>Blue Lock</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="el juego del calamar" data-tipo="serie" data-genero="drama misterio crimen" data-anio="2021" data-html="../View Series/.html" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2021</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>El juego del calamar</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="baki" data-tipo="serie" data-genero="accion pelea animacion anime" data-anio="2018" data-html="../View Series/Baki (2018).php" data-fecha="2026-03-23">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2018</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/j4bL0G8h8k49MuXKYfZqhXqk2rI.jpg">
-      <span class="lock-icon">🔒</span>
-      <p> Baki</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="moises y los diez mandamientos" data-tipo="serie" data-genero="drama biblico" data-anio="2015" data-html="../View Series/Moises y los diez mandamientos (2015).php" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2015</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>Moises y los diez mandamientos</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="avenida brasil" data-tipo="serie" data-genero="drama crimen misterio" data-anio="2012" data-html="../View Series/Avenida Brasil (2012).php" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2012</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/jgd86jJQGAl1GYThvd8oHLIy5AG.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>Avenida Brasil</p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="the walking dead" data-tipo="serie" data-genero="drama apocalipsis zombie terror" data-anio="2010" data-html="../View Series/The Walking Dead (2010).php" data-fecha="2026-04-01">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2010</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/9iYinsg30olSCuDoH8VxtRN5gZx.jpg">
-      <span class="lock-icon">🔒</span>
-      <p>The Walking Dead</p>
-    </div>
-
-    <!--FIN-->
-
-    <!--SERIE
-    
-    <div class="movie locked" data-tipo="serie" data-titulo="" data-tipo="serie" data-genero="" data-anio="2015" data-html="../View Series/.html" data-fecha="2026-01-">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2015</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/">
-      <span class="lock-icon">🔒</span>
-      <p></p>
-    </div>
-
-    <div class="movie locked" data-tipo="serie" data-titulo="" data-tipo="serie" data-genero="" data-anio="2015" data-html="../View Series/.html" data-fecha="2026-01-">
-      <span class="SerieHd">Serie</span>
-      <span class="year-tog">2015</span>
-      <span class="year-tagg">HD</span>
-      <img src="https://image.tmdb.org/t/p/w300/">
-      <span class="lock-icon">🔒</span>
-      <p></p>
-    </div>
-    FIN-->
-    
-  </div>
-  <div id="no-results" class="no-results">Pelicula o serie no encontrada</div> <!--ESTABA PUESTO "No se encontraron resultados 😕"-->
-
-    <!-- Modal flotante de edad + clave -->
-<div id="ageModal" class="age-modal hidden">
-  <div class="age-modal-content">
-    <span class="close-button" onclick="closeModal()">×</span>
-
-    <h2>Verificación de Edad</h2>
-
-    <label for="birthyear">Año de nacimiento:</label>
-<input type="number" id="birthyear">
-
-<label for="age">Edad:</label>
-<input type="number" id="age">
-
-<label for="claveInput">Clave:</label>
-<input type="password" id="claveInput">
-
-<button id="resetClaveBtn" style="background:#444;margin-top:10px;">
-      Olvidé mi clave
-    </button>
-
-<button id="confirmAgeBtn">Validar</button>
-<p id="result-message"></p>
-
+  <div class="movie-info">
+    <h4>En el barro</h4>
   </div>
 </div>
 
-<!-- MODAL RESET CLAVE -->
-<div id="resetModal" class="modal">
-  <div class="modal-content">
-    <h2>Restablecer clave</h2>
-    <p>¿Deseás borrar tu clave y crear una nueva?</p>
-    <div class="modal-buttons">
-      <button id="cancelReset">Cancelar</button>
-      <button id="confirmReset">Confirmar</button>
+<div class="movie-card" 
+  data-anio="2025" 
+  data-tipo="serie" 
+  data-title="it bienvenidos a derry" 
+  data-genre="terror misterio" 
+  data-date="2026-06-13" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=it_bienvenido_a_derry">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2025
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
     </div>
+    <img src="https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>IT: Bienvenidos a Derry</h4>
   </div>
 </div>
 
-<!-- MODAL ALERTA -->
-<div id="alertModal" class="modal">
-  <div class="modal-content">
-    <p id="alertTexto"></p>
-    <br>
-    <button id="closeAlert">Aceptar</button>
+<div class="movie-card" 
+  data-anio="2019" 
+  data-tipo="serie" 
+  data-title="steven universe futuro" 
+  data-genre="animacion aventura" 
+  data-date="2026-06-13" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=steven_universe_futuro">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2019
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/fDdIlvGhBNnljro1ON6T9Q3hRpq.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>Steven Universe: Futuro</h4>
   </div>
 </div>
 
-<!-- SCRIPT DE VERIFICACION DE SUSPENDIDO AL USUARIO-->
+<div class="movie-card" 
+  data-anio="2026" 
+  data-tipo="serie" 
+  data-title="from" 
+  data-genre="misterio terror" 
+  data-date="2026-05-27" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=from">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2026
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/cjXLrg4R7FRPFafvuQ3SSznQOd9.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>FROM</h4>
+  </div>
+</div>
+
+<div class="movie-card" 
+  data-anio="2018" 
+  data-tipo="serie" 
+  data-title="baki" 
+  data-genre="animacion anime peleas" 
+  data-date="2026-06-13" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=baki_2018">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2018
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/j4bL0G8h8k49MuXKYfZqhXqk2rI.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>Baki</h4>
+  </div>
+</div>
+
+<div class="movie-card" 
+  data-anio="2016" 
+  data-tipo="serie" 
+  data-title="rosario tijeras" 
+  data-genre="crimen drama" 
+  data-date="2026-06-13" 
+  data-link="../View Peliculas/Reproductor Universal Series.php?id=rosario_tijeras">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Serie
+      </span>
+      <span class="tag year">
+        2016
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/zY7jshpbPNs5U677HxRZUltb7gm.jpg" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>Rosario tijeras</h4>
+  </div>
+</div>
+
+<!-- CARD
+
+<div class="movie-card" 
+  data-anio="2026" 
+  data-tipo="pelicula" 
+  data-title="titulo" 
+  data-genre="genero" 
+  data-date="2026-05-27" 
+  data-link="../View Peliculas/Reproductor Universal.php?id=">
+  <div class="poster">
+    <div class="tags">
+      <span class="tag series">
+        Pelicula
+      </span>
+      <span class="tag year">
+        2026
+      </span>
+      <span class="tag hd">
+        HD
+      </span>
+
+    </div>
+    <img src="https://image.tmdb.org/t/p/w300/" loading="lazy" decoding="async" draggable="false">
+    <div class="overlay"></div>
+  </div>
+  <div class="movie-info">
+    <h4>Titulo</h4>
+  </div>
+</div>
+ -->
+
+</div>
 
 <script>
-  setInterval(() => {
+history.scrollRestoration = "manual";
 
-  fetch("auth.php?check_status=1")
-    .then(res => res.text())
-    .then(data => {
-
-      if (data === "logout") {
-        window.location.href = "../index.php";
-      }
-
+window.addEventListener("load", () => {
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant"
     });
-
-}, 15000); // cada 15 segundos
-
-</script>
-
-<!-- FIN -->
-
-<style>
-
-/*MODAL DE VLAVE*/
-
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.modal-content {
-  background:#121212;
-  color:#fff;
-  padding:25px;
-  border-radius:12px;
-  width:90%;
-  max-width:350px;
-  text-align:center;
-  box-shadow:0 0 15px rgba(0,0,0,.5);
-}
-
-.modal-buttons {
-  margin-top:15px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.modal-buttons button,
-#closeAlert {
-  padding:8px 14px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#333;
-  color:#fff;
-}
-
-#confirmReset {
-  background:#d63030;
-}
-
-.modal-buttons button:hover,
-#closeAlert:hover {
-  opacity:.85;
-}
-
-
-/*FIN*/
-
-  .age-modal {
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(6px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeInBg 0.4s ease;
-  }
-
-  .age-modal-content {
-    width: 320px;
-    background: #141414;
-    padding: 25px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(255,0,0,0.25);
-    color: white;
-    position: relative;
-    animation: popup 0.35s ease;
-  }
-
-  @keyframes popup {
-    from { transform: scale(0.85); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  @keyframes fadeInBg {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .age-modal-content h2 {
-    margin-bottom: 15px;
-    font-size: 22px;
-    color: #ff3c3c;
-  }
-
-  .age-modal-content label {
-    text-align: left;
-    display: block;
-    margin: 10px 0 5px;
-    font-size: 14px;
-    opacity: 0.9;
-  }
-
-  .age-modal-content input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    background: #1f1f1f;
-    border: 1px solid #333;
-    color: white;
-    outline: none;
-    font-size: 15px;
-    transition: 0.2s;
-  }
-
-  .age-modal-content input:focus {
-    border-color: #ff3c3c;
-    box-shadow: 0 0 5px rgba(255,60,60,0.6);
-  }
-
-  .age-modal-content button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 12px;
-    background: #ff3c3c;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.2s ease;
-  }
-
-  .age-modal-content button:hover {
-    background: #ff5555;
-    transform: scale(1.03);
-  }
-
-  .close-button {
-    position: absolute;
-    right: 14px;
-    top: 10px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #bbb;
-  }
-
-  .close-button:hover {
-    color: white;
-  }
-
-  #result-message {
-    margin-top: 12px;
-    font-size: 14px;
-    min-height: 20px;
-  }
-
-  .hidden {
-    display: none;
-  }
-</style>
-  
-  <script>
-let pendingRedirect = null;
-let claveGuardada = localStorage.getItem("claveAdultos");
-
-function handleAdultLinkClick(e){
-  e.preventDefault();
-  e.stopImmediatePropagation(); // 🔥 CLAVE
-  pendingRedirect = e.currentTarget.dataset.html;
-  abrirModalEdad();
-}
-
-
-
-function abrirModalEdad(){
-  ageModal.classList.remove("hidden");
-  resultMessage.textContent = "";
-  birthyear.value = "";
-  age.value = "";
-  claveInput.value = "";
-}
-
-function closeModal(){
-  ageModal.classList.add("hidden");
-  pendingRedirect = null;
-}
-
-const ageModal = document.getElementById("ageModal");
-const birthyear = document.getElementById("birthyear");
-const age = document.getElementById("age");
-const claveInput = document.getElementById("claveInput");
-const resultMessage = document.getElementById("result-message");
-
-document.getElementById("confirmAgeBtn").addEventListener("click", () => {
-
-  let birth = parseInt(birthyear.value);
-  let edad = parseInt(age.value);
-  let clave = claveInput.value;
-  let actual = new Date().getFullYear();
-  let calculada = actual - birth;
-
-  if(!birth || !edad || !clave){
-    resultMessage.textContent = "Completa todos los campos.";
-    return;
-  }
-
-  if(edad !== calculada){
-    resultMessage.textContent = "Edad no coincide.";
-    return;
-  }
-
-  if(edad < 18){
-    resultMessage.textContent = "Debes ser mayor de edad.";
-    return;
-  }
-
-  // ✅ Crear clave si no existe
-  if(!claveGuardada){
-    localStorage.setItem("claveAdultos", clave);
-    claveGuardada = clave;
-    resultMessage.style.color="lime";
-    resultMessage.textContent = "Clave creada. Acceso autorizado.";
-    setTimeout(()=>location.href=pendingRedirect,1200);
-    return;
-  }
-
-  // ✅ Validar clave existente
-  if(clave !== claveGuardada){
-    resultMessage.textContent="Clave incorrecta.";
-    return;
-  }
-
-  // ✅ Acceso permitido
-  resultMessage.style.color="lime";
-  resultMessage.textContent="Acceso autorizado.";
-  setTimeout(()=>location.href=pendingRedirect,1200);
-});
-
-document.querySelectorAll('.movie[data-adulto="true"]').forEach(card => {
-  card.addEventListener("click", handleAdultLinkClick);
 });
 </script>
 
 <script>
-const resetModal = document.getElementById("resetModal");
-const alertModal = document.getElementById("alertModal");
-const alertTexto = document.getElementById("alertTexto");
 
-document.getElementById("resetClaveBtn").addEventListener("click", () => {
-  resetModal.style.display = "flex";
-});
+/* =========================================
+   ⚡ MOVIETX ENGINE ULTRA OPTIMIZADO
+   🔥 MEZCLA INTELIGENTE DE GÉNEROS
+   🔥 ORDEN POR AÑO
+   🔥 SCROLL FLUIDO
+   🔥 MOBILE FAST
+========================================= */
 
-document.getElementById("cancelReset").addEventListener("click", () => {
-  resetModal.style.display = "none";
-});
+(() => {
 
-document.getElementById("confirmReset").addEventListener("click", () => {
-  localStorage.removeItem("claveAdultos");
-  claveGuardada = null;
+"use strict";
 
-  resetModal.style.display = "none";
-  showAlert("Clave eliminada. Ahora puedes crear una nueva.");
-  abrirModalEdad();
-});
+/* =========================================
+   ⚡ ELEMENTOS
+========================================= */
 
-document.getElementById("closeAlert").addEventListener("click", () => {
-  alertModal.style.display = "none";
-});
+const grid =
+document.getElementById("movieGrid");
 
-function showAlert(msg){
-  alertTexto.textContent = msg;
-  alertModal.style.display = "flex";
-}
-</script>
+const searchInput =
+document.getElementById("searchInput");
 
-  <!--FIN DE LA VERIFICACION PARA ADULTOS.-->
-  
-  <script>
-    let generoActivo = null;
-    function filtrarPeliculas() {
+const contador =
+document.getElementById("contador");
 
-  const input = document.getElementById("search-input");
-  const texto = input.value.toLowerCase().trim();
-  const palabras = texto.split(" ").filter(p => p.length > 0);
+const genreButtons =
+document.querySelectorAll(".genre-btn");
 
-  const peliculas = document.querySelectorAll(".movie");
-  let visibles = 0;
+/* =========================================
+   ⚡ OBTENER CARDS
+========================================= */
 
-  peliculas.forEach(peli => {
+const cards =
+Array.from(
+grid.children
+);
 
-    const titulo = (peli.dataset.titulo || "").toLowerCase();
-    const genero = (peli.dataset.genero || "").toLowerCase();
-    const anio = (peli.dataset.anio || "").toLowerCase();
-    const tipo = (peli.dataset.tipo || "").toLowerCase();
+/* =========================================
+   ⚡ CSS PERFORMANCE
+========================================= */
 
-    const contenido = `${titulo} ${genero} ${anio} ${tipo}`;
+const style =
+document.createElement("style");
 
-    // 🔹 FILTRO POR TEXTO
-    const coincideBusqueda = palabras.every(p => contenido.includes(p));
+style.textContent = `
 
-    // 🔹 FILTRO POR GÉNERO
-    const coincideGenero = !generoActivo || genero.includes(generoActivo.toLowerCase());
-
-    const visible = coincideBusqueda && coincideGenero;
-
-    peli.style.display = visible ? "block" : "none";
-
-    if (visible) visibles++;
-  });
-
-  document.getElementById("no-results").style.display = visibles === 0 ? "block" : "none";
-
-  actualizarContadorPeliculas();
+.movie-card[data-visible="0"]{
+display:none !important;
 }
 
+.movie-grid{
+transform:translateZ(0);
+will-change:transform;
+}
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const ultima = localStorage.getItem("ultimaBusqueda");
-      const scroll = localStorage.getItem("scrollY");
-      const input = document.getElementById("search-input");
-      if (ultima && input) { input.value = ultima; filtrarPeliculas(); }
-      if (scroll) window.scrollTo(0, parseInt(scroll));
-      localStorage.removeItem("ultimaBusqueda");
-      localStorage.removeItem("scrollY");
-    });
-    document.querySelectorAll(".movie").forEach(peli => {
-      const htmlFile = peli.dataset.html;
-      if (htmlFile && htmlFile.trim() !== "") {
-        peli.classList.remove("locked");
-        const lockIcon = peli.querySelector(".lock-icon");
-        if (lockIcon) lockIcon.remove();
-        peli.addEventListener("click", () => {
-          localStorage.setItem("ultimaBusqueda", document.getElementById("search-input").value);
-          localStorage.setItem("scrollY", window.scrollY);
-          window.location.href = htmlFile;
-        });
-      }
-    });
-    document.querySelectorAll(".movie").forEach(peli => {
-      const fecha = peli.dataset.fecha;
-      if (fecha) {
-        const fechaCreacion = new Date(fecha);
-        const hoy = new Date();
-        const diasDiferencia = (hoy - fechaCreacion) / (1000 * 60 * 60 * 24);
-        if (diasDiferencia <= 5) {
-          const recien = document.createElement("span");
-          recien.className = "recien-tag";
-          recien.textContent = "Recién agregado";
-          peli.appendChild(recien);
-        }
-      }
-    });
-    function actualizarContadorPeliculas() {
-      const peliculasVisibles = document.querySelectorAll(".movie-grid .movie:not([style*='display: none'])").length;
-      const contador = document.getElementById("contador");
-      if (contador) contador.textContent = `(${peliculasVisibles})`;
-    }
-    window.addEventListener("DOMContentLoaded", actualizarContadorPeliculas);
-  </script>
+.movie-card{
+transform:translateZ(0);
+backface-visibility:hidden;
+contain:layout paint style;
+}
 
+.poster img{
+transition:
+transform .25s ease,
+opacity .25s ease;
+}
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+.movie-card:hover .poster img{
+transform:scale(1.03);
+}
 
-  const modal = document.getElementById("modalGenero");
-  const abrir = document.getElementById("abrirModal");
-  const cerrar = document.getElementById("cerrarModal");
-  const reset = document.getElementById("resetGenero");
-  const botonesGenero = document.querySelectorAll(".genero-btn");
-  const titulo = document.getElementById("titulo-seccion");
-  const peliculas = document.querySelectorAll(".movie");
+/* =========================================
+   🆕 NUEVO ANIMADO
+========================================= */
 
-  filtrarPeliculas();
+.new-badge{
 
+position:absolute;
 
-  abrir.addEventListener("click", () => {
-    modal.classList.add("activo");
-  });
+bottom:10px;
+left:10px;
 
-  cerrar.addEventListener("click", () => {
-    modal.classList.remove("activo");
-  });
+padding:
+5px 9px;
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.remove("activo");
-    }
-  });
+border-radius:999px;
 
-  botonesGenero.forEach(btn => {
-    btn.addEventListener("click", () => {
+font-size:.50rem;
+font-weight:800;
 
-      botonesGenero.forEach(b => b.classList.remove("activo"));
-      btn.classList.add("activo");
+background:
+linear-gradient(
+135deg,
+#ff007f,
+#ff5f00
+);
 
-      generoActivo = btn.textContent.trim();
+color:#fff;
 
-      titulo.innerHTML = `
-        ${generoActivo.toUpperCase()}
-        <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
-      `;
+z-index:5;
 
-      filtrarPeliculas();
+box-shadow:
+0 0 10px rgba(255,0,127,.55),
+0 0 20px rgba(255,95,0,.35);
 
-      modal.classList.remove("activo");
-    });
-  });
+animation:
+newPulse 2s ease-in-out infinite,
+newFade .45s ease;
+}
 
-  reset.addEventListener("click", () => {
+/* =========================================
+   ✨ PULSO
+========================================= */
 
-    generoActivo = null;
+@keyframes newPulse{
 
-    botonesGenero.forEach(b => b.classList.remove("activo"));
+0%{
+transform:scale(1);
+box-shadow:
+0 0 10px rgba(255,0,127,.45),
+0 0 18px rgba(255,95,0,.25);
+}
 
-    titulo.innerHTML = `
-      Agregados HOY
-      <span id="contador" style="font-size:1rem;font-weight:normal;color:#bbb;"></span>
-    `;
+50%{
+transform:scale(1.08);
+box-shadow:
+0 0 16px rgba(255,0,127,.8),
+0 0 28px rgba(255,95,0,.55);
+}
 
-    filtrarPeliculas();
+100%{
+transform:scale(1);
+box-shadow:
+0 0 10px rgba(255,0,127,.45),
+0 0 18px rgba(255,95,0,.25);
+}
 
-    modal.classList.remove("activo");
-  });
+}
+
+/* =========================================
+   ⚡ APARICIÓN
+========================================= */
+
+@keyframes newFade{
+
+from{
+opacity:0;
+transform:
+translateY(6px)
+scale(.8);
+}
+
+to{
+opacity:1;
+transform:
+translateY(0)
+scale(1);
+}
+
+}
+
+`;
+
+document.head.appendChild(style);
+
+/* =========================================
+   🎯 OBTENER GÉNERO PRINCIPAL
+========================================= */
+
+function getMainGenre(card){
+
+/* 🔥 prioridad manual */
+if(card.dataset.main){
+
+return card.dataset.main
+.toLowerCase()
+.trim();
+
+}
+
+/* 🔥 fallback automático */
+const genres =
+(card.dataset.genre || "")
+.toLowerCase()
+.trim()
+.split(" ");
+
+return genres[0] || "otros";
+
+}
+
+/* =========================================
+   📅 ORDEN POR AÑO
+   ❌ SIN RANDOM
+========================================= */
+
+function ordenarPorAnio(){
+
+cards.sort((a,b)=>{
+
+const anioA =
+parseInt(a.dataset.anio) || 0;
+
+const anioB =
+parseInt(b.dataset.anio) || 0;
+
+/* =========================================
+   🔥 MÁS NUEVO PRIMERO
+========================================= */
+
+if(anioA !== anioB){
+
+return anioB - anioA;
+
+}
+
+/* =========================================
+   📅 SI TIENEN MISMO AÑO
+   USAR FECHA
+========================================= */
+
+const fechaA =
+a.dataset.date
+? new Date(a.dataset.date).getTime()
+: 0;
+
+const fechaB =
+b.dataset.date
+? new Date(b.dataset.date).getTime()
+: 0;
+
+return fechaB - fechaA;
 
 });
-</script>
 
+/* =========================================
+   ⚡ REINSERTAR
+========================================= */
+
+const fragment =
+document.createDocumentFragment();
+
+for(const card of cards){
+
+fragment.appendChild(card);
+
+}
+
+grid.innerHTML = "";
+grid.appendChild(fragment);
+
+}
+
+/* =========================================
+   🚀 EJECUTAR ORDEN
+========================================= */
+
+ordenarPorAnio();
+
+/* =========================================
+   ⚡ PRE-CACHE
+========================================= */
+
+for(const card of cards){
+
+card._title =
+(card.dataset.title || "")
+.toLowerCase();
+
+card._genre =
+(card.dataset.genre || "")
+.toLowerCase();
+
+card._main =
+getMainGenre(card);
+
+card._tipo =
+(card.dataset.tipo || "")
+.toLowerCase();
+
+card._anio =
+(card.dataset.anio || "")
+.toLowerCase();
+
+card._link =
+card.dataset.link || "";
+
+card._date =
+card.dataset.date
+? new Date(card.dataset.date)
+: null;
+
+}
+
+/* =========================================
+   🎯 GÉNERO ACTIVO
+========================================= */
+
+let activeGenre = "all";
+
+/* =========================================
+   🆕 DETECTAR NUEVOS
+========================================= */
+
+const hoy =
+Date.now();
+
+/* =========================================
+   🆕 VERIFICAR SI HAY NUEVOS
+========================================= */
+
+let hayNuevos = false;
+
+for(const card of cards){
+
+if(!card._date) continue;
+
+const diferencia =
+(hoy - card._date.getTime())
+/ 86400000;
+
+/* =========================================
+   🆕 CONTENIDO NUEVO
+========================================= */
+
+if(diferencia <= 2){
+
+hayNuevos = true;
+
+/* =========================================
+   🏷 CREAR BADGE
+========================================= */
+
+if(!card.querySelector(".new-badge")){
+
+const badge =
+document.createElement("div");
+
+badge.className =
+"new-badge";
+
+badge.textContent =
+"Nuevo";
+
+const poster =
+card.querySelector(".poster");
+
+if(poster){
+
+poster.appendChild(badge);
+
+}
+
+}
+
+}
+
+}
+
+/* =========================================
+   👀 MOSTRAR / OCULTAR BOTÓN
+========================================= */
+
+const nuevoBtn =
+document.getElementById(
+"nuevoBtn"
+);
+
+if(nuevoBtn){
+
+nuevoBtn.style.display =
+hayNuevos
+? "inline-flex"
+: "none";
+
+}
+
+/* =========================================
+   🔍 FILTRAR
+========================================= */
+
+function filtrar(){
+
+const text =
+searchInput.value
+.trim()
+.toLowerCase();
+
+let visibles = 0;
+
+requestAnimationFrame(()=>{
+
+for(let i=0;i<cards.length;i++){
+
+const card =
+cards[i];
+
+const matchText =
+
+card._title.includes(text) ||
+card._genre.includes(text) ||
+card._tipo.includes(text) ||
+card._anio.includes(text);
+
+/* =========================================
+   🆕 DETECTAR NUEVOS
+========================================= */
+
+let isNuevo = false;
+
+if(card._date){
+
+const diferencia =
+(hoy - card._date.getTime())
+/ 86400000;
+
+isNuevo = diferencia <= 2;
+
+}
+
+/* =========================================
+   🎯 FILTRO GÉNERO
+========================================= */
+
+let matchGenre = false;
+
+if(activeGenre === "all"){
+
+matchGenre = true;
+
+}else if(activeGenre === "nuevo"){
+
+matchGenre = isNuevo;
+
+}else{
+
+matchGenre =
+card._genre.includes(
+activeGenre
+);
+
+}
+
+/* =========================================
+   👀 VISIBILIDAD
+========================================= */
+
+const visible =
+matchText && matchGenre;
+
+const visibleValue =
+visible ? "1" : "0";
+
+if(
+card.dataset.visible !==
+visibleValue
+){
+
+card.dataset.visible =
+visibleValue;
+
+}
+
+if(visible){
+visibles++;
+}
+
+}
+
+/* =========================================
+   📊 CONTADOR
+========================================= */
+
+contador.textContent =
+`${visibles} peliculas`;
+
+});
+
+}
+
+/* =========================================
+   ⌨️ INPUT OPTIMIZADO
+========================================= */
+
+let debounce;
+
+searchInput.addEventListener(
+"input",
+()=>{
+
+clearTimeout(debounce);
+
+debounce =
+setTimeout(()=>{
+
+filtrar();
+
+},180);
+
+},
+{passive:true}
+);
+
+/* =========================================
+   🎯 GÉNEROS
+========================================= */
+
+for(const btn of genreButtons){
+
+btn.addEventListener(
+"click",
+()=>{
+
+for(const b of genreButtons){
+
+b.classList.remove(
+"active"
+);
+
+}
+
+btn.classList.add(
+"active"
+);
+
+activeGenre =
+btn.dataset.genre || "all";
+
+filtrar();
+
+},
+{passive:true}
+);
+
+}
+
+/* =========================================
+   🎬 CLICK CARDS
+========================================= */
+
+grid.addEventListener(
+"click",
+e=>{
+
+const card =
+e.target.closest(
+".movie-card"
+);
+
+if(!card) return;
+
+if(card._link){
+
+window.location.href =
+card._link;
+
+}
+
+}
+);
+
+/* =========================================
+   ⚡ IMÁGENES
+========================================= */
+
+const images =
+document.querySelectorAll(
+".poster img"
+);
+
+for(const img of images){
+
+img.loading = "lazy";
+
+img.decoding = "async";
+
+img.fetchPriority = "low";
+
+}
+
+/* =========================================
+   📱 SCROLL FLUIDO
+========================================= */
+
+let ticking = false;
+
+window.addEventListener(
+"scroll",
+()=>{
+
+if(!ticking){
+
+requestAnimationFrame(()=>{
+
+ticking = false;
+
+});
+
+ticking = true;
+
+}
+
+},
+{passive:true}
+);
+
+/* =========================================
+   🔒 CHECK STATUS
+========================================= */
+
+let checking = false;
+
+setInterval(()=>{
+
+if(checking) return;
+
+checking = true;
+
+fetch(
+"series.php?check_status=1",
+{
+cache:"no-store"
+}
+)
+
+.then(r=>r.text())
+
+.then(data=>{
+
+if(
+data.trim() === "logout"
+){
+
+window.location.href =
+"../index.php";
+
+}
+
+})
+
+.catch(()=>{})
+
+.finally(()=>{
+
+checking = false;
+
+});
+
+},20000);
+
+/* =========================================
+   🚀 INIT
+========================================= */
+
+filtrar();
+
+})();
+
+</script>
 
 </body>
 </html>

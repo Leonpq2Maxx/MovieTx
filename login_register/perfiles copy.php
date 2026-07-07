@@ -148,7 +148,7 @@ LIMIT 1
     $_SESSION['perfil_tipo'] = $perfil['tipo'];
 
     if($perfil['tipo'] === 'kids'){
-        header("Location:inicio-kids.php");
+        header("Location:Inicio-Kids.php");
     }else{
         header("Location:inicio.php");
     }

@@ -195,7 +195,7 @@ if (isset($_GET['check_status'])) {
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>MovieTx • Agregado</title>
+<title>MovieTx - Agregado</title>
 
 <link rel="icon"
 type="image/png"
@@ -2299,7 +2299,7 @@ finishLoader();
 <input
 type="text"
 id="searchInput"
-placeholder="Buscar peliculas • acción • anime • terror..."
+placeholder="Buscar peliculas, acción, anime, terror..."
 >
 
 <svg fill="none"
@@ -2443,36 +2443,7 @@ Venganza
 <div class="movie-grid"
 id="movieGrid">
 
-
 <!-- CARD -->
-
-<div class="movie-card" 
-  data-anio="2026" 
-  data-tipo="pelicula" 
-  data-title="toy story 5" 
-  data-genre="animacion aventura disney comedia" 
-  data-date="2026-06-28" 
-  data-link="../View Peliculas/Reproductor Universal.php?id=toy_story_5">
-  <div class="poster">
-    <div class="tags">
-      <span class="tag series">
-        Pelicula
-      </span>
-      <span class="tag year">
-        2026
-      </span>
-      <span class="tag hd">
-        CAM
-      </span>
-
-    </div>
-    <img src="https://image.tmdb.org/t/p/w300/lYZFbWQU0wCTVOEtfHlROcJoPUp.jpg" loading="lazy" decoding="async" draggable="false">
-    <div class="overlay"></div>
-  </div>
-  <div class="movie-info">
-    <h4>Toy Story 5</h4>
-  </div>
-</div>
 
 <!-- CARD -->
 
@@ -3078,7 +3049,7 @@ id="movieGrid">
   data-anio="2023" 
   data-tipo="pelicula" 
   data-title="elemental" 
-  data-genre="animacion disney aventura romance" 
+  data-genre="animacion musical disney aventura romance" 
   data-date="2026-05-22" 
   data-link="../View Peliculas/Reproductor Universal.php?id=elemental">
   <div class="poster">
@@ -3318,7 +3289,7 @@ id="movieGrid">
   data-anio="2019" 
   data-tipo="pelicula" 
   data-title="aladdin" 
-  data-genre="animacion aventura disney comedia musical fantasia" 
+  data-genre="aventura disney comedia musical fantasia" 
   data-date="2026-05-22" 
   data-link="../View Peliculas/Reproductor Universal.php?id=aladdin_2019">
   <div class="poster">
@@ -5238,7 +5209,7 @@ id="movieGrid">
   data-anio="2018" 
   data-tipo="pelicula" 
   data-title="dragon ball z dragon ball super" 
-  data-genre="animacion peleas accion anime" 
+  data-genre="genero" 
   data-date="2026-05-22" 
   data-link="../View Peliculas/Reproductor Universal.php?id=dragon_ball_super_broly">
   <div class="poster">
@@ -7518,7 +7489,7 @@ id="movieGrid">
   data-anio="2001" 
   data-tipo="pelicula" 
   data-title="shrek" 
-  data-genre="animacion aventura fantasia familia" 
+  data-genre="nimacion aventura fantasia familia" 
   data-date="2026-05-24" 
   data-link="../View Peliculas/Reproductor Universal.php?id=shrek">
   <div class="poster">
@@ -10129,7 +10100,7 @@ id="movieGrid">
   data-anio="2024" 
   data-tipo="pelicula" 
   data-title="el arca de noe" 
-  data-genre="animacion musical familia niño infantil biblico" 
+  data-genre="animacion musical familia niño infantil" 
   data-date="2026-05-27" 
   data-link="../View Peliculas/Reproductor Universal.php?id=el_arca_de_noe">
   <div class="poster">
@@ -10969,7 +10940,7 @@ id="movieGrid">
   data-anio="2024" 
   data-tipo="pelicula" 
   data-title="anora" 
-  data-genre="drama romance" 
+  data-genre="drama romanc" 
   data-date="2026-05-27" 
   data-link="../View Peliculas/Reproductor Universal.php?id=anora">
   <div class="poster">
@@ -12645,131 +12616,11 @@ id="movieGrid">
 <!-- CARD -->
 
 <div class="movie-card" 
-  data-anio="2023" 
-  data-tipo="pelicula" 
-  data-title="anna nicole smith tu no me conoces" 
-  data-genre="documental" 
-  data-date="2026-05-29" 
-  data-link="../View Peliculas/Reproductor Universal.php?id=anna_nicole_smith">
-  <div class="poster">
-    <div class="tags">
-      <span class="tag series">
-        Pelicula
-      </span>
-      <span class="tag year">
-        2023
-      </span>
-      <span class="tag hd">
-        HD
-      </span>
-
-    </div>
-    <img src="https://image.tmdb.org/t/p/w300/mybL2Hd3PvsY7Qyjf7W6BKsoECu.jpg" loading="lazy" decoding="async" draggable="false">
-    <div class="overlay"></div>
-  </div>
-  <div class="movie-info">
-    <h4>Anna Nicole Smith: Tú no me conoces</h4>
-  </div>
-</div>
-
-<!-- CARD -->
-
-<div class="movie-card" 
-  data-anio="2026" 
-  data-tipo="pelicula" 
-  data-title="boda sangrienta 2" 
-  data-genre="terror suspenso" 
-  data-date="2026-06-01" 
-  data-link="../View Peliculas/Reproductor Universal.php?id=boda_sangrienta_2">
-  <div class="poster">
-    <div class="tags">
-      <span class="tag series">
-        Pelicula
-      </span>
-      <span class="tag year">
-        2026
-      </span>
-      <span class="tag hd">
-        HD
-      </span>
-
-    </div>
-    <img src="https://image.tmdb.org/t/p/w300/qu6EVeLYchxFSJkSmI9eK4KLEpG.jpg" loading="lazy" decoding="async" draggable="false">
-    <div class="overlay"></div>
-  </div>
-  <div class="movie-info">
-    <h4>Boda sangrienta 2</h4>
-  </div>
-</div>
-
-<!-- CARD -->
-
-<div class="movie-card" 
-  data-anio="2019" 
-  data-tipo="pelicula" 
-  data-title="boda sangrienta" 
-  data-genre="terror suspenso" 
-  data-date="2026-06-01" 
-  data-link="../View Peliculas/Reproductor Universal.php?id=boda_sangrienta">
-  <div class="poster">
-    <div class="tags">
-      <span class="tag series">
-        Pelicula
-      </span>
-      <span class="tag year">
-        2019
-      </span>
-      <span class="tag hd">
-        HD
-      </span>
-
-    </div>
-    <img src="https://image.tmdb.org/t/p/w300/yxNSgsnBByx8L6PLH0fSXS9kgeR.jpg" loading="lazy" decoding="async" draggable="false">
-    <div class="overlay"></div>
-  </div>
-  <div class="movie-info">
-    <h4>Boda sangrienta</h4>
-  </div>
-</div>
-
-<!-- CARD -->
-
-<div class="movie-card" 
-  data-anio="2026" 
-  data-tipo="pelicula" 
-  data-title="hoppers" 
-  data-genre="animacion aventura disney familia ciencia ficcion" 
-  data-date="2026-06-01" 
-  data-link="../View Peliculas/Reproductor Universal.php?id=hoppers">
-  <div class="poster">
-    <div class="tags">
-      <span class="tag series">
-        Pelicula
-      </span>
-      <span class="tag year">
-        2026
-      </span>
-      <span class="tag hd">
-        HD
-      </span>
-
-    </div>
-    <img src="https://image.tmdb.org/t/p/w300/4Z0E1W7YvQ0aVtgj7KKtktb9ukd.jpg" loading="lazy" decoding="async" draggable="false">
-    <div class="overlay"></div>
-  </div>
-  <div class="movie-info">
-    <h4>Hoppers: Operación castor</h4>
-  </div>
-</div>
-
-<!-- CARD -->
-
-<div class="movie-card" 
   data-anio="2026" 
   data-tipo="pelicula" 
   data-title="the punisher una ultima muerte" 
   data-genre="accion drama crimen marvel" 
-  data-date="2026-06-01" 
+  data-date="2026-05-31" 
   data-link="../View Peliculas/Reproductor Universal.php?id=the_punisher_la_ultima_muerte">
   <div class="poster">
     <div class="tags">
@@ -12792,7 +12643,7 @@ id="movieGrid">
   </div>
 </div>
 
-<!-- CARD
+<!-- CARD -->
 
 <div class="movie-card" 
   data-anio="2026" 
@@ -12822,6 +12673,8 @@ id="movieGrid">
   </div>
 </div>
 
+<!-- CARD -->
+
 <div class="movie-card" 
   data-anio="2026" 
   data-tipo="pelicula" 
@@ -12849,21 +12702,8 @@ id="movieGrid">
     <h4>Titulo</h4>
   </div>
 </div>
- -->
 
 </div>
-
-<script>
-history.scrollRestoration = "manual";
-
-window.addEventListener("load", () => {
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant"
-    });
-});
-</script>
 
 <script>
 

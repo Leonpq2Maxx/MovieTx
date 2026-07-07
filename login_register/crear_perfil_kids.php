@@ -1256,7 +1256,7 @@ background:transparent;
 
 <div class="logo">
 
-<img src="Logo/Logo Nuevo.png">
+<img src="Logo/Logo Nuevo -512x512.png">
 
 <div>
 <h1>MovieTx</h1>
@@ -1283,12 +1283,12 @@ background:transparent;
 
 <div class="title">
 
-<h2>Crear nuevo perfil</h2>
+<h2>👶 Crear Perfil KIDS</h2>
 
 <p>
 
-Personalizá un perfil único con avatar,
-nombre y estilo propio.
+Este perfil está diseñado para niños.
+Solo podrá existir un perfil KIDS por cuenta.
 
 </p>
 
@@ -1345,9 +1345,15 @@ onchange="previewImage(event)"
 type="text"
 name="nombre"
 class="input"
-placeholder="Ej: Max, Cine, Anime..."
+placeholder="Nombre del niño"
 maxlength="20"
 required
+>
+
+<input
+type="hidden"
+name="tipo"
+value="kids"
 >
 
 </div>
@@ -1434,7 +1440,7 @@ onclick="zoomIn()"
 
 setInterval(() => {
 
-fetch("crear_perfil.php?check_status=1")
+fetch("crear_perfil_kids.php?check_status=1")
 
 .then(res => res.text())
 
@@ -1467,44 +1473,33 @@ const reader = new FileReader();
 
 reader.onload = function(){
 
-const image =
-document.getElementById("imageToCrop");
+    const image = document.getElementById("imageToCrop");
 
-image.src = reader.result;
+    image.onload = function(){
 
-document
-.getElementById("cropModal")
-.style.display = "flex";
+        document.getElementById("cropModal").style.display = "flex";
 
-if(cropper){
-cropper.destroy();
-}
+        if(cropper){
+            cropper.destroy();
+        }
 
-cropper = new Cropper(image,{
+        cropper = new Cropper(image,{
+            aspectRatio:1,
+            viewMode:1,
+            dragMode:"move",
+            autoCropArea:1,
+            background:false,
+            responsive:true,
+            zoomable:true,
+            movable:true,
+            scalable:true,
+            rotatable:false,
+            wheelZoomRatio:0.1
+        });
 
-aspectRatio:1,
+    };
 
-viewMode:1,
-
-dragMode:"move",
-
-autoCropArea:1,
-
-background:false,
-
-responsive:true,
-
-zoomable:true,
-
-movable:true,
-
-scalable:true,
-
-rotatable:false,
-
-wheelZoomRatio:0.1
-
-});
+    image.src = reader.result;
 
 };
 

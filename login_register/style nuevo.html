@@ -1,0 +1,575 @@
+<style>
+
+/* =====================================================
+   RESET SOLO PARA EL CARRUSEL
+===================================================== */
+.us_carousel,
+.us_carousel *,
+.us_carousel *::before,
+.us_carousel *::after{
+  box-sizing:border-box;
+}
+
+/* =====================================================
+   CONTENEDOR PRINCIPAL
+===================================================== */
+.us_carousel_wrap{
+  width:100%;
+  overflow:hidden;
+}
+
+.us_carousel{
+  position:relative;
+  overflow:hidden;
+  overflow-x:hidden;
+  width:100%;
+
+  margin:10px auto;
+
+  border-radius:14px;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+/* =====================================================
+   TRACK
+===================================================== */
+.us_track{
+  display:flex;
+
+  width:100%;
+  gap:0;
+
+  transition:transform .5s ease;
+
+  will-change:transform;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+}
+
+.us_track.is-dragging{
+  transition:none !important;
+}
+
+/* =====================================================
+   SLIDES
+===================================================== */
+.us_slide{
+
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+
+  display:block;
+
+  object-fit:cover;
+
+  user-select:none;
+  -webkit-user-select:none;
+
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+
+  cursor:pointer;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+/* =====================================================
+   DOTS
+===================================================== */
+.us_dots{
+  position:absolute;
+
+  left:50%;
+  transform:translateX(-50%);
+
+  bottom:calc(env(safe-area-inset-bottom,0px) + 18px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:10px;
+
+  z-index:20;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* =====================================================
+   DOT
+===================================================== */
+.us_dots button{
+
+  width:10px;
+  height:10px;
+
+  min-width:10px;
+  min-height:10px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.45);
+
+  padding:0;
+
+  cursor:pointer;
+
+  transition:
+  transform .25s ease,
+  background .25s ease,
+  opacity .25s ease;
+}
+
+/* =====================================================
+   DOT ACTIVO
+===================================================== */
+.us_dots button.active,
+.us_dots button[aria-pressed="true"],
+.us_dots button.is-active{
+
+  background:rgb(255,0,119);
+
+  transform:scale(1.25);
+}
+
+/* =====================================================
+   ICONO BLOQUEO
+===================================================== */
+.lock-icon{
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  background:rgba(0,0,0,.75);
+
+  color:#fff;
+
+  padding:4px 6px;
+
+  border-radius:5px;
+
+  font-size:14px;
+
+  z-index:5;
+
+  display:none;
+}
+
+/* =====================================================
+   ANDROID
+   320px - 767px
+===================================================== */
+@media screen and (max-width:767px){
+
+  .us_carousel{
+    margin:8px;
+    border-radius:12px;
+  }
+
+  .us_slide{
+    height:220px;
+  }
+
+  .us_dots{
+    gap:8px;
+
+    padding:5px 10px;
+
+    bottom:calc(env(safe-area-inset-bottom,0px) + 12px);
+  }
+
+  .us_dots button{
+    width:9px;
+    height:9px;
+  }
+}
+
+/* =====================================================
+   iPHONE
+===================================================== */
+@supports (padding:max(0px)) {
+
+  @media screen and (max-width:932px){
+
+    .us_carousel{
+      border-radius:14px;
+    }
+
+    .us_slide{
+      height:230px;
+    }
+
+    .us_dots{
+      bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+    }
+  }
+}
+
+/* =====================================================
+   TABLETS
+===================================================== */
+@media screen and (min-width:768px) and (max-width:1199px){
+
+  .us_carousel{
+    max-width:95%;
+    margin:15px auto;
+  }
+
+  .us_slide{
+    height:320px;
+  }
+
+  .us_dots button{
+    width:11px;
+    height:11px;
+  }
+}
+
+/* =====================================================
+   PC / NOTEBOOK
+===================================================== */
+@media screen and (min-width:1200px){
+
+  .us_carousel{
+    max-width:1200px;
+    margin:20px auto;
+    border-radius:16px;
+  }
+
+  .us_slide{
+    height:420px;
+  }
+
+  .us_dots{
+    gap:12px;
+  }
+
+  .us_dots button{
+    width:11px;
+    height:11px;
+  }
+}
+
+/* =====================================================
+   MONITORES GRANDES
+===================================================== */
+@media screen and (min-width:1600px){
+
+  .us_carousel{
+    max-width:1400px;
+  }
+
+  .us_slide{
+    height:520px;
+  }
+}
+
+</style>
+
+
+
+<style>
+
+/* =====================================================
+   RESET SOLO PARA EL CARRUSEL
+===================================================== */
+.us_carousel,
+.us_carousel *,
+.us_carousel *::before,
+.us_carousel *::after{
+  box-sizing:border-box;
+}
+
+/* =====================================================
+   CONTENEDOR PRINCIPAL
+===================================================== */
+.us_carousel_wrap{
+  width:100%;
+  overflow:hidden;
+}
+
+.us_carousel{
+  position:relative;
+  overflow:hidden;
+  overflow-x:hidden;
+  width:100%;
+
+  margin:10px auto;
+
+  border-radius:14px;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+/* =====================================================
+   TRACK
+===================================================== */
+.us_track{
+  display:flex;
+
+  width:100%;
+  gap:0;
+
+  transition:transform .5s ease;
+
+  will-change:transform;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+}
+
+.us_track.is-dragging{
+  transition:none !important;
+}
+
+/* =====================================================
+   SLIDES
+===================================================== */
+.us_slide{
+
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+
+  display:block;
+
+  object-fit:cover;
+
+  user-select:none;
+  -webkit-user-select:none;
+
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+
+  cursor:pointer;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+/* =====================================================
+   DOTS
+===================================================== */
+.us_dots{
+  position:absolute;
+
+  left:50%;
+  transform:translateX(-50%);
+
+  bottom:calc(env(safe-area-inset-bottom,0px) + 18px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:10px;
+
+  z-index:20;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* =====================================================
+   DOT
+===================================================== */
+.us_dots button{
+
+  width:10px;
+  height:10px;
+
+  min-width:10px;
+  min-height:10px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.45);
+
+  padding:0;
+
+  cursor:pointer;
+
+  transition:
+  transform .25s ease,
+  background .25s ease,
+  opacity .25s ease;
+}
+
+/* =====================================================
+   DOT ACTIVO
+===================================================== */
+.us_dots button.active,
+.us_dots button[aria-pressed="true"],
+.us_dots button.is-active{
+
+  background:rgb(255,0,119);
+
+  transform:scale(1.25);
+}
+
+/* =====================================================
+   ICONO BLOQUEO
+===================================================== */
+.lock-icon{
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  background:rgba(0,0,0,.75);
+
+  color:#fff;
+
+  padding:4px 6px;
+
+  border-radius:5px;
+
+  font-size:14px;
+
+  z-index:5;
+
+  display:none;
+}
+
+/* =====================================================
+   ANDROID
+   320px - 767px
+===================================================== */
+@media screen and (max-width:767px){
+
+  .us_carousel{
+    margin:8px;
+    border-radius:12px;
+  }
+
+  .us_slide{
+    height:220px;
+  }
+
+  .us_dots{
+    gap:8px;
+
+    padding:5px 10px;
+
+    bottom:calc(env(safe-area-inset-bottom,0px) + 12px);
+  }
+
+  .us_dots button{
+    width:9px;
+    height:9px;
+  }
+}
+
+/* =====================================================
+   iPHONE
+===================================================== */
+@supports (padding:max(0px)) {
+
+  @media screen and (max-width:932px){
+
+    .us_carousel{
+      border-radius:14px;
+    }
+
+    .us_slide{
+      height:230px;
+    }
+
+    .us_dots{
+      bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+    }
+  }
+}
+
+/* =====================================================
+   TABLETS
+===================================================== */
+@media screen and (min-width:768px) and (max-width:1199px){
+
+  .us_carousel{
+    max-width:95%;
+    margin:15px auto;
+  }
+
+  .us_slide{
+    height:320px;
+  }
+
+  .us_dots button{
+    width:11px;
+    height:11px;
+  }
+}
+
+/* =====================================================
+   PC / NOTEBOOK
+===================================================== */
+@media screen and (min-width:1200px){
+
+  .us_carousel{
+    max-width:1200px;
+    margin:20px auto;
+    border-radius:16px;
+  }
+
+  .us_slide{
+    height:420px;
+  }
+
+  .us_dots{
+    gap:12px;
+  }
+
+  .us_dots button{
+    width:11px;
+    height:11px;
+  }
+}
+
+/* =====================================================
+   MONITORES GRANDES
+===================================================== */
+@media screen and (min-width:1600px){
+
+  .us_carousel{
+    max-width:1400px;
+  }
+
+  .us_slide{
+    height:520px;
+  }
+}
+
+</style>

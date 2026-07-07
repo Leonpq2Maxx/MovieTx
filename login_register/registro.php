@@ -50,7 +50,13 @@ $stmt->bind_param("ssssi", $name, $email, $hash, $telefono, $createdByAdmin);
     if ($stmt->execute()) {
 
         // 🔥 MENSAJE PARA LOGIN
-        $_SESSION['success'] = "Cuenta creada correctamente. Iniciá sesión";
+        $_SESSION['success'] = '
+✅ Su registro fue guardado exitosamente.
+
+📞 Comuníquese con el Administrador Principal para realizar el pago:
+
+3518175037
+';
 
         // 🔥 REDIRECCIÓN REAL (esto es lo que te faltaba)
         header("Location: index.php");
@@ -62,6 +68,7 @@ $stmt->bind_param("ssssi", $name, $email, $hash, $telefono, $createdByAdmin);
         exit();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +76,7 @@ $stmt->bind_param("ssssi", $name, $email, $hash, $telefono, $createdByAdmin);
 <head>
 <meta charset="UTF-8">
 <title>Registro - MovieTx</title>
+<link rel="icon" type="image/png" href="Logo/Logo Nuevo.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>

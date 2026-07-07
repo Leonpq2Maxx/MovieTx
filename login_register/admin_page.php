@@ -284,12 +284,12 @@ if (isset($_POST['create_user'])) {
 
     $maxPerfiles = (int)$_POST['max_perfiles'];
 
-    if ($maxPerfiles < 1) {
-        $_SESSION['msg'] = "La cantidad de perfiles debe ser mínimo 1";
-        $_SESSION['msg_type'] = "error";
-        header("Location: admin_page.php");
-        exit();
-    }
+    if ($maxPerfiles < 1 || $maxPerfiles > 6) {
+    $_SESSION['msg'] = "La cantidad de perfiles debe ser entre 1 y 6";
+    $_SESSION['msg_type'] = "error";
+    header("Location: admin_page.php");
+    exit();
+}
 
     $rutaFoto = null;
 
@@ -389,14 +389,32 @@ if (isset($_POST['add_profiles'])) {
     $value  = (int)$_POST['profile_value'];
 
     if ($value > 0) {
+
+        // 🔍 obtener actual
+        $current = $conn->query("
+            SELECT max_perfiles 
+            FROM users 
+            WHERE id=$userId
+        ")->fetch_assoc();
+
+        $currentMax = (int)$current['max_perfiles'];
+
+        // 🔥 nuevo valor
+        $newMax = $currentMax + $value;
+
+        // 🚫 LIMITE MÁXIMO 6
+        if ($newMax > 6) {
+            $newMax = 6;
+        }
+
         $conn->query("
             UPDATE users
-            SET max_perfiles = max_perfiles + $value
+            SET max_perfiles = $newMax
             WHERE id = $userId
         ");
     }
 
-    $_SESSION['msg'] = "Perfiles agregados correctamente";
+    $_SESSION['msg'] = "Perfiles actualizados (máx 6)";
     $_SESSION['msg_type'] = "success";
 
     header("Location: admin_page.php");
@@ -409,32 +427,78 @@ if (isset($_POST['remove_profiles'])) {
 
     if ($value > 0) {
 
+        // 🔥 Obtener límite actual
         $current = $conn->query("
             SELECT max_perfiles 
             FROM users 
             WHERE id=$userId
         ")->fetch_assoc();
 
-        $currentProfiles = (int)$current['max_perfiles'];
+        $currentMax = (int)$current['max_perfiles'];
 
-        if ($currentProfiles < $value) {
-            $value = $currentProfiles;
+        // Evitar negativos
+        if ($currentMax < $value) {
+            $value = $currentMax;
         }
 
+        // 🔥 Nuevo límite
+        $newMax = $currentMax - $value;
+
+        // 1️⃣ ACTUALIZAR LIMITE
         $conn->query("
             UPDATE users
-            SET max_perfiles = max_perfiles - $value
+            SET max_perfiles = $newMax
             WHERE id = $userId
         ");
+
+        // 2️⃣ CONTAR PERFILES ACTUALES (SIN CONTAR PRINCIPAL)
+        $perfiles = $conn->query("
+            SELECT id, foto 
+            FROM perfiles 
+            WHERE user_id=$userId
+            ORDER BY id DESC
+        ");
+
+        $totalPerfiles = $perfiles->num_rows;
+
+        // 🔥 Cantidad permitida real (restamos 1 por perfil principal)
+        $permitidos = $newMax - 1;
+
+        if ($permitidos < 0) $permitidos = 0;
+
+        // 3️⃣ SI HAY MÁS PERFILES DE LOS PERMITIDOS → BORRAR
+        if ($totalPerfiles > $permitidos) {
+
+            $exceso = $totalPerfiles - $permitidos;
+
+            while ($row = $perfiles->fetch_assoc()) {
+
+                if ($exceso <= 0) break;
+
+                $perfilId = (int)$row['id'];
+                $foto = $row['foto'];
+
+                // 🗑️ borrar imagen
+                $ruta = "uploads/perfiles/" . $foto;
+
+                if (!empty($foto) && $foto !== "default.png" && file_exists($ruta)) {
+                    unlink($ruta);
+                }
+
+                // ❌ borrar perfil
+                $conn->query("DELETE FROM perfiles WHERE id=$perfilId");
+
+                $exceso--;
+            }
+        }
     }
 
-    $_SESSION['msg'] = "Perfiles reducidos correctamente";
+    $_SESSION['msg'] = "Perfiles eliminados correctamente";
     $_SESSION['msg_type'] = "success";
 
     header("Location: admin_page.php");
     exit();
 }
-
 
 // =====================
 // ACTUALIZAR DIRECTO (SUPER)
@@ -558,11 +622,136 @@ if (isset($_POST['toggle_helper']) && $adminLevel === 'super') {
 
 
 // =====================
-// BORRAR USUARIO
+// 🗑️ BORRAR USUARIO COMPLETO (FIX FINAL DEFINITIVO REAL)
 // =====================
 if (isset($_POST['delete_user']) && $adminLevel === 'super') {
-    $id = (int)$_POST['user_id'];
-    $conn->query("DELETE FROM users WHERE id=$id AND role='user'");
+
+    $userId = (int)$_POST['user_id'];
+
+    // 🔒 Validar usuario + obtener datos
+    $stmt = $conn->prepare("SELECT id, email, foto FROM users WHERE id=? AND role='user'");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    if (!$user) {
+        header("Location: admin_page.php");
+        exit();
+    }
+
+    $userEmail = $user['email'];
+
+    $conn->begin_transaction();
+
+    try {
+
+        // =========================
+        // 🔥 FUNCIÓN SEGURA
+        // =========================
+        function deleteIfColumnExists($conn, $table, $column, $type, $value) {
+
+            $check = $conn->query("SHOW COLUMNS FROM `$table` LIKE '$column'");
+
+            if ($check && $check->num_rows > 0) {
+
+                $sql = "DELETE FROM `$table` WHERE `$column`=?";
+                $stmt = $conn->prepare($sql);
+
+                if ($stmt) {
+                    $stmt->bind_param($type, $value);
+                    $stmt->execute();
+                }
+            }
+        }
+
+        // =========================
+        // 🧹 TABLAS QUE USAN user_id
+        // =========================
+        $tablesUserId = [
+            "continuar_viendo",
+            "continuar_serie",
+            "adultos",
+            "dispositivos"
+        ];
+
+        foreach ($tablesUserId as $table) {
+            deleteIfColumnExists($conn, $table, "user_id", "i", $userId);
+        }
+
+        // =========================
+        // 🔥 TABLAS QUE USAN EMAIL (CLAVE REAL)
+        // =========================
+        deleteIfColumnExists($conn, "favoritos", "user_email", "s", $userEmail);
+        deleteIfColumnExists($conn, "historial", "user_email", "s", $userEmail);
+        deleteIfColumnExists($conn, "progreso_peliculas", "email", "s", $userEmail);
+
+        // 🔴 ESTE ERA TU PROBLEMA
+        deleteIfColumnExists($conn, "user_progress", "email", "s", $userEmail);
+
+        // =========================
+        // 🧑‍🎬 PERFILES
+        // =========================
+        $perfiles = $conn->query("SELECT id, foto FROM perfiles WHERE user_id=$userId");
+
+        if ($perfiles) {
+
+            while ($p = $perfiles->fetch_assoc()) {
+
+                $perfilId = (int)$p['id'];
+
+                $tablesPerfil = [
+                    "perfiles_continuar_serie",
+                    "perfiles_continuar_viendo",
+                    "perfil_favorito",
+                    "perfil_historial",
+                    "perfil_progreso_peliculas",
+                    "user_progress_perfil"
+                ];
+
+                foreach ($tablesPerfil as $table) {
+                    deleteIfColumnExists($conn, $table, "perfil_id", "i", $perfilId);
+                }
+
+                // 🖼️ borrar imagen perfil
+                if (!empty($p['foto']) && $p['foto'] !== "default.png") {
+                    $ruta = "uploads/perfiles/" . $p['foto'];
+                    if (file_exists($ruta)) {
+                        unlink($ruta);
+                    }
+                }
+            }
+        }
+
+        // ❌ borrar perfiles
+        deleteIfColumnExists($conn, "perfiles", "user_id", "i", $userId);
+
+        // =========================
+        // 🖼️ FOTO USUARIO
+        // =========================
+        if (!empty($user['foto']) && file_exists($user['foto'])) {
+            unlink($user['foto']);
+        }
+
+        // =========================
+        // 🧨 BORRAR USUARIO
+        // =========================
+        $stmt = $conn->prepare("DELETE FROM users WHERE id=?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        $conn->commit();
+
+        $_SESSION['msg'] = "Usuario eliminado completamente (100% limpio)";
+        $_SESSION['msg_type'] = "success";
+
+    } catch (Exception $e) {
+
+        $conn->rollback();
+
+        $_SESSION['msg'] = "Error al eliminar: " . $e->getMessage();
+        $_SESSION['msg_type'] = "error";
+    }
+
     header("Location: admin_page.php");
     exit();
 }
@@ -786,561 +975,1444 @@ if (isset($_POST['update_admin_photo'])) {
     exit();
 }
 
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="Logo Poster MovieTx PNG/Logo MovieTx.png">
+<link rel="icon" type="image/png" href="Logo/Logo Nuevo.png">
 <title>Panel Administrador</title>
 
 <style>
 
-/* ===== RESET GLOBAL ===== */
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+/* =========================================================
+   🚀 MOVIETX ADMIN • NEXT UI 2026 OPTIMIZED
+   Ultra fluido + rendimiento extremo
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
+:root{
+
+--bg:#020617;
+--bg-secondary:#081120;
+
+--card:rgba(15,23,42,.72);
+
+--card-border:
+rgba(255,255,255,.07);
+
+--text:#f8fafc;
+
+--muted:#94a3b8;
+
+--primary:#2563eb;
+--primary-light:#60a5fa;
+
+--green:#22c55e;
+--green-dark:#16a34a;
+
+--red:#ef4444;
+--red-dark:#dc2626;
+
+--gray:#475569;
+
+--radius:24px;
+
+--blur:16px;
+
+--transition:
+.22s cubic-bezier(.22,.61,.36,1);
+
+--shadow:
+0 8px 24px rgba(0,0,0,.32);
+
+--shadow-hover:
+0 18px 45px rgba(0,0,0,.42);
+
+}
+
+/* =========================================================
+   HTML
+========================================================= */
+
 html{
-    -webkit-tap-highlight-color:transparent;
+scroll-behavior:smooth;
+-webkit-text-size-adjust:100%;
+-webkit-tap-highlight-color:transparent;
+text-rendering:optimizeLegibility;
 }
 
 body{
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#eef2f7,#e6ebf2);
-    color:#111827;
+
+font-family:'Inter',sans-serif;
+
+background:
+radial-gradient(circle at top left,
+rgba(37,99,235,.18),
+transparent 26%),
+
+radial-gradient(circle at bottom right,
+rgba(168,85,247,.12),
+transparent 24%),
+
+linear-gradient(
+160deg,
+#020617 0%,
+#07111d 48%,
+#0a1323 100%
+);
+
+color:var(--text);
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+position:relative;
+
+padding-bottom:70px;
+
+line-height:1.4;
+
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+
 }
 
-/* ===== HEADER ===== */
+/* =========================================================
+   GRID FX (OPTIMIZED)
+========================================================= */
+
+body::before{
+
+content:'';
+
+position:fixed;
+
+inset:0;
+
+background:
+linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+
+background-size:42px 42px;
+
+opacity:.26;
+
+pointer-events:none;
+
+z-index:-1;
+}
+
+/* =========================================================
+   GPU OPTIMIZATION
+========================================================= */
+
+.box,
+button,
+.menu-link,
+.admin-logo,
+.side-menu,
 header{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    padding:22px 15px;
-    text-align:center;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+transform:translateZ(0);
+backface-visibility:hidden;
 }
 
-/* ===== TITLES ===== */
-h3{
-    margin-bottom:14px;
-    color: #ff0000;
+/* =========================================================
+   SCROLL
+========================================================= */
+
+::-webkit-scrollbar{
+width:7px;
 }
 
-/* ===== CARDS ===== */
-.box{
-    background:white;
-    padding:22px;
-    margin-bottom:26px;
-    border-radius:18px;
-    border:1px solid #e5e7eb;
-    box-shadow:0 12px 28px rgba(0,0,0,.07);
-    transition:.25s ease;
+::-webkit-scrollbar-track{
+background:#07101c;
 }
 
-.box:hover{
-    transform:translateY(-6px);
-    box-shadow:0 20px 38px rgba(0,0,0,.12);
+::-webkit-scrollbar-thumb{
+
+background:
+linear-gradient(
+180deg,
+#2563eb,
+#60a5fa
+);
+
+border-radius:30px;
 }
 
-/* ===== INPUTS ===== */
-input{
-    width:100%;
-    padding:14px;
-    margin:6px 0;
-    border-radius:12px;
-    border:1px solid #d1d5db;
-    font-size:15px;
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+position:relative;
+
+overflow:hidden;
+
+margin:14px;
+
+padding:30px 22px;
+
+border-radius:30px;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,23,42,.90),
+rgba(15,23,42,.74)
+);
+
+border:1px solid rgba(255,255,255,.06);
+
+backdrop-filter:blur(var(--blur));
+-webkit-backdrop-filter:blur(var(--blur));
+
+box-shadow:
+0 18px 45px rgba(0,0,0,.38),
+inset 0 1px 0 rgba(255,255,255,.04);
+
+contain:layout paint;
 }
 
-input:focus{
-    outline:none;
-    border-color:#2563eb;
-    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+/* GLOW */
+
+header::before{
+
+content:'';
+
+position:absolute;
+
+width:360px;
+height:360px;
+
+right:-150px;
+top:-170px;
+
+border-radius:50%;
+
+background:
+radial-gradient(circle,
+rgba(59,130,246,.26),
+transparent 72%);
+
+pointer-events:none;
 }
 
-/* ===== BUTTONS BASE ===== */
-button{
-    padding:12px 16px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
-    letter-spacing:.3px;
-    white-space:nowrap;
-}
+/* =========================================================
+   ADMIN
+========================================================= */
 
-button:hover{
-    transform:translateY(-2px);
-    opacity:.95;
-}
-
-button:active{
-    transform:scale(.98);
-}
-
-button.red{
-    background:linear-gradient(135deg,#ef4444,#dc2626);
-}
-
-button.gray{
-    background:linear-gradient(135deg,#9ca3af,#6b7280);
-}
-
-button.green{
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-}
-
-/* ===== ACTION BUTTONS CONTAINER ===== */
-.actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    align-items:center;
-}
-
-.actions button{
-    flex:1 1 auto;
-    min-width:90px;
-    padding:10px 12px;
-    font-size:14px;
-}
-
-/* ===== TABLE ===== */
-.table-wrap{
-    overflow-x:auto;
-    border-radius:18px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 10px 26px rgba(0,0,0,.08);
-}
-
-th{
-    background:#0f172a;
-    color:white;
-    padding:14px;
-    font-size:14px;
-    text-align:center;
-}
-
-td{
-    padding:14px;
-    border-bottom:1px solid #e5e7eb;
-    font-size:14px;
-    vertical-align:middle;
-    text-align:center;
-    word-break:break-word;
-}
-
-th:nth-child(1){width:160px;}
-th:nth-child(2){width:240px;}
-th:nth-child(3){width:80px;}
-th:nth-child(4){width:80px;}
-th:nth-child(5){width:100px;}
-th:nth-child(6){width:120px;}
-
-td form{
-    display:flex;
-    justify-content:center;
-}
-
-
-tr:hover{
-    background:#f8fafc;
-}
-
-/* ===== STATUS ===== */
-.green-text{
-    color:#16a34a;
-    font-weight:bold;
-}
-
-.red-text{
-    color:#dc2626;
-    font-weight:bold;
-}
-
-/* ===== ADMIN HEADER ===== */
 .admin-header{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:16px;
-    flex-wrap:wrap;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:22px;
+
+flex-wrap:wrap;
+
+text-align:center;
+
+position:relative;
+
+z-index:2;
 }
 
 .admin-logo{
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid #2563eb;
-    box-shadow:0 0 24px rgba(37,99,235,.5);
+
+width:118px;
+height:118px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:3px solid rgba(96,165,250,.85);
+
+box-shadow:
+0 0 0 7px rgba(37,99,235,.10),
+0 0 28px rgba(59,130,246,.30);
+
+transition:
+transform .22s ease,
+box-shadow .22s ease;
+
+will-change:transform;
 }
 
-/* ===== LINKS ===== */
-.link-action{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 16px;
-    border-radius:12px;
-    font-weight:bold;
-    text-decoration:none;
+.admin-logo:hover{
+
+transform:
+scale(1.04);
 }
 
-.link-back{
-    background:#6b7280;
-    color:white;
+header h2{
+
+font-size:34px;
+
+font-weight:900;
+
+letter-spacing:-1px;
+
+line-height:1.1;
 }
 
-.link-logout{
-    background:#dc2626;
-    color:white;
+header p{
+
+margin-top:8px;
+
+font-size:14px;
+
+color:#cbd5e1;
 }
 
-/* ===== HAMBURGER ===== */
-/* ===== BOTÓN HAMBURGUESA ===== */
+/* =========================================================
+   BOX
+========================================================= */
+
+.box{
+
+position:relative;
+
+overflow:hidden;
+
+margin:16px 14px;
+
+padding:24px;
+
+border-radius:var(--radius);
+
+background:var(--card);
+
+border:1px solid var(--card-border);
+
+backdrop-filter:blur(var(--blur));
+-webkit-backdrop-filter:blur(var(--blur));
+
+box-shadow:var(--shadow);
+
+transition:
+transform .22s ease,
+box-shadow .22s ease,
+border-color .22s ease;
+
+contain:layout paint;
+}
+
+.box:hover{
+
+transform:translateY(-3px);
+
+border-color:
+rgba(96,165,250,.22);
+
+box-shadow:var(--shadow-hover);
+}
+
+.box::before{
+
+content:'';
+
+position:absolute;
+
+inset:0;
+
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,.04),
+transparent 42%
+);
+
+pointer-events:none;
+}
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+h3{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-size:22px;
+
+font-weight:800;
+
+margin-bottom:22px;
+
+letter-spacing:-.4px;
+}
+
+h3::before{
+
+content:'';
+
+width:7px;
+height:28px;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+180deg,
+#60a5fa,
+#2563eb
+);
+
+box-shadow:
+0 0 14px rgba(59,130,246,.5);
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+textarea,
+select{
+
+width:100%;
+
+border:none;
+
+outline:none;
+
+padding:15px 17px;
+
+margin-top:8px;
+
+border-radius:16px;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,23,42,.92),
+rgba(30,41,59,.78)
+);
+
+border:1px solid rgba(255,255,255,.05);
+
+font-size:15px;
+
+color:white;
+
+transition:
+border-color .18s ease,
+box-shadow .18s ease,
+transform .18s ease;
+
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,.03);
+
+appearance:none;
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#94a3b8;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+border-color:
+rgba(96,165,250,.50);
+
+box-shadow:
+0 0 0 3px rgba(59,130,246,.10);
+
+transform:translateY(-1px);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button{
+
+position:relative;
+
+overflow:hidden;
+
+border:none;
+
+cursor:pointer;
+
+padding:13px 18px;
+
+border-radius:16px;
+
+font-size:14px;
+
+font-weight:800;
+
+letter-spacing:.2px;
+
+color:white;
+
+transition:
+transform .18s ease,
+opacity .18s ease,
+box-shadow .18s ease;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
+box-shadow:
+0 10px 20px rgba(37,99,235,.26);
+
+user-select:none;
+-webkit-user-select:none;
+touch-action:manipulation;
+}
+
+button:hover{
+
+transform:
+translateY(-2px);
+}
+
+button:active{
+
+transform:scale(.97);
+}
+
+button::before{
+
+content:'';
+
+position:absolute;
+
+inset:0;
+
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.16),
+transparent
+);
+
+transform:translateX(-140%);
+
+transition:transform .5s ease;
+}
+
+button:hover::before{
+transform:translateX(140%);
+}
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+.green,
+.btn-activate{
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#16a34a
+);
+
+box-shadow:
+0 10px 20px rgba(34,197,94,.20);
+}
+
+.red,
+.btn-suspend{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#dc2626
+);
+
+box-shadow:
+0 10px 20px rgba(239,68,68,.18);
+}
+
+.gray,
+.btn-delete{
+
+background:
+linear-gradient(
+135deg,
+#475569,
+#334155
+);
+
+box-shadow:
+0 10px 20px rgba(15,23,42,.34);
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.actions{
+
+display:flex;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+align-items:center;
+
+justify-content:center;
+}
+
+.actions button{
+
+flex:1;
+
+min-width:125px;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+
+overflow:auto;
+
+border-radius:24px;
+
+border:1px solid rgba(255,255,255,.05);
+
+background:
+rgba(15,23,42,.42);
+
+backdrop-filter:blur(14px);
+
+-webkit-overflow-scrolling:touch;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+}
+
+thead{
+
+position:sticky;
+
+top:0;
+
+z-index:2;
+}
+
+th{
+
+padding:16px;
+
+text-align:center;
+
+font-size:13px;
+
+font-weight:800;
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#131f37
+);
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+}
+
+td{
+
+padding:15px;
+
+text-align:center;
+
+font-size:14px;
+
+color:#dbeafe;
+
+border-bottom:
+1px solid rgba(255,255,255,.04);
+
+transition:background .18s ease;
+}
+
+tr:hover td{
+
+background:
+rgba(59,130,246,.05);
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.green-text{
+color:#4ade80;
+font-weight:700;
+}
+
+.red-text{
+color:#f87171;
+font-weight:700;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.telefono-link{
+
+text-decoration:none;
+
+font-weight:700;
+
+color:#4ade80;
+
+transition:opacity .18s ease;
+}
+
+.telefono-link:hover{
+
+opacity:.8;
+
+text-decoration:underline;
+}
+
+/* =========================================================
+   MENU BUTTON
+========================================================= */
+
 .hamburger-btn{
-    position:fixed;
-    top:16px;
-    right:16px;
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    background:#0f172a;
-    color:white;
-    font-size:24px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 6px 18px rgba(0,0,0,.35);
-    cursor:pointer;
-    z-index:10000;
-    transition:0.2s;
+
+position:fixed;
+
+top:16px;
+right:16px;
+
+width:56px;
+height:56px;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:24px;
+
+z-index:99999;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,23,42,.94),
+rgba(30,41,59,.80)
+);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.06);
+
+box-shadow:
+0 12px 28px rgba(0,0,0,.38);
 }
 
-.hamburger-btn:hover{
-    transform:scale(1.05);
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.menu-overlay{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.58);
+
+opacity:0;
+
+visibility:hidden;
+
+transition:
+opacity .25s ease,
+visibility .25s ease;
+
+backdrop-filter:blur(5px);
+
+z-index:9998;
 }
 
-/* ===== BOTÓN CERRAR MENÚ ===== */
-.side-menu .close-btn{
-    position:absolute;
-    top:16px;
-    right:16px;
-    width:36px;
-    height:36px;
-    border:none;
-    border-radius:50%;
-    background:#dc2626;
-    color:white;
-    font-size:20px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    box-shadow:0 4px 12px rgba(0,0,0,.3);
-    transition:0.2s;
-    z-index:10001;
+.menu-overlay.show{
+
+opacity:1;
+
+visibility:visible;
 }
 
-.side-menu .close-btn:hover{
-    background:#ef4444;
-    transform:scale(1.05);
-}
+/* =========================================================
+   SIDE MENU
+========================================================= */
 
-.side-menu .close-btn:active{
-    transform:scale(.95);
-}
-
-/* ===== SIDE MENU ===== */
 .side-menu{
-    position:fixed;
-    top:0;
-    right:-340px;
-    width:320px;
-    height:100vh;
-    background:linear-gradient(180deg,#020617,#0f172a);
-    color:white;
-    padding:26px;
-    transition:.35s;
-    z-index:9998;
 
-    overflow-y:auto;      /* 🔥 ACTIVA SCROLL */
-    -webkit-overflow-scrolling:touch; /* mejor scroll en móviles */
+position:fixed;
+
+top:0;
+right:-360px;
+
+width:330px;
+
+height:100vh;
+
+overflow-y:auto;
+
+padding:24px;
+
+background:
+linear-gradient(
+180deg,
+rgba(2,6,23,.98),
+rgba(15,23,42,.96)
+);
+
+border-left:
+1px solid rgba(255,255,255,.06);
+
+transition:
+right .30s cubic-bezier(.22,.61,.36,1);
+
+backdrop-filter:blur(18px);
+
+z-index:9999;
+
+box-shadow:
+-12px 0 35px rgba(0,0,0,.38);
+
+overscroll-behavior:contain;
 }
-
-.side-menu::-webkit-scrollbar{
-    width:6px;
-}
-
-.side-menu::-webkit-scrollbar-thumb{
-    background:#2563eb;
-    border-radius:10px;
-}
-
 
 .side-menu.open{
-    right:0;
+right:0;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width:768px){
-    .hamburger-btn{ width:48px; height:48px; font-size:24px; top:8px; right:8px; }
-    .side-menu{ padding-top:100px; }
-    .side-menu .close-btn{ width:36px; height:36px; font-size:20px; top:12px; right:12px; }
-}
+/* =========================================================
+   MENU LINKS
+========================================================= */
 
-@media (min-width:769px) and (max-width:1024px){
-    .hamburger-btn{ width:44px; height:44px; font-size:22px; }
-    .side-menu .close-btn{ width:34px; height:34px; font-size:18px; }
-}
-
-@media (min-width:1025px){
-    .hamburger-btn{ width:42px; height:42px; font-size:20px; top:16px; right:16px; }
-    .side-menu{ width:280px; }
-    .side-menu .close-btn{ width:32px; height:32px; font-size:18px; top:16px; right:16px; }
-}
-
-/* ===== VALIDACIÓN FORM ===== */
-.input-error{
-    border:2px solid #ef4444 !important;
-    background:#fff1f2;
-}
-
-.error-text{
-    color:#dc2626;
-    font-size:13px;
-    margin-top:4px;
-    display:none;
-}
-
-.error-text.show{
-    display:block;
-}
-
-
-/* ===== FORMULARIOS PANEL ===== */
-.form-panel{
-    width:100%;
-    max-width:420px;
-    margin:auto;
-}
-
-/* en móviles ocupar todo el ancho */
-@media (max-width:768px){
-    .form-panel{
-        max-width:100%;
-    }
-}
-
-
-/* ===== TOAST MENSAJES ===== */
-.toast{
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:14px 22px;
-    border-radius:14px;
-    font-weight:bold;
-    color:white;
-    z-index:20000;
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
-    animation:fadeSlide 0.5s ease, hideToast 4s forwards;
-}
-
-/* colores */
-.toast.success{ background:linear-gradient(135deg,#22c55e,#16a34a); }
-.toast.error{ background:linear-gradient(135deg,#ef4444,#dc2626); }
-
-/* animación entrada */
-@keyframes fadeSlide{
-    from{ opacity:0; transform:translate(-50%,-20px); }
-    to{ opacity:1; transform:translate(-50%,0); }
-}
-
-/* desaparecer automático */
-@keyframes hideToast{
-    0%,80%{ opacity:1; }
-    100%{ opacity:0; top:0; }
-}
-
-/* ===== MENU TITLE ===== */
-.menu-title{
-    font-size:20px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:10px;
-}
-
-/* ===== MENU DIVIDER ===== */
-.menu-divider{
-    border:none;
-    height:1px;
-    background:#374151;
-    margin:14px 0;
-}
-
-/* ===== MENU SECTION ===== */
-.menu-section{
-    font-size:12px;
-    text-transform:uppercase;
-    color:#9ca3af;
-    margin-top:16px;
-    margin-bottom:6px;
-    letter-spacing:1px;
-}
-
-/* ===== MENU LINKS ===== */
 .menu-link{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:14px 16px;
-    margin:6px 0;
-    background:#1e293b;
-    border-radius:12px;
-    color:white;
-    text-decoration:none;
-    font-size:14px;
-    transition:0.25s;
-    border:1px solid transparent;
+
+width:100%;
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:15px 17px;
+
+margin-bottom:10px;
+
+border-radius:16px;
+
+font-weight:700;
+
+font-size:14px;
+
+color:white;
+
+text-decoration:none;
+
+background:
+linear-gradient(
+145deg,
+rgba(30,41,59,.90),
+rgba(15,23,42,.76)
+);
+
+border:1px solid rgba(255,255,255,.05);
+
+transition:
+transform .18s ease,
+background .18s ease;
 }
 
-/* hover */
 .menu-link:hover{
-    background:#2563eb;
-    transform:translateX(4px);
-    border-color:#3b82f6;
+
+transform:translateX(4px);
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
 }
 
-/* active click */
-.menu-link:active{
-    transform:scale(.96);
+.menu-link.active{
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
+border-color:
+rgba(96,165,250,.32);
+
+box-shadow:
+0 10px 22px rgba(37,99,235,.28);
 }
 
-/* refresh button */
-.refresh-btn{
-    background:#1e90ff;
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+position:fixed;
+
+top:22px;
+left:50%;
+
+transform:translateX(-50%);
+
+padding:15px 22px;
+
+border-radius:18px;
+
+font-weight:800;
+
+z-index:999999;
+
+backdrop-filter:blur(14px);
+
+animation:
+toastIn .35s ease,
+toastOut .35s ease 4s forwards;
 }
 
-/* logout */
-.logout-btn{
-    background:#dc2626;
+.toast.success{
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#16a34a
+);
 }
 
-.logout-btn:hover{
-    background:#ef4444;
+.toast.error{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#dc2626
+);
 }
 
+@keyframes toastIn{
 
-/* ===== PANELS ===== */
+from{
+opacity:0;
+transform:translate(-50%,-16px);
+}
+
+to{
+opacity:1;
+transform:translate(-50%,0);
+}
+}
+
+@keyframes toastOut{
+
+to{
+opacity:0;
+transform:translate(-50%,-16px);
+}
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
 .section-panel{
-    display:none;
+display:none;
 }
 
 .section-panel.active{
-    display:block;
+
+display:block;
+
+animation:fadeSection .28s ease;
 }
 
-/* ================= MOBILE ================= */
-/* ================= MOBILE ================= */
+@keyframes fadeSection{
+
+from{
+opacity:0;
+transform:translateY(8px);
+}
+
+to{
+opacity:1;
+transform:none;
+}
+}
+
+/* =========================================================
+   CUSTOM SELECT
+========================================================= */
+
+.custom-select{
+position:relative;
+}
+
+.select-dropdown{
+
+display:none;
+
+position:absolute;
+
+top:100%;
+left:0;
+
+width:100%;
+
+margin-top:8px;
+
+max-height:240px;
+
+overflow-y:auto;
+
+border-radius:18px;
+
+z-index:50;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,23,42,.98),
+rgba(30,41,59,.95)
+);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+box-shadow:
+0 16px 34px rgba(0,0,0,.40);
+}
+
+.select-option{
+
+padding:14px;
+
+cursor:pointer;
+
+transition:background .16s ease;
+
+border-bottom:
+1px solid rgba(255,255,255,.03);
+}
+
+.select-option:hover{
+
+background:
+rgba(59,130,246,.10);
+}
+
+/* =========================================================
+   MODAL CROPPER
+========================================================= */
+
+#cropModal{
+
+position:fixed;
+
+inset:0;
+
+display:none;
+
+flex-direction:column;
+
+background:rgba(0,0,0,.92);
+
+backdrop-filter:blur(10px);
+
+z-index:999999;
+}
+
+.crop-header,
+.crop-footer{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:16px;
+
+background:
+rgba(15,23,42,.60);
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+}
+
+.crop-container{
+
+flex:1;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:2px;
+}
+
+.crop-container img{
+
+max-width:100%;
+
+max-height:100%;
+
+object-fit:contain;
+}
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.preview-admin-container{
+
+position:relative;
+
+width:96px;
+height:96px;
+
+margin-top:16px;
+
+display:none;
+}
+
+#previewAdminFoto,
+#previewUsuarioFoto{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:3px solid rgba(96,165,250,.8);
+
+box-shadow:
+0 0 24px rgba(59,130,246,.28);
+}
+
+.remove-preview-btn{
+
+position:absolute;
+
+top:-6px;
+right:-6px;
+
+width:28px;
+height:28px;
+
+padding:0;
+
+border-radius:50%;
+}
+
+/* =========================================================
+   ERRORS
+========================================================= */
+
+.input-error{
+
+border-color:#ef4444 !important;
+
+box-shadow:
+0 0 0 3px rgba(239,68,68,.10);
+}
+
+.error-text{
+
+display:none;
+
+margin-top:6px;
+
+font-size:12px;
+
+color:#f87171;
+}
+
+.error-text.show{
+display:block;
+}
+
+/* =========================================================
+   PERFORMANCE MODE
+========================================================= */
+
+@media (prefers-reduced-motion:reduce){
+
+*{
+animation:none !important;
+transition:none !important;
+scroll-behavior:auto !important;
+}
+
+}
+
+/* =========================================================
+   ANDROID
+========================================================= */
+
 @media (max-width:768px){
 
-    /* Header centrado en columna */
-    .admin-header{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:10px;
-    }
-
-    /* Foto más grande y arriba */
-    .admin-logo{
-        width:100px;
-        height:100px;
-        margin-bottom:6px; /* espacio entre foto y texto */
-    }
-
-    /* Ajustar nombre y rol para que no se tapen */
-    header h2, header p{
-        text-align:center;
-        font-size:16px;
-        margin:2px 0;
-        z-index:1; /* asegurar que esté sobre fondo */
-    }
-
-    /* Mover botón hamburguesa hacia la derecha sin tapar el header */
-    .hamburger-btn{
-        top:8px;
-        right:8px;
-        width:48px;
-        height:48px;
-        font-size:24px;
-        z-index:10000; /* sobre todo */
-    }
-
-    /* Evitar que el menú tape al header */
-    .side-menu{
-        top:0;
-        padding-top:100px; /* espacio para header */
-    }
+body{
+padding-bottom:90px;
 }
 
-/* ===== TABLET ===== */
-@media (min-width:769px) and (max-width:1024px){
+header{
 
-    .box{
-        padding:20px;
-    }
+margin:10px;
 
-    .actions button{
-        min-width:110px;
-    }
+padding:22px 16px;
+
+border-radius:24px;
 }
 
-/* ===== DESKTOP NORMAL ===== */
+.admin-header{
+
+flex-direction:column;
+
+gap:14px;
+}
+
+.admin-logo{
+
+width:92px;
+height:92px;
+}
+
+header h2{
+font-size:25px;
+}
+
+.box{
+
+margin:12px 10px;
+
+padding:18px;
+
+border-radius:20px;
+}
+
+.side-menu{
+
+width:88%;
+
+right:-100%;
+}
+
+.hamburger-btn{
+
+width:52px;
+height:52px;
+
+top:10px;
+right:10px;
+}
+
+table,
+thead,
+tbody,
+tr,
+td{
+
+display:block;
+
+width:100%;
+}
+
+thead{
+display:none;
+}
+
+tr{
+
+margin-bottom:14px;
+
+border-radius:18px;
+
+overflow:hidden;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,23,42,.94),
+rgba(30,41,59,.82)
+);
+
+border:
+1px solid rgba(255,255,255,.05);
+}
+
+td{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:12px;
+
+padding:14px 16px;
+
+text-align:right;
+}
+
+td::before{
+
+content:attr(data-label);
+
+font-weight:700;
+
+color:#94a3b8;
+
+text-align:left;
+}
+
+.actions{
+flex-direction:column;
+}
+
+.actions button{
+width:100%;
+}
+
+}
+
+/* =========================================================
+   IPHONE
+========================================================= */
+
+@media screen and (max-width:430px){
+
+body{
+padding-bottom:110px;
+}
+
+header{
+border-radius:22px;
+}
+
+.box{
+padding:15px;
+}
+
+h3{
+font-size:19px;
+}
+
+input,
+button{
+font-size:16px;
+}
+
+.menu-link{
+
+font-size:14px;
+
+padding:14px;
+}
+
+.hamburger-btn{
+
+width:50px;
+height:50px;
+
+font-size:21px;
+
+border-radius:16px;
+}
+
+}
+
+/* =========================================================
+   PC
+========================================================= */
+
 @media (min-width:1025px){
 
-    /* Reducir tamaño del botón hamburguesa en PC */
-    .hamburger-btn{
-        width:42px;
-        height:42px;
-        font-size:20px;
-        top:16px;
-        right:16px;
-    }
+body{
+padding:10px 14px 70px;
+}
 
-    /* Reducir tamaño de los links del menú lateral en PC */
-    .menu-link{
-        padding:10px 14px;
-        margin:8px 0;
-        font-size:14px;
-    }
+.box{
+padding:28px;
+}
 
-    /* Opcional: ancho del side-menu un poco más ancho */
-    .side-menu{
-        width:280px;
-    }
+.table-wrap{
+border-radius:28px;
+}
+
+.side-menu{
+width:320px;
+}
+
 }
 
 </style>
@@ -1537,6 +2609,18 @@ onclick="window.location.href=window.location.pathname">
 <input type="file" id="inputFotoAdmin" name="foto" accept="image/*" onchange="previewImage(event)">
 <div class="error-text">Debe subir una foto</div>
 
+<div id="previewAdminContainer" class="preview-admin-container">
+
+    <img id="previewAdminFoto">
+
+    <button type="button"
+    class="remove-preview-btn"
+    onclick="eliminarFotoAdmin()">
+        ✕
+    </button>
+
+</div>
+
 <button name="create_helper">Crear Administrador</button>
 </form>
 
@@ -1555,7 +2639,7 @@ onclick="window.location.href=window.location.pathname">
   <input type="password" name="password" placeholder="Contraseña">
   <div class="error-text">Ingrese una contraseña</div>
 
-  <input type="number" name="max_perfiles" placeholder="Cantidad de perfiles (ej: 1,2,3,5)" min="1" max="5" required>
+  <input type="number" name="max_perfiles" placeholder="Cantidad de perfiles 6" min="1" max="6" required>
 <div class="error-text">Ingrese cantidad de perfiles</div>
 
 <input type="text" name="telefono" placeholder="Teléfono (ej: 1123456789)" maxlength="10">
@@ -1736,191 +2820,6 @@ required
 </form>
 
 </div>
-
-<style>
-
-    /* ===== MENSAJE SIN DATOS ===== */
-.no-data td{
-    text-align:center;
-    padding:20px;
-    font-weight:bold;
-    color:#6b7280;
-}
-
-/* 📱 MOBILE FIX */
-@media (max-width:768px){
-    .no-data td{
-        display:block;
-        text-align:center;
-        justify-content:center;
-        align-items:center;
-        width:100%;
-    }
-
-    .no-data td::before{
-        display:none; /* 🔥 elimina "Usuario:" etc */
-    }
-}
-    
-    .btn-delete{
-    background:linear-gradient(135deg,#6b7280,#374151);
-    color:white;
-    border:none;
-    border-radius:10px;
-    padding:10px 14px;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn-delete:hover{
-    transform:scale(1.05);
-    box-shadow:0 6px 14px rgba(0,0,0,.3);
-}
-
-    /* ===== BOTONES MODERNOS ===== */
-.btn-activate{
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-    color:white;
-    border:none;
-    border-radius:10px;
-    padding:10px 14px;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn-activate:hover{
-    transform:scale(1.05);
-    box-shadow:0 6px 14px rgba(34,197,94,.4);
-}
-
-.btn-suspend{
-    background:linear-gradient(135deg,#ef4444,#dc2626);
-    color:white;
-    border:none;
-    border-radius:10px;
-    padding:10px 14px;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn-suspend:hover{
-    transform:scale(1.05);
-    box-shadow:0 6px 14px rgba(239,68,68,.4);
-}
-
-.actions{
-        width:100%;
-        justify-content:center;
-    }
-
-/* MOBILE ajuste */
-@media (max-width:768px){
-    .btn-activate,
-    .btn-suspend{
-        width:100%;
-        font-size:13px;
-        padding:12px;
-    }
-}
-    /* ===== TABLA RESPONSIVE MOBILE ===== */
-@media (max-width:768px){
-
-    table, thead, tbody, th, td, tr{
-        display:block;
-        width:100%;
-    }
-
-    thead{
-        display:none; /* ocultar encabezado */
-    }
-
-    tr{
-        background:white;
-        margin-bottom:14px;
-        border-radius:14px;
-        box-shadow:0 6px 18px rgba(0,0,0,.08);
-        padding:10px;
-    }
-
-    td{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        padding:10px;
-        border:none;
-        border-bottom:1px solid #eee;
-        text-align:left;
-    }
-
-    td:last-child{
-        border-bottom:none;
-    }
-
-    td::before{
-        content:attr(data-label);
-        font-weight:bold;
-        color:#6b7280;
-        font-size:13px;
-    }
-
-    /* acciones centradas */
-    td[data-label="Acciones"]{
-        justify-content:center;
-    }
-
-    .actions{
-        width:100%;
-        justify-content:right;
-    }
-
-    .actions button{
-        width:100%;
-    }
-}
-
-/* 📐 Ajuste de tabla en PC */
-.table-wrap table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto; /* 🔥 IMPORTANTE */
-}
-
-/* 📱 Columna teléfono más cómoda */
-.col-telefono {
-    min-width: 150px;
-    white-space: nowrap;
-}
-
-/* 🔗 Estilo tipo WhatsApp */
-.telefono-link {
-    color: #25D366;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.telefono-link:hover {
-    text-decoration: underline;
-}
-
-/* 💻 En pantallas grandes, dar más aire */
-@media (min-width: 1024px) {
-    .table-wrap table th,
-    .table-wrap table td {
-        padding: 12px 14px;
-    }
-
-    .col-telefono {
-        min-width: 180px;
-    }
-}
-
-</style>
 
 
 <?php if ($adminLevel === 'super'): ?>
@@ -2429,117 +3328,6 @@ Actualizar contraseña
 </div>
 <?php endif; ?>
 
-<style>
-    /* ocultar select real */
-.hidden-select{
-    display:none;
-}
-
-/* contenedor */
-.custom-select{
-    position:relative;
-}
-
-/* input buscador */
-.select-search{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #e5e7eb;
-    cursor:pointer;
-}
-
-/* dropdown */
-.select-dropdown{
-    display:none;
-    position:absolute;
-    width:100%;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
-    max-height:220px;
-    overflow-y:auto;
-    margin-top:6px;
-    z-index:10;
-}
-
-/* opciones */
-.select-option{
-    padding:12px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.select-option:hover{
-    background:#f3f4f6;
-}
-
-/* input y form */
-.form-modern{
-    max-width:420px;
-    margin:auto;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.input-modern{
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #e5e7eb;
-}
-
-/* botón */
-.btn-main{
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-    color:white;
-    border:none;
-    border-radius:12px;
-    padding:12px;
-    font-weight:bold;
-}
-
-/* 📱 mobile */
-@media (max-width:768px){
-    .form-modern{
-        max-width:100%;
-    }
-
-    .select-search{
-        font-size:16px;
-    }
-}
-</style>
-
-<script>
-function toggleDropdown(){
-    document.getElementById("dropdown").style.display = "block";
-}
-
-function selectUser(id, text){
-    document.getElementById("realSelect").value = id;
-    document.getElementById("searchInput").value = text;
-    document.getElementById("dropdown").style.display = "none";
-}
-
-function filterUsers(){
-    let input = document.getElementById("searchInput").value.toLowerCase();
-    let options = document.querySelectorAll(".select-option");
-
-    options.forEach(opt => {
-        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
-    });
-}
-
-/* cerrar si hace click afuera */
-document.addEventListener("click", function(e){
-    if(!e.target.closest(".custom-select")){
-        document.getElementById("dropdown").style.display = "none";
-    }
-});
-</script>
-
-
 <?php if ($adminLevel === 'super'): ?>
 <div class="box section-panel" id="changeAdminPass">
 
@@ -2898,312 +3686,649 @@ MODAL CROPPER PRO
 <link href="https://unpkg.com/cropperjs@1.6.1/dist/cropper.min.css" rel="stylesheet"/>
 <script src="https://unpkg.com/cropperjs@1.6.1/dist/cropper.min.js"></script>
 
-<style>
-    #cropModal{
-position:fixed;
-inset:0;
-background:#000;
-z-index:99999;
-display:none;
-flex-direction:column;
-}
-
-/* HEADER */
-.crop-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:12px;
-color:white;
-background:rgba(0,0,0,0.6);
-}
-
-.crop-header button{
-background:none;
-border:none;
-color:#00d4ff;
-font-size:16px;
-}
-
-/* CONTENEDOR */
-.crop-container{
-flex:1;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-}
-
-.crop-container img{
-max-width:100%;
-max-height:100%;
-}
-
-/* FOOTER */
-.crop-footer{
-display:flex;
-justify-content:center;
-gap:20px;
-padding:12px;
-background:rgba(0,0,0,0.6);
-}
-
-.crop-footer button{
-background:#111;
-color:white;
-border:none;
-padding:10px 20px;
-border-radius:8px;
-font-size:18px;
-}
-</style>
 <script>
 
-let cropper;
+/* =========================================================
+   🚀 MOVIETX OPTIMIZED SCRIPT
+   Ultra fluido + menos consumo
+========================================================= */
+
+"use strict";
+
+let cropper = null;
 let imagenFinalBlob = null;
 let inputActual = null;
 
-/* =========================
-ABRIR CROPPER
-========================= */
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = (selector) => document.querySelector(selector);
+
+const debounce = (fn, delay = 120) => {
+
+let timeout;
+
+return (...args) => {
+
+clearTimeout(timeout);
+
+timeout = setTimeout(() => {
+fn(...args);
+}, delay);
+
+};
+
+};
+
+/* =========================================================
+   CROPPER
+========================================================= */
+
 function previewImage(event){
 
-const file = event.target.files[0];
+const file = event.target.files?.[0];
+
 if(!file) return;
 
 inputActual = event.target;
 
-const reader = new FileReader();
+const image = $("#imageToCrop");
+const modal = $("#cropModal");
 
-reader.onload = function(){
+if(!image || !modal) return;
 
-document.getElementById("imageToCrop").src = reader.result;
-document.getElementById("cropModal").style.display = "flex";
-
-if(cropper){
-    cropper.destroy();
+/* 🔥 liberar memoria anterior */
+if(image.src.startsWith("blob:")){
+URL.revokeObjectURL(image.src);
 }
 
-cropper = new Cropper(document.getElementById("imageToCrop"),{
-    aspectRatio:1,
-    viewMode:1,
-    dragMode:'move',
-    autoCropArea:1,
-    movable:true,
-    zoomable:true,
-    scalable:true,
-    responsive:true,
-    background:false,
+const imageURL = URL.createObjectURL(file);
 
-    /* 🔥 MOBILE PRO */
-    touchDragZoom:true,
-    zoomOnTouch:true,
-    zoomOnWheel:false,
-    minCropBoxWidth:150,
-    minCropBoxHeight:150
+image.src = imageURL;
+
+modal.style.display = "flex";
+
+/* 🔥 destruir cropper anterior */
+if(cropper){
+
+cropper.destroy();
+cropper = null;
+
+}
+
+/* 🔥 esperar render */
+requestAnimationFrame(() => {
+
+cropper = new Cropper(image,{
+
+aspectRatio:1,
+
+viewMode:1,
+
+dragMode:'move',
+
+autoCropArea:1,
+
+movable:true,
+
+zoomable:true,
+
+scalable:false,
+
+responsive:true,
+
+background:false,
+
+guides:false,
+
+center:true,
+
+highlight:false,
+
+toggleDragModeOnDblclick:false,
+
+restore:false,
+
+checkCrossOrigin:false,
+
+checkOrientation:false,
+
+wheelZoomRatio:0.06,
+
+minCropBoxWidth:140,
+minCropBoxHeight:140,
+
+touchDragZoom:true,
+zoomOnTouch:true,
+zoomOnWheel:false
+
+});
+
 });
 
 }
 
-reader.readAsDataURL(file);
+/* =========================================================
+   ZOOM
+========================================================= */
 
+function zoomIn(){
+
+if(cropper){
+cropper.zoom(0.08);
 }
 
-/* =========================
-ZOOM
-========================= */
-function zoomIn(){
-if(cropper) cropper.zoom(0.1);
 }
 
 function zoomOut(){
-if(cropper) cropper.zoom(-0.1);
+
+if(cropper){
+cropper.zoom(-0.08);
 }
 
-/* =========================
-RECORTAR
-========================= */
+}
+
+/* =========================================================
+   RECORTAR
+========================================================= */
+
 function recortarImagen(){
 
-    if(!cropper) return;
+if(!cropper || !inputActual) return;
 
-    const canvas = cropper.getCroppedCanvas({
-        width:400,
-        height:400
-    });
+const canvas = cropper.getCroppedCanvas({
 
-    canvas.toBlob(function(blob){
+width:400,
+height:400,
 
-        imagenFinalBlob = blob;
+imageSmoothingEnabled:true,
+imageSmoothingQuality:'high'
 
-        const file = new File([blob], "perfil.png", {type:"image/png"});
+});
 
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(file);
+canvas.toBlob((blob) => {
 
-        inputActual.files = dataTransfer.files;
+if(!blob) return;
 
-        // 👉 SI ES ADMIN → enviar form
-        if(inputActual.id === "inputFotoAdmin"){
-            document.getElementById("formFotoAdmin").submit();
-        }
+imagenFinalBlob = blob;
 
-    });
-
-    cerrarCrop();
+const file = new File(
+[blob],
+"perfil.webp",
+{
+type:"image/webp"
 }
+);
+
+const dataTransfer = new DataTransfer();
+
+dataTransfer.items.add(file);
+
+inputActual.files = dataTransfer.files;
+
+/* 🔥 previews */
+actualizarPreview(inputActual.id, blob);
+
+/* 🔥 cerrar */
+cerrarCrop();
+
+}, "image/webp", 0.92);
+
+}
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+function actualizarPreview(id, blob){
+
+const isAdmin = id === "inputFotoAdmin";
+
+const preview = isAdmin
+? $("#previewAdminFoto")
+: $("#previewUsuarioFoto");
+
+const container = isAdmin
+? $("#previewAdminContainer")
+: $("#previewUsuarioContainer");
+
+if(!preview || !container) return;
+
+/* 🔥 limpiar anterior */
+if(preview.dataset.url){
+URL.revokeObjectURL(preview.dataset.url);
+}
+
+const blobURL = URL.createObjectURL(blob);
+
+preview.src = blobURL;
+
+preview.dataset.url = blobURL;
+
+container.style.display = "block";
+
+}
+
+/* =========================================================
+   CERRAR CROPPER
+========================================================= */
 
 function cerrarCrop(){
 
-    document.getElementById("cropModal").style.display = "none";
+const modal = $("#cropModal");
 
-    // 🔥 limpiar cropper
-    if(cropper){
-        cropper.destroy();
-        cropper = null;
-    }
-
-    
+if(modal){
+modal.style.display = "none";
 }
 
-</script>
+if(cropper){
 
-<script>
-function toggleAdminDropdown(){
-    document.getElementById("adminDropdown").style.display = "block";
+cropper.destroy();
+
+cropper = null;
+
 }
 
-function selectAdmin(id, text){
-    document.getElementById("realAdminSelect").value = id;
-    document.getElementById("searchAdminInput").value = text;
-    document.getElementById("adminDropdown").style.display = "none";
 }
 
-function filterAdmins(){
-    let input = document.getElementById("searchAdminInput").value.toLowerCase();
-    let options = document.querySelectorAll("#adminDropdown .select-option");
+/* =========================================================
+   ELIMINAR FOTO
+========================================================= */
 
-    options.forEach(opt => {
-        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
-    });
+function limpiarPreview(inputId, previewId, containerId){
+
+const input = $(inputId);
+const preview = $(previewId);
+const container = $(containerId);
+
+if(input) input.value = "";
+
+if(preview){
+
+if(preview.dataset.url){
+URL.revokeObjectURL(preview.dataset.url);
 }
 
-/* cerrar al hacer click afuera */
-document.addEventListener("click", function(e){
-    if(!e.target.closest("#changeAdminPass .custom-select")){
-        let dd = document.getElementById("adminDropdown");
-        if(dd) dd.style.display = "none";
-    }
+preview.src = "";
+
+}
+
+if(container){
+container.style.display = "none";
+}
+
+}
+
+function eliminarFotoAdmin(){
+
+limpiarPreview(
+"#inputFotoAdmin",
+"#previewAdminFoto",
+"#previewAdminContainer"
+);
+
+}
+
+function eliminarFotoUsuario(){
+
+limpiarPreview(
+"#inputFotoUsuario",
+"#previewUsuarioFoto",
+"#previewUsuarioContainer"
+);
+
+}
+
+/* =========================================================
+   DROPDOWNS
+========================================================= */
+
+function setupDropdown(config){
+
+const {
+
+inputSelector,
+dropdownSelector,
+hiddenSelector
+
+} = config;
+
+const input = $(inputSelector);
+const dropdown = $(dropdownSelector);
+const hidden = $(hiddenSelector);
+
+if(!input || !dropdown || !hidden) return;
+
+const options = dropdown.querySelectorAll(".select-option");
+
+/* abrir */
+
+input.addEventListener("focus", () => {
+
+dropdown.style.display = "block";
+
 });
-</script> 
 
-<script>
+/* filtro optimizado */
+
+input.addEventListener("input", debounce(() => {
+
+const value = input.value.toLowerCase();
+
+options.forEach(opt => {
+
+opt.style.display =
+opt.innerText.toLowerCase().includes(value)
+? "block"
+: "none";
+
+});
+
+}, 80));
+
+/* seleccionar */
+
+options.forEach(opt => {
+
+opt.addEventListener("click", () => {
+
+hidden.value = opt.dataset.id || "";
+
+input.value = opt.innerText.trim();
+
+dropdown.style.display = "none";
+
+});
+
+});
+
+}
+
+/* =========================================================
+   FORM VALIDATION
+========================================================= */
+
 function validarFormulario(formId){
 
-    const form = document.getElementById(formId);
+const form = document.getElementById(formId);
 
-    form.addEventListener("submit", function(e){
+if(!form) return;
 
-        let valido = true;
+form.addEventListener("submit", function(e){
 
-        const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='password'], input[type='file'], input[type='number']");
+let valido = true;
 
-        inputs.forEach(input => {
+const inputs = form.querySelectorAll(
+"input[type='text'], input[type='email'], input[type='password'], input[type='file'], input[type='number']"
+);
 
-            const error = input.nextElementSibling;
+inputs.forEach(input => {
 
-            // reset
-            input.classList.remove("input-error");
-            if(error) error.classList.remove("show");
+const error = input.nextElementSibling;
 
-            // ❌ VACÍO
-            if(!input.value){
-                valido = false;
-                input.classList.add("input-error");
-                if(error) error.classList.add("show");
-                return;
-            }
+/* reset */
 
-            // 🔢 NUMBER (clave)
-            if(input.type === "number"){
-                if(parseInt(input.value) < 1){
-                    valido = false;
-                    input.classList.add("input-error");
-                    if(error) error.classList.add("show");
-                }
-            }
+input.classList.remove("input-error");
 
-            // 📧 EMAIL
-            if(input.type === "email"){
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if(!regex.test(input.value)){
-                    valido = false;
-                    input.classList.add("input-error");
-                    if(error) error.classList.add("show");
-                }
-            }
-
-        });
-
-        if(!valido){
-            e.preventDefault();
-        }
-    });
+if(error){
+error.classList.remove("show");
 }
 
-// aplicar
-validarFormulario("formCreateUser");
-validarFormulario("formCreateAdmin");
-</script>
+/* vacío */
 
-<script>
-    function toggleUserProfileDropdown(){
-    document.getElementById("userProfileDropdown").style.display = "block";
+if(!input.value.trim()){
+
+valido = false;
+
+input.classList.add("input-error");
+
+if(error){
+error.classList.add("show");
 }
 
-function selectUserProfile(id, text){
-    document.getElementById("realUserProfileSelect").value = id;
-    document.getElementById("searchUserProfileInput").value = text;
-    document.getElementById("userProfileDropdown").style.display = "none";
+return;
+
 }
 
-function filterUserProfiles(){
-    let input = document.getElementById("searchUserProfileInput").value.toLowerCase();
-    let options = document.querySelectorAll("#userProfileDropdown .select-option");
+/* number */
 
-    options.forEach(opt => {
-        opt.style.display = opt.innerText.toLowerCase().includes(input) ? "block" : "none";
-    });
+if(input.type === "number"){
+
+if(parseInt(input.value) < 1){
+
+valido = false;
+
+input.classList.add("input-error");
+
+if(error){
+error.classList.add("show");
 }
-</script>
 
-<script>
+}
+
+}
+
+/* email */
+
+if(input.type === "email"){
+
+const regex =
+/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(!regex.test(input.value)){
+
+valido = false;
+
+input.classList.add("input-error");
+
+if(error){
+error.classList.add("show");
+}
+
+}
+
+}
+
+});
+
+if(!valido){
+e.preventDefault();
+}
+
+});
+
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
 function toggleMenu(){
-    const menu = document.getElementById("sideMenu");
-    const overlay = document.getElementById("menuOverlay");
-    const btn = document.getElementById("menuBtn");
 
-    const isOpen = menu.classList.toggle("open");
-    overlay.classList.toggle("show");
+const menu = $("#sideMenu");
+const overlay = $("#menuOverlay");
+const btn = $("#menuBtn");
 
-    // 🔄 Cambiar icono
-    btn.textContent = isOpen ? "✖" : "☰";
+if(!menu || !overlay || !btn) return;
+
+const isOpen = menu.classList.toggle("open");
+
+overlay.classList.toggle("show");
+
+btn.textContent = isOpen ? "✖" : "☰";
+
+/* 🔥 bloquear scroll */
+document.body.style.overflow = isOpen
+? "hidden"
+: "";
+
 }
 
+/* =========================================================
+   SECTION SYSTEM
+========================================================= */
 
 function showSection(id){
 
-    document.querySelectorAll(".section-panel")
-        .forEach(sec => sec.classList.remove("active"));
+const sections =
+document.querySelectorAll(".section-panel");
 
-    const target = document.getElementById(id);
-    if(target) target.classList.add("active");
+sections.forEach(sec => {
+sec.classList.remove("active");
+});
 
-    toggleMenu(); // cerrar menú
+const target =
+document.getElementById(id);
+
+if(target){
+
+target.classList.add("active");
+
 }
+
+/* active menu */
+
+document.querySelectorAll(".menu-link")
+.forEach(link => {
+
+link.classList.remove("active");
+
+});
+
+const activeBtn = document.querySelector(
+`.menu-link[onclick="showSection('${id}')"]`
+);
+
+if(activeBtn){
+
+activeBtn.classList.add("active");
+
+}
+
+/* cerrar menú si está abierto */
+
+const menu = $("#sideMenu");
+
+if(menu && menu.classList.contains("open")){
+toggleMenu();
+}
+
+/* scroll */
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+
 window.addEventListener("DOMContentLoaded", () => {
-    const first = document.querySelector(".section-panel");
-    if(first) first.classList.add("active");
+
+/* default section */
+
+const firstSection =
+document.querySelector(".section-panel");
+
+if(firstSection){
+
+firstSection.classList.add("active");
+
+const firstBtn = document.querySelector(
+`.menu-link[onclick="showSection('${firstSection.id}')"]`
+);
+
+if(firstBtn){
+firstBtn.classList.add("active");
+}
+
+}
+
+/* dropdowns */
+
+setupDropdown({
+inputSelector:"#searchInput",
+dropdownSelector:"#dropdown",
+hiddenSelector:"#realSelect"
+});
+
+setupDropdown({
+inputSelector:"#searchAdminInput",
+dropdownSelector:"#adminDropdown",
+hiddenSelector:"#realAdminSelect"
+});
+
+setupDropdown({
+inputSelector:"#searchUserProfileInput",
+dropdownSelector:"#userProfileDropdown",
+hiddenSelector:"#realUserProfileSelect"
+});
+
+/* forms */
+
+validarFormulario("formCreateUser");
+validarFormulario("formCreateAdmin");
+
+});
+
+/* =========================================================
+   CLICK OUTSIDE
+========================================================= */
+
+document.addEventListener("click", (e) => {
+
+/* dropdowns */
+
+document.querySelectorAll(".custom-select")
+.forEach(select => {
+
+const dropdown =
+select.querySelector(".select-dropdown");
+
+if(
+dropdown &&
+!select.contains(e.target)
+){
+
+dropdown.style.display = "none";
+
+}
+
+});
+
+/* overlay */
+
+if(e.target.id === "menuOverlay"){
+
+toggleMenu();
+
+}
+
+});
+
+/* =========================================================
+   CLEAN MEMORY
+========================================================= */
+
+window.addEventListener("beforeunload", () => {
+
+document.querySelectorAll("img").forEach(img => {
+
+if(
+img.src &&
+img.src.startsWith("blob:")
+){
+
+URL.revokeObjectURL(img.src);
+
+}
+
+});
+
 });
 
 </script>
